@@ -7,7 +7,7 @@ if [ `uname` == Darwin ]; then
     export LDFLAGS="-L$PREFIX/lib -headerpad_max_install_names $LDFLAGS"
     sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
     ./configure --enable-shared --enable-ipv6 --with-ensurepip=no \
-        --prefix=$PREFIX
+        --disable-framework --prefix=$PREFIX
 fi
 if [ `uname` == Linux ]; then
     ./configure --enable-shared --enable-ipv6 --with-ensurepip=no \

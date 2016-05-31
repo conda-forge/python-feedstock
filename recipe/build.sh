@@ -8,6 +8,8 @@ if [ `uname` == Darwin ]; then
     export LDFLAGS="-L$PREFIX/lib -headerpad_max_install_names $LDFLAGS"
     sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
     ./configure --enable-shared --enable-ipv6 --with-ensurepip=no \
+        --with-tcltk-includes="-I$PREFIX/include" \
+        --with-tcltk-libs="-L$PREFIX/lib -ltcl8.5 -ltk8.5" \
         --without-gcc --disable-framework --prefix=$PREFIX
 fi
 if [ `uname` == Linux ]; then

@@ -21,6 +21,7 @@ conda-build:
  root-dir: /feedstock_root/build_artefacts
 
 show_channel_urls: true
+add_pip_as_python_dependency: false
 
 CONDARC
 )

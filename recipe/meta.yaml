@@ -1,13 +1,11 @@
 package:
   name: python
-  version: 3.5.2
+  version: 3.6.0a1
 
 source:
-  fn: Python-3.5.2.tgz
-  url: https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz
-  sha256: 1524b840e42cf3b909e8f8df67c1724012c7dc7f9d076d4feef2d3eff031e8a0
-  patches:
-      - omit-local-site-packages.patch  # [osx]
+  fn: Python-3.6.0a1.tgz
+  url: https://www.python.org/ftp/python/3.6.0/Python-3.6.0a1.tgz
+  md5: 205e1424c57c1779069b5f9301c1ab48
 
 build:
   number: 1

@@ -54,7 +54,7 @@ install:
     - cmd: conda install -c pelson/channel/development --yes --quiet obvious-ci
     - cmd: conda info
     - cmd: conda install -n root --quiet --yes conda-forge-build-setup setuptools
-    - cmd: activate root
+    - cmd: activate
     # Workaround for Python 3.4 and x64 bug in latest conda-build.
     # FIXME: Remove once there is a release that fixes the upstream issue
     # ( https://github.com/conda/conda-build/issues/895 ).

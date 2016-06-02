@@ -40,7 +40,7 @@ echo "$config" > ~/.condarc
 conda clean --lock
 
 conda update --yes --all
-conda install --yes conda-build
+conda install --yes conda-forge-build-setup
 conda info
 
 # Embarking on 1 case(s).

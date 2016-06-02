@@ -19,7 +19,6 @@ build:
 
 requirements:
   build:
-    - conda-forge-build-setup   # Used to set condarc correctly
     - bzip2 1.0.*       # [unix]
     - openssl 1.0.*     # [unix]
     - readline 6.2*     # [unix]

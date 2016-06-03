@@ -6,35 +6,41 @@ source:
   fn: Python-3.5.1.tgz
   url: https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tgz
   md5: be78e48cdfc1a7ad90efff146dce6cfe
+  patches:
+    # - condaforge_version.patch
+    # - unix_setup_dist.patch
+    # set configuration options to use conda's available libraries
+    - external_libraries.patch    # [win]
 
 build:
-  number: 0
+  number: 2
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
     - DLLs/_ctypes.py   # [win]
     - bin/python
-  track_features:
-    - vc14              # [win]
 
 requirements:
   build:
-    - bzip2 1.0.*       # [unix]
-    - zlib 1.2*         # [unix]
-    - sqlite 3.9.*      # [unix]
-    - readline 6.2*     # [unix]
-    - tk 8.5*           # [unix]
-    - openssl 1.0*      # [unix]
-    - xz 5.0.*          # [unix]
+    - bzip2 1.0.*
     - ncurses 5.9*      # [linux]
+    - openssl 1.0*
+    - readline 6.2*     # [unix]
+    - sqlite
+    - tk       8.6*
+    - vc       14
+    - xz
+    - zlib 1.2*
   run:
-    - zlib 1.2*         # [unix]
-    - sqlite 3.9.*      # [unix]
-    - readline 6.2*     # [unix]
-    - tk 8.5*           # [unix]
-    - openssl 1.0*      # [unix]
-    - xz 5.0.*          # [unix]
+    - bzip2 1.0.*
     - ncurses 5.9*      # [linux]
+    - openssl 1.0*
+    - readline 6.2*     # [unix]
+    - sqlite
+    - tk      8.6*
+    - vc      14
+    - xz
+    - zlib 1.2*
 
 test:
   commands:

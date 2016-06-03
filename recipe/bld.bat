@@ -7,15 +7,17 @@ REM Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
    set PLATFORM=x64
    set VC_PATH=x64
-   set BUILD_PATH=amd64
+   set BUILD_PATH=amd64-pgo
 ) else (
    set PLATFORM=Win32
    set VC_PATH=x86
-   set BUILD_PATH=win32
+   set BUILD_PATH=win32-pgo
 )
 
+set "ExternalsDir=%LIBRARY_PREFIX%"
+
 cd PCbuild
-call build.bat -e -p %PLATFORM%
+call build_pgo.bat -p %PLATFORM% /m:1
 if errorlevel 1 exit 1
 cd ..
 
@@ -39,11 +41,7 @@ REM Populate the DLLs directory
 mkdir %PREFIX%\DLLs
 xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\sqlite3.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tcl86t.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tk86t.dll %PREFIX%\DLLs\
+xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pdb %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
 copy /Y %SRC_DIR%\PC\py.ico %PREFIX%\DLLs\
@@ -84,16 +82,6 @@ move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
 if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pyvenv %PREFIX%\Tools\scripts\pyvenv.py
 if errorlevel 1 exit 1
-
-
-REM Populate the tcl directory
-if "%ARCH%"=="64" (
-   xcopy /s /y /i %SRC_DIR%\externals\tcltk64\lib %PREFIX%\tcl
-   if errorlevel 1 exit 1
-) else (
-   xcopy /s /y /i %SRC_DIR%\externals\tcltk\lib %PREFIX%\tcl
-   if errorlevel 1 exit 1
-)
 
 
 REM Populate the include directory

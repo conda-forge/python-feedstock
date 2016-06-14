@@ -30,7 +30,7 @@ install:
       conda config --set show_channel_urls true
       conda update --yes conda
       conda install --yes conda-build=1.20.0 jinja2 anaconda-client
-      conda install conda==4.0.8
+      conda install --yes conda==4.0.8
       conda config --add channels conda-forge
       
 

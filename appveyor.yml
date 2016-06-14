@@ -58,6 +58,8 @@ install:
     # FIXME: Remove once there is a release that fixes the upstream issue
     # ( https://github.com/conda/conda-build/issues/895 ).
     - cmd: if "%TARGET_ARCH%" == "x64" if "%CONDA_PY%" == "34" conda install conda-build=1.20.0 --yes
+    # Testing building with conda build version 1.20.1
+    - cmd: conda install conda-build=1.20.1 --yes
 
 # Skip .NET project specific build phase.
 build: off

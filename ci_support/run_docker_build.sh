@@ -40,12 +40,13 @@ echo "$config" > ~/.condarc
 conda clean --lock
 
 conda update --yes --all
-conda install --yes conda-build
+conda install --yes conda-forge-build-setup
+source activate root
 conda info
 
 # Embarking on 1 case(s).
     set -x
-    export CONDA_PY=35
+    export CONDA_PY=36
     set +x
     conda build /recipe_root --quiet || exit 1
     /feedstock_root/ci_support/upload_or_check_non_existence.py /recipe_root conda-forge --channel=main || exit 1

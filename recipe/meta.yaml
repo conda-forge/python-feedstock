@@ -1,11 +1,11 @@
 package:
   name: python
-  version: 3.5.1
+  version: 3.6.0a2
 
 source:
-  fn: Python-3.5.1.tgz
-  url: https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tgz
-  md5: be78e48cdfc1a7ad90efff146dce6cfe
+  fn: Python-3.6.0a2.tgz
+  url: https://www.python.org/ftp/python/3.6.0/Python-3.6.0a2.tgz
+  md5: c90fdf9d8a56806a741c549aa9de4fd3
 
 build:
   number: 0

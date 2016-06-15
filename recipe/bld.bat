@@ -1,3 +1,6 @@
+REM The second Python 3.6 alpha tar ball references a directory above the root
+cd ../Python-3.6.0a2
+
 REM brand Python with conda-forge startup message
 python %RECIPE_DIR%\brand_python.py
 if errorlevel 1 exit 1

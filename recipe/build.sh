@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# The second Python 3.6 alpha tar ball references a directory above the root
+cd ../Python-3.6.0a2
+
 python ${RECIPE_DIR}/brand_python.py
 
 if [ `uname` == Darwin ]; then
@@ -20,8 +23,8 @@ fi
 
 make
 make install
-ln -s $PREFIX/bin/python3.5 $PREFIX/bin/python
-ln -s $PREFIX/bin/pydoc3.5 $PREFIX/bin/pydoc
+ln -s $PREFIX/bin/python3.6 $PREFIX/bin/python
+ln -s $PREFIX/bin/pydoc3.6 $PREFIX/bin/pydoc
 
 if [ `uname` == Darwin ]; then
     # Some extension modules are renamed when importing fails do to a missing
@@ -29,7 +32,7 @@ if [ `uname` == Darwin ]; then
     # but their locations must first be corrected in the post-build step using
     # install_name_tool. Un-do this renaming so that the modules can be
     # imported after the library locations are corrected.
-    pushd $PREFIX/lib/python3.5/lib-dynload
+    pushd $PREFIX/lib/python3.6/lib-dynload
     for filename in *_failed.so; do
         [ -f "$filename" ] || continue;
         mv $filename ${filename//_failed/};

@@ -5,10 +5,22 @@ package:
 source:
   fn: Python-3.5.1.tgz
   url: https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tgz
-  md5: be78e48cdfc1a7ad90efff146dce6cfe
+  sha256: 687e067d9f391da645423c7eda8205bae9d35edc0c76ef5218dcbe4cc770d0d7
+  patches:
+    # Apply OS X patch from MacPorts
+    - omit-local-site-packages.patch  # [osx]
+    - patch-Lib-ctypes-macholib-dyld.py.diff  # [osx]
+    - patch-configure.diff  # [osx]
+    - patch-setup.py.diff  # [osx]
+    # These patch are MacPort specific and not needed
+    #- patch-Lib-cgi.py.diff  # [osx]
+    #- patch-setup.py-disabled_modules.diff  # [osx]
+    #- patch-libedit.diff  # [osx]
 
 build:
-  number: 0
+  number: 1  # [osx]
+  number: 0  # [linux]
+  number: 0  # [win]
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

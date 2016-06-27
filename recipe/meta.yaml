@@ -6,9 +6,13 @@ source:
   fn: Python-3.5.1.tgz
   url: https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tgz
   sha256: 687e067d9f391da645423c7eda8205bae9d35edc0c76ef5218dcbe4cc770d0d7
+  patches:
+      - omit-local-site-packages.patch  # [osx]
 
 build:
-  number: 0
+  number: 0  # [win]
+  number: 0  # [linux]
+  number: 1  # [osx]
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

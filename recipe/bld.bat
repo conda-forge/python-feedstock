@@ -7,27 +7,31 @@ REM Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
    set PLATFORM=x64
    set VC_PATH=x64
-   set BUILD_PATH=amd64
+   set PCB=%SRC_DIR%\PCbuild\amd64
+   :: Next line is only for local builds
+   call "C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\vcvars64.bat"
 ) else (
    set PLATFORM=Win32
    set VC_PATH=x86
-   set BUILD_PATH=win32
+   set PCB=%SRC_DIR%\PCbuild
+   call "C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat"
 )
 
 cd PCbuild
+dir
 call build.bat -e -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
 
 REM Populate the root package directory
-for %%x in (python35.dll python.exe pythonw.exe) do (
-    copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
+for %%x in (python27.dll python.exe pythonw.exe) do (
+    copy /Y %PCB%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
-for %%x in (python.pdb python35.pdb pythonw.pdb) do (
-    copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
+for %%x in (python.pdb python27.pdb pythonw.pdb) do (
+    copy /Y %PCB%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
@@ -37,13 +41,13 @@ if errorlevel 1 exit 1
 
 REM Populate the DLLs directory
 mkdir %PREFIX%\DLLs
-xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\DLLs\
+xcopy /s /y %PCB%\*.pyd %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\sqlite3.dll %PREFIX%\DLLs\
+copy /Y %PCB%\sqlite3.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tcl86t.dll %PREFIX%\DLLs\
+copy /Y %PCB%\tcl85.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tk86t.dll %PREFIX%\DLLs\
+copy /Y %PCB%\tk85.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
 copy /Y %SRC_DIR%\PC\py.ico %PREFIX%\DLLs\
@@ -54,35 +58,23 @@ if errorlevel 1 exit 1
 
 REM Populate the Tools directory
 mkdir %PREFIX%\Tools
-xcopy /s /y /i %SRC_DIR%\Tools\demo %PREFIX%\Tools\demo
+xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\Scripts
 if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
 if errorlevel 1 exit 1
-xcopy /s /y /i %SRC_DIR%\Tools\parser %PREFIX%\Tools\parser
-if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\pynche %PREFIX%\Tools\pynche
 if errorlevel 1 exit 1
-xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\scripts
+xcopy /s /y /i %SRC_DIR%\Tools\versioncheck %PREFIX%\Tools\versioncheck
+if errorlevel 1 exit 1
+xcopy /s /y /i %SRC_DIR%\Tools\webchecker %PREFIX%\Tools\webchecker
 if errorlevel 1 exit 1
 
-del %PREFIX%\Tools\demo\README
+del %PREFIX%\Tools\Scripts\idle
 if errorlevel 1 exit 1
-del %PREFIX%\Tools\pynche\README
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\pynche\pynche
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\scripts\README
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\scripts\dutree.doc
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\scripts\idle3
+del %PREFIX%\Tools\Scripts\pydoc
 if errorlevel 1 exit 1
 
-move /y %PREFIX%\Tools\scripts\2to3 %PREFIX%\Tools\scripts\2to3.py
-if errorlevel 1 exit 1
-move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
-if errorlevel 1 exit 1
-move /y %PREFIX%\Tools\scripts\pyvenv %PREFIX%\Tools\scripts\pyvenv.py
+move /y %PREFIX%\Tools\Scripts\2to3 %PREFIX%\Tools\Scripts\2to3.py
 if errorlevel 1 exit 1
 
 
@@ -109,7 +101,7 @@ IF NOT exist %SCRIPTS% (mkdir %SCRIPTS%)
 if errorlevel 1 exit 1
 
 for %%x in (idle pydoc) do (
-    copy /Y %SRC_DIR%\Tools\scripts\%%x3 %SCRIPTS%\%%x
+    copy /Y %SRC_DIR%\Tools\scripts\%%x %SCRIPTS%\%%x
     if errorlevel 1 exit 1
 )
 
@@ -119,22 +111,21 @@ if errorlevel 1 exit 1
 
 REM Populate the libs directory
 mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python35.lib %PREFIX%\libs\
+copy /Y %PCB%\python27.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3.lib %PREFIX%\libs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter.lib %PREFIX%\libs\
+::copy /Y %PCB%\python.lib %PREFIX%\libs\
+::if errorlevel 1 exit 1
+copy /Y %PCB%\_tkinter.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 
 
-REM Populate the Lib directory
+::REM Populate the Lib directory
 del %PREFIX%\libs\libpython*.a
 xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
 
 
 REM bytecode compile the standard library
-
 rd /s /q %STDLIB_DIR%\lib2to3\tests\
 if errorlevel 1 exit 1
 

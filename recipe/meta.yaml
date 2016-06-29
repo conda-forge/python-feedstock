@@ -22,19 +22,19 @@ build:
 requirements:
   build:
     - bzip2 1.0.*       # [unix]
-    - zlib 1.2*         # [unix]
+    - zlib 1.2.*         # [unix]
     - sqlite 3.9.*      # [unix]
     - readline 6.2*     # [unix]
-    - tk 8.5*           # [unix]
-    - openssl 1.0*      # [unix]
+    - tk 8.5.*           # [unix]
+    - openssl 1.0.*      # [unix]
     - xz 5.0.*          # [unix]
     - ncurses 5.9*      # [linux]
   run:
-    - zlib 1.2*         # [unix]
+    - zlib 1.2.*         # [unix]
     - sqlite 3.9.*      # [unix]
     - readline 6.2*     # [unix]
-    - tk 8.5*           # [unix]
-    - openssl 1.0*      # [unix]
+    - tk 8.5.*           # [unix]
+    - openssl 1.0.*      # [unix]
     - xz 5.0.*          # [unix]
     - ncurses 5.9*      # [linux]
 

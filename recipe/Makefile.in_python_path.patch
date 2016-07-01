@@ -1,0 +1,30 @@
+--- Makefile.in.orig	2016-07-04 12:09:05.000000000 -0500
++++ Makefile.in	2016-07-04 12:08:35.000000000 -0500
+@@ -236,7 +236,7 @@
+ 			else	true; \
+ 			fi; \
+ 		done
+-		$(INSTALL_PROGRAM) python$(EXE) $(BINDIR)/python$(VERSION)$(EXE)
++		$(INSTALL_PROGRAM) Python/python$(EXE) $(BINDIR)/python$(VERSION)$(EXE)
+ 		if test -f libpython$(VERSION).so; then \
+ 			$(INSTALL_DATA) libpython$(VERSION).so $(LIBDIR); \
+ 		else	true; \
+@@ -317,15 +317,15 @@
+ 			done; \
+ 		done
+ 		PYTHONPATH=$(LIBDEST) \
+-			./python$(EXE) -t $(LIBDEST)/compileall.py $(LIBDEST)
++			./Python/python$(EXE) -t $(LIBDEST)/compileall.py $(LIBDEST)
+ 		PYTHONPATH=$(LIBDEST) \
+-			./python$(EXE) -O $(LIBDEST)/compileall.py $(LIBDEST)
++			./Python/python$(EXE) -O $(LIBDEST)/compileall.py $(LIBDEST)
+ 
+ # Create the PLATDIR source directory, if one wasn't distributed..
+ $(srcdir)/Lib/$(PLATDIR):
+ 		mkdir $(srcdir)/Lib/$(PLATDIR)
+ 		cp $(srcdir)/Lib/plat-generic/regen $(srcdir)/Lib/$(PLATDIR)/regen
+-		export PATH; PATH="`pwd`:$$PATH"; \
++		export PATH; PATH="`pwd`/Python:$$PATH"; \
+ 		export PYTHONPATH; PYTHONPATH="`pwd`/Lib"; \
+ 		cd $(srcdir)/Lib/$(PLATDIR); ./regen
+ 

@@ -24,6 +24,7 @@ if [ `uname` == Darwin ]; then
     # make step but this silently fails as the name conflicts with the existing
     # Python directory.
     # Perform the install manually from the Python directory
+    mkdir -p $PREFIX/bin
     install -c Python/python $PREFIX/bin/python
 
     mkdir -p $PREFIX/lib/python

@@ -1,50 +1,38 @@
 package:
   name: python
-  version: 3.5.2
+  version: 1.4
 
-source:
-  fn: Python-3.5.2.tgz
-  url: https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz
-  sha256: 1524b840e42cf3b909e8f8df67c1724012c7dc7f9d076d4feef2d3eff031e8a0
+source: 
+  fn: python-1.4.tar.gz
+  url: http://legacy.python.org/download/releases/src/python-1.4.tar.gz
+  sha256: 6c551f79810ac679a8049fdf04d0c20ace2a7117da3dda2f0020ab692a27f1fb
   patches:
-      - omit-local-site-packages.patch  # [osx]
+    # Modules/fileobject.c defines a getline function which conflicts with the
+    # one in stdio.h, rename the function in the file to _getline
+    - fileobject_getline.patch
+    # OS X uses a file insensitive filesystem so the python binary is not
+    # copied out of the Python directory, adjust the Makefile for this
+    - Makefile.in_python_path.patch  # [osx]
+    # The crypt library needs to be linked when compiling python
+    - setup.in_lcrypt.patch  # [not osx]
+
 
 build:
   number: 0
-  # Windows has issues updating python if conda is using files itself.
-  # Copy rather than link.
-  no_link:
-    - DLLs/_ctypes.py   # [win]
-    - bin/python
-  track_features:
-    - vc14              # [win]
-
-requirements:
-  build:
-    - bzip2 1.0.*       # [unix]
-    - openssl 1.0.*     # [unix]
-    - readline 6.2*     # [unix]
-    - sqlite 3.9.*      # [unix]
-    - tk 8.5.*          # [unix]
-    - xz 5.0.*          # [unix]
-    - zlib 1.2.*        # [unix]
-    - ncurses 5.9*      # [linux]
-  run:
-    - openssl 1.0.*     # [unix]
-    - readline 6.2*     # [unix]
-    - sqlite 3.9.*      # [unix]
-    - tk 8.5.*          # [unix]
-    - xz 5.0.*          # [unix]
-    - zlib 1.2.*        # [unix]
-    - ncurses 5.9*      # [linux]
+  skip: True  # [win]
+  # /lib/python uses a prefix to set the initial sys path, this needs to be
+  # replace with the install prefix at installation
+  detect_binary_files_with_prefix: True
 
 test:
   commands:
-    - python -V
-    - python3 -V            # [unix]
-    - 2to3 -h
-    - pydoc -h
-    - python3-config --help  # [unix]
+    - python -c "import sys; print sys.path"
+    - python1.4 -c "import sys; print sys.path"
+    # struct is a compiled module
+    - python -c "import struct"
+    # os is a python module, import will fail if sys.path is incorrect
+    - python -c "import os"
+    - python -c "import sys; print sys.version"
 
 about:
   home: http://www.python.org/

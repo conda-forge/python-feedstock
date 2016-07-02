@@ -1,29 +1,39 @@
 #!/bin/bash
 
-python ${RECIPE_DIR}/brand_python.py
-
 if [ `uname` == Darwin ]; then
-    export CFLAGS="-I$PREFIX/include $CFLAGS"
-    export LDFLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -headerpad_max_install_names $LDFLAGS"
-    sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
-    ./configure \
-        --enable-ipv6 \
-        --enable-shared \
-        --prefix=$PREFIX \
-        --with-ensurepip=no \
-        --with-tcltk-includes="-I$PREFIX/include" \
-        --with-tcltk-libs="-L$PREFIX/lib -ltcl8.5 -ltk8.5"
-fi
-if [ `uname` == Linux ]; then
-    ./configure --enable-shared --enable-ipv6 --with-ensurepip=no \
-        --prefix=$PREFIX \
-        --with-tcltk-includes="-I$PREFIX/include" \
-        --with-tcltk-libs="-L$PREFIX/lib -ltcl8.5 -ltk8.5" \
-        CPPFLAGS="-I$PREFIX/include" \
-        LDFLAGS="-L$PREFIX/lib -Wl,-rpath=$PREFIX/lib,--no-as-needed"
+
+    # The OS X filesystem is case insensitive which causes various problems
+    # during the build.
+
+    # Compile with a no checking of the return type checking, note that
+    # CFLAGS cannot be used here.
+    export CC="gcc -Wno-return-type"
+    ./configure --prefix=$PREFIX
+    make
+
+    # The python binary should be copied out of the Python directory during the
+    # make step but this silently fails as the name conflicts with the existing
+    # Python directory.
+    # Perform the install manually from the Python directory
+    mkdir -p $PREFIX/bin
+    install -c Python/python $PREFIX/bin/python
+
+    # make libinstall compiles the standard library with the python binary in
+    # the root directory, move it there after making room by removing the
+    # Python directory
+    cp Python/python python_temp
+    rm -rf Python
+    mv python_temp python
+    mkdir -p $PREFIX/lib/python
+    make libinstall
 fi
 
-make
-make install
-ln -s $PREFIX/bin/python3.5 $PREFIX/bin/python
-ln -s $PREFIX/bin/pydoc3.5 $PREFIX/bin/pydoc
+if [ `uname` == Linux ]; then
+    ./configure --prefix=$PREFIX
+    make
+    make install
+    # make libinstall does not create the /lib/python directory so do it
+    # explicitly
+    mkdir -p $PREFIX/lib/python
+    make libinstall
+fi

@@ -1,0 +1,38 @@
+--- Objects/fileobject.c.orig	2016-07-02 18:03:05.000000000 -0500
++++ Objects/fileobject.c	2016-07-02 18:03:21.000000000 -0500
+@@ -587,7 +587,7 @@
+ */
+ 
+ static PyObject *
+-getline(f, n)
++_getline(f, n)
+ 	PyFileObject *f;
+ 	int n;
+ {
+@@ -709,7 +709,7 @@
+ 	}
+ 	if (((PyFileObject*)f)->f_fp == NULL)
+ 		return err_closed();
+-	return getline((PyFileObject *)f, n);
++	return _getline((PyFileObject *)f, n);
+ }
+ 
+ /* Python method */
+@@ -729,7 +729,7 @@
+ 		return PyString_FromString("");
+ 	if (n < 0)
+ 		n = 0;
+-	return getline(f, n);
++	return _getline(f, n);
+ }
+ 
+ static PyObject *
+@@ -823,7 +823,7 @@
+ 			goto error;
+ 		if (sizehint > 0) {
+ 			/* Need to complete the last line */
+-			PyObject *rest = getline(f, 0);
++			PyObject *rest = _getline(f, 0);
+ 			if (rest == NULL) {
+ 				Py_DECREF(line);
+ 				goto error;

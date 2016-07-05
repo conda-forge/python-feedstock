@@ -10,7 +10,7 @@ source:
       - omit-local-site-packages.patch  # [osx]
 
 build:
-  number: 0
+  number: 1
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -26,7 +26,7 @@ requirements:
     - readline 6.2*     # [unix]
     - sqlite 3.9.*      # [unix]
     - tk 8.5.*          # [unix]
-    - xz 5.0.*          # [unix]
+    - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
   run:
@@ -34,7 +34,7 @@ requirements:
     - readline 6.2*     # [unix]
     - sqlite 3.9.*      # [unix]
     - tk 8.5.*          # [unix]
-    - xz 5.0.*          # [unix]
+    - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
 

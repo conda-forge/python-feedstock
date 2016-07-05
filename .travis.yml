@@ -28,6 +28,7 @@ install:
       conda update --yes conda
       conda install --yes conda-build jinja2 anaconda-client
       conda config --add channels conda-forge
+      conda config --set add_pip_as_python_dependency false
       
 
 script:

@@ -45,6 +45,8 @@ conda info
 
 # Embarking on 1 case(s).
     export CONDA_PY=20
+    # conda include pip as a dependency for Python 2+
+    conda config --set add_pip_as_python_dependency false
     conda build /recipe_root --quiet || exit 1
     /feedstock_root/ci_support/upload_or_check_non_existence.py /recipe_root conda-forge --channel=main || exit 1
 EOF

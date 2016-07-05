@@ -24,7 +24,7 @@ requirements:
     - bzip2 1.0.*       # [unix]
     - openssl 1.0.*     # [unix]
     - readline 6.2*     # [unix]
-    - sqlite 3.9.*      # [unix]
+    - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
     - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
@@ -32,7 +32,7 @@ requirements:
   run:
     - openssl 1.0.*     # [unix]
     - readline 6.2*     # [unix]
-    - sqlite 3.9.*      # [unix]
+    - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
     - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]

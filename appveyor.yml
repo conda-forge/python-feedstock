@@ -20,10 +20,10 @@ environment:
 
   matrix:
     - TARGET_ARCH: x86
-      CONDA_PY: 35
+      CONDA_PY: 34
 
     - TARGET_ARCH: x64
-      CONDA_PY: 35
+      CONDA_PY: 34
 
 
 # We always use a 64-bit machine, but can build x86 distributions

@@ -8,6 +8,9 @@ if "%ARCH%"=="64" (
    set PLATFORM=x64
    set VC_PATH=x64
    set PCB=%SRC_DIR%\PCbuild\amd64
+   :: set correct TARGET_CPU for 64 bit build, see
+   :: http://stackoverflow.com/questions/9314378
+   set TARGET_CPU=amd64
 ) else (
    set PLATFORM=Win32
    set VC_PATH=x86

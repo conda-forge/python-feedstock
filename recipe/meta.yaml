@@ -1,11 +1,11 @@
 package:
   name: python
-  version: 3.5.2
+  version: 3.4.5
 
 source:
-  fn: Python-3.5.2.tgz
-  url: https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz
-  sha256: 1524b840e42cf3b909e8f8df67c1724012c7dc7f9d076d4feef2d3eff031e8a0
+  fn: Python-3.4.5.tgz
+  url: https://www.python.org/ftp/python/3.4.5/Python-3.4.5.tgz
+  sha256: 997aca4dd8692f3c954658a3db11c1d0862bcbf8eadd6a164746eb33d317c034
   patches:
       - omit-local-site-packages.patch  # [osx]
 
@@ -17,24 +17,24 @@ build:
     - DLLs/_ctypes.py   # [win]
     - bin/python
   track_features:
-    - vc14              # [win]
+    - vc10              # [win]
 
 requirements:
   build:
     - bzip2 1.0.*       # [unix]
     - openssl 1.0.*     # [unix]
     - readline 6.2*     # [unix]
-    - sqlite 3.9.*      # [unix]
+    - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
-    - xz 5.0.*          # [unix]
+    - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
   run:
     - openssl 1.0.*     # [unix]
     - readline 6.2*     # [unix]
-    - sqlite 3.9.*      # [unix]
+    - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
-    - xz 5.0.*          # [unix]
+    - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
 

@@ -8,7 +8,7 @@ source:
   sha256: 2d84b00787eb788b98204b361ef1ac1eeced332d2020f09f3e120523c580dc98
 
 build:
-  number: 1
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

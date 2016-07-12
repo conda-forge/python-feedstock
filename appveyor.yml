@@ -20,10 +20,10 @@ environment:
 
   matrix:
     - TARGET_ARCH: x86
-      CONDA_PY: 35
+      CONDA_PY: 36
 
     - TARGET_ARCH: x64
-      CONDA_PY: 35
+      CONDA_PY: 36
 
 
 # We always use a 64-bit machine, but can build x86 distributions
@@ -51,6 +51,7 @@ install:
 
     - cmd: conda config --add channels conda-forge
     - cmd: conda config --set show_channel_urls true
+    - cmd: conda config --set add_pip_as_python_dependency false
     - cmd: conda install -c pelson/channel/development --yes --quiet obvious-ci
     - cmd: conda info
     - cmd: conda install -n root --quiet --yes conda-build anaconda-client jinja2 setuptools
@@ -66,4 +67,4 @@ test_script:
     - "%CMD_IN_ENV% conda build recipe --quiet"
 deploy_script:
 
-    - 'python ci_support\upload_or_check_non_existence.py .\recipe conda-forge --channel=main'
+    - 'python ci_support\upload_or_check_non_existence.py .\recipe conda-forge --channel=prerelease'

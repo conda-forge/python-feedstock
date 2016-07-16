@@ -1,15 +1,18 @@
 package:
   name: python
-  version: 1.0.1
+  version: 1.2
 
 source: 
-  fn: python1.0.1.tar.gz  # [not osx]
-  url: http://legacy.python.org/download/releases/src/python1.0.1.tar.gz  # [not osx]
-  sha256: 1ce4167d0a297a6f9cc74f9b8da53ff359d872c18bf10e98563c7ba4a5f9893b
+  fn: python-1.2.tar.gz
+  url: http://legacy.python.org/download/releases/src/python-1.2.tar.gz
+  sha256: 86d6e26ef7f478cf35e0c3715bb7f3b33786f5cf4e95b2e6084cd93c1471c37a
   patches:
     # Modules/fileobject.c defines a getline function which conflicts with the
     # one in stdio.h, rename the function in the file to _getline
-    - fileobject_getline.patch  # [not osx]
+    - fileobject_getline.patch
+    # The crypt library needs to be linked when compiling python
+    - setup.in_lcrypt.patch  # [not osx]
+
 
 build:
   number: 0

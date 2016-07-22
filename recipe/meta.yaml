@@ -39,6 +39,10 @@ requirements:
     - ncurses 5.9*      # [linux]
 
 test:
+  requires:
+    - numpy
+  imports:
+    - numpy
   commands:
     - python -V
     - python3 -V            # [unix]
@@ -50,7 +54,7 @@ about:
   home: http://www.python.org/
   license: PSF
   summary: General purpose programming language
-      
+
 extra:
   recipe-maintainers:
     - jakirkham

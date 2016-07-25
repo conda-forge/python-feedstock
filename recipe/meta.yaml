@@ -9,6 +9,7 @@ source:
   patches:
       - omit-local-site-packages.patch  # [osx]
       - osx-dist.patch                  # [osx and x86_64]
+      - win-find_exe.patch              # [win]
 
 build:
   number: 0

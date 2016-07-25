@@ -11,11 +11,9 @@ source:
 
 build:
   number: 0
-  # Windows has issues updating python if conda is using files itself.
-  # Copy rather than link.
   no_link:
-    - DLLs/_ctypes.py   # [win]
-    - bin/python
+    - bin/python2.7     # [unix]
+    - DLLs/_ctypes.pyd  # [win]
   track_features:
     - vc9               # [win]
 

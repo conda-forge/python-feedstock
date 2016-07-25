@@ -8,6 +8,7 @@ source:
   sha256: 997aca4dd8692f3c954658a3db11c1d0862bcbf8eadd6a164746eb33d317c034
   patches:
       - omit-local-site-packages.patch  # [osx]
+      - win-find_exe.patch              # [win]
       - win-library_bin.patch           # [win]
 
 build:

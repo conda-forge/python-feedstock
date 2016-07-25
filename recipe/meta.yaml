@@ -35,6 +35,7 @@ requirements:
     - tk 8.5.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
+    - vs2008_runtime    # [win]
 
 test:
   commands:

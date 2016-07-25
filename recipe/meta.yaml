@@ -1,11 +1,11 @@
 package:
   name: python
-  version: 1.2
+  version: 1.3
 
 source: 
-  fn: python-1.2.tar.gz
-  url: http://legacy.python.org/download/releases/src/python-1.2.tar.gz
-  sha256: 86d6e26ef7f478cf35e0c3715bb7f3b33786f5cf4e95b2e6084cd93c1471c37a
+  fn: python-1.3.tar.gz
+  url: http://legacy.python.org/download/releases/src/python-1.3.tar.gz
+  sha256: 892a12d7360b5e6aed0f6a637f5dbdd4ea9a27ee0e2741337393b1d5711d2d33
   patches:
     # Modules/fileobject.c defines a getline function which conflicts with the
     # one in stdio.h, rename the function in the file to _getline

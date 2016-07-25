@@ -1,6 +1,6 @@
---- Objects/fileobject.c.orig	2016-07-01 15:28:08.507866530 -0500
-+++ Objects/fileobject.c	2016-07-01 15:28:26.699866320 -0500
-@@ -410,7 +410,7 @@
+--- Objects/fileobject.c.orig	2016-07-02 08:50:48.000000000 -0500
++++ Objects/fileobject.c	2016-07-02 08:51:08.000000000 -0500
+@@ -417,7 +417,7 @@
  */
  
  static object *
@@ -9,7 +9,7 @@
  	fileobject *f;
  	int n;
  {
-@@ -531,7 +531,7 @@
+@@ -538,7 +538,7 @@
  	}
  	if (((fileobject*)f)->f_fp == NULL)
  		return err_closed();
@@ -18,8 +18,8 @@
  }
  
  /* Python method */
-@@ -556,7 +556,7 @@
- 		}
+@@ -563,7 +563,7 @@
+ 			n = 0;
  	}
  
 -	return getline(f, n);
@@ -27,7 +27,7 @@
  }
  
  static object *
-@@ -574,7 +574,7 @@
+@@ -581,7 +581,7 @@
  	if ((list = newlistobject(0)) == NULL)
  		return NULL;
  	for (;;) {

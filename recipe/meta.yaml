@@ -8,14 +8,15 @@ source:
   sha256: 997aca4dd8692f3c954658a3db11c1d0862bcbf8eadd6a164746eb33d317c034
   patches:
       - omit-local-site-packages.patch  # [osx]
+      - osx64-dist.patch                # [osx and x86_64]
+      - win-find_exe.patch              # [win]
+      - win-library_bin.patch           # [win]
 
 build:
-  number: 0
-  # Windows has issues updating python if conda is using files itself.
-  # Copy rather than link.
+  number: 1
   no_link:
-    - DLLs/_ctypes.py   # [win]
-    - bin/python
+    - bin/python3.4     # [unix]
+    - DLLs/_ctypes.pyd  # [win]
   track_features:
     - vc10              # [win]
 
@@ -37,6 +38,7 @@ requirements:
     - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
+    - vs2010_runtime    # [win]
 
 test:
   commands:

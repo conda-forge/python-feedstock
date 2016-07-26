@@ -1,10 +1,13 @@
 #!/bin/bash
 
-if [ `uname` == Darwin ]; then
-    # Compile with a no checking of the return type checking, note that
-    # CFLAGS cannot be used here.
-    export CC="gcc -Wno-return-type"
-fi
 ./configure --prefix=$PREFIX
-make
+# make sometimes fails to make python so explicitly make targets
+make python
+make sharedmods
 make install
+
+# No shared modules are compiled by default. Create an empty lib-dynload
+# directory to suppress the "Could not find platform dependent libraries"
+# message
+mkdir -p $PREFIX/lib/python1.5/lib-dynload
+touch $PREFIX/lib/python1.5/lib-dynload/empty

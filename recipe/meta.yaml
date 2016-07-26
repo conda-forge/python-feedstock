@@ -1,17 +1,22 @@
 package:
   name: python
-  version: 1.3
+  version: 1.4
 
 source: 
-  fn: python-1.3.tar.gz
-  url: http://legacy.python.org/download/releases/src/python-1.3.tar.gz
-  sha256: 892a12d7360b5e6aed0f6a637f5dbdd4ea9a27ee0e2741337393b1d5711d2d33
+  fn: python-1.4.tar.gz
+  url: http://legacy.python.org/download/releases/src/python-1.4.tar.gz
+  sha256: 6c551f79810ac679a8049fdf04d0c20ace2a7117da3dda2f0020ab692a27f1fb
   patches:
     # Modules/fileobject.c defines a getline function which conflicts with the
     # one in stdio.h, rename the function in the file to _getline
     - fileobject_getline.patch
+    # OS X uses a file insensitive filesystem so the python binary is not
+    # copied out of the Python directory, adjust the Makefile for this
+    - Makefile.in_python_path.patch  # [osx]
     # The crypt library needs to be linked when compiling python
     - setup.in_lcrypt.patch  # [not osx]
+    # Remove definition of strdup in parsermode.c
+    - parsermodule.in_no_strdup.patch  # [linux]
 
 
 build:
@@ -24,6 +29,7 @@ build:
 test:
   commands:
     - python -c "import sys; print sys.path"
+    - python1.4 -c "import sys; print sys.path"
     # struct is a compiled module
     - python -c "import struct"
     # os is a python module, import will fail if sys.path is incorrect

@@ -8,7 +8,6 @@ if "%ARCH%"=="64" (
    set PLATFORM=x64
    set VC_PATH=x64
    set PCB=%SRC_DIR%\PCbuild\amd64
-   :: Next line is only for local builds
    call "C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\vcvars64.bat"
 ) else (
    set PLATFORM=Win32
@@ -35,6 +34,7 @@ for %%x in (python.pdb python27.pdb pythonw.pdb) do (
     if errorlevel 1 exit 1
 )
 
+
 REM Populate the DLLs directory
 mkdir %PREFIX%\DLLs
 xcopy /s /y %PCB%\*.pyd %PREFIX%\DLLs\
@@ -45,6 +45,14 @@ copy /Y %PCB%\tcl85.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 copy /Y %PCB%\tk85.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
+
+if "%ARCH%"=="64" (
+   copy /Y %SRC_DIR%\externals\tcltk64\bin\tclpip85.dll %PREFIX%\DLLs\
+   if errorlevel 1 exit 1
+) else (
+   copy /Y %SRC_DIR%\externals\tcltk\bin\tclpip85.dll %PREFIX%\DLLs\
+   if errorlevel 1 exit 1
+)
 
 copy /Y %SRC_DIR%\PC\py.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
@@ -57,6 +65,7 @@ for %%x in (python.pdb python27.pdb pythonw.pdb w9xpopen.pdb) do (
     del %PREFIX%\DLLs\%%x
     if errorlevel 1 exit 1
 )
+
 
 REM Populate the Tools directory
 mkdir %PREFIX%\Tools
@@ -127,14 +136,10 @@ if errorlevel 1 exit 1
 rd /s /q %PREFIX%\Lib\ensurepip
 if errorlevel 1 exit 1
 
+
 REM bytecode compile the standard library
 
-del %PREFIX%\Lib\lib2to3\tests\data\py3_test_grammar.py
-
-%PYTHON% -Wi %STDLIB_DIR%\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %STDLIB_DIR%
-if errorlevel 1 exit 1
-
-copy /Y %SRC_DIR%\Lib\lib2to3\tests\data\py3_test_grammar.py %PREFIX%\Lib\lib2to3\tests\data\py3_test_grammar.py
+%PYTHON% -Wi %STDLIB_DIR%\compileall.py -f -q -x "bad_coding|badsyntax|py3_" %STDLIB_DIR%
 if errorlevel 1 exit 1
 
 

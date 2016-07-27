@@ -1,6 +1,6 @@
---- Makefile.in.orig	2016-07-04 12:09:05.000000000 -0500
-+++ Makefile.in	2016-07-04 12:08:35.000000000 -0500
-@@ -236,7 +236,7 @@
+--- Makefile.in.orig	2016-07-04 13:26:14.000000000 -0500
++++ Makefile.in	2016-07-04 13:27:24.000000000 -0500
+@@ -242,7 +242,7 @@
  			else	true; \
  			fi; \
  		done
@@ -9,12 +9,12 @@
  		if test -f libpython$(VERSION).so; then \
  			$(INSTALL_DATA) libpython$(VERSION).so $(LIBDIR); \
  		else	true; \
-@@ -317,15 +317,15 @@
- 			done; \
+@@ -326,15 +326,15 @@
  		done
+ 		$(INSTALL_DATA) $(srcdir)/LICENSE $(LIBDEST)/LICENSE.txt
  		PYTHONPATH=$(LIBDEST) \
--			./python$(EXE) -t $(LIBDEST)/compileall.py $(LIBDEST)
-+			./Python/python$(EXE) -t $(LIBDEST)/compileall.py $(LIBDEST)
+-			./python$(EXE) -tt $(LIBDEST)/compileall.py $(LIBDEST)
++			./Python/python$(EXE) -tt $(LIBDEST)/compileall.py $(LIBDEST)
  		PYTHONPATH=$(LIBDEST) \
 -			./python$(EXE) -O $(LIBDEST)/compileall.py $(LIBDEST)
 +			./Python/python$(EXE) -O $(LIBDEST)/compileall.py $(LIBDEST)
@@ -26,5 +26,5 @@
 -		export PATH; PATH="`pwd`:$$PATH"; \
 +		export PATH; PATH="`pwd`/Python:$$PATH"; \
  		export PYTHONPATH; PYTHONPATH="`pwd`/Lib"; \
+ 		export EXE; EXE="$(EXE)"; \
  		cd $(srcdir)/Lib/$(PLATDIR); ./regen
- 

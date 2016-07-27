@@ -55,6 +55,12 @@ if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PC\pyc.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
+xcopy /s /y %PCB%\*.pdb %PREFIX%\DLLs\
+if errorlevel 1 exit 1
+for %%x in (python.pdb python27.pdb pythonw.pdb w9xpopen.pdb) do (
+    del %PREFIX%\DLLs\%%x
+    if errorlevel 1 exit 1
+)
 
 REM Populate the Tools directory
 mkdir %PREFIX%\Tools
@@ -111,11 +117,7 @@ if errorlevel 1 exit 1
 
 REM Populate the libs directory
 mkdir %PREFIX%\libs
-copy /Y %PCB%\python27.lib %PREFIX%\libs\
-if errorlevel 1 exit 1
-::copy /Y %PCB%\python.lib %PREFIX%\libs\
-::if errorlevel 1 exit 1
-copy /Y %PCB%\_tkinter.lib %PREFIX%\libs\
+xcopy /s /y %PCB%\*.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 
 
@@ -123,13 +125,19 @@ if errorlevel 1 exit 1
 del %PREFIX%\libs\libpython*.a
 xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
-
-
-REM bytecode compile the standard library
-rd /s /q %STDLIB_DIR%\lib2to3\tests\
+rd /s /q %PREFIX%\Lib\test
+if errorlevel 1 exit 1
+rd /s /q %PREFIX%\Lib\ensurepip
 if errorlevel 1 exit 1
 
+REM bytecode compile the standard library
+
+del %PREFIX%\Lib\lib2to3\tests\data\py3_test_grammar.py
+
 %PYTHON% -Wi %STDLIB_DIR%\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %STDLIB_DIR%
+if errorlevel 1 exit 1
+
+copy /Y %SRC_DIR%\Lib\lib2to3\tests\data\py3_test_grammar.py %PREFIX%\Lib\lib2to3\tests\data\py3_test_grammar.py
 if errorlevel 1 exit 1
 
 

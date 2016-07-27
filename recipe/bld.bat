@@ -25,7 +25,7 @@ cd ..
 
 
 REM Populate the root package directory
-for %%x in (python27.dll python.exe pythonw.exe) do (
+for %%x in (python27.dll python.exe pythonw.exe w9xpopen.exe) do (
     copy /Y %PCB%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -34,10 +34,6 @@ for %%x in (python.pdb python27.pdb pythonw.pdb) do (
     copy /Y %PCB%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
-
-copy %SRC_DIR%\LICENSE %PREFIX%\LICENSE_PYTHON.txt
-if errorlevel 1 exit 1
-
 
 REM Populate the DLLs directory
 mkdir %PREFIX%\DLLs
@@ -119,6 +115,7 @@ REM Populate the libs directory
 mkdir %PREFIX%\libs
 xcopy /s /y %PCB%\*.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
+del %PREFIX%\libs\libeay.lib %PREFIX%\libs\sqlite3.lib %PREFIX%\libs\ssleay.lib
 
 
 ::REM Populate the Lib directory

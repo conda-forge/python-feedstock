@@ -2,6 +2,9 @@
 
 python ${RECIPE_DIR}/brand_python.py
 
+rm -rf Lib/test Lib/*/test
+rm -rf Lib/ensurepip
+
 if [ `uname` == Darwin ]; then
     export CFLAGS="-I$PREFIX/include $CFLAGS"
     export LDFLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -headerpad_max_install_names $LDFLAGS"

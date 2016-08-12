@@ -8,12 +8,10 @@ if "%ARCH%"=="64" (
    set PLATFORM=x64
    set VC_PATH=x64
    set PCB=%SRC_DIR%\PCbuild\amd64
-   call "C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\vcvars64.bat"
 ) else (
    set PLATFORM=Win32
    set VC_PATH=x86
    set PCB=%SRC_DIR%\PCbuild
-   call "C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat"
 )
 
 cd PCbuild

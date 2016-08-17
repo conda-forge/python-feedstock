@@ -1,11 +1,14 @@
+{% set version = "3.6.0a4" %}
+{% set sha256 = "3cedd7c1462b41648c779b0c88d0acf4fa298179014ffe75791af9da166fed62" %}
+
 package:
   name: python
-  version: 3.6.0a3
+  version: {{ version }}
 
 source:
-  fn: Python-3.6.0a3.tgz
-  url: https://www.python.org/ftp/python/3.6.0/Python-3.6.0a3.tgz
-  sha256: 2d84b00787eb788b98204b361ef1ac1eeced332d2020f09f3e120523c580dc98
+  fn: Python-{{ version }}.tgz
+  url: https://www.python.org/ftp/python/3.6.0/Python-{{ version }}.tgz
+  sha256: {{ sha256 }}
 
 build:
   number: 0
@@ -13,7 +16,7 @@ build:
   # Copy rather than link.
   no_link:
     - DLLs/_ctypes.py   # [win]
-    - bin/python
+    - bin/python3.6     # [unix]
   track_features:
     - vc14              # [win]
 
@@ -35,6 +38,7 @@ requirements:
     - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
+    - vs2015_runtime    # [win]
 
 test:
   commands:

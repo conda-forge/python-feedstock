@@ -131,6 +131,10 @@ REM Populate the Lib directory
 del %PREFIX%\libs\libpython*.a
 xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
+rd /s /q %PREFIX%\Lib\test
+if errorlevel 1 exit 1
+rd /s /q %PREFIX%\Lib\ensurepip
+if errorlevel 1 exit 1
 
 
 REM bytecode compile the standard library

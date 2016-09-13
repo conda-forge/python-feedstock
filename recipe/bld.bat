@@ -46,9 +46,9 @@ if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tk86t.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
-copy /Y %SRC_DIR%\PC\py.ico %PREFIX%\DLLs\
+copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PC\pyc.ico %PREFIX%\DLLs\
+copy /Y %SRC_DIR%\PC\icons\pyc.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
 

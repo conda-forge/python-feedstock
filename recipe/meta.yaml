@@ -1,5 +1,5 @@
-{% set version = "3.6.0a4" %}
-{% set sha256 = "3cedd7c1462b41648c779b0c88d0acf4fa298179014ffe75791af9da166fed62" %}
+{% set version = "3.6.0b1" %}
+{% set sha256 = "41e8e4e8f6d44992f9cb979da2a2927c60554045fe0a2ee556e0bf8fe5f7014f" %}
 
 package:
   name: python
@@ -52,7 +52,7 @@ about:
   home: http://www.python.org/
   license: PSF
   summary: General purpose programming language
-      
+
 extra:
   recipe-maintainers:
     - jakirkham

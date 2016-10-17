@@ -14,23 +14,24 @@ Summary: General purpose programming language
 Installing python
 =================
 
-Installing python from the conda-forge channel can be achieved by adding conda-forge to your channels with:
+Installing `python` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
 ```
 
-Once the conda-forge channel has been enabled, python can be installed with:
+Once the `conda-forge` channel has been enabled, `python` can be installed with:
 
 ```
 conda install python
 ```
 
-It is possible to list all of the versions of python available on your platform with:
+It is possible to list all of the versions of `python` available on your platform with:
 
 ```
 conda search python --channel conda-forge
 ```
+
 
 
 About conda-forge

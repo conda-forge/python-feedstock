@@ -1,7 +1,9 @@
 # This file was generated automatically from conda-smithy. To update this configuration,
-# update the conda-forge.yaml and/or the recipe/meta.yaml.
+# update the conda-forge.yml and/or the recipe/meta.yaml.
 
-language: objective-c
+language: generic
+
+os: osx
 
 env:
   matrix:
@@ -33,7 +35,5 @@ install:
 
 script:
   - conda build ./recipe
-
-after_success:
 
   - ./ci_support/upload_or_check_non_existence.py ./recipe conda-forge --channel=prerelease

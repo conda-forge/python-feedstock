@@ -1,5 +1,5 @@
-{% set version = "3.6.0b2" %}
-{% set sha256 = "6322b3be346ee41dc22539eaa1c28294363fb6238335d236a51bf23d96513d02" %}
+{% set version = "3.6.0b3" %}
+{% set sha256 = "61aa21e9fac878b8c0c1372e42b6e131890e8ce47c73c604101e3231e7f84923" %}
 
 package:
   name: python
@@ -11,7 +11,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

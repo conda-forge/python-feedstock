@@ -23,6 +23,8 @@ build:
     - vc14              # [win]
   script_env:
     - python_branding
+  features:
+    - python-debug
 
 requirements:
   build:

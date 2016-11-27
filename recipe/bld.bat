@@ -144,3 +144,4 @@ if errorlevel 1 exit 1
 
 REM Pickle lib2to3 Grammar
 %PYTHON% -m lib2to3 --help
+

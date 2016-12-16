@@ -104,3 +104,8 @@ import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
 if sys.platform != 'win32':
     assert '1.0.2h' in ssl.OPENSSL_VERSION
+
+# --enable-loadable-sqlite-extensions
+import sqlite3
+con = sqlite3.connect(":memory:")
+con.enable_load_extension(True)

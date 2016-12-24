@@ -1,24 +1,22 @@
+{% set version = "3.6.0" %}
+{% set sha256 = "aa472515800d25a3739833f76ca3735d9f4b2fe77c3cb21f69275e0cce30cb2b" %}
+
 package:
   name: python
-  version: 3.5.2
+  version: {{ version }}
 
 source:
-  fn: Python-3.5.2.tgz
-  url: https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz
-  sha256: 1524b840e42cf3b909e8f8df67c1724012c7dc7f9d076d4feef2d3eff031e8a0
-  patches:
-      - omit-local-site-packages.patch  # [osx]
-      - osx64-dist.patch                # [osx and x86_64]
-      - win-find_exe.patch              # [win]
-      - win-library_bin.patch           # [win]
+  fn: Python-{{ version }}.tgz
+  url: https://www.python.org/ftp/python/3.6.0/Python-{{ version }}.tgz
+  sha256: {{ sha256 }}
 
 build:
-  number: 3
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
-    - DLLs/_ctypes.pyd  # [win]
-    - bin/python3.5     # [unix]
+    - DLLs/_ctypes.py   # [win]
+    - bin/python3.6     # [unix]
   track_features:
     - vc14              # [win]
   script_env:
@@ -56,7 +54,7 @@ about:
   home: http://www.python.org/
   license: PSF
   summary: General purpose programming language
-      
+
 extra:
   recipe-maintainers:
     - jakirkham

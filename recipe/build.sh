@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python ${RECIPE_DIR}/brand_python.py
+${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
 
 # Remove test data and ensurepip stubs to save space
 rm -rf Lib/test Lib/*/test

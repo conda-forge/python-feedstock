@@ -13,6 +13,12 @@ source:
       - osx64-dist.patch                # [osx and x86_64]
       - win-find_exe.patch              # [win]
       - win-library_bin.patch           # [win]
+      # Adjust FD_SETSIZE to allow select() to wait on more connections
+      # simultaneously.  Desirable for serious use of Tornado on Windows.
+      # See also:
+      # - https://bugs.python.org/issue28708
+      # - https://github.com/zeromq/libzmq/issues/1165
+      - fd_setsize.patch                # [win]
 
 build:
   number: 0

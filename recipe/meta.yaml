@@ -31,6 +31,10 @@ build:
     - vc14              # [win]
   script_env:
     - python_branding
+  skip_compile_pyc:
+    # Skip compiling test .py files
+    - lib/python3.6/test/*bad*.py
+    - lib/python3.6/lib2to3/tests/data/*.py
 
 requirements:
   build:

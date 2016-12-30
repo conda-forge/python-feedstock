@@ -52,6 +52,7 @@ test:
     - python -V
     - 2to3 -h
     - pydoc -h
+    - python-config --help  # [unix]
     - idle -h
 
 about:

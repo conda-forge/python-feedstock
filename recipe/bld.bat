@@ -2,6 +2,16 @@ REM brand Python with conda-forge startup message
 python %RECIPE_DIR%\brand_python.py
 if errorlevel 1 exit 1
 
+python -c "import os; print(''.join(os.environ['PKG_VERSION'].split('.')[:2]))" > temp.txt
+if errorlevel 1 exit 1
+set /p MAJ_MIN_VER=<temp.txt
+if errorlevel 1 exit 1
+del /f temp.txt
+python -c "import os; print(os.environ['PKG_VERSION'].split('.')[0])" > temp.txt
+if errorlevel 1 exit 1
+set /p MAJ_VER=<temp.txt
+if errorlevel 1 exit 1
+del /f temp.txt
 
 REM Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
@@ -21,12 +31,12 @@ cd ..
 
 
 REM Populate the root package directory
-for %%x in (python35.dll python.exe pythonw.exe) do (
+for %%x in (python%MAJ_MIN_VER%.dll python.exe pythonw.exe) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
-for %%x in (python.pdb python35.pdb pythonw.pdb) do (
+for %%x in (python.pdb python%MAJ_MIN_VER%.pdb pythonw.pdb) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -80,7 +90,7 @@ if errorlevel 1 exit 1
 
 move /y %PREFIX%\Tools\scripts\2to3 %PREFIX%\Tools\scripts\2to3.py
 if errorlevel 1 exit 1
-move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
+move /y %PREFIX%\Tools\scripts\pydoc%MAJ_VER% %PREFIX%\Tools\scripts\pydoc%MAJ_VER%.py
 if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pyvenv %PREFIX%\Tools\scripts\pyvenv.py
 if errorlevel 1 exit 1
@@ -119,9 +129,9 @@ if errorlevel 1 exit 1
 
 REM Populate the libs directory
 mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python35.lib %PREFIX%\libs\
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%MAJ_MIN_VER%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3.lib %PREFIX%\libs\
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%MAJ_VER%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter.lib %PREFIX%\libs\
 if errorlevel 1 exit 1

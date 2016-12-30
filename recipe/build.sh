@@ -25,5 +25,11 @@ fi
 
 make
 make install
-ln -s $PREFIX/bin/python3.5 $PREFIX/bin/python
-ln -s $PREFIX/bin/pydoc3.5 $PREFIX/bin/pydoc
+
+python -c "import os; print('.'.join(os.environ['PKG_VERSION'].split('.')[:2]))" > temp.txt
+export MAJ_MIN_VER="$(cat temp.txt)"
+rm -f temp.txt
+
+test -f "${PREFIX}/bin/python${MAJ_MIN_VER}" && ln -fs "${PREFIX}/bin/python${MAJ_MIN_VER}" "${PREFIX}/bin/python"
+test -f "${PREFIX}/bin/python${MAJ_MIN_VER}-config" && ln -fs "${PREFIX}/bin/python${MAJ_MIN_VER}-config" "${PREFIX}/bin/python-config"
+test -f "${PREFIX}/bin/pydoc${MAJ_MIN_VER}" && ln -fs "${PREFIX}/bin/pydoc${MAJ_MIN_VER}" "${PREFIX}/bin/pydoc"

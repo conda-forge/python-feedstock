@@ -54,6 +54,7 @@ test:
     - 2to3 -h
     - pydoc -h
     - python3-config --help  # [unix]
+    - idle -h
 
 about:
   home: http://www.python.org/

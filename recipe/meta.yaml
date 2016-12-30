@@ -50,10 +50,8 @@ requirements:
 test:
   commands:
     - python -V
-    - python3 -V            # [unix]
     - 2to3 -h
     - pydoc -h
-    - python3-config --help  # [unix]
     - idle -h
 
 about:

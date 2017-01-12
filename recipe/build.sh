@@ -1,6 +1,10 @@
 #!/bin/bash
 
-python ${RECIPE_DIR}/brand_python.py
+${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
+
+# Remove test data and ensurepip stubs to save space
+rm -rf Lib/test Lib/*/test
+rm -rf Lib/ensurepip
 
 if [ `uname` == Darwin ]; then
     export CFLAGS="-I$PREFIX/include $CFLAGS"
@@ -25,5 +29,5 @@ fi
 
 make
 make install
-ln -s $PREFIX/bin/python3.5 $PREFIX/bin/python
-ln -s $PREFIX/bin/pydoc3.5 $PREFIX/bin/pydoc
+ln -s $PREFIX/bin/python3.6 $PREFIX/bin/python
+ln -s $PREFIX/bin/pydoc3.6 $PREFIX/bin/pydoc

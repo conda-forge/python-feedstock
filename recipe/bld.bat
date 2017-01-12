@@ -21,12 +21,12 @@ cd ..
 
 
 REM Populate the root package directory
-for %%x in (python35.dll python.exe pythonw.exe) do (
+for %%x in (python36.dll python.exe pythonw.exe) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
-for %%x in (python.pdb python35.pdb pythonw.pdb) do (
+for %%x in (python.pdb python36.pdb pythonw.pdb) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -46,9 +46,9 @@ if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tk86t.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
-copy /Y %SRC_DIR%\PC\py.ico %PREFIX%\DLLs\
+copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PC\pyc.ico %PREFIX%\DLLs\
+copy /Y %SRC_DIR%\PC\icons\pyc.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
 
@@ -119,7 +119,7 @@ if errorlevel 1 exit 1
 
 REM Populate the libs directory
 mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python35.lib %PREFIX%\libs\
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python36.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
@@ -130,6 +130,11 @@ if errorlevel 1 exit 1
 REM Populate the Lib directory
 del %PREFIX%\libs\libpython*.a
 xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
+if errorlevel 1 exit 1
+REM Remove test data and ensurepip stubs to save space
+rd /s /q %PREFIX%\Lib\test
+if errorlevel 1 exit 1
+rd /s /q %PREFIX%\Lib\ensurepip
 if errorlevel 1 exit 1
 
 

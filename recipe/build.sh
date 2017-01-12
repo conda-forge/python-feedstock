@@ -12,6 +12,7 @@ if [ `uname` == Darwin ]; then
     sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
     ./configure \
         --enable-ipv6 \
+        --enable-loadable-sqlite-extensions \
         --enable-shared \
         --prefix=$PREFIX \
         --with-ensurepip=no \

@@ -9,19 +9,19 @@ source:
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
   sha256: aa472515800d25a3739833f76ca3735d9f4b2fe77c3cb21f69275e0cce30cb2b
   patches:
-      - omit-local-site-packages.patch  # [osx]
-      - osx64-dist.patch                # [osx and x86_64]
-      - win-find_exe.patch              # [win]
-      - win-library_bin.patch           # [win]
-      # Adjust FD_SETSIZE to allow select() to wait on more connections
-      # simultaneously.  Desirable for serious use of Tornado on Windows.
-      # See also:
-      # - https://bugs.python.org/issue28708
-      # - https://github.com/zeromq/libzmq/issues/1165
-      - fd_setsize.patch                # [win]
+    - omit-local-site-packages.patch  # [osx]
+    - osx64-dist.patch                # [osx and x86_64]
+    - win-find_exe.patch              # [win]
+    - win-library_bin.patch           # [win]
+    # Adjust FD_SETSIZE to allow select() to wait on more connections
+    # simultaneously.  Desirable for serious use of Tornado on Windows.
+    # See also:
+    # - https://bugs.python.org/issue28708
+    # - https://github.com/zeromq/libzmq/issues/1165
+    - fd_setsize.patch                # [win]
 
 build:
-  number: 0
+  number: 1
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -64,10 +64,11 @@ about:
   home: http://www.python.org/
   license: PSF
   summary: General purpose programming language
-      
+
 extra:
   recipe-maintainers:
     - jakirkham
     - jjhelmus
     - msarahan
     - pelson
+    - ocefpaf

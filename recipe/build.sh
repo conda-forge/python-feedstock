@@ -25,5 +25,5 @@ fi
 
 make
 make install
-ln -s $PREFIX/bin/python3.6 $PREFIX/bin/python
-ln -s $PREFIX/bin/pydoc3.6 $PREFIX/bin/pydoc
+ln -s $PREFIX/bin/python3.5 $PREFIX/bin/python
+ln -s $PREFIX/bin/pydoc3.5 $PREFIX/bin/pydoc

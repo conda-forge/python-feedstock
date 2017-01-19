@@ -1,19 +1,27 @@
+{% set version = "3.5.2" %}
+
 package:
   name: python
-  version: 3.5.2
+  version: {{ version }}
 
 source:
-  fn: Python-3.5.2.tgz
-  url: https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz
+  fn: Python-{{ version }}.tgz
+  url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
   sha256: 1524b840e42cf3b909e8f8df67c1724012c7dc7f9d076d4feef2d3eff031e8a0
   patches:
-      - omit-local-site-packages.patch  # [osx]
-      - osx64-dist.patch                # [osx and x86_64]
-      - win-find_exe.patch              # [win]
-      - win-library_bin.patch           # [win]
+    - omit-local-site-packages.patch  # [osx]
+    - osx64-dist.patch                # [osx and x86_64]
+    - win-find_exe.patch              # [win]
+    - win-library_bin.patch           # [win]
+    # Adjust FD_SETSIZE to allow select() to wait on more connections
+    # simultaneously.  Desirable for serious use of Tornado on Windows.
+    # See also:
+    # - https://bugs.python.org/issue28708
+    # - https://github.com/zeromq/libzmq/issues/1165
+    - fd_setsize.patch                # [win]
 
 build:
-  number: 4
+  number: 5
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -63,3 +71,4 @@ extra:
     - jjhelmus
     - msarahan
     - pelson
+    - ocefpaf

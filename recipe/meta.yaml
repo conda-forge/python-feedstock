@@ -16,7 +16,7 @@ source:
       - win-library_bin.patch           # [win]
 
 build:
-  number: 1
+  number: 2
   no_link:
     - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]

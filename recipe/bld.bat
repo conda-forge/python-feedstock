@@ -133,7 +133,16 @@ xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
 
 :: Remove test data to save space.
+:: Though keep `support` as some things use that.
+mkdir %PREFIX%\Lib\test_keep
+if errorlevel 1 exit 1
+move %PREFIX%\Lib\test\__init__.py %PREFIX%\Lib\test_keep\
+if errorlevel 1 exit 1
+move %PREFIX%\Lib\test\support %PREFIX%\Lib\test_keep\
+if errorlevel 1 exit 1
 rd /s /q %PREFIX%\Lib\test
+if errorlevel 1 exit 1
+move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
 if errorlevel 1 exit 1
 
 :: Remove ensurepip stubs.

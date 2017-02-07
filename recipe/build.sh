@@ -3,7 +3,12 @@
 python ${RECIPE_DIR}/brand_python.py
 
 # Remove test data to save space.
+# Though keep `test_support` as some things use that.
+mkdir Lib/test_keep
+mv Lib/test/__init__.py Lib/test_keep/
+mv Lib/test/test_support.py Lib/test_keep/
 rm -rf Lib/test Lib/*/test
+mv Lib/test_keep Lib/test
 
 # Remove ensurepip stubs.
 rm -rf Lib/ensurepip

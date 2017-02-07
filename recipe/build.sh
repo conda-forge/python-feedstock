@@ -2,7 +2,10 @@
 
 python ${RECIPE_DIR}/brand_python.py
 
+# Remove test data to save space.
 rm -rf Lib/test Lib/*/test
+
+# Remove ensurepip stubs.
 rm -rf Lib/ensurepip
 
 if [ `uname` == Darwin ]; then

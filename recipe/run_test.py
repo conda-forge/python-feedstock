@@ -82,6 +82,8 @@ import select
 import ssl
 import strop
 import time
+import test
+import test.test_support
 import unicodedata
 import zlib
 import gzip

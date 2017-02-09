@@ -2,8 +2,14 @@
 
 ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
 
-# Remove test data and ensurepip stubs to save space
+# Remove test data to save space.
+# Though keep `support` as some things use that.
+mkdir Lib/test_keep
+mv Lib/test/support Lib/test_keep/support
 rm -rf Lib/test Lib/*/test
+mv Lib/test_keep Lib/test
+
+# Remove ensurepip stubs.
 rm -rf Lib/ensurepip
 
 if [ $(uname) == Darwin ]; then

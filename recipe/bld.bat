@@ -129,8 +129,21 @@ del %PREFIX%\libs\libeay.lib %PREFIX%\libs\sqlite3.lib %PREFIX%\libs\ssleay.lib
 del %PREFIX%\libs\libpython*.a
 xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
+
+:: Remove test data to save space.
+:: Though keep `test_support` as some things use that.
+mkdir %PREFIX%\Lib\test_keep
+if errorlevel 1 exit 1
+move %PREFIX%\Lib\test\__init__.py %PREFIX%\Lib\test_keep\
+if errorlevel 1 exit 1
+move %PREFIX%\Lib\test\test_support.py %PREFIX%\Lib\test_keep\
+if errorlevel 1 exit 1
 rd /s /q %PREFIX%\Lib\test
 if errorlevel 1 exit 1
+move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
+if errorlevel 1 exit 1
+
+:: Remove ensurepip stubs.
 rd /s /q %PREFIX%\Lib\ensurepip
 if errorlevel 1 exit 1
 

@@ -63,6 +63,8 @@ import parser
 import pyexpat
 import select
 import time
+import test
+import test.support
 import unicodedata
 import zlib
 from os import urandom

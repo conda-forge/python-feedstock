@@ -145,6 +145,18 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libpython--static-green.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-python-green.svg)](https://anaconda.org/conda-forge/python) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) |
 
+Current build status
+====================
+
+Linux: [![Circle CI](https://circleci.com/gh/conda-forge/python-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/python-feedstock)
+OSX: [![TravisCI](https://travis-ci.org/conda-forge/python-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/python-feedstock)
+Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/python-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/python-feedstock/branch/master)
+
+Current release info
+====================
+Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/python/badges/version.svg)](https://anaconda.org/conda-forge/python)
+Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/python/badges/downloads.svg)](https://anaconda.org/conda-forge/python)
+
 Installing python
 =================
 
@@ -191,7 +203,6 @@ mamba repoquery whoneeds libpython-static --channel conda-forge
 # List dependencies of `libpython-static`:
 mamba repoquery depends libpython-static --channel conda-forge
 ```
-
 
 About conda-forge
 =================

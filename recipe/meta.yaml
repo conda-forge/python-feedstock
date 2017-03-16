@@ -53,6 +53,11 @@ requirements:
     - vs2015_runtime    # [win]
 
 test:
+  requires:
+    - numpy
+    - pandas
+  imports:
+    - numpy
   commands:
     - python -V
     - python3 -V            # [unix]

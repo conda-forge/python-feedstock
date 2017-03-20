@@ -1,8 +1,8 @@
 # make sure Grammar pickle files are present
 import os
 from os.path import dirname, isfile, join
-for fn in ('Grammar2.7.12.final.0.pickle',
-           'PatternGrammar2.7.12.final.0.pickle'):
+for fn in ('Grammar2.6.9.final.0.pickle',
+           'PatternGrammar2.6.9.final.0.pickle'):
     assert isfile(join(dirname(os.__file__), 'lib2to3', fn))
 
 import platform
@@ -21,8 +21,8 @@ ppc64le = bool(platform.machine() == 'ppc64le')
 debug = int(os.getenv('DEBUG', 0))
 
 print('Python version:', platform.python_version())
-assert platform.python_version() == '2.7.12'
-assert sys.version_info[:3] == (2, 7, 12)
+assert platform.python_version() == '2.6.9'
+assert sys.version_info[:3] == (2, 6, 9)
 if sys.platform == 'win32':
     assert 'MSC v.1500' in sys.version
 print('max unicode:', sys.maxunicode)
@@ -51,7 +51,6 @@ import _functools
 import _hashlib
 import _heapq
 import _hotshot
-import _io
 import _json
 import _locale
 import _lsprof
@@ -93,8 +92,11 @@ a = 20 * 'Ilan'
 b = 'x\x9c\xf3\xccI\xcc\xf3\xa4"\x06\x00\xc8L\x1eQ'
 assert zlib.compress(a) == b
 assert zlib.decompress(b) == a
-with gzip.open('x.gz', 'wb') as fo:
+try:
+    fo = gzip.open('x.gz', 'wb')
     fo.write(a)
+finally:
+    fo.close()
 with open('x.gz', 'rb') as fi:
     assert len(fi.read()) == 29
 
@@ -126,10 +128,6 @@ if not (armv7l or ppc64le):
     print('TK_VERSION:', _tkinter.TK_VERSION)
     print('TCL_VERSION:', _tkinter.TCL_VERSION)
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == '8.5'
-
-print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
-if sys.platform != 'win32':
-    assert '1.0.2h' in ssl.OPENSSL_VERSION
 
 pprint(platform._sys_version())
 # This is in the anaconda-recipes test file but is not working...

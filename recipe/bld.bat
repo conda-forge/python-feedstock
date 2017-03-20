@@ -22,12 +22,12 @@ cd ..
 
 
 REM Populate the root package directory
-for %%x in (python27.dll python.exe pythonw.exe w9xpopen.exe) do (
+for %%x in (python26.dll python.exe pythonw.exe w9xpopen.exe) do (
     copy /Y %PCB%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
-for %%x in (python.pdb python27.pdb pythonw.pdb) do (
+for %%x in (python.pdb python26.pdb pythonw.pdb) do (
     copy /Y %PCB%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -59,7 +59,7 @@ if errorlevel 1 exit 1
 
 xcopy /s /y %PCB%\*.pdb %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-for %%x in (python.pdb python27.pdb pythonw.pdb w9xpopen.pdb) do (
+for %%x in (python.pdb python26.pdb pythonw.pdb w9xpopen.pdb) do (
     del %PREFIX%\DLLs\%%x
     if errorlevel 1 exit 1
 )

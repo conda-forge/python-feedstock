@@ -1,12 +1,12 @@
---- Lib/site.py.orig	2016-07-23 09:17:55.000000000 -0500
-+++ Lib/site.py	2016-07-23 09:25:06.000000000 -0500
-@@ -556,6 +556,9 @@
-     execsitecustomize()
-     if ENABLE_USER_SITE:
-         execusercustomize()
+--- Lib/site.py.orig	2016-07-24 20:51:26.000000000 -0500
++++ Lib/site.py	2016-07-24 20:52:29.000000000 -0500
+@@ -544,6 +544,9 @@
+     # this module is run as a script, because this code is executed twice.
+     if hasattr(sys, "setdefaultencoding"):
+         del sys.setdefaultencoding
 +    if sys.platform == 'win32':
 +        os.environ["PATH"] = r"%s\Library\bin;%s" % (sys.prefix,
 +                                                     os.environ["PATH"])
  
- # Prevent edition of sys.path when python was started with -S and
- # site is imported later.
+ main()
+ 

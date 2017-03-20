@@ -1,26 +1,27 @@
+{% set version = "2.7.12" %}
+{% set sha256 = "3cb522d17463dfa69a155ab18cffa399b358c966c0363d6c8b5b3bf1384da4b6" %}
+
 package:
   name: python
-  version: 3.5.2
+  version: {{ version }}
 
 source:
-  fn: Python-3.5.2.tgz
-  url: https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz
-  sha256: 1524b840e42cf3b909e8f8df67c1724012c7dc7f9d076d4feef2d3eff031e8a0
+  fn: Python-{{ version }}.tgz
+  url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
+  sha256: {{ sha256 }}
   patches:
       - omit-local-site-packages.patch  # [osx]
-      - osx64-dist.patch                # [osx and x86_64]
+      - osx-dist.patch                  # [osx and x86_64]
       - win-find_exe.patch              # [win]
       - win-library_bin.patch           # [win]
 
 build:
-  number: 3
-  # Windows has issues updating python if conda is using files itself.
-  # Copy rather than link.
+  number: 2
   no_link:
+    - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]
-    - bin/python3.5     # [unix]
   track_features:
-    - vc14              # [win]
+    - vc9               # [win]
   script_env:
     - python_branding
 
@@ -31,7 +32,6 @@ requirements:
     - readline 6.2*     # [unix]
     - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
-    - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
   run:
@@ -39,18 +39,16 @@ requirements:
     - readline 6.2*     # [unix]
     - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
-    - xz 5.2.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
-    - vs2015_runtime    # [win]
+    - vs2008_runtime    # [win]
 
 test:
   commands:
     - python -V
-    - python3 -V            # [unix]
-    - 2to3 -h
     - pydoc -h
-    - python3-config --help  # [unix]
+    - python-config --help  # [unix]
+    - idle -h
 
 about:
   home: http://www.python.org/

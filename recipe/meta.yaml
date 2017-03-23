@@ -1,4 +1,4 @@
-{% set version = "3.6.0" %}
+{% set version = "3.6.1" %}
 
 package:
   name: python
@@ -7,7 +7,7 @@ package:
 source:
   fn: Python-{{ version }}.tgz
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: aa472515800d25a3739833f76ca3735d9f4b2fe77c3cb21f69275e0cce30cb2b
+  sha256: aa50b0143df7c89ce91be020fe41382613a817354b33acdc6641b44f8ced3828
   patches:
     - omit-local-site-packages.patch  # [osx]
     - osx64-dist.patch                # [osx and x86_64]
@@ -21,7 +21,7 @@ source:
     - fd_setsize.patch                # [win]
 
 build:
-  number: 2
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -63,7 +63,8 @@ test:
 about:
   home: http://www.python.org/
   license: PSF
-  summary: General purpose programming language
+  license_file: LICENSE
+  summary: 'General purpose programming language.'
 
 extra:
   recipe-maintainers:

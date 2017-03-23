@@ -7,7 +7,7 @@ Package license: PSF
 
 Feedstock license: BSD 3-Clause
 
-Summary: General purpose programming language
+Summary: General purpose programming language.
 
 
 

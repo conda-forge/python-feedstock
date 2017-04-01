@@ -1,14 +1,18 @@
-{% set version = "2.7.13" %}
-{% set sha256 = "a4f05a0720ce0fd92626f0278b6b433eee9a6173ddf2bced7957dfb599a5ece1" %}
+{% set version_major = "2" %}
+{% set version_minor = "7" %}
+{% set version_micro = "13" %}
+{% set version = [version_major, version_minor, version_micro]|join('.') %}
+
+{% set md5 = "d05ce87ad8c831ae70629197cdee0965" %}
 
 package:
   name: python
   version: {{ version }}
 
 source:
-  fn: Python-{{ version }}.tgz
-  url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: {{ sha256 }}
+  fn: stackless-{{ [version_major, version_minor, version_micro]|join }}-export.tar.xz
+  url: http://www.stackless.com/binaries/stackless-{{ [version_major, version_minor, version_micro]|join }}-export.tar.xz
+  md5: {{ md5 }}
   patches:
       - osx-dist.patch                  # [osx and x86_64]
       - win-find_exe.patch              # [win]
@@ -23,6 +27,8 @@ build:
     - vc9               # [win]
   script_env:
     - python_branding
+  features:
+    - stackless
 
 requirements:
   build:
@@ -48,15 +54,18 @@ test:
     - pydoc -h
     - python-config --help  # [unix]
     - idle -h
+  requires:
+    - stackless
 
 about:
-  home: http://www.python.org/
+  home: http://www.stackless.com/
   license: PSF
   summary: General purpose programming language
-      
+
 extra:
   recipe-maintainers:
     - jakirkham
     - jjhelmus
     - msarahan
     - pelson
+    - akruis

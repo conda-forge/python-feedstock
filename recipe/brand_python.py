@@ -26,9 +26,9 @@ def patch_get_version(msg):
     lines = iter(content)
     with open(get_version_file, 'w') as fh:
         for line in lines:
-            if line.strip().startswith('PyOS_snprintf(version, sizeof(version)'):
+            if line.strip().startswith('PyOS_snprintf(version, sizeof(version)') and "Stackless" in line:
                 fh.write('    PyOS_snprintf(version, sizeof(version),\n')
-                fh.write('        "%.80s ' + msg.replace('"', '\\"') + ' (%.80s) %.80s",\n')
+                fh.write('        "%.80s Stackless %.80s ' + msg.replace('"', '\\"') + ' (%.80s) %.80s",\n')
             else:
                 fh.write(line)
 
@@ -37,5 +37,5 @@ msg = os.environ.get('python_branding', '<undefined>')
 if msg == '<undefined>':
     msg = "| packaged by conda-forge |" 
 
-patch_platform(msg)
+# patch_platform(msg)  # not required for stackless
 patch_get_version(msg)

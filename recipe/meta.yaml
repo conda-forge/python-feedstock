@@ -3,15 +3,15 @@
 {% set version_micro = "13" %}
 {% set version = [version_major, version_minor, version_micro]|join('.') %}
 
-{% set md5 = "d05ce87ad8c831ae70629197cdee0965" %}
+{% set md5 = "c01210c08328f4afecb5d4c95d8af0ae" %}
 
 package:
   name: python
   version: {{ version }}
 
 source:
-  fn: stackless-{{ [version_major, version_minor, version_micro]|join }}-export.tar.xz
-  url: http://www.stackless.com/binaries/stackless-{{ [version_major, version_minor, version_micro]|join }}-export.tar.xz
+  fn: stackless-{{ [version_major, version_minor, version_micro]|join }}-export.tar.bz2
+  url: http://www.stackless.com/binaries/stackless-{{ [version_major, version_minor, version_micro]|join }}-export.tar.bz2
   md5: {{ md5 }}
   patches:
       - osx-dist.patch                  # [osx and x86_64]
@@ -39,7 +39,6 @@ requirements:
     - tk 8.5.*          # [unix]
     - zlib 1.2.*        # [unix]
     - ncurses 5.9*      # [linux]
-    - xz                # [win]
   run:
     - openssl 1.0.*     # [unix]
     - readline 6.2*     # [unix]

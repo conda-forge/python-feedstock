@@ -1,0 +1,12 @@
+diff --git Lib/distutils/unixccompiler.py Lib/distutils/unixccompiler.py
+index c49ac9b..e7fb73c 100644
+--- Lib/distutils/unixccompiler.py
++++ Lib/distutils/unixccompiler.py
+@@ -173,6 +173,7 @@ class UnixCCompiler(CCompiler):
+         compiler_so = self.compiler_so
+         if sys.platform == 'darwin':
+             compiler_so = _darwin_compiler_fixup(compiler_so, cc_args + extra_postargs)
++            compiler_so = compiler_so[:1] + ['-arch', 'x86_64'] + compiler_so[1:]
+         try:
+             self.spawn(compiler_so + cc_args + [src, '-o', obj] +
+                        extra_postargs)

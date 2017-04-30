@@ -129,7 +129,7 @@ if not (armv7l or ppc64le):
 
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
 if sys.platform != 'win32':
-    assert '1.0.2h' in ssl.OPENSSL_VERSION
+    assert '1.0.2' in ssl.OPENSSL_VERSION
 
 pprint(platform._sys_version())
 # This is in the anaconda-recipes test file but is not working...

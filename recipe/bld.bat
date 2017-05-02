@@ -149,15 +149,14 @@ if errorlevel 1 exit 1
 rd /s /q %PREFIX%\Lib\ensurepip
 if errorlevel 1 exit 1
 
-
 REM bytecode compile the standard library
 
-rd /s /q %STDLIB_DIR%\lib2to3\tests\
+rd /s /q %PREFIX%\Lib\lib2to3\tests\
 if errorlevel 1 exit 1
 
-%PYTHON% -Wi %STDLIB_DIR%\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %STDLIB_DIR%
+%PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
 
 
 REM Pickle lib2to3 Grammar
-%PYTHON% -m lib2to3 --help
+%PREFIX%\python.exe -m lib2to3 --help

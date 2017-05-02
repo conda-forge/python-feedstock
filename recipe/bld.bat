@@ -1,3 +1,4 @@
+echo on
 REM brand Python with conda-forge startup message
 python %RECIPE_DIR%\brand_python.py
 if errorlevel 1 exit 1
@@ -150,9 +151,9 @@ if errorlevel 1 exit 1
 
 REM bytecode compile the standard library
 
-%PYTHON% -Wi %STDLIB_DIR%\compileall.py -f -q -x "bad_coding|badsyntax|py3_" %STDLIB_DIR%
+%PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py3_" %PREFIX%\Lib
 if errorlevel 1 exit 1
 
 
 REM Pickle lib2to3 Grammar
-%PYTHON% -m lib2to3 --help
+%PREFIX%\python.exe -m lib2to3 --help

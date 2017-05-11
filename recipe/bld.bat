@@ -21,7 +21,7 @@ cd ..
 
 
 REM Populate the root package directory
-for %%x in (python35.dll python.exe pythonw.exe) do (
+for %%x in (python35.dll python3.dll python.exe pythonw.exe) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )

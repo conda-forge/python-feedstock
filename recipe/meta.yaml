@@ -23,7 +23,7 @@ source:
     - win-msc_ver-1900.patch
 
 build:
-  number: 2
+  number: 3
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -66,7 +66,7 @@ about:
   home: http://www.python.org/
   license: PSF
   summary: General purpose programming language
-      
+
 extra:
   recipe-maintainers:
     - jakirkham

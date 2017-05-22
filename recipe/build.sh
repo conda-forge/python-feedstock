@@ -26,7 +26,7 @@ if [ `uname` == Darwin ]; then
     ./configure \
         --enable-ipv6 \
         --enable-shared \
-        --enable-unicode=ucs2 \
+        --enable-unicode=ucs4 \
         --prefix=$PREFIX \
         --with-tcltk-includes="-I$PREFIX/include" \
         --with-tcltk-libs="-L$PREFIX/lib -ltcl8.5 -ltk8.5"

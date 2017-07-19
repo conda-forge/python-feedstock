@@ -1,4 +1,4 @@
-{% set version = "3.6.1" %}
+{% set version = "3.6.2" %}
 
 package:
   name: python
@@ -7,7 +7,7 @@ package:
 source:
   fn: Python-{{ version }}.tgz
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: aa50b0143df7c89ce91be020fe41382613a817354b33acdc6641b44f8ced3828
+  sha256: 7919489310a5f17f7acbab64d731e46dca0702874840dadce8bd4b2b3b8e7a82
   patches:
     - omit-local-site-packages.patch  # [osx]
     - osx64-dist.patch                # [osx and x86_64]
@@ -24,7 +24,7 @@ source:
     - fix-ABI-issue29943.patch
 
 build:
-  number: 3
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -62,6 +62,8 @@ test:
     - 2to3 -h
     - pydoc -h
     - python3-config --help  # [unix]
+    - conda inspect linkages -p $PREFIX python  # [not win]
+    - conda inspect objects -p $PREFIX python  # [osx]
 
 about:
   home: http://www.python.org/

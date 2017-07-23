@@ -22,6 +22,7 @@ source:
     - mingw-w64--DMS_WINXX.patch
     - win-msc_ver-1900.patch
     - fix-ABI-issue29943.patch
+    - do-not-download-externals.patch  # [win]
 
 build:
   number: 0
@@ -37,7 +38,9 @@ build:
 
 requirements:
   build:
+    - 7za               # [win]
     - bzip2 1.0.*       # [unix]
+    - curl              # [win]
     - openssl 1.0.*     # [unix]
     - readline 6.2*     # [unix]
     - sqlite 3.13.*     # [unix]

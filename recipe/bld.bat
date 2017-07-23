@@ -2,6 +2,27 @@ REM brand Python with conda-forge startup message
 python %RECIPE_DIR%\brand_python.py
 if errorlevel 1 exit 1
 
+REM Download and unpack external dependencies
+mkdir externals
+cd externals
+
+for %%x in (xz-5.2.2 tk-8.6.6.0 tix-8.4.3.6 tcl-core-8.6.6.0 sqlite-3.14.2.0 openssl-1.0.2k bzip2-1.0.6) do (
+    curl -SLO https://github.com/python/cpython-source-deps/archive/%%x.zip
+    if errorlevel 1 exit 1
+    7za x -y %%x.zip
+    if errorlevel 1 exit 1
+    move cpython-source-deps-%%x %%x
+    if errorlevel 1 exit 1
+)
+
+curl -SLO https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip
+if errorlevel 1 exit 1
+7za x -y nasm-2.11.06.zip
+if errorlevel 1 exit 1
+move cpython-bin-deps-nasm-2.11.06 nasm-2.11.06
+if errorlevel 1 exit 1
+
+cd ..
 
 REM Compile python, extensions and external libraries
 if "%ARCH%"=="64" (

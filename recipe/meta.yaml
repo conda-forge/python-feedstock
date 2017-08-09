@@ -1,4 +1,4 @@
-{% set version = "3.5.3" %}
+{% set version = "3.5.4" %}
 
 package:
   name: python
@@ -7,7 +7,7 @@ package:
 source:
   fn: Python-{{ version }}.tgz
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: d8890b84d773cd7059e597dbefa510340de8336ec9b9e9032bf030f19291565a
+  md5: 2ed4802b7a2a7e40d2e797272bf388ec
   patches:
     - omit-local-site-packages.patch  # [osx]
     - osx64-dist.patch                # [osx and x86_64]
@@ -23,7 +23,7 @@ source:
     - win-msc_ver-1900.patch
 
 build:
-  number: 3
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

@@ -36,6 +36,7 @@ if [ `uname` == Linux ]; then
         --prefix=$PREFIX \
         --with-tcltk-includes="-I$PREFIX/include" \
         --with-tcltk-libs="-L$PREFIX/lib -ltcl8.5 -ltk8.5" \
+        --enable-stacklessfewerregisters \
         CPPFLAGS="-I$PREFIX/include" \
         LDFLAGS="-L$PREFIX/lib -Wl,-rpath=$PREFIX/lib,--no-as-needed"
 fi

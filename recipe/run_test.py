@@ -1,9 +1,6 @@
 # make sure Grammar pickle files are present
 import os
 from os.path import dirname, isfile, join
-for fn in ('Grammar2.7.13.final.0.pickle',
-           'PatternGrammar2.7.13.final.0.pickle'):
-    assert isfile(join(dirname(os.__file__), 'lib2to3', fn))
 
 import platform
 import sys

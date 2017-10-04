@@ -18,8 +18,8 @@ ppc64le = bool(platform.machine() == 'ppc64le')
 debug = int(os.getenv('DEBUG', 0))
 
 print('Python version:', platform.python_version())
-assert platform.python_version() == '2.7.13'
-assert sys.version_info[:3] == (2, 7, 13)
+assert platform.python_version() == '2.7.14'
+assert sys.version_info[:3] == (2, 7, 14)
 if sys.platform == 'win32':
     assert 'MSC v.1500' in sys.version
 print('max unicode:', sys.maxunicode)

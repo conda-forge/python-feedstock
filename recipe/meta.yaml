@@ -1,5 +1,5 @@
-{% set version = "2.7.13" %}
-{% set sha256 = "a4f05a0720ce0fd92626f0278b6b433eee9a6173ddf2bced7957dfb599a5ece1" %}
+{% set version = "2.7.14" %}
+{% set sha256 = "304c9b202ea6fbd0a4a8e0ad3733715fbd4749f2204a9173a58ec53c32ea73e8" %}
 
 package:
   name: python
@@ -15,7 +15,7 @@ source:
       - win-library_bin.patch           # [win]
 
 build:
-  number: 1
+  number: 0
   no_link:
     - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]
@@ -31,14 +31,14 @@ requirements:
     - readline 6.2*     # [unix]
     - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
-    - zlib 1.2.*        # [unix]
+    - zlib 1.2.8        # [unix]
     - ncurses 5.9*      # [linux]
   run:
     - openssl 1.0.*     # [unix]
     - readline 6.2*     # [unix]
     - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
-    - zlib 1.2.*        # [unix]
+    - zlib 1.2.8        # [unix]
     - ncurses 5.9*      # [linux]
     - vs2008_runtime    # [win]
 

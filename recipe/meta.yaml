@@ -1,13 +1,12 @@
-{% set version = "3.6.2" %}
+{% set version = "3.6.3" %}
 
 package:
   name: python
   version: {{ version }}
 
 source:
-  fn: Python-{{ version }}.tgz
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: 7919489310a5f17f7acbab64d731e46dca0702874840dadce8bd4b2b3b8e7a82
+  sha256: ab6193af1921b30f587b302fe385268510e80187ca83ca82d2bfe7ab544c6f91
   patches:
     - omit-local-site-packages.patch  # [osx]
     - osx64-dist.patch                # [osx and x86_64]
@@ -46,7 +45,7 @@ requirements:
     - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
     - xz 5.2.*          # [unix]
-    - zlib 1.2.*        # [unix]
+    - zlib 1.2.8        # [unix]
     - ncurses 5.9*      # [linux]
   run:
     - openssl 1.0.*     # [unix]
@@ -54,7 +53,7 @@ requirements:
     - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
     - xz 5.2.*          # [unix]
-    - zlib 1.2.*        # [unix]
+    - zlib 1.2.8        # [unix]
     - ncurses 5.9*      # [linux]
     - vs2015_runtime    # [win]
 

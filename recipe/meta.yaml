@@ -23,7 +23,7 @@ source:
     - win-msc_ver-1900.patch
 
 build:
-  number: 0
+  number: 1
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -42,7 +42,7 @@ requirements:
     - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
     - xz 5.2.*          # [unix]
-    - zlib 1.2.*        # [unix]
+    - zlib 1.2.11        # [unix]
     - ncurses 5.9*      # [linux]
   run:
     - openssl 1.0.*     # [unix]
@@ -50,7 +50,7 @@ requirements:
     - sqlite 3.13.*     # [unix]
     - tk 8.5.*          # [unix]
     - xz 5.2.*          # [unix]
-    - zlib 1.2.*        # [unix]
+    - zlib 1.2.11        # [unix]
     - ncurses 5.9*      # [linux]
     - vs2015_runtime    # [win]
 

@@ -24,7 +24,7 @@ source:
     - do-not-download-externals.patch  # [win]
 
 build:
-  number: 1
+  number: 2
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -39,22 +39,22 @@ requirements:
   build:
     - 7za               # [win]
     - bzip2 1.0.*       # [unix]
-    - curl              # [win]
+    - curl >=7.44.0,<8              # [win]
     - openssl 1.0.*     # [unix]
-    - readline 6.2*     # [unix]
-    - sqlite 3.13.*     # [unix]
-    - tk 8.5.*          # [unix]
+    - readline 7.0     # [unix]
+    - sqlite 3.20.*     # [unix]
+    - tk 8.6.*          # [unix]
     - xz 5.2.*          # [unix]
     - zlib 1.2.11        # [unix]
-    - ncurses 5.9*      # [linux]
+    - ncurses 5.9      # [linux]
   run:
     - openssl 1.0.*     # [unix]
-    - readline 6.2*     # [unix]
-    - sqlite 3.13.*     # [unix]
-    - tk 8.5.*          # [unix]
+    - readline 7.0     # [unix]
+    - sqlite 3.20.*     # [unix]
+    - tk 8.6.*          # [unix]
     - xz 5.2.*          # [unix]
     - zlib 1.2.11        # [unix]
-    - ncurses 5.9*      # [linux]
+    - ncurses 5.9      # [linux]
     - vs2015_runtime    # [win]
 
 test:

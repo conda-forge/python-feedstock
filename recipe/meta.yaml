@@ -52,6 +52,7 @@ test:
 about:
   home: http://www.python.org/
   license: PSF
+  license_file: LICENSE
   summary: General purpose programming language
 
 extra:

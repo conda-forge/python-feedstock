@@ -99,7 +99,7 @@ if not (armv6l or armv7l or ppc64le or osx105):
     import _tkinter
     print('TK_VERSION: %s' % _tkinter.TK_VERSION)
     print('TCL_VERSION: %s' % _tkinter.TCL_VERSION)
-    TCLTK_VER = '8.6' if sys.platform == 'win32' else '8.5'
+    TCLTK_VER = '8.6' if sys.platform == 'win32' else '8.6'
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
 
 import ssl

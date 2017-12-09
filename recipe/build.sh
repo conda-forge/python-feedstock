@@ -32,7 +32,7 @@ fi
             --with-ensurepip=no \
             --prefix=$PREFIX \
             --with-tcltk-includes="-I$PREFIX/include" \
-            --with-tcltk-libs="-L$PREFIX/lib -ltcl8.5 -ltk8.5" \
+            --with-tcltk-libs="-L$PREFIX/lib -ltcl8.6 -ltk8.6" \
             --enable-loadable-sqlite-extensions
 
 make

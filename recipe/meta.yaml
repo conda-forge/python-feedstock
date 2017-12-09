@@ -48,6 +48,8 @@ test:
     - pydoc -h
     - python-config --help  # [unix]
     - idle -h
+    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
+    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
 
 about:
   home: http://www.python.org/

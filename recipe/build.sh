@@ -29,13 +29,13 @@ if [ `uname` == Darwin ]; then
         --enable-unicode=ucs2 \
         --prefix=$PREFIX \
         --with-tcltk-includes="-I$PREFIX/include" \
-        --with-tcltk-libs="-L$PREFIX/lib -ltcl8.5 -ltk8.5"
+        --with-tcltk-libs="-L$PREFIX/lib -ltcl8.6 -ltk8.6"
 fi
 if [ `uname` == Linux ]; then
     ./configure --enable-shared --enable-ipv6 --enable-unicode=ucs4 \
         --prefix=$PREFIX \
         --with-tcltk-includes="-I$PREFIX/include" \
-        --with-tcltk-libs="-L$PREFIX/lib -ltcl8.5 -ltk8.5" \
+        --with-tcltk-libs="-L$PREFIX/lib -ltcl8.6 -ltk8.6" \
         CPPFLAGS="-I$PREFIX/include" \
         LDFLAGS="-L$PREFIX/lib -Wl,-rpath=$PREFIX/lib,--no-as-needed"
 fi

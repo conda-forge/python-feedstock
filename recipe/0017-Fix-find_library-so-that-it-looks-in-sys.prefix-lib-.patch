@@ -1,0 +1,100 @@
+From b49eeb7233448325f671a9045f805f7f1b7578ac Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 5 Dec 2017 22:47:59 +0000
+Subject: [PATCH 17/17] Fix find_library so that it looks in sys.prefix/lib
+ first
+
+---
+ Lib/ctypes/macholib/dyld.py |  4 ++++
+ Lib/ctypes/util.py          | 45 +++++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 45 insertions(+), 4 deletions(-)
+
+diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
+index c158e672f0..a4770ecf5c 100644
+--- a/Lib/ctypes/macholib/dyld.py
++++ b/Lib/ctypes/macholib/dyld.py
+@@ -88,6 +88,10 @@ def dyld_executable_path_search(name, executable_path=None):
+     # If we haven't done any searching and found a library and the
+     # dylib_name starts with "@executable_path/" then construct the
+     # library name.
++    if not executable_path:
++        import sys
++        if sys.prefix:
++            executable_path = os.path.join(sys.prefix, 'bin')
+     if name.startswith('@executable_path/') and executable_path is not None:
+         yield os.path.join(executable_path, name[len('@executable_path/'):])
+ 
+diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
+index 7684eab81d..5cc5b1a455 100644
+--- a/Lib/ctypes/util.py
++++ b/Lib/ctypes/util.py
+@@ -80,7 +80,8 @@ if os.name == "ce":
+ if os.name == "posix" and sys.platform == "darwin":
+     from ctypes.macholib.dyld import dyld_find as _dyld_find
+     def find_library(name):
+-        possible = ['lib%s.dylib' % name,
++        possible = ['@executable_path/../lib/lib%s.dylib' % name,
++                    'lib%s.dylib' % name,
+                     '%s.dylib' % name,
+                     '%s.framework/%s' % (name, name)]
+         for name in possible:
+@@ -271,8 +272,8 @@ elif os.name == "posix":
+             abi_type = mach_map.get(machine, 'libc6')
+ 
+             # XXX assuming GLIBC's ldconfig (with option -p)
+-            regex = os.fsencode(
+-                '\s+(lib%s\.[^\s]+)\s+\(%s' % (re.escape(name), abi_type))
++            regex = r'\s+(lib%s\.[^\s]+)\s+\(%s'
++            regex = os.fsencode(regex % (re.escape(name), abi_type))
+             try:
+                 with subprocess.Popen(['/sbin/ldconfig', '-p'],
+                                       stdin=subprocess.DEVNULL,
+@@ -285,8 +286,44 @@ elif os.name == "posix":
+             except OSError:
+                 pass
+ 
++        def _findLib_ld(name):
++            # See issue #9998 for why this is needed
++            expr = r'[^\(\)\s]*lib%s\.[^\(\)\s]*' % re.escape(name)
++            cmd = ['ld', '-t']
++            libpath = os.environ.get('LD_LIBRARY_PATH')
++            if libpath:
++                for d in libpath.split(':'):
++                    cmd.extend(['-L', d])
++            cmd.extend(['-o', os.devnull, '-l%s' % name])
++            result = None
++            try:
++                p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
++                                     stderr=subprocess.PIPE,
++                                     universal_newlines=True)
++                out, _ = p.communicate()
++                res = re.search(expr, os.fsdecode(out))
++                if res:
++                    result = res.group(0)
++            except Exception as e:
++                pass  # result will be None
++            return result
++
++        def _findLib_prefix(name):
++            if not name:
++                return None
++            for fullname in (name, "lib%s.so" % (name)):
++                path = os.path.join(sys.prefix, 'lib', fullname)
++                if os.path.exists(path):
++                    return path
++            return None
++
+         def find_library(name):
+-            return _findSoname_ldconfig(name) or _get_soname(_findLib_gcc(name))
++            # See issue #9998
++            # Yes calling _findLib_prefix twice is deliberate, because _get_soname ditches
++            # the full path.
++            return _findLib_prefix(_get_soname(_findLib_prefix(name))) or \
++                   _findSoname_ldconfig(name) or \
++                   _get_soname(_findLib_gcc(name) or _findLib_ld(name))
+ 
+ ################################################################
+ # test code
+-- 
+2.14.3 (Apple Git-98)
+

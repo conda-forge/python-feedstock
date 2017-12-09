@@ -22,9 +22,10 @@ source:
     - win-msc_ver-1900.patch
     - fix-ABI-issue29943.patch
     - do-not-download-externals.patch  # [win]
+    - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
 
 build:
-  number: 3
+  number: 4
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

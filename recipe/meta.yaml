@@ -24,7 +24,7 @@ source:
     - 0017-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
 
 build:
-  number: 2
+  number: 3
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -39,20 +39,20 @@ requirements:
   build:
     - bzip2 1.0.*       # [unix]
     - openssl 1.0.*     # [unix]
-    - readline 6.2*     # [unix]
-    - sqlite 3.13.*     # [unix]
-    - tk 8.5.*          # [unix]
+    - readline 7.0      # [unix]
+    - sqlite 3.20.*     # [unix]
+    - tk 8.6.*          # [unix]
     - xz 5.2.*          # [unix]
-    - zlib 1.2.11        # [unix]
-    - ncurses 5.9*      # [linux]
+    - zlib 1.2.11       # [unix]
+    - ncurses 5.9       # [linux]
   run:
     - openssl 1.0.*     # [unix]
-    - readline 6.2*     # [unix]
-    - sqlite 3.13.*     # [unix]
-    - tk 8.5.*          # [unix]
+    - readline 7.0      # [unix]
+    - sqlite 3.20.*     # [unix]
+    - tk 8.6.*          # [unix]
     - xz 5.2.*          # [unix]
-    - zlib 1.2.11        # [unix]
-    - ncurses 5.9*      # [linux]
+    - zlib 1.2.11       # [unix]
+    - ncurses 5.9       # [linux]
     - vs2015_runtime    # [win]
 
 test:
@@ -62,10 +62,13 @@ test:
     - 2to3 -h
     - pydoc -h
     - python3-config --help  # [unix]
+    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
+    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
 
 about:
   home: http://www.python.org/
   license: PSF
+  license_file: LICENSE
   summary: General purpose programming language
 
 extra:

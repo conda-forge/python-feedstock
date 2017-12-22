@@ -1,4 +1,4 @@
-{% set version = "3.6.3" %}
+{% set version = "3.6.4" %}
 
 package:
   name: python
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: ab6193af1921b30f587b302fe385268510e80187ca83ca82d2bfe7ab544c6f91
+  sha256: 7dc453e1a93c083388eb1a23a256862407f8234a96dc4fae0fc7682020227486
   patches:
     - omit-local-site-packages.patch  # [osx]
     - osx64-dist.patch                # [osx and x86_64]
@@ -25,7 +25,7 @@ source:
     - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
 
 build:
-  number: 4
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

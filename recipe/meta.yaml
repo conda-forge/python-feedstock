@@ -23,7 +23,7 @@ source:
     - fix-ABI-issue29943.patch
     - do-not-download-externals.patch  # [win]
     - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-    - winsdk.patch
+    - winsdk.patch                     # [win]
 
 build:
   number: 0

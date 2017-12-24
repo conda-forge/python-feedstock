@@ -6,7 +6,7 @@ REM Download and unpack external dependencies
 mkdir externals
 cd externals
 
-for %%x in (xz-5.2.2 tk-8.6.6.0 tix-8.4.3.6 tcl-core-8.6.6.0 sqlite-3.14.2.0 openssl-1.0.2k bzip2-1.0.6) do (
+for %%x in (xz-5.2.2 tk-8.6.6.0 tix-8.4.3.6 tcl-core-8.6.6.0 sqlite-3.21.0.0 openssl-1.0.2k bzip2-1.0.6) do (
     curl -SLO https://github.com/python/cpython-source-deps/archive/%%x.zip
     if errorlevel 1 exit 1
     7za x -y %%x.zip

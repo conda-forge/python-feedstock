@@ -1,4 +1,4 @@
-{% set version = "3.6.4" %}
+{% set version = "3.6.5" %}
 
 package:
   name: python
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: 7dc453e1a93c083388eb1a23a256862407f8234a96dc4fae0fc7682020227486
+  sha256: 53a3e17d77cd15c5230192b6a8c1e031c07cd9f34a2f089a731c6f6bd343d5c6
   patches:
     - omit-local-site-packages.patch  # [osx]
     - osx64-dist.patch                # [osx and x86_64]

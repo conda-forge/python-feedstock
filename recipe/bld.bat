@@ -15,11 +15,7 @@ for %%x in (xz-5.2.2 tk-8.6.6.0 tix-8.4.3.6 tcl-core-8.6.6.0 sqlite-3.21.0.0 ope
     if errorlevel 1 exit 1
 )
 
-curl -SLO https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip
-if errorlevel 1 exit 1
-7za x -y nasm-2.11.06.zip
-if errorlevel 1 exit 1
-move cpython-bin-deps-nasm-2.11.06 nasm-2.11.06
+copy %LIBRARY_BIN%\nasm.exe nasm-2.11.06
 if errorlevel 1 exit 1
 
 cd ..

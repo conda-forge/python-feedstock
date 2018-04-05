@@ -146,11 +146,6 @@ if errorlevel 1 exit 1
 move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
 if errorlevel 1 exit 1
 
-:: Remove ensurepip stubs.
-rd /s /q %PREFIX%\Lib\ensurepip
-if errorlevel 1 exit 1
-
-
 REM bytecode compile the standard library
 
 rd /s /q %PREFIX%\Lib\lib2to3\tests\

@@ -15,9 +15,6 @@ mv Lib/test/support Lib/test_keep/support
 rm -rf Lib/test Lib/*/test
 mv Lib/test_keep Lib/test
 
-# Remove ensurepip stubs.
-rm -rf Lib/ensurepip
-
 if [ $(uname) == Darwin ]; then
   export CFLAGS="-I$PREFIX/include $CFLAGS"
   export LDFLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -headerpad_max_install_names $LDFLAGS"
@@ -29,7 +26,7 @@ fi
 
 ./configure --enable-shared \
             --enable-ipv6 \
-            --with-ensurepip=no \
+            --with-ensurepip=yes \
             --prefix=$PREFIX \
             --with-tcltk-includes="-I$PREFIX/include" \
             --with-tcltk-libs="-L$PREFIX/lib -ltcl8.6 -ltk8.6" \

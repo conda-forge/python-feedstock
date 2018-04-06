@@ -26,7 +26,7 @@ fi
 
 ./configure --enable-shared \
             --enable-ipv6 \
-            --with-ensurepip=yes \
+            --with-ensurepip=no \
             --prefix=$PREFIX \
             --with-tcltk-includes="-I$PREFIX/include" \
             --with-tcltk-libs="-L$PREFIX/lib -ltcl8.6 -ltk8.6" \

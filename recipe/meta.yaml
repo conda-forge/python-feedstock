@@ -15,6 +15,8 @@ source:
       - win-library_bin.patch           # [win]
       - 0008-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
       - 0017-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - PR_6724.patch
+
 build:
   number: 0
   no_link:

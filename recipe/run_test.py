@@ -88,10 +88,12 @@ if sys.platform != 'win32':
     from distutils import sysconfig
     for var_name in 'LDSHARED', 'CC':
         value = sysconfig.get_config_var(var_name)
-        assert value.split()[0] == 'gcc', value
+        cc = value.split()[0]
+        assert cc == 'gcc' or 'gnu' in cc, value
     for var_name in 'LDCXXSHARED', 'CXX':
         value = sysconfig.get_config_var(var_name)
-        assert value.split()[0] == 'g++', value
+        cxx = value.split()[0]
+        assert cxx == 'g++' or 'gnu' in cxx, value
 
 if not (armv6l or armv7l or ppc64le or osx105):
     import tkinter

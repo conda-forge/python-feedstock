@@ -6,7 +6,7 @@ REM Download and unpack external dependencies
 mkdir externals
 cd externals
 
-for %%x in (xz-5.2.2 tk-8.6.6.0 tix-8.4.3.6 tcl-core-8.6.6.0 sqlite-3.21.0.0 openssl-1.0.2k bzip2-1.0.6) do (
+for %%x in (xz-5.2.2 tk-8.6.8.0 tix-8.4.3.6 tcl-core-8.6.8.0 sqlite-3.21.0.0 openssl-1.1.0h bzip2-1.0.6 zlib-1.2.11) do (
     curl -SLO https://github.com/python/cpython-source-deps/archive/%%x.zip
     if errorlevel 1 exit 1
     7za x -y %%x.zip
@@ -38,12 +38,12 @@ cd ..
 
 
 REM Populate the root package directory
-for %%x in (python36.dll python3.dll python.exe pythonw.exe) do (
+for %%x in (python37.dll python3.dll python.exe pythonw.exe) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
-for %%x in (python.pdb python36.pdb pythonw.pdb) do (
+for %%x in (python.pdb python37.pdb pythonw.pdb) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -136,7 +136,7 @@ if errorlevel 1 exit 1
 
 REM Populate the libs directory
 mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python36.lib %PREFIX%\libs\
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python37.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3.lib %PREFIX%\libs\
 if errorlevel 1 exit 1

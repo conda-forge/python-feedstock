@@ -32,7 +32,7 @@ fi
             --with-tcltk-libs="-L$PREFIX/lib -ltcl8.6 -ltk8.6" \
             --enable-loadable-sqlite-extensions
 
-make
+make -j${CPU_COUNT}
 make install
-ln -s $PREFIX/bin/python3.6 $PREFIX/bin/python
-ln -s $PREFIX/bin/pydoc3.6 $PREFIX/bin/pydoc
+ln -s $PREFIX/bin/python3.7 $PREFIX/bin/python
+ln -s $PREFIX/bin/pydoc3.7 $PREFIX/bin/pydoc

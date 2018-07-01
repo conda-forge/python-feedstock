@@ -16,6 +16,10 @@ rm -rf Lib/test Lib/*/test
 mv Lib/test_keep Lib/test
 
 if [ $(uname) == Darwin ]; then
+  # tests assume compilation with gcc, while clang is picked up
+  export CC=gcc
+  export CXX=g++
+
   export CFLAGS="-I$PREFIX/include $CFLAGS"
   export LDFLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -headerpad_max_install_names $LDFLAGS"
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py

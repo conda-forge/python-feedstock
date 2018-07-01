@@ -45,7 +45,8 @@ source:
   # Not used as of 3.7b3 (openssl-bin is), but kept for archival and license reasons.
   - url: https://github.com/python/cpython-source-deps/archive/openssl-1.1.0h.zip    # [win]
     folder: externals/openssl-1.1.0h                                                 # [win]
-    sha256: f9a39b7519d3c1d5b5da7559c0b117f588eea97bc98d4ea8434d078cf5063eaa         # [win]
+    #sha256: f9a39b7519d3c1d5b5da7559c0b117f588eea97bc98d4ea8434d078cf5063eaa         # [win]
+    sha256: 65facaa26aad903889f1ef8e4d14542a0c0d142940a8cf47d6f57516fba6a41f         # [win]
   - url: https://github.com/python/cpython-bin-deps/archive/openssl-bin-1.1.0h.zip   # [win]
     folder: externals/openssl-bin-1.1.0h                                             # [win]
     sha256: 8388d90b06b878a7fd980a46264d2d2aca2900ce36dd6834cf85861921534c35         # [win]

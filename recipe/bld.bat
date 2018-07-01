@@ -18,6 +18,8 @@ for %%x in (xz-5.2.2 tk-8.6.8.0 tix-8.4.3.6 tcl-core-8.6.8.0 sqlite-3.21.0.0 ope
 copy %LIBRARY_BIN%\nasm.exe nasm-2.11.06
 if errorlevel 1 exit 1
 
+dir /p
+
 cd ..
 
 REM Compile python, extensions and external libraries

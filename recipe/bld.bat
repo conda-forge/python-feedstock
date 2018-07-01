@@ -6,19 +6,8 @@ REM Download and unpack external dependencies
 mkdir externals
 cd externals
 
-for %%x in (xz-5.2.2 tk-8.6.8.0 tix-8.4.3.6 tcl-core-8.6.8.0 sqlite-3.21.0.0 openssl-1.1.0h bzip2-1.0.6 zlib-1.2.11) do (
-    curl -SLO https://github.com/python/cpython-source-deps/archive/%%x.zip
-    if errorlevel 1 exit 1
-    7za x -y %%x.zip
-    if errorlevel 1 exit 1
-    move cpython-source-deps-%%x %%x
-    if errorlevel 1 exit 1
-)
-
 copy %LIBRARY_BIN%\nasm.exe nasm-2.11.06
 if errorlevel 1 exit 1
-
-dir /p
 
 cd ..
 
@@ -34,7 +23,8 @@ if "%ARCH%"=="64" (
 )
 
 cd PCbuild
-call build.bat -e -p %PLATFORM%
+rem call build.bat -e -p %PLATFORM%
+call build.bat --pgo -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 

@@ -94,16 +94,15 @@ if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pyvenv %PREFIX%\Tools\scripts\pyvenv.py
 if errorlevel 1 exit 1
 
+REM Copy OpenSLL DLLs
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libcrypto*.dll %PREFIX%\DLLs\
+if errorlevel 1 exit 1
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libssl*.dll %PREFIX%\DLLs\
+if errorlevel 1 exit 1
 
 REM Populate the tcl directory
-if "%ARCH%"=="64" (
-   xcopy /s /y /i %SRC_DIR%\externals\tcltk64\lib %PREFIX%\tcl
-   if errorlevel 1 exit 1
-) else (
-   xcopy /s /y /i %SRC_DIR%\externals\tcltk\lib %PREFIX%\tcl
-   if errorlevel 1 exit 1
-)
-
+xcopy /s /y /i %SRC_DIR%\externals\tcltk-8.6.8.0\%BUILD_PATH%\lib %PREFIX%\tcl
+if errorlevel 1 exit 1
 
 REM Populate the include directory
 xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\

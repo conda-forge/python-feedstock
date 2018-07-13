@@ -6,15 +6,6 @@ REM Download and unpack external dependencies
 mkdir externals
 cd externals
 
-for %%x in (xz-5.2.2 tk-8.6.6.0 tix-8.4.3.6 tcl-core-8.6.6.0 sqlite-3.21.0.0 openssl-1.0.2k bzip2-1.0.6) do (
-    curl -SLO https://github.com/python/cpython-source-deps/archive/%%x.zip
-    if errorlevel 1 exit 1
-    7za x -y %%x.zip
-    if errorlevel 1 exit 1
-    move cpython-source-deps-%%x %%x
-    if errorlevel 1 exit 1
-)
-
 copy %LIBRARY_BIN%\nasm.exe nasm-2.11.06
 if errorlevel 1 exit 1
 
@@ -32,18 +23,19 @@ if "%ARCH%"=="64" (
 )
 
 cd PCbuild
-call build.bat -e -p %PLATFORM%
+rem call build.bat -e -p %PLATFORM%
+call build.bat --pgo -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
 
 REM Populate the root package directory
-for %%x in (python36.dll python3.dll python.exe pythonw.exe) do (
+for %%x in (python37.dll python3.dll python.exe pythonw.exe) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
-for %%x in (python.pdb python36.pdb pythonw.pdb) do (
+for %%x in (python.pdb python37.pdb pythonw.pdb) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -102,16 +94,15 @@ if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pyvenv %PREFIX%\Tools\scripts\pyvenv.py
 if errorlevel 1 exit 1
 
+REM Copy OpenSLL DLLs
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libcrypto*.dll %PREFIX%\DLLs\
+if errorlevel 1 exit 1
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libssl*.dll %PREFIX%\DLLs\
+if errorlevel 1 exit 1
 
 REM Populate the tcl directory
-if "%ARCH%"=="64" (
-   xcopy /s /y /i %SRC_DIR%\externals\tcltk64\lib %PREFIX%\tcl
-   if errorlevel 1 exit 1
-) else (
-   xcopy /s /y /i %SRC_DIR%\externals\tcltk\lib %PREFIX%\tcl
-   if errorlevel 1 exit 1
-)
-
+xcopy /s /y /i %SRC_DIR%\externals\tcltk-8.6.8.0\%BUILD_PATH%\lib %PREFIX%\tcl
+if errorlevel 1 exit 1
 
 REM Populate the include directory
 xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\
@@ -136,7 +127,7 @@ if errorlevel 1 exit 1
 
 REM Populate the libs directory
 mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python36.lib %PREFIX%\libs\
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python37.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3.lib %PREFIX%\libs\
 if errorlevel 1 exit 1

@@ -16,6 +16,10 @@ rm -rf Lib/test Lib/*/test
 mv Lib/test_keep Lib/test
 
 if [ $(uname) == Darwin ]; then
+  # tests assume compilation with gcc, while clang is picked up
+  export CC=gcc
+  export CXX=g++
+
   export CFLAGS="-I$PREFIX/include $CFLAGS"
   export LDFLAGS="-Wl,-rpath,$PREFIX/lib -L$PREFIX/lib -headerpad_max_install_names $LDFLAGS"
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
@@ -32,7 +36,7 @@ fi
             --with-tcltk-libs="-L$PREFIX/lib -ltcl8.6 -ltk8.6" \
             --enable-loadable-sqlite-extensions
 
-make
+make -j${CPU_COUNT}
 make install
-ln -s $PREFIX/bin/python3.6 $PREFIX/bin/python
-ln -s $PREFIX/bin/pydoc3.6 $PREFIX/bin/pydoc
+ln -s $PREFIX/bin/python3.7 $PREFIX/bin/python
+ln -s $PREFIX/bin/pydoc3.7 $PREFIX/bin/pydoc

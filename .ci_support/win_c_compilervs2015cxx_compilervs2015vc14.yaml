@@ -1,0 +1,53 @@
+bzip2:
+- '1'
+c_compiler:
+- vs2015
+curl:
+- '7.59'
+cxx_compiler:
+- vs2015
+libffi:
+- '3.2'
+ncurses:
+- '6.1'
+openssl:
+- 1.0.2
+pin_run_as_build:
+  bzip2:
+    max_pin: x
+  curl:
+    max_pin: x
+  libffi:
+    max_pin: x.x
+  ncurses:
+    max_pin: x.x
+  openssl:
+    max_pin: x.x.x
+  readline:
+    max_pin: x
+  sqlite:
+    max_pin: x
+  tk:
+    max_pin: x.x
+  vc:
+    max_pin: x
+  xz:
+    max_pin: x.x
+  zlib:
+    max_pin: x.x
+readline:
+- '7.0'
+sqlite:
+- '3'
+tk:
+- '8.6'
+vc:
+- '14'
+xz:
+- '5.2'
+zip_keys:
+- - vc
+  - c_compiler
+  - cxx_compiler
+zlib:
+- '1.2'

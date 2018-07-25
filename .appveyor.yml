@@ -9,7 +9,10 @@ environment:
     secure: ipv/06DzgA7pzz2CIAtbPxZSsphDtF+JFyoWRnXkn3O8j7oRe3rzqj3LOoq2DZp4
 
   matrix:
-    - CONFIG: win_
+    - CONFIG: win_c_compilervs2008cxx_compilervs2008
+      CONDA_INSTALL_LOCN: C:\Miniconda36-x64
+
+    - CONFIG: win_c_compilervs2015cxx_compilervs2015
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
 

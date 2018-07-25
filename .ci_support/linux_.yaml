@@ -1,1 +1,33 @@
-{}
+bzip2:
+- '1'
+c_compiler:
+- toolchain_c
+cxx_compiler:
+- toolchain_cxx
+ncurses:
+- '6.1'
+openssl:
+- 1.0.2
+pin_run_as_build:
+  bzip2:
+    max_pin: x
+  ncurses:
+    max_pin: x.x
+  openssl:
+    max_pin: x.x.x
+  readline:
+    max_pin: x
+  sqlite:
+    max_pin: x
+  tk:
+    max_pin: x.x
+  zlib:
+    max_pin: x.x
+readline:
+- '7.0'
+sqlite:
+- '3'
+tk:
+- '8.6'
+zlib:
+- '1.2'

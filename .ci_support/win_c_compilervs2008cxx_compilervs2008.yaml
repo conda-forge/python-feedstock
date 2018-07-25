@@ -1,0 +1,7 @@
+c_compiler:
+- vs2008
+cxx_compiler:
+- vs2008
+zip_keys:
+- - c_compiler
+  - cxx_compiler

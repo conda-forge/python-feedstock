@@ -1,14 +1,12 @@
 {% set version = "2.7.15" %}
-{% set sha256 = "18617d1f15a380a919d517630a9cd85ce17ea602f9bbdc58ddc672df4b0239db" %}
 
 package:
   name: python
   version: {{ version }}
 
 source:
-  fn: Python-{{ version }}.tgz
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: {{ sha256 }}
+  sha256: 18617d1f15a380a919d517630a9cd85ce17ea602f9bbdc58ddc672df4b0239db
   patches:
       - osx-dist.patch                  # [osx and x86_64]
       - win-find_exe.patch              # [win]
@@ -29,20 +27,23 @@ build:
 
 requirements:
   build:
-    - bzip2 1.0.*       # [unix]
-    - openssl 1.0.*     # [unix]
-    - readline 7.0      # [unix]
-    - sqlite 3.20.*     # [unix]
-    - tk 8.6.*          # [unix]
-    - zlib 1.2.11       # [unix]
-    - ncurses 5.9       # [linux]
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - bzip2             # [unix]
+    - openssl           # [unix]
+    - readline          # [unix]
+    - sqlite            # [unix]
+    - tk                # [unix]
+    - zlib              # [unix]
+    - ncurses           # [linux]
   run:
-    - openssl 1.0.*     # [unix]
-    - readline 7.0      # [unix]
-    - sqlite 3.20.*     # [unix]
-    - tk 8.6.*          # [unix]
-    - zlib 1.2.11       # [unix]
-    - ncurses 5.9*      # [linux]
+    - openssl           # [unix]
+    - readline          # [unix]
+    - sqlite            # [unix]
+    - tk                # [unix]
+    - zlib              # [unix]
+    - ncurses           # [linux]
     - vs2008_runtime    # [win]
 
 test:
@@ -51,8 +52,6 @@ test:
     - pydoc -h
     - python-config --help  # [unix]
     - idle -h
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
 
 about:
   home: http://www.python.org/

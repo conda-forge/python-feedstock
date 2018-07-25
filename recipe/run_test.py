@@ -1,6 +1,9 @@
 # make sure Grammar pickle files are present
 import os
 from os.path import dirname, isfile, join
+for fn in ('Grammar2.7.15.final.0.pickle',
+           'PatternGrammar2.7.15.final.0.pickle'):
+    assert isfile(join(dirname(os.__file__), 'lib2to3', fn))
 
 import platform
 import sys
@@ -80,8 +83,6 @@ import ssl
 import strop
 import time
 import test
-import test.support
-import test.test_support
 import unicodedata
 import zlib
 import gzip
@@ -109,12 +110,6 @@ if sys.platform != 'win32':
     import syslog
     import termios
 
-    from distutils import sysconfig
-    for var_name in 'LDSHARED', 'CC':
-        value = sysconfig.get_config_var(var_name)
-        assert value.split()[0] == 'gcc', value
-    value = sysconfig.get_config_var('CXX')
-    assert value.split()[0] == 'g++', value
     readline.clear_history()
 
 if not (armv7l or ppc64le):
@@ -123,7 +118,10 @@ if not (armv7l or ppc64le):
     import turtle
     print('TK_VERSION:', _tkinter.TK_VERSION)
     print('TCL_VERSION:', _tkinter.TCL_VERSION)
-    TCLTK_VER = '8.5' if sys.platform == 'win32' else '8.6'
+    if sys.platform == 'win32':
+        TCLTK_VER = '8.5'
+    else:
+        TCLTK_VER = '8.6'
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
 
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
@@ -131,10 +129,6 @@ if sys.platform != 'win32':
     assert '1.0.2' in ssl.OPENSSL_VERSION
 
 pprint(platform._sys_version())
-# This is in the anaconda-recipes test file but is not working...
-#sys.version = ('2.7.6 (#1, Jan  9 2013, 06:47:03)\n'
-#               '[GCC 4.1.2 20080704 (Red Hat 4.1.2-54)] on linux2')
-#pprint(platform._sys_version())
 
 if int(os.getenv('GUI_TEST', 0)):
     turtle.forward(100)

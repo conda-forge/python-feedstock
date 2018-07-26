@@ -1,64 +1,93 @@
-{% set version = "3.6.5" %}
+{% set version = "3.6.6" %}
 
 package:
   name: python
   version: {{ version }}
 
 source:
-  url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-  sha256: 53a3e17d77cd15c5230192b6a8c1e031c07cd9f34a2f089a731c6f6bd343d5c6
-  patches:
-    - omit-local-site-packages.patch  # [osx]
-    - osx64-dist.patch                # [osx and x86_64]
-    - win-find_exe.patch              # [win]
-    - win-library_bin.patch           # [win]
-    # Adjust FD_SETSIZE to allow select() to wait on more connections
-    # simultaneously.  Desirable for serious use of Tornado on Windows.
-    # See also:
-    # - https://bugs.python.org/issue28708
-    # - https://github.com/zeromq/libzmq/issues/1165
-    - fd_setsize.patch                # [win]
-    - mingw-w64--DMS_WINXX.patch
-    - win-msc_ver-1900.patch
-    - fix-ABI-issue29943.patch
-    - do-not-download-externals.patch  # [win]
-    - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-    - winsdk.patch                     # [win]
+  - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
+    sha256: 7d56dadf6c7d92a238702389e80cfe66fbfae73e584189ed6f89c75bbf3eda58
+    patches:
+      - omit-local-site-packages.patch  # [osx]
+      - osx64-dist.patch                # [osx and x86_64]
+      - win-find_exe.patch              # [win]
+      - win-library_bin.patch           # [win]
+      # Adjust FD_SETSIZE to allow select() to wait on more connections
+      # simultaneously.  Desirable for serious use of Tornado on Windows.
+      # See also:
+      # - https://bugs.python.org/issue28708
+      # - https://github.com/zeromq/libzmq/issues/1165
+      - fd_setsize.patch                # [win]
+      - mingw-w64--DMS_WINXX.patch
+      - win-msc_ver-1900.patch
+      - fix-ABI-issue29943.patch
+      - do-not-download-externals.patch  # [win]
+      - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - winsdk.patch                     # [win]
+  # TODO :: Depend on our own packages for these:
+  - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
+    folder: externals/xz-5.2.2                                                       # [win]
+    sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/tcl-core-8.6.6.0.zip  # [win]
+    folder: externals/tcl-core-8.6.6.0                                               # [win]
+    sha256: fdb503d5facf337fe23e30c6b15f1e64b148c6156747c20d01c1f1e90f3693c5         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/tk-8.6.6.0.zip        # [win]
+    folder: externals/tk-8.6.6.0                                                     # [win]
+    sha256: 22c782693dc82e47385ffee80282daeb5e16f32aab306d100511f0be2243d764         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip       # [win]
+    folder: externals/tix-8.4.3.6                                                    # [win]
+    sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/sqlite-3.21.0.0.zip   # [win]
+    folder: externals/sqlite-3.21.0.0                                                # [win]
+    sha256: 95a4f2d76aeeb68b51239340e3de26e5714ecfb7c8ad82a67b17af82213a8c20         # [win]
+
+  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2o.zip    # [win]
+    folder: externals/openssl-1.0.2o                                                 # [win]
+    sha256: 9db2a35ef254b57e16a47916810a3bf1cd639b512b5fe6c1cb51afc985113595         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
+    folder: externals/bzip2-1.0.6                                                    # [win]
+    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
+    folder: externals/nasm-2.11.06                                                   # [win]
+    sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 1
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
     - DLLs/_ctypes.pyd  # [win]
     - bin/python3.6     # [unix]
-  track_features:
-    - vc14              # [win]
   script_env:
     - python_branding
+  skip: True            # [win and vc != 14]
 
 requirements:
   build:
-    - 7za               # [win]
-    - bzip2 1.0.*       # [unix]
-    - curl >=7.44.0,<8              # [win]
-    - nasm 2.11.06      # [win]
-    - openssl 1.0.*     # [unix]
-    - readline 7.0     # [unix]
-    - sqlite 3.20.*     # [unix]
-    - tk 8.6.*          # [unix]
-    - xz 5.2.*          # [unix]
-    - zlib 1.2.11        # [unix]
-    - ncurses 5.9      # [linux]
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - make                               # [unix]
+    - pkg-config                         # [unix]
+  host:
+    - bzip2                              # [unix]
+    - sqlite                             # [unix]
+    - xz                                 # [unix]
+    - zlib                               # [unix]
+    - openssl                            # [unix]
+    - readline                           # [unix]
+    - tk                                 # [unix]
+    - ncurses                            # [unix]
+    - libffi                             # [unix]
   run:
-    - openssl 1.0.*     # [unix]
-    - readline 7.0     # [unix]
-    - sqlite 3.20.*     # [unix]
-    - tk 8.6.*          # [unix]
-    - xz 5.2.*          # [unix]
-    - zlib 1.2.11        # [unix]
-    - ncurses 5.9      # [linux]
-    - vs2015_runtime    # [win]
+    - bzip2                              # [unix]
+    - sqlite                             # [unix]
+    - xz                                 # [unix]
+    - zlib                               # [unix]
+    - openssl                            # [unix]
+    - readline                           # [unix]
+    - tk                                 # [unix]
+    - ncurses                            # [unix]
+    - libffi                             # [unix]
 
 test:
   commands:
@@ -67,19 +96,31 @@ test:
     - 2to3 -h
     - pydoc -h
     - python3-config --help  # [unix]
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
+    - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
+    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+
 
 about:
   home: http://www.python.org/
   license: PSF
   license_file: LICENSE
-  summary: 'General purpose programming language.'
+  summary: General purpose programming language
+  description: |
+    Python is a widely used high-level, general-purpose, interpreted, dynamic
+    programming language. Its design philosophy emphasizes code
+    readability, and its syntax allows programmers to express concepts in
+    fewer lines of code than would be possible in languages such as C++ or
+    Java. The language provides constructs intended to enable clear programs
+    on both a small and large scale.
+  doc_url: https://www.python.org/doc/versions/
+  doc_source_url: https://github.com/python/pythondotorg/blob/master/docs/source/index.rst
+  dev_url: https://docs.python.org/devguide/
 
 extra:
   recipe-maintainers:
     - jakirkham
     - jjhelmus
+    - mingwandroid
     - msarahan
     - pelson
     - ocefpaf

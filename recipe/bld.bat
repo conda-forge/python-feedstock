@@ -1,3 +1,5 @@
+call PCbuild\env.bat
+
 echo on
 REM brand Python with conda-forge startup message
 python %RECIPE_DIR%\brand_python.py

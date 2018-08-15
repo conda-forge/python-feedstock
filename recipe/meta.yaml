@@ -17,7 +17,7 @@ source:
       - PR_6724.patch
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win and vc!=9]
   no_link:
     - bin/python2.7     # [unix]

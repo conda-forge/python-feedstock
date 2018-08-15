@@ -8,6 +8,7 @@ source:
   url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
   sha256: 18617d1f15a380a919d517630a9cd85ce17ea602f9bbdc58ddc672df4b0239db
   patches:
+      - 0001-backport-Python-3.6-_PYTHON_SYSCONFIGDATA_NAME.patch
       - osx-dist.patch                  # [osx and x86_64]
       - win-find_exe.patch              # [win]
       - win-library_bin.patch           # [win]
@@ -16,7 +17,7 @@ source:
       - PR_6724.patch
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win and vc!=9]
   no_link:
     - bin/python2.7     # [unix]

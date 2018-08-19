@@ -85,37 +85,55 @@ requirements:
     - nasm 2.11.06      # [win]
     - bzip2             # [unix]
     - openssl           # [unix]
-    - sqlite            # [unix]
+    - libsqlite         # [unix]
     - tk                # [unix]
     - xz                # [unix]
     - zlib              # [unix]
     - ncurses           # [linux]
     - libffi            # [unix]
-  run:
-    - openssl           # [unix]
-    - sqlite            # [unix]
-    - tk                # [unix]
-    - xz                # [unix]
-    - zlib              # [unix]
-    - ncurses           # [linux]
-    - libffi            # [unix]
-    #- vs2015_runtime    # [win]
+    - readline          # [unix]
 
-test:
-  commands:
-    - python -V
-    - python3 -V            # [unix]
-    - 2to3 -h
-    - pydoc -h
-    - python3-config --help  # [unix]
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
+outputs:
+  - name: python
+    requirements:
+      - openssl           # [unix]
+      - libsqlite         # [unix]
+      - tk                # [unix]
+      - xz                # [unix]
+      - zlib              # [unix]
+      - ncurses           # [linux]
+      - libffi            # [unix]
+      #- vs2015_runtime   # [win]
+    script: remove_readline.sh
+    script_interpreter: bash
+    test:
+      commands:
+        - python -V
+        - python3 -V            # [unix]
+        - 2to3 -h
+        - pydoc -h
+        - python3-config --help  # [unix]
+        - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
+        - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
+    about:
+      home: http://www.python.org/
+      license: PSF
+      license_file: LICENSE
+      summary: 'General purpose programming language.'
+  - name: python-readline
+    files:
+      - lib/python3.7/lib-dynload/readline*
+    requirements:
+      - python {{ version }}
+      - readline
+    test:
+      imports:
+        - readline
+    about:
+      home: http://www.python.org/
+      license: GPLv3
+      summary: 'readline support for basic python command prompt.'
 
-about:
-  home: http://www.python.org/
-  license: PSF
-  license_file: LICENSE
-  summary: 'General purpose programming language.'
 
 extra:
   recipe-maintainers:

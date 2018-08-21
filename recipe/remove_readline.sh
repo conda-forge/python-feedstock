@@ -1,6 +1,2 @@
-echo $PREFIX
-ls -lah $PREFIX
-
-pwd
-ls -lah $PREFIX/lib/python3.7/lib-dynload/
+make install
 rm $PREFIX/lib/python3.7/lib-dynload/readline*

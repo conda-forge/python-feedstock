@@ -105,7 +105,6 @@ outputs:
       - libffi            # [unix]
       #- vs2015_runtime   # [win]
     script: remove_readline.sh
-    script_interpreter: bash
     test:
       commands:
         - python -V
@@ -121,17 +120,18 @@ outputs:
       license_file: LICENSE
       summary: 'General purpose programming language.'
   - name: python-readline
+    # Recompile with readline support
+    requirements:
+      - {{ pin_subpackage("python", exact=true) }}
+      - readline
     files:
       - lib/python3.7/lib-dynload/readline*
-    requirements:
-      - python {{ version }}
-      - readline
     test:
       imports:
         - readline
     about:
       home: http://www.python.org/
-      license: GPLv3
+      license: GPL-3.0
       summary: 'readline support for basic python command prompt.'
 
 

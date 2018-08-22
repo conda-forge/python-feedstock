@@ -37,6 +37,3 @@ fi
             --enable-loadable-sqlite-extensions
 
 make -j${CPU_COUNT}
-make install
-ln -s $PREFIX/bin/python3.7 $PREFIX/bin/python
-ln -s $PREFIX/bin/pydoc3.7 $PREFIX/bin/pydoc

@@ -61,7 +61,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 0
+  number: 1
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -72,6 +72,7 @@ build:
   script_env:
     - python_branding
   skip: true  # [win and vc<14]
+  script: "REM done in subpackage"  # [win]
 
 requirements:
   build:
@@ -85,33 +86,81 @@ requirements:
     - nasm 2.11.06      # [win]
     - bzip2             # [unix]
     - openssl           # [unix]
-    - readline          # [unix]
-    - sqlite            # [unix]
+    - sqlite         # [unix]
     - tk                # [unix]
     - xz                # [unix]
     - zlib              # [unix]
     - ncurses           # [linux]
     - libffi            # [unix]
-  run:
-    - openssl           # [unix]
     - readline          # [unix]
-    - sqlite            # [unix]
-    - tk                # [unix]
-    - xz                # [unix]
-    - zlib              # [unix]
-    - ncurses           # [linux]
-    - libffi            # [unix]
-    #- vs2015_runtime    # [win]
 
-test:
-  commands:
-    - python -V
-    - python3 -V            # [unix]
-    - 2to3 -h
-    - pydoc -h
-    - python3-config --help  # [unix]
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
+outputs:
+  - name: python
+    requirements:
+      run:
+        - {{ pin_subpackage("python-gplfree", exact=true) }}
+        - {{ pin_subpackage("python-readline", exact=true) }}  # [not win]
+    about:
+      home: http://www.python.org/
+      license: PSF
+      license_file: LICENSE
+      summary: 'General purpose programming language. (with readline support)'
+
+  - name: python-gplfree
+    requirements:
+      host:
+        - nasm 2.11.06      # [win]
+        - bzip2             # [unix]
+        - openssl           # [unix]
+        - sqlite         # [unix]
+        - tk                # [unix]
+        - xz                # [unix]
+        - zlib              # [unix]
+        - ncurses           # [linux]
+        - libffi            # [unix]
+        # Having readline here is important to trick `make`
+        # into thinking nothing has changed
+        - readline          # [unix]
+      run:
+        - openssl           # [unix]
+        - sqlite         # [unix]
+        - tk                # [unix]
+        - xz                # [unix]
+        - zlib              # [unix]
+        - ncurses           # [linux]
+        - libffi            # [unix]
+        #- vs2015_runtime   # [win]
+    script: install_no_readline.sh  # [not win]
+    script: build_and_install.bat   # [win]
+    test:
+      commands:
+        - python -V
+        - python3 -V            # [unix]
+        - 2to3 -h
+        - pydoc -h
+        - python3-config --help  # [unix]
+        - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
+        - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
+    about:
+      home: http://www.python.org/
+      license: PSF
+      license_file: LICENSE
+      summary: 'General purpose programming language. (no readline support)'
+  - name: python-readline
+    # Recompile with readline support
+    requirements:
+      run:
+        - {{ pin_subpackage("python-gplfree", exact=true) }}
+        - readline
+    script: install_python_readline.sh
+    test:
+      imports:
+        - readline
+    about:
+      home: http://www.python.org/
+      license: PSF
+      license_file: LICENSE
+      summary: 'readline support for basic python command prompt.'
 
 about:
   home: http://www.python.org/

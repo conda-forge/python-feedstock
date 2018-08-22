@@ -162,6 +162,11 @@ outputs:
       license_file: LICENSE
       summary: 'readline support for basic python command prompt.'
 
+about:
+  home: http://www.python.org/
+  license: PSF
+  license_file: LICENSE
+  summary: 'General purpose programming language.'
 
 extra:
   recipe-maintainers:

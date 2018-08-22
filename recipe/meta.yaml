@@ -72,6 +72,7 @@ build:
   script_env:
     - python_branding
   skip: true  # [win and vc<14]
+  script: "REM done in subpackage"  # [win]
 
 requirements:
   build:
@@ -96,15 +97,41 @@ requirements:
 outputs:
   - name: python
     requirements:
-      - openssl           # [unix]
-      - libsqlite         # [unix]
-      - tk                # [unix]
-      - xz                # [unix]
-      - zlib              # [unix]
-      - ncurses           # [linux]
-      - libffi            # [unix]
-      #- vs2015_runtime   # [win]
-    script: remove_readline.sh
+      run:
+        - {{ pin_subpackage("python-gplfree", exact=true) }}
+        - {{ pin_subpackage("python-readline", exact=true) }}  # [not win]
+    about:
+      home: http://www.python.org/
+      license: PSF
+      license_file: LICENSE
+      summary: 'General purpose programming language. (with readline support)'
+
+  - name: python-gplfree
+    requirements:
+      host:
+        - nasm 2.11.06      # [win]
+        - bzip2             # [unix]
+        - openssl           # [unix]
+        - libsqlite         # [unix]
+        - tk                # [unix]
+        - xz                # [unix]
+        - zlib              # [unix]
+        - ncurses           # [linux]
+        - libffi            # [unix]
+        # Having readline here is important to trick `make`
+        # into thinking nothing has changed
+        - readline          # [unix]
+      run:
+        - openssl           # [unix]
+        - libsqlite         # [unix]
+        - tk                # [unix]
+        - xz                # [unix]
+        - zlib              # [unix]
+        - ncurses           # [linux]
+        - libffi            # [unix]
+        #- vs2015_runtime   # [win]
+    script: install_no_readline.sh  # [not win]
+    script: build_and_install.bat   # [win]
     test:
       commands:
         - python -V
@@ -118,20 +145,21 @@ outputs:
       home: http://www.python.org/
       license: PSF
       license_file: LICENSE
-      summary: 'General purpose programming language.'
+      summary: 'General purpose programming language. (no readline support)'
   - name: python-readline
     # Recompile with readline support
     requirements:
-      - {{ pin_subpackage("python", exact=true) }}
-      - readline
-    files:
-      - lib/python3.7/lib-dynload/readline*
+      run:
+        - {{ pin_subpackage("python-gplfree", exact=true) }}
+        - readline
+    script: install_python_readline.sh
     test:
       imports:
         - readline
     about:
       home: http://www.python.org/
-      license: GPL-3.0
+      license: PSF
+      license_file: LICENSE
       summary: 'readline support for basic python command prompt.'
 
 

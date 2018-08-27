@@ -4,8 +4,10 @@ bzip2:
 - '1'
 c_compiler:
 - toolchain_c
-curl:
-- '7.59'
+channel_sources:
+- conda-forge,defaults
+channel_targets:
+- conda-forge main
 cxx_compiler:
 - toolchain_cxx
 libffi:
@@ -14,18 +16,12 @@ macos_machine:
 - x86_64-apple-darwin13.4.0
 macos_min_version:
 - '10.9'
-ncurses:
-- '6.1'
 openssl:
 - 1.0.2
 pin_run_as_build:
   bzip2:
     max_pin: x
-  curl:
-    max_pin: x
   libffi:
-    max_pin: x.x
-  ncurses:
     max_pin: x.x
   openssl:
     max_pin: x.x.x

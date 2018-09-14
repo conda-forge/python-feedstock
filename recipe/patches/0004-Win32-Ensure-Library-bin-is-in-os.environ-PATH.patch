@@ -1,0 +1,28 @@
+From 5167d3200ed24b142de4e85034e74f4765279ced Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Wed, 16 Aug 2017 11:15:26 +0100
+Subject: [PATCH 04/15] Win32: Ensure Library\bin is in os.environ["PATH"]
+
+---
+ Lib/site.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Lib/site.py b/Lib/site.py
+index 950e7038a5..09b9cab9a7 100644
+--- a/Lib/site.py
++++ b/Lib/site.py
+@@ -563,6 +563,11 @@ def main():
+     execsitecustomize()
+     if ENABLE_USER_SITE:
+         execusercustomize()
++    if sys.platform == 'win32':
++        # Anaconda Distribution hack in-case the environment has not been activated properly.
++        library_bin = r"%s\Library\bin" % (sys.prefix)
++        if library_bin not in os.environ["PATH"]:
++            os.environ["PATH"] = library_bin+";"+os.environ["PATH"]
+ 
+ # Prevent extending of sys.path when python was started with -S and
+ # site is imported later.
+-- 
+2.17.0
+

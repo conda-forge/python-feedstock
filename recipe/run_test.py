@@ -14,7 +14,7 @@ print('sys.version:', sys.version)
 print('sys.platform:', sys.platform)
 print('tuple.__itemsize__:', tuple.__itemsize__)
 if sys.platform == 'win32':
-    assert 'MSC v.1900' in sys.version
+    assert 'MSC v.19' in sys.version
 print('sys.maxunicode:', sys.maxunicode)
 print('platform.architecture:', platform.architecture())
 print('platform.python_version:', platform.python_version())
@@ -85,15 +85,6 @@ if sys.platform != 'win32':
     import syslog
     import termios
 
-    from distutils import sysconfig
-    for var_name in 'LDSHARED', 'CC':
-        value = sysconfig.get_config_var(var_name)
-        cc = value.split()[0]
-        assert cc == 'gcc' or 'gnu' in cc, value
-    for var_name in 'LDCXXSHARED', 'CXX':
-        value = sysconfig.get_config_var(var_name)
-        cxx = value.split()[0]
-        assert cxx == 'g++' or 'gnu' in cxx, value
 
 if not (armv6l or armv7l or ppc64le or osx105):
     import tkinter
@@ -101,7 +92,7 @@ if not (armv6l or armv7l or ppc64le or osx105):
     import _tkinter
     print('TK_VERSION: %s' % _tkinter.TK_VERSION)
     print('TCL_VERSION: %s' % _tkinter.TCL_VERSION)
-    TCLTK_VER = '8.6' if sys.platform == 'win32' else '8.6'
+    TCLTK_VER = '8.6'
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
 
 import ssl

@@ -101,6 +101,7 @@ requirements:
     - zlib              # [unix]
     - ncurses           # [linux]
     - libffi            # [unix]
+    - gdbm              # [unix]
   run:
     - openssl           # [unix]
     - readline          # [unix]
@@ -113,6 +114,10 @@ requirements:
     #- vs2015_runtime    # [win]
 
 test:
+  requires:             # [unix]
+    - gdbm              # [unix]
+  imports:              # [unix]
+    - dbm.gnu           # [unix]
   commands:
     - python -V
     - python3 -V            # [unix]

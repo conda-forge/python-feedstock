@@ -83,8 +83,10 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
-    - 7za               # [win]
-    - curl              # [win]
+    - 7za                                # [win]
+    - curl                               # [win]
+    - make                               # [unix]
+    - pkg-config                         # [unix]
   host:
     - nasm 2.11.06      # [win]
     - bzip2             # [unix]

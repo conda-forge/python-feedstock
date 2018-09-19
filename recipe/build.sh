@@ -10,7 +10,7 @@
 
 VER=${PKG_VERSION%.*}
 VERNODOTS=${VER//./}
-CONDA_FORGE=no
+CONDA_FORGE=yes
 
 _buildd_static=build-static
 _buildd_shared=build-shared
@@ -84,7 +84,9 @@ if [[ ${_OPTIMIZED} = yes ]]; then
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O3/g")
 fi
 
-${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
+if [[ ${CONDA_FORGE} == yes ]]; then
+  ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
+fi
 
 declare -a LTO_CFLAGS
 

@@ -8,11 +8,6 @@
 # .. but upstream regrtest.py now has --pgo (since >= 3.6) and skips tests that are:
 # "not helpful for PGO".
 
-# if HOST is not set assume it is the same as BUILD
-if [ -z ${HOST+x} ]; then
-    HOST=${BUILD}
-fi
-
 VER=${PKG_VERSION%.*}
 VERNODOTS=${VER//./}
 CONDA_FORGE=yes

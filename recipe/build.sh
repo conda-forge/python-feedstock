@@ -330,7 +330,7 @@ pushd ${PREFIX}
 popd
 
 
-if [[ ! ${c_compiler} =~ .*toolchain.* ]]; then
+if [[ -n ${HOST} ]]; then
     # Copy sysconfig that gets recorded to a non-default name
     #   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
     #   to the name of this file (minus the .py extension)

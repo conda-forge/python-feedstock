@@ -61,7 +61,7 @@ find "${PREFIX}/lib" -name "libbz2*${SHLIB_EXT}*" | xargs rm -fv {}
 AR=$(basename "${AR}")
 
 # CC must contain the string 'gcc' or else distutils thinks it is on macOS and uses '-R' to set rpaths.
-if [[ ${HOST} =~ .*darwin.* ]]; then
+if [[ ${target_platform} == osx-64 ]]; then
   CC=$(basename "${CC}")
 else
   CC=$(basename "${GCC}")
@@ -112,7 +112,7 @@ fi
 
 export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
-if [[ ${HOST} =~ .*darwin.* ]]; then
+if [[ ${target_platform} == osx-64 ]]; then
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
 fi
 
@@ -266,11 +266,11 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   # Install the shared library (for people who embed Python only, e.g. GDB).
   # Linking module extensions to this on Linux is redundant (but harmless).
   # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
-  if [[ ${HOST} =~ .*linux.* ]]; then
+  if [[ ${target_platform} =~ linux-* ]]; then
     cp -pf ${_buildd_shared}/libpython${VER}m${SHLIB_EXT}.1.0 ${PREFIX}/lib/
     ln -sf ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1
     ln -sf ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1 ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}
-  elif [[ ${HOST} =~ .*darwin.* ]]; then
+  elif [[ ${target_platform} == osx-64 ]]; then
     cp -pf ${_buildd_shared}/libpython${VER}m${SHLIB_EXT} ${PREFIX}/lib/
   fi
 else

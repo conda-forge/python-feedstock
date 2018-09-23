@@ -9,7 +9,7 @@
 # "not helpful for PGO".
 
 VER=${PKG_VERSION%.*}
-CONDA_FORGE=no
+CONDA_FORGE=yes
 
 # For debugging builds, set this to 0 to disable profile-guided optimization
 if [[ ${DEBUG_C} == yes ]]; then

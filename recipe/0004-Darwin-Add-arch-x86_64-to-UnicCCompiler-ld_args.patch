@@ -1,0 +1,24 @@
+From 80a64fad3013fd028ffe8d0a218de426278a9094 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Wed, 16 Aug 2017 13:19:07 +0100
+Subject: [PATCH 04/13] Darwin: Add -arch x86_64 to UnicCCompiler ld_args
+
+---
+ Lib/distutils/unixccompiler.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Lib/distutils/unixccompiler.py b/Lib/distutils/unixccompiler.py
+index 3af540e581..8734e7e649 100644
+--- a/Lib/distutils/unixccompiler.py
++++ b/Lib/distutils/unixccompiler.py
+@@ -196,6 +196,7 @@ class UnixCCompiler(CCompiler):
+ 
+                 if sys.platform == 'darwin':
+                     linker = _osx_support.compiler_fixup(linker, ld_args)
++                    ld_args = ['-arch', 'x86_64'] + ld_args
+ 
+                 self.spawn(linker + ld_args)
+             except DistutilsExecError, msg:
+-- 
+2.17.0
+

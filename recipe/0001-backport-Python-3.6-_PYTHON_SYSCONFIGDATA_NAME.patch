@@ -1,0 +1,55 @@
+From 6e31c3cb797fcde391b8d431e1813a7914930e93 Mon Sep 17 00:00:00 2001
+From: Jonathan Helmus <jjhelmus@gmail.com>
+Date: Thu, 28 Sep 2017 15:47:20 -0500
+Subject: [PATCH 01/13] backport Python 3.6 _PYTHON_SYSCONFIGDATA_NAME
+
+---
+ Lib/distutils/sysconfig.py | 5 ++++-
+ Lib/sysconfig.py           | 8 ++++++--
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
+index de7da1d413..1e242b117a 100644
+--- a/Lib/distutils/sysconfig.py
++++ b/Lib/distutils/sysconfig.py
+@@ -395,7 +395,10 @@ _config_vars = None
+ def _init_posix():
+     """Initialize the module as appropriate for POSIX systems."""
+     # _sysconfigdata is generated at build time, see the sysconfig module
+-    from _sysconfigdata import build_time_vars
++    # _PYTHON_SYSCONFIGDATA_NAME support backported from Python 3.6
++    name = os.environ.get('_PYTHON_SYSCONFIGDATA_NAME', os.environ.get('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata'))
++    _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
++    build_time_vars = _temp.build_time_vars
+     global _config_vars
+     _config_vars = {}
+     _config_vars.update(build_time_vars)
+diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+index 9c8350d953..6700cb6582 100644
+--- a/Lib/sysconfig.py
++++ b/Lib/sysconfig.py
+@@ -329,7 +329,8 @@ def _generate_posix_vars():
+     # _sysconfigdata module manually and populate it with the build vars.
+     # This is more than sufficient for ensuring the subsequent call to
+     # get_platform() succeeds.
+-    name = '_sysconfigdata'
++    # _PYTHON_SYSCONFIGDATA_NAME support backported from Python 3.6
++    name = os.environ.get('_PYTHON_SYSCONFIGDATA_NAME', os.environ.get('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata'))
+     if 'darwin' in sys.platform:
+         import imp
+         module = imp.new_module(name)
+@@ -358,7 +359,10 @@ def _generate_posix_vars():
+ def _init_posix(vars):
+     """Initialize the module as appropriate for POSIX systems."""
+     # _sysconfigdata is generated at build time, see _generate_posix_vars()
+-    from _sysconfigdata import build_time_vars
++    # _PYTHON_SYSCONFIGDATA_NAME support backported from Python 3.6
++    name = os.environ.get('_PYTHON_SYSCONFIGDATA_NAME', os.environ.get('_CONDA_PYTHON_SYSCONFIGDATA_NAME', '_sysconfigdata'))
++    _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
++    build_time_vars = _temp.build_time_vars
+     vars.update(build_time_vars)
+ 
+ def _init_non_posix(vars):
+-- 
+2.17.0
+

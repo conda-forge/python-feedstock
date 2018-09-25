@@ -1,0 +1,28 @@
+From 753a8eefa450da7f237478274f897947cf4c5993 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Wed, 16 Aug 2017 11:15:26 +0100
+Subject: [PATCH 06/13] Win32: Ensure Library\bin is in os.environ["PATH"]
+
+---
+ Lib/site.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Lib/site.py b/Lib/site.py
+index aa5dcac36d..6ef06c38d1 100644
+--- a/Lib/site.py
++++ b/Lib/site.py
+@@ -544,6 +544,11 @@ def main():
+     # this module is run as a script, because this code is executed twice.
+     if hasattr(sys, "setdefaultencoding"):
+         del sys.setdefaultencoding
++    if sys.platform == 'win32':
++        # Anaconda Distribution hack in-case the environment has not been activated properly.
++        library_bin = r"%s\Library\bin" % (sys.prefix)
++        if library_bin not in os.environ["PATH"]:
++            os.environ["PATH"] = library_bin+";"+os.environ["PATH"]
+ 
+ main()
+ 
+-- 
+2.17.0
+

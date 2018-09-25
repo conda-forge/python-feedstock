@@ -1,0 +1,38 @@
+From 70142ebd91eff666bb293e467b881377739bc7d4 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Mon, 4 Dec 2017 22:14:32 +0000
+Subject: [PATCH 12/13] Mark sysconfigdata.py as utf-8
+
+This is needed because we do shebang replacement.
+---
+ Lib/sysconfig.py                   | 1 +
+ Mac/BuildScript/build-installer.py | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+index 6700cb6582..7c3444033f 100644
+--- a/Lib/sysconfig.py
++++ b/Lib/sysconfig.py
+@@ -347,6 +347,7 @@ def _generate_posix_vars():
+     destfile = os.path.join(pybuilddir, name + '.py')
+ 
+     with open(destfile, 'wb') as f:
++        f.write('# -*- coding: utf-8 -*-\n')
+         f.write('# system configuration generated and used by'
+                 ' the sysconfig module\n')
+         f.write('build_time_vars = ')
+diff --git a/Mac/BuildScript/build-installer.py b/Mac/BuildScript/build-installer.py
+index 7875bc8ef4..4a58befd93 100755
+--- a/Mac/BuildScript/build-installer.py
++++ b/Mac/BuildScript/build-installer.py
+@@ -1282,6 +1282,7 @@ def buildPython():
+ 
+     fp = open(path, 'w')
+     # duplicated from sysconfig._generate_posix_vars()
++    fp.write('# -*- coding: utf-8 -*-\n')
+     fp.write('# system configuration generated and used by'
+                 ' the sysconfig module\n')
+     fp.write('build_time_vars = ')
+-- 
+2.17.0
+

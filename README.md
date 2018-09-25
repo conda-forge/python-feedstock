@@ -20,8 +20,7 @@ on both a small and large scale.
 Current build status
 ====================
 
-[![Linux](https://img.shields.io/circleci/project/github/conda-forge/python-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/python-feedstock)
-[![OSX](https://img.shields.io/travis/conda-forge/python-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/python-feedstock)
+[![Linux,OSX](https://img.shields.io/circleci/project/github/conda-forge/python-feedstock/master.svg?label=Linux,OSX)](https://circleci.com/gh/conda-forge/python-feedstock)
 [![Windows](https://img.shields.io/appveyor/ci/conda-forge/python-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/python-feedstock/branch/master)
 
 Current release info

@@ -64,10 +64,10 @@ if [[ ${CFLAGS} =~ $re ]]; then
   export CFLAGS="${BASH_REMATCH[1]}${BASH_REMATCH[3]}"
 fi
 
-if [[ ${HOST} =~ .*darwin.* ]]; then
+if [[ ${target_platform} == osx-64 ]]; then
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
   UNICODE=ucs2
-elif [[ ${HOST} =~ .*linux.* ]]; then
+elif [[ ${target_platform} == linux-64 ]]; then
   export LDFLAGS=${LDFLAGS}" -Wl,--no-as-needed"
   UNICODE=ucs4
 fi
@@ -140,51 +140,53 @@ pushd ${PREFIX}
   fi
 popd
 
-# Move the _sysconfigdata.py file and replace with a version with a
-# configuration more typical of what a user would expect to be in a "standard"
-# python build. This results in the system toolchain and
-# The original configuration with the crosstool-ng compilers from the conda
-# package can be selected by setting the _PYTHON_SYSCONFIGDATA_NAME
-# environmental variable to _sysconfigdata_$HOST
-#   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
-#   to the name of this file (minus the .py extension)
-pushd $PREFIX/lib/python${VER}
-  # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
-  # This breaks our attempt to find the right one as recorded_name.
-  find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
-  recorded_name=$(find . -name "_sysconfigdata*.py")
-  our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
-  mv ${recorded_name} ${our_compilers_name}
+if [[ ! ${c_compiler} =~ .*toolchain.* ]]; then
+  # Move the _sysconfigdata.py file and replace with a version with a
+  # configuration more typical of what a user would expect to be in a "standard"
+  # python build. This results in the system toolchain and
+  # The original configuration with the crosstool-ng compilers from the conda
+  # package can be selected by setting the _PYTHON_SYSCONFIGDATA_NAME
+  # environmental variable to _sysconfigdata_$HOST
+  #   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
+  #   to the name of this file (minus the .py extension)
+  pushd $PREFIX/lib/python${VER}
+    # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
+    # This breaks our attempt to find the right one as recorded_name.
+    find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
+    recorded_name=$(find . -name "_sysconfigdata*.py")
+    our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
+    mv ${recorded_name} ${our_compilers_name}
 
-  # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
-  # from the previous build unfortunately so care must be taken at version bumps and flag changes.
-  cp -rf "${RECIPE_DIR}"/sysconfigdata/*.py ${PREFIX}/lib/python${VER}/
+    # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
+    # from the previous build unfortunately so care must be taken at version bumps and flag changes.
+    cp -rf "${RECIPE_DIR}"/sysconfigdata/*.py ${PREFIX}/lib/python${VER}/
 
-  if [[ ${HOST} =~ .*darwin.* ]]; then
-    cp ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_osx.py ${recorded_name}
-  else
-    if [[ ${HOST} =~ x86_64.* ]]; then
-      PY_ARCH=x86_64
-    elif [[ ${HOST} =~ i686.* ]]; then
-      PY_ARCH=i386
-    elif [[ ${HOST} =~ powerpc64le.* ]]; then
-      PY_ARCH=powerpc64le
+    if [[ ${HOST} =~ .*darwin.* ]]; then
+      cp ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_osx.py ${recorded_name}
     else
-      echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
-      exit 1
+      if [[ ${HOST} =~ x86_64.* ]]; then
+        PY_ARCH=x86_64
+      elif [[ ${HOST} =~ i686.* ]]; then
+        PY_ARCH=i386
+      elif [[ ${HOST} =~ powerpc64le.* ]]; then
+        PY_ARCH=powerpc64le
+      else
+        echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
+        exit 1
+      fi
+      cat ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_linux.py | sed "s|@ARCH@|${PY_ARCH}|g" > ${recorded_name}
+      mkdir -p ${PREFIX}/compiler_compat
+      cp ${LD} ${PREFIX}/compiler_compat/ld
+      echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
+      echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
     fi
-    cat ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_linux.py | sed "s|@ARCH@|${PY_ARCH}|g" > ${recorded_name}
-    mkdir -p ${PREFIX}/compiler_compat
-    cp ${LD} ${PREFIX}/compiler_compat/ld
-    echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
-    echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
-  fi
 
-  # Copy the latest sysconfigdata for this platform back to the recipe so we can do full cross-compilation
-  [[ -f "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name} ]] && rm -f "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
-  cat ${our_compilers_name} | sed "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
+    # Copy the latest sysconfigdata for this platform back to the recipe so we can do full cross-compilation
+    [[ -f "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name} ]] && rm -f "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
+    cat ${our_compilers_name} | sed "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
 
-popd
+  popd
+fi
 
 # https://github.com/ContinuumIO/anaconda-issues/issues/6424
 # TODO :: Move this into conda-build as an error with an override (same for openssl-feedstock)

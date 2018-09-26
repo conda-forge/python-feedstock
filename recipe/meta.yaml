@@ -87,7 +87,9 @@ test:
     - python-config --help  # [unix]
     - idle -h
     - python -c "import sysconfig; print sysconfig.get_config_var('CC')"
+    {% if 'toolchain' not in compiler('c') %}
     -  _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print sysconfig.get_config_var('CC')"  # [linux64]
+    {% endif %}
 
 about:
   home: http://www.python.org/

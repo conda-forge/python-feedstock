@@ -208,7 +208,7 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   _MAKE_TARGET=profile-opt
   # To speed up build times during testing (1):
   # _PROFILE_TASK="./python -m test.regrtest --pgo test_builtin"
-  if [[ ${CC} =~ .*gcc.* ]]; then
+  if [[ ${CC} =~ .*gcc.* && ! ${c_compiler} =~ .*toolchain.* ]]; then
     LTO_CFLAGS+=(-fuse-linker-plugin)
     LTO_CFLAGS+=(-ffat-lto-objects)
     # -flto must come after -flto-partition due to the replacement code

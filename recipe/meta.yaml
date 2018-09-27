@@ -68,7 +68,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 1003
+  number: 1004
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -121,6 +121,8 @@ test:
     - python3-config --help  # [unix]
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
+    # Test for " -partition=none", can be removed after toolchain is dropped
+    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == files, files" ${PREFIX}/lib/*/*.py  # [unix]
 
 about:
   home: http://www.python.org/

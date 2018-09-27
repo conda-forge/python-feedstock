@@ -1,10 +1,17 @@
-call PCbuild\env.bat
-
 echo on
 REM brand Python with conda-forge startup message
-python %RECIPE_DIR%\brand_python.py
-if errorlevel 1 exit 1
+REM %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
+REM if errorlevel 1 exit 1
 
+:: See https://github.com/conda-forge/staged-recipes/pull/194#issuecomment-203577297
+:: Nasty workaround. Need to have a more current msbuild in PATH. The chosen one
+:: is C:\Windows\Microsoft.NET\Framework64\v3.5\MSBuild.exe, which is incompatible:
+:: error MSB4066: The attribute "Label" in element <PropertyGroup> is unrecognized.
+:: The msbuild.exe from the Win7 SDK (.net 4.0), is known to work.
+if %VS_MAJOR% == 9 (
+    COPY C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe .\
+    set "PATH=%CD%;%PATH%"
+)
 
 REM Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
@@ -18,7 +25,6 @@ if "%ARCH%"=="64" (
 )
 
 cd PCbuild
-dir
 call build.bat -e -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
@@ -134,12 +140,10 @@ xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
 
 :: Remove test data to save space.
-:: Though keep `test.support` and `test_support` as some things use that.
+:: Though keep `test_support` as some things use that.
 mkdir %PREFIX%\Lib\test_keep
 if errorlevel 1 exit 1
 move %PREFIX%\Lib\test\__init__.py %PREFIX%\Lib\test_keep\
-if errorlevel 1 exit 1
-move %PREFIX%\Lib\test\support %PREFIX%\Lib\test_keep\
 if errorlevel 1 exit 1
 move %PREFIX%\Lib\test\test_support.py %PREFIX%\Lib\test_keep\
 if errorlevel 1 exit 1
@@ -148,14 +152,9 @@ if errorlevel 1 exit 1
 move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
 if errorlevel 1 exit 1
 
-:: Remove ensurepip stubs.
-rd /s /q %PREFIX%\Lib\ensurepip
-if errorlevel 1 exit 1
-
-
 REM bytecode compile the standard library
 
-%PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py3_" %PREFIX%\Lib
+%PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py3_|ttk" %PREFIX%\Lib
 if errorlevel 1 exit 1
 
 

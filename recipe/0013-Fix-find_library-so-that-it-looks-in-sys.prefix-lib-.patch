@@ -1,0 +1,66 @@
+From ad114d7b60f7d295f3e9f2e3d615c9ea0a37f430 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 5 Dec 2017 22:47:59 +0000
+Subject: [PATCH 13/13] Fix find_library so that it looks in sys.prefix/lib
+ first
+
+---
+ Lib/ctypes/macholib/dyld.py |  4 ++++
+ Lib/ctypes/util.py          | 18 ++++++++++++++++--
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
+index 1fdf8d648f..c6ffd15d2c 100644
+--- a/Lib/ctypes/macholib/dyld.py
++++ b/Lib/ctypes/macholib/dyld.py
+@@ -94,6 +94,10 @@ def dyld_executable_path_search(name, executable_path=None):
+     # If we haven't done any searching and found a library and the
+     # dylib_name starts with "@executable_path/" then construct the
+     # library name.
++    if not executable_path:
++        import sys
++        if sys.prefix:
++            executable_path = os.path.join(sys.prefix, 'bin')
+     if name.startswith('@executable_path/') and executable_path is not None:
+         yield os.path.join(executable_path, name[len('@executable_path/'):])
+ 
+diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
+index ab10ec52ee..0349911e35 100644
+--- a/Lib/ctypes/util.py
++++ b/Lib/ctypes/util.py
+@@ -73,7 +73,8 @@ if os.name == "ce":
+ if os.name == "posix" and sys.platform == "darwin":
+     from ctypes.macholib.dyld import dyld_find as _dyld_find
+     def find_library(name):
+-        possible = ['lib%s.dylib' % name,
++        possible = ['@executable_path/../lib/lib%s.dylib' % name,
++                    'lib%s.dylib' % name,
+                     '%s.dylib' % name,
+                     '%s.framework/%s' % (name, name)]
+         for name in possible:
+@@ -270,8 +271,21 @@ elif os.name == "posix":
+                 return None
+             return res.group(1)
+ 
++        def _findLib_prefix(name):
++            if not name:
++                return None
++            for fullname in (name, "lib%s.so" % (name)):
++                path = os.path.join(sys.prefix, 'lib', fullname)
++                if os.path.exists(path):
++                    return path
++            return None
++
+         def find_library(name):
+-            return _findSoname_ldconfig(name) or _get_soname(_findLib_gcc(name))
++            # See issue #9998
++            # Yes calling _findLib_prefix twice is deliberate, because _get_soname ditches
++            # the full path.
++            return _findLib_prefix(_get_soname(_findLib_prefix(name))) or \
++                   _findSoname_ldconfig(name) or _get_soname(_findLib_gcc(name))
+ 
+ ################################################################
+ # test code
+-- 
+2.17.0
+

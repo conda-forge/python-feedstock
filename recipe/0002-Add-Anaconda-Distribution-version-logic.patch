@@ -1,0 +1,107 @@
+From d173e91de0a7e8d24560d71c6926e6d101f480b9 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 15 Aug 2017 22:40:59 +0100
+Subject: [PATCH 02/13] Add Anaconda Distribution version logic
+
+---
+ Include/pythonrun.h |  1 +
+ Lib/platform.py     |  1 +
+ Modules/main.c      |  3 ++-
+ Python/getversion.c | 40 ++++++++++++++++++++++++++++++++++++++--
+ 4 files changed, 42 insertions(+), 3 deletions(-)
+
+diff --git a/Include/pythonrun.h b/Include/pythonrun.h
+index f0f4e382e5..5ed1309914 100644
+--- a/Include/pythonrun.h
++++ b/Include/pythonrun.h
+@@ -106,6 +106,7 @@ PyAPI_FUNC(char *) Py_GetExecPrefix(void);
+ PyAPI_FUNC(char *) Py_GetPath(void);
+ 
+ /* In their own files */
++PyAPI_FUNC(const char *) Anaconda_GetVersion(void);
+ PyAPI_FUNC(const char *) Py_GetVersion(void);
+ PyAPI_FUNC(const char *) Py_GetPlatform(void);
+ PyAPI_FUNC(const char *) Py_GetCopyright(void);
+diff --git a/Lib/platform.py b/Lib/platform.py
+index 55f2fa8995..88a95e91b0 100755
+--- a/Lib/platform.py
++++ b/Lib/platform.py
+@@ -1317,6 +1317,7 @@ def processor():
+ 
+ _sys_version_parser = re.compile(
+     r'([\w.+]+)\s*'  # "version<space>"
++    r'(?:\|[^|]*\|)?\s*' # version extra
+     r'\(#?([^,]+)'  # "(#buildno"
+     r'(?:,\s*([\w ]*)'  # ", builddate"
+     r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
+diff --git a/Modules/main.c b/Modules/main.c
+index a6edf822d0..e5357cf9b4 100644
+--- a/Modules/main.c
++++ b/Modules/main.c
+@@ -448,7 +448,8 @@ Py_Main(int argc, char **argv)
+         return usage(0, argv[0]);
+ 
+     if (version) {
+-        fprintf(stderr, "Python %s\n", PY_VERSION);
++        Py_SetProgramName(argv[0]);
++        fprintf(stderr, "Python %s :: %s\n", PY_VERSION, Anaconda_GetVersion());
+         return 0;
+     }
+ 
+diff --git a/Python/getversion.c b/Python/getversion.c
+index 7bd6efd0a0..12ec7c4315 100644
+--- a/Python/getversion.c
++++ b/Python/getversion.c
+@@ -5,11 +5,47 @@
+ 
+ #include "patchlevel.h"
+ 
++const char *
++Anaconda_GetVersion(void)
++{
++	#ifdef MS_WIN32
++	#define STDLIB_DIR  "\\Lib\\"
++	#else
++	#define STDLIB_DIR  "/lib/python2.7/"
++	#endif
++	static char res[128];
++	FILE *f;
++	char path[256];
++	int c, i;
++
++	PyOS_snprintf(path, sizeof(path), "%s" STDLIB_DIR "version.txt",
++				Py_GetPrefix());
++
++	f = fopen(path, "rb");
++	if (f == NULL) {
++		strcpy(res, "Anaconda, Inc.");
++	} else {
++		i = 0;
++		while (i + 1 < sizeof(res)) {
++			c = fgetc(f);
++			if (c == EOF || c == '\n' || c == '\r')
++				break;
++			res[i++] = c;
++		}
++		fclose(f);
++		res[i] = '\0';
++	}
++	return res;
++	#undef STDLIB_DIR
++}
++
++
+ const char *
+ Py_GetVersion(void)
+ {
+ 	static char version[250];
+-	PyOS_snprintf(version, sizeof(version), "%.80s (%.80s) %.80s",
+-		      PY_VERSION, Py_GetBuildInfo(), Py_GetCompiler());
++    PyOS_snprintf(version, sizeof(version), "%.80s |%s| (%.80s) %.80s",
++                  PY_VERSION, Anaconda_GetVersion(),
++                  Py_GetBuildInfo(), Py_GetCompiler());
+ 	return version;
+ }
+-- 
+2.17.0
+

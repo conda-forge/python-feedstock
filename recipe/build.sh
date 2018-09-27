@@ -385,3 +385,12 @@ if [[ -n ${HOST} ]]; then
     #                                 -e "s|${PKG_NAME}-${PKG_VERSION}[^ ]*|\${PKG_NAME}-\${PKG_VERSION}|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
     popd
 fi
+
+if [[ ${_OPTIMIZED} == yes && ${CC} =~ .*gcc.* && ${c_compiler} =~ .*toolchain.* ]]; then
+    # On the old toolchain compilers, -flto-partion=none is being replaced
+    # with -partition=none. This needs to be replaced back. Only happens with gcc
+    pushd $PREFIX/
+    sed -i "s/ -partition=none/ -flto-partition=none/g" lib/* lib/*/* lib/*/*/*
+    sed -i "s/'-partition=none/'-flto-partition=none/g" lib/* lib/*/* lib/*/*/*
+    popd
+fi

@@ -122,7 +122,7 @@ test:
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
     # Test for " -partition=none", can be removed after toolchain is dropped
-    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == files, files" ${PREFIX}/lib/*/*.py  # [unix]
+    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [unix]
 
 about:
   home: http://www.python.org/

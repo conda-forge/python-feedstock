@@ -43,6 +43,8 @@ readline:
 - '7.0'
 sqlite:
 - '3'
+target_platform:
+- osx-64
 tk:
 - '8.6'
 zip_keys:

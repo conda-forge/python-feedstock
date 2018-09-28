@@ -387,7 +387,7 @@ if [[ -n ${HOST} ]]; then
     popd
 fi
 
-if [[ ${_OPTIMIZED} == yes && ${CC} =~ .*gcc.* && ${c_compiler} =~ .*toolchain.* ]]; then
+if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ .*toolchain.* ]]; then
     # On the old toolchain compilers, -flto-partion=none is being replaced
     # with -partition=none. This needs to be replaced back. Only happens with gcc
     pushd $PREFIX/

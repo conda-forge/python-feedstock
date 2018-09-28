@@ -391,7 +391,9 @@ if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ 
     # On the old toolchain compilers, -flto-partion=none is being replaced
     # with -partition=none. This needs to be replaced back. Only happens with gcc
     pushd $PREFIX/
-    sed -i "s/ -partition=none/ -flto-partition=none/g" lib/* lib/*/* lib/*/*/*
-    sed -i "s/'-partition=none/'-flto-partition=none/g" lib/* lib/*/* lib/*/*/*
+    find lib -type f -regex ".*pyc?" | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
+    find lib -type f -regex ".*pyc?" | xargs sed -i "s/'-partition=none/'-flto-partition=none/g" lib/* lib/*/* lib/*/*/*
+    find lib -type f -name Makefile | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
+    find lib -type f -name Makefile | xargs sed -i "s/'-partition=none/'-flto-partition=none/g" lib/* lib/*/* lib/*/*/*
     popd
 fi

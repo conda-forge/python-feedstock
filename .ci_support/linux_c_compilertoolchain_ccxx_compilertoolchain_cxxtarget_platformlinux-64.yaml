@@ -1,17 +1,17 @@
 build_number_decrement:
-- '0'
+- '1000'
 bzip2:
 - '1'
 c_compiler:
-- gcc
+- toolchain_c
 channel_sources:
-- conda-forge/label/gcc7,defaults
+- conda-forge,defaults
 channel_targets:
-- conda-forge gcc7
+- conda-forge main
 cxx_compiler:
-- gxx
+- toolchain_cxx
 docker_image:
-- conda/c3i-linux-64
+- condaforge/linux-anvil
 libffi:
 - '3.2'
 ncurses:
@@ -41,6 +41,8 @@ readline:
 - '7.0'
 sqlite:
 - '3'
+target_platform:
+- linux-64
 tk:
 - '8.6'
 xz:

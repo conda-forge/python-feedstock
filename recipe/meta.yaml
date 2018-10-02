@@ -102,6 +102,8 @@ test:
     - python3-config --help  # [unix]
     - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
     -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+    # Test for " -partition=none", can be removed after toolchain is dropped
+    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [unix]
 
 about:
   home: http://www.python.org/

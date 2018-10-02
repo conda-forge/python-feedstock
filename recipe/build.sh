@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
@@ -340,4 +341,15 @@ if [[ ! ${c_compiler} =~ .*toolchain.* ]]; then
     cat ${our_compilers_name} | sed "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
 
   popd
+fi
+
+if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ .*toolchain.* ]]; then
+    # On the old toolchain compilers, -flto-partion=none is being replaced
+    # with -partition=none. This needs to be replaced back. Only happens with gcc
+    pushd $PREFIX/
+    find lib -type f -regex ".*pyc?" | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
+    find lib -type f -regex ".*pyc?" | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
+    find lib -type f -name Makefile | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
+    find lib -type f -name Makefile | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
+    popd
 fi

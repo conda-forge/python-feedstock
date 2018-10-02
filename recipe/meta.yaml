@@ -1,4 +1,5 @@
 {% set version = "3.6.6" %}
+{% set sha256 = "7d56dadf6c7d92a238702389e80cfe66fbfae73e584189ed6f89c75bbf3eda58" %}
 
 package:
   name: python
@@ -6,24 +7,30 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-    sha256: 7d56dadf6c7d92a238702389e80cfe66fbfae73e584189ed6f89c75bbf3eda58
+    sha256: {{ sha256 }}
     patches:
-      - omit-local-site-packages.patch  # [osx]
-      - osx64-dist.patch                # [osx and x86_64]
-      - win-find_exe.patch              # [win]
-      - win-library_bin.patch           # [win]
-      # Adjust FD_SETSIZE to allow select() to wait on more connections
-      # simultaneously.  Desirable for serious use of Tornado on Windows.
-      # See also:
-      # - https://bugs.python.org/issue28708
-      # - https://github.com/zeromq/libzmq/issues/1165
-      - fd_setsize.patch                # [win]
-      - mingw-w64--DMS_WINXX.patch
-      - win-msc_ver-1900.patch
-      - fix-ABI-issue29943.patch
-      - do-not-download-externals.patch  # [win]
+      # This does a weird thing on conda-forge.  disable for now.
+      # - 0001-Add-Anaconda-Distribution-version-logic.patch
+      - 0002-Darwin-Omit-PYTHONFRAMEWORK-site-packages.patch
+      - 0003-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
+      - 0004-Win32-distutils-Also-look-for-executable.bat.patch
+      # TODO :: This breaks conda activate and deactivate.
+      - 0005-Win32-Ensure-Library-bin-is-in-os.environ-PATH.patch
+      - 0006-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - 0007-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - 0008-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - 0009-Support-cross-compiling-byte-code.patch
+      - 0010-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - 0011-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - 0012-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - 0013-Win32-Do-not-download-externals.patch
+      - 0014-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
       - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - winsdk.patch                     # [win]
+      - 0016-Disable-new-dtags-in-unixccompiler.py.patch
+      - 0017-Fix-cross-compilation-on-Debian-based-distros.patch
+      # AppVeyor does not have the proper Win SDK installed
+      - winsdk.patch  # [win]
+
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -44,6 +51,9 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2o.zip    # [win]
     folder: externals/openssl-1.0.2o                                                 # [win]
     sha256: 9db2a35ef254b57e16a47916810a3bf1cd639b512b5fe6c1cb51afc985113595         # [win]
+#  - url: https://github.com/python/cpython-bin-deps/archive/openssl-bin-1.0.2o.zip   # [win]
+#    folder: externals/openssl-bin-1.0.2o                                             # [win]
+#    sha256: c0e84e40f39b15125a63339f372a62b692ae91f82bf98c9e361b9296ecadcb31         # [win]
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
     folder: externals/bzip2-1.0.6                                                    # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
@@ -51,34 +61,31 @@ source:
     folder: externals/nasm-2.11.06                                                   # [win]
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
+
 build:
-  number: 0
+  number: 1000
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
     - DLLs/_ctypes.pyd  # [win]
     - bin/python3.6     # [unix]
-  script_env:
-    - python_branding
+  # script_env:
+  #   - python_branding
+  # We delete the shared libraries.
+  ignore_run_exports:   # [unix]
+    - bzip2             # [unix]
+  # match python.org compiler standard
   skip: True            # [win and vc != 14]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+    - {{ cdt('libx11-devel') }}          # [linux]
     - make                               # [unix]
     - pkg-config                         # [unix]
   host:
-    - bzip2                              # [unix]
-    - sqlite                             # [unix]
-    - xz                                 # [unix]
-    - zlib                               # [unix]
-    - openssl                            # [unix]
-    - readline                           # [unix]
-    - tk                                 # [unix]
-    - ncurses                            # [unix]
-    - libffi                             # [unix]
-  run:
     - bzip2                              # [unix]
     - sqlite                             # [unix]
     - xz                                 # [unix]
@@ -97,8 +104,11 @@ test:
     - pydoc -h
     - python3-config --help  # [unix]
     - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
+    {% if 'toolchain' not in compiler('c') %}
     -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
-
+    {% endif %}
+    # Test for " -partition=none", can be removed after toolchain is dropped
+    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [unix]
 
 about:
   home: http://www.python.org/

@@ -4,3 +4,8 @@ travis:
 appveyor:
   secure:
     BINSTAR_TOKEN: ipv/06DzgA7pzz2CIAtbPxZSsphDtF+JFyoWRnXkn3O8j7oRe3rzqj3LOoq2DZp4
+compiler_stack: comp7
+max_py_ver: '37'
+max_r_ver: '35'
+provider:
+  osx: circle

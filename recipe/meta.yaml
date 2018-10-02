@@ -28,6 +28,9 @@ source:
       - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
       - 0016-Disable-new-dtags-in-unixccompiler.py.patch
       - 0017-Fix-cross-compilation-on-Debian-based-distros.patch
+      # AppVeyor does not have the proper Win SDK installed
+      - winsdk.patch  # [win]
+
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]

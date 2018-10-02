@@ -9,7 +9,8 @@ source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
     sha256: {{ sha256 }}
     patches:
-      - 0001-Add-Anaconda-Distribution-version-logic.patch
+      # This does a weird thing on conda-forge.  disable for now.
+      # - 0001-Add-Anaconda-Distribution-version-logic.patch
       - 0002-Darwin-Omit-PYTHONFRAMEWORK-site-packages.patch
       - 0003-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
       - 0004-Win32-distutils-Also-look-for-executable.bat.patch

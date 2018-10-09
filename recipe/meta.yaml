@@ -95,6 +95,10 @@ requirements:
     - tk                                 # [unix]
     - ncurses                            # [unix]
     - libffi                             # [unix]
+  run:
+    {% if 'toolchain' in compiler('c') %}  # [unix]
+    - binutils                             # [unix]
+    {% endif %}                            # [unix] 
 
 test:
   commands:

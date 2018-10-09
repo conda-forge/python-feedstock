@@ -22,9 +22,7 @@ source:
       - patches/0011-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
       - patches/0012-Win32-Do-not-download-externals.patch
       - patches/0013-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      {% if 'toolchain' not in compiler('c') %}
       - patches/0014-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      {% endif %}
       - patches/0015-Disable-new-dtags-in-unixccompiler.py.patch
       # AppVeyor does not have the 10.0.16299 SDK installed, leave as is
       # This is actually something else now
@@ -70,7 +68,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 1005
+  number: 1004
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

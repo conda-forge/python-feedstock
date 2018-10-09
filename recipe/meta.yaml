@@ -25,7 +25,9 @@ source:
       - 0012-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
       - 0013-Win32-Do-not-download-externals.patch
       - 0014-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
+      {% if 'toolchain' not in compiler('c') %}
       - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      {% endif %}
       - 0016-Disable-new-dtags-in-unixccompiler.py.patch
       - 0017-Fix-cross-compilation-on-Debian-based-distros.patch
       # AppVeyor does not have the proper Win SDK installed
@@ -95,10 +97,6 @@ requirements:
     - tk                                 # [unix]
     - ncurses                            # [unix]
     - libffi                             # [unix]
-  run:
-    {% if 'toolchain' in compiler('c') %}  # [unix]
-    - binutils                             # [unix]
-    {% endif %}                            # [unix] 
 
 test:
   commands:

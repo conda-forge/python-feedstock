@@ -133,6 +133,9 @@ test:
     {% endif %}
     # Test for " -partition=none", can be removed after toolchain is dropped
     - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [unix]
+    - test -f ${PREFIX}/lib/libpython3.6m.so      # [linux] 
+    - test -f ${PREFIX}/lib/libpython3.6m.dylib   # [osx] 
+      
 
 about:
   home: http://www.python.org/

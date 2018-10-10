@@ -9,6 +9,29 @@ source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
     sha256: {{ sha256 }}
     patches:
+      {% if 'toolchain' in compiler('c') %}
+      # use one set of patches for the toolchain (old compiler) build
+
+      - omit-local-site-packages.patch  # [osx]
+      - osx64-dist.patch                # [osx and x86_64]
+      - win-find_exe.patch              # [win]
+      - win-library_bin.patch           # [win]
+      # Adjust FD_SETSIZE to allow select() to wait on more connections
+      # simultaneously.  Desirable for serious use of Tornado on Windows.
+      # See also:
+      # - https://bugs.python.org/issue28708
+      # - https://github.com/zeromq/libzmq/issues/1165
+      - fd_setsize.patch                # [win]
+      - mingw-w64--DMS_WINXX.patch
+      - win-msc_ver-1900.patch
+      - fix-ABI-issue29943.patch
+      - do-not-download-externals.patch  # [win]
+      - toolchain_0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - winsdk.patch                     # [win]
+      {% else %}
+      # use another set of patches for the gcc (new compiler) build
+      # these are the same patches as used in the AnacondaRecipes feedstock
+
       # This does a weird thing on conda-forge.  disable for now.
       # - 0001-Add-Anaconda-Distribution-version-logic.patch
       - 0002-Darwin-Omit-PYTHONFRAMEWORK-site-packages.patch
@@ -30,6 +53,7 @@ source:
       - 0017-Fix-cross-compilation-on-Debian-based-distros.patch
       # AppVeyor does not have the proper Win SDK installed
       - winsdk.patch  # [win]
+      {% endif %}
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -63,7 +87,7 @@ source:
 
 
 build:
-  number: 1001
+  number: 1002
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

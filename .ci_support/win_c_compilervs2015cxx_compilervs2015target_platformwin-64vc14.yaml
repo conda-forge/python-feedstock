@@ -13,6 +13,8 @@ pin_run_as_build:
     max_pin: x
   vc:
     max_pin: x
+target_platform:
+- win-64
 vc:
 - '14'
 zip_keys:

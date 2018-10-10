@@ -1,13 +1,13 @@
-From c376a6ecffa289f50e8e2bd74edda97ad13a74ba Mon Sep 17 00:00:00 2001
+From 3501118fb5862f2a242c0f95f6aa8400dd152516 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
-Subject: [PATCH 14/15] Fix find_library so that it looks in sys.prefix/lib
+Subject: [PATCH 14/17] Fix find_library so that it looks in sys.prefix/lib
  first
 
 ---
  Lib/ctypes/macholib/dyld.py |  4 ++++
- Lib/ctypes/util.py          | 17 +++++++++++++++--
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ Lib/ctypes/util.py          | 27 ++++++++++++++++++++++++---
+ 2 files changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
 index c158e672f0..a4770ecf5c 100644
@@ -25,7 +25,7 @@ index c158e672f0..a4770ecf5c 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index 97973bce00..6611a021f0 100644
+index 97973bce00..42fd6fa3eb 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -70,7 +70,8 @@ if os.name == "nt":
@@ -38,7 +38,7 @@ index 97973bce00..6611a021f0 100644
                      '%s.dylib' % name,
                      '%s.framework/%s' % (name, name)]
          for name in possible:
-@@ -306,9 +307,21 @@ elif os.name == "posix":
+@@ -306,10 +307,30 @@ elif os.name == "posix":
                  pass  # result will be None
              return result
  
@@ -54,13 +54,23 @@ index 97973bce00..6611a021f0 100644
          def find_library(name):
              # See issue #9998
 -            return _findSoname_ldconfig(name) or \
+-                   _get_soname(_findLib_gcc(name) or _findLib_ld(name))
 +            # Yes calling _findLib_prefix twice is deliberate, because _get_soname ditches
 +            # the full path.
-+            return _findLib_prefix(_get_soname(_findLib_prefix(name))) or \
-+                   _findSoname_ldconfig(name) or \
-                    _get_soname(_findLib_gcc(name) or _findLib_ld(name))
++            # When objdump is unavailable this returns None
++            so_name = _get_soname(_findLib_prefix(name)) or name
++            if so_name != name:
++                return _findLib_prefix(so_name) or \
++                       _findLib_prefix(name) or \
++                       _findSoname_ldconfig(name) or \
++                       _get_soname(_findLib_gcc(name) or _findLib_ld(name))
++            else:
++                 return _findLib_prefix(name) or \
++                        _findSoname_ldconfig(name) or \
++                        _get_soname(_findLib_gcc(name) or _findLib_ld(name))
  
  ################################################################
+ # test code
 -- 
-2.17.0
+2.18.0
 

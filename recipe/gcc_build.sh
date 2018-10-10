@@ -1,5 +1,4 @@
 #!/bin/bash
-set -ex
 
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
@@ -300,56 +299,43 @@ pushd ${PREFIX}
   fi
 popd
 
-if [[ ! ${c_compiler} =~ .*toolchain.* ]]; then
-  # Copy sysconfig that gets recorded to a non-default name
-  #   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
-  #   to the name of this file (minus the .py extension)
-  pushd $PREFIX/lib/python${VER}
-    # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
-    # This breaks our attempt to find the right one as recorded_name.
-    find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
-    recorded_name=$(find . -name "_sysconfigdata*.py")
-    our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
-    mv ${recorded_name} ${our_compilers_name}
+# Copy sysconfig that gets recorded to a non-default name
+#   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
+#   to the name of this file (minus the .py extension)
+pushd $PREFIX/lib/python${VER}
+  # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
+  # This breaks our attempt to find the right one as recorded_name.
+  find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
+  recorded_name=$(find . -name "_sysconfigdata*.py")
+  our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
+  mv ${recorded_name} ${our_compilers_name}
 
-    # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
-    # from the previous build unfortunately so care must be taken at version bumps and flag changes.
-    cp -rf "${RECIPE_DIR}"/sysconfigdata/*.py ${PREFIX}/lib/python${VER}/
+  # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
+  # from the previous build unfortunately so care must be taken at version bumps and flag changes.
+  cp -rf "${RECIPE_DIR}"/sysconfigdata/*.py ${PREFIX}/lib/python${VER}/
 
-    if [[ ${HOST} =~ .*darwin.* ]]; then
-      cp ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_osx.py ${recorded_name}
+  if [[ ${HOST} =~ .*darwin.* ]]; then
+    cp ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_osx.py ${recorded_name}
+  else
+    if [[ ${HOST} =~ x86_64.* ]]; then
+      PY_ARCH=x86_64
+    elif [[ ${HOST} =~ i686.* ]]; then
+      PY_ARCH=i386
+    elif [[ ${HOST} =~ powerpc64le.* ]]; then
+      PY_ARCH=powerpc64le
     else
-      if [[ ${HOST} =~ x86_64.* ]]; then
-        PY_ARCH=x86_64
-      elif [[ ${HOST} =~ i686.* ]]; then
-        PY_ARCH=i386
-      elif [[ ${HOST} =~ powerpc64le.* ]]; then
-        PY_ARCH=powerpc64le
-      else
-        echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
-        exit 1
-      fi
-      cat ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_linux.py | sed "s|@ARCH@|${PY_ARCH}|g" > ${recorded_name}
-      mkdir -p ${PREFIX}/compiler_compat
-      cp ${LD} ${PREFIX}/compiler_compat/ld
-      echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
-      echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
+      echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
+      exit 1
     fi
+    cat ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_linux.py | sed "s|@ARCH@|${PY_ARCH}|g" > ${recorded_name}
+    mkdir -p ${PREFIX}/compiler_compat
+    cp ${LD} ${PREFIX}/compiler_compat/ld
+    echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
+    echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
+  fi
 
-    # Copy the latest sysconfigdata for this platform back to the recipe so we can do full cross-compilation
-    [[ -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name} ]] && rm -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
-    cat ${our_compilers_name} | sed "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
+  # Copy the latest sysconfigdata for this platform back to the recipe so we can do full cross-compilation
+  [[ -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name} ]] && rm -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
+  cat ${our_compilers_name} | sed "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
 
-  popd
-fi
-
-if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ .*toolchain.* ]]; then
-    # On the old toolchain compilers, -flto-partion=none is being replaced
-    # with -partition=none. This needs to be replaced back. Only happens with gcc
-    pushd $PREFIX/
-    find lib -type f -regex ".*pyc?" | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
-    find lib -type f -regex ".*pyc?" | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
-    find lib -type f -name Makefile | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
-    find lib -type f -name Makefile | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
-    popd
-fi
+popd

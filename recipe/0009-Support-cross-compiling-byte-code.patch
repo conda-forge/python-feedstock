@@ -1,7 +1,7 @@
-From 1e7c3215a8a1c941479da36ae3aa652e3c70337b Mon Sep 17 00:00:00 2001
+From ab1aae3f069d5ddcc58299f6ece16926b435be3c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
-Subject: [PATCH 09/16] Support cross-compiling byte-code
+Subject: [PATCH 09/17] Support cross-compiling byte-code
 
 https://bugs.python.org/issue22724
 ---
@@ -96,7 +96,7 @@ index d912a19e79..36554b5e24 100644
  	--install-scripts=$(BINDIR) \
  	--root=$(DESTDIR)/
 diff --git a/configure b/configure
-index 4897ff14ad..44ed296011 100755
+index 61438685c4..bfc425a2cd 100755
 --- a/configure
 +++ b/configure
 @@ -751,6 +751,7 @@ CONFIG_ARGS
@@ -118,7 +118,7 @@ index 4897ff14ad..44ed296011 100755
  elif test "$cross_compiling" = maybe; then
      as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index 6cbb1eb91a..21de4b26ed 100644
+index 72bd94e788..26c6475ab9 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -73,13 +73,15 @@ if test "$cross_compiling" = yes; then
@@ -139,5 +139,5 @@ index 6cbb1eb91a..21de4b26ed 100644
  
  dnl Ensure that if prefix is specified, it does not end in a slash. If
 -- 
-2.15.2 (Apple Git-101.1)
+2.18.0
 

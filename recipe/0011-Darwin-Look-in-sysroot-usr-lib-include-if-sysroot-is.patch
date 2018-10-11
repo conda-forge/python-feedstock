@@ -1,7 +1,7 @@
-From a4318775c73b29eae31897ea5859c5aecfc55638 Mon Sep 17 00:00:00 2001
+From a60d2245044585af21ce0b011f01d9bcbc42273e Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 20 Aug 2017 00:22:22 +0100
-Subject: [PATCH 11/16] Darwin: Look in ${sysroot}/usr/{lib,include} if sysroot
+Subject: [PATCH 11/17] Darwin: Look in ${sysroot}/usr/{lib,include} if sysroot
  is set
 
 ---
@@ -28,5 +28,5 @@ index 49193f67a6..09fba45515 100644
              inc_dirs = self.compiler.include_dirs + system_include_dirs
          else:
 -- 
-2.15.2 (Apple Git-101.1)
+2.18.0
 

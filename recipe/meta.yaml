@@ -35,7 +35,7 @@ source:
       - 0012-Mark-sysconfigdata.py-as-utf-8.patch
       - 0013-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
       - 0014-Fix-cross-compilation-on-Debian-based-distros.patch
-		  {% endif %}
+      {% endif %}
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip      # [win]
     folder: externals/bzip2-1.0.6                                                   # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d        # [win]

@@ -1,23 +1,19 @@
-MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
 build_number_decrement:
 - '0'
 bzip2:
 - '1'
 c_compiler:
-- clang
+- gcc
 channel_sources:
 - conda-forge/label/gcc7,defaults
 channel_targets:
 - conda-forge gcc7
 cxx_compiler:
-- clangxx
+- gxx
+docker_image:
+- conda/c3i-linux-64
 libffi:
 - '3.2'
-macos_machine:
-- x86_64-apple-darwin13.4.0
-macos_min_version:
-- '10.9'
 ncurses:
 - '6.1'
 openssl:
@@ -43,8 +39,6 @@ readline:
 - '7.0'
 sqlite:
 - '3'
-target_platform:
-- osx-64
 tk:
 - '8.6'
 zip_keys:
@@ -52,6 +46,7 @@ zip_keys:
   - cxx_compiler
   - channel_sources
   - channel_targets
+  - docker_image
   - build_number_decrement
 zlib:
 - '1.2'

@@ -1,7 +1,7 @@
-From db08358ccfce994091e9ccc6650f9c57407dda1d Mon Sep 17 00:00:00 2001
+From 3342ad1e681b777deacef2ce5abfa882116e2258 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 13:17:26 +0100
-Subject: [PATCH 03/13] Darwin: Hack sys.{exec_,}prefix if run from
+Subject: [PATCH 03/14] Darwin: Hack sys.{exec_,}prefix if run from
  python.app/Contents
 
 ---
@@ -29,5 +29,5 @@ index 3b51e81d4a..aa5dcac36d 100644
  PREFIXES = [sys.prefix, sys.exec_prefix]
  # Enable per user site-packages directory
 -- 
-2.17.0
+2.18.0
 

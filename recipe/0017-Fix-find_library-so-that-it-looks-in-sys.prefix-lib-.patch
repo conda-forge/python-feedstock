@@ -1,0 +1,75 @@
+diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
+index 1fdf8d648f..c6ffd15d2c 100644
+--- a/Lib/ctypes/macholib/dyld.py
++++ b/Lib/ctypes/macholib/dyld.py
+@@ -94,6 +94,10 @@ def dyld_executable_path_search(name, executable_path=None):
+     # If we haven't done any searching and found a library and the
+     # dylib_name starts with "@executable_path/" then construct the
+     # library name.
++    if not executable_path:
++        import sys
++        if sys.prefix:
++            executable_path = os.path.join(sys.prefix, 'bin')
+     if name.startswith('@executable_path/') and executable_path is not None:
+         yield os.path.join(executable_path, name[len('@executable_path/'):])
+ 
+diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
+index ab10ec52ee..40968e05b0 100644
+--- a/Lib/ctypes/util.py
++++ b/Lib/ctypes/util.py
+@@ -73,7 +73,8 @@ if os.name == "ce":
+ if os.name == "posix" and sys.platform == "darwin":
+     from ctypes.macholib.dyld import dyld_find as _dyld_find
+     def find_library(name):
+-        possible = ['lib%s.dylib' % name,
++        possible = ['@executable_path/../lib/lib%s.dylib' % name,
++                    'lib%s.dylib' % name,
+                     '%s.dylib' % name,
+                     '%s.framework/%s' % (name, name)]
+         for name in possible:
+@@ -270,8 +271,44 @@ elif os.name == "posix":
+                 return None
+             return res.group(1)
+ 
++        def _findLib_ld(name):
++            # See issue #9998 for why this is needed
++            expr = r'[^\(\)\s]*lib%s\.[^\(\)\s]*' % re.escape(name)
++            cmd = ['ld', '-t']
++            libpath = os.environ.get('LD_LIBRARY_PATH')
++            if libpath:
++                for d in libpath.split(':'):
++                    cmd.extend(['-L', d])
++            cmd.extend(['-o', os.devnull, '-l%s' % name])
++            result = None
++            try:
++                p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
++                                     stderr=subprocess.PIPE,
++                                     universal_newlines=True)
++                out, _ = p.communicate()
++                res = re.search(expr, os.fsdecode(out))
++                if res:
++                    result = res.group(0)
++            except Exception as e:
++                pass  # result will be None
++            return result
++
++        def _findLib_prefix(name):
++            if not name:
++                return None
++            for fullname in (name, "lib%s.so" % (name)):
++                path = os.path.join(sys.prefix, 'lib', fullname)
++                if os.path.exists(path):
++                    return path
++            return None
++
+         def find_library(name):
+-            return _findSoname_ldconfig(name) or _get_soname(_findLib_gcc(name))
++            # See issue #9998
++            # Yes calling _findLib_prefix twice is deliberate, because _get_soname ditches
++            # the full path.
++            return _findLib_prefix(_get_soname(_findLib_prefix(name))) or \
++                   _findSoname_ldconfig(name) or \
++                   _get_soname(_findLib_gcc(name) or _findLib_ld(name))
+ 
+ ################################################################
+ # test code

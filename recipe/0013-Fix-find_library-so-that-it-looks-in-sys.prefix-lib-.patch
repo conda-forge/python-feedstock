@@ -63,11 +63,11 @@ index ab10ec52ee..5616c30f72 100644
 +                return _findLib_prefix(so_name) or \
 +                       _findLib_prefix(name) or \
 +                       _findSoname_ldconfig(name) or \
-+                       _get_soname(_findLib_gcc(name) or _findLib_ld(name))
++                       _get_soname(_findLib_gcc(name))
 +            else:
-+                 return _findLib_prefix(name) or \
-+                        _findSoname_ldconfig(name) or \
-+                        _get_soname(_findLib_gcc(name) or _findLib_ld(name))
++                return _findLib_prefix(name) or \
++                       _findSoname_ldconfig(name) or \
++                       _get_soname(_findLib_gcc(name))
  
  ################################################################
  # test code

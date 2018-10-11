@@ -9,8 +9,19 @@ source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
     sha256: {{ sha256 }}
     patches:
+      {% if 'toolchain' in compiler('c') %}
+      # use one set of patches for the toolchain (old compiler) build
+      - osx-dist.patch                  # [osx and x86_64]
+      - win-find_exe.patch              # [win]
+      - win-library_bin.patch           # [win]
+      - 0008-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - 0017-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - PR_6724.patch
+      {% else %}
+      # use another set of patches for the gcc (new compiler) build
+      # these are the same patches as used in the AnacondaRecipes feedstock
       - 0001-backport-Python-3.6-_PYTHON_SYSCONFIGDATA_NAME.patch
-      - 0002-Add-Anaconda-Distribution-version-logic.patch
+      #- 0002-Add-Anaconda-Distribution-version-logic.patch
       - 0003-Darwin-Hack-sys.-exec_-prefix-if-run-from-python.app.patch
       - 0004-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
       - 0005-Win32-distutils-Also-look-for-executable.bat.patch
@@ -24,6 +35,7 @@ source:
       - 0012-Mark-sysconfigdata.py-as-utf-8.patch
       - 0013-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
       - 0014-Fix-cross-compilation-on-Debian-based-distros.patch
+      {% endif %}
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip      # [win]
     folder: externals/bzip2-1.0.6                                                   # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d        # [win]
@@ -51,7 +63,7 @@ source:
 
 
 build:
-  number: 1002
+  number: 1003
   no_link:
     - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]

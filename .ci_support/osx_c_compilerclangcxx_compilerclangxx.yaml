@@ -1,17 +1,17 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '10.9'
 build_number_decrement:
-- '1000'
+- '0'
 bzip2:
 - '1'
 c_compiler:
-- toolchain_c
+- clang
 channel_sources:
-- conda-forge,defaults
+- conda-forge/label/gcc7,defaults
 channel_targets:
-- conda-forge main
+- conda-forge gcc7
 cxx_compiler:
-- toolchain_cxx
+- clangxx
 libffi:
 - '3.2'
 macos_machine:
@@ -43,8 +43,6 @@ readline:
 - '7.0'
 sqlite:
 - '3'
-target_platform:
-- osx-64
 tk:
 - '8.6'
 zip_keys:

@@ -9,8 +9,6 @@ cxx_compiler:
 pin_run_as_build:
   vc:
     max_pin: x
-target_platform:
-- win-64
 vc:
 - '9'
 zip_keys:

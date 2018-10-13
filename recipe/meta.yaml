@@ -73,9 +73,6 @@ build:
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]
   skip: True            # [win and vc != 9]
-  {% if 'toolchain' in compiler('c') %}
-  skip: True  # [osx]
-  {% endif %}
 
 requirements:
   build:

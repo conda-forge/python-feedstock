@@ -100,9 +100,6 @@ build:
     - bzip2             # [unix]
   # match python.org compiler standard
   skip: True            # [win and vc != 14]
-  {% if 'toolchain' in compiler('c') %}
-  skip: True  # [osx]
-  {% endif %}
 
 requirements:
   build:

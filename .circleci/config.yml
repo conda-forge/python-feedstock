@@ -51,6 +51,22 @@ jobs:
       - run:
           # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
           command: ./.circleci/run_osx_build.sh
+  build_osx_c_compilertoolchain_ccxx_compilertoolchain_cxx:
+    working_directory: ~/test
+    macos:
+      xcode: "9.0"
+    environment:
+      - CONFIG: "osx_c_compilertoolchain_ccxx_compilertoolchain_cxx"
+    steps:
+      - checkout
+      - run:
+          name: Fast finish outdated PRs and merge PRs
+          command: |
+            ./.circleci/fast_finish_ci_pr_build.sh
+            ./.circleci/checkout_merge_commit.sh
+      - run:
+          # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
+          command: ./.circleci/run_osx_build.sh
 
 workflows:
   version: 2
@@ -59,3 +75,4 @@ workflows:
       - build_linux_c_compilergcccxx_compilergxx
       - build_linux_c_compilertoolchain_ccxx_compilertoolchain_cxx
       - build_osx_c_compilerclangcxx_compilerclangxx
+      - build_osx_c_compilertoolchain_ccxx_compilertoolchain_cxx

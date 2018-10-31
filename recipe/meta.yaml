@@ -122,6 +122,9 @@ requirements:
     - tk                                 # [unix]
     - ncurses                            # [unix]
     - libffi                             # [unix]
+  run:
+    - ncurses                            # [unix]
+
 
 test:
   commands:

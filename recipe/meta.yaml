@@ -24,7 +24,6 @@ source:
       - patches/0013-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
       - patches/0014-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
       - patches/0015-Disable-new-dtags-in-unixccompiler.py.patch
-      - winsdk.patch  # [win]
       - patches/0017-Fix-cross-compilation-on-Debian-based-distros.patch
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]

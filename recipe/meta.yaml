@@ -1,4 +1,4 @@
-{% set version = "3.7.0" %}
+{% set version = "3.7.1" %}
 
 package:
   name: python
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-    sha256: 85bb9feb6863e04fb1700b018d9d42d1caac178559ffa453d7e6a436e259fd0d
+    sha256: 36c1b81ac29d0f8341f727ef40864d99d8206897be96be73dc34d4739c9c9f06
     patches:
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
       - patches/0002-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
@@ -27,7 +27,7 @@ source:
       # AppVeyor does not have the 10.0.16299 SDK installed, leave as is
       # This is actually something else now
       #- patches/0016-Switch-from-WinSDK-10.0.17134.0-to-10.0.16299.0.patch
-      - winsdk.patch  # [win]
+      - patches/winsdk.patch  # [win]
       - patches/0017-Fix-cross-compilation-on-Debian-based-distros.patch
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -50,13 +50,12 @@ source:
     folder: externals/sqlite-3.21.0.0                                                # [win]
     sha256: 95a4f2d76aeeb68b51239340e3de26e5714ecfb7c8ad82a67b17af82213a8c20         # [win]
   # Not used as of 3.7b3 (openssl-bin is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.1.0h.zip    # [win]
-    folder: externals/openssl-1.1.0h                                                 # [win]
-    #sha256: f9a39b7519d3c1d5b5da7559c0b117f588eea97bc98d4ea8434d078cf5063eaa         # [win]
-    sha256: 65facaa26aad903889f1ef8e4d14542a0c0d142940a8cf47d6f57516fba6a41f         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/openssl-bin-1.1.0h.zip   # [win]
-    folder: externals/openssl-bin-1.1.0h                                             # [win]
-    sha256: 8388d90b06b878a7fd980a46264d2d2aca2900ce36dd6834cf85861921534c35         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.1.0i.zip    # [win]
+    folder: externals/openssl-1.1.0i                                                 # [win]
+    sha256: 2280b9b4cba4dfcffc96d41860c79bdfd2d35945f9dd5e5a545b467ef6f96603         # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/openssl-bin-1.1.0i.zip   # [win]
+    folder: externals/openssl-bin-1.1.0i                                             # [win]
+    sha256: 71db5e71d2d6307379bac6c581492d37b65f2ad67fea207f6c0222150a4a46a7         # [win]
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
     folder: externals/bzip2-1.0.6                                                    # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
@@ -68,7 +67,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 1006
+  number: 1000
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

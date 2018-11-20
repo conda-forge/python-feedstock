@@ -63,7 +63,7 @@ source:
 
 
 build:
-  number: 1004
+  number: 1005
   no_link:
     - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]
@@ -73,9 +73,6 @@ build:
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]
   skip: True            # [win and vc != 9]
-  {% if 'toolchain' in compiler('c') %}
-  skip: True  # [osx]
-  {% endif %}
 
 requirements:
   build:

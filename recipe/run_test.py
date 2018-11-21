@@ -132,3 +132,7 @@ pprint(platform._sys_version())
 
 if int(os.getenv('GUI_TEST', 0)):
     turtle.forward(100)
+
+# did sqlite compile with loadable extension support?
+import sqlite3
+assert hasattr(sqlite3.Connection, 'enable_load_extension')

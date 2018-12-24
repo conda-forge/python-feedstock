@@ -1,4 +1,4 @@
-{% set version = "3.7.1" %}
+{% set version = "3.7.2" %}
 
 package:
   name: python
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-    sha256: 36c1b81ac29d0f8341f727ef40864d99d8206897be96be73dc34d4739c9c9f06
+    sha256: f09d83c773b9cc72421abba2c317e4e6e05d919f9bcf34468e192b6a6c8e328d
     patches:
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
       - patches/0002-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch

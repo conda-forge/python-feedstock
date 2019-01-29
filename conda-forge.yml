@@ -7,5 +7,4 @@ appveyor:
 compiler_stack: comp7
 max_py_ver: '37'
 max_r_ver: '35'
-provider:
-  osx: circle
+provider: {linux_aarch64: azure, linux_ppc64le: azure, osx: circle}

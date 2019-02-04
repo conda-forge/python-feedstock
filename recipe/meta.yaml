@@ -26,8 +26,8 @@ source:
       - patches/0015-Disable-new-dtags-in-unixccompiler.py.patch
       # AppVeyor does not have the 10.0.16299 SDK installed, leave as is
       # This is actually something else now
-      #- patches/0016-Switch-from-WinSDK-10.0.17134.0-to-10.0.16299.0.patch
-      - patches/winsdk.patch  # [win]
+      # - patches/0016-Switch-from-WinSDK-10.0.17134.0-to-10.0.16299.0.patch
+      # - patches/winsdk.patch  # [win]
       - patches/0017-Fix-cross-compilation-on-Debian-based-distros.patch
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]

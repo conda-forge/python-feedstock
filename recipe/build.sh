@@ -312,6 +312,9 @@ pushd ${PREFIX}/lib/python${VER}
   mv test_keep test
 popd
 
+# Distutils now ships windows executables.  Delete them
+rm -f ${PREFIX}/lib/python${VER}/distutils/command/*.exe
+
 # Size reductions:
 pushd ${PREFIX}
   if [[ -f lib/libpython${VER}m.a ]]; then

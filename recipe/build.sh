@@ -409,5 +409,5 @@ if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ 
 fi
 
 # There are some strange distutils files around. Delete them
-rm -rf ${PREFIX}lib/python${VER}/distutils/command/*.exe
+rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 

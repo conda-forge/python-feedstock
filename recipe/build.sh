@@ -34,6 +34,14 @@ else
   _OPTIMIZED=yes
 fi
 
+# Since these take very long to build in our emulated ci, disable for now
+if [[ ${target_platform} == linux-aarch64 ]]; then
+  _OPTIMIZED=no
+fi
+if [[ ${target_platform} == linux-ppc64le ]]; then
+  _OPTIMIZED=no
+fi
+
 declare -a _dbg_opts
 if [[ ${DEBUG_PY} == yes ]]; then
   # This Python will not be usable with non-debug Python modules.
@@ -361,6 +369,8 @@ if [[ -n ${HOST} ]]; then
         PY_ARCH=i386
         elif [[ ${HOST} =~ powerpc64le.* ]]; then
         PY_ARCH=powerpc64le
+        elif [[ ${HOST} =~ aarch64.* ]]; then
+        PY_ARCH=aarch64
         else
         echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
         exit 1
@@ -397,3 +407,7 @@ if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ 
     find lib -type f -name Makefile | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
     popd
 fi
+
+# There are some strange distutils files around. Delete them
+rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
+

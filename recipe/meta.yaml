@@ -86,7 +86,7 @@ source:
 
 
 build:
-  number: 1001
+  number: 1002
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

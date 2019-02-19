@@ -569,7 +569,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'LIBOBJS': '',
  'LIBPC': '/opt/anaconda1anaconda2anaconda3/lib/pkgconfig',
  'LIBPL':
-     '/opt/anaconda1anaconda2anaconda3/lib/python3.7/config-@PYVER@@ABIFLAGS@-aarch64-linux-gnu',
+     '/opt/anaconda1anaconda2anaconda3/lib/python3.6/config-@PYVER@@ABIFLAGS@-aarch64-linux-gnu',
  'LIBRARY': 'libpython@PYVER@@ABIFLAGS@.a',
  'LIBRARY_OBJS': '\\',
  'LIBRARY_OBJS_OMIT_FROZEN': '\\',

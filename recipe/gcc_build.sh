@@ -18,6 +18,14 @@ else
   _OPTIMIZED=yes
 fi
 
+# Since these take very long to build in our emulated ci, disable for now
+if [[ ${target_platform} == linux-aarch64 ]]; then
+  _OPTIMIZED=no
+fi
+if [[ ${target_platform} == linux-ppc64le ]]; then
+  _OPTIMIZED=no
+fi
+
 declare -a _dbg_opts
 if [[ ${DEBUG_PY} == yes ]]; then
   # This Python will not be usable with non-debug Python modules.
@@ -321,6 +329,8 @@ pushd $PREFIX/lib/python${VER}
       PY_ARCH=x86_64
     elif [[ ${HOST} =~ i686.* ]]; then
       PY_ARCH=i386
+    elif [[ ${HOST} =~ aarch64.* ]]; then
+      PY_ARCH=aarch64
     elif [[ ${HOST} =~ powerpc64le.* ]]; then
       PY_ARCH=powerpc64le
     else

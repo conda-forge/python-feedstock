@@ -167,6 +167,8 @@ pushd $PREFIX/lib/python${VER}
       PY_ARCH=x86_64
     elif [[ ${HOST} =~ i686.* ]]; then
       PY_ARCH=i386
+    elif [[ ${HOST} =~ aarch64.* ]]; then
+      PY_ARCH=aarch64
     elif [[ ${HOST} =~ powerpc64le.* ]]; then
       PY_ARCH=powerpc64le
     else

@@ -14,7 +14,6 @@ jobs:
         CONFIG: win_c_compilervs2015cxx_compilervs2015target_platformwin-64vc14
         CONDA_BLD_PATH: D:\\bld\\
         UPLOAD_PACKAGES: False
-        VCTargetsPath: C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\v140
   steps:
     # TODO: Fast finish on azure pipelines?
     - script: |

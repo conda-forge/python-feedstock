@@ -257,6 +257,14 @@ else
 fi
 
 SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name "_sysconfigdata*.py" -print0)
+
+echo "initial build sysconfig"
+echo "======================="
+echo ""
+cat $SYSCONFIG
+echo ""
+echo "======================="
+
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
     > ${PREFIX}/lib/python${VER}/$(basename ${SYSCONFIG})
@@ -313,7 +321,10 @@ popd
 pushd $PREFIX/lib/python${VER}
   # copy the generated _sysconfigdata.py file for reference latter, this is
   # never actually used but can be useful for debugging
-  cp _sysconfigdata.py _sysconfigdata_from_initial_build.py
+  for f in *sysconfigdata*.* do
+    echo $f
+    cp $f _sysconfigdata_from_initial_build.py
+  done
   echo "sysconfig ls"
   echo "======================="
   ls *sysconfigdata*.*

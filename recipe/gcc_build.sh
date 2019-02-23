@@ -185,6 +185,10 @@ pushd $PREFIX/lib/python${VER}
   # Copy the latest sysconfigdata for this platform back to the recipe so we can do full cross-compilation
   [[ -f "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name} ]] && rm -f "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
   cat ${our_compilers_name} | sed "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
+  echo "BUILD USING SYSCONFIG"
+  echo "====================="
+  cat "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
+  echo "====================="
 
 popd
 

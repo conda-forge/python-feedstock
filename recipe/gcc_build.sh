@@ -314,6 +314,10 @@ pushd $PREFIX/lib/python${VER}
   # copy the generated _sysconfigdata.py file for reference latter, this is
   # never actually used but can be useful for debugging
   cp _sysconfigdata.py _sysconfigdata_from_initial_build.py
+  echo "sysconfig ls"
+  echo "======================="
+  ls *sysconfigdata*.*
+  
   echo "initial build sysconfig"
   echo "======================="
   echo ""

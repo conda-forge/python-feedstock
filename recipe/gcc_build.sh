@@ -311,6 +311,16 @@ popd
 #   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
 #   to the name of this file (minus the .py extension)
 pushd $PREFIX/lib/python${VER}
+  # copy the generated _sysconfigdata.py file for reference latter, this is
+  # never actually used but can be useful for debugging
+  cp _sysconfigdata.py _sysconfigdata_from_initial_build.py
+  echo "initial build sysconfig"
+  echo "======================="
+  echo ""
+  cat _sysconfigdata_from_initial_build.py
+  echo ""
+  echo "======================="
+
   # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
   # This breaks our attempt to find the right one as recorded_name.
   find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;

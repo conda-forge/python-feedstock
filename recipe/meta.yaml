@@ -70,10 +70,9 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/sqlite-3.21.0.0.zip   # [win]
     folder: externals/sqlite-3.21.0.0                                                # [win]
     sha256: 95a4f2d76aeeb68b51239340e3de26e5714ecfb7c8ad82a67b17af82213a8c20         # [win]
-
-  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2p.zip    # [win]
-    folder: externals/openssl-1.0.2p                                                 # [win]
-    sha256: f4b177dbac060bdccc42e08a691ee9e9626ffc3be8aab26002bf0114d3b31aee         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.1.1a.zip    # [win]
+    folder: externals/openssl-1.1.1a                                                 # [win]
+    sha256: 845224b767f310b831590447ef77eb1b6fddfb206962f9d178522d79411fb918         # [win]
 #  - url: https://github.com/python/cpython-bin-deps/archive/openssl-bin-1.0.2o.zip   # [win]
 #    folder: externals/openssl-bin-1.0.2o                                             # [win]
 #    sha256: c0e84e40f39b15125a63339f372a62b692ae91f82bf98c9e361b9296ecadcb31         # [win]

@@ -5,7 +5,7 @@ channel_sources:
 channel_targets:
 - conda-forge main
 curl:
-- '7.59'
+- '7.64'
 cxx_compiler:
 - vs2015
 pin_run_as_build:

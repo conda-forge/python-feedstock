@@ -44,9 +44,9 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/bsddb-4.7.25.0.zip   # [win]
     folder: externals/bsddb-4.7.25.0                                                # [win]
     sha256: 0bc1f79d2bbff8159cf56103db615cc011458b7b0f5fc4c8c3db3132f026abbc        # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.1.1a.zip   # [win]
-    folder: externals/openssl-1.1.1a                                                # [win]
-    sha256: 845224b767f310b831590447ef77eb1b6fddfb206962f9d178522d79411fb918        # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2o.zip   # [win]
+    folder: externals/openssl-1.0.2o                                                # [win]
+    sha256: 9db2a35ef254b57e16a47916810a3bf1cd639b512b5fe6c1cb51afc985113595        # [win]
   - url: https://github.com/python/cpython-source-deps/archive/sqlite-3.14.2.0.zip  # [win]
     folder: externals/sqlite-3.14.2.0                                               # [win]
     sha256: c1ff98c76c11dc10b2abe94d72ea5bae7da64ba8da9455a9af5dc3eae0f2f880        # [win]
@@ -65,7 +65,7 @@ source:
 
 
 build:
-  number: 1006
+  number: 1007
   no_link:
     - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]

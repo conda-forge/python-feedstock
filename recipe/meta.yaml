@@ -1,4 +1,4 @@
-{% set version = "3.7.1" %}
+{% set version = "3.7.2" %}
 
 package:
   name: python
@@ -6,29 +6,30 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-    sha256: 36c1b81ac29d0f8341f727ef40864d99d8206897be96be73dc34d4739c9c9f06
+    sha256: f09d83c773b9cc72421abba2c317e4e6e05d919f9bcf34468e192b6a6c8e328d
     patches:
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
       - patches/0002-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
       - patches/0003-Win32-distutils-Also-look-for-executable.bat.patch
-      # Removed because this breaks conda activate and deactivate.
-      # - 0004-Win32-Ensure-Library-bin-is-in-os.environ-PATH.patch
-      - patches/0005-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - patches/0006-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - patches/0007-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - patches/0008-Support-cross-compiling-byte-code.patch
-      - patches/0009-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - patches/0010-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - patches/0011-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - patches/0012-Win32-Do-not-download-externals.patch
-      - patches/0013-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      - patches/0014-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0015-Disable-new-dtags-in-unixccompiler.py.patch
-      # AppVeyor does not have the 10.0.16299 SDK installed, leave as is
-      # This is actually something else now
-      #- patches/0016-Switch-from-WinSDK-10.0.17134.0-to-10.0.16299.0.patch
-      - patches/winsdk.patch  # [win]
-      - patches/0017-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0004-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - patches/0005-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - patches/0006-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0007-Support-cross-compiling-byte-code.patch
+      - patches/0008-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - patches/0009-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - patches/0010-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - patches/0011-Win32-Do-not-download-externals.patch
+      - patches/0012-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
+      - patches/0013-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0014-Disable-new-dtags-in-unixccompiler.py.patch
+      - patches/0015-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0016-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - patches/0017-Unvendor-openssl.patch
+      - patches/0018-Unvendor-sqlite3.patch
+      # https://bugs.python.org/issue35644
+      - patches/0019-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
+  # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
     sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f         # [win]
@@ -67,7 +68,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 1003
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

@@ -1,3 +1,5 @@
+setlocal EnableDelayedExpansion
+
 :: brand Python with conda-forge startup message
 %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
 if errorlevel 1 exit 1
@@ -13,8 +15,20 @@ if "%ARCH%"=="64" (
    set BUILD_PATH=win32
 )
 
+set "OPENSSL_DIR=%LIBRARY_PREFIX%"
+set "SQLITE3_DIR=%LIBRARY_PREFIX%"
+for /f "usebackq delims=" %%i in (`conda list -p %PREFIX% sqlite --no-show-channel-urls --json ^| findstr "version"`) do set SQLITE3_VERSION_LINE=%%i
+for /f "tokens=2 delims==/ " %%i IN ('echo %SQLITE3_VERSION_LINE%') do (set SQLITE3_VERSION=%%~i)
+echo SQLITE3_VERSION detected as %SQLITE3_VERSION%
+
 cd PCbuild
-call build.bat --pgo -m -e -v -p %PLATFORM%
+if "%DEBUG_C%"=="yes" (
+  set PGO=
+) else (
+  set PGO=--pgo
+)
+
+call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
@@ -36,8 +50,6 @@ if errorlevel 1 exit 1
 :: Populate the DLLs directory
 mkdir %PREFIX%\DLLs
 xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\sqlite3.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tcl86t.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
@@ -83,12 +95,6 @@ if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pyvenv %PREFIX%\Tools\scripts\pyvenv.py
 if errorlevel 1 exit 1
 
-:: Copy OpenSLL DLLs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libcrypto*.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libssl*.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-
 :: Populate the tcl directory
 xcopy /s /y /i %SRC_DIR%\externals\tcltk-8.6.8.0\%BUILD_PATH%\lib %PREFIX%\tcl
 if errorlevel 1 exit 1
@@ -101,7 +107,7 @@ copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\
 if errorlevel 1 exit 1
 
 :: Populate the Scripts directory
-IF NOT exist %SCRIPTS% (mkdir %SCRIPTS%)
+if not exist %SCRIPTS% (mkdir %SCRIPTS%)
 if errorlevel 1 exit 1
 
 for %%x in (idle pydoc) do (
@@ -139,6 +145,8 @@ rd /s /q %PREFIX%\Lib\test
 if errorlevel 1 exit 1
 move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
 if errorlevel 1 exit 1
+rd /s /q %PREFIX%\Lib\lib2to3\tests\
+if errorlevel 1 exit 1
 
 :: bytecode compile the standard library
 
@@ -148,6 +156,6 @@ if errorlevel 1 exit 1
 %PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
 
-
 :: Pickle lib2to3 Grammar
 %PREFIX%\python.exe -m lib2to3 --help
+

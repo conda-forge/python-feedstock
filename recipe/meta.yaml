@@ -48,16 +48,6 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip       # [win]
     folder: externals/tix-8.4.3.6                                                    # [win]
     sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/sqlite-3.21.0.0.zip   # [win]
-    folder: externals/sqlite-3.21.0.0                                                # [win]
-    sha256: 95a4f2d76aeeb68b51239340e3de26e5714ecfb7c8ad82a67b17af82213a8c20         # [win]
-  # Not used as of 3.7b3 (openssl-bin is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.1.0i.zip    # [win]
-    folder: externals/openssl-1.1.0i                                                 # [win]
-    sha256: 2280b9b4cba4dfcffc96d41860c79bdfd2d35945f9dd5e5a545b467ef6f96603         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/openssl-bin-1.1.0i.zip   # [win]
-    folder: externals/openssl-bin-1.1.0i                                             # [win]
-    sha256: 71db5e71d2d6307379bac6c581492d37b65f2ad67fea207f6c0222150a4a46a7         # [win]
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
     folder: externals/bzip2-1.0.6                                                    # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
@@ -74,12 +64,10 @@ build:
   # Copy rather than link.
   no_link:
     - DLLs/_ctypes.pyd  # [win]
-    - bin/python3.7     # [unix]
-  #track_features:
-    #- vc14              # [win]
+    - bin/python3.7  # [not win]
   script_env:
     - python_branding
-  skip: true  # [win and vc<14]
+  skip: true  # [win and vc != 14]
 
 requirements:
   build:
@@ -87,54 +75,67 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
-    - 7za                                # [win]
-    - curl                               # [win]
-    - make                               # [unix]
-    - pkg-config                         # [unix]
+    - make                               # [not win]
+    - pkg-config                         # [not win]
+    # - 7za                                # [win]
+    # - curl                               # [win]
   host:
-    - nasm 2.11.06      # [win]
-    - bzip2             # [unix]
-    - openssl           # [unix]
-    - readline          # [unix]
-    - sqlite            # [unix]
-    - tk                # [unix]
-    - xz                # [unix]
-    - zlib              # [unix]
+    # - nasm 2.11.06      # [win]
+    - bzip2             # [not win]
+    - sqlite
+    - xz                # [not win]
+    - zlib              # [not win]
+    - openssl
+    - readline          # [not win]
+    - tk                # [not win]
     - ncurses           # [linux]
-    - libffi            # [unix]
+    - libffi            # [not win]
   run:
-    - openssl           # [unix]
-    - readline          # [unix]
-    - sqlite            # [unix]
-    - tk                # [unix]
-    - xz                # [unix]
-    - zlib              # [unix]
+    - bzip2             # [not win]
+    - sqlite
+    - xz                # [not win]
+    - zlib              # [not win]
+    - openssl
+    - readline          # [not win]
+    - tk                # [not win]
     - ncurses           # [linux]
-    - libffi            # [unix]
-    #- vs2015_runtime    # [win]
+    - libffi            # [not win]
 
 test:
   commands:
     - python -V
-    - python3 -V            # [unix]
+    - python3 -V            # [not win]
     - 2to3 -h
     - pydoc -h
-    - python3-config --help  # [unix]
+    - python3-config --help  # [not win]
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
     # Test for " -partition=none", can be removed after toolchain is dropped
-    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [unix]
+    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [not win]
+    # - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
+    # -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
 
 about:
   home: http://www.python.org/
   license: PSF
   license_file: LICENSE
-  summary: 'General purpose programming language.'
+  summary: General purpose programming language
+  description: |
+    Python is a widely used high-level, general-purpose, interpreted, dynamic
+    programming language. Its design philosophy emphasizes code
+    readability, and its syntax allows programmers to express concepts in
+    fewer lines of code than would be possible in languages such as C++ or
+    Java. The language provides constructs intended to enable clear programs
+    on both a small and large scale.
+  doc_url: https://www.python.org/doc/versions/
+  doc_source_url: https://github.com/python/pythondotorg/blob/master/docs/source/index.rst
+  dev_url: https://docs.python.org/devguide/
 
 extra:
   recipe-maintainers:
     - jakirkham
     - jjhelmus
+    - mingwandroid
     - msarahan
     - pelson
     - ocefpaf

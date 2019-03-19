@@ -133,6 +133,7 @@ extra:
   recipe-maintainers:
     - jakirkham
     - jjhelmus
+    - mingwandroid
     - msarahan
     - pelson
     - ocefpaf

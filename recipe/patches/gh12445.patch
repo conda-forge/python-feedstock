@@ -1,0 +1,23 @@
+From 0cbfc99121d8a99ef1b27f842be2e306b53683f1 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Tue, 19 Mar 2019 12:46:14 -0500
+Subject: [PATCH] Fix registry key for windows sdk detection
+
+Was broken by https://github.com/python/cpython/pull/4298
+---
+ PCbuild/python.props | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/PCbuild/python.props b/PCbuild/python.props
+index f83d4df0d59f..683fbb6e6f84 100644
+--- a/PCbuild/python.props
++++ b/PCbuild/python.props
+@@ -76,7 +76,7 @@
+     matter which WinSDK version we use.
+     -->
+     <_RegistryVersion>$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v10.0@ProductVersion)</_RegistryVersion>
+-    <_RegistryVersion Condition="$(_RegistryVersion) == ''">$(Registry:HKEY_LOCAL_MACHINE\WOW6432Node\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v10.0@ProductVersion)</_RegistryVersion>
++    <_RegistryVersion Condition="$(_RegistryVersion) == ''">$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Microsoft SDKs\Windows\v10.0@ProductVersion)</_RegistryVersion>
+     <!-- Sometimes the version in the registry has to .0 suffix, and sometimes it doesn't. Check and add it -->
+     <_RegistryVersion Condition="$(_RegistryVersion) != '' and !$(_RegistryVersion.EndsWith('.0'))">$(_RegistryVersion).0</_RegistryVersion>
+ 

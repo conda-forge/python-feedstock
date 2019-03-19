@@ -35,7 +35,7 @@ source:
       - patches/0019-venv-Revert-a-change-from-https-github.com-python-cp.patch
       # undefined reference to `CondaEcosystemGetWarnings'
       # - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
-      - patches/gh12445.patch
+      - patches/gh12445.patch    # [win]
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]

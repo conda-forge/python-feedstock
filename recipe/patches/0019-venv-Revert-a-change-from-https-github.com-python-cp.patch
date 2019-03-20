@@ -1,0 +1,30 @@
+From 5f78f1bfded1cf0877f609600d7961112daf777b Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Wed, 2 Jan 2019 21:38:48 +0000
+Subject: [PATCH 19/19] venv: Revert a change from
+ https://github.com/python/cpython/commit/1c3de541e64f75046b20cdd27bada1557e550bcd
+ https://bugs.python.org/issue35644
+
+If copier(context.executable, path) is not also called on Windows (as it was in Python 3.7.1) then the venv\Scripts dir will not contain a Python exe
+---
+ Lib/venv/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Lib/venv/__init__.py b/Lib/venv/__init__.py
+index 5438b0d4e5..9fee12efcb 100644
+--- a/Lib/venv/__init__.py
++++ b/Lib/venv/__init__.py
+@@ -188,9 +188,9 @@ class EnvBuilder:
+         binpath = context.bin_path
+         path = context.env_exe
+         copier = self.symlink_or_copy
++        copier(context.executable, path)
+         dirname = context.python_dir
+         if os.name != 'nt':
+-            copier(context.executable, path)
+             if not os.path.islink(path):
+                 os.chmod(path, 0o755)
+             for suffix in ('python', 'python3'):
+-- 
+2.20.1
+

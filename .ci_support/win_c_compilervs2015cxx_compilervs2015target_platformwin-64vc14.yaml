@@ -4,15 +4,19 @@ channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
-curl:
-- '7.64'
 cxx_compiler:
 - vs2015
+openssl:
+- 1.1.1a
 pin_run_as_build:
-  curl:
+  openssl:
+    max_pin: x.x.x
+  sqlite:
     max_pin: x
   vc:
     max_pin: x
+sqlite:
+- '3'
 target_platform:
 - win-64
 vc:

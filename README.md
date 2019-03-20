@@ -11,8 +11,14 @@ Package license: PSF
 
 Feedstock license: BSD 3-Clause
 
-Summary: General purpose programming language.
+Summary: General purpose programming language
 
+Python is a widely used high-level, general-purpose, interpreted, dynamic
+programming language. Its design philosophy emphasizes code
+readability, and its syntax allows programmers to express concepts in
+fewer lines of code than would be possible in languages such as C++ or
+Java. The language provides constructs intended to enable clear programs
+on both a small and large scale.
 
 
 Current build status
@@ -115,6 +121,7 @@ Feedstock Maintainers
 
 * [@jakirkham](https://github.com/jakirkham/)
 * [@jjhelmus](https://github.com/jjhelmus/)
+* [@mingwandroid](https://github.com/mingwandroid/)
 * [@msarahan](https://github.com/msarahan/)
 * [@ocefpaf](https://github.com/ocefpaf/)
 * [@pelson](https://github.com/pelson/)

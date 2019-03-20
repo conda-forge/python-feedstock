@@ -1,34 +1,42 @@
-{% set version = "3.7.1" %}
+{% set base_version = "3.7.2" %}
+{% set version = "3.7.2" %}
+{% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
+{% if linkage_nature != '' %}
+  {% set linkage_nature = "_" ~ linkage_nature %}
+{% endif %}
 
 package:
   name: python
   version: {{ version }}
 
 source:
-  - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
-    sha256: 36c1b81ac29d0f8341f727ef40864d99d8206897be96be73dc34d4739c9c9f06
+  - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
+    sha256: d83fe8ce51b1bb48bbcf0550fd265b9a75cdfdfa93f916f9e700aef8444bf1bb
     patches:
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
       - patches/0002-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
       - patches/0003-Win32-distutils-Also-look-for-executable.bat.patch
-      # Removed because this breaks conda activate and deactivate.
-      # - 0004-Win32-Ensure-Library-bin-is-in-os.environ-PATH.patch
-      - patches/0005-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - patches/0006-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - patches/0007-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - patches/0008-Support-cross-compiling-byte-code.patch
-      - patches/0009-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - patches/0010-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - patches/0011-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - patches/0012-Win32-Do-not-download-externals.patch
-      - patches/0013-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      - patches/0014-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0015-Disable-new-dtags-in-unixccompiler.py.patch
-      # AppVeyor does not have the 10.0.16299 SDK installed, leave as is
-      # This is actually something else now
-      #- patches/0016-Switch-from-WinSDK-10.0.17134.0-to-10.0.16299.0.patch
-      - patches/winsdk.patch  # [win]
-      - patches/0017-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0004-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - patches/0005-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - patches/0006-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0007-Support-cross-compiling-byte-code.patch
+      - patches/0008-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - patches/0009-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - patches/0010-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - patches/0011-Win32-Do-not-download-externals.patch
+      - patches/0012-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
+      - patches/0013-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0014-Disable-new-dtags-in-unixccompiler.py.patch
+      - patches/0015-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0016-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - patches/0017-Unvendor-openssl.patch
+      - patches/0018-Unvendor-sqlite3.patch
+      # https://bugs.python.org/issue35644
+      - patches/0019-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      # undefined reference to `CondaEcosystemGetWarnings'
+      # - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/gh12445.patch    # [win]
+  # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
     sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f         # [win]
@@ -46,16 +54,6 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip       # [win]
     folder: externals/tix-8.4.3.6                                                    # [win]
     sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/sqlite-3.21.0.0.zip   # [win]
-    folder: externals/sqlite-3.21.0.0                                                # [win]
-    sha256: 95a4f2d76aeeb68b51239340e3de26e5714ecfb7c8ad82a67b17af82213a8c20         # [win]
-  # Not used as of 3.7b3 (openssl-bin is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.1.0i.zip    # [win]
-    folder: externals/openssl-1.1.0i                                                 # [win]
-    sha256: 2280b9b4cba4dfcffc96d41860c79bdfd2d35945f9dd5e5a545b467ef6f96603         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/openssl-bin-1.1.0i.zip   # [win]
-    folder: externals/openssl-bin-1.1.0i                                             # [win]
-    sha256: 71db5e71d2d6307379bac6c581492d37b65f2ad67fea207f6c0222150a4a46a7         # [win]
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
     folder: externals/bzip2-1.0.6                                                    # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
@@ -67,17 +65,15 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 1003
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
     - DLLs/_ctypes.pyd  # [win]
-    - bin/python3.7     # [unix]
-  #track_features:
-    #- vc14              # [win]
+    - bin/python3.7  # [not win]
   script_env:
     - python_branding
-  skip: true  # [win and vc<14]
+  skip: true  # [win and vc != 14]
 
 requirements:
   build:
@@ -85,49 +81,61 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
-    - 7za                                # [win]
-    - curl                               # [win]
-    - make                               # [unix]
-    - pkg-config                         # [unix]
+    - make                               # [not win]
+    - pkg-config                         # [not win]
+    # - 7za                                # [win]
+    # - curl                               # [win]
   host:
-    - nasm 2.11.06      # [win]
-    - bzip2             # [unix]
-    - openssl           # [unix]
-    - readline          # [unix]
-    - sqlite            # [unix]
-    - tk                # [unix]
-    - xz                # [unix]
-    - zlib              # [unix]
+    # - nasm 2.11.06      # [win]
+    - bzip2             # [not win]
+    - sqlite
+    - xz                # [not win]
+    - zlib              # [not win]
+    - openssl
+    - readline          # [not win]
+    - tk                # [not win]
     - ncurses           # [linux]
-    - libffi            # [unix]
+    - libffi            # [not win]
   run:
-    - openssl           # [unix]
-    - readline          # [unix]
-    - sqlite            # [unix]
-    - tk                # [unix]
-    - xz                # [unix]
-    - zlib              # [unix]
+    - bzip2             # [not win]
+    - sqlite
+    - xz                # [not win]
+    - zlib              # [not win]
+    - openssl
+    - readline          # [not win]
+    - tk                # [not win]
     - ncurses           # [linux]
-    - libffi            # [unix]
-    #- vs2015_runtime    # [win]
+    - libffi            # [not win]
 
 test:
   commands:
     - python -V
-    - python3 -V            # [unix]
+    - python3 -V            # [not win]
     - 2to3 -h
     - pydoc -h
-    - python3-config --help  # [unix]
+    - python3-config --help  # [not win]
     - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
     - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
     # Test for " -partition=none", can be removed after toolchain is dropped
-    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [unix]
+    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [not win]
+    # - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
+    # -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
 
 about:
   home: http://www.python.org/
   license: PSF
   license_file: LICENSE
-  summary: 'General purpose programming language.'
+  summary: General purpose programming language
+  description: |
+    Python is a widely used high-level, general-purpose, interpreted, dynamic
+    programming language. Its design philosophy emphasizes code
+    readability, and its syntax allows programmers to express concepts in
+    fewer lines of code than would be possible in languages such as C++ or
+    Java. The language provides constructs intended to enable clear programs
+    on both a small and large scale.
+  doc_url: https://www.python.org/doc/versions/
+  doc_source_url: https://github.com/python/pythondotorg/blob/master/docs/source/index.rst
+  dev_url: https://docs.python.org/devguide/
 
 extra:
   recipe-maintainers:

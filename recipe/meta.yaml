@@ -1,4 +1,4 @@
-{% set base_version = "3.7.2" %}
+{% set base_version = "3.7.3" %}
 {% set version = "3.7.3" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}

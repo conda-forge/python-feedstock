@@ -5,23 +5,6 @@
 version: 2
 
 jobs:
-  build_linux_target_platformlinux-64:
-    working_directory: ~/test
-    machine: true
-    environment:
-      - CONFIG: "linux_target_platformlinux-64"
-    steps:
-      - checkout
-      - run:
-          name: Fast finish outdated PRs and merge PRs
-          command: |
-            ./.circleci/fast_finish_ci_pr_build.sh
-            ./.circleci/checkout_merge_commit.sh
-      - run:
-          command: docker pull condaforge/linux-anvil-comp7
-      - run:
-          # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
-          command: ./.circleci/run_docker_build.sh
   build_osx_target_platformosx-64:
     working_directory: ~/test
     macos:
@@ -43,5 +26,4 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_linux_target_platformlinux-64
       - build_osx_target_platformosx-64

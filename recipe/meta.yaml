@@ -1,5 +1,6 @@
 {% set base_version = "3.7.3" %}
-{% set version = "3.8.0a3" %}
+{% set version = "3.8.0" %}
+{% set version_pre = "3.8.0a3" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}
@@ -7,10 +8,10 @@
 
 package:
   name: python
-  version: {{ version }}
+  version: {{ version_pre }}
 
 source:
-  - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
+  - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version_pre }}.tar.xz
     sha256: 2c5bcc2596e1dd14ab8c5292f6c2421cbb5e295d7e7a8039e22c604248c351f5
     patches:
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch

@@ -36,12 +36,12 @@ if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
-for %%x in (python37.dll python3.dll python.exe pythonw.exe) do (
+for %%x in (python38.dll python3.dll python.exe pythonw.exe) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
-for %%x in (python.pdb python37.pdb pythonw.pdb) do (
+for %%x in (python.pdb python38.pdb pythonw.pdb) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -123,7 +123,7 @@ if errorlevel 1 exit 1
 
 :: Populate the libs directory
 mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python37.lib %PREFIX%\libs\
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python38.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3.lib %PREFIX%\libs\
 if errorlevel 1 exit 1

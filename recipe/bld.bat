@@ -27,6 +27,9 @@ if "%DEBUG_C%"=="yes" (
 ) else (
   set PGO=--pgo
 )
+:: TODO enable PGO for final release
+:: Disable PGO during alpha/beta/rc period
+set PGO=
 
 call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1

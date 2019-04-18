@@ -1,3 +1,5 @@
+@echo on
+
 setlocal EnableDelayedExpansion
 
 :: brand Python with conda-forge startup message

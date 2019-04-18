@@ -1,20 +1,20 @@
-From 764c0905e2d07a3eb4ad0425dbcf8c2273786727 Mon Sep 17 00:00:00 2001
+From 3d32581253d96c99a146825fae40d836715c5703 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 15 Aug 2017 22:34:16 +0100
-Subject: [PATCH 01/15] Add Anaconda Distribution version logic
+Subject: [PATCH 01/20] Add Anaconda Distribution version logic
 
 ---
  Include/pylifecycle.h |  1 +
  Lib/platform.py       |  1 +
  Modules/main.c        |  2 +-
- Python/getversion.c   | 46 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 49 insertions(+), 1 deletion(-)
+ Python/getversion.c   | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 50 insertions(+), 1 deletion(-)
 
 diff --git a/Include/pylifecycle.h b/Include/pylifecycle.h
-index 659c6df644..988f7558da 100644
+index 1df114a..512a4ac 100644
 --- a/Include/pylifecycle.h
 +++ b/Include/pylifecycle.h
-@@ -130,6 +130,7 @@ int _Py_CheckPython3(void);
+@@ -50,6 +50,7 @@ int _Py_CheckPython3(void);
  #endif
  
  /* In their own files */
@@ -23,10 +23,10 @@ index 659c6df644..988f7558da 100644
  PyAPI_FUNC(const char *) Py_GetPlatform(void);
  PyAPI_FUNC(const char *) Py_GetCopyright(void);
 diff --git a/Lib/platform.py b/Lib/platform.py
-index dc981ec144..d04c03febb 100755
+index 2ab68ae..665ef58 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -1087,6 +1087,7 @@ def processor():
+@@ -922,6 +922,7 @@ def processor():
  
  _sys_version_parser = re.compile(
      r'([\w.+]+)\s*'  # "version<space>"
@@ -35,20 +35,20 @@ index dc981ec144..d04c03febb 100755
      r'(?:,\s*([\w ]*)'  # ", builddate"
      r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
 diff --git a/Modules/main.c b/Modules/main.c
-index f6b5104300..949abe7047 100644
+index 197c9b3..a80f60f 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
-@@ -1221,7 +1221,7 @@ pymain_header(_PyMain *pymain)
+@@ -473,7 +473,7 @@ pymain_header(const _PyCoreConfig *config)
          return;
      }
  
 -    fprintf(stderr, "Python %s on %s\n", Py_GetVersion(), Py_GetPlatform());
 +    fprintf(stderr, "Python %s :: %s on %s\n", Py_GetVersion(), Anaconda_GetVersion(), Py_GetPlatform());
-     if (!Py_NoSiteFlag) {
+     if (config->site_import) {
          fprintf(stderr, "%s\n", COPYRIGHT);
      }
 diff --git a/Python/getversion.c b/Python/getversion.c
-index c32b6f9d60..03b6888976 100644
+index c32b6f9..b5dfffb 100644
 --- a/Python/getversion.c
 +++ b/Python/getversion.c
 @@ -2,9 +2,56 @@
@@ -109,5 +109,5 @@ index c32b6f9d60..03b6888976 100644
  Py_GetVersion(void)
  {
 -- 
-2.17.0
+2.7.4
 

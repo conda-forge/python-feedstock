@@ -1,7 +1,7 @@
-From 9d5d412bace982c71b299ea528108618750d434b Mon Sep 17 00:00:00 2001
+From b9207cdf94b69ea9452c905856d9c49bea85916a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 29 Apr 2018 16:10:42 +0100
-Subject: [PATCH 14/18] Disable new-dtags in unixccompiler.py
+Subject: [PATCH 14/20] Disable new-dtags in unixccompiler.py
 
 They prevent isolation from system libraries and the HPC 'modules' system
 by giving precedence to LD_LIBRARY_PATH. We never want our libraries to
@@ -21,7 +21,7 @@ itself, MSVC).
  2 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/Lib/distutils/tests/test_unixccompiler.py b/Lib/distutils/tests/test_unixccompiler.py
-index eef702cf01..2d8d61df03 100644
+index eef702c..2d8d61d 100644
 --- a/Lib/distutils/tests/test_unixccompiler.py
 +++ b/Lib/distutils/tests/test_unixccompiler.py
 @@ -59,7 +59,7 @@ class UnixCCompilerTestCase(unittest.TestCase):
@@ -43,10 +43,10 @@ index eef702cf01..2d8d61df03 100644
          # GCC GNULD with fully qualified configuration prefix
          # see #7617
 diff --git a/Lib/distutils/unixccompiler.py b/Lib/distutils/unixccompiler.py
-index 1b8f31b0f7..77255d6788 100644
+index 78a4665..efacb63 100644
 --- a/Lib/distutils/unixccompiler.py
 +++ b/Lib/distutils/unixccompiler.py
-@@ -240,12 +240,12 @@ class UnixCCompiler(CCompiler):
+@@ -248,12 +248,12 @@ class UnixCCompiler(CCompiler):
                  # use it anyway.  Since distutils has always passed in
                  # -Wl whenever gcc was used in the past it is probably
                  # safest to keep doing so.
@@ -63,5 +63,5 @@ index 1b8f31b0f7..77255d6788 100644
                  # No idea how --enable-new-dtags would be passed on to
                  # ld if this system was using GNU ld.  Don't know if a
 -- 
-2.17.2 (Apple Git-113)
+2.7.4
 

@@ -1,3 +1,5 @@
+@echo on
+
 setlocal EnableDelayedExpansion
 
 :: brand Python with conda-forge startup message
@@ -27,18 +29,21 @@ if "%DEBUG_C%"=="yes" (
 ) else (
   set PGO=--pgo
 )
+:: TODO enable PGO for final release
+:: Disable PGO during alpha/beta/rc period
+set PGO=
 
 call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
-for %%x in (python37.dll python3.dll python.exe pythonw.exe) do (
+for %%x in (python38.dll python3.dll python.exe pythonw.exe) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
-for %%x in (python.pdb python37.pdb pythonw.pdb) do (
+for %%x in (python.pdb python38.pdb pythonw.pdb) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -92,8 +97,6 @@ move /y %PREFIX%\Tools\scripts\2to3 %PREFIX%\Tools\scripts\2to3.py
 if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
 if errorlevel 1 exit 1
-move /y %PREFIX%\Tools\scripts\pyvenv %PREFIX%\Tools\scripts\pyvenv.py
-if errorlevel 1 exit 1
 
 :: Populate the tcl directory
 xcopy /s /y /i %SRC_DIR%\externals\tcltk-8.6.9.0\%BUILD_PATH%\lib %PREFIX%\tcl
@@ -120,7 +123,7 @@ if errorlevel 1 exit 1
 
 :: Populate the libs directory
 mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python37.lib %PREFIX%\libs\
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python38.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3.lib %PREFIX%\libs\
 if errorlevel 1 exit 1

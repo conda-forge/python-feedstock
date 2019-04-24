@@ -1,4 +1,4 @@
-From 4899df80f0de148f29c2e2a3f8d14c78da63eb0c Mon Sep 17 00:00:00 2001
+From 98521f5d2e02bd32b77d56948a0d69d99239bebd Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 25 Jan 2019 22:54:57 +0000
 Subject: [PATCH 20/20] Add CondaEcosystemModifyDllSearchPath()
@@ -10,44 +10,34 @@ Reviewed by Kai Tietz 7.2.2019
 
 Updated a bit to include other directories.
 ---
- Modules/main.c       | 382 ++++++++++++++++++++++++++++++++++++++++++-
+ Modules/main.c       | 378 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ Python/coreconfig.c  |   4 +
  Python/dynload_win.c |   4 +
- 2 files changed, 385 insertions(+), 1 deletion(-)
+ 3 files changed, 385 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index 514f809939..602adfeb77 100644
+index a80f60f..c825c5a 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
-@@ -16,6 +16,10 @@
- #  ifdef HAVE_FCNTL_H
- #    include <fcntl.h>
- #  endif
-+#  include <shlwapi.h>
-+#  include <string.h>
-+#  include <malloc.h>
-+#  include <libloaderapi.h>
+@@ -31,6 +31,8 @@
+ extern "C" {
  #endif
- 
- #ifdef _MSC_VER
-@@ -56,6 +60,8 @@ extern "C" {
-         } \
-     } while (0)
  
 +char *CondaEcosystemGetWarnings();
 +
- #ifdef MS_WINDOWS
- #define WCSTOK wcstok_s
- #else
-@@ -1236,7 +1242,7 @@ pymain_header(_PyMain *pymain)
+ /* --- PyMainInterpreter ------------------------------------------ */
+ 
+ void
+@@ -473,7 +475,7 @@ pymain_header(const _PyCoreConfig *config)
          return;
      }
  
 -    fprintf(stderr, "Python %s :: %s on %s\n", Py_GetVersion(), Anaconda_GetVersion(), Py_GetPlatform());
 +    fprintf(stderr, "Python %s :: %s on %s\n%s", Py_GetVersion(), Anaconda_GetVersion(), Py_GetPlatform(), CondaEcosystemGetWarnings());
-     if (!Py_NoSiteFlag) {
+     if (config->site_import) {
          fprintf(stderr, "%s\n", COPYRIGHT);
      }
-@@ -3026,9 +3032,383 @@ pymain_init(_PyMain *pymain)
+@@ -867,9 +869,383 @@ exit_sigint(void)
  }
  
  
@@ -421,18 +411,33 @@ index 514f809939..602adfeb77 100644
 +
 +
  static int
- pymain_main(_PyMain *pymain)
+ pymain_main(_PyArgv *args)
  {
 +#ifdef MS_WINDOWS
 +    /* LoadAndUnloadTestDLL(L"libiomp5md.dll"); */
 +    CondaEcosystemModifyDllSearchPath_Init(pymain->argc, pymain->wchar_argv);
 +    /* LoadAndUnloadTestDLL(L"libiomp5md.dll"); */
 +#endif
-     int res = pymain_init(pymain);
-     if (res == 1) {
-         goto done;
+     _PyInitError err;
+ 
+     PyInterpreterState *interp;
+diff --git a/Python/coreconfig.c b/Python/coreconfig.c
+index ba5abb6..dbc4140 100644
+--- a/Python/coreconfig.c
++++ b/Python/coreconfig.c
+@@ -19,6 +19,10 @@
+ #  ifdef HAVE_FCNTL_H
+ #    include <fcntl.h>    /* O_BINARY */
+ #  endif
++#  include <shlwapi.h>
++#  include <string.h>
++#  include <malloc.h>
++#  include <libloaderapi.h>
+ #endif
+ 
+ 
 diff --git a/Python/dynload_win.c b/Python/dynload_win.c
-index 0fdf77f552..73acda3475 100644
+index 36918c3..ddb8d64 100644
 --- a/Python/dynload_win.c
 +++ b/Python/dynload_win.c
 @@ -217,6 +217,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
@@ -444,8 +449,8 @@ index 0fdf77f552..73acda3475 100644
 +        CondaEcosystemModifyDllSearchPath(1, 1);
 +
          /* XXX This call doesn't exist in Windows CE */
+         Py_BEGIN_ALLOW_THREADS
          hDLL = LoadLibraryExW(wpathname, NULL,
-                               LOAD_WITH_ALTERED_SEARCH_PATH);
 -- 
-2.17.2 (Apple Git-113)
+2.7.4
 

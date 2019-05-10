@@ -1,4 +1,4 @@
-From 8d96db9742f5ac04bdd5fa7abb8fed768dc25617 Mon Sep 17 00:00:00 2001
+From 28f07972070d1daab343dd98d4f32f22c6e219c6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 3 Dec 2017 17:31:27 +0000
 Subject: [PATCH 12/20] Add support for _CONDA_PYTHON_SYSCONFIGDATA_NAME if
@@ -14,10 +14,10 @@ manually).
  2 files changed, 23 insertions(+), 13 deletions(-)
 
 diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
-index a349467..77444cb 100644
+index b51629eb94..849f98f929 100644
 --- a/Lib/distutils/sysconfig.py
 +++ b/Lib/distutils/sysconfig.py
-@@ -427,11 +427,13 @@ def _init_posix():
+@@ -433,11 +433,13 @@ def _init_posix():
      """Initialize the module as appropriate for POSIX systems."""
      # _sysconfigdata is generated at build time, see the sysconfig module
      name = os.environ.get('_PYTHON_SYSCONFIGDATA_NAME',
@@ -37,7 +37,7 @@ index a349467..77444cb 100644
      build_time_vars = _temp.build_time_vars
      global _config_vars
 diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index cc8c796..b9ecd5c 100644
+index 8446c8deb2..5543b1e890 100644
 --- a/Lib/sysconfig.py
 +++ b/Lib/sysconfig.py
 @@ -343,13 +343,21 @@ def get_makefile_filename():
@@ -79,5 +79,5 @@ index cc8c796..b9ecd5c 100644
      build_time_vars = _temp.build_time_vars
      vars.update(build_time_vars)
 -- 
-2.7.4
+2.21.0.windows.1
 

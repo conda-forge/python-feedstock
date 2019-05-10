@@ -1,4 +1,4 @@
-From 6677825bab90d347179e8db4cd12567ac5a82781 Mon Sep 17 00:00:00 2001
+From 891da51e085f469df8d85a86fdaf3d2677d9d548 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:23:02 +0100
 Subject: [PATCH 08/20] Win32: Fixes for Windows GCC interop needed by RPy2 and
@@ -10,7 +10,7 @@ We must pass -DMS_WIN32 or -DMS_WIN64
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/Lib/distutils/cygwinccompiler.py b/Lib/distutils/cygwinccompiler.py
-index 48013e1..339c278 100644
+index 48013e1000..339c2782f0 100644
 --- a/Lib/distutils/cygwinccompiler.py
 +++ b/Lib/distutils/cygwinccompiler.py
 @@ -302,9 +302,13 @@ class Mingw32CCompiler(CygwinCCompiler):
@@ -31,5 +31,5 @@ index 48013e1..339c278 100644
                               linker_so='%s %s %s'
                                          % (self.linker_dll, shared_option,
 -- 
-2.7.4
+2.21.0.windows.1
 

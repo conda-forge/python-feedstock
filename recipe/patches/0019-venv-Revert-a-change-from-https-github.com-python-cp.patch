@@ -1,4 +1,4 @@
-From 3f1dc6a7d2e4bc9c529fecdd2b757dfecfd5a183 Mon Sep 17 00:00:00 2001
+From 8aa29f3ef365c347cb97a68f1013a8d744ee0604 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 2 Jan 2019 21:38:48 +0000
 Subject: [PATCH 19/20] venv: Revert a change from
@@ -11,10 +11,10 @@ If copier(context.executable, path) is not also called on Windows (as it was in 
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Lib/venv/__init__.py b/Lib/venv/__init__.py
-index 5e6d375..ad04678 100644
+index 4a49b240b8..edb4e2266b 100644
 --- a/Lib/venv/__init__.py
 +++ b/Lib/venv/__init__.py
-@@ -208,9 +208,9 @@ class EnvBuilder:
+@@ -211,9 +211,9 @@ class EnvBuilder:
          binpath = context.bin_path
          path = context.env_exe
          copier = self.symlink_or_copy
@@ -26,5 +26,5 @@ index 5e6d375..ad04678 100644
                  os.chmod(path, 0o755)
              for suffix in ('python', 'python3'):
 -- 
-2.7.4
+2.21.0.windows.1
 

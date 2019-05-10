@@ -1,4 +1,4 @@
-From 30d6de643c970c64145e79c17c03ee5c1052ce17 Mon Sep 17 00:00:00 2001
+From 6102b48bf9e40fb7b9e5744bddc95a29af934a78 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Mon, 10 Dec 2018 12:22:37 -0600
 Subject: [PATCH 18/20] Unvendor sqlite3
@@ -11,10 +11,10 @@ Subject: [PATCH 18/20] Unvendor sqlite3
  4 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 5f1877f..b896b45 100644
+index 7e0062692b..f4f75a5066 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
-@@ -77,9 +77,12 @@
+@@ -93,9 +93,12 @@
    </PropertyGroup>
    <ItemDefinitionGroup>
      <ClCompile>
@@ -22,13 +22,13 @@ index 5f1877f..b896b45 100644
 +      <AdditionalIncludeDirectories>$(sqlite3Dir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <PreprocessorDefinitions>MODULE_NAME="sqlite3";%(PreprocessorDefinitions)</PreprocessorDefinitions>
      </ClCompile>
-+    <Link>
-+      <AdditionalDependencies>$(sqlite3Dir)\lib\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-+    </Link>
++    <Link>
++      <AdditionalDependencies>$(sqlite3Dir)\lib\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
++    </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClInclude Include="..\Modules\_sqlite\cache.h" />
-@@ -111,10 +114,6 @@
+@@ -127,10 +130,6 @@
        <Project>{cf7ac3d1-e2df-41d2-bea6-1e2556cdea26}</Project>
        <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
      </ProjectReference>
@@ -40,10 +40,10 @@ index 5f1877f..b896b45 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 68e9a43..601b7d5 100644
+index 6dc0139bc4..2f58d8ab24 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
-@@ -55,8 +55,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bdist_wininst", "..\PC\bdis
+@@ -57,8 +57,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bdist_wininst", "..\PC\bdis
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_hashlib", "_hashlib.vcxproj", "{447F05A8-F581-4CAC-A466-5AC7936E207E}"
  EndProject
@@ -53,10 +53,10 @@ index 68e9a43..601b7d5 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 25af54f..8a3bae8 100644
+index 11638fe348..9d09cbddfd 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -50,7 +50,7 @@
+@@ -54,7 +54,7 @@
      <ExternalsDir>$(EXTERNALS_DIR)</ExternalsDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
@@ -64,12 +64,12 @@ index 25af54f..8a3bae8 100644
 +    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
      <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
-     <opensslDir>$(OPENSSL_DIR)\</opensslDir>
+     <libffiDir>$(ExternalsDir)libffi\</libffiDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index 5c67a7f..f588e38 100644
+index 90b4d3108f..a8db28a37f 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
-@@ -72,12 +72,12 @@
+@@ -88,12 +88,12 @@
    <PropertyGroup Label="UserMacros" />
    <PropertyGroup>
      <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
@@ -79,15 +79,15 @@ index 5c67a7f..f588e38 100644
 -    <SqliteMinorVersion>$(_SqliteVersion.Split(`;`)[3])</SqliteMinorVersion>
 -    <SqliteMicroVersion>$(_SqliteVersion.Split(`;`)[4])</SqliteMicroVersion>
 -    <SqlitePatchVersion>$(_SqliteVersion.Split(`;`)[5])</SqlitePatchVersion>
-+    <_SqliteVersion>$(SQLITE3_VERSION)</_SqliteVersion>
-+    <SqliteVersion>$(_SqliteVersion)</SqliteVersion>
-+    <SqliteMajorVersion>$(_SqliteVersion.Split(`.`)[1])</SqliteMajorVersion>
-+    <SqliteMinorVersion>$(_SqliteVersion.Split(`.`)[2])</SqliteMinorVersion>
-+    <SqliteMicroVersion>$(_SqliteVersion.Split(`.`)[3])</SqliteMicroVersion>
-+    <SqlitePatchVersion>$(_SqliteVersion.Split(`.`)[4])</SqlitePatchVersion>
++    <_SqliteVersion>$(SQLITE3_VERSION)</_SqliteVersion>
++    <SqliteVersion>$(_SqliteVersion)</SqliteVersion>
++    <SqliteMajorVersion>$(_SqliteVersion.Split(`.`)[1])</SqliteMajorVersion>
++    <SqliteMinorVersion>$(_SqliteVersion.Split(`.`)[2])</SqliteMinorVersion>
++    <SqliteMicroVersion>$(_SqliteVersion.Split(`.`)[3])</SqliteMicroVersion>
++    <SqlitePatchVersion>$(_SqliteVersion.Split(`.`)[4])</SqlitePatchVersion>
    </PropertyGroup>
    <ItemDefinitionGroup>
      <ClCompile>
 -- 
-2.7.4
+2.21.0.windows.1
 

@@ -1,4 +1,4 @@
-From 525fd12ec432de983487deec9a30d81b71b5fbad Mon Sep 17 00:00:00 2001
+From cbd83213b64aee75447865e00710fa81ab7b15e9 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 26 Aug 2018 17:10:08 +0100
 Subject: [PATCH 15/20] Fix cross-compilation on Debian-based distros
@@ -8,10 +8,10 @@ Subject: [PATCH 15/20] Fix cross-compilation on Debian-based distros
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 31bcda6..630ff3b 100644
+index faa1ebc055..cc6d9fd1c3 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -615,7 +615,8 @@ class PyBuildExt(build_ext):
+@@ -653,7 +653,8 @@ class PyBuildExt(build_ext):
          # only change this for cross builds for 3.3, issues on Mageia
          if CROSS_COMPILING:
              self.add_cross_compiling_paths()
@@ -22,5 +22,5 @@ index 31bcda6..630ff3b 100644
  
      def init_inc_lib_dirs(self):
 -- 
-2.7.4
+2.21.0.windows.1
 

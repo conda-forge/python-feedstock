@@ -25,9 +25,9 @@ index a80f60f..c825c5a 100644
  
 +char *CondaEcosystemGetWarnings();
 +
- /* --- PyMainInterpreter ------------------------------------------ */
+ /* --- pymain_init() ---------------------------------------------- */
  
- void
+ static _PyInitError
 @@ -473,7 +475,7 @@ pymain_header(const _PyCoreConfig *config)
          return;
      }
@@ -37,7 +37,7 @@ index a80f60f..c825c5a 100644
      if (config->site_import) {
          fprintf(stderr, "%s\n", COPYRIGHT);
      }
-@@ -867,9 +869,383 @@ exit_sigint(void)
+@@ -599,9 +599,383 @@ _Py_RunMain(void)
  }
  
  
@@ -418,9 +418,9 @@ index a80f60f..c825c5a 100644
 +    CondaEcosystemModifyDllSearchPath_Init(pymain->argc, pymain->wchar_argv);
 +    /* LoadAndUnloadTestDLL(L"libiomp5md.dll"); */
 +#endif
-     _PyInitError err;
- 
-     PyInterpreterState *interp;
+     _PyInitError err = pymain_init(args);
+     if (_Py_INIT_FAILED(err)) {
+         pymain_exit_error(err);
 diff --git a/Python/coreconfig.c b/Python/coreconfig.c
 index ba5abb6..dbc4140 100644
 --- a/Python/coreconfig.c
@@ -440,17 +440,17 @@ diff --git a/Python/dynload_win.c b/Python/dynload_win.c
 index 36918c3..ddb8d64 100644
 --- a/Python/dynload_win.c
 +++ b/Python/dynload_win.c
-@@ -217,6 +217,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
- #endif
-         /* We use LoadLibraryEx so Windows looks for dependent DLLs
-             in directory of pathname first. */
+@@ -219,6 +219,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
+            to avoid DLL preloading attacks and enable use of the
+            AddDllDirectory function. We add SEARCH_DLL_LOAD_DIR to
+            ensure DLLs adjacent to the PYD are preferred. */
 +        /* This resyncs values in PATH to AddDllDirectory() */
 +        extern int CondaEcosystemModifyDllSearchPath(int, int);
 +        CondaEcosystemModifyDllSearchPath(1, 1);
 +
-         /* XXX This call doesn't exist in Windows CE */
          Py_BEGIN_ALLOW_THREADS
          hDLL = LoadLibraryExW(wpathname, NULL,
+                               LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
 -- 
 2.7.4
 

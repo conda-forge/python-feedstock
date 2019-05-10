@@ -57,10 +57,10 @@ diff --git a/PCbuild/python.props b/PCbuild/python.props
 index ee2de98..25af54f 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -53,9 +53,9 @@
-     <sqlite3Dir>$(ExternalsDir)sqlite-3.21.0.0\</sqlite3Dir>
-     <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
-     <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
+@@ -56,9 +56,9 @@
+     <libffiDir>$(ExternalsDir)libffi\</libffiDir>
+     <libffiOutDir>$(ExternalsDir)libffi\$(ArchName)\</libffiOutDir>
+     <libffiIncludeDir>$(libffiOutDir)include</libffiIncludeDir>
 -    <opensslDir>$(ExternalsDir)openssl-1.1.0j\</opensslDir>
 -    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.0j\$(ArchName)\</opensslOutDir>
 -    <opensslIncludeDir>$(opensslOutDir)include</opensslIncludeDir>

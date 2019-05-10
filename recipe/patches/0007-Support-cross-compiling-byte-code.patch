@@ -5,16 +5,16 @@ Subject: [PATCH 07/20] Support cross-compiling byte-code
 
 https://bugs.python.org/issue22724
 ---
- Makefile.pre.in | 15 ++++++++-------
+ Makefile.pre.in | 31 ++++++++++++++++---------------
  configure       |  4 +++-
  configure.ac    |  4 +++-
- 3 files changed, 14 insertions(+), 9 deletions(-)
+ 3 files changed, 22 insertions(+), 17 deletions(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
 index 8042e8e..f3f98eb 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
-@@ -242,6 +242,7 @@ BUILDPYTHON=	python$(BUILDEXE)
+@@ -245,6 +245,7 @@ BUILDPYTHON=	python$(BUILDEXE)
  
  PYTHON_FOR_REGEN=@PYTHON_FOR_REGEN@
  UPDATE_FILE=@PYTHON_FOR_REGEN@ $(srcdir)/Tools/scripts/update_file.py
@@ -22,7 +22,7 @@ index 8042e8e..f3f98eb 100644
  PYTHON_FOR_BUILD=@PYTHON_FOR_BUILD@
  _PYTHON_HOST_PLATFORM=@_PYTHON_HOST_PLATFORM@
  BUILD_GNU_TYPE=	@build@
-@@ -560,7 +561,7 @@ $(BUILDPYTHON):	Programs/python.o $(LIBRARY) $(LDLIBRARY) $(PY3LIBRARY)
+@@ -563,7 +564,7 @@ $(BUILDPYTHON):	Programs/python.o $(LIBRARY) $(LDLIBRARY) $(PY3LIBRARY)
  	$(LINKCC) $(PY_CORE_LDFLAGS) $(LINKFORSHARED) -o $@ Programs/python.o $(BLDLIBRARY) $(LIBS) $(MODLIBS) $(SYSLIBS)
  
  platform: $(BUILDPYTHON) pybuilddir.txt
@@ -31,7 +31,7 @@ index 8042e8e..f3f98eb 100644
  
  # Create build directory and generate the sysconfig build-time data there.
  # pybuilddir.txt contains the name of the build dir and is used for
-@@ -571,7 +572,7 @@ platform: $(BUILDPYTHON) pybuilddir.txt
+@@ -574,7 +575,7 @@ platform: $(BUILDPYTHON) pybuilddir.txt
  # or removed in case of failure.
  pybuilddir.txt: $(BUILDPYTHON)
  	@echo "none" > ./pybuilddir.txt
@@ -40,8 +40,12 @@ index 8042e8e..f3f98eb 100644
  	if test $$? -ne 0 ; then \
  		echo "generate-posix-vars failed" ; \
  		rm -f ./pybuilddir.txt ; \
-@@ -602,7 +603,7 @@ sharedmods: $(BUILDPYTHON) pybuilddir.txt Modules/_math.o
- 		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build"; \
+@@ -602,10 +603,10 @@ sharedmods: $(BUILDPYTHON) pybuilddir.txt Modules/_math.o
+ 	esac; \
+ 	echo "$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
+ 		_TCLTK_INCLUDES='$(TCLTK_INCLUDES)' _TCLTK_LIBS='$(TCLTK_LIBS)' \
+-		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build"; \
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build"; \
  	$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
  		_TCLTK_INCLUDES='$(TCLTK_INCLUDES)' _TCLTK_LIBS='$(TCLTK_LIBS)' \
 -		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build
@@ -49,7 +53,7 @@ index 8042e8e..f3f98eb 100644
  
  
  # Build static library
-@@ -1146,7 +1147,7 @@ install: @FRAMEWORKINSTALLFIRST@ commoninstall bininstall maninstall @FRAMEWORKI
+@@ -1158,7 +1159,7 @@ install: @FRAMEWORKINSTALLFIRST@ commoninstall bininstall maninstall @FRAMEWORKI
  			upgrade) ensurepip="--upgrade" ;; \
  			install|*) ensurepip="" ;; \
  		esac; \
@@ -58,7 +62,7 @@ index 8042e8e..f3f98eb 100644
  			$$ensurepip --root=$(DESTDIR)/ ; \
  	fi
  
-@@ -1156,7 +1157,7 @@ altinstall: commoninstall
+@@ -1168,7 +1169,7 @@ altinstall: commoninstall
  			upgrade) ensurepip="--altinstall --upgrade" ;; \
  			install|*) ensurepip="--altinstall" ;; \
  		esac; \
@@ -67,7 +71,52 @@ index 8042e8e..f3f98eb 100644
  			$$ensurepip --root=$(DESTDIR)/ ; \
  	fi
  
-@@ -1558,7 +1559,7 @@ libainstall:	@DEF_MAKE_RULE@ python-config
+@@ -1431,36 +1432,36 @@ libinstall:	build_all $(srcdir)/Modules/xxmodule.c
+ 			$(DESTDIR)$(LIBDEST)/distutils/tests ; \
+ 	fi
+ 	-PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
+-		$(PYTHON_FOR_BUILD) -Wi $(DESTDIR)$(LIBDEST)/compileall.py \
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) -Wi $(DESTDIR)$(LIBDEST)/compileall.py \
+ 		-d $(LIBDEST) -f \
+ 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+ 		$(DESTDIR)$(LIBDEST)
+ 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+-		$(PYTHON_FOR_BUILD) -Wi -O $(DESTDIR)$(LIBDEST)/compileall.py \
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) -Wi -O $(DESTDIR)$(LIBDEST)/compileall.py \
+ 		-d $(LIBDEST) -f \
+ 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+ 		$(DESTDIR)$(LIBDEST)
+ 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+-		$(PYTHON_FOR_BUILD) -Wi -OO $(DESTDIR)$(LIBDEST)/compileall.py \
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) -Wi -OO $(DESTDIR)$(LIBDEST)/compileall.py \
+ 		-d $(LIBDEST) -f \
+ 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+ 		$(DESTDIR)$(LIBDEST)
+ 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+-		$(PYTHON_FOR_BUILD) -Wi $(DESTDIR)$(LIBDEST)/compileall.py \
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) -Wi $(DESTDIR)$(LIBDEST)/compileall.py \
+ 		-d $(LIBDEST)/site-packages -f \
+ 		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+ 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+-		$(PYTHON_FOR_BUILD) -Wi -O $(DESTDIR)$(LIBDEST)/compileall.py \
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) -Wi -O $(DESTDIR)$(LIBDEST)/compileall.py \
+ 		-d $(LIBDEST)/site-packages -f \
+ 		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+ 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+-		$(PYTHON_FOR_BUILD) -Wi -OO $(DESTDIR)$(LIBDEST)/compileall.py \
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) -Wi -OO $(DESTDIR)$(LIBDEST)/compileall.py \
+ 		-d $(LIBDEST)/site-packages -f \
+ 		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+ 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+-		$(PYTHON_FOR_BUILD) -m lib2to3.pgen2.driver $(DESTDIR)$(LIBDEST)/lib2to3/Grammar.txt
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) -m lib2to3.pgen2.driver $(DESTDIR)$(LIBDEST)/lib2to3/Grammar.txt
+ 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+-		$(PYTHON_FOR_BUILD) -m lib2to3.pgen2.driver $(DESTDIR)$(LIBDEST)/lib2to3/PatternGrammar.txt
++		$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) -m lib2to3.pgen2.driver $(DESTDIR)$(LIBDEST)/lib2to3/PatternGrammar.txt
+ 
+ # bpo-21536: Misc/python-config.sh is generated in the build directory
+ # from $(srcdir)Misc/python-config.sh.in.
+@@ -1573,7 +1574,7 @@ libainstall:	@DEF_MAKE_RULE@ python-config
  # Install the dynamically loadable modules
  # This goes into $(exec_prefix)
  sharedinstall: sharedmods
@@ -76,20 +125,11 @@ index 8042e8e..f3f98eb 100644
  	   	--prefix=$(prefix) \
  		--install-scripts=$(BINDIR) \
  		--install-platlib=$(DESTSHARED) \
-@@ -1642,7 +1643,7 @@ frameworkinstallextras:
- # This installs a few of the useful scripts in Tools/scripts
- scriptsinstall:
- 	SRCDIR=$(srcdir) $(RUNSHARED) \
--	$(PYTHON_FOR_BUILD) $(srcdir)/Tools/scripts/setup.py install \
-+	$(PY_BUILD_ENVIRON) $(PYTHON_FOR_BUILD) $(srcdir)/Tools/scripts/setup.py install \
- 	--prefix=$(prefix) \
- 	--install-scripts=$(BINDIR) \
- 	--root=$(DESTDIR)/
 diff --git a/configure b/configure
 index 98b0af0..4cb9171 100755
 --- a/configure
 +++ b/configure
-@@ -750,6 +750,7 @@ CONFIG_ARGS
+@@ -752,6 +752,7 @@ CONFIG_ARGS
  SOVERSION
  VERSION
  PYTHON_FOR_BUILD
@@ -97,7 +137,7 @@ index 98b0af0..4cb9171 100755
  PYTHON_FOR_REGEN
  host_os
  host_vendor
-@@ -2944,7 +2945,8 @@ $as_echo_n "checking for python interpreter for cross build... " >&6; }
+@@ -2936,7 +2937,8 @@ $as_echo_n "checking for python interpreter for cross build... " >&6; }
  	fi
          { $as_echo "$as_me:${as_lineno-$LINENO}: result: $interp" >&5
  $as_echo "$interp" >&6; }

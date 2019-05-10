@@ -64,7 +64,7 @@ index 25af54f..8a3bae8 100644
 +    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
      <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
-     <opensslDir>$(OPENSSL_DIR)\</opensslDir>
+     <libffiDir>$(ExternalsDir)libffi\</libffiDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
 index 5c67a7f..f588e38 100644
 --- a/PCbuild/sqlite3.vcxproj

@@ -20,7 +20,7 @@ index 5387688..ae9cb8e 100644
 -    if (sys.platform == 'win32') and (ext != '.exe'):
 -        executable = executable + '.exe'
 +    if (sys.platform == 'win32'):
-+	# This should probably be:
++        # This should probably be:
 +        # try:
 +        #     exts = os.environ['PATHEXT'].lower().split(';')+['']
 +        # except:

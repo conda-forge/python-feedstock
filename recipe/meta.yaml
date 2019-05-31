@@ -38,6 +38,9 @@ source:
       # undefined reference to `CondaEcosystemGetWarnings'
       # - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
   # TODO :: Depend on our own packages for these:
+  - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
+    folder: externals/xz-5.2.2                                                       # [win]
+    sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f         # [win]
   # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
   - url: https://github.com/python/cpython-source-deps/archive/tcl-core-8.6.9.0.zip  # [win]
     folder: externals/tcl-core-8.6.9.0                                               # [win]
@@ -52,6 +55,15 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip       # [win]
     folder: externals/tix-8.4.3.6                                                    # [win]
     sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
+    folder: externals/bzip2-1.0.6                                                    # [win]
+    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip       # [win]
+    folder: externals/zlib-1.2.11                                                    # [win]
+    sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a         # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
+    folder: externals/nasm-2.11.06                                                   # [win]
+    sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
   number: 0
@@ -75,21 +87,21 @@ requirements:
     # - 7za                                # [win]
     # - curl                               # [win]
   host:
-    - nasm              # [win]
-    - bzip2
+    # - nasm 2.11.06      # [win]
+    - bzip2             # [not win]
     - sqlite
-    - xz
-    - zlib
+    - xz                # [not win]
+    - zlib              # [not win]
     - openssl
     - readline          # [not win]
     - tk                # [not win]
     - ncurses           # [linux]
     - libffi            # [not win]
   run:
-    - bzip2
+    - bzip2             # [not win]
     - sqlite
-    - xz
-    - zlib
+    - xz                # [not win]
+    - zlib              # [not win]
     - openssl
     - readline          # [not win]
     - tk                # [not win]

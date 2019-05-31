@@ -1,4 +1,5 @@
 {% set base_version = "3.7.3" %}
+{% set version_short = "3.8" %}
 {% set version = "3.8.0" %}
 {% set version_pre = "3.8.0b1" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
@@ -69,11 +70,11 @@ build:
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
-    - DLLs/_ctypes.pyd  # [win]
-    - bin/python3.7  # [not win]
+    - DLLs/_ctypes.pyd               # [win]
+    - bin/python{{ version_short }}  # [not win]
   script_env:
     - python_branding
-  skip: true  # [win and vc != 14]
+  skip: true                         # [win and vc != 14]
 
 requirements:
   build:

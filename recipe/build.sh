@@ -334,6 +334,7 @@ pushd ${PREFIX}
       strip -S lib/libpython${VER}m.a
     fi
   fi
+  # adding a comment because build scripts seem to fail here
   CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VER}${DBG}m* -name "libpython${VER}m.a")
   if [[ -f lib/libpython${VER}m.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
     chmod +w ${CONFIG_LIBPYTHON}

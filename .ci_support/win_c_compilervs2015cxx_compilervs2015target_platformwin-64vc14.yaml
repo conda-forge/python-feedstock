@@ -1,7 +1,5 @@
 CONDA_BUILD_SYSROOT:
 - /opt/MacOSX10.10.sdk
-bzip2:
-- '1'
 c_compiler:
 - vs2015
 channel_sources:
@@ -13,29 +11,19 @@ cxx_compiler:
 openssl:
 - 1.1.1a
 pin_run_as_build:
-  bzip2:
-    max_pin: x
   openssl:
     max_pin: x.x.x
   sqlite:
     max_pin: x
   vc:
     max_pin: x
-  xz:
-    max_pin: x.x
-  zlib:
-    max_pin: x.x
 sqlite:
 - '3'
 target_platform:
 - win-64
 vc:
 - '14'
-xz:
-- '5.2'
 zip_keys:
 - - vc
   - c_compiler
   - cxx_compiler
-zlib:
-- '1.2'

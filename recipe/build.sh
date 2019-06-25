@@ -304,13 +304,7 @@ cat /tmp/Makefile-$$ | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
 # echo diff -urN ${SYSCONFIG} ${PREFIX}/lib/python${VER}/$(basename ${SYSCONFIG})
 # diff -urN ${SYSCONFIG} ${PREFIX}/lib/python${VER}/$(basename ${SYSCONFIG})
 
-# Python installs python${VER}m and python${VER}, one as a hardlink to the other. conda-build breaks these
-# by copying. Since the executable may be static it may be very large so change one to be a symlink
-# of the other. In this case, python${VER}m will be the symlink.
-if [[ -f ${PREFIX}/bin/python${VER}m ]]; then
-  rm -f ${PREFIX}/bin/python${VER}m
-  ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python${VER}m
-fi
+# build does not install unversioned python; link it
 ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python
 ln -s ${PREFIX}/bin/pydoc${VER} ${PREFIX}/bin/pydoc
 
@@ -323,25 +317,6 @@ pushd ${PREFIX}/lib/python${VER}
   rm -rf test */test
   mv test_keep test
 popd
-
-# Size reductions:
-pushd ${PREFIX}
-  if [[ -f lib/libpython${VER}m.a ]]; then
-    chmod +w lib/libpython${VER}m.a
-    if [[ -n ${HOST} ]]; then
-      ${HOST}-strip -S lib/libpython${VER}m.a
-    else
-      strip -S lib/libpython${VER}m.a
-    fi
-  fi
-  CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VER}${DBG}m* -name "libpython${VER}m.a")
-  if [[ -f lib/libpython${VER}m.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
-    chmod +w ${CONFIG_LIBPYTHON}
-    rm ${CONFIG_LIBPYTHON}
-    ln -s ../../libpython${VER}m.a ${CONFIG_LIBPYTHON}
-  fi
-popd
-
 
 if [[ -n ${HOST} ]]; then
     # Copy sysconfig that gets recorded to a non-default name

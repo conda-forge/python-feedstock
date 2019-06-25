@@ -84,6 +84,7 @@ requirements:
     - {{ cdt('libx11-devel') }}          # [linux]
     - make                               # [not win]
     - pkg-config                         # [not win]
+    - libffi                             # [win]
     # - 7za                                # [win]
     # - curl                               # [win]
   host:

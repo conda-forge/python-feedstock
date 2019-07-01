@@ -20,7 +20,9 @@ jobs:
             ./.circleci/checkout_merge_commit.sh
       - run:
           # Run, test and (if we have a BINSTAR_TOKEN) upload the distributions.
-          command: ./.circleci/run_osx_build.sh
+          command: |
+            export CI=circle
+            ./.circleci/run_osx_build.sh
 
 workflows:
   version: 2

@@ -12,7 +12,7 @@ jobs:
     matrix:
       osx_:
         CONFIG: osx_
-        UPLOAD_PACKAGES: False
+        UPLOAD_PACKAGES: True
 
   steps:
   # TODO: Fast finish on azure pipelines?

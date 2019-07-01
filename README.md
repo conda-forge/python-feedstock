@@ -22,13 +22,6 @@ Current build status
 
 
 <table><tr>
-    <td>CircleCI</td>
-    <td>
-      <a href="https://circleci.com/gh/conda-forge/python-feedstock">
-        <img alt="OSX" src="https://img.shields.io/circleci/project/github/conda-forge/python-feedstock/master.svg?label=OSX">
-      </a>
-    </td>
-  </tr><tr>
     <td>Appveyor</td>
     <td>
       <a href="https://ci.appveyor.com/project/conda-forge/python-feedstock/branch/master">

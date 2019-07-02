@@ -4,12 +4,16 @@ bzip2:
 - '1'
 c_compiler:
 - clang
+c_compiler_version:
+- '4'
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
 - clangxx
+cxx_compiler_version:
+- '4'
 libffi:
 - '3.2'
 macos_machine:
@@ -38,7 +42,7 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 readline:
-- '7.0'
+- '8.0'
 sqlite:
 - '3'
 tk:

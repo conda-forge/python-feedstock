@@ -13,6 +13,8 @@ if "%ARCH%"=="64" (
    set BUILD_PATH=win32
 )
 
+set "SQLITE3_DIR=%LIBRARY_PREFIX%"
+
 cd PCbuild
 call build.bat --pgo -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
@@ -36,8 +38,6 @@ if errorlevel 1 exit 1
 REM Populate the DLLs directory
 mkdir %PREFIX%\DLLs
 xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\sqlite3.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tcl86t.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1

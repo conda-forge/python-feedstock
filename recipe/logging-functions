@@ -1,0 +1,74 @@
+_LOG_CRITICAL=50
+_LOG_ERROR=40
+_LOG_WARNING=30
+_LOG_INFO=20
+_LOG_DEBUG=10
+_LOG_NOTSET=0
+
+
+# From :: https://stackoverflow.com/a/20564208
+#      :: Many thanks, but ATM it is not right
+#      :: e.g. no way to specify which files for
+#      :: each of stderr and stdout, and well
+#      :: also completely broken ATM! Still I
+#      :: see text and that'll do for now.
+
+function _log_init() {
+  # exec 3>&1 4>&2 1> >(tee >(printf "_log_init :: $@") >&3) 2> >(tee >(printf "_log_init :: $@") >&4)
+  echo "Done exec, is logging working? .. no because I didn't finish it yet"
+  # trap '_log_cleanup' INT QUIT TERM EXIT
+}
+
+
+function _log_to_screen_and_file() {
+  echo "PYTHON_BUILD_LOG_LEVEL :: $@" 3>&1
+  echo "PYTHON_BUILD_LOG_LEVEL :: $@"
+}
+
+
+get_pids_of_ppid() {
+    local ppid="$1"
+
+    RETVAL=''
+    local pids=`ps x -o pid,ppid | awk "\\$2 == \\"$ppid\\" { print \\$1 }"`
+    RETVAL="$pids"
+}
+
+
+# Needed to kill processes running in background
+_log_cleanup() {
+    local current_pid element
+    local pids=( "$$" )
+
+    running_pids=("${pids[@]}")
+
+    while :; do
+        current_pid="${running_pids[0]}"
+        [ -z "$current_pid" ] && break
+
+        running_pids=("${running_pids[@]:1}")
+        get_pids_of_ppid $current_pid
+        local new_pids="$RETVAL"
+        [ -z "$new_pids" ] && continue
+
+        for element in $new_pids; do
+            running_pids+=("$element")
+            pids=("$element" "${pids[@]}")
+        done
+    done
+
+    kill ${pids[@]} 2>/dev/null
+}
+
+function _log() {
+  # $1 :: logging level (_LOG_{CRITICAL,ERROR,WARNING,INFO,DEBUG,NOTSET})
+  # $2 :: logging stderr file handle
+  # $# :: logging stdout file handle
+  local _LOGGING_LEVEL=\"$1\"; shift
+  local _STDERR=\"$1\"; shift
+  local _STDOUT=\"$1\"; shift
+  _log_to_screen_and_file $_LOGGING_LEVEL $_STDERR $_STDOUT "$#"
+  # Not really great?!
+  # printf $# 2>&${_STDERR} | tee -a ${_STDOUT}
+}
+

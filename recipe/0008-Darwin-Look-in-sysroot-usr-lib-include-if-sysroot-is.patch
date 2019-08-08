@@ -1,0 +1,51 @@
+From 8d1e329f780470855d98b6a2a36fed06106d4999 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Sun, 20 Aug 2017 00:22:22 +0100
+Subject: [PATCH 08/18] Darwin: Look in ${sysroot}/usr/{lib,include} if sysroot
+ is set
+
+---
+ setup.py | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/setup.py b/setup.py
+index 6cbbec9e12..3be02cb32b 100644
+--- a/setup.py
++++ b/setup.py
+@@ -138,12 +138,18 @@ def macosx_sdk_root():
+     The SDK paths used by Apple-supplied tool chains depend on the
+     setting of various variables; see the xcrun man page for more info.
+     """
++
+     global MACOS_SDK_ROOT
+ 
++    # This *not* cached in-case we need to change it dynamically
++    if 'CONDA_BUILD_SYSROOT' in os.environ:
++        return os.environ['CONDA_BUILD_SYSROOT']
++
+     # If already called, return cached result.
+     if MACOS_SDK_ROOT:
+         return MACOS_SDK_ROOT
+ 
++
+     cflags = sysconfig.get_config_var('CFLAGS')
+     m = re.search(r'-isysroot\s+(\S+)', cflags)
+     if m is not None:
+@@ -674,7 +680,13 @@ class PyBuildExt(build_ext):
+         # lib_dirs and inc_dirs are used to search for files;
+         # if a file is found in one of those directories, it can
+         # be assumed that no additional -I,-L directives are needed.
+-        if not CROSS_COMPILING:
++        # If we are using a macosx sysroot then ensure we look in
++        # sysroot/usr/{lib,include} (irrespective of whether we consider
++        # this cross_compiling or not).
++        if macosx_sdk_root() != '/':
++            self.lib_dirs = self.compiler.library_dirs + ['/usr/lib']
++            self.inc_dirs = self.compiler.include_dirs + ['/usr/include']
++        elif not CROSS_COMPILING:
+             self.lib_dirs = self.compiler.library_dirs + system_lib_dirs
+             self.inc_dirs = self.compiler.include_dirs + system_include_dirs
+         else:
+-- 
+2.20.1 (Apple Git-117)
+

@@ -1,5 +1,5 @@
-#!/bin/bash
-set -ex
+# This is the recipe used to build the official Anaconda Distribution's latest Python
+# release (at the times when this is true).
 
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
@@ -9,9 +9,77 @@ set -ex
 # .. but upstream regrtest.py now has --pgo (since >= 3.6) and skips tests that are:
 # "not helpful for PGO".
 
+set -x
+
+# Experimental logging system, consider moving it to some helper shell functions script.
+source ${RECIPE_DIR}/logging-functions
+
+_log_init
+
+declare -a LOG_INFO;
+LOG_INFO+=("_log_to_screen_and_file")
+LOG_INFO+=("${_LOG_INFO}")
+
+function _configure_and_build_python_in_folder() {
+  # Args:
+  # $1 :: build folder (warns if already exists)
+  # $2 :: install prefix (or UNINSTALLED)
+  # $3 :: logging level (_LOG_{CRITICAL,ERROR,WARNING,INFO,DEBUG,NOTSET})
+  # $4 :: logging stderr file handle
+  # $5 :: logging stdout file handle
+  # $6 :: stdio_style - may be used for e.g. reproducible builds - with logs - - (UNBUFFERED or anything else == buffered, sorry!)
+  # $7 :: env. variable settings (name of bash array containing pairs of var, value entries)
+  # $8 :: configure args (name of bash array .. etc etc)
+  # $9 :: config.site hacks (name of .. etc etc)
+
+  local _CABPIF_ARG_BUILD_FOLDER=\"$1\"; shift
+  local _CABPIF_ARG_INSTALL_PREFIX=\"$1\"; shift
+  local _CABPIF_ARG_LOGGING_LEVEL=\"$1\"; shift
+  local _CABPIF_ARG_STDERR=\"$1\"; shift
+  local _CABPIF_ARG_STDOUT=\"$1\"; shift
+  local _CABPIF_ARG_STDIO_STYLE=\"$1\"; shift
+  local _CABPIF_ARGVN_ENV_VARS=\"$1\"; shift
+  local _CABPIF_ARGVN_CFG_ARGS=\"$1\"; shift
+  local _CABPIF_ARGVN_CFG_SITE=\"$1\"; shift
+
+  _log_to_screen_and_file "What the heck am I doing here"
+  ${LOG_INFO[@]} "_CABPIF_ARG_INSTALL_PREFIX :: ${_CABPIF_ARG_INSTALL_PREFIX}"
+  ${LOG_INFO[@]} "_CABPIF_ARG_INSTALL_PREFIX :: ${_CABPIF_ARG_INSTALL_PREFIX}"
+  ${LOG_INFO[@]} "_CABPIF_ARG_LOGGING_LEVEL :: ${_CABPIF_ARG_LOGGING_LEVEL}"
+  ${LOG_INFO[@]} "_CABPIF_ARG_STDERR :: ${_CABPIF_ARG_STDERR}"
+  ${LOG_INFO[@]} "_CABPIF_ARG_STDOUT :: ${_CABPIF_ARG_STDOUT}"
+  ${LOG_INFO[@]} "_CABPIF_ARG_STDIO_STYLE :: ${_CABPIF_ARG_STDIO_STYLE}"}
+  ${LOG_INFO[@]} "_CABPIF_ARGVN_ENV_VARS :: ${_CABPIF_ARGVN_ENV_VARS}"}
+  ${LOG_INFO[@]} "_CABPIF_ARGVN_CFG_ARGS :: ${_CABPIF_ARGVN_CFG_ARGS}"}
+  ${LOG_INFO[@]} "_CABPIF_ARGVN_CFG_SITE :: ${_CABPIF_ARGVN_CFG_SITE}"}
+
+  declare -a _CABPIF_ARG_ENV_VARS
+  local __CABPIF_ARGVN_ENV_VARS=$(eval echo ${_CABPIF_ARGVN_ENV_VARS})
+  local _CABPIF_ARG_ENV_VARS="${__CABPIF_ARGVN_ENV_VARS[@]}"
+
+  declare -a _CABPIF_ARG_CFG_ARGS
+  local __CABPIF_ARGVN_CFG_ARGS=$(eval echo ${_CABPIF_ARGVN_CFG_ARGS})
+  local _CABPIF_ARG_CFG_ARGS="${__CABPIF_ARGVN_CFG_ARGS[@]}"
+
+  declare -a _CABPIF_ARG_CFG_SITE
+  local __CABPIF_ARGVN_CFG_SITE=$(eval echo ${_CABPIF_ARGVN_CFG_SITE})
+  local _CABPIF_ARG_CFG_SITE="${__CABPIF_ARGVN_CFG_SITE[@]}"
+
+  ${LOG_INFO[@]} "_CABPIF_ARG_ENV_VARS :: ${_CABPIF_ARG_ENV_VARS[@]}"}
+  ${LOG_INFO[@]} "_CABPIF_ARG_CFG_ARGS :: ${_CABPIF_ARG_CFG_ARGS[@]}"}
+  ${LOG_INFO[@]} "_CABPIF_ARG_CFG_SITE :: ${_CABPIF_ARG_CFG_SITE[@]}"}
+
+  # Run the thing!
+}
+
+
+VERFULL=${PKG_VERSION}
 VER=${PKG_VERSION%.*}
 VERNODOTS=${VER//./}
-CONDA_FORGE=yes
+TCLTK_VER=${tk%.*}
+CONDA_FORGE=no
+# Disables some PGO/LTO
+QUICK_BUILD=yes
 
 _buildd_static=build-static
 _buildd_shared=build-shared
@@ -27,20 +95,14 @@ if [[ ${PY_INTERP_LINKAGE_NATURE} == shared ]]; then
   _ENABLE_SHARED=--enable-shared
 fi
 
-# For debugging builds, set this to 0 to disable profile-guided optimization
+# For debugging builds, set this to no to disable profile-guided optimization
 if [[ ${DEBUG_C} == yes ]]; then
   _OPTIMIZED=no
 else
   _OPTIMIZED=yes
 fi
 
-# Since these take very long to build in our emulated ci, disable for now
-if [[ ${target_platform} == linux-aarch64 ]]; then
-  _OPTIMIZED=no
-fi
-if [[ ${target_platform} == linux-ppc64le ]]; then
-  _OPTIMIZED=no
-fi
+_OPTIMIZED=no
 
 declare -a _dbg_opts
 if [[ ${DEBUG_PY} == yes ]]; then
@@ -70,7 +132,7 @@ find "${PREFIX}/lib" -name "libbz2*${SHLIB_EXT}*" | xargs rm -fv {}
 AR=$(basename "${AR}")
 
 # CC must contain the string 'gcc' or else distutils thinks it is on macOS and uses '-R' to set rpaths.
-if [[ ${target_platform} == osx-64 ]]; then
+if [[ ${HOST} =~ .*darwin.* ]]; then
   CC=$(basename "${CC}")
 else
   CC=$(basename "${GCC}")
@@ -121,11 +183,24 @@ fi
 
 export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
-if [[ ${target_platform} == osx-64 ]]; then
+if [[ ${HOST} =~ .*darwin.* ]]; then
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
 fi
 
+
+
 if [[ "${BUILD}" != "${HOST}" ]] && [[ -n "${BUILD}" ]] && [[ -n "${HOST}" ]]; then
+
+  # $1 :: build folder (warns if already exists)
+  # $2 :: install prefix (or UNINSTALLED)
+  # $3 :: maximum logging level (_LOG_{CRITICAL,ERROR,WARNING,INFO,DEBUG,NOTSET}) - NYI, questionable => does it mean maximum tolerable before failure reported?
+  # $4 :: logging stderr file handle
+  # $5 :: logging stdout file handle
+  # $6 :: stdio_style - may be used for e.g. reproducible builds - with logs - - (UNBUFFERED or anything else == buffered, sorry!)
+  # $7 :: env. variable settings (name of bash array containing pairs of var, value entries)
+  # $8 :: configure args (name of bash array .. etc etc)
+  # $9 :: config.site hacks (name of .. etc etc)
+
   # Build the exact same Python for the build machine. It would be nice (and might be
   # possible already?) to be able to make this just an 'exact' pinned build dependency
   # of a split-package?
@@ -140,12 +215,23 @@ if [[ "${BUILD}" != "${HOST}" ]] && [[ -n "${BUILD}" ]] && [[ -n "${HOST}" ]]; t
             AR=/usr/bin/ar \
             RANLIB=/usr/bin/ranlib \
             LD=/usr/bin/ld && \
-      ${SRC_DIR}/configure --build=${BUILD} \
-                           --host=${BUILD} \
-                           --prefix=${BUILD_PYTHON_PREFIX} \
-                           --with-ensurepip=no && \
-      make && \
-      make install)
+      declare -a _CONFIGURE_ARGS
+      _CONFIGURE_ARGS=()
+      _CONFIGURE_ARGS+=("--build=${BUILD}")
+      _CONFIGURE_ARGS+=("--host=${BUILD}")
+      _CONFIGURE_ARGS+=("--prefix=${BUILD_PYTHON_PREFIX}")
+      _CONFIGURE_ARGS+=("--with-ensurepip=no")
+      printf "INFO :: calling\nINFO :: ${SRC_DIR}/configure  \\n"
+      for _CFG_ARG in "${_CONFIGURE_ARGS[@]}"; do
+          printf "INFO ::   \"${_CFG_ARG}\"\n"
+      done
+      "${SRC_DIR}"/configure "${_CONFIGURE_ARGS[@]}" 2>&1 | tee build-machine-python.configure.log
+      if [[ $0 != 0 ]]; then printf "ERROR :: \"${SRC_DIR}\"/configure failed, see ${PWD}/build-machine-python.configure.log\n"; fi
+      make 2>&1 | tee build-machine-python.make.log
+      if [[ $0 != 0 ]]; then printf "ERROR :: \"make failed, see ${PWD}/build-machine-python.make.log\n"; fi
+      make install 2>&1 | tee build-machine-python.install.log
+      if [[ $0 != 0 ]]; then printf "ERROR :: \"make install failed, see ${PWD}/build-machine-python.make.log\n"; fi
+    )
     export PATH=${BUILD_PYTHON_PREFIX}/bin:${PATH}
     ln -s ${BUILD_PYTHON_PREFIX}/bin/python${VER} ${BUILD_PYTHON_PREFIX}/bin/python
   popd
@@ -216,8 +302,10 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   _extra_opts+=(--with-lto)
   _MAKE_TARGET=profile-opt
   # To speed up build times during testing (1):
-  # _PROFILE_TASK="./python -m test.regrtest --pgo test_builtin"
-  if [[ ${CC} =~ .*gcc.* && ! ${c_compiler} =~ .*toolchain.* ]]; then
+  if [[ ${QUICK_BUILD} == yes ]]; then
+    _PROFILE_TASK="./python -m test.regrtest --pgo test_builtin"
+  fi
+  if [[ ${CC} =~ .*gcc.* ]]; then
     LTO_CFLAGS+=(-fuse-linker-plugin)
     LTO_CFLAGS+=(-ffat-lto-objects)
     # -flto must come after -flto-partition due to the replacement code
@@ -244,11 +332,15 @@ pushd ${_buildd_static}
                        ${_DISABLE_SHARED}
 popd
 
-make -j${CPU_COUNT} -C ${_buildd_static} \
-        EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
-        ${_MAKE_TARGET}
-# To speed up build times during testing (2):
-#       ${_MAKE_TARGET} PROFILE_TASK="${_PROFILE_TASK}"
+if [[ ${QUICK_BUILD} == yes ]]; then
+  make -j${CPU_COUNT} -C ${_buildd_static} \
+          EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
+          ${_MAKE_TARGET} PROFILE_TASK="${_PROFILE_TASK}"
+else
+  make -j${CPU_COUNT} -C ${_buildd_static} \
+          EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
+          ${_MAKE_TARGET}
+fi
 
 make -j${CPU_COUNT} -C ${_buildd_shared} \
         EXTRA_CFLAGS="${EXTRA_CFLAGS}"
@@ -275,11 +367,11 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   # Install the shared library (for people who embed Python only, e.g. GDB).
   # Linking module extensions to this on Linux is redundant (but harmless).
   # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
-  if [[ ${target_platform} =~ linux-* ]]; then
+  if [[ ${HOST} =~ .*linux.* ]]; then
     cp -pf ${_buildd_shared}/libpython${VER}m${SHLIB_EXT}.1.0 ${PREFIX}/lib/
     ln -sf ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1
     ln -sf ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1 ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}
-  elif [[ ${target_platform} == osx-64 ]]; then
+  elif [[ ${HOST} =~ .*darwin.* ]]; then
     cp -pf ${_buildd_shared}/libpython${VER}m${SHLIB_EXT} ${PREFIX}/lib/
   fi
 else
@@ -338,76 +430,61 @@ pushd ${PREFIX}
   fi
 popd
 
+# Copy sysconfig that gets recorded to a non-default name
+#   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
+#   to the name of this file (minus the .py extension)
+pushd $PREFIX/lib/python${VER}
+  # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
+  # This breaks our attempt to find the right one as recorded_name.
+  find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
+  recorded_name=$(find . -name "_sysconfigdata*.py")
+  our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
+  mv ${recorded_name} ${our_compilers_name}
 
-if [[ -n ${HOST} ]]; then
-    # Copy sysconfig that gets recorded to a non-default name
-    #   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
-    #   to the name of this file (minus the .py extension)
-    pushd $PREFIX/lib/python${VER}
-    # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
-    # This breaks our attempt to find the right one as recorded_name.
-    find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
-    recorded_name=$(find . -name "_sysconfigdata*.py")
-    our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
-    mv ${recorded_name} ${our_compilers_name}
+  # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
+  # from the previous build unfortunately so care must be taken at version bumps and flag changes.
+  SYSCONFIGS=$(find "${RECIPE_DIR}"/sysconfigdata/*.py -name '*sysconfigdata*')
+  for SYSCONFIG in ${SYSCONFIGS}; do
+    cat ${SYSCONFIG} | sed -e "s|@ABIFLAGS@|${ABIFLAGS}|g" \
+                           -e "s|@PYVERNODOTS@|${VERNODOTS}|g" \
+                           -e "s|@PYVER@|${VER}|g" \
+                           -e "s|@PYVERFULL@|${VERFULL}|g" \
+                           -e "s|@TCLTK_VER@|${TCLTK_VER}|g" > $(basename ${SYSCONFIG})
+  done
 
-    # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
-    # from the previous build unfortunately so care must be taken at version bumps and flag changes.
-    SYSCONFIGS=$(find "${RECIPE_DIR}"/sysconfigdata/*.py -name '*sysconfigdata*')
-    for SYSCONFIG in ${SYSCONFIGS}; do
-        cat ${SYSCONFIG} | sed -e "s|@ABIFLAGS@|${ABIFLAGS}|g" \
-                            -e "s|@PYVERNODOTS@|${VERNODOTS}|g" \
-                            -e "s|@PYVER@|${VER}|g" > $(basename ${SYSCONFIG})
-    done
-
-    if [[ ${HOST} =~ .*darwin.* ]]; then
-        cp ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_osx.py ${recorded_name}
+  if [[ ${HOST} =~ .*darwin.* ]]; then
+    cp ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_osx.py ${recorded_name}
+  else
+    if [[ ${HOST} =~ x86_64.* ]]; then
+      PY_ARCH=x86_64
+    elif [[ ${HOST} =~ i686.* ]]; then
+      PY_ARCH=i386
+    elif [[ ${HOST} =~ powerpc64le.* ]]; then
+      PY_ARCH=powerpc64le
     else
-        if [[ ${HOST} =~ x86_64.* ]]; then
-        PY_ARCH=x86_64
-        elif [[ ${HOST} =~ i686.* ]]; then
-        PY_ARCH=i386
-        elif [[ ${HOST} =~ powerpc64le.* ]]; then
-        PY_ARCH=powerpc64le
-        elif [[ ${HOST} =~ aarch64.* ]]; then
-        PY_ARCH=aarch64
-        else
-        echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
-        exit 1
-        fi
-        cat ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_linux.py | sed "s|@ARCH@|${PY_ARCH}|g" > ${recorded_name}
-        mkdir -p ${PREFIX}/compiler_compat
-        cp ${LD} ${PREFIX}/compiler_compat/ld
-        echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
-        echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
+      echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
+      exit 1
     fi
+    cat ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_linux.py | sed "s|@ARCH@|${PY_ARCH}|g" > ${recorded_name}
+    # mkdir -p ${PREFIX}/compiler_compat
+    # cp ${LD} ${PREFIX}/compiler_compat/ld.bin
+    mkdir -p ${PREFIX}/compiler_compat
+    cp ${LD} ${PREFIX}/compiler_compat/ld
+    cp ${RECIPE_DIR}/ld.wrapper ${PREFIX}/compiler_compat/ld
+    echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
+    echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
+  fi
 
-    # We no longer do this since we use sed to replace some tokens now and copying these fully baked ones back would overwrite that.
-    # I should work on something to put the tokens back instead, but also we probably want sysconfig data to be different for debug
-    # versus release.
-    #
-    # Copy the latest sysconfigdata for this platform back to the recipe so we can do full cross-compilation.
-    # The [^ ]* part after PKG_VERSION is to catch beta versions encoded into the build string but not the version number (e.g. b3).
-    # .. there is no variable set that contains this information, though it would be useful. We do have:
-    # .. PKG_BUILD_STRING="placeholder" though (pinging @msarahan about this).
-    # [[ -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name} ]] && rm -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
-    # cat ${our_compilers_name} | sed -e "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" \
-    #                                 -e "s|${SRC_DIR}|\${SRC_DIR}|g" \
-    #                                 -e "s|${PKG_NAME}-${PKG_VERSION}[^ ]*|\${PKG_NAME}-\${PKG_VERSION}|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
-    popd
-fi
-
-if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ .*toolchain.* ]]; then
-    # On the old toolchain compilers, -flto-partion=none is being replaced
-    # with -partition=none. This needs to be replaced back. Only happens with gcc
-    pushd $PREFIX/
-    find lib -type f -regex ".*pyc?" | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
-    find lib -type f -regex ".*pyc?" | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
-    find lib -type f -name Makefile | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
-    find lib -type f -name Makefile | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
-    popd
-fi
-
-# There are some strange distutils files around. Delete them
-rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
-
+  # We no longer do this since we use sed to replace some tokens now and copying these fully baked ones back would overwrite that.
+  # I should work on something to put the tokens back instead, but also we probably want sysconfig data to be different for debug
+  # versus release.
+  #
+  # Copy the latest sysconfigdata for this platform back to the recipe so we can do full cross-compilation.
+  # The [^ ]* part after PKG_VERSION is to catch beta versions encoded into the build string but not the version number (e.g. b3).
+  # .. there is no variable set that contains this information, though it would be useful. We do have:
+  # .. PKG_BUILD_STRING="placeholder" though (pinging @msarahan about this).
+  # [[ -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name} ]] && rm -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
+  # cat ${our_compilers_name} | sed -e "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" \
+  #                                 -e "s|${SRC_DIR}|\${SRC_DIR}|g" \
+  #                                 -e "s|${PKG_NAME}-${PKG_VERSION}[^ ]*|\${PKG_NAME}-\${PKG_VERSION}|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
+popd

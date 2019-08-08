@@ -1,4 +1,4 @@
-From a770bf0a77d6cd5a613569a33fd6940414e5f87d Mon Sep 17 00:00:00 2001
+From 26b094b700a83a75f1317f1fb01aaab8424e2ae2 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 25 Jan 2019 22:54:57 +0000
 Subject: [PATCH 18/18] Add CondaEcosystemModifyDllSearchPath()
@@ -12,12 +12,12 @@ Updated a bit to include other directories.
 
 meh
 ---
- Modules/main.c       | 393 ++++++++++++++++++++++++++++++++++++++++++-
+ Modules/main.c       | 394 ++++++++++++++++++++++++++++++++++++++++++-
  Python/dynload_win.c |  18 +-
- 2 files changed, 407 insertions(+), 4 deletions(-)
+ 2 files changed, 408 insertions(+), 4 deletions(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index e0dcd026ed..5ff15f4cf3 100644
+index e0dcd026ed..cf36c114af 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -20,6 +20,10 @@
@@ -31,16 +31,17 @@ index e0dcd026ed..5ff15f4cf3 100644
  #endif
  /* End of includes for exit_sigint() */
  
-@@ -31,6 +35,8 @@
+@@ -31,6 +35,9 @@
  extern "C" {
  #endif
  
 +extern char *CondaEcosystemGetWarnings();
++extern int CondaEcosystemModifyDllSearchPath_Init(int argc, wchar_t *argv[]);
 +
  /* --- pymain_init() ---------------------------------------------- */
  
  static PyStatus
-@@ -38,6 +44,11 @@ pymain_init(const _PyArgv *args)
+@@ -38,6 +45,11 @@ pymain_init(const _PyArgv *args)
  {
      PyStatus status;
  
@@ -52,7 +53,7 @@ index e0dcd026ed..5ff15f4cf3 100644
      status = _PyRuntime_Initialize();
      if (_PyStatus_EXCEPTION(status)) {
          return status;
-@@ -206,7 +217,7 @@ pymain_header(const PyConfig *config)
+@@ -206,7 +218,7 @@ pymain_header(const PyConfig *config)
          return;
      }
  
@@ -61,7 +62,7 @@ index e0dcd026ed..5ff15f4cf3 100644
      if (config->site_import) {
          fprintf(stderr, "%s\n", COPYRIGHT);
      }
-@@ -661,6 +672,386 @@ Py_RunMain(void)
+@@ -661,6 +673,386 @@ Py_RunMain(void)
  }
  
  
@@ -478,5 +479,5 @@ index 457d47f5ee..a9ad1819af 100644
  #if HAVE_SXS
          _Py_DeactivateActCtx(cookie);
 -- 
-2.20.1 (Apple Git-117)
+2.20.1
 

@@ -1,5 +1,5 @@
-{% set version = "2.7.15" %}
-{% set sha256 = "18617d1f15a380a919d517630a9cd85ce17ea602f9bbdc58ddc672df4b0239db" %}
+{% set version = "2.7.16" %}
+{% set sha256 = "01da813a3600876f03f46db11cc5c408175e99f03af2ba942ef324389a83bad5" %}
 
 package:
   name: python
@@ -9,47 +9,40 @@ source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tgz
     sha256: {{ sha256 }}
     patches:
-      {% if 'toolchain' in compiler('c') %}
-      # use one set of patches for the toolchain (old compiler) build
-      - osx-dist.patch                  # [osx and x86_64]
-      - win-find_exe.patch              # [win]
-      - win-library_bin.patch           # [win]
-      - 0008-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - 0001-bpo-36216-Add-check-for-characters-in-netloc-that-no.patch
+      - 0002-bpo-36216-Only-print-test-messages-when-verbose-GH-1.patch
+      - 0003-bpo-36742-Corrects-fix-to-handle-decomposition-in-us.patch
+      - 0004-bpo-30458-Disallow-control-chars-in-http-URLs.-GH-12.patch
+      - 0005-2.7-bpo-35121-prefix-dot-in-domain-for-proper-subdom.patch
+      - 0006-backport-Python-3.6-_PYTHON_SYSCONFIGDATA_NAME.patch
+      - 0007-Add-Anaconda-Distribution-version-logic.patch
+      - 0008-Darwin-Hack-sys.-exec_-prefix-if-run-from-python.app.patch
+      - 0009-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
+      - 0010-Win32-distutils-Also-look-for-executable.bat.patch
+      - 0011-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - 0012-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - 0013-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - 0014-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - 0015-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - 0016-Mark-sysconfigdata.py-as-utf-8.patch
       - 0017-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - PR_6724.patch
-      {% else %}
-      # use another set of patches for the gcc (new compiler) build
-      # these are the same patches as used in the AnacondaRecipes feedstock
-      - 0001-backport-Python-3.6-_PYTHON_SYSCONFIGDATA_NAME.patch
-      #- 0002-Add-Anaconda-Distribution-version-logic.patch
-      - 0003-Darwin-Hack-sys.-exec_-prefix-if-run-from-python.app.patch
-      - 0004-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
-      - 0005-Win32-distutils-Also-look-for-executable.bat.patch
-      # TODO :: This breaks conda activate and deactivate.
-      - 0006-Win32-Ensure-Library-bin-is-in-os.environ-PATH.patch
-      - 0007-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - 0008-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - 0009-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - 0010-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - 0011-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - 0012-Mark-sysconfigdata.py-as-utf-8.patch
-      - 0013-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - 0014-Fix-cross-compilation-on-Debian-based-distros.patch
-      {% endif %}
-      # use an additional set of patches for any build
-      - enable-loadable-sqlite-extensions.patch
+      - 0018-Fix-cross-compilation-on-Debian-based-distros.patch
+      - 0019-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - 0020-Unvendor-sqlite3.patch
+      - 0021-Add-CondaEcosystemModifyDllSearchPath.patch
+      - 0022-macOS-Allow-SDK-dir-suffixes-e.g.-usr-include-into-t.patch
+      - 0023-Use-CreateProcessW-to-support-Unicode.patch
+  # - path: ~/conda/CPython
+  #   path_via_symlink: True
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip      # [win]
     folder: externals/bzip2-1.0.6                                                   # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d        # [win]
   - url: https://github.com/python/cpython-source-deps/archive/bsddb-4.7.25.0.zip   # [win]
     folder: externals/bsddb-4.7.25.0                                                # [win]
     sha256: 0bc1f79d2bbff8159cf56103db615cc011458b7b0f5fc4c8c3db3132f026abbc        # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2o.zip   # [win]
-    folder: externals/openssl-1.0.2o                                                # [win]
-    sha256: 9db2a35ef254b57e16a47916810a3bf1cd639b512b5fe6c1cb51afc985113595        # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/sqlite-3.14.2.0.zip  # [win]
-    folder: externals/sqlite-3.14.2.0                                               # [win]
-    sha256: c1ff98c76c11dc10b2abe94d72ea5bae7da64ba8da9455a9af5dc3eae0f2f880        # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2q.zip   # [win]
+    folder: externals/openssl-1.0.2q                                                # [win]
+    sha256: d0e7bc44ab7ea2d43837ccc648a6f94702f3bad870318c0c8c771afd9c347d16        # [win]
   - url: https://github.com/python/cpython-source-deps/archive/tcl-8.5.19.0.zip     # [win]
     folder: externals/tcl-8.5.19.0                                                  # [win]
     sha256: 8520a7d6df448770ec129f497b0b16fdddc6876905ffce2ad13d12180598ce48        # [win]
@@ -65,15 +58,18 @@ source:
 
 
 build:
-  number: 1009
+  number: 3
   no_link:
     - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]
+  detect_binary_files_with_prefix: False
   # script_env:
   #   - python_branding
   # We delete the shared libraries.
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]
+    - libcxx            # [osx]
+    - openssl           # [osx]
   skip: True            # [win and vc != 9]
 
 requirements:
@@ -84,9 +80,11 @@ requirements:
     - {{ cdt('libx11-devel') }}          # [linux]
     - make                               # [unix]
     - pkg-config                         # [unix]
+    - patch                              # [unix]
+    - m2-patch                           # [win]
   host:
     - bzip2                              # [unix]
-    - sqlite                             # [unix]
+    - sqlite
     - zlib                               # [unix]
     - openssl                            # [unix]
     - readline                           # [unix]
@@ -95,15 +93,26 @@ requirements:
     - libffi                             # [unix]
 
 test:
+  # Because we need to use xvfb-run on linux, from a CDT package.
+  requires:  # [linux]
+    # We are running centos6 software here (on whatever distro you are on)
+    # .. so it best be compatible (you should use centos6 if possible).
+    - {{ cdt('xorg-x11-server-xvfb') }}  # [linux and not ppc64le]
+    - {{ cdt('xorg-x11-xauth') }}  # [linux and not ppc64le]
+  files:
+    - tests.py
   commands:
     - python -V
     - pydoc -h
     - python-config --help  # [unix]
-    - idle -h
+    - export PATH=${CONDA_PREFIX}/${HOST}/sysroot/bin:${CONDA_PREFIX}/${HOST}/sysroot/usr/bin:${PATH}
+    - export LD_LIBRARY_PATH=${CONDA_PREFIX}/lib:${CONDA_PREFIX}/${HOST}/sysroot/lib64:${CONDA_PREFIX}/${HOST}/sysroot/usr/lib:/usr/lib64:/usr/lib
+    - export DISPLAY=localhost:1
+    - bash -x xvfb-run python $PWD/tests.py  # [linux and not ppc64le]
+    - python tests.py  # [not linux or ppc64le]
+    - idle -h  # [not linux or ppc64le]
     - python -c "import sysconfig; print sysconfig.get_config_var('CC')"
-    {% if 'toolchain' not in compiler('c') %}
-    -  _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print sysconfig.get_config_var('CC')"  # [linux64]
-    {% endif %}
+    - _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print sysconfig.get_config_var('CC')"  # [linux64]
 
 about:
   home: http://www.python.org/

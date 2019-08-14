@@ -1,3 +1,14 @@
+From 5f35aa58a8603310c8837325da868d25c5fd47de Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 5 Dec 2017 22:47:59 +0000
+Subject: [PATCH 17/23] Fix find_library so that it looks in sys.prefix/lib
+ first
+
+---
+ Lib/ctypes/macholib/dyld.py |  4 ++++
+ Lib/ctypes/util.py          | 28 ++++++++++++++++++++++++++--
+ 2 files changed, 30 insertions(+), 2 deletions(-)
+
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
 index 1fdf8d648f..c6ffd15d2c 100644
 --- a/Lib/ctypes/macholib/dyld.py
@@ -14,7 +25,7 @@ index 1fdf8d648f..c6ffd15d2c 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index ab10ec52ee..40968e05b0 100644
+index ab10ec52ee..9e082e623b 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -73,7 +73,8 @@ if os.name == "ce":
@@ -27,31 +38,10 @@ index ab10ec52ee..40968e05b0 100644
                      '%s.dylib' % name,
                      '%s.framework/%s' % (name, name)]
          for name in possible:
-@@ -270,8 +271,44 @@ elif os.name == "posix":
+@@ -270,8 +271,31 @@ elif os.name == "posix":
                  return None
              return res.group(1)
  
-+        def _findLib_ld(name):
-+            # See issue #9998 for why this is needed
-+            expr = r'[^\(\)\s]*lib%s\.[^\(\)\s]*' % re.escape(name)
-+            cmd = ['ld', '-t']
-+            libpath = os.environ.get('LD_LIBRARY_PATH')
-+            if libpath:
-+                for d in libpath.split(':'):
-+                    cmd.extend(['-L', d])
-+            cmd.extend(['-o', os.devnull, '-l%s' % name])
-+            result = None
-+            try:
-+                p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-+                                     stderr=subprocess.PIPE,
-+                                     universal_newlines=True)
-+                out, _ = p.communicate()
-+                res = re.search(expr, os.fsdecode(out))
-+                if res:
-+                    result = res.group(0)
-+            except Exception as e:
-+                pass  # result will be None
-+            return result
 +
 +        def _findLib_prefix(name):
 +            if not name:
@@ -67,9 +57,20 @@ index ab10ec52ee..40968e05b0 100644
 +            # See issue #9998
 +            # Yes calling _findLib_prefix twice is deliberate, because _get_soname ditches
 +            # the full path.
-+            return _findLib_prefix(_get_soname(_findLib_prefix(name))) or \
-+                   _findSoname_ldconfig(name) or \
-+                   _get_soname(_findLib_gcc(name) or _findLib_ld(name))
++            # When objdump is unavailable this returns None
++            so_name = _get_soname(_findLib_prefix(name)) or name
++            if so_name != name:
++                return _findLib_prefix(so_name) or \
++                       _findLib_prefix(name) or \
++                       _findSoname_ldconfig(name) or \
++                       _get_soname(_findLib_gcc(name))
++            else:
++                return _findLib_prefix(name) or \
++                       _findSoname_ldconfig(name) or \
++                       _get_soname(_findLib_gcc(name))
  
  ################################################################
  # test code
+-- 
+2.20.1
+

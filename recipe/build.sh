@@ -92,6 +92,8 @@ _common_configure_args+=(--build=${BUILD})
 _common_configure_args+=(--host=${HOST})
 _common_configure_args+=(--enable-ipv6)
 _common_configure_args+=(--enable-unicode=${UNICODE})
+# Ignored due to our hack for Windows but we may as well pass it.
+_common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-computed-gotos)
 _common_configure_args+=(--with-system-ffi)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")

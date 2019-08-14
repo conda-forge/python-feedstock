@@ -1,0 +1,55 @@
+From e58e85fdd8fe9529837d5ff7c36df064bce4effc Mon Sep 17 00:00:00 2001
+From: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date: Mon, 10 Dec 2018 10:49:49 -0600
+Subject: [PATCH 20/23] Unvendor sqlite3
+
+---
+ PCbuild/_sqlite3.vcxproj | 7 ++-----
+ PCbuild/python.props     | 2 +-
+ 2 files changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
+index a470335001..f23f9e4dd1 100644
+--- a/PCbuild/_sqlite3.vcxproj
++++ b/PCbuild/_sqlite3.vcxproj
+@@ -61,11 +61,12 @@
+   </PropertyGroup>
+   <ItemDefinitionGroup>
+     <ClCompile>
+-      <AdditionalIncludeDirectories>$(sqlite3Dir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>$(sqlite3Dir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>MODULE_NAME="sqlite3";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+     </ClCompile>
+     <Link>
+       <BaseAddress>0x1e180000</BaseAddress>
++      <AdditionalDependencies>$(sqlite3Dir)\lib\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+     </Link>
+   </ItemDefinitionGroup>
+   <ItemGroup>
+@@ -96,10 +97,6 @@
+       <Project>{cf7ac3d1-e2df-41d2-bea6-1e2556cdea26}</Project>
+       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+     </ProjectReference>
+-    <ProjectReference Include="sqlite3.vcxproj">
+-      <Project>{a1a295e5-463c-437f-81ca-1f32367685da}</Project>
+-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+-    </ProjectReference>
+   </ItemGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+diff --git a/PCbuild/python.props b/PCbuild/python.props
+index 6673ff3136..7987067587 100644
+--- a/PCbuild/python.props
++++ b/PCbuild/python.props
+@@ -32,7 +32,7 @@
+ 
+     <!-- Directories of external projects. tcltk is handled in tcltk.props -->
+     <ExternalsDir>$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals\`))</ExternalsDir>
+-    <sqlite3Dir>$(ExternalsDir)sqlite-3.14.2.0\</sqlite3Dir>
++    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
+     <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
+     <bsddbDir>$(ExternalsDir)bsddb-4.7.25.0</bsddbDir>
+     <opensslDir>$(ExternalsDir)openssl-1.0.2q\</opensslDir>
+-- 
+2.20.1
+

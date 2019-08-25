@@ -1,17 +1,17 @@
-From 3d32581253d96c99a146825fae40d836715c5703 Mon Sep 17 00:00:00 2001
+From e7a9c3cb0dc4f3b36fcf72d34220153be7f865ea Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 15 Aug 2017 22:34:16 +0100
-Subject: [PATCH 01/20] Add Anaconda Distribution version logic
+Subject: [PATCH 01/18] Add Anaconda Distribution version logic
 
 ---
  Include/pylifecycle.h |  1 +
  Lib/platform.py       |  1 +
  Modules/main.c        |  2 +-
- Python/getversion.c   | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ Python/getversion.c   | 47 +++++++++++++++++++++++++++++++++++++++++++
  4 files changed, 50 insertions(+), 1 deletion(-)
 
 diff --git a/Include/pylifecycle.h b/Include/pylifecycle.h
-index 1df114a..512a4ac 100644
+index 1df114a73d..512a4ac2c4 100644
 --- a/Include/pylifecycle.h
 +++ b/Include/pylifecycle.h
 @@ -50,6 +50,7 @@ int _Py_CheckPython3(void);
@@ -23,10 +23,10 @@ index 1df114a..512a4ac 100644
  PyAPI_FUNC(const char *) Py_GetPlatform(void);
  PyAPI_FUNC(const char *) Py_GetCopyright(void);
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 2ab68ae..665ef58 100755
+index 6fbb7b08c5..a12f639453 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -922,6 +922,7 @@ def processor():
+@@ -943,6 +943,7 @@ def processor():
  
  _sys_version_parser = re.compile(
      r'([\w.+]+)\s*'  # "version<space>"
@@ -35,10 +35,10 @@ index 2ab68ae..665ef58 100755
      r'(?:,\s*([\w ]*)'  # ", builddate"
      r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
 diff --git a/Modules/main.c b/Modules/main.c
-index 197c9b3..a80f60f 100644
+index b8a1c9b79c..e0dcd026ed 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
-@@ -473,7 +473,7 @@ pymain_header(const _PyCoreConfig *config)
+@@ -206,7 +206,7 @@ pymain_header(const PyConfig *config)
          return;
      }
  
@@ -48,7 +48,7 @@ index 197c9b3..a80f60f 100644
          fprintf(stderr, "%s\n", COPYRIGHT);
      }
 diff --git a/Python/getversion.c b/Python/getversion.c
-index c32b6f9..b5dfffb 100644
+index c32b6f9d60..b5dfffb606 100644
 --- a/Python/getversion.c
 +++ b/Python/getversion.c
 @@ -2,9 +2,56 @@
@@ -109,5 +109,5 @@ index c32b6f9..b5dfffb 100644
  Py_GetVersion(void)
  {
 -- 
-2.7.4
+2.20.1 (Apple Git-117)
 

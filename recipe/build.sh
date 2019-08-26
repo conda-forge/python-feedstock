@@ -334,7 +334,7 @@ pushd ${PREFIX}
       strip -S lib/libpython${VER}m.a
     fi
   fi
-  CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VER}${DBG}m* -name "libpython${VER}m.a")
+  CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VER}${DBG}* -name "libpython${VER}m.a")
   if [[ -f lib/libpython${VER}m.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
     chmod +w ${CONFIG_LIBPYTHON}
     rm ${CONFIG_LIBPYTHON}

@@ -30,7 +30,8 @@ source:
       - patches/0015-Unvendor-openssl.patch
       - patches/0016-Unvendor-sqlite3.patch
       - patches/0017-venv-Revert-a-change-from-https-github.com-python-cp.patch
-      - patches/0018-Add-CondaEcosystemModifyDllSearchPath.patch
+      # TODO re-enable
+      #- patches/0018-Add-CondaEcosystemModifyDllSearchPath.patch
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]

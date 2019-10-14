@@ -1,5 +1,5 @@
 {% set base_version = "3.8.0" %}
-{% set version = "3.8.0b3" %}
+{% set version = "3.8.0rc1" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}

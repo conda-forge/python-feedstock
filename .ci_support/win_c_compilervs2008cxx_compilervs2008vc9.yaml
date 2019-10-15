@@ -7,8 +7,12 @@ channel_targets:
 cxx_compiler:
 - vs2008
 pin_run_as_build:
+  sqlite:
+    max_pin: x
   vc:
     max_pin: x
+sqlite:
+- '3'
 vc:
 - '9'
 zip_keys:

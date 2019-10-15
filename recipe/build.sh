@@ -265,7 +265,7 @@ make -j${CPU_COUNT} -C ${_buildd_shared} \
 # build a static library with PIC objects
 make -j${CPU_COUNT} -C ${_buildd_shared} \
         EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
-        LIBRARY=libpython${VER}m-pic.a libpython${VER}m-pic.a
+        LIBRARY=libpython${VER}-pic.a libpython${VER}-pic.a
 
 if [[ ${_OPTIMIZED} == yes ]]; then
   make -C ${_buildd_static} install
@@ -286,11 +286,11 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   # Linking module extensions to this on Linux is redundant (but harmless).
   # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
   if [[ ${target_platform} =~ linux-* ]]; then
-    cp -pf ${_buildd_shared}/libpython${VER}m${SHLIB_EXT}.1.0 ${PREFIX}/lib/
-    ln -sf ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1
-    ln -sf ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1 ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}
+    cp -pf ${_buildd_shared}/libpython${VER}${SHLIB_EXT}.1.0 ${PREFIX}/lib/
+    ln -sf ${PREFIX}/lib/libpython${VER}${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VER}${SHLIB_EXT}.1
+    ln -sf ${PREFIX}/lib/libpython${VER}${SHLIB_EXT}.1 ${PREFIX}/lib/libpython${VER}${SHLIB_EXT}
   elif [[ ${target_platform} == osx-64 ]]; then
-    cp -pf ${_buildd_shared}/libpython${VER}m${SHLIB_EXT} ${PREFIX}/lib/
+    cp -pf ${_buildd_shared}/libpython${VER}${SHLIB_EXT} ${PREFIX}/lib/
   fi
 else
   make -C ${_buildd_shared} install
@@ -332,12 +332,12 @@ popd
 
 # Size reductions:
 pushd ${PREFIX}
-  if [[ -f lib/libpython${VER}m.a ]]; then
-    chmod +w lib/libpython${VER}m.a
+  if [[ -f lib/libpython${VER}.a ]]; then
+    chmod +w lib/libpython${VER}.a
     if [[ -n ${HOST} ]]; then
-      ${HOST}-strip -S lib/libpython${VER}m.a
+      ${HOST}-strip -S lib/libpython${VER}.a
     else
-      strip -S lib/libpython${VER}m.a
+      strip -S lib/libpython${VER}.a
     fi
   fi
   CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VER}${DBG}* -name "libpython${VER}.a")

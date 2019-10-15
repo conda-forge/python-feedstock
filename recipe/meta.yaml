@@ -86,6 +86,7 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
+    - llvm-tools                         # [osx]
     - make                               # [not win]
     - pkg-config                         # [not win]
   host:

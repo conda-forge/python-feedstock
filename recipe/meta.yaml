@@ -70,6 +70,9 @@ build:
   script_env:
     - python_branding
   skip: true  # [win and vc != 14]
+  # We delete the shared libraries.
+  ignore_run_exports:   # [unix]
+    - bzip2             # [unix]
 
 requirements:
   build:
@@ -90,7 +93,6 @@ requirements:
     - ncurses           # [not win]
     - libffi            # [not win]
   run:
-    - bzip2             # [not win]
     - sqlite
     - xz                # [not win]
     - zlib              # [not win]

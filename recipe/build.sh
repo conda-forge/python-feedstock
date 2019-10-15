@@ -53,7 +53,7 @@ else
   DBG=
 fi
 
-ABIFLAGS=${DBG}m
+ABIFLAGS=${DBG}
 
 # This is the mechanism by which we fall back to default gcc, but having it defined here
 # would probably break the build by using incorrect settings and/or importing files that
@@ -338,11 +338,11 @@ pushd ${PREFIX}
       strip -S lib/libpython${VER}m.a
     fi
   fi
-  CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VER}${DBG}m* -name "libpython${VER}m.a")
-  if [[ -f lib/libpython${VER}m.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
+  CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VER}${DBG}* -name "libpython${VER}.a")
+  if [[ -f lib/libpython${VER}.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
     chmod +w ${CONFIG_LIBPYTHON}
     rm ${CONFIG_LIBPYTHON}
-    ln -s ../../libpython${VER}m.a ${CONFIG_LIBPYTHON}
+    ln -s ../../libpython${VER}.a ${CONFIG_LIBPYTHON}
   fi
 popd
 

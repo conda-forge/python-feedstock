@@ -384,17 +384,6 @@ pushd "${PREFIX}"/lib/python${VER}
   fi
 popd
 
-if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ .*toolchain.* ]]; then
-    # On the old toolchain compilers, -flto-partion=none is being replaced
-    # with -partition=none. This needs to be replaced back. Only happens with gcc
-    pushd $PREFIX/
-    find lib -type f -regex ".*pyc?" | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
-    find lib -type f -regex ".*pyc?" | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
-    find lib -type f -name Makefile | xargs sed -i "s/ -partition=none/ -flto-partition=none/g"
-    find lib -type f -name Makefile | xargs sed -i "s/'-partition=none/'-flto-partition=none/g"
-    popd
-fi
-
 # There are some strange distutils files around. Delete them
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 

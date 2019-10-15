@@ -79,10 +79,7 @@ requirements:
     - {{ cdt('libx11-devel') }}          # [linux]
     - make                               # [not win]
     - pkg-config                         # [not win]
-    # - 7za                                # [win]
-    # - curl                               # [win]
   host:
-    # - nasm 2.11.06      # [win]
     - bzip2             # [not win]
     - sqlite
     - xz                # [not win]

@@ -87,7 +87,7 @@ requirements:
     - openssl
     - readline          # [not win]
     - tk                # [not win]
-    - ncurses           # [linux]
+    - ncurses           # [not win]
     - libffi            # [not win]
   run:
     - bzip2             # [not win]
@@ -97,7 +97,7 @@ requirements:
     - openssl
     - readline          # [not win]
     - tk                # [not win]
-    - ncurses           # [linux]
+    - ncurses           # [not win]
     - libffi            # [not win]
 
 test:

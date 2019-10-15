@@ -59,6 +59,13 @@ source:
   - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
     folder: externals/nasm-2.11.06                                                   # [win]
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/libffi-3.3.0-rc0-r1.zip  # [win]
+    folder: externals/libffi-3.3.0-rc0-rc1                                              # [win]
+    sha256: 23b4347b347cb92fbfa312c95c8f9d1c8ee4416bd5cfc0f318fa01de220aa869            # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip                  # [win]
+    folder: externals/libffi                                                            # [win]
+    sha256: 57180e18749ad5e8727ae1f488621768a58808ac387968068c563bee8b2b23ec            # [win]
+
 
 build:
   number: 0

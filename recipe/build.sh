@@ -9,8 +9,10 @@ set -ex
 # .. but upstream regrtest.py now has --pgo (since >= 3.6) and skips tests that are:
 # "not helpful for PGO".
 
+VERFULL=${PKG_VERSION}
 VER=${PKG_VERSION%.*}
 VERNODOTS=${VER//./}
+TCLTK_VER=${tk}
 CONDA_FORGE=yes
 # Disables some PGO/LTO
 QUICK_BUILD=no
@@ -347,63 +349,40 @@ pushd ${PREFIX}
 popd
 
 
-if [[ -n ${HOST} ]]; then
-    # Copy sysconfig that gets recorded to a non-default name
-    #   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
-    #   to the name of this file (minus the .py extension)
-    pushd $PREFIX/lib/python${VER}
-    # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
-    # This breaks our attempt to find the right one as recorded_name.
-    find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
-    recorded_name=$(find . -name "_sysconfigdata*.py")
-    our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
-    mv ${recorded_name} ${our_compilers_name}
-
-    # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
-    # from the previous build unfortunately so care must be taken at version bumps and flag changes.
-    SYSCONFIGS=$(find "${RECIPE_DIR}"/sysconfigdata/*.py -name '*sysconfigdata*')
-    for SYSCONFIG in ${SYSCONFIGS}; do
-        cat ${SYSCONFIG} | sed -e "s|@ABIFLAGS@|${ABIFLAGS}|g" \
-                            -e "s|@PYVERNODOTS@|${VERNODOTS}|g" \
-                            -e "s|@PYVER@|${VER}|g" > $(basename ${SYSCONFIG})
-    done
-
-    if [[ ${HOST} =~ .*darwin.* ]]; then
-        cp ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_osx.py ${recorded_name}
-    else
-        if [[ ${HOST} =~ x86_64.* ]]; then
-        PY_ARCH=x86_64
-        elif [[ ${HOST} =~ i686.* ]]; then
-        PY_ARCH=i386
-        elif [[ ${HOST} =~ powerpc64le.* ]]; then
-        PY_ARCH=powerpc64le
-        elif [[ ${HOST} =~ aarch64.* ]]; then
-        PY_ARCH=aarch64
-        else
-        echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
-        exit 1
-        fi
-        cat ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_linux.py | sed "s|@ARCH@|${PY_ARCH}|g" > ${recorded_name}
-        mkdir -p ${PREFIX}/compiler_compat
-        cp ${LD} ${PREFIX}/compiler_compat/ld
-        echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
-        echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
-    fi
-
-    # We no longer do this since we use sed to replace some tokens now and copying these fully baked ones back would overwrite that.
-    # I should work on something to put the tokens back instead, but also we probably want sysconfig data to be different for debug
-    # versus release.
-    #
-    # Copy the latest sysconfigdata for this platform back to the recipe so we can do full cross-compilation.
-    # The [^ ]* part after PKG_VERSION is to catch beta versions encoded into the build string but not the version number (e.g. b3).
-    # .. there is no variable set that contains this information, though it would be useful. We do have:
-    # .. PKG_BUILD_STRING="placeholder" though (pinging @msarahan about this).
-    # [[ -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name} ]] && rm -f	"${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
-    # cat ${our_compilers_name} | sed -e "s|${PREFIX}|/opt/anaconda1anaconda2anaconda3|g" \
-    #                                 -e "s|${SRC_DIR}|\${SRC_DIR}|g" \
-    #                                 -e "s|${PKG_NAME}-${PKG_VERSION}[^ ]*|\${PKG_NAME}-\${PKG_VERSION}|g" > "${RECIPE_DIR}"/sysconfigdata/${our_compilers_name}
-    popd
-fi
+# Copy sysconfig that gets recorded to a non-default name
+#   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
+#   to the name of this file (minus the .py extension)
+pushd "${PREFIX}"/lib/python${VER}
+  # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
+  # This breaks our attempt to find the right one as recorded_name.
+  find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
+  recorded_name=$(find . -name "_sysconfigdata*.py")
+  our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
+  # So we can see if anything has significantly diverged by looking in a built package.
+  cp ${recorded_name} ${recorded_name}.orig
+  mv ${recorded_name} ${our_compilers_name}
+  PY_ARCH=${HOST%-conda*}
+  # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
+  # from the previous build unfortunately so care must be taken at version bumps and flag changes.
+  SRC_SYSCONFIGS=$(find "${RECIPE_DIR}"/sysconfigdata -name '*sysconfigdata*.py')
+  for SRC_SYSCONFIG in ${SRC_SYSCONFIGS}; do
+    DST_SYSCONFIG=$(basename ${SRC_SYSCONFIG})
+    cat ${SRC_SYSCONFIG} | sed -e "s|@SGI_ABI@||g" \
+                               -e "s|@ABIFLAGS@|${ABIFLAGS}|g" \
+                               -e "s|@ARCH@|${PY_ARCH}|g" \
+                               -e "s|@PYVERNODOTS@|${VERNODOTS}|g" \
+                               -e "s|@PYVER@|${VER}|g" \
+                               -e "s|@PYVERFULL@|${VERFULL}|g" \
+                               -e "s|@TCLTK_VER@|${TCLTK_VER}|g" > ${DST_SYSCONFIG}
+  done
+  if [[ ${HOST} =~ .*darwin.* ]]; then
+    mv _sysconfigdata_osx.py ${recorded_name}
+    rm _sysconfigdata_linux.py
+  else
+    mv _sysconfigdata_linux.py ${recorded_name}
+    rm _sysconfigdata_osx.py
+  fi
+popd
 
 if [[ ${_OPTIMIZED} == yes && ${target_platform} =~ linux-* && ${c_compiler} =~ .*toolchain.* ]]; then
     # On the old toolchain compilers, -flto-partion=none is being replaced

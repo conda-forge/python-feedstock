@@ -9,8 +9,8 @@ build_time_vars = {'ABIFLAGS': 'm',
  'BASECPPFLAGS': '',
  'BASEMODLIBS': '',
  'BINDIR': '/opt/anaconda1anaconda2anaconda3/bin',
- 'BINLIBDEST': '/opt/anaconda1anaconda2anaconda3/lib/python3.7',
- 'BLDLIBRARY': '-L. -lpython3.7m',
+ 'BINLIBDEST': '/opt/anaconda1anaconda2anaconda3/lib/python@PYVER@',
+ 'BLDLIBRARY': '-L. -lpython@PYVER@m',
  'BLDSHARED': 'gcc -pthread -shared -B /opt/anaconda1anaconda2anaconda3/compiler_compat '
               '-L/opt/anaconda1anaconda2anaconda3/lib '
               '-Wl,-rpath=/opt/anaconda1anaconda2anaconda3/lib -Wl,--no-as-needed '
@@ -38,7 +38,7 @@ build_time_vars = {'ABIFLAGS': 'm',
                 "'--prefix=/opt/anaconda1anaconda2anaconda3' "
                 "'--with-tcltk-includes=-I/opt/anaconda1anaconda2anaconda3/include' "
                 "'--with-tcltk-libs=-L/opt/anaconda1anaconda2anaconda3/lib "
-                "-ltcl8.6 -ltk8.6' "
+                "-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@' "
                 "'CPPFLAGS=-I/opt/anaconda1anaconda2anaconda3/include' "
                 "'LDFLAGS=-L/opt/anaconda1anaconda2anaconda3/lib "
                 "-Wl,-rpath=/opt/anaconda1anaconda2anaconda3/lib -Wl,--no-as-needed -Wl,--sysroot=/' "
@@ -46,8 +46,8 @@ build_time_vars = {'ABIFLAGS': 'm',
  'CONFINCLUDEDIR': '/opt/anaconda1anaconda2anaconda3/include',
  'CONFINCLUDEPY': '/opt/anaconda1anaconda2anaconda3/include/python3.7m',
  'COREPYTHONPATH': ':',
- 'COVERAGE_INFO': '/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.3/coverage.info',
- 'COVERAGE_REPORT': '/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.3/lcov-report',
+ 'COVERAGE_INFO': '/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.4/coverage.info',
+ 'COVERAGE_REPORT': '/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.4/lcov-report',
  'COVERAGE_REPORT_OPTIONS': '--no-branch-coverage --title "CPython lcov '
                             'report"',
  'CPPFLAGS': '-I. -I./Include '
@@ -84,7 +84,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'EXTRAMACHDEPPATH': '',
  'EXTRATESTOPTS': '',
  'EXTRA_CFLAGS': '',
- 'EXT_SUFFIX': '.cpython-37m-@ARCH@-linux-gnu.so',
+ 'EXT_SUFFIX': '.cpython-@PYVERNODOTS@m-@ARCH@-linux-gnu.so',
  'FILEMODE': 644,
  'FLOCK_NEEDS_LIBBSD': 0,
  'GETPGRP_HAVE_ARG': 0,
@@ -615,7 +615,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'READELF': 'readelf',
  'RESSRCDIR': 'Mac/Resources/framework',
  'RETSIGTYPE': 'void',
- 'RUNSHARED': 'LD_LIBRARY_PATH=/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.3',
+ 'RUNSHARED': 'LD_LIBRARY_PATH=/opt/anaconda1anaconda2anaconda3/../work/Python-@PYVERFULL@',
  'SCRIPTDIR': '/opt/anaconda1anaconda2anaconda3/lib',
  'SETPGRP_HAVE_ARG': 0,
  'SGI_ABI': '',
@@ -641,7 +641,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'SIZEOF_VOID_P': 8,
  'SIZEOF_WCHAR_T': 4,
  'SIZEOF__BOOL': 1,
- 'SOABI': 'cpython-37m-@ARCH@-linux-gnu',
+ 'SOABI': 'cpython-@PYVERNODOTS@m-@ARCH@-linux-gnu',
  'SRCDIRS': 'Parser Grammar Objects Python Modules Mac Programs',
  'SRC_GDB_HOOKS': './Tools/gdb/libpython.py',
  'STDC_HEADERS': 1,
@@ -654,13 +654,13 @@ build_time_vars = {'ABIFLAGS': 'm',
  'TANH_PRESERVES_ZERO_SIGN': 1,
  'TCLTK_INCLUDES': '-I/opt/anaconda1anaconda2anaconda3/include',
  'TCLTK_LIBS': '-L/opt/anaconda1anaconda2anaconda3/lib '
-               '-ltcl8.6 -ltk8.6',
+               '-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@',
  'TESTOPTS': '',
  'TESTPATH': '',
- 'TESTPYTHON': 'LD_LIBRARY_PATH=/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.3 '
+ 'TESTPYTHON': 'LD_LIBRARY_PATH=/opt/anaconda1anaconda2anaconda3/../work/Python-@PYVERFULL@ '
                './python',
  'TESTPYTHONOPTS': '',
- 'TESTRUNNER': 'LD_LIBRARY_PATH=/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.3 '
+ 'TESTRUNNER': 'LD_LIBRARY_PATH=/opt/anaconda1anaconda2anaconda3/../work/Python-@PYVERFULL@ '
                './python ./Tools/scripts/run_tests.py',
  'TESTTIMEOUT': 1200,
  'THREADOBJ': 'Python/thread.o',
@@ -684,8 +684,8 @@ build_time_vars = {'ABIFLAGS': 'm',
  'WITH_VALGRIND': 0,
  'X87_DOUBLE_ROUNDING': 0,
  'XMLLIBSUBDIRS': 'xml xml/dom xml/etree xml/parsers xml/sax',
- 'abs_builddir': '/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.3',
- 'abs_srcdir': '/opt/anaconda1anaconda2anaconda3/../work/Python-3.7.3',
+ 'abs_builddir': '/opt/anaconda1anaconda2anaconda3/../work/Python-@PYVERFULL@',
+ 'abs_srcdir': '/opt/anaconda1anaconda2anaconda3/../work/Python-@PYVERFULL@',
  'datarootdir': '/opt/anaconda1anaconda2anaconda3/share',
  'exec_prefix': '/opt/anaconda1anaconda2anaconda3',
  'prefix': '/opt/anaconda1anaconda2anaconda3',

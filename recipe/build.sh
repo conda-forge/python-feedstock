@@ -12,6 +12,8 @@ set -ex
 VER=${PKG_VERSION%.*}
 VERNODOTS=${VER//./}
 CONDA_FORGE=yes
+# Disables some PGO/LTO
+QUICK_BUILD=no
 
 _buildd_static=build-static
 _buildd_shared=build-shared
@@ -27,7 +29,7 @@ if [[ ${PY_INTERP_LINKAGE_NATURE} == shared ]]; then
   _ENABLE_SHARED=--enable-shared
 fi
 
-# For debugging builds, set this to 0 to disable profile-guided optimization
+# For debugging builds, set this to no to disable profile-guided optimization
 if [[ ${DEBUG_C} == yes ]]; then
   _OPTIMIZED=no
 else
@@ -216,8 +218,10 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   _extra_opts+=(--with-lto)
   _MAKE_TARGET=profile-opt
   # To speed up build times during testing (1):
-  # _PROFILE_TASK="./python -m test.regrtest --pgo test_builtin"
-  if [[ ${CC} =~ .*gcc.* && ! ${c_compiler} =~ .*toolchain.* ]]; then
+  if [[ ${QUICK_BUILD} == yes ]]; then
+    _PROFILE_TASK="./python -m test.regrtest --pgo test_builtin"
+  fi
+  if [[ ${CC} =~ .*gcc.* ]]; then
     LTO_CFLAGS+=(-fuse-linker-plugin)
     LTO_CFLAGS+=(-ffat-lto-objects)
     # -flto must come after -flto-partition due to the replacement code
@@ -244,11 +248,15 @@ pushd ${_buildd_static}
                        ${_DISABLE_SHARED}
 popd
 
-make -j${CPU_COUNT} -C ${_buildd_static} \
-        EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
-        ${_MAKE_TARGET}
-# To speed up build times during testing (2):
-#       ${_MAKE_TARGET} PROFILE_TASK="${_PROFILE_TASK}"
+if [[ ${QUICK_BUILD} == yes ]]; then
+  make -j${CPU_COUNT} -C ${_buildd_static} \
+          EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
+          ${_MAKE_TARGET} PROFILE_TASK="${_PROFILE_TASK}"
+else
+  make -j${CPU_COUNT} -C ${_buildd_static} \
+          EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
+          ${_MAKE_TARGET}
+fi
 
 make -j${CPU_COUNT} -C ${_buildd_shared} \
         EXTRA_CFLAGS="${EXTRA_CFLAGS}"

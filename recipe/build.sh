@@ -235,6 +235,12 @@ if [[ ${_OPTIMIZED} == yes ]]; then
     # http://clang.llvm.org/docs/ThinLTO.html
     # http://blog.llvm.org/2016/06/thinlto-scalable-and-incremental-lto.html
     LTO_CFLAGS+=(-flto)
+    # -flto breaks the check to determine whether float word ordering is bigendian
+    # see:
+    # https://bugs.python.org/issue28015
+    # https://bugs.python.org/issue38527
+    # manually specify this setting
+    export ax_cv_c_float_words_bigendian=no
   fi
   export CFLAGS="${CFLAGS} ${LTO_CFLAGS[@]}"
 else

@@ -1,7 +1,7 @@
 From 92cafbd9d9cdd6950aa2c0f4142afd0bf7d840e6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
-Subject: [PATCH 10/19] Win32: Do not download externals
+Subject: [PATCH 10/20] Win32: Do not download externals
 
 ---
  PCbuild/build.bat | 4 ++--
@@ -28,5 +28,5 @@ index d44b52a..abfd4b6 100644
 \ No newline at end of file
 +if ERRORLEVEL 1 exit /b 3
 -- 
-2.17.1
+2.20.1
 

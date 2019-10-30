@@ -1,7 +1,7 @@
 From 8def110beec1165b0567a654990afd923a2a4cd5 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
-Subject: [PATCH 16/19] Unvendor openssl
+Subject: [PATCH 16/20] Unvendor openssl
 
 ---
  PCbuild/_ssl.vcxproj         | 3 ---
@@ -99,5 +99,5 @@ index 871d250..0abd32b 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 -- 
-2.17.1
+2.20.1
 

@@ -1,7 +1,7 @@
 From f1aa169b44cc8c083f6def2bf3e0dd8c5e77d29a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 5 Oct 2017 02:00:41 +0100
-Subject: [PATCH 09/19] runtime_library_dir_option: Use 1st word of CC as
+Subject: [PATCH 09/20] runtime_library_dir_option: Use 1st word of CC as
  compiler
 
 Previous, 'CC' got passed to os.path.basename, so any paths in it after
@@ -25,5 +25,5 @@ index 87b3aed..78a4665 100644
              # MacOSX's linker doesn't understand the -R flag at all
              return "-L" + dir
 -- 
-2.17.1
+2.20.1
 

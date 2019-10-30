@@ -1,7 +1,7 @@
 From 04d06a499f5245acbae02a7c3a939506cfb12b41 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 15 Aug 2017 22:34:16 +0100
-Subject: [PATCH 01/19] Add Anaconda Distribution version logic
+Subject: [PATCH 01/20] Add Anaconda Distribution version logic
 
 ---
  Include/pylifecycle.h |  1 +
@@ -109,5 +109,5 @@ index c32b6f9..b5dfffb 100644
  Py_GetVersion(void)
  {
 -- 
-2.17.1
+2.20.1
 

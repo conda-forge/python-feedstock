@@ -1,7 +1,7 @@
 From faa6e118b7949d4f656a8930f3fd01c89d467b35 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 2 Jan 2019 21:38:48 +0000
-Subject: [PATCH 18/19] venv: Revert a change from
+Subject: [PATCH 18/20] venv: Revert a change from
  https://github.com/python/cpython/commit/1c3de541e64f75046b20cdd27bada1557e550bcd
  https://bugs.python.org/issue35644
 
@@ -42,5 +42,5 @@ index caa7285..1a37080 100644
                  os.chmod(path, 0o755)
              for suffix in ('python', 'python3'):
 -- 
-2.17.1
+2.20.1
 

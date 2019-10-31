@@ -31,13 +31,11 @@ if "%DEBUG_C%"=="yes" (
 set PGO=
 dir %LIBRARY_BIN%
 
-for /f %%I IN (libcrypto-1_1.dll libcrypto-1_1.pdb libssl-1_1.dll libssl-1_1.pdb) do (
-    set y="%%-nI-x64.%%-I"
-    if exist %LIBRARY_BIN%\%y% (
-        copy /Y %LIBRARY_BIN%\%y% %LIBRARY_BIN%\%%x
-    )
-)
-
+:: Hack around python build really wanting to copy these dlls around
+if exist "%LIBRARY_BIN%\libcrypto-1_1.dll" () ELSE (COPY "%LIBRARY_BIN%\libcrypto-1_1-x64.dll" "%LIBRARY_BIN%\libcrypto-1_1.dll")
+if exist "%LIBRARY_BIN%\libcrypto-1_1.pdb" () ELSE (COPY "%LIBRARY_BIN%\libcrypto-1_1-x64.pdb" "%LIBRARY_BIN%\libcrypto-1_1.pdb")
+if exist "%LIBRARY_BIN%\libssl-1_1.dll"    () ELSE (COPY "%LIBRARY_BIN%\libssl-1_1-x64.dll"    "%LIBRARY_BIN%\libssl-1_1.dll")
+if exist "%LIBRARY_BIN%\libssl-1_1.pdb"    () ELSE (COPY "%LIBRARY_BIN%\libssl-1_1-x64.pdb"    "%LIBRARY_BIN%\libssl-1_1.pdb")
 
 call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1

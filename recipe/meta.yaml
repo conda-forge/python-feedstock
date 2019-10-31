@@ -123,7 +123,7 @@ test:
     - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
     -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
     # check for unreplaced @ symbols in sysconfig files
-    - for f in ${PREFIX}/lib/python3.8/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then exit 1; fi; done  # [linux64 or osx]
+    - for f in ${PREFIX}/lib/python3.8/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
 
 about:
   home: http://www.python.org/

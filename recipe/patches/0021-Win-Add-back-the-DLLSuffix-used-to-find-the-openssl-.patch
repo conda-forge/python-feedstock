@@ -16,7 +16,7 @@ index af1350cae7..81319b6869 100644
    </ItemDefinitionGroup>
    <PropertyGroup>
      <_DLLSuffix>-1_1</_DLLSuffix>
-+    <_DLLSuffix Condition="$(Platform) == 'x64'">$(_DLLSuffix)-64</_DLLSuffix>
++    <_DLLSuffix Condition="$(Platform) == 'x64'">$(_DLLSuffix)-x64</_DLLSuffix>
      <_DLLSuffix Condition="$(Platform) == 'ARM'">$(_DLLSuffix)-arm</_DLLSuffix>
      <_DLLSuffix Condition="$(Platform) == 'ARM64'">$(_DLLSuffix)-arm64</_DLLSuffix>
    </PropertyGroup>

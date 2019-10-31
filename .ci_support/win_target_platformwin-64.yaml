@@ -1,11 +1,11 @@
 c_compiler:
-- vs2015
+- vs2017
 channel_sources:
 - conda-forge,defaults
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2015
+- vs2017
 openssl:
 - 1.1.1a
 pin_run_as_build:
@@ -24,7 +24,7 @@ target_platform:
 tk:
 - '8.6'
 vc:
-- '14'
+- '14.1'
 zip_keys:
 - - vc
   - c_compiler

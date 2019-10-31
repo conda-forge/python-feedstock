@@ -55,7 +55,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
                 "'--with-system-ffi' '--enable-loadable-sqlite-extensions' "
                 "'--with-tcltk-includes=-I/opt/anaconda1anaconda2anaconda3/include' "
                 "'--with-tcltk-libs=-L/opt/anaconda1anaconda2anaconda3/lib "
-                "-ltcl@TCLTK_VER@ -ltk@TCLTK_VER' '--enable-optimizations' '--with-lto' "
+                "-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@' '--enable-optimizations' '--with-lto' "
                 "'--disable-shared' "
                 "'build_alias=aarch64-conda_cos7-linux-gnu' "
                 "'host_alias=aarch64-conda_cos7-linux-gnu' "

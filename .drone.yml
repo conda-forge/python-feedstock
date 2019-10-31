@@ -17,7 +17,7 @@ steps:
       from_secret: BINSTAR_TOKEN
   commands:
     - pwd
-    - export FEEDSTOCK_ROOT="$CI_WORKSPACE"
+    - export FEEDSTOCK_ROOT="${CI_WORKSPACE:-$(pwd)}"
     - echo "$FEEDSTOCK_ROOT" 
     - export RECIPE_ROOT="$FEEDSTOCK_ROOT/recipe"
     - export CI=drone

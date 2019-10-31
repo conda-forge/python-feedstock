@@ -34,6 +34,7 @@ source:
       # TODO combine 0019 and 0020
       #- patches/0019-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0020-add-conda-paths-to-DLL-search-path-on-windows.patch
+      - patches/0021-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]

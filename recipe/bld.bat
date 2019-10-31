@@ -31,12 +31,6 @@ if "%DEBUG_C%"=="yes" (
 set PGO=
 dir %LIBRARY_BIN%
 
-:: Hack around python build really wanting to copy these dlls around
-if not exist "%LIBRARY_BIN%\libcrypto-1_1.dll" (COPY "%LIBRARY_BIN%\libcrypto-1_1-x64.dll" "%LIBRARY_BIN%\libcrypto-1_1.dll")
-if not exist "%LIBRARY_BIN%\libcrypto-1_1.pdb" (COPY "%LIBRARY_BIN%\libcrypto-1_1-x64.pdb" "%LIBRARY_BIN%\libcrypto-1_1.pdb")
-if not exist "%LIBRARY_BIN%\libssl-1_1.dll"    (COPY "%LIBRARY_BIN%\libssl-1_1-x64.dll"    "%LIBRARY_BIN%\libssl-1_1.dll")
-if not exist "%LIBRARY_BIN%\libssl-1_1.pdb"    (COPY "%LIBRARY_BIN%\libssl-1_1-x64.pdb"    "%LIBRARY_BIN%\libssl-1_1.pdb")
-
 call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..

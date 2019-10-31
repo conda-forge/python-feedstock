@@ -101,7 +101,6 @@ requirements:
     - tk                # [not win]
     - ncurses           # [not win]
     - libffi            # [not win]
-    - vs2017_runtime    # [win]
     - vc                # [win]
   run:
     - sqlite

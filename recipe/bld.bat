@@ -29,12 +29,12 @@ if "%DEBUG_C%"=="yes" (
 )
 :: Disable PGO for now
 set PGO=
-dir %LIBRARY_PREFIX%
+dir %LIBRARY_BIN%
 
 for /f %%I IN (libcrypto-1_1.dll libcrypto-1_1.pdb libssl-1_1.dll libssl-1_1.pdb) do (
     set y="%%-nI-x64.%%-I"
-    if exist %LIBRARY_BIN%\y (
-        copy /Y %LIBRARY_BIN%\y %LIBRARY_BIN%\%%x
+    if exist %LIBRARY_BIN%\%y% (
+        copy /Y %LIBRARY_BIN%\%y% %LIBRARY_BIN%\%%x
     )
 )
 

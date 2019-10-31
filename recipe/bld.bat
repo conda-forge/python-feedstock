@@ -27,6 +27,9 @@ if "%DEBUG_C%"=="yes" (
 ) else (
   set PGO=--pgo
 )
+:: Disable PGO for now
+set PGO=
+dir %LIBRARY_BIN%
 
 call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1

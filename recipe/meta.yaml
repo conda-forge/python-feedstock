@@ -102,6 +102,7 @@ requirements:
     - tk                # [not win]
     - ncurses           # [not win]
     - libffi            # [not win]
+    - vc                # [win]
   run:
     - sqlite
     - xz                # [not win]

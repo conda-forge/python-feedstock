@@ -77,7 +77,7 @@ build:
     - DLLs/_ctypes.pyd  # [win]
   script_env:
     - python_branding
-  skip: true  # [win and vc != 14]
+  skip: true  # [win and vc != '14.1']
   # We delete the shared libraries.
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]

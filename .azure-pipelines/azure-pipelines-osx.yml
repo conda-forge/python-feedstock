@@ -12,7 +12,7 @@ jobs:
     matrix:
       osx_target_platformosx-64:
         CONFIG: osx_target_platformosx-64
-        UPLOAD_PACKAGES: False
+        UPLOAD_PACKAGES: True
 
   steps:
   # TODO: Fast finish on azure pipelines?

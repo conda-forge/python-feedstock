@@ -10,14 +10,6 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      linux_aarch64_target_platformlinux-aarch64:
-        CONFIG: linux_aarch64_target_platformlinux-aarch64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
-      linux_ppc64le_target_platformlinux-ppc64le:
-        CONFIG: linux_ppc64le_target_platformlinux-ppc64le
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
       linux_target_platformlinux-64:
         CONFIG: linux_target_platformlinux-64
         UPLOAD_PACKAGES: True

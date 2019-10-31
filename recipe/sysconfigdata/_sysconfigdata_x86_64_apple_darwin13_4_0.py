@@ -1,5 +1,5 @@
 # system configuration generated and used by the sysconfig module
-build_time_vars = {'ABIFLAGS': 'm',
+build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'AC_APPLE_UNIVERSAL_BUILD': 0,
  'AIX_GENUINE_CPLUSPLUS': 0,
  'ANDROID_API_LEVEL': 0,

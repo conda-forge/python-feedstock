@@ -29,6 +29,15 @@ if "%DEBUG_C%"=="yes" (
 )
 :: Disable PGO for now
 set PGO=
+dir %LIBRARY_PREFIX%
+
+for /f %%I IN (libcrypto-1_1.dll libcrypto-1_1.pdb libssl-1_1.dll libssl-1_1.pdb) do (
+    set y="%%-nI-x64.%%-I"
+    if exist %LIBRARY_BIN%\y (
+        copy /Y %LIBRARY_BIN%\y %LIBRARY_BIN%\%%x
+    )
+)
+
 
 call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1

@@ -1,0 +1,8 @@
+python:                        # [win]
+  - 3.8                        # [win]
+c_compiler:                    # [win]  
+  - vs2017                     # [win]
+cxx_compiler:                  # [win]
+  - vs2017                     # [win]
+vc:                            # [win]   
+  - 14.1                       # [win] 

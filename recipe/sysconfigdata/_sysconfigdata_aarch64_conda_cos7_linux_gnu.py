@@ -55,7 +55,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
                 "'--with-system-ffi' '--enable-loadable-sqlite-extensions' "
                 "'--with-tcltk-includes=-I/opt/anaconda1anaconda2anaconda3/include' "
                 "'--with-tcltk-libs=-L/opt/anaconda1anaconda2anaconda3/lib "
-                "-ltcl8.6 -ltk8.6' '--enable-optimizations' '--with-lto' "
+                "-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@' '--enable-optimizations' '--with-lto' "
                 "'--disable-shared' "
                 "'build_alias=aarch64-conda_cos7-linux-gnu' "
                 "'host_alias=aarch64-conda_cos7-linux-gnu' "
@@ -569,7 +569,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'LIBOBJS': '',
  'LIBPC': '/opt/anaconda1anaconda2anaconda3/lib/pkgconfig',
  'LIBPL':
-     '/opt/anaconda1anaconda2anaconda3/lib/python3.7/config-@PYVER@@ABIFLAGS@-aarch64-linux-gnu',
+     '/opt/anaconda1anaconda2anaconda3/lib/python@PYVER@/config-@PYVER@@ABIFLAGS@-aarch64-linux-gnu',
  'LIBRARY': 'libpython@PYVER@@ABIFLAGS@.a',
  'LIBRARY_OBJS': '\\',
  'LIBRARY_OBJS_OMIT_FROZEN': '\\',
@@ -771,7 +771,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'TANH_PRESERVES_ZERO_SIGN': 0,
  'TCLTK_INCLUDES': '-I/opt/anaconda1anaconda2anaconda3/include',
  'TCLTK_LIBS': '-L/opt/anaconda1anaconda2anaconda3/lib '
-               '-ltcl8.6 -ltk8.6',
+               '-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@',
  'TESTOPTS': '',
  'TESTPATH': '',
  'TESTPYTHON': './python',

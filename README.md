@@ -22,17 +22,17 @@ Current build status
 
 
 <table><tr>
-    <td>CircleCI</td>
+    <td>Travis</td>
     <td>
-      <a href="https://circleci.com/gh/conda-forge/python-feedstock">
-        <img alt="OSX" src="https://img.shields.io/circleci/project/github/conda-forge/python-feedstock/master.svg?label=OSX">
+      <a href="https://travis-ci.org/conda-forge/python-feedstock">
+        <img alt="macOS" src="https://img.shields.io/travis/conda-forge/python-feedstock/master.svg?label=macOS">
       </a>
     </td>
   </tr><tr>
-    <td>Appveyor</td>
+    <td>Drone</td>
     <td>
-      <a href="https://ci.appveyor.com/project/conda-forge/python-feedstock/branch/master">
-        <img alt="windows" src="https://img.shields.io/appveyor/ci/conda-forge/python-feedstock/master.svg?label=Windows">
+      <a href="https://cloud.drone.io/conda-forge/python-feedstock">
+        <img alt="linux" src="https://img.shields.io/drone/build/conda-forge/master.svg?label=Linux">
       </a>
     </td>
   </tr>
@@ -77,10 +77,10 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>win_c_compilervs2015cxx_compilervs2015target_platformwin-64vc14</td>
+              <td>win_target_platformwin-64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=master&jobName=win&configuration=win_c_compilervs2015cxx_compilervs2015target_platformwin-64vc14" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=master&jobName=win&configuration=win_target_platformwin-64" alt="variant">
                 </a>
               </td>
             </tr>

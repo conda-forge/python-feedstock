@@ -1,5 +1,4 @@
-{% set base_version = "3.7.3" %}
-{% set version = "3.7.3" %}
+{% set version = "3.8.0" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}
@@ -11,30 +10,31 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
-    sha256: da60b54064d4cfcd9c26576f6df2690e62085123826cff2e667e72a91952d318
+    sha256: b356244e13fb5491da890b35b13b2118c3122977c2cd825e3eb6e7d462030d84
     patches:
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
       - patches/0002-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
-      - patches/0003-Win32-distutils-Also-look-for-executable.bat.patch
-      - patches/0004-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - patches/0005-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - patches/0006-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - patches/0007-Support-cross-compiling-byte-code.patch
-      - patches/0008-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - patches/0009-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - patches/0010-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - patches/0011-Win32-Do-not-download-externals.patch
-      - patches/0012-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      - patches/0013-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0014-Disable-new-dtags-in-unixccompiler.py.patch
-      - patches/0015-Fix-cross-compilation-on-Debian-based-distros.patch
-      - patches/0016-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      - patches/0017-Unvendor-openssl.patch
-      - patches/0018-Unvendor-sqlite3.patch
+      - patches/0003-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - patches/0004-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - patches/0005-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0006-Support-cross-compiling-byte-code.patch
+      - patches/0007-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - patches/0008-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - patches/0009-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - patches/0010-Win32-Do-not-download-externals.patch
+      - patches/0011-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
+      - patches/0012-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0013-Disable-new-dtags-in-unixccompiler.py.patch
+      - patches/0014-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0015-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - patches/0016-Unvendor-openssl.patch
+      - patches/0017-Unvendor-sqlite3.patch
       # https://bugs.python.org/issue35644
-      - patches/0019-venv-Revert-a-change-from-https-github.com-python-cp.patch
-      # undefined reference to `CondaEcosystemGetWarnings'
-      # - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0018-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      # TODO combine 0019 and 0020
+      #- patches/0019-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0020-add-conda-paths-to-DLL-search-path-on-windows.patch
+      - patches/0021-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -62,17 +62,26 @@ source:
   - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
     folder: externals/nasm-2.11.06                                                   # [win]
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/libffi-3.3.0-rc0-r1.zip  # [win]
+    folder: externals/libffi-3.3.0-rc0-rc1                                              # [win]
+    sha256: 23b4347b347cb92fbfa312c95c8f9d1c8ee4416bd5cfc0f318fa01de220aa869            # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip                  # [win]
+    folder: externals/libffi                                                            # [win]
+    sha256: 57180e18749ad5e8727ae1f488621768a58808ac387968068c563bee8b2b23ec            # [win]
+
 
 build:
-  number: 1
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
     - DLLs/_ctypes.pyd  # [win]
-    - bin/python3.7  # [not win]
   script_env:
     - python_branding
-  skip: true  # [win and vc != 14]
+  skip: true  # [win and vc != '14.1']
+  # We delete the shared libraries.
+  ignore_run_exports:   # [unix]
+    - bzip2             # [unix]
 
 requirements:
   build:
@@ -80,12 +89,10 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
+    - llvm-tools                         # [osx]
     - make                               # [not win]
     - pkg-config                         # [not win]
-    # - 7za                                # [win]
-    # - curl                               # [win]
   host:
-    # - nasm 2.11.06      # [win]
     - bzip2             # [not win]
     - sqlite
     - xz                # [not win]
@@ -93,17 +100,17 @@ requirements:
     - openssl
     - readline          # [not win]
     - tk                # [not win]
-    - ncurses           # [linux]
+    - ncurses           # [not win]
     - libffi            # [not win]
+    - vc                # [win]
   run:
-    - bzip2             # [not win]
     - sqlite
     - xz                # [not win]
     - zlib              # [not win]
     - openssl
     - readline          # [not win]
     - tk                # [not win]
-    - ncurses           # [linux]
+    - ncurses           # [not win]
     - libffi            # [not win]
 
 test:
@@ -113,12 +120,11 @@ test:
     - 2to3 -h
     - pydoc -h
     - python3-config --help  # [not win]
-    - conda inspect linkages -p $PREFIX $PKG_NAME  # [not win]
-    - conda inspect objects -p $PREFIX $PKG_NAME  # [osx]
-    # Test for " -partition=none", can be removed after toolchain is dropped
-    - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [not win]
-    # - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
-    # -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+    - python -m venv %%TEMP%%\venv  # [win]
+    - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
+    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+    # check for unreplaced @ symbols in sysconfig files
+    - for f in ${PREFIX}/lib/python3.8/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
 
 about:
   home: http://www.python.org/

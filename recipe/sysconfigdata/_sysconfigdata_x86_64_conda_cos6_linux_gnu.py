@@ -58,7 +58,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
                 "'--with-system-ffi' '--enable-loadable-sqlite-extensions' "
                 "'--with-tcltk-includes=-I/opt/anaconda1anaconda2anaconda3/include' "
                 "'--with-tcltk-libs=-L/opt/anaconda1anaconda2anaconda3/lib "
-                "-ltcl8.6 -ltk8.6' '--enable-optimizations' '--with-lto' "
+                "-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@' '--enable-optimizations' '--with-lto' "
                 "'--disable-shared' 'build_alias=x86_64-conda_cos6-linux-gnu' "
                 "'host_alias=x86_64-conda_cos6-linux-gnu' "
                 "'CC=x86_64-conda_cos6-linux-gnu-gcc' 'CFLAGS=-march=nocona "
@@ -735,7 +735,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'TANH_PRESERVES_ZERO_SIGN': 1,
  'TCLTK_INCLUDES': '-I/opt/anaconda1anaconda2anaconda3/include',
  'TCLTK_LIBS': '-L/opt/anaconda1anaconda2anaconda3/lib '
-               '-ltcl8.6 -ltk8.6',
+               '-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@',
  'TESTOPTS': '',
  'TESTPATH': '',
  'TESTPYTHON': './python',

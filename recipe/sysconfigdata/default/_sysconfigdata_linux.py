@@ -44,7 +44,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
                 "-Wl,-rpath=/opt/anaconda1anaconda2anaconda3/lib -Wl,--no-as-needed -Wl,--sysroot=/' "
                 "'PKG_CONFIG_PATH=/opt/anaconda1anaconda2anaconda3/lib/pkgconfig'",
  'CONFINCLUDEDIR': '/opt/anaconda1anaconda2anaconda3/include',
- 'CONFINCLUDEPY': '/opt/anaconda1anaconda2anaconda3/include/python@PYVER@@ABIFLAG@',
+ 'CONFINCLUDEPY': '/opt/anaconda1anaconda2anaconda3/include/python@PYVER@@ABIFLAGS@',
  'COREPYTHONPATH': ':',
  'COVERAGE_INFO': '/opt/anaconda1anaconda2anaconda3/../work/Python-@PYVERFULL@/coverage.info',
  'COVERAGE_REPORT': '/opt/anaconda1anaconda2anaconda3/../work/Python-@PYVERFULL@/lcov-report',

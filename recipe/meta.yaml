@@ -70,7 +70,7 @@ source:
 
 
 build:
-  number: 2
+  number: 3
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -113,6 +113,8 @@ requirements:
     - libffi            # [not win]
 
 test:
+  requires:
+    - ripgrep   # [linux64 and osx]
   commands:
     - python -V
     - python3 -V            # [not win]

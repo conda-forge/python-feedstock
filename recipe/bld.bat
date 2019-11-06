@@ -152,10 +152,6 @@ rd /s /q %PREFIX%\Lib\lib2to3\tests\
 if errorlevel 1 exit 1
 
 :: bytecode compile the standard library
-
-rd /s /q %PREFIX%\Lib\lib2to3\tests\
-if errorlevel 1 exit 1
-
 %PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
 

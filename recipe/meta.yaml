@@ -113,6 +113,8 @@ requirements:
     - libffi            # [not win]
 
 test:
+  requirements:
+    - ripgrep   # [linux64 and osx]
   commands:
     - python -V
     - python3 -V            # [not win]

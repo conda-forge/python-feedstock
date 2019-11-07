@@ -2,6 +2,11 @@ REM brand Python with conda-forge startup message
 REM %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
 REM if errorlevel 1 exit 1
 
+if "%CI%"=="azure" (
+   set "PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\;%PATH%"
+   set "MSBUILDDEFAULTTOOLSVERSION=14.0"
+)
+
 REM Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
    set PLATFORM=x64

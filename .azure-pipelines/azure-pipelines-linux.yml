@@ -10,6 +10,10 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
+      linux_target_platformlinux-64:
+        CONFIG: linux_target_platformlinux-64
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
       linux_aarch64_target_platformlinux-aarch64:
         CONFIG: linux_aarch64_target_platformlinux-aarch64
         UPLOAD_PACKAGES: True
@@ -18,10 +22,6 @@ jobs:
         CONFIG: linux_ppc64le_target_platformlinux-ppc64le
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
-      linux_target_platformlinux-64:
-        CONFIG: linux_target_platformlinux-64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-comp7
   steps:
   # configure qemu binfmt-misc running.  This allows us to run docker containers
   # embedded qemu-static
@@ -33,7 +33,8 @@ jobs:
 
   - script: |
         export CI=azure
-        .azure-pipelines/run_docker_build.sh
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        .scripts/run_docker_build.sh
     displayName: Run docker build
     env:
       BINSTAR_TOKEN: $(BINSTAR_TOKEN)

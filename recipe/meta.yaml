@@ -34,6 +34,10 @@ source:
       - patches/0019-add-conda-paths-to-DLL-search-path-on-windows.patch
       - patches/0020-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
       - patches/0021-Use-ranlib-from-env.patch
+{% if version == "3.8.0" %}
+      # https://bugs.python.org/issue38731
+      - patches/0022-roll-back-2e33ecd-for-py_compile.main.patch
+{% endif %}
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -70,7 +74,7 @@ source:
 
 
 build:
-  number: 3
+  number: 4
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

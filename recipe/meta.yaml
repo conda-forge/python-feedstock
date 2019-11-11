@@ -70,7 +70,7 @@ source:
 
 
 build:
-  number: 3
+  number: 4
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -78,6 +78,8 @@ build:
   script_env:
     - python_branding
   skip: true  # [win and vc != '14.1']
+  skip_compile_pyc:
+    - lib/python3.*/lib2to3/tests/data/*.py  # [py>=30]
   # We delete the shared libraries.
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]

@@ -97,7 +97,8 @@ requirements:
     - pkg-config                         # [not win]
   host:
     - bzip2             # [not win]
-    - ld_impl_{{ target_platform }}  # [linux]
+    - ld_impl_{{ target_platform }}        # [linux and not aarch64]
+    - binutils_impl_{{ target_platform }}  # [aarch64]
     - sqlite
     - xz                # [not win]
     - zlib              # [not win]
@@ -108,7 +109,8 @@ requirements:
     - libffi            # [not win]
     - vc                # [win]
   run:
-    - ld_impl_{{ target_platform }}  # [linux]
+    - ld_impl_{{ target_platform }}        # [linux and not aarch64]
+    - binutils_impl_{{ target_platform }}  # [aarch64]
     - sqlite
     - xz                # [not win]
     - zlib              # [not win]

@@ -392,7 +392,7 @@ popd
 
 if [[ ${HOST} =~ .*linux.* ]]; then
   mkdir -p ${PREFIX}/compiler_compat
-  cp ${LD} ${PREFIX}/compiler_compat/ld
+  ln -s ${PREFIX}/bin/${HOST}-ld ${PREFIX}/compiler_compat/ld
   echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
   echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
 fi

@@ -43,7 +43,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'CONFIGURE_CFLAGS': '-mcpu=power8 -mtune=power8 -mpower8-fusion '
                      '-mpower8-vector -ftree-vectorize -fPIC '
                      '-fstack-protector-strong -fno-plt -O2 '
-                     '-fdebug-prefix-map=/opt/conda/conda-bld/python_1512347718438/work=/usr/local/src/conda/python-3.7.3 '
+                     '-fdebug-prefix-map=/opt/conda/conda-bld/python_1512347718438/work=/usr/local/src/conda/python-@PYVERFULL@ '
                      '-fdebug-prefix-map=/opt/anaconda1anaconda2anaconda3=/usr/local/src/conda-prefix '
                      '-pipe    '
                      ' ',
@@ -63,7 +63,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
                 "'--with-system-ffi' '--enable-loadable-sqlite-extensions' "
                 "'--with-tcltk-includes=-I/opt/anaconda1anaconda2anaconda3/include' "
                 "'--with-tcltk-libs=-L/opt/anaconda1anaconda2anaconda3/lib "
-                "-ltcl8.6 -ltk8.6' '--enable-optimizations' '--with-lto' "
+                "-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@' '--enable-optimizations' '--with-lto' "
                 "'--disable-shared' "
                 "'build_alias=powerpc64le-conda_cos7-linux-gnu' "
                 "'host_alias=powerpc64le-conda_cos7-linux-gnu' "
@@ -71,7 +71,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
                 "'CFLAGS=-mcpu=power8 -mtune=power8 -mpower8-fusion "
                 '-mpower8-vector -ftree-vectorize -fPIC '
                 '-fstack-protector-strong -fno-plt -O2 '
-                '-fdebug-prefix-map=/opt/conda/conda-bld/python_1512347718438/work=/usr/local/src/conda/python-3.7.3 '
+                '-fdebug-prefix-map=/opt/conda/conda-bld/python_1512347718438/work=/usr/local/src/conda/python-@PYVERFULL@ '
                 '-fdebug-prefix-map=/opt/anaconda1anaconda2anaconda3=/usr/local/src/conda-prefix '
                 '-pipe    '
                 " ' 'LDFLAGS=-Wl,-O2 "
@@ -559,7 +559,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'LIBOBJDIR': 'Python/',
  'LIBOBJS': '',
  'LIBPC': '/opt/anaconda1anaconda2anaconda3/lib/pkgconfig',
- 'LIBPL': '/opt/anaconda1anaconda2anaconda3/lib/python3.7/config-@PYVER@@ABIFLAGS@-powerpc64le-linux-gnu',
+ 'LIBPL': '/opt/anaconda1anaconda2anaconda3/lib/python@PYVER@/config-@PYVER@@ABIFLAGS@-powerpc64le-linux-gnu',
  'LIBRARY': 'libpython@PYVER@@ABIFLAGS@.a',
  'LIBRARY_OBJS': '\\',
  'LIBRARY_OBJS_OMIT_FROZEN': '\\',
@@ -750,7 +750,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'TANH_PRESERVES_ZERO_SIGN': 1,
  'TCLTK_INCLUDES': '-I/opt/anaconda1anaconda2anaconda3/include',
  'TCLTK_LIBS': '-L/opt/anaconda1anaconda2anaconda3/lib '
-               '-ltcl8.6 -ltk8.6',
+               '-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@',
  'TESTOPTS': '',
  'TESTPATH': '',
  'TESTPYTHON': './python',

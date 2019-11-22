@@ -12,7 +12,7 @@ jobs:
     matrix:
       osx_target_platformosx-64:
         CONFIG: osx_target_platformosx-64
-        UPLOAD_PACKAGES: False
+        UPLOAD_PACKAGES: True
 
   steps:
   # TODO: Fast finish on azure pipelines?
@@ -68,8 +68,9 @@ jobs:
 
   - script: |
       source activate base
+      export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
       upload_package ./ ./recipe ./.ci_support/${CONFIG}.yaml
-    displayName: Upload recipe
+    displayName: Upload package
     env:
       BINSTAR_TOKEN: $(BINSTAR_TOKEN)
     condition: not(eq(variables['UPLOAD_PACKAGES'], 'False'))

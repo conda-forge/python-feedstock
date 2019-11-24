@@ -3,7 +3,6 @@ REM %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
 REM if errorlevel 1 exit 1
 
 if "%CI%"=="azure" (
-   call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_x64 -vcvars_ver=14.0   
    set "MSBUILDDEFAULTTOOLSVERSION=14.0"
 )
 

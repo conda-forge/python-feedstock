@@ -82,6 +82,8 @@ requirements:
     - {{ cdt('libx11-devel') }}          # [linux]
     - make                               # [not win]
     - pkg-config                         # [not win]
+    # configure script looks for llvm-ar for lto
+    - llvm-tools                         # [osx]
     # - 7za                                # [win]
     # - curl                               # [win]
   host:

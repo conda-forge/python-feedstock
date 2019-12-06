@@ -1,3 +1,5 @@
+@echo on
+
 REM brand Python with conda-forge startup message
 REM %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
 REM if errorlevel 1 exit 1

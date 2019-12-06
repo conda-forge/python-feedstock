@@ -22,10 +22,17 @@ Current build status
 
 
 <table><tr>
-    <td>CircleCI</td>
+    <td>Travis</td>
     <td>
-      <a href="https://circleci.com/gh/conda-forge/python-feedstock">
-        <img alt="OSX" src="https://img.shields.io/circleci/project/github/conda-forge/python-feedstock/master.svg?label=OSX">
+      <a href="https://travis-ci.com/conda-forge/python-feedstock">
+        <img alt="macOS" src="https://img.shields.io/travis/com/conda-forge/python-feedstock/master.svg?label=macOS">
+      </a>
+    </td>
+  </tr><tr>
+    <td>Drone</td>
+    <td>
+      <a href="https://cloud.drone.io/conda-forge/python-feedstock">
+        <img alt="linux" src="https://img.shields.io/drone/build/conda-forge/master.svg?label=Linux">
       </a>
     </td>
   </tr><tr>
@@ -134,7 +141,7 @@ A feedstock is made up of a conda recipe (the instructions on what and how to bu
 the package) and the necessary configurations for automatic building using freely
 available continuous integration services. Thanks to the awesome service provided by
 [CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/)
-and [TravisCI](https://travis-ci.org/) it is possible to build and upload installable
+and [TravisCI](https://travis-ci.com/) it is possible to build and upload installable
 packages to the [conda-forge](https://anaconda.org/conda-forge)
 [Anaconda-Cloud](https://anaconda.org/) channel for Linux, Windows and OSX respectively.
 

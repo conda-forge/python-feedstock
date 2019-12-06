@@ -1,5 +1,3 @@
-CONDA_BUILD_SYSROOT:
-- /opt/MacOSX10.10.sdk
 bzip2:
 - '1'
 c_compiler:

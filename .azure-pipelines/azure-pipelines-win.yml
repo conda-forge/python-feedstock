@@ -10,10 +10,10 @@ jobs:
   strategy:
     maxParallel: 4
     matrix:
-      win_c_compilervs2015cxx_compilervs2015target_platformwin-64vc14:
-        CONFIG: win_c_compilervs2015cxx_compilervs2015target_platformwin-64vc14
+      win_target_platformwin-64:
+        CONFIG: win_target_platformwin-64
         CONDA_BLD_PATH: D:\\bld\\
-        UPLOAD_PACKAGES: False
+        UPLOAD_PACKAGES: True
   steps:
     # TODO: Fast finish on azure pipelines?
     - script: |

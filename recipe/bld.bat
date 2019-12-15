@@ -27,13 +27,15 @@ if "%DEBUG_C%"=="yes" (
 ) else (
   set PGO=--pgo
 )
+:: LINK : fatal error LNK1104: cannot open file 'pgort.lib' [%SRC_DIR%\PCbuild\pythoncore.vcxproj]
+set PGO=
 
 call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
-for %%x in (python37.dll python3.dll python.exe pythonw.exe) do (
+for %%x in (python37.dll python3.dll python.exe pythonw.exe venvlauncher.exe venvwlauncher.exe) do (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
@@ -158,4 +160,3 @@ if errorlevel 1 exit 1
 
 :: Pickle lib2to3 Grammar
 %PREFIX%\python.exe -m lib2to3 --help
-

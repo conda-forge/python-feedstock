@@ -11,6 +11,8 @@ set -ex
 
 VER=${PKG_VERSION%.*}
 VERNODOTS=${VER//./}
+QUICK_BUILD=no
+# Remove once: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
 CONDA_FORGE=yes
 
 _buildd_static=build-static
@@ -27,7 +29,7 @@ if [[ ${PY_INTERP_LINKAGE_NATURE} == shared ]]; then
   _ENABLE_SHARED=--enable-shared
 fi
 
-# For debugging builds, set this to 0 to disable profile-guided optimization
+# For debugging builds, set this to no to disable profile-guided optimization
 if [[ ${DEBUG_C} == yes ]]; then
   _OPTIMIZED=no
 else
@@ -51,7 +53,7 @@ else
   DBG=
 fi
 
-ABIFLAGS=${DBG}m
+VERABI=${VER}${DBG}m
 
 # This is the mechanism by which we fall back to default gcc, but having it defined here
 # would probably break the build by using incorrect settings and/or importing files that
@@ -97,7 +99,7 @@ if [[ ${CONDA_FORGE} == yes ]]; then
   ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
 fi
 
-declare -a LTO_CFLAGS
+declare -a LTO_CFLAGS=()
 
 CPPFLAGS=${CPPFLAGS}" -I${PREFIX}/include"
 
@@ -210,17 +212,22 @@ pushd ${_buildd_shared}
 popd
 
 # Add more optimization flags for the static Python interpreter:
-declare -a _extra_opts
+declare -a _extra_opts=()
+declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then
   _extra_opts+=(--enable-optimizations)
   _extra_opts+=(--with-lto)
   _MAKE_TARGET=profile-opt
   # To speed up build times during testing (1):
-  # _PROFILE_TASK="./python -m test.regrtest --pgo test_builtin"
+  if [[ ${QUICK_BUILD} == yes ]]; then
+    # TODO :: Is this not just profiling everything? It seems like it tests more than test_builtin
+    _PROFILE_TASK+=(PROFILE_TASK=\"./python -m test.regrtest --pgo test_builtin\")
+  fi
   if [[ ${CC} =~ .*gcc.* && ! ${c_compiler} =~ .*toolchain.* ]]; then
     LTO_CFLAGS+=(-fuse-linker-plugin)
     LTO_CFLAGS+=(-ffat-lto-objects)
     # -flto must come after -flto-partition due to the replacement code
+    # TODO :: Replace the replacement code using conda-build's in-build regex replacement.
     LTO_CFLAGS+=(-flto-partition=none)
     LTO_CFLAGS+=(-flto)
   else
@@ -229,6 +236,12 @@ if [[ ${_OPTIMIZED} == yes ]]; then
     # http://clang.llvm.org/docs/ThinLTO.html
     # http://blog.llvm.org/2016/06/thinlto-scalable-and-incremental-lto.html
     LTO_CFLAGS+=(-flto)
+    # -flto breaks the check to determine whether float word ordering is bigendian
+    # see:
+    # https://bugs.python.org/issue28015
+    # https://bugs.python.org/issue38527
+    # manually specify this setting
+    export ax_cv_c_float_words_bigendian=no
   fi
   export CFLAGS="${CFLAGS} ${LTO_CFLAGS[@]}"
 else
@@ -245,21 +258,29 @@ pushd ${_buildd_static}
 popd
 
 make -j${CPU_COUNT} -C ${_buildd_static} \
-        EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
-        ${_MAKE_TARGET}
-# To speed up build times during testing (2):
-#       ${_MAKE_TARGET} PROFILE_TASK="${_PROFILE_TASK}"
+     EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
+     ${_MAKE_TARGET} "${_PROFILE_TASK[@]}" 2>&1 | tee make-static.log
+if rg "Failed to build these modules" make-static.log; then
+  echo "(static) :: Failed to build some modules, check the log"
+  exit 1
+fi
 
 make -j${CPU_COUNT} -C ${_buildd_shared} \
-        EXTRA_CFLAGS="${EXTRA_CFLAGS}"
-# build a static library with PIC objects
+        EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log
+if rg "Failed to build these modules" make-shared.log; then
+  echo "(shared) :: Failed to build some modules, check the log"
+  exit 1
+fi
+
+# build a static library with PIC objects and without LTO/PGO
 make -j${CPU_COUNT} -C ${_buildd_shared} \
         EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
-        LIBRARY=libpython${VER}m-pic.a libpython${VER}m-pic.a
+        LIBRARY=libpython${VERABI}-pic.a libpython${VERABI}-pic.a
 
+make -C ${_buildd_static} install
+
+declare -a _FLAGS_REPLACE=()
 if [[ ${_OPTIMIZED} == yes ]]; then
-  make -C ${_buildd_static} install
-  declare -a _FLAGS_REPLACE
   _FLAGS_REPLACE+=(-O3)
   _FLAGS_REPLACE+=(-O2)
   _FLAGS_REPLACE+=("-fprofile-use")
@@ -272,20 +293,18 @@ if [[ ${_OPTIMIZED} == yes ]]; then
     _FLAGS_REPLACE+=(${_LTO_CFLAG})
     _FLAGS_REPLACE+=("")
   done
-  # Install the shared library (for people who embed Python only, e.g. GDB).
-  # Linking module extensions to this on Linux is redundant (but harmless).
-  # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
-  if [[ ${target_platform} =~ linux-* ]]; then
-    cp -pf ${_buildd_shared}/libpython${VER}m${SHLIB_EXT}.1.0 ${PREFIX}/lib/
-    ln -sf ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1
-    ln -sf ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}.1 ${PREFIX}/lib/libpython${VER}m${SHLIB_EXT}
-  elif [[ ${target_platform} == osx-64 ]]; then
-    cp -pf ${_buildd_shared}/libpython${VER}m${SHLIB_EXT} ${PREFIX}/lib/
-  fi
-else
-  make -C ${_buildd_shared} install
-  declare -a _FLAGS_REPLACE
 fi
+# Install the shared library (for people who embed Python only, e.g. GDB).
+# Linking module extensions to this on Linux is redundant (but harmless).
+# Linking module extensions to this on Darwin is harmful (multiply defined symbols).
+cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}* ${PREFIX}/lib/
+if [[ ${target_platform} =~ .*linux.* ]]; then
+  ln -sf ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}
+fi
+
+# If the LTO info in the normal lib is problematic (using different compilers for example
+# we also provide a 'nolto' version).
+cp -pf ${_buildd_shared}/libpython${VERABI}-pic.a ${PREFIX}/lib/libpython${VERABI}.nolto.a
 
 SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name "_sysconfigdata*.py" -print0)
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
@@ -322,19 +341,19 @@ popd
 
 # Size reductions:
 pushd ${PREFIX}
-  if [[ -f lib/libpython${VER}m.a ]]; then
-    chmod +w lib/libpython${VER}m.a
+  if [[ -f lib/libpython${VERABI}.a ]]; then
+    chmod +w lib/libpython${VERABI}.a
     if [[ -n ${HOST} ]]; then
-      ${HOST}-strip -S lib/libpython${VER}m.a
+      ${HOST}-strip -S lib/libpython${VERABI}.a
     else
-      strip -S lib/libpython${VER}m.a
+      strip -S lib/libpython${VERABI}.a
     fi
   fi
-  CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VER}${DBG}m* -name "libpython${VER}m.a")
-  if [[ -f lib/libpython${VER}m.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
+  CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VERABI}* -name "libpython${VERABI}.a")
+  if [[ -f lib/libpython${VERABI}.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
     chmod +w ${CONFIG_LIBPYTHON}
     rm ${CONFIG_LIBPYTHON}
-    ln -s ../../libpython${VER}m.a ${CONFIG_LIBPYTHON}
+    ln -s ../../libpython${VERABI}.a ${CONFIG_LIBPYTHON}
   fi
 popd
 
@@ -343,37 +362,37 @@ if [[ -n ${HOST} ]]; then
     # Copy sysconfig that gets recorded to a non-default name
     #   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
     #   to the name of this file (minus the .py extension)
-    pushd $PREFIX/lib/python${VER}
-    # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
-    # This breaks our attempt to find the right one as recorded_name.
-    find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
-    recorded_name=$(find . -name "_sysconfigdata*.py")
-    our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
-    mv ${recorded_name} ${our_compilers_name}
+    pushd "${PREFIX}"/lib/python${VER}
+      # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
+      # This breaks our attempt to find the right one as recorded_name.
+      find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
+      recorded_name=$(find . -name "_sysconfigdata*.py")
+      our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
+      mv ${recorded_name} ${our_compilers_name}
 
-    # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
-    # from the previous build unfortunately so care must be taken at version bumps and flag changes.
-    SYSCONFIGS=$(find "${RECIPE_DIR}"/sysconfigdata/*.py -name '*sysconfigdata*')
-    for SYSCONFIG in ${SYSCONFIGS}; do
+      # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
+      # from the previous build unfortunately so care must be taken at version bumps and flag changes.
+      SYSCONFIGS=$(find "${RECIPE_DIR}"/sysconfigdata/*.py -name '*sysconfigdata*')
+      for SYSCONFIG in ${SYSCONFIGS}; do
         cat ${SYSCONFIG} | sed -e "s|@ABIFLAGS@|${ABIFLAGS}|g" \
                             -e "s|@PYVERNODOTS@|${VERNODOTS}|g" \
                             -e "s|@PYVER@|${VER}|g" > $(basename ${SYSCONFIG})
-    done
+      done
 
-    if [[ ${HOST} =~ .*darwin.* ]]; then
+      if [[ ${HOST} =~ .*darwin.* ]]; then
         cp ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_osx.py ${recorded_name}
-    else
+      else
         if [[ ${HOST} =~ x86_64.* ]]; then
-        PY_ARCH=x86_64
+          PY_ARCH=x86_64
         elif [[ ${HOST} =~ i686.* ]]; then
-        PY_ARCH=i386
+          PY_ARCH=i386
         elif [[ ${HOST} =~ powerpc64le.* ]]; then
-        PY_ARCH=powerpc64le
+          PY_ARCH=powerpc64le
         elif [[ ${HOST} =~ aarch64.* ]]; then
-        PY_ARCH=aarch64
+          PY_ARCH=aarch64
         else
-        echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
-        exit 1
+          echo "ERROR: Cannot determine PY_ARCH for host ${HOST}"
+          exit 1
         fi
         cat ${RECIPE_DIR}/sysconfigdata/default/_sysconfigdata_linux.py | sed "s|@ARCH@|${PY_ARCH}|g" > ${recorded_name}
         mkdir -p ${PREFIX}/compiler_compat
@@ -410,4 +429,3 @@ fi
 
 # There are some strange distutils files around. Delete them
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
-

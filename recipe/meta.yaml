@@ -1,4 +1,5 @@
-{% set version = "3.8.0" %}
+{% set base_version = "3.8.1" %}
+{% set version = base_version %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}
@@ -6,13 +7,16 @@
 
 package:
   name: python
-  version: {{ version }}
+  version: {{ base_version }}
 
 source:
-  - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
-    sha256: b356244e13fb5491da890b35b13b2118c3122977c2cd825e3eb6e7d462030d84
+  - url: https://www.python.org/ftp/python/{{ base_version }}/Python-{{ version }}.tar.xz
+    # md5 from: https://www.python.org/downloads/release/python-381/
+    md5: b3fb85fd479c0bf950c626ef80cacb57
     patches:
+{% if 'conda-forge' not in channel_targets %}
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
+{% endif %}
       - patches/0002-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
       - patches/0003-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0004-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
@@ -31,10 +35,13 @@ source:
       - patches/0017-Unvendor-sqlite3.patch
       # https://bugs.python.org/issue35644
       - patches/0018-venv-Revert-a-change-from-https-github.com-python-cp.patch
-      # TODO combine 0019 and 0020
-      #- patches/0019-Add-CondaEcosystemModifyDllSearchPath.patch
-      - patches/0020-add-conda-paths-to-DLL-search-path-on-windows.patch
-      - patches/0021-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
+      # TODO resolve CondaEcosystemModifyDllSearchPath with add-conda-paths...
+{% if 'conda-forge' not in channel_targets %}
+      #- 0019-Add-CondaEcosystemModifyDllSearchPath.patch
+{% endif %}
+      - patches/0019-add-conda-paths-to-DLL-search-path-on-windows.patch
+      - patches/0020-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
+      - patches/0021-Use-ranlib-from-env.patch
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -62,12 +69,9 @@ source:
   - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
     folder: externals/nasm-2.11.06                                                   # [win]
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/libffi-3.3.0-rc0-r1.zip  # [win]
-    folder: externals/libffi-3.3.0-rc0-rc1                                              # [win]
-    sha256: 23b4347b347cb92fbfa312c95c8f9d1c8ee4416bd5cfc0f318fa01de220aa869            # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip                  # [win]
-    folder: externals/libffi                                                            # [win]
-    sha256: 57180e18749ad5e8727ae1f488621768a58808ac387968068c563bee8b2b23ec            # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip               # [win]
+    folder: externals/libffi                                                         # [win]
+    sha256: 57180e18749ad5e8727ae1f488621768a58808ac387968068c563bee8b2b23ec         # [win]
 
 
 build:
@@ -76,44 +80,73 @@ build:
   # Copy rather than link.
   no_link:
     - DLLs/_ctypes.pyd  # [win]
-  script_env:
-    - python_branding
-  skip: true  # [win and vc != '14.1']
   # We delete the shared libraries.
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]
+  detect_binary_files_with_prefix: False
+  binary_has_prefix_files:
+    - lib/libpython3.8.*.1.0
+    - bin/python3.8  # [linux]
+    - lib/libpython3.8.a  # [linux]
+    - lib/libpython3.8.nolto.a  # [linux]
+    - lib/libpython3.so  # [linux]
+    - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
+    - lib/libpython3.dylib  # [osx]
+  # match python.org compiler standard
+  skip: True            # [win and int(float(vc)) < 14]
+# Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
+# Also this messes up hash generation so package ends up without any :-(
+# {% if linkage_nature != '' %}
+#   string: {{ version }}{{ linkage_nature }}
+# {% endif %}
+#   script_env:
+#    - PY_INTERP_LINKAGE_NATURE
+#    - python_branding
+# Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
+# {% if 'conda-forge' not in channel_targets %}
+#      - CONDA_FORGE=yes
+# {% else %}
+#      - CONDA_FORGE=no
+# {% endif %}
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}          # [linux]
-    - llvm-tools                         # [osx]
-    - make                               # [not win]
-    - pkg-config                         # [not win]
+    - {{ cdt('libx11-devel') }}  # [linux]
+    - make  # [not win]
+    - pkg-config  # [not win]
+    - patch  # [not win]
+    - m2-patch  # [win]
   host:
-    - bzip2             # [not win]
+    - libuuid  # [linux]
+    - bzip2  # [not win]
     - sqlite
-    - xz                # [not win]
-    - zlib              # [not win]
+    - xz  # [not win]
+    - zlib  # [not win]
     - openssl
-    - readline          # [not win]
-    - tk                # [not win]
-    - ncurses           # [not win]
-    - libffi            # [not win]
-    - vc                # [win]
-  run:
-    - sqlite
-    - xz                # [not win]
-    - zlib              # [not win]
-    - openssl
-    - readline          # [not win]
-    - tk                # [not win]
-    - ncurses           # [not win]
-    - libffi            # [not win]
+    - readline  # [not win]
+    - tk  # [not win]
+    - ncurses  # [linux]
+    - libffi  # [not win]
 
 test:
+  requires:
+    - ripgrep
+    - cmake
+    - ninja
+    - cython
+    - setuptools
+    - {{ compiler('c') }}
+    # Tried to use enable_language(C) to avoid needing this. It does not work.
+    - {{ compiler('cxx') }}
+  files:
+    - tests/distutils/*
+    - tests/distutils.cext/*
+    - tests/cmake/*
+    - tests/cython/*
+    - tests/prefix-replacement/*
   commands:
     - python -V
     - python3 -V            # [not win]
@@ -121,10 +154,27 @@ test:
     - pydoc -h
     - python3-config --help  # [not win]
     - python -m venv %%TEMP%%\venv  # [win]
-    - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
+    - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
     -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
     # check for unreplaced @ symbols in sysconfig files
-    - for f in ${PREFIX}/lib/python3.8/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
+    - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
+    - pushd tests
+    -   pushd distutils
+    -     python setup.py install -v -v
+    -     python -c "import foobar"
+    -   popd
+    -   pushd distutils.cext
+    -     python setup.py install -v -v
+    -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
+    -   popd
+    -   pushd prefix-replacement  # [unix]
+    -     bash build-and-test.sh  # [unix]
+    -   popd  # [unix]
+    -   pushd cmake
+    -     cmake -GNinja -DPY_VER={{ version }}
+          # --trace --debug-output --debug-trycompile .
+    -   popd
+    - popd
 
 about:
   home: http://www.python.org/

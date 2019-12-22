@@ -95,6 +95,7 @@ requirements:
     - llvm-tools                         # [osx]
     - make                               # [not win]
     - pkg-config                         # [not win]
+    - libbluetooth-dev                   # [not win]
   host:
     - bzip2             # [not win]
     - ld_impl_{{ target_platform }}        # [linux and not aarch64]
@@ -108,6 +109,7 @@ requirements:
     - ncurses           # [not win]
     - libffi            # [not win]
     - vc                # [win]
+    - libbluetooth-dev  # [not win]
   run:
     - ld_impl_{{ target_platform }}        # [linux and not aarch64]
     - binutils_impl_{{ target_platform }}  # [aarch64]
@@ -119,6 +121,7 @@ requirements:
     - tk                # [not win]
     - ncurses           # [not win]
     - libffi            # [not win]
+    - libbluetooth-dev  # [not win]
 
 test:
   requires:

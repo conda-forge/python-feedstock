@@ -92,10 +92,10 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('libbluetooth-dev') }}      # [not win]
     - llvm-tools                         # [osx]
     - make                               # [not win]
     - pkg-config                         # [not win]
-    - libbluetooth-dev                   # [not win]
   host:
     - bzip2             # [not win]
     - ld_impl_{{ target_platform }}        # [linux and not aarch64]

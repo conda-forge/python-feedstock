@@ -1,20 +1,20 @@
-From 764c0905e2d07a3eb4ad0425dbcf8c2273786727 Mon Sep 17 00:00:00 2001
+From 4eb4e18cd43d72a76e5b95708177a2f842ceb3c3 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 15 Aug 2017 22:34:16 +0100
-Subject: [PATCH 01/15] Add Anaconda Distribution version logic
+Subject: [PATCH 01/19] Add Anaconda Distribution version logic
 
 ---
  Include/pylifecycle.h |  1 +
  Lib/platform.py       |  1 +
  Modules/main.c        |  2 +-
- Python/getversion.c   | 46 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 49 insertions(+), 1 deletion(-)
+ Python/getversion.c   | 47 +++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 50 insertions(+), 1 deletion(-)
 
 diff --git a/Include/pylifecycle.h b/Include/pylifecycle.h
-index 659c6df644..988f7558da 100644
+index 5d9f049..79cfd6a 100644
 --- a/Include/pylifecycle.h
 +++ b/Include/pylifecycle.h
-@@ -130,6 +130,7 @@ int _Py_CheckPython3(void);
+@@ -154,6 +154,7 @@ int _Py_CheckPython3(void);
  #endif
  
  /* In their own files */
@@ -23,10 +23,10 @@ index 659c6df644..988f7558da 100644
  PyAPI_FUNC(const char *) Py_GetPlatform(void);
  PyAPI_FUNC(const char *) Py_GetCopyright(void);
 diff --git a/Lib/platform.py b/Lib/platform.py
-index dc981ec144..d04c03febb 100755
+index 6ab06b5..10c1a0f 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -1087,6 +1087,7 @@ def processor():
+@@ -1120,6 +1120,7 @@ def processor():
  
  _sys_version_parser = re.compile(
      r'([\w.+]+)\s*'  # "version<space>"
@@ -35,10 +35,10 @@ index dc981ec144..d04c03febb 100755
      r'(?:,\s*([\w ]*)'  # ", builddate"
      r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
 diff --git a/Modules/main.c b/Modules/main.c
-index f6b5104300..949abe7047 100644
+index acc59c6..b3fba94 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
-@@ -1221,7 +1221,7 @@ pymain_header(_PyMain *pymain)
+@@ -1238,7 +1238,7 @@ pymain_header(_PyMain *pymain)
          return;
      }
  
@@ -48,7 +48,7 @@ index f6b5104300..949abe7047 100644
          fprintf(stderr, "%s\n", COPYRIGHT);
      }
 diff --git a/Python/getversion.c b/Python/getversion.c
-index c32b6f9d60..03b6888976 100644
+index c32b6f9..b5dfffb 100644
 --- a/Python/getversion.c
 +++ b/Python/getversion.c
 @@ -2,9 +2,56 @@
@@ -109,5 +109,5 @@ index c32b6f9d60..03b6888976 100644
  Py_GetVersion(void)
  {
 -- 
-2.17.0
+2.20.1
 

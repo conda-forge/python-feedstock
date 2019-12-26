@@ -160,3 +160,24 @@ if errorlevel 1 exit 1
 
 :: Pickle lib2to3 Grammar
 %PREFIX%\python.exe -m lib2to3 --help
+
+echo "Testing print() does not print Hello"
+%CONDA_EXE% run -p %PREFIX% python -c "print()" 2>&1 | findstr /r /c:"Hello"
+if %errorlevel% neq 1 exit /b 1
+
+echo "Testing print('Hello') prints Hello"
+%CONDA_EXE% run -p %PREFIX% python -c "print('Hello')" 2>&1 | findstr /r /c:"Hello"
+if %errorlevel% neq 0 exit /b 1
+
+echo "Testing import of os does not print The specified module could not be found"
+%CONDA_EXE% run -p %PREFIX% python -v -c "import os" 2>&1
+%CONDA_EXE% run -p %PREFIX% python -v -c "import os" 2>&1 | findstr /r /c:"The specified module could not be found"
+if %errorlevel% neq 1 exit /b 1
+
+echo "Waiting for 60 seconds. Recommend you run procmon to figure out why the impeding import of _sqlite3 fails (on Win 32, python 3.7 building 3.8)"
+:: waitfor SomethingThatIsNeverHappening /t 60 2>NUL
+
+echo "Testing import of _sqlite3 prints The specified module could not be found"
+%CONDA_EXE% run -p %PREFIX% %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1
+%CONDA_EXE% run -p %PREFIX% %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1 | findstr /r /c:"The specified module could not be found"
+if %errorlevel% neq 1 exit /b 1

@@ -174,7 +174,7 @@ echo "Testing import of os does not print The specified module could not be foun
 %CONDA_EXE% run -p %PREFIX% python -v -c "import os" 2>&1 | findstr /r /c:"The specified module could not be found"
 if %errorlevel% neq 1 exit /b 1
 
-echo "Waiting for 60 seconds. Recommend you run procmon to figure out why the impeding import of _sqlite3 fails (on Win 32, python 3.7 building 3.8)"
+:: echo "Waiting for 60 seconds. Recommend you run procmon to figure out why the impeding import of _sqlite3 fails (on Win 32, python 3.7 building 3.8)"
 :: waitfor SomethingThatIsNeverHappening /t 60 2>NUL
 
 echo "Testing import of _sqlite3 prints The specified module could not be found"

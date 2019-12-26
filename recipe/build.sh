@@ -53,7 +53,8 @@ else
   DBG=
 fi
 
-VERABI=${VER}${DBG}m
+ABIFLAGS=${DBG}m
+VERABI=${VER}${ABIFLAGS}
 
 # This is the mechanism by which we fall back to default gcc, but having it defined here
 # would probably break the build by using incorrect settings and/or importing files that

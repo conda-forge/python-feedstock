@@ -30,15 +30,32 @@ if "%PY_INTERP_DEBUG%" neq "" (
 )
 
 
-if "%DEBUG_C%"=="yes" (
+if "%PY_INTERP_DEBUG%"=="yes" (
   set PGO=
 ) else (
-  set PGO=--pgo
+  if "%DEBUG_C%"=="yes" (
+    set PGO=
+  ) else (
+    set PGO=--pgo
+  )
 )
 
 cd PCbuild
 
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
+:: Doesn't avoid the SDK problem.
+:: devenv /upgrade pcbuild.sln
+set __VCVARS_VERSION=%WindowsSDKVer%
+:: 14.16.27023
+
+echo ^<?xml version="1.0"?^> > my_props.props
+echo ^<PropertyGroup Label="Configuration"^> >> my_props.props
+echo    ^<VCToolsVersion /^> >> my_props.props
+echo    ^<PlatformToolset^>v141^</PlatformToolset^> >> my_props.props
+echo ^</PropertyGroup^> >> my_props.props
+
+type my_props.props
+
+call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM% "/p:ForceImportBeforeCppTargets=%CD%\my_props.props" "/p:ForceImportAfterCppTargets=%CD%\my_props.props"
 if errorlevel 1 exit 1
 cd ..
 

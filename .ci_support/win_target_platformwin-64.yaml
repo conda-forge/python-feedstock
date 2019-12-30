@@ -15,17 +15,12 @@ pin_run_as_build:
     max_pin: x
   tk:
     max_pin: x.x
-  vc:
-    max_pin: x
 sqlite:
 - '3'
 target_platform:
 - win-64
 tk:
 - '8.6'
-vc:
-- '14.1'
 zip_keys:
-- - vc
-  - c_compiler
+- - c_compiler
   - cxx_compiler

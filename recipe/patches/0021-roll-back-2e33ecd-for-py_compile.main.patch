@@ -1,0 +1,41 @@
+From b57a9463b6085a76feb96ac9c025c63cfe884db6 Mon Sep 17 00:00:00 2001
+From: Duncan Macleod <duncan.macleod@ligo.org>
+Date: Mon, 11 Nov 2019 14:30:40 +0000
+Subject: [PATCH 21/22] roll-back 2e33ecd for py_compile.main
+
+---
+ Lib/py_compile.py | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/Lib/py_compile.py b/Lib/py_compile.py
+index 21736896af..a81f493731 100644
+--- a/Lib/py_compile.py
++++ b/Lib/py_compile.py
+@@ -197,12 +197,10 @@ def main(args=None):
+                 compile(filename, doraise=True)
+             except PyCompileError as error:
+                 rv = 1
+-                if quiet < 2:
+-                    sys.stderr.write("%s\n" % error.msg)
++                sys.stderr.write("%s\n" % error.msg)
+             except OSError as error:
+                 rv = 1
+-                if quiet < 2:
+-                    sys.stderr.write("%s\n" % error)
++                sys.stderr.write("%s\n" % error)
+     else:
+         for filename in args:
+             try:
+@@ -210,8 +208,7 @@ def main(args=None):
+             except PyCompileError as error:
+                 # return value to indicate at least one failure
+                 rv = 1
+-                if quiet < 2:
+-                    sys.stderr.write("%s\n" % error.msg)
++                sys.stderr.write("%s\n" % error.msg)
+     return rv
+ 
+ if __name__ == "__main__":
+-- 
+2.24.0
+

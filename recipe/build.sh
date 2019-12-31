@@ -226,9 +226,9 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   if [[ ${QUICK_BUILD} == yes ]]; then
     # TODO :: It seems this is just profiling everything, on Windows, only 40 odd tests are
     #         run while on Unix, all 400+ are run, making this slower and less well curated
-    _PROFILE_TASK+=(PROFILE_TASK=\"-m test --pgo\")
+    _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
   else
-    _PROFILE_TASK+=(PROFILE_TASK=\"-m test --pgo-extended\")
+    _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
   fi
   if [[ ${CC} =~ .*gcc.* ]]; then
     LTO_CFLAGS+=(-fuse-linker-plugin)
@@ -261,7 +261,7 @@ pushd ${_buildd_static}
                        "${_extra_opts[@]}" \
                        "${_dbg_opts[@]}" \
                        -oldincludedir=${BUILD_PREFIX}/${HOST}/sysroot/usr/include \
-                       ${_DISABLE_SHARED}
+                       ${_DISABLE_SHARED} "${_PROFILE_TASK[@]}"
 popd
 
 make -j${CPU_COUNT} -C ${_buildd_static} \

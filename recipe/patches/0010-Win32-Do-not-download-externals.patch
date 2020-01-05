@@ -1,14 +1,14 @@
-From 92cafbd9d9cdd6950aa2c0f4142afd0bf7d840e6 Mon Sep 17 00:00:00 2001
+From 1a94f4041b1e10e1fd0e5b66e78c9a856c520e08 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
-Subject: [PATCH 10/20] Win32: Do not download externals
+Subject: [PATCH 10/22] Win32: Do not download externals
 
 ---
- PCbuild/build.bat | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ PCbuild/build.bat | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index d44b52a..abfd4b6 100644
+index 623409c24e..bf2adb26f7 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
 @@ -91,7 +91,7 @@ if "%IncludeCTypes%"=="" set IncludeCTypes=true
@@ -20,13 +20,6 @@ index d44b52a..abfd4b6 100644
  
  if "%do_pgo%" EQU "true" if "%platf%" EQU "x64" (
      if "%PROCESSOR_ARCHITEW6432%" NEQ "AMD64" if "%PROCESSOR_ARCHITECTURE%" NEQ "AMD64" (
-@@ -162,4 +162,4 @@ rem Display the current build version information
- call "%dir%find_msbuild.bat" %MSBUILD%
- if ERRORLEVEL 1 (echo Cannot locate MSBuild.exe on PATH or as MSBUILD variable & exit /b 2)
- %MSBUILD% "%dir%pythoncore.vcxproj" /t:ShowVersionInfo /v:m /nologo %1 %2 %3 %4 %5 %6 %7 %8 %9
--if ERRORLEVEL 1 exit /b 3
-\ No newline at end of file
-+if ERRORLEVEL 1 exit /b 3
 -- 
-2.20.1
+2.24.0
 

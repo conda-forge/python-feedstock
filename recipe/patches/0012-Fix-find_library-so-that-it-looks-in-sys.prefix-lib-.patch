@@ -1,7 +1,7 @@
-From 5ed0f23117d35beeb45cf7e835c0b702267e694f Mon Sep 17 00:00:00 2001
+From bb15dddfefe0d74aa4d96f59aea1b7e49616815e Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
-Subject: [PATCH 12/20] Fix find_library so that it looks in sys.prefix/lib
+Subject: [PATCH 12/22] Fix find_library so that it looks in sys.prefix/lib
  first
 
 ---
@@ -10,7 +10,7 @@ Subject: [PATCH 12/20] Fix find_library so that it looks in sys.prefix/lib
  2 files changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index c158e67..a4770ec 100644
+index 9d86b05876..9ab447c0a1 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
 @@ -88,6 +88,10 @@ def dyld_executable_path_search(name, executable_path=None):
@@ -25,7 +25,7 @@ index c158e67..a4770ec 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index 97973bc..1340ad7 100644
+index 97973bce00..1340ad7c25 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -70,7 +70,8 @@ if os.name == "nt":
@@ -72,5 +72,5 @@ index 97973bc..1340ad7 100644
  ################################################################
  # test code
 -- 
-2.20.1
+2.24.0
 

@@ -36,9 +36,6 @@ if "%DEBUG_C%"=="yes" (
   set PGO=--pgo
 )
 
-:: AP doesn't support PGO atm?
-set PGO=
-
 cd PCbuild
 
 call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%

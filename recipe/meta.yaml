@@ -55,6 +55,7 @@ source:
       {% endif %}
 
   # TODO :: Depend on our own packages for these:
+  # Change to kick build
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
     sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f         # [win]

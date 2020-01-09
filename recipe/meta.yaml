@@ -141,7 +141,7 @@ requirements:
     - openssl
     - readline  # [not win]
     - tk  # [not win]
-    - ncurses  # [linux]
+    - ncurses  # [not win]
     - libffi  # [not win]
     - ld_impl_{{target_platform}}  # [linux]
   run:

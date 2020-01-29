@@ -78,7 +78,7 @@ source:
 
 
 build:
-  number: 1
+  number: 2
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -128,6 +128,8 @@ requirements:
     - patch  # [not win]
     - m2-patch  # [win]
     - posix  # [win]
+    - ld_impl_{{target_platform}}  # [linux]
+    - binutils_impl_{{target_platform}} >=2.33.1  # [linux]
   host:
     - bzip2  # [not win]
     - sqlite
@@ -138,11 +140,9 @@ requirements:
     - tk  # [not win]
     - ncurses  # [linux]
     - libffi  # [not win]
-    - binutils_impl_{{target_platform}}  # [aarch64]
-    - ld_impl_{{target_platform}}  # [linux and not aarch64]
+    - ld_impl_{{target_platform}}  # [linux]
   run:
-    - binutils_impl_{{target_platform}}  # [aarch64]
-    - ld_impl_{{target_platform}}  # [linux and not aarch64]
+    - ld_impl_{{target_platform}}  # [linux]
 
 test:
   requires:

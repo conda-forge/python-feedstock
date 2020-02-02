@@ -142,6 +142,8 @@ requirements:
     - ld_impl_{{target_platform}}  # [linux]
   run:
     - ld_impl_{{target_platform}}  # [linux]
+  run_constrained:
+    - pypy <0a0
 
 test:
   requires:

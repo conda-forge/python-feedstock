@@ -1,5 +1,7 @@
 setlocal EnableDelayedExpansion
 
+echo on
+
 :: brand Python with conda-forge startup message
 ::%SYS_PYTHON% %RECIPE_DIR%\brand_python.py
 ::if errorlevel 1 exit 1
@@ -37,6 +39,7 @@ if "%PY_INTERP_DEBUG%"=="yes" (
     set PGO=
   ) else (
     set PGO=--pgo
+    set PGO=
   )
 )
 
@@ -44,18 +47,17 @@ cd PCbuild
 
 :: Doesn't avoid the SDK problem.
 :: devenv /upgrade pcbuild.sln
-set __VCVARS_VERSION=%WindowsSDKVer%
+:: set __VCVARS_VERSION=%WindowsSDKVer%
 :: 14.16.27023
+:: echo ^<?xml version="1.0"?^> > my_props.props
+:: echo ^<PropertyGroup Label="Configuration"^> >> my_props.props
+:: echo    ^<VCToolsVersion /^> >> my_props.props
+:: echo    ^<PlatformToolset^>v141^</PlatformToolset^> >> my_props.props
+:: echo ^</PropertyGroup^> >> my_props.props
+:: type my_props.props
+:: call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM% "/p:ForceImportBeforeCppTargets=%CD%\my_props.props" "/p:ForceImportAfterCppTargets=%CD%\my_props.props"
 
-echo ^<?xml version="1.0"?^> > my_props.props
-echo ^<PropertyGroup Label="Configuration"^> >> my_props.props
-echo    ^<VCToolsVersion /^> >> my_props.props
-echo    ^<PlatformToolset^>v141^</PlatformToolset^> >> my_props.props
-echo ^</PropertyGroup^> >> my_props.props
-
-type my_props.props
-
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM% "/p:ForceImportBeforeCppTargets=%CD%\my_props.props" "/p:ForceImportAfterCppTargets=%CD%\my_props.props"
+call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
@@ -182,6 +184,7 @@ if errorlevel 1 exit 1
 
 :: We need our Python to be found!
 if "%_D%" neq "" copy %PREFIX%\python%_D%.exe %PREFIX%\python.exe
+if "%_D%" neq "" copy %PREFIX%\python%_D%.pdb %PREFIX%\python.pdb
 
 %PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
@@ -189,21 +192,29 @@ if errorlevel 1 exit 1
 :: Pickle lib2to3 Grammar
 %PREFIX%\python.exe -m lib2to3 --help
 
-:: Some quick tests for common failures
-echo "Testing print() does not print: Hello"
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -c "print()" 2>&1 | findstr /r /c:"Hello"
+echo CONDA_EXE is %CONDA_EXE%
+echo where conda is
+where conda
+echo where python is
+where python
+
+echo "Testing print() does not print Hello"
+conda run -p %PREFIX% python -c "print()" 2>&1 | findstr /r /c:"Hello"
 if %errorlevel% neq 1 exit /b 1
 
-echo "Testing print('Hello') prints: Hello"
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe "print('Hello')" 2>&1 | findstr /r /c:"Hello"
+echo "Testing print('Hello') prints Hello"
+conda run -p %PREFIX% python -c "print('Hello')" 2>&1 | findstr /r /c:"Hello"
 if %errorlevel% neq 0 exit /b 1
 
-echo "Testing import of os (no DLL needed) does not print: The specified module could not be found"
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import os" 2>&1
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import os" 2>&1 | findstr /r /c:"The specified module could not be found"
+echo "Testing import of os does not print The specified module could not be found"
+conda run -p %PREFIX% python -v -c "import os" 2>&1
+conda run -p %PREFIX% python -v -c "import os" 2>&1 | findstr /r /c:"The specified module could not be found"
 if %errorlevel% neq 1 exit /b 1
 
-echo "Testing import of _sqlite3 (DLL located via PATH needed) does not print: The specified module could not be found"
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1 | findstr /r /c:"The specified module could not be found"
+:: echo "Waiting for 60 seconds. Recommend you run procmon to figure out why the impeding import of _sqlite3 fails (on Win 32, python 3.7 building 3.8)"
+:: waitfor SomethingThatIsNeverHappening /t 60 2>NUL
+
+echo "Testing import of _sqlite3 prints The specified module could not be found"
+conda run -p %PREFIX% %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1
+conda run -p %PREFIX% %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1 | findstr /r /c:"The specified module could not be found"
 if %errorlevel% neq 1 exit /b 1

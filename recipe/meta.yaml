@@ -78,7 +78,7 @@ source:
 
 
 build:
-  number: 2
+  number: 3
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -100,10 +100,9 @@ build:
   # match python.org compiler standard
   skip: True            # [win and int(float(vc)) < 14]
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
-# Also this messes up hash generation so package ends up without any :-(
-{% if linkage_nature != '' or debug != '' %}
-  string: {{ version }}{{ linkage_nature }}{{ debug }}
-{% endif %}
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+  run_exports:
+   - python_abi 3.8.* cp38
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG
@@ -143,6 +142,8 @@ requirements:
     - ld_impl_{{target_platform}}  # [linux]
   run:
     - ld_impl_{{target_platform}}  # [linux]
+  run_constrained:
+    - python_abi 3.8.* cp38
 
 test:
   requires:

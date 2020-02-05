@@ -102,7 +102,7 @@ build:
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
   run_exports:
-   - python * *_cpython
+   - python_abi 3.8.* cp38
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG

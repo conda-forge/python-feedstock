@@ -97,7 +97,7 @@ build:
   #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
   #   - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
-  skip: True            # [win and int(float(vc)) < 14]
+  skip: True # [win and int(float(vc)) < 14] <<<<<<< HEAD
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
   run_exports:
@@ -105,6 +105,9 @@ build:
       - python
     weak:
       - python_abi 3.8.* *_cp38
+  # string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+  # run_exports:
+  #  - python * *_cpython
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG
@@ -193,6 +196,7 @@ test:
           # --trace --debug-output --debug-trycompile .
     -   popd
     - popd
+    - exit /b 1  # [win]
 
 about:
   home: http://www.python.org/

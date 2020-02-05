@@ -143,7 +143,7 @@ requirements:
   run:
     - ld_impl_{{target_platform}}  # [linux]
   run_constrained:
-    - pypy <0a0
+    - python_abi 3.8.* cp38
 
 test:
   requires:

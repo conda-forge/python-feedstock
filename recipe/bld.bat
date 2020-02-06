@@ -63,12 +63,31 @@ cd ..
 
 :: Populate the root package directory
 for %%x in (python38%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe venvlauncher%_D%.exe venvwlauncher%_D%.exe) do (
+    echo Copying: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x to %PREFIX%
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     if errorlevel 1 exit 1
 )
 
+:: If _d appears anywhere other than at the end of the filename then this will break.
+if "%_D%"=="_d" (
+  for %%x in (python38%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe venvlauncher%_D%.exe venvwlauncher%_D%.exe) do (
+    set _TMP=%%x
+    call set _DST=%%_TMP:_D=%%
+    echo Copying: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x to !_DST!
+    copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%\!_DST!
+    if errorlevel 1 exit 1
+  )
+)
+
 for %%x in (python%_D%.pdb python38%_D%.pdb pythonw%_D%.pdb) do (
+    echo Copying: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
+    if errorlevel 1 exit 1
+)
+
+for %%x in (*.pdb) do (
+    echo Copying PDB: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x to %PREFIX%\DLLs
+    copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%\DLLs
     if errorlevel 1 exit 1
 )
 
@@ -155,7 +174,14 @@ copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-
+if "%_D%"=="_d" (
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python38%_D%.lib %PREFIX%\libs\python38.lib
+  if errorlevel 1 exit 1
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib %PREFIX%\libs\python3.lib
+  if errorlevel 1 exit 1
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib %PREFIX%\libs\_tkinter.lib
+  if errorlevel 1 exit 1
+)
 
 :: Populate the Lib directory
 del %PREFIX%\libs\libpython*.a
@@ -182,7 +208,7 @@ if errorlevel 1 exit 1
 rd /s /q %PREFIX%\Lib\lib2to3\tests\
 if errorlevel 1 exit 1
 
-:: We need our Python to be found!
+:: We need our Python to be found
 if "%_D%" neq "" copy %PREFIX%\python%_D%.exe %PREFIX%\python.exe
 if "%_D%" neq "" copy %PREFIX%\python%_D%.pdb %PREFIX%\python.pdb
 

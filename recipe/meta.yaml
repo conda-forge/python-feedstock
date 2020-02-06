@@ -5,7 +5,7 @@
   {% set linkage_nature = "_" ~ linkage_nature %}
 {% endif %}
 {% if debug != '' %}
-  {% set debug = "_d" ~ debug %}
+  {% set debug = "_dbg" %}
 {% endif %}
 
 package:
@@ -97,9 +97,10 @@ build:
   #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
   #   - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
-  skip: True # [win and int(float(vc)) < 14] <<<<<<< HEAD
+  skip: True # [win and int(float(vc)) < 14]
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
-  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
+  skip: True            # [win and int(float
   run_exports:
     noarch:
       - python
@@ -130,12 +131,12 @@ requirements:
     # configure script looks for llvm-ar for lto
 {% if 'conda-forge' in channel_targets %}
     - llvm-tools  # [osx]
+    - ld_impl_{{target_platform}}  # [linux]
+    - binutils_impl_{{target_platform}} >=2.33.1  # [linux]
 {% endif %}
     - patch  # [not win]
     - m2-patch  # [win]
-    - posix  # [win]
-    - ld_impl_{{target_platform}}  # [linux]
-    - binutils_impl_{{target_platform}} >=2.33.1  # [linux]
+    - m2-gcc-libs  # [win]
   host:
     - bzip2  # [not win]
     - sqlite
@@ -146,9 +147,10 @@ requirements:
     - tk  # [not win]
     - ncurses  # [not win]
     - libffi  # [not win]
-    - ld_impl_{{target_platform}}  # [linux]
+{% if 'conda-forge' in channel_targets %}
   run:
     - ld_impl_{{target_platform}}  # [linux]
+{% endif %}
   run_constrained:
     - python_abi 3.8.* *_cp38
 
@@ -192,11 +194,12 @@ test:
     -     bash build-and-test.sh  # [unix]
     -   popd  # [unix]
     -   pushd cmake
-    -     cmake -GNinja -DPY_VER={{ version }}
-          # --trace --debug-output --debug-trycompile .
+    -     cmake -GNinja -DPY_VER={{ version }} .
+          # --trace --debug-output --debug-trycompile
     -   popd
     - popd
-    - exit /b 1  # [win]
+    # --dirty --keep-old-work should be fine instead of this.
+    # - exit /b 1  # [win]
 
 about:
   home: http://www.python.org/

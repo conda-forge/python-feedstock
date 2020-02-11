@@ -75,7 +75,7 @@ build:
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]
   skip: True            # [win and vc != 9]
-  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_cpython
   run_exports:
     noarch:
       - python

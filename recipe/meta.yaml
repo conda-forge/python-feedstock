@@ -95,7 +95,7 @@ build:
     noarch:
       - python
     weak:
-      - python_abi 3.7.* *_cp37
+      - python_abi 3.7.* *_cp37m
 #   script_env:
 #    - PY_INTERP_LINKAGE_NATURE
 #    - python_branding

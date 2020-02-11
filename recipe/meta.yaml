@@ -131,11 +131,9 @@ requirements:
     - tk  # [not win]
     - ncurses  # [not win]
     - libffi  # [not win]
-    - binutils_impl_{{target_platform}}  # [aarch64]
-    - ld_impl_{{target_platform}}  # [linux and not aarch64]
+    - ld_impl_{{target_platform}}  # [linux]
   run:
-    - binutils_impl_{{target_platform}}  # [aarch64]
-    - ld_impl_{{target_platform}}  # [linux and not aarch64]
+    - ld_impl_{{target_platform}}  # [linux]
 
 test:
   requires:

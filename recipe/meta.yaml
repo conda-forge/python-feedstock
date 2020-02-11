@@ -95,7 +95,7 @@ build:
     - bzip2             # [unix]
   # match python.org compiler standard
   skip: True            # [win and vc != 14]
-  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_cpython
   run_exports:
     noarch:
       - python

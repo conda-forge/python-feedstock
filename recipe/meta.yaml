@@ -82,7 +82,7 @@ source:
 
 
 build:
-  number: 1007
+  number: 1008
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -95,6 +95,13 @@ build:
     - bzip2             # [unix]
   # match python.org compiler standard
   skip: True            # [win and vc != 14]
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython
+  run_exports:
+    noarch:
+      - python
+    weak:
+      - python_abi 3.6.* *_cp36m
+
 
 requirements:
   build:

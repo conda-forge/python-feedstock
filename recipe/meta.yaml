@@ -101,11 +101,9 @@ requirements:
     - tk                                 # [unix]
     - ncurses                            # [unix]
     - libffi                             # [unix]
-    - ld_impl_{{ target_platform }}      # [linux and not aarch64]
-    - binutils_impl_{{ target_platform }}   # [aarch64]
+    - ld_impl_{{ target_platform }}      # [linux]
   run:
-    - ld_impl_{{ target_platform }}         # [linux and not aarch64]
-    - binutils_impl_{{ target_platform }}   # [aarch64]
+    - ld_impl_{{ target_platform }}      # [linux]
 
 test:
   commands:

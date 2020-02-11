@@ -10,16 +10,32 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      linux_:
-        CONFIG: linux_
+      linux_python2.7target_platformlinux-64:
+        CONFIG: linux_python2.7target_platformlinux-64
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_aarch64_:
-        CONFIG: linux_aarch64_
+      linux_python3.6target_platformlinux-64:
+        CONFIG: linux_python3.6target_platformlinux-64
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      linux_python3.7target_platformlinux-64:
+        CONFIG: linux_python3.7target_platformlinux-64
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      linux_aarch64_python3.6target_platformlinux-aarch64:
+        CONFIG: linux_aarch64_python3.6target_platformlinux-aarch64
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-aarch64
-      linux_ppc64le_:
-        CONFIG: linux_ppc64le_
+      linux_aarch64_python3.7target_platformlinux-aarch64:
+        CONFIG: linux_aarch64_python3.7target_platformlinux-aarch64
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
+      linux_ppc64le_python3.6target_platformlinux-ppc64le:
+        CONFIG: linux_ppc64le_python3.6target_platformlinux-ppc64le
+        UPLOAD_PACKAGES: True
+        DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
+      linux_ppc64le_python3.7target_platformlinux-ppc64le:
+        CONFIG: linux_ppc64le_python3.7target_platformlinux-ppc64le
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
   steps:
@@ -33,7 +49,8 @@ jobs:
 
   - script: |
         export CI=azure
-        .azure-pipelines/run_docker_build.sh
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        .scripts/run_docker_build.sh
     displayName: Run docker build
     env:
       BINSTAR_TOKEN: $(BINSTAR_TOKEN)

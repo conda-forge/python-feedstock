@@ -22,22 +22,6 @@ jobs:
         CONFIG: linux_python3.7target_platformlinux-64
         UPLOAD_PACKAGES: True
         DOCKER_IMAGE: condaforge/linux-anvil-comp7
-      linux_aarch64_python3.6target_platformlinux-aarch64:
-        CONFIG: linux_aarch64_python3.6target_platformlinux-aarch64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
-      linux_aarch64_python3.7target_platformlinux-aarch64:
-        CONFIG: linux_aarch64_python3.7target_platformlinux-aarch64
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-aarch64
-      linux_ppc64le_python3.6target_platformlinux-ppc64le:
-        CONFIG: linux_ppc64le_python3.6target_platformlinux-ppc64le
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
-      linux_ppc64le_python3.7target_platformlinux-ppc64le:
-        CONFIG: linux_ppc64le_python3.7target_platformlinux-ppc64le
-        UPLOAD_PACKAGES: True
-        DOCKER_IMAGE: condaforge/linux-anvil-ppc64le
   steps:
   # configure qemu binfmt-misc running.  This allows us to run docker containers
   # embedded qemu-static

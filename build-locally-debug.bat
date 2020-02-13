@@ -12,21 +12,19 @@ set CHANNELS=-c local -c rdonnelly -c defaults
 call conda activate
 set CB_CROOT=%CONDA_PREFIX%\conda-bld
 
-set PY_INTERP_DEBUG=
-set BLD_DIRNAME=python-3.8.1-%PF%
-set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
-del /s /q %DST_DIR%
-mkdir %DST_DIR%
-conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m ..\..\a\%REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
-
-exit /b 0
-
 set PY_INTERP_DEBUG=yes
 set BLD_DIRNAME=python-dbg-3.8.1-%PF%
 set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
 del /s /q %DST_DIR%
 mkdir %DST_DIR%
 conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m ..\..\a\%DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
+
+set PY_INTERP_DEBUG=
+set BLD_DIRNAME=python-3.8.1-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+del /s /q %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m ..\..\a\%REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
 
 cd ..\..\..\r\a\python-3.7-feedstock
 

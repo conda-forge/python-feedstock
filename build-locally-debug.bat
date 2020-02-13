@@ -7,109 +7,74 @@ set CB_DEBUG=
 
 set DBG_CFG=conda_build_config-dbg_c-dbg_py.yaml
 set DBG_CFG=conda_build_config-dbg.yaml
+set REL_CFG=conda_build_config.yaml
 set CHANNELS=-c local -c rdonnelly -c defaults
-
 call conda activate
-
-set PY_INTERP_DEBUG=yes
-set BLD_DIRNAME=python-3.8-dbg-%PF%
-:: set BLD_DIRNAME=python
-set DST_DIR=%CONDA_PREFIX%\conda-bld\python-3.8-dbg-%PF%
-set CB_CROOT=%CONDA_PREFIX%\conda-bld\%BLD_DIRNAME%
-call conda activate
-del /s /q %CB_CROOT%
-del /s /q %DST_DIR%
-mkdir %CB_CROOT%
-conda-build --croot %CB_CROOT% -m ..\..\a\%DBG_CFG% . --python 3.7 --no-build-id %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %CB_CROOT%\build.log
-if not "%BLD_DIRNAME%"=="python" move %CB_CROOT% %DST_DIR%
+set CB_CROOT=%CONDA_PREFIX%\conda-bld
 
 set PY_INTERP_DEBUG=
-set BLD_DIRNAME=python-3.8-%PF%
-:: set BLD_DIRNAME=python
-set DST_DIR=%CONDA_PREFIX%\conda-bld\python-3.8-%PF%
-set CB_CROOT=%CONDA_PREFIX%\conda-bld\%BLD_DIRNAME%
-call conda activate
-del /s /q %CB_CROOT%
+set BLD_DIRNAME=python-3.8.1-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
 del /s /q %DST_DIR%
-mkdir %CB_CROOT%
-conda-build --croot %CB_CROOT% -m ..\..\a\%DBG_CFG% . --python 3.7 --no-build-id %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %CB_CROOT%\build.log
-if not "%BLD_DIRNAME%"=="python" move %CB_CROOT% %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m ..\..\a\%REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
+
+exit /b 0
+
+set PY_INTERP_DEBUG=yes
+set BLD_DIRNAME=python-dbg-3.8.1-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+del /s /q %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m ..\..\a\%DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
 
 cd ..\..\..\r\a\python-3.7-feedstock
 
 set PY_INTERP_DEBUG=yes
-set BLD_DIRNAME=python-3.7-dbg-%PF%
-:: set BLD_DIRNAME=python
-set DST_DIR=%CONDA_PREFIX%\conda-bld\python-3.7-dbg-%PF%
-set CB_CROOT=%CONDA_PREFIX%\conda-bld\%BLD_DIRNAME%
-call conda activate
-del /s /q %CB_CROOT%
+set BLD_DIRNAME=python-dbg-3.7.6-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
 del /s /q %DST_DIR%
-mkdir %CB_CROOT%
-conda-build --croot %CB_CROOT% -m ..\..\a\%DBG_CFG% . --python 3.7 --no-build-id %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %CB_CROOT%\build.log
-if not "%BLD_DIRNAME%"=="python" move %CB_CROOT% %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m ..\..\a\%DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
 
 set PY_INTERP_DEBUG=
-set BLD_DIRNAME=python-3.7-%PF%
-:: set BLD_DIRNAME=python
-set DST_DIR=%CONDA_PREFIX%\conda-bld\python-3.7-%PF%
-set CB_CROOT=%CONDA_PREFIX%\conda-bld\%BLD_DIRNAME%
-call conda activate
-del /s /q %CB_CROOT%
+set BLD_DIRNAME=python-3.7.6-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
 del /s /q %DST_DIR%
-mkdir %CB_CROOT%
-conda-build --croot %CB_CROOT% -m ..\..\a\conda_build_config.yaml . --python 3.7 --no-build-id %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %CB_CROOT%\build.log
-if not "%BLD_DIRNAME%"=="python" move %CB_CROOT% %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m ..\..\a\%REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
+
 
 cd ..\..\..\r\c.wip\lief-feedstock
 
 set PY_INTERP_DEBUG=yes
-set BLD_DIRNAME=lief-3.8-dbg-%PF%
-:: set BLD_DIRNAME=lief
-set DST_DIR=%CONDA_PREFIX%\conda-bld\lief-3.8-dbg-%PF%
-set CB_CROOT=%CONDA_PREFIX%\conda-bld\%BLD_DIRNAME%
-call conda activate
-del /s /q %CB_CROOT%
+set BLD_DIRNAME=lief-dbg-3.8.1-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
 del /s /q %DST_DIR%
-mkdir %CB_CROOT%
-conda-build --croot %CB_CROOT% -m ..\..\a\%DBG_CFG% . --python 3.8 --no-build-id %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %CB_CROOT%\build.log
-if not "%BLD_DIRNAME%"=="lief" move %CB_CROOT% %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.8.1-%PF% -m ..\..\a\%DBG_CFG% . --python 3.8 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
 
 set PY_INTERP_DEBUG=
-set BLD_DIRNAME=lief-3.8-%PF%
-:: set BLD_DIRNAME=lief
-set DST_DIR=%CONDA_PREFIX%\conda-bld\lief-3.8-%PF%
-set CB_CROOT=%CONDA_PREFIX%\conda-bld\%BLD_DIRNAME%
-call conda activate
-del /s /q %CB_CROOT%
+set BLD_DIRNAME=lief-3.8.1-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
 del /s /q %DST_DIR%
-mkdir %CB_CROOT%
-conda-build --croot %CB_CROOT% -m ..\..\a\conda_build_config.yaml . --python 3.8 --no-build-id %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %CB_CROOT%\build.log
-if not "%BLD_DIRNAME%"=="lief" move %CB_CROOT% %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-3.8.1-%PF% -m ..\..\a\%REL_CFG% . --python 3.8 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
 
 set PY_INTERP_DEBUG=yes
-set BLD_DIRNAME=lief-3.7-dbg-%PF%
-:: set BLD_DIRNAME=lief
-set DST_DIR=%CONDA_PREFIX%\conda-bld\lief-3.7-dbg-%PF%
-set CB_CROOT=%CONDA_PREFIX%\conda-bld\%BLD_DIRNAME%
-call conda activate
-del /s /q %CB_CROOT%
+set BLD_DIRNAME=lief-dbg-3.7.6-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
 del /s /q %DST_DIR%
-mkdir %CB_CROOT%
-conda-build --croot %CB_CROOT% -m ..\..\a\%DBG_CFG% . --python 3.7 --no-build-id %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %CB_CROOT%\build.log
-if not "%BLD_DIRNAME%"=="lief" move %CB_CROOT% %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.7.6-%PF% -m ..\..\a\%DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
 
 set PY_INTERP_DEBUG=
-set BLD_DIRNAME=lief-3.7-%PF%
-:: set BLD_DIRNAME=lief
-set DST_DIR=%CONDA_PREFIX%\conda-bld\lief-3.7-%PF%
-set CB_CROOT=%CONDA_PREFIX%\conda-bld\%BLD_DIRNAME%
-call conda activate
-del /s /q %CB_CROOT%
+set BLD_DIRNAME=lief-3.7.6-%PF%
+set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
 del /s /q %DST_DIR%
-mkdir %CB_CROOT%
-conda-build --croot %CB_CROOT% -m ..\..\a\conda_build_config.yaml . --python 3.7 --no-build-id %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %CB_CROOT%\build.log
-if not "%BLD_DIRNAME%"=="lief" move %CB_CROOT% %DST_DIR%
+mkdir %DST_DIR%
+conda-build --croot %CB_CROOT% --build-id-pat {n}-3.7.6-%PF% -m ..\..\a\%REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
+
 
 cd %OLDCD%
 set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=1

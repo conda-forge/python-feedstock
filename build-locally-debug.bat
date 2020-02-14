@@ -78,11 +78,14 @@ cd %OLDCD%
 set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=1
 set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=1
 
-conda activate C:\opt\conda\conda-bld\lief-3.8-dbg-win-64\lief\_h_env
+conda activate C:\opt\conda\conda-bld\lief-dbg-3.8.1-win-64\_h_env
 python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')"
 
-conda activate C:\opt\conda\conda-bld\lief-3.8-win-64\lief\_h_env
+conda activate C:\opt\conda\conda-bld\lief-3.8.1-win-64\_h_env
 python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')"
 
-conda activate C:\opt\conda\conda-bld\lief-3.7-win-64\lief\_h_env_moved_py-lief-0.10.1-py37ha925a31_0_win-64
+conda activate C:\opt\conda\conda-bld\lief-3.7.6-win-64\_h_env_moved_py-lief-0.10.1-py37ha925a31_0_win-64
+python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')"
+
+conda activate C:\opt\conda\conda-bld\lief-dbg-3.7.6-win-64\_h_env_moved_py-lief-0.10.1-py37h5824298_0_win-64
 python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')"

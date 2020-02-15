@@ -33,7 +33,7 @@ if %THREE_EIGHT%==yes (
   if %DEBUG_ME%==yes (
     set PY_INTERP_DEBUG=yes
     set BLD_DIRNAME=python-dbg-3.8.1-%PF%
-    set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
     del /s /q %DST_DIR%
     mkdir %DST_DIR%
     conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
@@ -41,7 +41,7 @@ if %THREE_EIGHT%==yes (
   if %RELEASE_ME%==yes (
     set PY_INTERP_DEBUG=
     set BLD_DIRNAME=python-3.8.1-%PF%
-    set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
     del /s /q %DST_DIR%
     mkdir %DST_DIR%
     conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
@@ -54,7 +54,7 @@ if %THREE_SEVEN%==yes (
     cd ..\..\a\python-3.7-feedstock
     set PY_INTERP_DEBUG=yes
     set BLD_DIRNAME=python-dbg-3.7.6-%PF%
-    set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
     del /s /q %DST_DIR%
     mkdir %DST_DIR%
     conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
@@ -62,7 +62,7 @@ if %THREE_SEVEN%==yes (
   if %RELEASE_ME%==yes (
     set PY_INTERP_DEBUG=
     set BLD_DIRNAME=python-3.7.6-%PF%
-    set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
     del /s /q %DST_DIR%
     mkdir %DST_DIR%
     conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
@@ -75,7 +75,7 @@ if %THREE_EIGHT%==yes (
   if %DEBUG_ME%==yes (
     set PY_INTERP_DEBUG=yes
     set BLD_DIRNAME=lief-dbg-3.8.1-%PF%
-    set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
     del /s /q %DST_DIR%
     mkdir %DST_DIR%
     conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.8.1-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
@@ -83,7 +83,7 @@ if %THREE_EIGHT%==yes (
   if %RELEASE_ME%==yes (
     set PY_INTERP_DEBUG=
     set BLD_DIRNAME=lief-3.8.1-%PF%
-    set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
     del /s /q %DST_DIR%
     mkdir %DST_DIR%
     conda-build --croot %CB_CROOT% --build-id-pat {n}-3.8.1-%PF% -m %REL_CFG% . --python 3.8 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
@@ -94,7 +94,7 @@ if %THREE_SEVEN%==yes (
   if %DEBUG_ME%==yes (
     set PY_INTERP_DEBUG=yes
     set BLD_DIRNAME=lief-dbg-3.7.6-%PF%
-    set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
     del /s /q %DST_DIR%
     mkdir %DST_DIR%
     conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.7.6-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
@@ -102,7 +102,7 @@ if %THREE_SEVEN%==yes (
   if %RELEASE_ME%==yes (
     set PY_INTERP_DEBUG=
     set BLD_DIRNAME=lief-3.7.6-%PF%
-    set DST_DIR=%CB_CROOT%\%BLD_DIRNAME%
+    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
     del /s /q %DST_DIR%
     mkdir %DST_DIR%
     conda-build --croot %CB_CROOT% --build-id-pat {n}-3.7.6-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee %DST_DIR%\build.log
@@ -119,7 +119,7 @@ if %THREE_EIGHT%==yes (
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v1.log
   )
   if %RELEASE_ME%==yes (
-    conda activate %CB_CROOT%\\lief-3.8.1-win-64\_h_env
+    conda activate %CB_CROOT%\lief-3.8.1-win-64\_h_env
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v1.log
   )
 )

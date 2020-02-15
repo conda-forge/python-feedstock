@@ -11,8 +11,8 @@ set REL_CFG=conda_build_config-win64.yaml
 set CHANNELS=-c local -c rdonnelly -c defaults
 call conda activate
 set CB_CROOT=%CONDA_PREFIX%\conda-bld
-set CB_ROOT=%CD%\conda-bld
-mkdir %CB_ROOT%
+set CB_CROOT=%CD%\conda-bld
+mkdir %CB_CROOT%
 
 set PY_INTERP_DEBUG=yes
 set BLD_DIRNAME=python-dbg-3.8.1-%PF%

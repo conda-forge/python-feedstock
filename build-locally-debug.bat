@@ -112,21 +112,21 @@ set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=
 if %THREE_EIGHT%==yes (
   if %DEBUG_ME%==yes (
     conda activate %CB_CROOT%\lief-dbg-3.8.1-win-64\_h_env
-    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v1.log
+    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\..\debug-v1.log
   )
   if %RELEASE_ME%==yes (
     conda activate %CB_CROOT%\lief-3.8.1-win-64\_h_env
-    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v1.log
+    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\..\debug-v1.log
   )
 )
 if %THREE_SEVEN%==yes (
   if %DEBUG_ME%==yes (
     conda activate %CB_CROOT%\lief-dbg-3.7.6-win-64\_h_env_moved_py-lief-0.10.1-py37h5824298_0_win-64
-    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v1.log
+    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\..\debug-v1.log
   )
   if %RELEASE_ME%==yes (
     conda activate %CB_CROOT%\lief-3.7.6-win-64\_h_env_moved_py-lief-0.10.1-py37ha4be599_0_win-64
-    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v1.log
+    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\..\debug-v1.log
   )
 )
 
@@ -135,20 +135,20 @@ set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=1
 if %THREE_EIGHT%==yes (
   if %DEBUG_ME%==yes (
     conda activate %CB_CROOT%\lief-dbg-3.8.1-win-64\_h_env
-    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v2.log
+    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\..\debug-v2.log
   )
   if %RELEASE_ME%==yes (
     conda activate %CB_CROOT%\lief-3.8.1-win-64\_h_env
-    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v2.log
+    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\..\debug-v2.log
   )
 )
 if %THREE_SEVEN%==yes (
   if %DEBUG_ME%==yes (
     conda activate %CB_CROOT%\lief-dbg-3.7.6-win-64\_h_env_moved_py-lief-0.10.1-py37h5824298_0_win-64
-    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v2.log
+    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\..\debug-v2.log
   )
   if %RELEASE_ME%==yes (
     conda activate %CB_CROOT%\lief-3.7.6-win-64\_h_env_moved_py-lief-0.10.1-py37ha4be599_0_win-64
-    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\debug-v2.log
+    python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee %CONDA_PREFIX%\..\debug-v2.log
   )
 )

@@ -9,10 +9,12 @@ call conda activate
 set CB_CROOT=!CONDA_PREFIX!\conda-bld
 set CB_CROOT=%CD%\conda-bld
 
+set PYTHONS=yes
+set LIEFS=yes
 set THREE_SEVEN=yes
 set THREE_EIGHT=yes
 set DEBUG_ME=yes
-set RELEASE_ME=yes
+set RELEASE_ME=no
 
 pushd %THISD%
 
@@ -25,104 +27,105 @@ set REL_CFG=%THISD%\..\conda_build_config-win64.yaml
 set CHANNELS=-c local -c rdonnelly -c defaults
 mkdir %CB_CROOT%
 
-if %THREE_EIGHT%==yes (
-  if %DEBUG_ME%==yes (
-    if not exist if not exist %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2 (
-      set PY_INTERP_DEBUG=yes
-      set BLD_DIRNAME=python-dbg-3.8.1-%PF%
-      set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+if %PYTHONS%==yes (
+  if %THREE_EIGHT%==yes (
+    if %DEBUG_ME%==yes (
+      if not exist %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2 (
+        set PY_INTERP_DEBUG=yes
+        set BLD_DIRNAME=python-dbg-3.8.1-%PF%
+        set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
+        del /s /q !DST_DIR!
+        mkdir !DST_DIR!
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      )
+    )
+    if %RELEASE_ME%==yes (
+      if not exist %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2 (
+        set PY_INTERP_DEBUG=
+        set BLD_DIRNAME=python-3.8.1-%PF%
+        set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
+        del /s /q !DST_DIR!
+        mkdir !DST_DIR!
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      )
     )
   )
-  if %RELEASE_ME%==yes (
-    if not exist if not exist %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2 (
-    set PY_INTERP_DEBUG=
-    set BLD_DIRNAME=python-3.8.1-%PF%
-    set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
-    del /s /q !DST_DIR!
-    mkdir !DST_DIR!
-    conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+
+  if %THREE_SEVEN%==yes (
+    pushd ..\..\a\python-3.7-feedstock
+    if %DEBUG_ME%==yes (
+      if not exist %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython_dbg.tar.bz2 (
+        set PY_INTERP_DEBUG=yes
+        set BLD_DIRNAME=python-dbg-3.7.6-%PF%
+        set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
+        del /s /q !DST_DIR!
+        mkdir !DST_DIR!
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      )
+    )
+    if %RELEASE_ME%==yes (
+      if not exist %CB_CROOT%\win-64\python-3.7.6-h9387f8d_5_cpython.tar.bz2 (
+        set PY_INTERP_DEBUG=
+        set BLD_DIRNAME=python-3.7.6-%PF%
+        set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
+        del /s /q !DST_DIR!
+        mkdir !DST_DIR!
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      )
+    )
+    popd
   )
 )
 
-
-if %THREE_SEVEN%==yes (
-  pushd ..\..\a\python-3.7-feedstock
-  if %DEBUG_ME%==yes (
-    if not exist if not exist %CB_CROOT%\win-64\python-3.7.6-hd0f8130_3_cpython_dbg.tar.bz2 (
-      set PY_INTERP_DEBUG=yes
-      set BLD_DIRNAME=python-dbg-3.7.6-%PF%
-      set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+if %LIEFS%==yes (
+  pushd ..\..\c.wip\lief-feedstock
+  if %THREE_EIGHT%==yes (
+    if %DEBUG_ME%==yes (
+      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0_dbg.tar.bz2 (
+        set PY_INTERP_DEBUG=yes
+        set BLD_DIRNAME=lief-dbg-3.8.1-%PF%
+        set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
+        del /s /q !DST_DIR!
+        mkdir !DST_DIR!
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.8.1-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      )
+    )
+    if %RELEASE_ME%==yes (
+      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0.tar.bz2 (
+        set PY_INTERP_DEBUG=
+        set BLD_DIRNAME=lief-3.8.1-%PF%
+        set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
+        del /s /q !DST_DIR!
+        mkdir !DST_DIR!
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-3.8.1-%PF% -m %REL_CFG% . --python 3.8 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      )
     )
   )
-  if %RELEASE_ME%==yes (
-    if not exist %CB_CROOT%\win-64\python-3.7.6-h9387f8d_3_cpython.tar.bz2 (
-      set PY_INTERP_DEBUG=
-      set BLD_DIRNAME=python-3.7.6-%PF%
-      set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+  
+  if %THREE_SEVEN%==yes (
+    if %DEBUG_ME%==yes (
+      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py37ha4be599_0_dbg.tar.bz2 (
+        set PY_INTERP_DEBUG=yes
+        set BLD_DIRNAME=lief-dbg-3.7.6-%PF%
+        set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
+        del /s /q !DST_DIR!
+        mkdir !DST_DIR!
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.7.6-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      )
+    )
+    if %RELEASE_ME%==yes (
+      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py37ha4be599_0.tar.bz2 (
+        set PY_INTERP_DEBUG=
+        set BLD_DIRNAME=lief-3.7.6-%PF%
+        set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
+        del /s /q !DST_DIR!
+        mkdir !DST_DIR!
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-3.7.6-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      )
     )
   )
   popd
 )
-
-pushd ..\..\c.wip\lief-feedstock
-
-if %THREE_EIGHT%==yes (
-  if %DEBUG_ME%==yes (
-    if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0_dbg.tar.bz2 (
-      set PY_INTERP_DEBUG=yes
-      set BLD_DIRNAME=lief-dbg-3.8.1-%PF%
-      set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.8.1-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
-    )
-  )
-  if %RELEASE_ME%==yes (
-    if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0.tar.bz2 (
-      set PY_INTERP_DEBUG=
-      set BLD_DIRNAME=lief-3.8.1-%PF%
-      set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %CB_CROOT% --build-id-pat {n}-3.8.1-%PF% -m %REL_CFG% . --python 3.8 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
-    )
-  )
-)
-
-if %THREE_SEVEN%==yes (
-  if %DEBUG_ME%==yes (
-    if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py37ha4be599_0_dbg.tar.bz2 (
-      set PY_INTERP_DEBUG=yes
-      set BLD_DIRNAME=lief-dbg-3.7.6-%PF%
-      set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.7.6-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
-    )
-  )
-  if %RELEASE_ME%==yes (
-    if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py37ha4be599_0.tar.bz2 (
-      set PY_INTERP_DEBUG=
-      set BLD_DIRNAME=lief-3.7.6-%PF%
-      set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %CB_CROOT% --build-id-pat {n}-3.7.6-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% --keep-old-work --dirty %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
-    )
-  )
-)
-
-popd
-
 popd
 
 set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=

@@ -23,7 +23,7 @@ set CB_DEBUG=--debug
 :: set CB_DEBUG=
 set CB_KEEP=--keep-old-work --dirty
 
-set SKIP_BUILT=no
+set SKIP_BUILT=yes
 
 set DBG_CFG=%THISD%\..\conda_build_config-dbg_c-dbg_py.yaml
 set DBG_CFG=%THISD%\..\conda_build_config-dbg.yaml

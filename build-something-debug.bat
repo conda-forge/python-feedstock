@@ -1,3 +1,5 @@
+setlocal EnableDelayedExpansion
+
 set _BS_CB_CROOT=%1
 set _BS_CB_CONDA_SUBDIR=%2
 set _BS_NAME=%3

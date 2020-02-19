@@ -155,6 +155,7 @@ if %LIEFS%==yes (
 )
 popd
 
+:skip_old
 
 set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=
 set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=
@@ -211,5 +212,3 @@ if %THREE_SEVEN%==yes (
   )
 )
 
-
-:skip_old

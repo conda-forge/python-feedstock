@@ -99,7 +99,7 @@ if %SKIP_BUILT%==yes (
 :skip_liefs
 
 if %LEVEN%==no goto skip_leven
-call %THISD%\build-something-debug.bat %CB_CROOT% %PF% lief ..\..\a\python-levenshtein-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
+call %THISD%\build-something-debug.bat %CB_CROOT% %PF% levenshtein ..\..\a\python-levenshtein-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
 :skip_leven
 
 goto skip_old

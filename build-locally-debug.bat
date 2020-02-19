@@ -12,7 +12,7 @@ set CB_CROOT=%CD%\conda-bld
 set PYTHONS=yes
 set LIEFS=yes
 set LEVEN=yes
-set THREE_SEVEN=no
+set THREE_SEVEN=yes
 set THREE_EIGHT=yes
 set DEBUG_ME=yes
 set RELEASE_ME=yes
@@ -34,23 +34,27 @@ mkdir %CB_CROOT%
 if %PYTHONS%==no goto skip_pythons
   if %THREE_EIGHT%==yes (
     if %DEBUG_ME%==yes (
-      if not exist %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2 and %SKIP_BUILT%==yes (
+      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2
+      if not exist %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2 (
         set PY_INTERP_DEBUG=yes
         set BLD_DIRNAME=python-dbg-3.8.1-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
         del /s /q !DST_DIR!
         mkdir !DST_DIR!
-        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        echo conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee -a !DST_DIR!\build.log
       )
     )
     if %RELEASE_ME%==yes (
-      if not exist %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2 and %SKIP_BUILT%==yes (
+      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2
+      if not exist %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2 (
         set PY_INTERP_DEBUG=
         set BLD_DIRNAME=python-3.8.1-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
         del /s /q !DST_DIR!
         mkdir !DST_DIR!
-        conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        echo conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee -a !DST_DIR!\build.log
       )
     )
   )
@@ -58,23 +62,27 @@ if %PYTHONS%==no goto skip_pythons
   if %THREE_SEVEN%==yes (
     pushd ..\..\a\python-3.7-feedstock
     if %DEBUG_ME%==yes (
-      if not exist %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython_dbg.tar.bz2 and %SKIP_BUILT%==yes (
+      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython_dbg.tar.bz2
+      if not exist %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython_dbg.tar.bz2 (
         set PY_INTERP_DEBUG=yes
         set BLD_DIRNAME=python-dbg-3.7.6-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
         del /s /q !DST_DIR!
         mkdir !DST_DIR!
-        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        echo conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee -a !DST_DIR!\build.log
       )
     )
     if %RELEASE_ME%==yes (
-      if not exist %CB_CROOT%\win-64\python-3.7.6-h9387f8d_5_cpython.tar.bz2  and %SKIP_BUILT%==yes (
+      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython_dbg.tar.bz2
+      if not exist %CB_CROOT%\win-64\python-3.7.6-h9387f8d_5_cpython.tar.bz2 (
         set PY_INTERP_DEBUG=
         set BLD_DIRNAME=python-3.7.6-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
         del /s /q !DST_DIR!
         mkdir !DST_DIR!
-        conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        echo conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee -a !DST_DIR!\build.log
       )
     )
     popd

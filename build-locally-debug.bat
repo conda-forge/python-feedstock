@@ -11,16 +11,18 @@ set CB_CROOT=%CD%\conda-bld
 
 set PYTHONS=yes
 set LIEFS=yes
-set THREE_SEVEN=no
+set THREE_SEVEN=yes
 set THREE_EIGHT=yes
 set DEBUG_ME=yes
-set RELEASE_ME=no
+set RELEASE_ME=yes
 
 pushd %THISD%
 
 set CB_DEBUG=--debug
 :: set CB_DEBUG=
 set CB_KEEP=--keep-old-work --dirty
+
+set SKIP_BUILT=no
 
 set DBG_CFG=%THISD%\..\conda_build_config-dbg_c-dbg_py.yaml
 set DBG_CFG=%THISD%\..\conda_build_config-dbg.yaml
@@ -31,7 +33,7 @@ mkdir %CB_CROOT%
 if %PYTHONS%==yes (
   if %THREE_EIGHT%==yes (
     if %DEBUG_ME%==yes (
-      if not exist %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2 (
+      if not exist %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=yes
         set BLD_DIRNAME=python-dbg-3.8.1-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
@@ -41,7 +43,7 @@ if %PYTHONS%==yes (
       )
     )
     if %RELEASE_ME%==yes (
-      if not exist %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2 (
+      if not exist %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=
         set BLD_DIRNAME=python-3.8.1-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
@@ -55,7 +57,7 @@ if %PYTHONS%==yes (
   if %THREE_SEVEN%==yes (
     pushd ..\..\a\python-3.7-feedstock
     if %DEBUG_ME%==yes (
-      if not exist %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython_dbg.tar.bz2 (
+      if not exist %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython_dbg.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=yes
         set BLD_DIRNAME=python-dbg-3.7.6-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
@@ -65,7 +67,7 @@ if %PYTHONS%==yes (
       )
     )
     if %RELEASE_ME%==yes (
-      if not exist %CB_CROOT%\win-64\python-3.7.6-h9387f8d_5_cpython.tar.bz2 (
+      if not exist %CB_CROOT%\win-64\python-3.7.6-h9387f8d_5_cpython.tar.bz2  and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=
         set BLD_DIRNAME=python-3.7.6-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
@@ -82,7 +84,7 @@ if %LIEFS%==yes (
   pushd ..\..\c.wip\lief-feedstock
   if %THREE_EIGHT%==yes (
     if %DEBUG_ME%==yes (
-      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0_dbg.tar.bz2 (
+      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0_dbg.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=yes
         set BLD_DIRNAME=lief-dbg-3.8.1-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
@@ -92,7 +94,7 @@ if %LIEFS%==yes (
       )
     )
     if %RELEASE_ME%==yes (
-      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0.tar.bz2 (
+      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=
         set BLD_DIRNAME=lief-3.8.1-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
@@ -105,7 +107,7 @@ if %LIEFS%==yes (
   
   if %THREE_SEVEN%==yes (
     if %DEBUG_ME%==yes (
-      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py37ha4be599_0_dbg.tar.bz2 (
+      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py37ha4be599_0_dbg.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=yes
         set BLD_DIRNAME=lief-dbg-3.7.6-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
@@ -115,7 +117,7 @@ if %LIEFS%==yes (
       )
     )
     if %RELEASE_ME%==yes (
-      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py37ha4be599_0.tar.bz2 (
+      if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py37ha4be599_0.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=
         set BLD_DIRNAME=lief-3.7.6-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!

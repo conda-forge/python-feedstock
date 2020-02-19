@@ -1,7 +1,7 @@
 setlocal EnableDelayedExpansion
+echo on
 set PF=win-32
 set PF=win-64
-set THISD=%~dp0
 set THISD=%~dp0
 set THISD=%THISD:~0,-1%
 
@@ -11,7 +11,8 @@ set CB_CROOT=%CD%\conda-bld
 
 set PYTHONS=yes
 set LIEFS=yes
-set THREE_SEVEN=yes
+set LEVEN=yes
+set THREE_SEVEN=no
 set THREE_EIGHT=yes
 set DEBUG_ME=yes
 set RELEASE_ME=yes
@@ -30,7 +31,7 @@ set REL_CFG=%THISD%\..\conda_build_config-win64.yaml
 set CHANNELS=-c local -c rdonnelly -c defaults
 mkdir %CB_CROOT%
 
-if %PYTHONS%==yes (
+if %PYTHONS%==no goto skip_pythons
   if %THREE_EIGHT%==yes (
     if %DEBUG_ME%==yes (
       if not exist %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2 and %SKIP_BUILT%==yes (
@@ -78,7 +79,22 @@ if %PYTHONS%==yes (
     )
     popd
   )
+
+:skip_pythons
+
+if %LIEFS%==no goto skip_liefs
+if %SKIP_BUILT%==yes (
+  call %THISD%\build-something-debug.bat %CB_CROOT% %PF% lief ..\..\c.wip\lief-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME% py-lief-*
+) else (
+  call %THISD%\build-something-debug.bat %CB_CROOT% %PF% lief ..\..\c.wip\lief-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
 )
+:skip_liefs
+
+if %LEVEN%==no goto skip_leven
+call %THISD%\build-something-debug.bat %CB_CROOT% %PF% lief ..\..\a\python-levenshtein-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
+:skip_leven
+
+goto skip_old
 
 if %LIEFS%==yes (
   pushd ..\..\c.wip\lief-feedstock
@@ -130,6 +146,7 @@ if %LIEFS%==yes (
   popd
 )
 popd
+
 
 set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=
 set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=
@@ -185,3 +202,6 @@ if %THREE_SEVEN%==yes (
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v2.log
   )
 )
+
+
+:skip_old

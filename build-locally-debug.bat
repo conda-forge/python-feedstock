@@ -13,8 +13,8 @@ set PYTHONS=yes
 set LIEFS=yes
 set LEVEN=yes
 set THREE_SEVEN=yes
-set THREE_EIGHT=no
-set DEBUG_ME=no
+set THREE_EIGHT=yes
+set DEBUG_ME=yes
 set RELEASE_ME=yes
 
 pushd %THISD%

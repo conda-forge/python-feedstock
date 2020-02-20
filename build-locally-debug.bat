@@ -74,7 +74,7 @@ if %PYTHONS%==no goto skip_pythons
       )
     )
     if %RELEASE_ME%==yes (
-      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython_dbg.tar.bz2
+      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.7.6-hd0f8130_5_cpython.tar.bz2
       if not exist %CB_CROOT%\win-64\python-3.7.6-h9387f8d_5_cpython.tar.bz2 (
         set PY_INTERP_DEBUG=
         set BLD_DIRNAME=python-3.7.6-%PF%

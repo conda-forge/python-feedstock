@@ -91,11 +91,7 @@ if %PYTHONS%==no goto skip_pythons
 :skip_pythons
 
 if %LIEFS%==no goto skip_liefs
-if %SKIP_BUILT%==yes (
-  call %THISD%\build-something-debug.bat %CB_CROOT% %PF% lief ..\..\c.wip\lief-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME% py-lief-*
-) else (
-  call %THISD%\build-something-debug.bat %CB_CROOT% %PF% lief ..\..\c.wip\lief-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
-)
+call %THISD%\build-something-debug.bat %CB_CROOT% %PF% lief ..\..\c.wip\lief-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
 :skip_liefs
 
 if %LEVEN%==no goto skip_leven
@@ -159,7 +155,7 @@ popd
 
 set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=
 set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=
-if %THREE_EIGHT%==yes (
+if %THREE_EIGHT%==no goto skip_38_2
   if %DEBUG_ME%==yes (
     call conda activate %CB_CROOT%\lief-dbg-3.8.1-win-64\_h_env
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v1.log
@@ -170,8 +166,8 @@ if %THREE_EIGHT%==yes (
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v1.log
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v1.log
   )
-)
-if %THREE_SEVEN%==yes (
+:skip_38_2
+if %THREE_SEVEN%==no goto skip_37_2
   if %DEBUG_ME%==yes (
     call conda activate %CB_CROOT%\lief-dbg-3.7.6-win-64\_h_env_moved_py-lief-0.10.1-py37h5824298_0_win-64
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v1.log
@@ -182,11 +178,11 @@ if %THREE_SEVEN%==yes (
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v1.log
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v1.log
   )
-)
+:skip_37_2
 
 set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=1
 set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=1
-if %THREE_EIGHT%==yes (
+if %THREE_EIGHT%==no goto skip_38_3
   if %DEBUG_ME%==yes (
     call conda activate %CB_CROOT%\lief-dbg-3.8.1-win-64\_h_env
     py-lief-0.10.1-py38h5824298_0.tar.bz2
@@ -198,8 +194,8 @@ if %THREE_EIGHT%==yes (
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v2.log
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v2.log
   )
-)
-if %THREE_SEVEN%==yes (
+:skip_38_3
+if %THREE_SEVEN%==no goto skip_37_2
   if %DEBUG_ME%==yes (
     call conda activate %CB_CROOT%\lief-dbg-3.7.6-win-64\_h_env_moved_py-lief-0.10.1-py37h5824298_0_win-64
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v2.log
@@ -210,5 +206,4 @@ if %THREE_SEVEN%==yes (
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v2.log
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v2.log
   )
-)
-
+:skip_37_2

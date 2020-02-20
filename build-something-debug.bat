@@ -37,7 +37,7 @@ if %_BS_THREE_EIGHT%==no goto _bs_skip_38
 
   if %_BS_RELEASE_ME%==no goto _bs_skip_38_rel
     if "%_BS_SKIP_WILDCARD%"=="" or not dir %_BS_CB_CROOT%\%_BS_SKIP_WILDCARD_PREFIX%.tar.bz2 /b /a-d >nul 2>&1 (
-      set PY_INTERP_DEBUG=no
+      set PY_INTERP_DEBUG=
       set _BS_BLD_DIRNAME=%_BS_NAME%-3.8.1-%_BS_CB_CONDA_SUBDIR%
       set _BS_DST_DIR=%_BS_CB_CROOT%\!_BS_BLD_DIRNAME!
       del /s /q !_BS_DST_DIR!
@@ -63,7 +63,7 @@ if %_BS_THREE_SEVEN%==no goto _bs_skip_37
 
   if %_BS_RELEASE_ME%==no goto _bs_skip_37_rel
     if "%_BS_SKIP_WILDCARD%"=="" or not dir %_BS_CB_CROOT%\%_BS_SKIP_WILDCARD_PREFIX%.tar.bz2 /b /a-d >nul 2>&1 (
-      set PY_INTERP_DEBUG=no
+      set PY_INTERP_DEBUG=
       set _BS_BLD_DIRNAME=%_BS_NAME%-3.7.6-%_BS_CB_CONDA_SUBDIR%
       set _BS_DST_DIR=%_BS_CB_CROOT%\!_BS_BLD_DIRNAME!
       del /s /q !_BS_DST_DIR!

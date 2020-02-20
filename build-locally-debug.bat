@@ -13,8 +13,8 @@ set PYTHONS=yes
 set LIEFS=yes
 set LEVEN=yes
 set THREE_SEVEN=yes
-set THREE_EIGHT=yes
-set DEBUG_ME=yes
+set THREE_EIGHT=no
+set DEBUG_ME=no
 set RELEASE_ME=yes
 
 pushd %THISD%
@@ -23,7 +23,7 @@ set CB_DEBUG=--debug
 :: set CB_DEBUG=
 set CB_KEEP=--keep-old-work --dirty
 
-set SKIP_BUILT=yes
+set SKIP_BUILT=no
 
 set DBG_CFG=%THISD%\..\conda_build_config-dbg_c-dbg_py.yaml
 set DBG_CFG=%THISD%\..\conda_build_config-dbg.yaml
@@ -99,7 +99,7 @@ if %SKIP_BUILT%==yes (
 :skip_liefs
 
 if %LEVEN%==no goto skip_leven
-call %THISD%\build-something-debug.bat %CB_CROOT% %PF% levenshtein ..\..\a\python-levenshtein-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
+call %THISD%\build-something-debug.bat %CB_CROOT% %PF% python-levenshtein ..\..\a\python-levenshtein-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
 :skip_leven
 
 goto skip_old

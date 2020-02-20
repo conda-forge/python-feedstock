@@ -18,9 +18,9 @@ if %_BS_THREE_EIGHT%==yes (
       set PY_INTERP_DEBUG=yes
       set _BS_BLD_DIRNAME=%_BS_NAME%-dbg-3.8.1-%_BS_CB_CONDA_SUBDIR%
       set _BS_DST_DIR=%_BS_CB_CROOT%\!_BS_BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %_BS_CB_CROOT% --build-id-pat {n}-dbg-3.8.1-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      del /s /q !_BS_DST_DIR!
+      mkdir !_BS_DST_DIR!
+      conda-build --croot %_BS_CB_CROOT% --build-id-pat {n}-dbg-3.8.1-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !_BS_DST_DIR!\build.log
     )
   )
 
@@ -29,9 +29,9 @@ if %_BS_THREE_EIGHT%==yes (
       set PY_INTERP_DEBUG=yes
       set _BS_BLD_DIRNAME=%_BS_NAME%-3.8.1-%_BS_CB_CONDA_SUBDIR%
       set _BS_DST_DIR=%_BS_CB_CROOT%\!_BS_BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %_BS_CB_CROOT% --build-id-pat {n}-3.8.1-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      del /s /q !_BS_DST_DIR!
+      mkdir !_BS_DST_DIR!
+      conda-build --croot %_BS_CB_CROOT% --build-id-pat {n}-3.8.1-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !_BS_DST_DIR!\build.log
     )
   )
 )
@@ -42,9 +42,9 @@ if %_BS_THREE_SEVEN%==yes (
       set PY_INTERP_DEBUG=yes
       set _BS_BLD_DIRNAME=%_BS_NAME%-dbg-3.7.6-%_BS_CB_CONDA_SUBDIR%
       set _BS_DST_DIR=%_BS_CB_CROOT%\!_BS_BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %_BS_CB_CROOT% --build-id-pat {n}-dbg-3.7.6-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      del /s /q !_BS_DST_DIR!
+      mkdir !_BS_DST_DIR!
+      conda-build --croot %_BS_CB_CROOT% --build-id-pat {n}-dbg-3.7.6-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !_BS_DST_DIR!\build.log
     )
   )
 
@@ -53,9 +53,9 @@ if %_BS_THREE_SEVEN%==yes (
       set PY_INTERP_DEBUG=yes
       set _BS_BLD_DIRNAME=%_BS_NAME%-3.7.6-%_BS_CB_CONDA_SUBDIR%
       set _BS_DST_DIR=%_BS_CB_CROOT%\!_BS_BLD_DIRNAME!
-      del /s /q !DST_DIR!
-      mkdir !DST_DIR!
-      conda-build --croot %_BS_CB_CROOT% --build-id-pat {n}-3.7.6-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+      del /s /q !_BS_DST_DIR!
+      mkdir !_BS_DST_DIR!
+      conda-build --croot %_BS_CB_CROOT% --build-id-pat {n}-3.7.6-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !_BS_DST_DIR!\build.log
     )
   )
 )

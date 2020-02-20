@@ -6,6 +6,9 @@
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if debug != '' %}
   {% set debug = "_dbg" %}
+  {% set dbg_abi = "d" %}
+{% else %}
+  {% set dbg_abi = "" %}
 {% endif %}
 
 package:
@@ -107,7 +110,7 @@ build:
     noarch:
       - python
     weak:
-      - python_abi 3.8.* *_cp38
+      - python_abi 3.8.* *_cp38{{ dbg_api }}
   # string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
   # run_exports:
   #  - python * *_cpython
@@ -154,7 +157,7 @@ requirements:
     - ld_impl_{{target_platform}}  # [linux]
 {% endif %}
   run_constrained:
-    - python_abi 3.8.* *_cp38
+    - python_abi 3.8.* *_cp38{{ dbg_api }}
 
 test:
   requires:

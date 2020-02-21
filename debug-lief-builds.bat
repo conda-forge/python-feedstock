@@ -31,13 +31,7 @@ mkdir r
 pushd r
 mkdir a
 pushd a
-if not exist python-3.7-feedstock (
-  if %FROM_GIT%==yes (
-    git clone git@github.com:AnacondaRecipes/python-feedstock python-3.7-feedstock -b master-3.7
-  ) else (
-    C:\msys64\usr\bin\cp -rf %COPTSL%/r/a/python-3.7-feedstock python-3.7-feedstock
-  )
-)
+
 if not exist python-feedstock (
   if %FROM_GIT%==yes (
     git clone git@github.com:AnacondaRecipes/python-feedstock python-feedstock -b master
@@ -45,6 +39,21 @@ if not exist python-feedstock (
     C:\msys64\usr\bin\cp -rf %COPTSL%/r/a/python-feedstock python-feedstock
   )
 )
+if not exist python-3.7-feedstock (
+  if %FROM_GIT%==yes (
+    git clone git@github.com:AnacondaRecipes/python-feedstock python-3.7-feedstock -b master-3.7
+  ) else (
+    C:\msys64\usr\bin\cp -rf %COPTSL%/r/a/python-3.7-feedstock python-3.7-feedstock
+  )
+)
+if not exist pip-feedstock (
+  if %FROM_GIT%==yes (
+    git clone git@github.com:AnacondaRecipes/pip-feedstock pip-feedstock -b master
+  ) else (
+    C:\msys64\usr\bin\cp -rf %COPTSL%/r/a/pip-feedstock pip-feedstock
+  )
+)
+
 if not exist python-levenshtein-feedstock (
   if %FROM_GIT%==yes (
     git clone git@github.com:AnacondaRecipes/python-levenshtein-feedstock python-levenshtein-feedstock -b master

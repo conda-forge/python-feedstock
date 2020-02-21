@@ -10,12 +10,13 @@ set CB_CROOT=!CONDA_PREFIX!\conda-bld
 set CB_CROOT=%CD%\conda-bld
 
 set PYTHONS=yes
-set LIEFS=yes
+set PIPS=yes
+set LIEFS=no
 set LEVEN=yes
 set THREE_SEVEN=yes
-set THREE_EIGHT=yes
+set THREE_EIGHT=no
 set DEBUG_ME=yes
-set RELEASE_ME=yes
+set RELEASE_ME=no
 
 pushd %THISD%
 
@@ -89,6 +90,10 @@ if %PYTHONS%==no goto skip_pythons
   )
 
 :skip_pythons
+
+if %PIPS%==no goto skip_pips
+call %THISD%\build-something-debug.bat %CB_CROOT% %PF% pip ..\..\a\pip-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%
+:skip_pips
 
 if %LIEFS%==no goto skip_liefs
 call %THISD%\build-something-debug.bat %CB_CROOT% %PF% lief ..\..\c.wip\lief-feedstock %THREE_SEVEN% %THREE_EIGHT% %DEBUG_ME% %RELEASE_ME%

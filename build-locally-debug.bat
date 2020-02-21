@@ -16,7 +16,7 @@ set LEVEN=yes
 set THREE_SEVEN=yes
 set THREE_EIGHT=no
 set DEBUG_ME=yes
-set RELEASE_ME=no
+set RELEASE_ME=yes
 
 pushd %THISD%
 

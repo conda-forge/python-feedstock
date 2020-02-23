@@ -48,6 +48,7 @@ source:
       - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0025-egg-debugging-with-Windows-debug-builds.patch
       - patches/0026-Debug-_PyImport_FindSharedFuncptrWindows-values-of-_.patch
+      - patches/0027-Add-CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -82,7 +83,7 @@ source:
 
 
 build:
-  number: 5
+  number: 6
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

@@ -11,10 +11,10 @@ set CB_CROOT=%CD%\conda-bld
 
 set PYTHONS=yes
 set PIPS=yes
-set LIEFS=no
+set LIEFS=yes
 set LEVEN=yes
 set THREE_SEVEN=yes
-set THREE_EIGHT=no
+set THREE_EIGHT=yes
 set DEBUG_ME=yes
 set RELEASE_ME=yes
 

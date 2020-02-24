@@ -47,8 +47,7 @@ source:
       # Python 3.8 is pretty broken without this.
       - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0025-egg-debugging-with-Windows-debug-builds.patch
-      - patches/0026-Debug-_PyImport_FindSharedFuncptrWindows-values-of-_.patch
-      - patches/0027-Add-CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL.patch
+      - patches/0026-Revert-part-of-https-bugs.python.org-issue33895-http.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]

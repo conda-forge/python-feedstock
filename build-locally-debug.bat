@@ -2,6 +2,8 @@ setlocal EnableDelayedExpansion
 echo on
 :: set PF=win-64
 set PF=win-32
+export CONDA_SUBDIR=%PF%
+
 set THISD=%~dp0
 set THISD=%THISD:~0,-1%
 
@@ -44,6 +46,7 @@ if %PYTHONS%==no goto skip_pythons
         mkdir !DST_DIR!
         echo conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% | C:\msys32\usr\bin\tee !DST_DIR!\build.log
         conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee -a !DST_DIR!\build.log
+        if %errorlevel% neq 0 exit /b 1
       )
     )
     if %RELEASE_ME%==yes (
@@ -56,6 +59,7 @@ if %PYTHONS%==no goto skip_pythons
         mkdir !DST_DIR!
         echo conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% | C:\msys32\usr\bin\tee !DST_DIR!\build.log
         conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee -a !DST_DIR!\build.log
+        if %errorlevel% neq 0 exit /b 1
       )
     )
   )
@@ -72,6 +76,7 @@ if %PYTHONS%==no goto skip_pythons
         mkdir !DST_DIR!
         echo conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% | C:\msys32\usr\bin\tee !DST_DIR!\build.log
         conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-{v}-%PF% -m %DBG_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee -a !DST_DIR!\build.log
+        if %errorlevel% neq 0 exit /b 1
       )
     )
     if %RELEASE_ME%==yes (
@@ -84,6 +89,7 @@ if %PYTHONS%==no goto skip_pythons
         mkdir !DST_DIR!
         echo conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% | C:\msys32\usr\bin\tee !DST_DIR!\build.log
         conda-build --croot %CB_CROOT% --build-id-pat {n}-{v}-%PF% -m %REL_CFG% . --python 3.7 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee -a !DST_DIR!\build.log
+        if %errorlevel% neq 0 exit /b 1
       )
     )
     popd

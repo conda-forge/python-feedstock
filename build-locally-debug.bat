@@ -1,7 +1,7 @@
 setlocal EnableDelayedExpansion
 echo on
+:: set PF=win-64
 set PF=win-32
-set PF=win-64
 set THISD=%~dp0
 set THISD=%THISD:~0,-1%
 
@@ -26,9 +26,9 @@ set CB_KEEP=--keep-old-work --dirty
 
 set SKIP_BUILT=no
 
-set DBG_CFG=%THISD%\..\conda_build_config-dbg_c-dbg_py.yaml
-set DBG_CFG=%THISD%\..\conda_build_config-dbg.yaml
-set REL_CFG=%THISD%\..\conda_build_config-win64.yaml
+set DBG_CFG=%THISD%\..\conda_build_config-dbg_c-dbg_py_%PF%.yaml
+set DBG_CFG=%THISD%\..\conda_build_config-dbg_%PF%.yaml
+set REL_CFG=%THISD%\..\conda_build_config-%PF%.yaml
 set CHANNELS=-c local -c rdonnelly -c defaults
 mkdir %CB_CROOT%
 

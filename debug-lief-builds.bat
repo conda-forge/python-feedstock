@@ -62,9 +62,12 @@ if not exist python-levenshtein-feedstock (
   )  
 )
 del /s /q conda_build_config*.yaml
-C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-dbg.yaml
-C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-dbg_c-dbg_py.yaml
-C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-win64.yaml
+C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-dbg_win-64.yaml
+C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-dbg_c-dbg_py_win-64.yaml
+C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-win-64.yaml
+C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-dbg_win-32.yaml
+C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-dbg_c-dbg_py_win-32.yaml
+C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-win-32.yaml
 popd
 mkdir c.wip
 pushd c.wip

@@ -1,12 +1,12 @@
 {% set base_version = "3.8.1" %}
 {% set version = base_version %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
-{% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}
 {% endif %}
+{% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if debug != '' %}
-  {% set debug = "_d" ~ debug %}
+  {% set debug = "_dbg" %}
 {% endif %}
 
 package:
@@ -44,6 +44,8 @@ source:
       - patches/0021-roll-back-2e33ecd-for-py_compile.main.patch
       # Python 3.8 is pretty broken without this.
       - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0025-egg-debugging-with-Windows-debug-builds.patch
+      - patches/0026-Revert-part-of-https-bugs.python.org-issue33895-http.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -78,7 +80,7 @@ source:
 
 
 build:
-  number: 3
+  number: 8
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -99,10 +101,9 @@ build:
   #   - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
   skip: True            # [win and int(float(vc)) < 14]
-# Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
-  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
   run_exports:
-   - python_abi 3.8.* cp38
+   - python_abi 3.8.* cp38{{ debug }}
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG
@@ -123,12 +124,12 @@ requirements:
     - make  # [not win]
     - pkg-config  # [not win]
     # configure script looks for llvm-ar for lto
+{% if 'conda-forge' in channel_targets %}
     - llvm-tools  # [osx]
+{% endif %}
     - patch  # [not win]
     - m2-patch  # [win]
-    - posix  # [win]
-    - ld_impl_{{target_platform}}  # [linux]
-    - binutils_impl_{{target_platform}} >=2.33.1  # [linux]
+    - m2-gcc-libs  # [win]
   host:
     - bzip2  # [not win]
     - sqlite
@@ -137,13 +138,21 @@ requirements:
     - openssl
     - readline  # [not win]
     - tk  # [not win]
-    - ncurses  # [linux]
+    - ncurses  # [not win]
     - libffi  # [not win]
+{% if 'conda-forge' not in channel_targets %}
+    - binutils_impl_{{target_platform}}  # [linux and aarch64]
+    - ld_impl_{{target_platform}}  # [linux and not aarch64]
+{% else %}
     - ld_impl_{{target_platform}}  # [linux]
+{% endif %}
   run:
+{% if 'conda-forge' not in channel_targets %}
+    - binutils_impl_{{target_platform}}  # [linux and aarch64]
+    - ld_impl_{{target_platform}}  # [linux and not aarch64]
+{% else %}
     - ld_impl_{{target_platform}}  # [linux]
-  run_constrained:
-    - python_abi 3.8.* cp38
+{% endif %}
 
 test:
   requires:
@@ -178,15 +187,18 @@ test:
     -     python -c "import foobar"
     -   popd
     -   pushd distutils.cext
-    -     python setup.py install -v -v
-    -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
+    # --single-version-externally-managed because .egg files with compiled code do not work on Windows (Python 3.8) when Py_DEBUG (this should be investigated)
+    -     python setup.py install -v -v  # [(not win) or environ.get('PY_INTERP_DEBUG') == '']
+    -     python setup.py install --single-version-externally-managed --record=record.txt -v -v  # [win and environ.get('PY_INTERP_DEBUG') != '']
+    -     python -v -v -v -c "import greet"
+    -     python -v -v -v -c "import greet; greet.greet('Python user')" | rg "Hello Python"
     -   popd
     -   pushd prefix-replacement  # [unix]
     -     bash build-and-test.sh  # [unix]
     -   popd  # [unix]
     -   pushd cmake
-    -     cmake -GNinja -DPY_VER={{ version }}
-          # --trace --debug-output --debug-trycompile .
+    -     cmake -GNinja -DPY_VER={{ version }} .
+          # --trace --debug-output --debug-trycompile
     -   popd
     - popd
 

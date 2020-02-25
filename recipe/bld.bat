@@ -37,6 +37,9 @@ if "%PY_INTERP_DEBUG%"=="yes" (
     set PGO=
   ) else (
     set PGO=--pgo
+    :: On AzurePipelines, PGO fails with:
+    :: LINK : fatal error LNK1104: cannot open file 'pgort.lib' [%SRC_DIR%\PCbuild\pythoncore.vcxproj]
+    set PGO=
   )
 )
 

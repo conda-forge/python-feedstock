@@ -7,6 +7,9 @@
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if debug != '' %}
   {% set debug = "_dbg" %}
+  {% set debugabi = "d" %}
+{% else %}
+  {% set debugabi = "" %}
 {% endif %}
 
 package:
@@ -103,7 +106,11 @@ build:
   skip: True            # [win and int(float(vc)) < 14]
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
   run_exports:
-   - python_abi 3.8.* cp38{{ debug }}
+   # debugabi is only used on Windows because the ABI is the same now on Unix. On Windows this is still not
+   # the case yet unfortunately (when _DEBUG is defined, CreateModule2 is redefined to have another name to
+   # indicate it also does ref counting).
+   - python_abi 3.8.* cp38{{ debugabi }}  # [win]
+   - python_abi 3.8.* cp38  # [noy win]
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG

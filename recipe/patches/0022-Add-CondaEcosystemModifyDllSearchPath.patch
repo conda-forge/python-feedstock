@@ -1,7 +1,7 @@
-From 6c67f1126dc91ad94f735b20e2dda4bb7c54f472 Mon Sep 17 00:00:00 2001
+From bd510e850256e4711b3e7d9a2ba089f32d3a0eea Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
-Subject: [PATCH 22/22] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 22/24] Add CondaEcosystemModifyDllSearchPath()
 
 This changes the DLL search order so that C:\Windows\System32 does not
 get searched in before entries in PATH.
@@ -9,13 +9,15 @@ get searched in before entries in PATH.
 Reviewed by Kai Tietz 7.2.2019
 
 Updated a bit to include other directories.
+
+Made fwprintfs breakpointable
 ---
- Modules/main.c       | 384 +++++++++++++++++++++++++++++++++++++++++++
+ Modules/main.c       | 391 +++++++++++++++++++++++++++++++++++++++++++
  Python/dynload_win.c |   7 +-
- 2 files changed, 389 insertions(+), 2 deletions(-)
+ 2 files changed, 396 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index 0d2cf3ab82..a8cd6dd89a 100644
+index 0d2cf3ab82..fcf9811aaf 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -20,6 +20,10 @@
@@ -38,7 +40,7 @@ index 0d2cf3ab82..a8cd6dd89a 100644
  /* --- pymain_init() ---------------------------------------------- */
  
  static PyStatus
-@@ -658,10 +664,388 @@ Py_RunMain(void)
+@@ -658,10 +664,395 @@ Py_RunMain(void)
      return exitcode;
  }
  
@@ -275,7 +277,8 @@ index 0d2cf3ab82..a8cd6dd89a 100644
 +            {
 +                if (_wgetenv(L"CONDA_DLL_SEARCH_MODIFICATION_NEVER_CACHE") == NULL)
 +                {
-+                    if (debug_it) fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: INFO :: Values unchanged\n");
++                    if (debug_it)
++                        fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: INFO :: Values unchanged\n");
 +                    return 0;
 +                }
 +            }
@@ -295,7 +298,8 @@ index 0d2cf3ab82..a8cd6dd89a 100644
 +    {
 +        size_t len = wcslen(path_env);
 +        wchar_t *path = (wchar_t *)alloca((len + 1) * sizeof(wchar_t));
-+        if (debug_it) fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: PATH=%ls\n\b", path_env);
++        if (debug_it)
++            fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: PATH=%ls\n\b", path_env);
 +        memcpy(path, path_env, (len + 1) * sizeof(wchar_t));
 +        /* Convert any / to \ */
 +        /* Replace slash with backslash */
@@ -364,7 +368,8 @@ index 0d2cf3ab82..a8cd6dd89a 100644
 +                }
 +            }
 +#endif /* defined(HARDCODE_CONDA_PATHS) */
-+            if (debug_it) fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: AddDllDirectory(%ls)\n", path_entries[i]);
++            if (debug_it)
++                fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: AddDllDirectory(%ls)\n", path_entries[i]);
 +            pAddDllDirectory(path_entries[i]);
 +        }
 +    }
@@ -374,10 +379,12 @@ index 0d2cf3ab82..a8cd6dd89a 100644
 +    {
 +        for (j = NUM_CONDA_PATHS-1, p_conda_path = &condaPaths[NUM_CONDA_PATHS-1]; j > -1; --j, --p_conda_path)
 +        {
-+            if (debug_it) fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: p_conda_path->p_name = %ls, foundCondaPath[%zd] = %d\n", p_conda_path->p_name, j, foundCondaPath[j]);
++            if (debug_it)
++                fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: p_conda_path->p_name = %ls, foundCondaPath[%zd] = %d\n", p_conda_path->p_name, j, foundCondaPath[j]);
 +            if (!foundCondaPath[j])
 +            {
-+                if (debug_it) fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: AddDllDirectory(%ls - ExePrefix)\n", p_conda_path->p_name);
++                if (debug_it)
++                    fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: AddDllDirectory(%ls - ExePrefix)\n", p_conda_path->p_name);
 +                pAddDllDirectory(p_conda_path->p_name);
 +            }
 +        }
@@ -391,14 +398,16 @@ index 0d2cf3ab82..a8cd6dd89a 100644
 +            free(sv_added_cwd);
 +        }
 +        sv_added_cwd = _wcsdup(p_cwd);
-+        if (debug_it) fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: AddDllDirectory(%ls - CWD)\n", sv_added_cwd);
++        if (debug_it)
++            fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: AddDllDirectory(%ls - CWD)\n", sv_added_cwd);
 +        pAddDllDirectory(sv_added_cwd);
 +    }
 +
 +    if (add_windows_directory)
 +    {
 +        sv_added_windows_directory = &sv_windows_directory[0];
-+        if (debug_it) fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: AddDllDirectory(%ls - WinDir)\n", sv_windows_directory);
++        if (debug_it)
++            fwprintf(stderr, L"CondaEcosystemModifyDllSearchPath() :: AddDllDirectory(%ls - WinDir)\n", sv_windows_directory);
 +        pAddDllDirectory(sv_windows_directory);
 +    }
 +    else
@@ -448,5 +457,5 @@ index 6deba1134e..56d8913455 100644
  #if HAVE_SXS
          _Py_DeactivateActCtx(cookie);
 -- 
-2.24.0
+2.25.0
 

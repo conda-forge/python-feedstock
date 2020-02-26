@@ -225,6 +225,8 @@ where conda
 echo where python is
 where python
 
+exit /b 0
+
 echo "Testing print() does not print Hello"
 conda run -p %PREFIX% python -c "print()" 2>&1 | findstr /r /c:"Hello"
 if %errorlevel% neq 1 exit /b 1

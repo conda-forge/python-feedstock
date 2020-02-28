@@ -1,5 +1,4 @@
-{% set base_version = "3.8.2" %}
-{% set version = base_version %}
+{% set version = "3.8.2" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
@@ -11,10 +10,10 @@
 
 package:
   name: python
-  version: {{ base_version }}
+  version: {{ version }}
 
 source:
-  - url: https://www.python.org/ftp/python/{{ base_version }}/Python-{{ version }}.tar.xz
+  - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-382/
     md5: e9d6ebc92183a177b8e8a58cad5b8d67
     patches:
@@ -78,7 +77,7 @@ source:
 
 
 build:
-  number: 0
+  number: 1
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -101,8 +100,6 @@ build:
   skip: True            # [win and int(float(vc)) < 14]
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
-  run_exports:
-   - python_abi 3.8.* cp38
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG

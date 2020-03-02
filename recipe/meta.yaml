@@ -82,7 +82,7 @@ source:
 
 
 build:
-  number: 7
+  number: 8
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -102,10 +102,9 @@ build:
   #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
   #   - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
-  skip: True # [win and int(float(vc)) < 14]
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
-  skip: True            # [win and int(float
+  skip: True  # [win and int(float(vc)) < 14]
   run_exports:
     noarch:
       - python

@@ -20,6 +20,8 @@ macos_machine:
 - x86_64-apple-darwin13.4.0
 macos_min_version:
 - '10.9'
+ncurses:
+- '6.1'
 openssl:
 - 1.1.1a
 pin_run_as_build:
@@ -27,8 +29,13 @@ pin_run_as_build:
     max_pin: x
   libffi:
     max_pin: x.x
+  ncurses:
+    max_pin: x.x
   openssl:
     max_pin: x.x.x
+  python:
+    min_pin: x.x
+    max_pin: x.x
   readline:
     max_pin: x
   sqlite:
@@ -39,6 +46,8 @@ pin_run_as_build:
     max_pin: x.x
   zlib:
     max_pin: x.x
+python:
+- '3.7'
 readline:
 - '8.0'
 sqlite:

@@ -7,7 +7,7 @@ channel_targets:
 cxx_compiler:
 - vs2017
 openssl:
-- 1.1.1a
+- 1.1.1
 pin_run_as_build:
   openssl:
     max_pin: x.x.x

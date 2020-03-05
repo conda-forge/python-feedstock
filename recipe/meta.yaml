@@ -27,6 +27,7 @@ source:
       - do-not-download-externals.patch  # [win]
       - toolchain_0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
       - winsdk.patch                     # [win]
+      - 0020-Use-ranlib-from-env-if-env-variable-is-set.patch
       {% else %}
       # use another set of patches for the gcc (new compiler) build
       # these are the same patches as used in the AnacondaRecipes feedstock
@@ -52,6 +53,7 @@ source:
       - 0017-Fix-cross-compilation-on-Debian-based-distros.patch
       # AppVeyor does not have the proper Win SDK installed
       - winsdk.patch  # [win]
+      - 0020-Use-ranlib-from-env-if-env-variable-is-set.patch
       {% endif %}
 
   # TODO :: Depend on our own packages for these:

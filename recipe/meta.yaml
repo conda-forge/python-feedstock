@@ -72,16 +72,15 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/sqlite-3.21.0.0.zip   # [win]
     folder: externals/sqlite-3.21.0.0                                                # [win]
     sha256: 95a4f2d76aeeb68b51239340e3de26e5714ecfb7c8ad82a67b17af82213a8c20         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2p.zip    # [win]
-    folder: externals/openssl-1.0.2p                                                 # [win]
-    sha256: f4b177dbac060bdccc42e08a691ee9e9626ffc3be8aab26002bf0114d3b31aee         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2q.zip    # [win]
+    folder: externals/openssl-1.0.2q                                                 # [win]
+    sha256: d0e7bc44ab7ea2d43837ccc648a6f94702f3bad870318c0c8c771afd9c347d16         # [win]
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
     folder: externals/bzip2-1.0.6                                                    # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
   - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
     folder: externals/nasm-2.11.06                                                   # [win]
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
-
 
 build:
   number: 1009

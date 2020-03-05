@@ -77,7 +77,7 @@ source:
 
 
 build:
-  number: 3
+  number: 4
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -145,7 +145,7 @@ requirements:
   run:
     - ld_impl_{{target_platform}}  # [linux]
   run_constrained:
-    - python_abi 3.8.* cp38
+    - python_abi 3.8.* *_cp38
 
 test:
   requires:

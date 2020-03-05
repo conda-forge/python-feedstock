@@ -134,6 +134,8 @@ requirements:
     - ld_impl_{{target_platform}}  # [linux]
   run:
     - ld_impl_{{target_platform}}  # [linux]
+  run_constrained:
+    - python_abi 3.7.* *_cp37m
 
 test:
   requires:

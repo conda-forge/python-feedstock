@@ -112,6 +112,7 @@ requirements:
     - {{ cdt('libx11-devel') }}          # [linux]
     - make                               # [unix]
     - pkg-config                         # [unix]
+    - llvm-tools                         # [osx]
   host:
     - bzip2                              # [unix]
     - sqlite                             # [unix]

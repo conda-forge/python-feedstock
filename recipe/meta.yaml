@@ -125,6 +125,8 @@ requirements:
   run:
     - ncurses                            # [unix]
     - ld_impl_{{ target_platform }}      # [linux]
+  run_constrained:
+    - python_abi 3.6.* *_cp36m
 
 
 test:

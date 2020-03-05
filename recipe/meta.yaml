@@ -1,4 +1,4 @@
-{% set version = "3.6.7" %}
+{% set version = "3.6.10" %}
 
 package:
   name: python
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
-    sha256: 81fd1401a9d66533b0a3e9e3f4ea1c7c6702d57d5b90d659f971e6f1b745f77d
+    sha256: 0a833c398ac8cd7c5538f7232d8531afef943c60495c504484f308dac3af40de
     patches:
       {% if 'toolchain' in compiler('c') %}
       # use one set of patches for the toolchain (old compiler) build
@@ -27,6 +27,7 @@ source:
       - do-not-download-externals.patch  # [win]
       - toolchain_0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
       - winsdk.patch                     # [win]
+      - 0020-Use-ranlib-from-env-if-env-variable-is-set.patch
       {% else %}
       # use another set of patches for the gcc (new compiler) build
       # these are the same patches as used in the AnacondaRecipes feedstock
@@ -52,6 +53,7 @@ source:
       - 0017-Fix-cross-compilation-on-Debian-based-distros.patch
       # AppVeyor does not have the proper Win SDK installed
       - winsdk.patch  # [win]
+      - 0020-Use-ranlib-from-env-if-env-variable-is-set.patch
       {% endif %}
 
   # TODO :: Depend on our own packages for these:
@@ -70,9 +72,9 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/sqlite-3.21.0.0.zip   # [win]
     folder: externals/sqlite-3.21.0.0                                                # [win]
     sha256: 95a4f2d76aeeb68b51239340e3de26e5714ecfb7c8ad82a67b17af82213a8c20         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2p.zip    # [win]
-    folder: externals/openssl-1.0.2p                                                 # [win]
-    sha256: f4b177dbac060bdccc42e08a691ee9e9626ffc3be8aab26002bf0114d3b31aee         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/openssl-1.0.2q.zip    # [win]
+    folder: externals/openssl-1.0.2q                                                 # [win]
+    sha256: d0e7bc44ab7ea2d43837ccc648a6f94702f3bad870318c0c8c771afd9c347d16         # [win]
   - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
     folder: externals/bzip2-1.0.6                                                    # [win]
     sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
@@ -80,9 +82,8 @@ source:
     folder: externals/nasm-2.11.06                                                   # [win]
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
-
 build:
-  number: 1008
+  number: 1009
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -111,6 +112,7 @@ requirements:
     - {{ cdt('libx11-devel') }}          # [linux]
     - make                               # [unix]
     - pkg-config                         # [unix]
+    - llvm-tools                         # [osx]
   host:
     - bzip2                              # [unix]
     - sqlite                             # [unix]
@@ -125,6 +127,8 @@ requirements:
   run:
     - ncurses                            # [unix]
     - ld_impl_{{ target_platform }}      # [linux]
+  run_constrained:
+    - python_abi 3.6.* *_cp36m
 
 
 test:

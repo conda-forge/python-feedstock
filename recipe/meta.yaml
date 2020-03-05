@@ -1,4 +1,4 @@
-{% set version = "3.6.7" %}
+{% set version = "3.6.10" %}
 
 package:
   name: python
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
-    sha256: 81fd1401a9d66533b0a3e9e3f4ea1c7c6702d57d5b90d659f971e6f1b745f77d
+    sha256: 0a833c398ac8cd7c5538f7232d8531afef943c60495c504484f308dac3af40de
     patches:
       {% if 'toolchain' in compiler('c') %}
       # use one set of patches for the toolchain (old compiler) build

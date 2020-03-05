@@ -65,7 +65,7 @@ source:
 
 
 build:
-  number: 1010
+  number: 1011
   no_link:
     - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]

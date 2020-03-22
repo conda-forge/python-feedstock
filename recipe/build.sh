@@ -15,8 +15,6 @@ VERNODOTS=${VER//./}
 TCLTK_VER=${tk}
 # Disables some PGO/LTO
 QUICK_BUILD=no
-# Remove once: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
-CONDA_FORGE=yes
 
 _buildd_static=build-static
 _buildd_shared=build-shared
@@ -97,10 +95,6 @@ if [[ ${_OPTIMIZED} = yes ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")
   CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O3/g")
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O3/g")
-fi
-
-if [[ ${CONDA_FORGE} == yes ]]; then
-  ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
 fi
 
 declare -a LTO_CFLAGS=()

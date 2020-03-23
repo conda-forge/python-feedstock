@@ -3,7 +3,7 @@ About python
 
 Home: http://www.python.org/
 
-Package license: PSF
+Package license: Python-2.0
 
 Feedstock license: BSD 3-Clause
 

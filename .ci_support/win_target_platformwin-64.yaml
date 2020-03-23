@@ -11,16 +11,18 @@ openssl:
 pin_run_as_build:
   openssl:
     max_pin: x.x.x
+  python:
+    min_pin: x.x
+    max_pin: x.x
   sqlite:
     max_pin: x
   tk:
     max_pin: x.x
+python:
+- '3.8'
 sqlite:
 - '3'
 target_platform:
 - win-64
 tk:
 - '8.6'
-zip_keys:
-- - c_compiler
-  - cxx_compiler

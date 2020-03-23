@@ -1,0 +1,54 @@
+bzip2:
+- '1'
+c_compiler:
+- gcc
+c_compiler_version:
+- '8'
+channel_sources:
+- conda-forge,defaults
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- gxx
+cxx_compiler_version:
+- '8'
+docker_image:
+- condaforge/linux-anvil-ppc64le
+libffi:
+- '3.2'
+ncurses:
+- '6.1'
+openssl:
+- 1.1.1
+pin_run_as_build:
+  bzip2:
+    max_pin: x
+  libffi:
+    max_pin: x.x
+  ncurses:
+    max_pin: x.x
+  openssl:
+    max_pin: x.x.x
+  python:
+    min_pin: x.x
+    max_pin: x.x
+  readline:
+    max_pin: x
+  sqlite:
+    max_pin: x
+  xz:
+    max_pin: x.x
+  zlib:
+    max_pin: x.x
+python:
+- 3.7.* *_cpython
+readline:
+- '8.0'
+sqlite:
+- '3'
+target_platform:
+- linux-ppc64le
+xz:
+- '5.2'
+zlib:
+- '1.2'

@@ -17,7 +17,7 @@ def patch_platform(msg):
             fh.write(line)
             if line.startswith('_sys_version_parser'):
                 next_line = next(lines_it)
-                fh.write("    r'([\w.+]+)\s*" + re.escape(' ' + msg) + "\s*'\n")
+                fh.write("    r'([\w.+]+)\s*" + '(?:' + re.escape(' ' + msg) + ')?' + "\s*'\n")
 
 def patch_get_version(msg):
     with open(get_version_file, 'r') as fh:

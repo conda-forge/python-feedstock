@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: linux_aarch64_python3.6target_platf_h6b731c3333
+name: linux_aarch64_python3.6.____cpython_h83c16aa69a
 
 platform:
   os: linux
@@ -10,7 +10,7 @@ steps:
 - name: Install and build
   image: condaforge/linux-anvil-aarch64
   environment:
-    CONFIG: linux_aarch64_python3.6target_platformlinux-aarch64
+    CONFIG: linux_aarch64_python3.6.____cpythontarget_platformlinux-aarch64
     UPLOAD_PACKAGES: True
     PLATFORM: linux-aarch64
     BINSTAR_TOKEN: 
@@ -26,7 +26,7 @@ steps:
 
 ---
 kind: pipeline
-name: linux_aarch64_python3.7target_platf_h40271f266f
+name: linux_aarch64_python3.7.____cpython_h07a3c734fe
 
 platform:
   os: linux
@@ -36,7 +36,7 @@ steps:
 - name: Install and build
   image: condaforge/linux-anvil-aarch64
   environment:
-    CONFIG: linux_aarch64_python3.7target_platformlinux-aarch64
+    CONFIG: linux_aarch64_python3.7.____cpythontarget_platformlinux-aarch64
     UPLOAD_PACKAGES: True
     PLATFORM: linux-aarch64
     BINSTAR_TOKEN: 

@@ -1,7 +1,7 @@
 setlocal EnableDelayedExpansion
 echo on
-:: set PF=win-64
-set PF=win-32
+set PF=win-64
+:: set PF=win-32
 export CONDA_SUBDIR=%PF%
 
 set THISD=%~dp0

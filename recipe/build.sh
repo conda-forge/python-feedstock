@@ -207,20 +207,11 @@ _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 
-mkdir -p ${_buildd_shared}
-pushd ${_buildd_shared}
-  ${SRC_DIR}/configure "${_common_configure_args[@]}" \
-                       "${_dbg_opts[@]}" \
-                       --oldincludedir=${BUILD_PREFIX}/${HOST}/sysroot/usr/include \
-                       --enable-shared
-popd
-
 # Add more optimization flags for the static Python interpreter:
-declare -a _extra_opts=()
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then
-  _extra_opts+=(--enable-optimizations)
-  _extra_opts+=(--with-lto)
+  _common_configure_args+=(--enable-optimizations)
+  _common_configure_args+=(--with-lto)
   _MAKE_TARGET=profile-opt
   # To speed up build times during testing (1):
   if [[ ${QUICK_BUILD} == yes ]]; then
@@ -255,10 +246,17 @@ else
   _MAKE_TARGET=
 fi
 
+mkdir -p ${_buildd_shared}
+pushd ${_buildd_shared}
+  ${SRC_DIR}/configure "${_common_configure_args[@]}" \
+                       "${_dbg_opts[@]}" \
+                       --oldincludedir=${BUILD_PREFIX}/${HOST}/sysroot/usr/include \
+                       --enable-shared
+popd
+
 mkdir -p ${_buildd_static}
 pushd ${_buildd_static}
   ${SRC_DIR}/configure "${_common_configure_args[@]}" \
-                       "${_extra_opts[@]}" \
                        "${_dbg_opts[@]}" \
                        -oldincludedir=${BUILD_PREFIX}/${HOST}/sysroot/usr/include \
                        ${_DISABLE_SHARED} "${_PROFILE_TASK[@]}"

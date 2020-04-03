@@ -1,0 +1,34 @@
+vulns_mitigated:
+  - id: CVE-2020-8492
+    pkg_build_string_match: python
+    patch_fn: patches/18284.patch
+    patch_src_url: https://github.com/python/cpython/abc1234567890/blobs/patches/18284.patch
+    comment: Backport from master, scheduled for upstream 3.9 release
+    references:
+      - type: nist
+        url: https://nvd.nist.gov/vuln/detail/CVE-2020-849
+      - type: debian
+        url: https://security-tracker.debian.org/tracker/CVE-2020-8492
+    poc_url: https://some.url
+  - id: ANACONDA-2020-0001
+    patch_fn: patches/18284.patch
+    patch_src_url: https://github.com/python/cpython/abc1234567890/blobs/patches/18284.patch
+    comment: A really scary exploit
+    references:
+      - type: nist
+        url: https://nvd.nist.gov/vuln/detail/CVE-2020-8492
+      - type: debian
+        url: https://security-tracker.debian.org/tracker/CVE-2020-8492
+    poc_url: https://some.url
+vulns_active:
+  - id: ANACONDA-2020-0001
+    pkg_build_string_match: python
+    patch_fn: patches/18284.patch
+    patch_src_url: https://github.com/python/cpython/abc1234567890/blobs/patches/18284.patch
+    comment: A really scary exploit
+    references:
+      - type: nist
+        url: https://nvd.nist.gov/vuln/detail/CVE-2020-8492
+      - type: debian
+        url: https://security-tracker.debian.org/tracker/CVE-2020-8492
+    poc_url: https://some.url

@@ -113,6 +113,7 @@ requirements:
     - make                               # [unix]
     - pkg-config                         # [unix]
     - llvm-tools                         # [osx]
+    - m2-patch                           # [win]
   host:
     - bzip2                              # [unix]
     - sqlite                             # [unix]

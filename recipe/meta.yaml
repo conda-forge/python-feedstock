@@ -83,7 +83,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 1009
+  number: 1010
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -113,6 +113,7 @@ requirements:
     - make                               # [unix]
     - pkg-config                         # [unix]
     - llvm-tools                         # [osx]
+    - m2-patch                           # [win]
   host:
     - bzip2                              # [unix]
     - sqlite                             # [unix]
@@ -150,7 +151,7 @@ test:
 
 about:
   home: http://www.python.org/
-  license: PSF
+  license: Python-2.0
   license_file: LICENSE
   summary: General purpose programming language
   description: |

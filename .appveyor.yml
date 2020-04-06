@@ -10,10 +10,10 @@ environment:
     secure: tumuXLL8PU75WMnRDemRy02ruEq2RpNxeK3dz0MjFssnosPm2v4EFjfNB4PTotA1
 
   matrix:
-    - CONFIG: win_c_compilervs2015cxx_compilervs2015python3.6vc14
+    - CONFIG: win_python3.6.____cpython
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
-    - CONFIG: win_c_compilervs2015cxx_compilervs2015python3.7vc14
+    - CONFIG: win_python3.7.____cpython
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
 
@@ -24,6 +24,11 @@ platform:
 
 install:
     - cmd: set "CI=appveyor"
+    # If there is a newer build queued for the same PR, cancel this one.
+    - cmd: |
+        powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/conda-forge/conda-forge-ci-setup-feedstock/master/recipe/conda_forge_ci_setup/ff_ci_pr_build.py', 'ff_ci_pr_build.py')"
+        "%CONDA_INSTALL_LOCN%\python.exe" ff_ci_pr_build.py -v --ci "appveyor" "%APPVEYOR_ACCOUNT_NAME%/%APPVEYOR_PROJECT_SLUG%" "%APPVEYOR_BUILD_NUMBER%" "%APPVEYOR_PULL_REQUEST_NUMBER%"
+        del ff_ci_pr_build.py
 
     # Cygwin's git breaks conda-build. (See https://github.com/conda-forge/conda-smithy-feedstock/pull/2.)
     - cmd: rmdir C:\cygwin /s /q

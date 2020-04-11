@@ -1,4 +1,6 @@
 {% set version = "3.8.2" %}
+{% set ver2 = '.'.join(version.split('.')[0:2]) %}
+{% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}
@@ -90,26 +92,23 @@ build:
   # We delete the shared libraries.
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]
-  # Disabled until new conda-build release
-  detect_binary_files_with_prefix: True
-  # detect_binary_files_with_prefix: False
-  # binary_has_prefix_files:
-  #   - lib/libpython3.8.*.1.0
-  #   - bin/python3.8  # [linux]
-  #   - lib/libpython3.8.a  # [linux]
-  #   - lib/libpython3.8.nolto.a  # [linux]
-  #   - lib/libpython3.so  # [linux]
-  #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
-  #   - lib/libpython3.dylib  # [osx]
+  detect_binary_files_with_prefix: False
+  binary_has_prefix_files:
+    - lib/libpython{{ ver2 }}.*.1.0
+    - bin/python{{ ver2 }}  # [linux]
+    - lib/libpython{{ ver2 }}.a  # [linux]
+    - lib/libpython{{ ver2 }}.nolto.a  # [linux]
+    - lib/libpython3.so  # [linux]
+    - lib/python{{ ver2 }}/lib-dynload/_hashlib.cpython-{{ ver2nd }}-x86_64-linux-gnu.so  # [linux]
+    - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
-# Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
   skip: True  # [win and int(float(vc)) < 14]
   run_exports:
     noarch:
       - python
     weak:
-      - python_abi 3.8.* *_cp38{{ dbg_api }}
+      - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}{{ dbg_api }}
   # string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
   # run_exports:
   #  - python * *_cpython
@@ -156,7 +155,7 @@ requirements:
     - ld_impl_{{target_platform}}  # [linux]
 {% endif %}
   run_constrained:
-    - python_abi 3.8.* *_cp38{{ dbg_api }}
+    - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}{{ dbg_api }}
 
 test:
   requires:

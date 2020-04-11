@@ -58,7 +58,7 @@ cd PCbuild
 
 :: Twice because I am changing zipimport ATM.
 call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
+:: call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 

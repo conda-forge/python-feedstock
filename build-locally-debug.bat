@@ -14,16 +14,16 @@ set CB_CROOT=%CD%\conda-bld
 set PYTHONS=yes
 set PIPS=yes
 set LIEFS=yes
-set LEVEN=yes
-set THREE_SEVEN=yes
+set LEVEN=no
+set THREE_SEVEN=no
 set THREE_EIGHT=yes
 set DEBUG_ME=yes
 set RELEASE_ME=yes
 
 pushd %THISD%
 
-set CB_DEBUG=--debug
-:: set CB_DEBUG=
+:: set CB_DEBUG=--debug
+set CB_DEBUG=
 set CB_KEEP=--keep-old-work --dirty
 
 set SKIP_BUILT=no
@@ -37,10 +37,10 @@ mkdir %CB_CROOT%
 if %PYTHONS%==no goto skip_pythons
   if %THREE_EIGHT%==yes (
     if %DEBUG_ME%==yes (
-      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2
-      if not exist %CB_CROOT%\win-64\python-3.8.1-h8359038_5_cpython_dbg.tar.bz2 (
+      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.8.2-h8359038_8_cpython_dbg.tar.bz2
+      if not exist %CB_CROOT%\win-64\python-3.8.2-h8359038_8_cpython_dbg.tar.bz2 (
         set PY_INTERP_DEBUG=yes
-        set BLD_DIRNAME=python-dbg-3.8.1-%PF%
+        set BLD_DIRNAME=python-dbg-3.8.2-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
         del /s /q !DST_DIR!
         mkdir !DST_DIR!
@@ -50,10 +50,10 @@ if %PYTHONS%==no goto skip_pythons
       )
     )
     if %RELEASE_ME%==yes (
-      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2
-      if not exist %CB_CROOT%\win-64\python-3.8.1-hfe8d314_5_cpython.tar.bz2 (
+      if %SKIP_BUILT%==no del %CB_CROOT%\win-64\python-3.8.2-hfe8d314_8_cpython.tar.bz2
+      if not exist %CB_CROOT%\win-64\python-3.8.2-hfe8d314_8_cpython.tar.bz2 (
         set PY_INTERP_DEBUG=
-        set BLD_DIRNAME=python-3.8.1-%PF%
+        set BLD_DIRNAME=python-3.8.2-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
         del /s /q !DST_DIR!
         mkdir !DST_DIR!
@@ -117,21 +117,21 @@ if %LIEFS%==yes (
     if %DEBUG_ME%==yes (
       if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0_dbg.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=yes
-        set BLD_DIRNAME=lief-dbg-3.8.1-%PF%
+        set BLD_DIRNAME=lief-dbg-3.8.2-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
         del /s /q !DST_DIR!
         mkdir !DST_DIR!
-        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.8.1-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-dbg-3.8.2-%PF% -m %DBG_CFG% . --python 3.8 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
       )
     )
     if %RELEASE_ME%==yes (
       if not exist %CB_CROOT%\win-64\py-lief-0.10.1-py38h5824298_0.tar.bz2 and %SKIP_BUILT%==yes (
         set PY_INTERP_DEBUG=
-        set BLD_DIRNAME=lief-3.8.1-%PF%
+        set BLD_DIRNAME=lief-3.8.2-%PF%
         set DST_DIR=%CB_CROOT%\!BLD_DIRNAME!
         del /s /q !DST_DIR!
         mkdir !DST_DIR!
-        conda-build --croot %CB_CROOT% --build-id-pat {n}-3.8.1-%PF% -m %REL_CFG% . --python 3.8 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
+        conda-build --croot %CB_CROOT% --build-id-pat {n}-3.8.2-%PF% -m %REL_CFG% . --python 3.8 %CHANNELS% %CB_KEEP% %CB_DEBUG% 2>&1 | C:\msys32\usr\bin\tee !DST_DIR!\build.log
       )
     )
   )
@@ -168,12 +168,12 @@ set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=
 set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=
 if %THREE_EIGHT%==no goto skip_38_2
   if %DEBUG_ME%==yes (
-    call conda activate %CB_CROOT%\lief-dbg-3.8.1-win-64\_h_env
+    call conda activate %CB_CROOT%\lief-dbg-3.8.2-win-64\_h_env
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v1.log
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v1.log
   )
   if %RELEASE_ME%==yes (
-    call conda activate %CB_CROOT%\lief-3.8.1-win-64\_h_env
+    call conda activate %CB_CROOT%\lief-3.8.2-win-64\_h_env
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v1.log
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v1.log
   )
@@ -195,13 +195,13 @@ set CONDA_DLL_SEARCH_MODIFICATION_ENABLE=1
 set CONDA_DLL_SEARCH_MODIFICATION_DEBUG=1
 if %THREE_EIGHT%==no goto skip_38_3
   if %DEBUG_ME%==yes (
-    call conda activate %CB_CROOT%\lief-dbg-3.8.1-win-64\_h_env
+    call conda activate %CB_CROOT%\lief-dbg-3.8.2-win-64\_h_env
     py-lief-0.10.1-py38h5824298_0.tar.bz2
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v2.log
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v2.log
   )
   if %RELEASE_ME%==yes (
-    call conda activate %CB_CROOT%\lief-3.8.1-win-64\_h_env
+    call conda activate %CB_CROOT%\lief-3.8.2-win-64\_h_env
     python -c "from ctypes import *; from sys import *; cdll.LoadLibrary(prefix+'/lib/site-packages/lief.pyd')" 2>&1 | C:\msys32\usr\bin\tee !CONDA_PREFIX!\..\debug-v2.log
     echo ErrorLevel :: %ErrorLevel%  2>&1 | C:\msys32\usr\bin\tee -a !CONDA_PREFIX!\..\debug-v2.log
   )

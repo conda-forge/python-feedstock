@@ -84,7 +84,7 @@ source:
 
 
 build:
-  number: 9
+  number: 10
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -104,14 +104,19 @@ build:
   # match python.org compiler standard
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
   skip: True  # [win and int(float(vc)) < 14]
+{% if 'conda-forge' in channel_targets %}
   run_exports:
     noarch:
       - python
     weak:
       - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}{{ dbg_abi }}
-  # string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+{% else %}
   # run_exports:
-  #  - python * *_cpython
+  #   noarch:
+  #     - python
+  #   weak:
+  #     - python
+{% endif %}
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG
@@ -158,9 +163,9 @@ requirements:
 {% if 'conda-forge' in channel_targets %}
   run:
     - ld_impl_{{target_platform}}  # [linux]
-{% endif %}
   run_constrained:
     - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}{{ dbg_abi }}
+{% endif %}
 
 test:
   requires:
@@ -210,7 +215,7 @@ test:
     -     python ppe.py
     -   popd
     -   pushd cmake
-    -     cmake -GNinja -DPY_VER={{ version }} . --debug-find --debug-output
+    -     cmake -GNinja --debug-output -DPY_VER={{ version }} .
           # --trace --debug-output --debug-trycompile
     -   popd
     - popd

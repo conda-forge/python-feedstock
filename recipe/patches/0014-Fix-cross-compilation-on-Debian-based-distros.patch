@@ -1,7 +1,7 @@
-From 20f385cc782ba30ad8f23e2101ef0d27cbb6ae39 Mon Sep 17 00:00:00 2001
+From 0a692b06eade13791ae7690d9087aa8d24a6e65d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 26 Aug 2018 17:10:08 +0100
-Subject: [PATCH 14/22] Fix cross-compilation on Debian-based distros
+Subject: [PATCH 14/26] Fix cross-compilation on Debian-based distros
 
 ---
  setup.py | 3 ++-
@@ -22,5 +22,5 @@ index 7eb20955cb..feb478be20 100644
  
      def init_inc_lib_dirs(self):
 -- 
-2.24.0
+2.25.0
 

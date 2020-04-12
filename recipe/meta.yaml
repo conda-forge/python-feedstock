@@ -21,6 +21,7 @@ source:
     # md5 from: https://www.python.org/downloads/release/python-382/
     md5: e9d6ebc92183a177b8e8a58cad5b8d67
     patches:
+      - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
 {% if 'conda-forge' not in channel_targets %}
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
 {% endif %}
@@ -83,7 +84,7 @@ source:
 
 
 build:
-  number: 8
+  number: 9
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -114,13 +115,17 @@ build:
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG
+   # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
+   # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
+   # important env. vars.
+   - 'OPENSSL_DIR=%PREFIX%\Library'  # [win]
+   - 'SQLITE3_DIR=%PREFIX%\Library'  # [win]
 # Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
 # {% if 'conda-forge' not in channel_targets %}
 #      - CONDA_FORGE=yes
 # {% else %}
 #      - CONDA_FORGE=no
 # {% endif %}
-
 requirements:
   build:
     - {{ compiler('c') }}
@@ -173,6 +178,7 @@ test:
     - tests/cmake/*
     - tests/cython/*
     - tests/prefix-replacement/*
+    - tests/processpoolexecutor-max_workers-61/*
   commands:
     - python -V
     - python3 -V            # [not win]
@@ -199,8 +205,12 @@ test:
     -   pushd prefix-replacement  # [unix]
     -     bash build-and-test.sh  # [unix]
     -   popd  # [unix]
+    # This fails on Windows.
+    -   pushd processpoolexecutor-max_workers-61
+    -     python ppe.py
+    -   popd
     -   pushd cmake
-    -     cmake -GNinja -DPY_VER={{ version }} .
+    -     cmake -GNinja -DPY_VER={{ version }} . --debug-find --debug-output
           # --trace --debug-output --debug-trycompile
     -   popd
     - popd

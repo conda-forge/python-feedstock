@@ -1,4 +1,4 @@
-From 958ffa4d80d0f8bf0444f028e82bf842e87123c0 Mon Sep 17 00:00:00 2001
+From a5dbea9b8e9d480de9e3a14befdefe5b6d8c9ee6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 18 Feb 2020 17:38:32 +0100
 Subject: [PATCH 26/26] Revert part of https://bugs.python.org/issue33895

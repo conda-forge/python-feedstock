@@ -1,7 +1,7 @@
-From 3a97f399197ee5d24962fff39626fc646090625a Mon Sep 17 00:00:00 2001
+From 7e0447c3d67c2b8a1e0f9879ca528ed5ec42d6d6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 3 Dec 2017 17:31:27 +0000
-Subject: [PATCH 11/22] Add support for _CONDA_PYTHON_SYSCONFIGDATA_NAME if
+Subject: [PATCH 11/26] Add support for _CONDA_PYTHON_SYSCONFIGDATA_NAME if
  _PYTHON_SYSCONFIGDATA_NAME is not set and ignore
  {_CONDA,}_PYTHON_SYSCONFIGDATA_NAME if it does not exist
 
@@ -79,5 +79,5 @@ index b9e2fafbc0..1812a108e0 100644
      build_time_vars = _temp.build_time_vars
      vars.update(build_time_vars)
 -- 
-2.24.0
+2.25.0
 

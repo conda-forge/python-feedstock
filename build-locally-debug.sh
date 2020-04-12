@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ ${uname} =~ M.* ]]; then
+if [[ $(uname) =~ M.* ]]; then
   _PF=win-64
   # _PF=win-32
   _PF_CBC=_${_PF}

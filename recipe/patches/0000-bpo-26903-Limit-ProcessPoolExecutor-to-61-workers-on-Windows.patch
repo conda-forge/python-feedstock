@@ -1,0 +1,102 @@
+From 8ea0fd85bc67438f679491fae29dfe0a3961900a Mon Sep 17 00:00:00 2001
+From: "Miss Islington (bot)"
+ <31488909+miss-islington@users.noreply.github.com>
+Date: Tue, 28 May 2019 20:12:30 -0700
+Subject: [PATCH] bpo-26903: Limit ProcessPoolExecutor to 61 workers on Windows
+ (GH-13132) (GH-13643)
+
+Co-Authored-By: brianquinlan <brian@sweetapp.com>
+(cherry picked from commit 39889864c09741909da4ec489459d0197ea8f1fc)
+
+Co-authored-by: Brian Quinlan <brian@sweetapp.com>
+---
+ Doc/library/concurrent.futures.rst                 |  4 ++++
+ Lib/concurrent/futures/process.py                  | 14 ++++++++++++++
+ Lib/test/test_concurrent_futures.py                |  7 +++++++
+ .../2019-05-06-19-17-04.bpo-26903.4payXb.rst       |  1 +
+ 4 files changed, 26 insertions(+)
+ create mode 100644 Misc/NEWS.d/next/Library/2019-05-06-19-17-04.bpo-26903.4payXb.rst
+
+diff --git a/Doc/library/concurrent.futures.rst b/Doc/library/concurrent.futures.rst
+index a57491543bf4a..24d684a0123d0 100644
+--- a/Doc/library/concurrent.futures.rst
++++ b/Doc/library/concurrent.futures.rst
+@@ -216,6 +216,10 @@ to a :class:`ProcessPoolExecutor` will result in deadlock.
+    given, it will default to the number of processors on the machine.
+    If *max_workers* is lower or equal to ``0``, then a :exc:`ValueError`
+    will be raised.
++   On Windows, *max_workers* must be equal or lower than ``61``. If it is not
++   then :exc:`ValueError` will be raised. If *max_workers* is ``None``, then
++   the default chosen will be at most ``61``, even if more processors are
++   available.
+    *mp_context* can be a multiprocessing context or None. It will be used to
+    launch the workers. If *mp_context* is ``None`` or not given, the default
+    multiprocessing context is used.
+diff --git a/Lib/concurrent/futures/process.py b/Lib/concurrent/futures/process.py
+index 8a0ed98b3e88c..6c6905380eff2 100644
+--- a/Lib/concurrent/futures/process.py
++++ b/Lib/concurrent/futures/process.py
+@@ -57,6 +57,7 @@
+ import weakref
+ from functools import partial
+ import itertools
++import sys
+ import traceback
+ 
+ # Workers are created as daemon threads and processes. This is done to allow the
+@@ -109,6 +110,12 @@ def _python_exit():
+ EXTRA_QUEUED_CALLS = 1
+ 
+ 
++# On Windows, WaitForMultipleObjects is used to wait for processes to finish.
++# It can wait on, at most, 63 objects. There is an overhead of two objects:
++# - the result queue reader
++# - the thread wakeup reader
++_MAX_WINDOWS_WORKERS = 63 - 2
++
+ # Hack to embed stringification of remote traceback in local traceback
+ 
+ class _RemoteTraceback(Exception):
+@@ -504,9 +511,16 @@ def __init__(self, max_workers=None, mp_context=None,
+ 
+         if max_workers is None:
+             self._max_workers = os.cpu_count() or 1
++            if sys.platform == 'win32':
++                self._max_workers = min(_MAX_WINDOWS_WORKERS,
++                                        self._max_workers)
+         else:
+             if max_workers <= 0:
+                 raise ValueError("max_workers must be greater than 0")
++            elif (sys.platform == 'win32' and
++                max_workers > _MAX_WINDOWS_WORKERS):
++                raise ValueError(
++                    f"max_workers must be <= {_MAX_WINDOWS_WORKERS}")
+ 
+             self._max_workers = max_workers
+ 
+diff --git a/Lib/test/test_concurrent_futures.py b/Lib/test/test_concurrent_futures.py
+index add2bfdd5abe2..ad68909161c73 100644
+--- a/Lib/test/test_concurrent_futures.py
++++ b/Lib/test/test_concurrent_futures.py
+@@ -754,6 +754,13 @@ def test_default_workers(self):
+ 
+ 
+ class ProcessPoolExecutorTest(ExecutorTest):
++
++    @unittest.skipUnless(sys.platform=='win32', 'Windows-only process limit')
++    def test_max_workers_too_large(self):
++        with self.assertRaisesRegex(ValueError,
++                                    "max_workers must be <= 61"):
++            futures.ProcessPoolExecutor(max_workers=62)
++
+     def test_killed_child(self):
+         # When a child process is abruptly terminated, the whole pool gets
+         # "broken".
+diff --git a/Misc/NEWS.d/next/Library/2019-05-06-19-17-04.bpo-26903.4payXb.rst b/Misc/NEWS.d/next/Library/2019-05-06-19-17-04.bpo-26903.4payXb.rst
+new file mode 100644
+index 0000000000000..ec3aa05e907e9
+--- /dev/null
++++ b/Misc/NEWS.d/next/Library/2019-05-06-19-17-04.bpo-26903.4payXb.rst
+@@ -0,0 +1 @@
++Limit `max_workers` in `ProcessPoolExecutor` to 61 to work around a WaitForMultipleObjects limitation.
+\ No newline at end of file

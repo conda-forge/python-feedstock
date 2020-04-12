@@ -97,8 +97,8 @@ build:
     - bin/python{{ ver2 }}  # [linux]
     - lib/libpython{{ ver2 }}.a  # [linux]
     - lib/libpython{{ ver2 }}.nolto.a  # [linux]
-    - lib/libpython3.so  # [linux]
-    - lib/python{{ ver2 }}/lib-dynload/_hashlib.cpython-{{ ver2nd }}-x86_64-linux-gnu.so  # [linux]
+    # - lib/libpython3.so  # [linux]
+    # - lib/python{{ ver2 }}/lib-dynload/_hashlib.cpython-{{ ver2nd }}-x86_64-linux-gnu.so  # [linux]
     - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
@@ -125,6 +125,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - ccache
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}  # [linux]
     - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]

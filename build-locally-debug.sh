@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
-_PF=win-64
-# _PF=win-32
+if [[ ${uname} =~ M.* ]]; then
+  _PF=win-64
+  # _PF=win-32
+  _PF_CBC=_${_PF}
+elif [[ ${uname} == Darwin ]]; then
+  _PF=osx-64
+else
+  _PF=linux-64
+fi
 export CONDA_SUBDIR=${_PF}
 
 _THISD=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
@@ -18,6 +25,9 @@ _THREE_EIGHT=yes
 _DEBUG_ME=yes
 _RELEASE_ME=yes
 
+# This is very important
+conda config --set add_pip_as_python_dependency False
+
 pushd ${_THISD} > /dev/null 2>&1
 
 # _CB_DEBUG=--debug
@@ -26,9 +36,9 @@ _CB_KEEP="--keep-old-work --dirty"
 
 _SKIP_BUILT=no
 
-# _DBG_CFG=${_THISD}/../conda_build_config-dbg_c-dbg_py_${_PF}.yaml
-_DBG_CFG=${_THISD}/../conda_build_config-dbg_${_PF}.yaml
-_REL_CFG=${_THISD}/../conda_build_config-_${_PF}.yaml
+# _DBG_CFG=${_THISD}/../conda_build_config-dbg_c-dbg_py${_PF_CBC}.yaml
+_DBG_CFG=${_THISD}/../conda_build_config-dbg${_PF_CBC}.yaml
+_REL_CFG=${_THISD}/../conda_build_config-${_PF_CBC}.yaml
 _CHANNELS="-c local -c rdonnelly -c defaults"
 mkdir ${_CB_CROOT} > /dev/null 2>&1 || true
 

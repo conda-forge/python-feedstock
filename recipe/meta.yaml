@@ -130,7 +130,7 @@ build:
    - 'OPENSSL_DIR=%PREFIX%\Library'  # [win]
    - 'SQLITE3_DIR=%PREFIX%\Library'  # [win]
 # Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
-# {% if 'conda-forge' not in channel_targets %}
+# {% if 'conda-forge' in channel_targets %}
 #      - CONDA_FORGE=yes
 # {% else %}
 #      - CONDA_FORGE=no
@@ -139,7 +139,6 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - ccache
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}  # [linux]
     - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]

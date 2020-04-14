@@ -135,7 +135,7 @@ index 0d2cf3ab82..fcf9811aaf 100644
 +static wchar_t *sv_added_windows_directory = NULL;
 +static wchar_t *sv_added_cwd = NULL;
 +
-+int CondaEcosystemModifyDllSearchPath_Init(int argc, wchar_t *argv[])
++int CondaEcosystemModifyDllSearchPath_Init(int argc, wchar_t * const argv[])
 +{
 +    int debug_it = _wgetenv(L"CONDA_DLL_SEARCH_MODIFICATION_DEBUG") ? 1 : 0;
 +    int res = 0;

@@ -4,7 +4,7 @@ if [[ $(uname) =~ M.* ]]; then
   _PF=win-64
   # _PF=win-32
   _PF_CBC=_${_PF}
-elif [[ ${uname} == Darwin ]]; then
+elif [[ $(uname) == Darwin ]]; then
   _PF=osx-64
 else
   _PF=linux-64
@@ -12,6 +12,9 @@ fi
 export CONDA_SUBDIR=${_PF}
 
 _THISD=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
+if [[ -z ${_THISD} ]]; then
+  _THISD=$(dirname "${BASH_SOURCE[0]}")
+fi
 
 conda activate
 _CB_CROOT=${PWD}/conda-bld
@@ -39,7 +42,12 @@ _SKIP_BUILT=no
 # _DBG_CFG=${_THISD}/../conda_build_config-dbg_c-dbg_py${_PF_CBC}.yaml
 _DBG_CFG=${_THISD}/../conda_build_config-dbg${_PF_CBC}.yaml
 _REL_CFG=${_THISD}/../conda_build_config-${_PF_CBC}.yaml
-_CHANNELS="-c local -c rdonnelly -c defaults"
+if [[ $(uname) == Darwin ]]; then
+  # The clang on rdonnelly is 9, and has no ar nor deps on cctools/ld64.
+  _CHANNELS="-c local -c defaults"
+else
+  _CHANNELS="-c local -c rdonnelly -c defaults"
+fi
 mkdir ${_CB_CROOT} > /dev/null 2>&1 || true
 
 if [[ ${_PYTHONS} == yes ]]; then

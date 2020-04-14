@@ -42,6 +42,9 @@ if "%PY_INTERP_DEBUG%"=="yes" (
 
 cd PCbuild
 
+set OPENSSL_DIR=%PREFIX%\Library
+set SQLITE3_DIR=%PREFIX%\Library
+
 :: Doesn't avoid the SDK problem.
 :: devenv /upgrade pcbuild.sln
 :: set __VCVARS_VERSION=%WindowsSDKVer%

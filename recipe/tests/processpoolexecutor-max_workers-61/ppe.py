@@ -26,7 +26,7 @@ def is_prime(n):
 def main():
     #
     # max_workers=None is fine (on a low-end machine), max_workers=60 is fine, max_workers=61 results in:
-    # 
+    #
     # Exception in thread QueueManagerThread:
     # Traceback (most recent call last):
     #   File "C:\opt\conda\conda-bld\python-dbg-3.8.2-win-64\work\lib\threading.py", line 932, in _bootstrap_inner
@@ -51,11 +51,10 @@ def main():
     #   File "C:\opt\conda\conda-bld\python-dbg-3.8.2-win-64\work\lib\concurrent\futures\process.py", line 523, in __init__
     #     raise ValueError(
     # ValueError: max_workers must be <= 61
-    # 
+    #
     with concurrent.futures.ProcessPoolExecutor(max_workers=61) as executor:
         for number, prime in zip(PRIMES, executor.map(is_prime, PRIMES)):
             print('%d is prime: %s' % (number, prime))
 
 if __name__ == '__main__':
     main()
-

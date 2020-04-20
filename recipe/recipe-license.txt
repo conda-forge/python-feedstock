@@ -1,4 +1,4 @@
-This recipe is based upon the python-3.5 recipe from 
+This recipe is based upon the python-3.5 recipe from
 https://github.com/ContinuumIO/anaconda-recipes
 which is released under the following BSD license:
 

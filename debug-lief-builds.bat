@@ -59,7 +59,7 @@ if not exist python-levenshtein-feedstock (
     git clone git@github.com:AnacondaRecipes/python-levenshtein-feedstock python-levenshtein-feedstock -b master
   ) else (
     C:\msys64\usr\bin\cp -rf %COPTSL%/r/a/python-levenshtein-feedstock python-levenshtein-feedstock
-  )  
+  )
 )
 del /s /q conda_build_config*.yaml
 C:\msys64\usr\bin\wget https://raw.githubusercontent.com/AnacondaRecipes/aggregate/master/conda_build_config-dbg_win-64.yaml

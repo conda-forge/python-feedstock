@@ -102,8 +102,12 @@ build:
     # - lib/python{{ ver2 }}/lib-dynload/_hashlib.cpython-{{ ver2nd }}-x86_64-linux-gnu.so  # [linux]
     - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
-  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
   skip: True  # [win and int(float(vc)) < 14]
+{% if 'conda-forge' in channel_targets %}
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython{{ debug }}
+{% else %}
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}
+{% endif %}
 {% if 'conda-forge' in channel_targets %}
   run_exports:
     noarch:

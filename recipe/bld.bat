@@ -2,9 +2,13 @@ setlocal EnableDelayedExpansion
 
 echo on
 
+set CONDA_FORGE=yes
+
 :: brand Python with conda-forge startup message
-::%SYS_PYTHON% %RECIPE_DIR%\brand_python.py
-::if errorlevel 1 exit 1
+if "%CONDA_FORGE%"=="yes" (
+  %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
+  if errorlevel 1 exit 1
+)
 
 :: Compile python, extensions and external libraries
 if "%ARCH%"=="64" (

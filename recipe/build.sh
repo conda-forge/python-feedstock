@@ -16,7 +16,7 @@ TCLTK_VER=${tk}
 # Disables some PGO/LTO
 QUICK_BUILD=yes
 # Remove once: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
-CONDA_FORGE=no
+CONDA_FORGE=yes
 
 _buildd_static=build-static
 _buildd_shared=build-shared

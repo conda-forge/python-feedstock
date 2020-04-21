@@ -40,7 +40,9 @@ if "%PY_INTERP_DEBUG%"=="yes" (
   if "%DEBUG_C%"=="yes" (
     set PGO=
   ) else (
-    set PGO=--pgo
+    if "%CONDA_FORGE%" == "no" (
+      set PGO=--pgo
+    )
   )
 )
 

@@ -191,6 +191,7 @@ test:
           # --trace --debug-output --debug-trycompile .
     -   popd
     - popd
+    - test ! -f default.profraw   # [osx]
 
 about:
   home: http://www.python.org/

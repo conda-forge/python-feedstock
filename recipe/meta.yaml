@@ -129,9 +129,9 @@ requirements:
     - tk  # [not win]
     - ncurses  # [not win]
     - libffi  # [not win]
-    - ld_impl_{{target_platform}}  # [linux]
+    - ld_impl_{{ target_platform }}  # [linux]
   run:
-    - ld_impl_{{target_platform}}  # [linux]
+    - ld_impl_{{ target_platform }}  # [linux]
   run_constrained:
     - python_abi 3.7.* *_cp37m
 

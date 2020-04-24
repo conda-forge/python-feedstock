@@ -1,7 +1,7 @@
-From 8b93cecf78873b72a0c1d862069fbf39f03c0774 Mon Sep 17 00:00:00 2001
+From 7c6d9f770e7041a075ba109929a775e1b32a9338 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 25 Jan 2019 22:54:57 +0000
-Subject: [PATCH 19/19] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 19/20] Add CondaEcosystemModifyDllSearchPath()
 
 This changes the DLL search order so that C:\Windows\System32 does not
 get searched in before entries in PATH.
@@ -10,12 +10,12 @@ Reviewed by Kai Tietz 7.2.2019
 
 Updated a bit to include other directories.
 ---
- Modules/main.c       | 387 ++++++++++++++++++++++++++++++++++++++++++-
+ Modules/main.c       | 385 +++++++++++++++++++++++++++++++++++++++++++
  Python/dynload_win.c |   4 +
- 2 files changed, 390 insertions(+), 1 deletion(-)
+ 2 files changed, 389 insertions(+)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index b3fba94..38da7e2 100644
+index 4d13184f2d..22aa32edf7 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -16,6 +16,10 @@
@@ -38,16 +38,7 @@ index b3fba94..38da7e2 100644
  #ifdef MS_WINDOWS
  #define WCSTOK wcstok_s
  #else
-@@ -1238,7 +1244,7 @@ pymain_header(_PyMain *pymain)
-         return;
-     }
- 
--    fprintf(stderr, "Python %s :: %s on %s\n", Py_GetVersion(), Anaconda_GetVersion(), Py_GetPlatform());
-+    fprintf(stderr, "Python %s :: %s on %s\n%s", Py_GetVersion(), Anaconda_GetVersion(), Py_GetPlatform(), CondaEcosystemGetWarnings());
-     if (!Py_NoSiteFlag) {
-         fprintf(stderr, "%s\n", COPYRIGHT);
-     }
-@@ -3017,9 +3023,388 @@ pymain_init(_PyMain *pymain)
+@@ -3018,9 +3024,388 @@ pymain_init(_PyMain *pymain)
  }
  
  
@@ -437,7 +428,7 @@ index b3fba94..38da7e2 100644
      if (res == 1) {
          goto done;
 diff --git a/Python/dynload_win.c b/Python/dynload_win.c
-index 51325be..f52efdf 100644
+index 51325be658..f52efdf46b 100644
 --- a/Python/dynload_win.c
 +++ b/Python/dynload_win.c
 @@ -217,6 +217,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
@@ -452,5 +443,5 @@ index 51325be..f52efdf 100644
          hDLL = LoadLibraryExW(wpathname, NULL,
                                LOAD_WITH_ALTERED_SEARCH_PATH);
 -- 
-2.20.1
+2.26.2.windows.1
 

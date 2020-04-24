@@ -1,7 +1,7 @@
-From 283354c8bd32e60ccbbd41abad1499c72006dd95 Mon Sep 17 00:00:00 2001
+From 6a4d9b0ba37b400869fa6207c0f679f6101765fb Mon Sep 17 00:00:00 2001
 From: Mike Sarahan <msarahan@gmail.com>
 Date: Thu, 24 Oct 2019 21:54:17 -0500
-Subject: [PATCH 16/19] Unvendor openssl
+Subject: [PATCH 16/20] Unvendor openssl
 
 ---
  PCbuild/_ssl.vcxproj         |  3 ---
@@ -13,7 +13,7 @@ Subject: [PATCH 16/19] Unvendor openssl
  6 files changed, 12 insertions(+), 29 deletions(-)
 
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index 506d5ca..ba955c1 100644
+index aaf95a361c..b59f2d0ab1 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
 @@ -67,9 +67,6 @@
@@ -27,7 +27,7 @@ index 506d5ca..ba955c1 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_ssl.vcxproj.filters b/PCbuild/_ssl.vcxproj.filters
-index dfb8b6a..785fa04 100644
+index bd46b60984..1f4b3ce98e 100644
 --- a/PCbuild/_ssl.vcxproj.filters
 +++ b/PCbuild/_ssl.vcxproj.filters
 @@ -9,11 +9,8 @@
@@ -45,7 +45,7 @@ index dfb8b6a..785fa04 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
-index b43c674..16d00fc 100644
+index a7e16793c7..71c223e17d 100644
 --- a/PCbuild/openssl.props
 +++ b/PCbuild/openssl.props
 @@ -5,25 +5,8 @@
@@ -78,7 +78,7 @@ index b43c674..16d00fc 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index bf9a438..e1da639 100644
+index 6de150be02..edc7aff51d 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -49,9 +49,9 @@
@@ -95,7 +95,7 @@ index bf9a438..e1da639 100644
      <zlibDir>$(ExternalsDir)\zlib-1.2.11\</zlibDir>
      
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 854211e..a59b1cb 100644
+index 8b64e364f1..5b0fa34c36 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -72,6 +72,9 @@
@@ -109,7 +109,7 @@ index 854211e..a59b1cb 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index 69c5957..faff342 100644
+index 19d64a332b..d6d9b14efc 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
 @@ -65,6 +65,9 @@
@@ -123,5 +123,5 @@ index 69c5957..faff342 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 -- 
-2.20.1
+2.26.2.windows.1
 

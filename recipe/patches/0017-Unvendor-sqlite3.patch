@@ -1,7 +1,7 @@
-From 670e7fad1a30a0949faa4509ea089856f9b700e2 Mon Sep 17 00:00:00 2001
+From 9eacb1d92aadf94f6a9fde2e938db0eb2d964528 Mon Sep 17 00:00:00 2001
 From: Mike Sarahan <msarahan@gmail.com>
 Date: Thu, 24 Oct 2019 21:55:24 -0500
-Subject: [PATCH 17/19] Unvendor sqlite3
+Subject: [PATCH 17/20] Unvendor sqlite3
 
 ---
  PCbuild/_sqlite3.vcxproj |  9 ++++-----
@@ -11,7 +11,7 @@ Subject: [PATCH 17/19] Unvendor sqlite3
  4 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 9c8e7f3..61d369b 100644
+index 1f1a1c8cad..7da816f4c8 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -61,9 +61,12 @@
@@ -40,7 +40,7 @@ index 9c8e7f3..61d369b 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 554bd13..ef25b2c 100644
+index c212d9f8f3..eebeb791fb 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
 @@ -55,8 +55,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bdist_wininst", "..\PC\bdis
@@ -53,7 +53,7 @@ index 554bd13..ef25b2c 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index e1da639..2255b5c 100644
+index edc7aff51d..bac9df2e7b 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -46,7 +46,7 @@
@@ -66,7 +66,7 @@ index e1da639..2255b5c 100644
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
      <opensslDir>$(OPENSSL_DIR)\</opensslDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index ee703e3..91fe21a 100644
+index 4f5b1965d9..59cae10127 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
 @@ -56,12 +56,12 @@
@@ -89,5 +89,5 @@ index ee703e3..91fe21a 100644
    <ItemDefinitionGroup>
      <ClCompile>
 -- 
-2.20.1
+2.26.2.windows.1
 

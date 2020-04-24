@@ -69,17 +69,14 @@ jobs:
     # Configure the VM.
     - script: |
         set "CI=azure"
+        call activate base
         run_conda_forge_build_setup
       displayName: conda-forge build setup
     
 
-    - script: |
-        rmdir C:\strawberry /s /q
-      continueOnError: true
-      displayName: remove strawberryperl
-
     # Special cased version setting some more things!
     - script: |
+        call activate base
         conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml
       displayName: Build recipe (vs2008)
       env:
@@ -88,6 +85,7 @@ jobs:
       condition: contains(variables['CONFIG'], 'vs2008')
 
     - script: |
+        call activate base
         conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml
       displayName: Build recipe
       env:
@@ -96,6 +94,7 @@ jobs:
 
     - script: |
         set "GIT_BRANCH=%BUILD_SOURCEBRANCHNAME%"
+        call activate base
         upload_package .\ ".\recipe" .ci_support\%CONFIG%.yaml
       displayName: Upload package
       env:

@@ -3,6 +3,7 @@
 # "conda smithy rerender".
 # -*- mode: yaml -*-
 
+image: Visual Studio 2017
 environment:
 
   BINSTAR_TOKEN:

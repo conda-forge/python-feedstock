@@ -1,4 +1,4 @@
-From 9eacb1d92aadf94f6a9fde2e938db0eb2d964528 Mon Sep 17 00:00:00 2001
+From 9b94bdaf0234df089ad41d51c3b1bff53df394e8 Mon Sep 17 00:00:00 2001
 From: Mike Sarahan <msarahan@gmail.com>
 Date: Thu, 24 Oct 2019 21:55:24 -0500
 Subject: [PATCH 17/20] Unvendor sqlite3
@@ -53,14 +53,14 @@ index c212d9f8f3..eebeb791fb 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index edc7aff51d..bac9df2e7b 100644
+index e4f36cd397..bac9df2e7b 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -46,7 +46,7 @@
      <ExternalsDir>$(EXTERNALS_DIR)</ExternalsDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
--    <sqlite3Dir>$(ExternalsDir)sqlite-3.28.0.0\</sqlite3Dir>
+-    <sqlite3Dir>$(ExternalsDir)sqlite-3.31.1.0\</sqlite3Dir>
 +    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
      <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>

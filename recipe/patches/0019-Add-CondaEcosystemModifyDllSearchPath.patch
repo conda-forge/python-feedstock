@@ -1,4 +1,4 @@
-From 7c6d9f770e7041a075ba109929a775e1b32a9338 Mon Sep 17 00:00:00 2001
+From 78464539b592bfb1392c723c72032963cadded23 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 25 Jan 2019 22:54:57 +0000
 Subject: [PATCH 19/20] Add CondaEcosystemModifyDllSearchPath()
@@ -15,7 +15,7 @@ Updated a bit to include other directories.
  2 files changed, 389 insertions(+)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index 4d13184f2d..22aa32edf7 100644
+index 0e84d57539..150ba9d84d 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -16,6 +16,10 @@
@@ -38,7 +38,7 @@ index 4d13184f2d..22aa32edf7 100644
  #ifdef MS_WINDOWS
  #define WCSTOK wcstok_s
  #else
-@@ -3018,9 +3024,388 @@ pymain_init(_PyMain *pymain)
+@@ -3046,9 +3052,388 @@ pymain_init(_PyMain *pymain)
  }
  
  

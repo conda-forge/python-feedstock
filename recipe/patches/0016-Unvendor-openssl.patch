@@ -1,4 +1,4 @@
-From 6a4d9b0ba37b400869fa6207c0f679f6101765fb Mon Sep 17 00:00:00 2001
+From 7ac3f35ca996900948c240f7b8843355390befe6 Mon Sep 17 00:00:00 2001
 From: Mike Sarahan <msarahan@gmail.com>
 Date: Thu, 24 Oct 2019 21:54:17 -0500
 Subject: [PATCH 16/20] Unvendor openssl
@@ -78,11 +78,11 @@ index a7e16793c7..71c223e17d 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 6de150be02..edc7aff51d 100644
+index 7ff32a81b6..e4f36cd397 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -49,9 +49,9 @@
-     <sqlite3Dir>$(ExternalsDir)sqlite-3.28.0.0\</sqlite3Dir>
+     <sqlite3Dir>$(ExternalsDir)sqlite-3.31.1.0\</sqlite3Dir>
      <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
 -    <opensslDir>$(ExternalsDir)openssl-1.1.1d\</opensslDir>

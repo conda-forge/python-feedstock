@@ -1,4 +1,4 @@
-From 61c8278b88e3618f585c1ac15a1a2c6915d423d5 Mon Sep 17 00:00:00 2001
+From f5bae8e549491769f86ebadb6779002017ee45b2 Mon Sep 17 00:00:00 2001
 From: Mike Sarahan <msarahan@gmail.com>
 Date: Thu, 24 Oct 2019 19:59:14 -0500
 Subject: [PATCH 10/20] Win32: Do not download externals
@@ -8,10 +8,10 @@ Subject: [PATCH 10/20] Win32: Do not download externals
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index 759aa5221b..198370bcfd 100644
+index 69d43156c6..835484b585 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
-@@ -88,7 +88,7 @@ if "%IncludeExternals%"=="" set IncludeExternals=true
+@@ -92,7 +92,7 @@ if "%IncludeExternals%"=="" set IncludeExternals=true
  if "%IncludeSSL%"=="" set IncludeSSL=true
  if "%IncludeTkinter%"=="" set IncludeTkinter=true
  

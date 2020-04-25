@@ -11,49 +11,49 @@ source:
       {% if 'toolchain' in compiler('c') %}
       # use one set of patches for the toolchain (old compiler) build
 
-      - omit-local-site-packages.patch  # [osx]
-      - osx64-dist.patch                # [osx and x86_64]
-      - win-find_exe.patch              # [win]
-      - win-library_bin.patch           # [win]
+      - patches/omit-local-site-packages.patch  # [osx]
+      - patches/osx64-dist.patch                # [osx and x86_64]
+      - patches/win-find_exe.patch              # [win]
+      - patches/win-library_bin.patch           # [win]
       # Adjust FD_SETSIZE to allow select() to wait on more connections
       # simultaneously.  Desirable for serious use of Tornado on Windows.
       # See also:
       # - https://bugs.python.org/issue28708
       # - https://github.com/zeromq/libzmq/issues/1165
-      - fd_setsize.patch                # [win]
-      - mingw-w64--DMS_WINXX.patch
-      - win-msc_ver-1900.patch
-      - fix-ABI-issue29943.patch
-      - do-not-download-externals.patch  # [win]
-      - toolchain_0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - winsdk.patch                     # [win]
-      - 0020-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/fd_setsize.patch                # [win]
+      - patches/mingw-w64--DMS_WINXX.patch
+      - patches/win-msc_ver-1900.patch
+      - patches/fix-ABI-issue29943.patch
+      - patches/do-not-download-externals.patch  # [win]
+      - patches/toolchain_0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/winsdk.patch                     # [win]
+      - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
       {% else %}
       # use another set of patches for the gcc (new compiler) build
       # these are the same patches as used in the AnacondaRecipes feedstock
 
       # This does a weird thing on conda-forge.  disable for now.
       # - 0001-Add-Anaconda-Distribution-version-logic.patch
-      - 0002-Darwin-Omit-PYTHONFRAMEWORK-site-packages.patch
-      - 0003-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
-      - 0004-Win32-distutils-Also-look-for-executable.bat.patch
+      - patches/0002-Darwin-Omit-PYTHONFRAMEWORK-site-packages.patch
+      - patches/0003-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
+      - patches/0004-Win32-distutils-Also-look-for-executable.bat.patch
       # TODO :: This breaks conda activate and deactivate.
-      - 0005-Win32-Ensure-Library-bin-is-in-os.environ-PATH.patch
-      - 0006-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - 0007-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - 0008-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - 0009-Support-cross-compiling-byte-code.patch
-      - 0010-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - 0011-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - 0012-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - 0013-Win32-Do-not-download-externals.patch
-      - 0014-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      - 0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - 0016-Disable-new-dtags-in-unixccompiler.py.patch
-      - 0017-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0005-Win32-Ensure-Library-bin-is-in-os.environ-PATH.patch
+      - patches/0006-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - patches/0007-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - patches/0008-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0009-Support-cross-compiling-byte-code.patch
+      - patches/0010-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - patches/0011-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - patches/0012-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - patches/0013-Win32-Do-not-download-externals.patch
+      - patches/0014-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
+      - patches/0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0016-Disable-new-dtags-in-unixccompiler.py.patch
+      - patches/0017-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
       # AppVeyor does not have the proper Win SDK installed
-      - winsdk.patch  # [win]
-      - 0020-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/winsdk.patch  # [win]
       {% endif %}
 
   # TODO :: Depend on our own packages for these:

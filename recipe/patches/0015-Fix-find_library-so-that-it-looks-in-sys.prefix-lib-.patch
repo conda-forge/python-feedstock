@@ -1,7 +1,7 @@
-From 3501118fb5862f2a242c0f95f6aa8400dd152516 Mon Sep 17 00:00:00 2001
+From 94bd27b45e9f68966cfe60647ec713cb68be2df9 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
-Subject: [PATCH 14/17] Fix find_library so that it looks in sys.prefix/lib
+Subject: [PATCH 15/19] Fix find_library so that it looks in sys.prefix/lib
  first
 
 ---
@@ -25,7 +25,7 @@ index c158e672f0..a4770ecf5c 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index 97973bce00..42fd6fa3eb 100644
+index 339ae8aa8a..2ca8e173d4 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -70,7 +70,8 @@ if os.name == "nt":
@@ -38,7 +38,7 @@ index 97973bce00..42fd6fa3eb 100644
                      '%s.dylib' % name,
                      '%s.framework/%s' % (name, name)]
          for name in possible:
-@@ -306,10 +307,30 @@ elif os.name == "posix":
+@@ -297,10 +298,30 @@ elif os.name == "posix":
                  pass  # result will be None
              return result
  
@@ -72,5 +72,5 @@ index 97973bce00..42fd6fa3eb 100644
  ################################################################
  # test code
 -- 
-2.18.0
+2.26.2.windows.1
 

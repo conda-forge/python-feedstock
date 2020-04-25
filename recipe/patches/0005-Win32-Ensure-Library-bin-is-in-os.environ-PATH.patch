@@ -1,17 +1,17 @@
-From e1c247ef79ef3dae712515e51826def8faae0818 Mon Sep 17 00:00:00 2001
+From 78cad0f3ad0d2c68c82c354c8c787066d0e47129 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:15:26 +0100
-Subject: [PATCH 05/17] Win32: Ensure Library\bin is in os.environ["PATH"]
+Subject: [PATCH 05/19] Win32: Ensure Library\bin is in os.environ["PATH"]
 
 ---
  Lib/site.py | 5 +++++
  1 file changed, 5 insertions(+)
 
 diff --git a/Lib/site.py b/Lib/site.py
-index 0c089b9beb..eaa93bb2f8 100644
+index c01aba1e35..088b0d57a8 100644
 --- a/Lib/site.py
 +++ b/Lib/site.py
-@@ -529,6 +529,11 @@ def main():
+@@ -538,6 +538,11 @@ def main():
      execsitecustomize()
      if ENABLE_USER_SITE:
          execusercustomize()
@@ -24,5 +24,5 @@ index 0c089b9beb..eaa93bb2f8 100644
  # Prevent extending of sys.path when python was started with -S and
  # site is imported later.
 -- 
-2.18.0
+2.26.2.windows.1
 

@@ -51,7 +51,8 @@ source:
       - patches/0015-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
       - patches/0016-Disable-new-dtags-in-unixccompiler.py.patch
       - patches/0017-Fix-cross-compilation-on-Debian-based-distros.patch
-      - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0018-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0019-Use-ranlib-from-env-if-env-variable-is-set.patch
       # AppVeyor does not have the proper Win SDK installed
       - patches/winsdk.patch  # [win]
       {% endif %}

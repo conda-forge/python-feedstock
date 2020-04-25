@@ -1,7 +1,7 @@
-From 56f51c415094ff2a102f8c2d443359383746f688 Mon Sep 17 00:00:00 2001
+From bfceadb374ffa60c627356d82a7f1310ce70e2ca Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:53:55 +0100
-Subject: [PATCH 06/17] Win32: Change FD_SETSIZE from 512 to 2048
+Subject: [PATCH 06/19] Win32: Change FD_SETSIZE from 512 to 2048
 
 https://github.com/ContinuumIO/anaconda-issues/issues/1241
 ---
@@ -9,7 +9,7 @@ https://github.com/ContinuumIO/anaconda-issues/issues/1241
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Modules/selectmodule.c b/Modules/selectmodule.c
-index 7e81f1904c..22c6dc2b35 100644
+index 2bc7b9ff79..b1c601b553 100644
 --- a/Modules/selectmodule.c
 +++ b/Modules/selectmodule.c
 @@ -33,7 +33,7 @@
@@ -22,5 +22,5 @@ index 7e81f1904c..22c6dc2b35 100644
  
  #if defined(HAVE_POLL_H)
 -- 
-2.18.0
+2.26.2.windows.1
 

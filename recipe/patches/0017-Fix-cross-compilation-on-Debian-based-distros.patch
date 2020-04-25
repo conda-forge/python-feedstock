@@ -1,17 +1,17 @@
-From 4195ac4824e42afb3125866844d6e2c20f688ba3 Mon Sep 17 00:00:00 2001
+From 5c0e269c9b3e372a0059acbd3c366892d0738747 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 26 Aug 2018 17:10:08 +0100
-Subject: [PATCH 17/17] Fix cross-compilation on Debian-based distros
+Subject: [PATCH 17/19] Fix cross-compilation on Debian-based distros
 
 ---
  setup.py | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 09fba45515..190f0bf5b5 100644
+index a19fb3e7f0..4e713dcd52 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -521,7 +521,8 @@ class PyBuildExt(build_ext):
+@@ -526,7 +526,8 @@ class PyBuildExt(build_ext):
          # only change this for cross builds for 3.3, issues on Mageia
          if cross_compiling:
              self.add_gcc_paths()
@@ -22,5 +22,5 @@ index 09fba45515..190f0bf5b5 100644
          # Add paths specified in the environment variables LDFLAGS and
          # CPPFLAGS for header and library files.
 -- 
-2.18.0
+2.26.2.windows.1
 

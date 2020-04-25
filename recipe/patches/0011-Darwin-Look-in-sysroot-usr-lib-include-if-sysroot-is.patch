@@ -1,7 +1,7 @@
-From a60d2245044585af21ce0b011f01d9bcbc42273e Mon Sep 17 00:00:00 2001
+From a22b24cd8764e2cc8c96f7c65dd81d8d4056ef5c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 20 Aug 2017 00:22:22 +0100
-Subject: [PATCH 11/17] Darwin: Look in ${sysroot}/usr/{lib,include} if sysroot
+Subject: [PATCH 11/19] Darwin: Look in ${sysroot}/usr/{lib,include} if sysroot
  is set
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 11/17] Darwin: Look in ${sysroot}/usr/{lib,include} if sysroot
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 49193f67a6..09fba45515 100644
+index e2c1898253..a19fb3e7f0 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -574,7 +574,13 @@ class PyBuildExt(build_ext):
+@@ -579,7 +579,13 @@ class PyBuildExt(build_ext):
          # lib_dirs and inc_dirs are used to search for files;
          # if a file is found in one of those directories, it can
          # be assumed that no additional -I,-L directives are needed.
@@ -28,5 +28,5 @@ index 49193f67a6..09fba45515 100644
              inc_dirs = self.compiler.include_dirs + system_include_dirs
          else:
 -- 
-2.18.0
+2.26.2.windows.1
 

@@ -1,7 +1,7 @@
-From 7bcedba135b9f091659dbce16b38ffac0cf49b6e Mon Sep 17 00:00:00 2001
+From a7542c3d239b064204bbe6d4d3c4aa1fcd45ea38 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:07:08 +0100
-Subject: [PATCH 04/17] Win32: distutils: Also look for executable.bat
+Subject: [PATCH 04/19] Win32: distutils: Also look for executable.bat
 
 This patch should probably not exist, or at least be
 rewritten. See the comments.
@@ -10,11 +10,11 @@ rewritten. See the comments.
  1 file changed, 25 insertions(+), 9 deletions(-)
 
 diff --git a/Lib/distutils/spawn.py b/Lib/distutils/spawn.py
-index 5dd415a283..bef82fb1ac 100644
+index 5387688093..1cd4fdd5b9 100644
 --- a/Lib/distutils/spawn.py
 +++ b/Lib/distutils/spawn.py
 @@ -176,17 +176,33 @@ def find_executable(executable, path=None):
-         path = os.environ['PATH']
+         path = os.environ.get('PATH', os.defpath)
  
      paths = path.split(os.pathsep)
 -    base, ext = os.path.splitext(executable)
@@ -24,7 +24,7 @@ index 5dd415a283..bef82fb1ac 100644
 +    # base, ext = os.path.splitext(executable)
 +
 +    if sys.platform == 'win32':
-+	# This should probably be:
++      # This should probably be:
 +        # try:
 +        #     exts = os.environ['PATHEXT'].lower().split(';')+['']
 +        # except:
@@ -57,5 +57,5 @@ index 5dd415a283..bef82fb1ac 100644
      else:
          return executable
 -- 
-2.18.0
+2.26.2.windows.1
 

@@ -1,7 +1,7 @@
-From 500b536ecaaf64aec0b7ec80bb63a3254a57ee4e Mon Sep 17 00:00:00 2001
+From eb849af028113ec3bdd8f15d4c8ed724ab091da9 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
-Subject: [PATCH 08/19] Support cross-compiling byte-code
+Subject: [PATCH 09/19] Support cross-compiling byte-code
 
 https://bugs.python.org/issue22724
 ---
@@ -11,7 +11,7 @@ https://bugs.python.org/issue22724
  3 files changed, 17 insertions(+), 11 deletions(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index d15d935..a008a39 100644
+index d15d93509d..a008a39b0b 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -237,6 +237,7 @@ BUILDPYTHON=	python$(BUILDEXE)
@@ -97,7 +97,7 @@ index d15d935..a008a39 100644
  	--install-scripts=$(BINDIR) \
  	--root=$(DESTDIR)/
 diff --git a/configure b/configure
-index 5db31f4..96379d7 100755
+index 5db31f475d..96379d7937 100755
 --- a/configure
 +++ b/configure
 @@ -752,6 +752,7 @@ CONFIG_ARGS
@@ -119,7 +119,7 @@ index 5db31f4..96379d7 100755
  elif test "$cross_compiling" = maybe; then
      as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index b24f7e8..6404ad8 100644
+index b24f7e8df0..6404ad88db 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -73,13 +73,15 @@ if test "$cross_compiling" = yes; then
@@ -140,5 +140,5 @@ index b24f7e8..6404ad8 100644
  
  dnl Ensure that if prefix is specified, it does not end in a slash. If
 -- 
-2.17.1
+2.26.2.windows.1
 

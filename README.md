@@ -35,13 +35,6 @@ Current build status
         <img alt="linux" src="https://img.shields.io/drone/build/conda-forge/python-feedstock/master.svg?label=Linux">
       </a>
     </td>
-  </tr><tr>
-    <td>Appveyor</td>
-    <td>
-      <a href="https://ci.appveyor.com/project/conda-forge/python-feedstock/branch/master">
-        <img alt="windows" src="https://img.shields.io/appveyor/ci/conda-forge/python-feedstock/master.svg?label=Windows">
-      </a>
-    </td>
   </tr>
     
   <tr>

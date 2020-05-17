@@ -6,4 +6,5 @@ appveyor:
     BINSTAR_TOKEN: MP4hZYylDyUWEsrt3u3cod2sbFeRwUziH02mvQOdbjsTO/l1yIxDkP/76rSIjcGC
 channels:
   targets:
-    - [conda-forge, prerelease]
+  - [conda-forge, prerelease]
+conda_forge_output_validation: true

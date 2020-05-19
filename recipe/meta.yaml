@@ -99,7 +99,7 @@ build:
   # match python.org compiler standard
   skip: True            # [win and int(float(vc)) < 14]
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
-  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+  string: cpython{{ linkage_nature }}{{ debug }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
     noarch:
       - python

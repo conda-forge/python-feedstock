@@ -1,4 +1,4 @@
-From 20f385cc782ba30ad8f23e2101ef0d27cbb6ae39 Mon Sep 17 00:00:00 2001
+From 6329a67f4901fa8a391997753ee3c80fa5ea1e60 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 26 Aug 2018 17:10:08 +0100
 Subject: [PATCH 14/22] Fix cross-compilation on Debian-based distros
@@ -8,7 +8,7 @@ Subject: [PATCH 14/22] Fix cross-compilation on Debian-based distros
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 7eb20955cb..feb478be20 100644
+index fc1715e..edb2557 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -654,7 +654,8 @@ class PyBuildExt(build_ext):
@@ -22,5 +22,5 @@ index 7eb20955cb..feb478be20 100644
  
      def init_inc_lib_dirs(self):
 -- 
-2.24.0
+2.20.1
 

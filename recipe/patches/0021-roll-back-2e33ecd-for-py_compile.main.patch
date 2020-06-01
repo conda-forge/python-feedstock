@@ -1,4 +1,4 @@
-From b57a9463b6085a76feb96ac9c025c63cfe884db6 Mon Sep 17 00:00:00 2001
+From bdcda99bc6c87c81a733cf65fed1da4b2f8d5c47 Mon Sep 17 00:00:00 2001
 From: Duncan Macleod <duncan.macleod@ligo.org>
 Date: Mon, 11 Nov 2019 14:30:40 +0000
 Subject: [PATCH 21/22] roll-back 2e33ecd for py_compile.main
@@ -8,7 +8,7 @@ Subject: [PATCH 21/22] roll-back 2e33ecd for py_compile.main
  1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/Lib/py_compile.py b/Lib/py_compile.py
-index 21736896af..a81f493731 100644
+index 2173689..a81f493 100644
 --- a/Lib/py_compile.py
 +++ b/Lib/py_compile.py
 @@ -197,12 +197,10 @@ def main(args=None):
@@ -37,5 +37,5 @@ index 21736896af..a81f493731 100644
  
  if __name__ == "__main__":
 -- 
-2.24.0
+2.20.1
 

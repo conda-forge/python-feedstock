@@ -1,4 +1,4 @@
-From 6c67f1126dc91ad94f735b20e2dda4bb7c54f472 Mon Sep 17 00:00:00 2001
+From bb5904fda1bb6b8058b6cbfed156c1487c19396d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 22/22] Add CondaEcosystemModifyDllSearchPath()
@@ -15,7 +15,7 @@ Updated a bit to include other directories.
  2 files changed, 389 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index 0d2cf3ab82..a8cd6dd89a 100644
+index 0d2cf3a..a8cd6dd 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -20,6 +20,10 @@
@@ -428,7 +428,7 @@ index 0d2cf3ab82..a8cd6dd89a 100644
      if (_PyStatus_IS_EXIT(status)) {
          pymain_free();
 diff --git a/Python/dynload_win.c b/Python/dynload_win.c
-index 6deba1134e..56d8913455 100644
+index 6deba11..56d8913 100644
 --- a/Python/dynload_win.c
 +++ b/Python/dynload_win.c
 @@ -201,10 +201,13 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
@@ -448,5 +448,5 @@ index 6deba1134e..56d8913455 100644
  #if HAVE_SXS
          _Py_DeactivateActCtx(cookie);
 -- 
-2.24.0
+2.20.1
 

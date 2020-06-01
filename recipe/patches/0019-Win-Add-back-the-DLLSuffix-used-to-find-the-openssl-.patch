@@ -1,4 +1,4 @@
-From 9aa1401a772f0e697d3a46d174ac18b912d33c58 Mon Sep 17 00:00:00 2001
+From 079f95999092c4c765e6e071f79455d17c8de014 Mon Sep 17 00:00:00 2001
 From: Marius van Niekerk <marius.v.niekerk@gmail.com>
 Date: Thu, 31 Oct 2019 16:46:21 -0400
 Subject: [PATCH 19/22] Win: Add back the DLLSuffix used to find the openssl
@@ -9,7 +9,7 @@ Subject: [PATCH 19/22] Win: Add back the DLLSuffix used to find the openssl
  1 file changed, 1 insertion(+)
 
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
-index af1350cae7..eeb8677517 100644
+index f2800b5..a67cfec 100644
 --- a/PCbuild/openssl.props
 +++ b/PCbuild/openssl.props
 @@ -11,6 +11,7 @@
@@ -21,5 +21,5 @@ index af1350cae7..eeb8677517 100644
      <_DLLSuffix Condition="$(Platform) == 'ARM64'">$(_DLLSuffix)-arm64</_DLLSuffix>
    </PropertyGroup>
 -- 
-2.24.0
+2.20.1
 

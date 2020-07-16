@@ -1,4 +1,4 @@
-From bdcda99bc6c87c81a733cf65fed1da4b2f8d5c47 Mon Sep 17 00:00:00 2001
+From 4dade435e7bb8fb52e804e13d7e147fac492c743 Mon Sep 17 00:00:00 2001
 From: Duncan Macleod <duncan.macleod@ligo.org>
 Date: Mon, 11 Nov 2019 14:30:40 +0000
 Subject: [PATCH 21/22] roll-back 2e33ecd for py_compile.main

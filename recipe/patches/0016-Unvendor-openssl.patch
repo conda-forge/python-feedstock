@@ -1,4 +1,4 @@
-From 17ca19a2c9741e25b95bfb5bb465c377ba1dcf80 Mon Sep 17 00:00:00 2001
+From f4eb2b6a0f9068e5665f0663cbf89f134af14f88 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 16/22] Unvendor openssl
@@ -54,15 +54,15 @@ index b43c674..f2800b5 100644
      </Link>
    </ItemDefinitionGroup>
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 2c8555a..dacc9f3 100644
+index 112b9f0..b4a757a 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -62,9 +62,9 @@
      <libffiDir>$(ExternalsDir)libffi\</libffiDir>
      <libffiOutDir>$(ExternalsDir)libffi\$(ArchName)\</libffiOutDir>
      <libffiIncludeDir>$(libffiOutDir)include</libffiIncludeDir>
--    <opensslDir>$(ExternalsDir)openssl-1.1.1f\</opensslDir>
--    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.1f\$(ArchName)\</opensslOutDir>
+-    <opensslDir>$(ExternalsDir)openssl-1.1.1g\</opensslDir>
+-    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.1g\$(ArchName)\</opensslOutDir>
 -    <opensslIncludeDir>$(opensslOutDir)include</opensslIncludeDir>
 +    <opensslDir>$(OPENSSL_DIR)\</opensslDir>
 +    <opensslOutDir>$(opensslDir)bin</opensslOutDir>

@@ -129,8 +129,8 @@ requirements:
     - patch  # [not win]
     - m2-patch  # [win]
     - posix  # [win]
-    - ld_impl_{{ target_platform }}  # [linux]
-    - binutils_impl_{{ target_platform }} >=2.33.1  # [linux]
+    - ld_impl_{{ target_platform }} >=2.34  # [linux]
+    - binutils_impl_{{ target_platform }} >=2.34  # [linux]
   host:
     - bzip2  # [not win]
     - sqlite
@@ -141,9 +141,9 @@ requirements:
     - tk  # [not win]
     - ncurses  # [linux]
     - libffi  # [not win]
-    - ld_impl_{{ target_platform }}  # [linux]
+    - ld_impl_{{ target_platform }} >=2.34  # [linux]
   run:
-    - ld_impl_{{ target_platform }}  # [linux]
+    - ld_impl_{{ target_platform }} >=2.34  # [linux]
   run_constrained:
     - python_abi 3.8.* *_cp38
 

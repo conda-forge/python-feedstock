@@ -1,4 +1,4 @@
-From 6b53bae6255acc8ac8c9152b46f2a2729bb5db6c Mon Sep 17 00:00:00 2001
+From aaf58893a6fc09793fd37e47181975c9c8c988d5 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 06/22] Support cross-compiling byte-code
@@ -77,7 +77,7 @@ index a914a9c..1802362 100644
  		--install-scripts=$(BINDIR) \
  		--install-platlib=$(DESTSHARED) \
 diff --git a/configure b/configure
-index 42c4f29..48fb165 100755
+index 917ec25..f3979f1 100755
 --- a/configure
 +++ b/configure
 @@ -749,6 +749,7 @@ CONFIG_ARGS
@@ -99,7 +99,7 @@ index 42c4f29..48fb165 100755
  elif test "$cross_compiling" = maybe; then
      as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index 70bb331..121d283 100644
+index f37c6a4..7c68866 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -75,13 +75,15 @@ if test "$cross_compiling" = yes; then

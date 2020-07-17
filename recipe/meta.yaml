@@ -1,4 +1,4 @@
-{% set version = "3.8.3" %}
+{% set version = "3.8.4" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
@@ -15,7 +15,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-383/
-    md5: 3000cf50aaa413052aef82fd2122ca78
+    md5: e16df33cd7b58702e57e137f8f5d13e7
     patches:
 {% if 'conda-forge' not in channel_targets %}
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
@@ -43,6 +43,7 @@ source:
       - patches/0021-roll-back-2e33ecd-for-py_compile.main.patch
       # Python 3.8 is pretty broken without this.
       - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0026-Revert-part-of-https-bugs.python.org-issue33895-http.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -129,8 +130,8 @@ requirements:
     - patch  # [not win]
     - m2-patch  # [win]
     - posix  # [win]
-    - ld_impl_{{ target_platform }}  # [linux]
-    - binutils_impl_{{ target_platform }} >=2.33.1  # [linux]
+    - ld_impl_{{ target_platform }} >=2.34  # [linux]
+    - binutils_impl_{{ target_platform }} >=2.34  # [linux]
   host:
     - bzip2  # [not win]
     - sqlite
@@ -141,9 +142,9 @@ requirements:
     - tk  # [not win]
     - ncurses  # [linux]
     - libffi  # [not win]
-    - ld_impl_{{ target_platform }}  # [linux]
+    - ld_impl_{{ target_platform }} >=2.34  # [linux]
   run:
-    - ld_impl_{{ target_platform }}  # [linux]
+    - ld_impl_{{ target_platform }} >=2.34  # [linux]
   run_constrained:
     - python_abi 3.8.* *_cp38
 

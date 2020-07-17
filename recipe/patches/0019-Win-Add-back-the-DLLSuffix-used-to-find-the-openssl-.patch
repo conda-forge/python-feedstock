@@ -1,4 +1,4 @@
-From 079f95999092c4c765e6e071f79455d17c8de014 Mon Sep 17 00:00:00 2001
+From a0cfa8a28af72acb87d04361d23101f0dd9972ee Mon Sep 17 00:00:00 2001
 From: Marius van Niekerk <marius.v.niekerk@gmail.com>
 Date: Thu, 31 Oct 2019 16:46:21 -0400
 Subject: [PATCH 19/22] Win: Add back the DLLSuffix used to find the openssl

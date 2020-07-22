@@ -90,7 +90,7 @@ build:
 
   # match python.org compiler standard
   skip: True            # [win and int(float(vc)) < 14]
-  string: cpython_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_cpython
   run_exports:
     noarch:
       - python

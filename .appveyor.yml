@@ -17,6 +17,9 @@ environment:
     - CONFIG: win_python3.7.____cpython
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
+    - CONFIG: win_python3.8.____cpython
+      CONDA_INSTALL_LOCN: C:\Miniconda36-x64
+
 
 # We always use a 64-bit machine, but can build x86 distributions
 # with the TARGET_ARCH variable.
@@ -42,7 +45,7 @@ install:
 
     # Configure the VM.
     # Tell conda we want an updated version of conda-forge-ci-setup and conda-build
-    - cmd: conda.exe install -n root -c conda-forge --quiet --yes conda-forge-ci-setup=2 conda-build
+    - cmd: conda.exe install -n root -c conda-forge --quiet --yes conda-forge-ci-setup=3 conda-build pip
     - cmd: setup_conda_rc .\ .\recipe .\.ci_support\%CONFIG%.yaml
     - cmd: run_conda_forge_build_setup
 
@@ -50,7 +53,10 @@ install:
 build: off
 
 test_script:
-    - conda.exe build recipe -m .ci_support\%CONFIG%.yaml
+    - cmd: conda.exe build recipe -m .ci_support\%CONFIG%.yaml
+    - set "FEEDSTOCK_NAME=%APPVEYOR_REPO_NAME:*/=%"
+    - cmd: validate_recipe_outputs "%FEEDSTOCK_NAME%"
 deploy_script:
     - set "GIT_BRANCH=%APPVEYOR_REPO_BRANCH%"
-    - cmd: upload_package .\ .\recipe .ci_support\%CONFIG%.yaml
+    - set "FEEDSTOCK_NAME=%APPVEYOR_REPO_NAME:*/=%"
+    - cmd: upload_package --validate --feedstock-name="%FEEDSTOCK_NAME%" .\ .\recipe .ci_support\%CONFIG%.yaml

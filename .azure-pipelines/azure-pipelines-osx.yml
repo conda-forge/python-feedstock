@@ -14,6 +14,9 @@ jobs:
       osx_python3.7.____cpythontarget_platformosx-64:
         CONFIG: osx_python3.7.____cpythontarget_platformosx-64
         UPLOAD_PACKAGES: 'True'
+      osx_python3.8.____cpythontarget_platformosx-64:
+        CONFIG: osx_python3.8.____cpythontarget_platformosx-64
+        UPLOAD_PACKAGES: 'True'
     maxParallel: 8
   timeoutInMinutes: 360
 

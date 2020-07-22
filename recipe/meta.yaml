@@ -1,4 +1,4 @@
-{% set version = "3.8.4" %}
+{% set version = "3.8.5" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
@@ -14,8 +14,8 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
-    # md5 from: https://www.python.org/downloads/release/python-383/
-    md5: e16df33cd7b58702e57e137f8f5d13e7
+    # md5 from: https://www.python.org/downloads/release/python-385/
+    md5: 35b5a3d0254c1c59be9736373d429db7
     patches:
 {% if 'conda-forge' not in channel_targets %}
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch

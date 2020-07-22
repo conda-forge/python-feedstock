@@ -1,4 +1,4 @@
-{% set base_version = "3.7.6" %}
+{% set base_version = "3.7.8" %}
 {% set version = base_version %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
@@ -11,8 +11,8 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ base_version }}/Python-{{ version }}.tar.xz
-    # md5 from: https://www.python.org/downloads/release/python-376/
-    md5: c08fbee72ad5c2c95b0f4e44bf6fd72c
+    # md5 from: https://www.python.org/downloads/release/python-378/
+    md5: a224ef2249a18824f48fba9812f4006f
     patches:
 {% if 'conda-forge' not in channel_targets %}
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch

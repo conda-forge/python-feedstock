@@ -46,35 +46,35 @@ source:
       - patches/0026-Revert-part-of-https-bugs.python.org-issue33895-http.patch
 
   # TODO :: Depend on our own packages for these:
-  - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
-    folder: externals/xz-5.2.2                                                       # [win]
-    sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]
+    folder: externals/xz-5.2.2  # [win]
+    sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f  # [win]
   # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
   - url: https://github.com/python/cpython-source-deps/archive/tcl-core-8.6.9.0.zip  # [win]
-    folder: externals/tcl-core-8.6.9.0                                               # [win]
-    sha256: ea9e724536ec13b476ebbd47948303b92fdd90a33aa94f30fcc2f5c3a899f69e         # [win]
+    folder: externals/tcl-core-8.6.9.0  # [win]
+    sha256: ea9e724536ec13b476ebbd47948303b92fdd90a33aa94f30fcc2f5c3a899f69e  # [win]
   # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/tk-8.6.9.0.zip        # [win]
-    folder: externals/tk-8.6.9.0                                                     # [win]
-    sha256: f3112b6bbc3bd163c877030187e73ce9a113ce03eff559ec5b9df697e3a08fad         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/tcltk-8.6.9.0.zip        # [win]
-    folder: externals/tcltk-8.6.9.0                                                  # [win]
-    sha256: 37cd629a75d2a34974a3d771ccab5c9e3caf3d138cea81040f9cdba1aded1cf2         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip       # [win]
-    folder: externals/tix-8.4.3.6                                                    # [win]
-    sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
-    folder: externals/bzip2-1.0.6                                                    # [win]
-    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip       # [win]
-    folder: externals/zlib-1.2.11                                                    # [win]
-    sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
-    folder: externals/nasm-2.11.06                                                   # [win]
-    sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip               # [win]
-    folder: externals/libffi                                                         # [win]
-    sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/tk-8.6.9.0.zip  # [win]
+    folder: externals/tk-8.6.9.0  # [win]
+    sha256: f3112b6bbc3bd163c877030187e73ce9a113ce03eff559ec5b9df697e3a08fad  # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/tcltk-8.6.9.0.zip  # [win]
+    folder: externals/tcltk-8.6.9.0  # [win]
+    sha256: 37cd629a75d2a34974a3d771ccab5c9e3caf3d138cea81040f9cdba1aded1cf2  # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip  # [win]
+    folder: externals/tix-8.4.3.6  # [win]
+    sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56  # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip  # [win]
+    folder: externals/bzip2-1.0.6  # [win]
+    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d  # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip  # [win]
+    folder: externals/zlib-1.2.11  # [win]
+    sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a  # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip  # [win]
+    folder: externals/nasm-2.11.06  # [win]
+    sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac  # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip  # [win]
+    folder: externals/libffi  # [win]
+    sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a  # [win]
 
 
 build:
@@ -87,7 +87,7 @@ build:
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]
   # Disabled until new conda-build release
-  detect_binary_files_with_prefix: True
+  detect_binary_files_with_prefix: true
   # detect_binary_files_with_prefix: False
   # binary_has_prefix_files:
   #   - lib/libpython3.8.*.1.0
@@ -98,7 +98,7 @@ build:
   #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
   #   - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
-  skip: True            # [win and int(float(vc)) < 14]
+  skip: true  # [win and int(float(vc)) < 14]
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
   string: cpython{{ linkage_nature }}{{ debug }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   run_exports:
@@ -107,8 +107,8 @@ build:
     weak:
       - python_abi 3.8.* *_cp38
   script_env:
-   - PY_INTERP_LINKAGE_NATURE
-   - PY_INTERP_DEBUG
+    - PY_INTERP_LINKAGE_NATURE
+    - PY_INTERP_DEBUG
 # Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
 # {% if 'conda-forge' not in channel_targets %}
 #      - CONDA_FORGE=yes
@@ -172,25 +172,25 @@ test:
     - python3-config --help  # [not win]
     - python -m venv %%TEMP%%\venv  # [win]
     - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
-    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+    - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
     # check for unreplaced @ symbols in sysconfig files
     - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
     - pushd tests
-    -   pushd distutils
-    -     python setup.py install -v -v
-    -     python -c "import foobar"
-    -   popd
-    -   pushd distutils.cext
-    -     python setup.py install -v -v
-    -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
-    -   popd
-    -   pushd prefix-replacement  # [unix]
-    -     bash build-and-test.sh  # [unix]
-    -   popd  # [unix]
-    -   pushd cmake
-    -     cmake -GNinja -DPY_VER={{ version }}
+    - pushd distutils
+    - python setup.py install -v -v
+    - python -c "import foobar"
+    - popd
+    - pushd distutils.cext
+    - python setup.py install -v -v
+    - python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
+    - popd
+    - pushd prefix-replacement    # [unix]
+    - bash build-and-test.sh      # [unix]
+    - popd    # [unix]
+    - pushd cmake
+    - cmake -GNinja -DPY_VER={{ version }}
           # --trace --debug-output --debug-trycompile .
-    -   popd
+    - popd
     - popd
     - test ! -f default.profraw   # [osx]
 

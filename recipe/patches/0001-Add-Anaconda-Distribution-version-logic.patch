@@ -1,7 +1,7 @@
-From 4eb4e18cd43d72a76e5b95708177a2f842ceb3c3 Mon Sep 17 00:00:00 2001
+From 4efb3839a6d0afc7fe057e642f80ba0ff7248554 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 15 Aug 2017 22:34:16 +0100
-Subject: [PATCH 01/19] Add Anaconda Distribution version logic
+Subject: [PATCH 01/20] Add Anaconda Distribution version logic
 
 ---
  Include/pylifecycle.h |  1 +
@@ -23,7 +23,7 @@ index 5d9f049..79cfd6a 100644
  PyAPI_FUNC(const char *) Py_GetPlatform(void);
  PyAPI_FUNC(const char *) Py_GetCopyright(void);
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 6ab06b5..10c1a0f 100755
+index 7af46ff..e69dff2 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -1120,6 +1120,7 @@ def processor():
@@ -35,10 +35,10 @@ index 6ab06b5..10c1a0f 100755
      r'(?:,\s*([\w ]*)'  # ", builddate"
      r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
 diff --git a/Modules/main.c b/Modules/main.c
-index acc59c6..b3fba94 100644
+index be0807b..a29f2f8 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
-@@ -1238,7 +1238,7 @@ pymain_header(_PyMain *pymain)
+@@ -1278,7 +1278,7 @@ pymain_header(_PyMain *pymain)
          return;
      }
  

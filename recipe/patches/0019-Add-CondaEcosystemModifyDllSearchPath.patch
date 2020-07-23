@@ -1,7 +1,7 @@
-From 8b93cecf78873b72a0c1d862069fbf39f03c0774 Mon Sep 17 00:00:00 2001
+From fdabb87dcb2938c1c980e68e39d11b5196e11045 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 25 Jan 2019 22:54:57 +0000
-Subject: [PATCH 19/19] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 19/20] Add CondaEcosystemModifyDllSearchPath()
 
 This changes the DLL search order so that C:\Windows\System32 does not
 get searched in before entries in PATH.
@@ -15,7 +15,7 @@ Updated a bit to include other directories.
  2 files changed, 390 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index b3fba94..38da7e2 100644
+index a29f2f8..318c3f1 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -16,6 +16,10 @@
@@ -38,7 +38,7 @@ index b3fba94..38da7e2 100644
  #ifdef MS_WINDOWS
  #define WCSTOK wcstok_s
  #else
-@@ -1238,7 +1244,7 @@ pymain_header(_PyMain *pymain)
+@@ -1278,7 +1284,7 @@ pymain_header(_PyMain *pymain)
          return;
      }
  
@@ -47,7 +47,7 @@ index b3fba94..38da7e2 100644
      if (!Py_NoSiteFlag) {
          fprintf(stderr, "%s\n", COPYRIGHT);
      }
-@@ -3017,9 +3023,388 @@ pymain_init(_PyMain *pymain)
+@@ -3057,9 +3063,388 @@ pymain_init(_PyMain *pymain)
  }
  
  

@@ -1,4 +1,4 @@
-{% set base_version = "3.7.6" %}
+{% set base_version = "3.7.8" %}
 {% set version = base_version %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
@@ -11,8 +11,8 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ base_version }}/Python-{{ version }}.tar.xz
-    # md5 from: https://www.python.org/downloads/release/python-376/
-    md5: c08fbee72ad5c2c95b0f4e44bf6fd72c
+    # md5 from: https://www.python.org/downloads/release/python-378/
+    md5: a224ef2249a18824f48fba9812f4006f
     patches:
 {% if 'conda-forge' not in channel_targets %}
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
@@ -68,7 +68,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 6
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -90,7 +90,7 @@ build:
 
   # match python.org compiler standard
   skip: True            # [win and int(float(vc)) < 14]
-  string: cpython_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
+  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_cpython
   run_exports:
     noarch:
       - python
@@ -131,9 +131,9 @@ requirements:
     - tk  # [not win]
     - ncurses  # [not win]
     - libffi  # [not win]
-    - ld_impl_{{target_platform}}  # [linux]
+    - ld_impl_{{ target_platform }}  # [linux]
   run:
-    - ld_impl_{{target_platform}}  # [linux]
+    - ld_impl_{{ target_platform }}  # [linux]
   run_constrained:
     - python_abi 3.7.* *_cp37m
 

@@ -1,7 +1,7 @@
-From e27c73481c94528ea3945df8c5adbd24dcbcff55 Mon Sep 17 00:00:00 2001
+From 2308135afe939ba07c32aefb0c05a2125cdaaf4f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 29 Apr 2018 16:10:42 +0100
-Subject: [PATCH 13/19] Disable new-dtags in unixccompiler.py
+Subject: [PATCH 13/20] Disable new-dtags in unixccompiler.py
 
 They prevent isolation from system libraries and the HPC 'modules' system
 by giving precedence to LD_LIBRARY_PATH. We never want our libraries to
@@ -43,7 +43,7 @@ index eef702c..2d8d61d 100644
          # GCC GNULD with fully qualified configuration prefix
          # see #7617
 diff --git a/Lib/distutils/unixccompiler.py b/Lib/distutils/unixccompiler.py
-index 78a4665..efacb63 100644
+index 84a4217..12a9f77 100644
 --- a/Lib/distutils/unixccompiler.py
 +++ b/Lib/distutils/unixccompiler.py
 @@ -248,12 +248,12 @@ class UnixCCompiler(CCompiler):

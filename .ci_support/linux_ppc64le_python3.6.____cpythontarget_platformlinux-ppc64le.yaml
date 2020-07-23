@@ -17,7 +17,7 @@ docker_image:
 libffi:
 - '3.2'
 ncurses:
-- '6.1'
+- '6.2'
 openssl:
 - 1.1.1
 pin_run_as_build:

@@ -1,4 +1,4 @@
-{% set version = "3.6.10" %}
+{% set version = "3.6.11" %}
 
 package:
   name: python
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
-    sha256: 0a833c398ac8cd7c5538f7232d8531afef943c60495c504484f308dac3af40de
+    sha256: 741ebdcbc4e3937a5ff23517dd455ebf7d543ea9fef6f5cf6f46e575d6c4fda4
     patches:
       {% if 'toolchain' in compiler('c') %}
       # use one set of patches for the toolchain (old compiler) build
@@ -83,7 +83,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 1011
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

@@ -5,7 +5,7 @@ bzip2:
 c_compiler:
 - clang
 c_compiler_version:
-- '9'
+- '10'
 channel_sources:
 - conda-forge,defaults
 channel_targets:
@@ -13,7 +13,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '9'
+- '10'
 libffi:
 - '3.2'
 macos_machine:
@@ -21,7 +21,7 @@ macos_machine:
 macos_min_version:
 - '10.9'
 ncurses:
-- '6.1'
+- '6.2'
 openssl:
 - 1.1.1
 pin_run_as_build:

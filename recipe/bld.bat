@@ -15,8 +15,12 @@ if "%ARCH%"=="64" (
    set BUILD_PATH=win32
 )
 
+REM Profile-Guided Optimization is disabled since builds time out on AppVeyor.
+REM PGO=--pgo
+PGO=
+
 cd PCbuild
-call build.bat --pgo -m -e -v -p %PLATFORM%
+call build.bat %PGO% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 

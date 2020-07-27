@@ -3,7 +3,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'AC_APPLE_UNIVERSAL_BUILD': 0,
  'AIX_GENUINE_CPLUSPLUS': 0,
  'ANDROID_API_LEVEL': 0,
- 'AR': 'i686-conda_cos6-linux-gnu-ar',
+ 'AR': 'i686-conda-linux-gnu-ar',
  'ARFLAGS': 'rc',
  'BASECFLAGS': '-Wno-unused-result -Wsign-compare',
  'BASECPPFLAGS': '-IObjects -IInclude -IPython',
@@ -11,7 +11,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'BINDIR': '/opt/anaconda1anaconda2anaconda3/bin',
  'BINLIBDEST': '/opt/anaconda1anaconda2anaconda3/lib/python3.6',
  'BLDLIBRARY': 'libpython3.6m.a',
- 'BLDSHARED': 'i686-conda_cos6-linux-gnu-gcc -pthread -shared -Wl,-O2 '
+ 'BLDSHARED': 'i686-conda-linux-gnu-gcc -pthread -shared -Wl,-O2 '
               '-Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now '
               '-Wl,-rpath,/opt/anaconda1anaconda2anaconda3/lib '
               '-L/opt/anaconda1anaconda2anaconda3/lib '
@@ -23,9 +23,9 @@ build_time_vars = {'ABIFLAGS': 'm',
               '',
  'BUILDEXE': '',
  'BUILDPYTHON': 'python',
- 'BUILD_GNU_TYPE': 'i686-conda_cos6-linux-gnu',
+ 'BUILD_GNU_TYPE': 'i686-conda-linux-gnu',
  'BYTESTR_DEPS': '\\',
- 'CC': 'i686-conda_cos6-linux-gnu-gcc -pthread',
+ 'CC': 'i686-conda-linux-gnu-gcc -pthread',
  'CCSHARED': '-fPIC',
  'CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -fwrapv -O2 -Wall '
            '-Wstrict-prototypes -march=prescott -mtune=haswell '
@@ -52,16 +52,16 @@ build_time_vars = {'ABIFLAGS': 'm',
                       '-Wl,-rpath,/opt/anaconda1anaconda2anaconda3/lib '
                       '-L/opt/anaconda1anaconda2anaconda3/lib',
  'CONFIG_ARGS': "'--prefix=/opt/anaconda1anaconda2anaconda3' "
-                "'--build=i686-conda_cos6-linux-gnu' "
-                "'--host=i686-conda_cos6-linux-gnu' '--enable-ipv6' "
+                "'--build=i686-conda-linux-gnu' "
+                "'--host=i686-conda-linux-gnu' '--enable-ipv6' "
                 "'--with-ensurepip=no' '--with-computed-gotos' "
                 "'--with-system-ffi' '--enable-loadable-sqlite-extensions' "
                 "'--with-tcltk-includes=-I/opt/anaconda1anaconda2anaconda3/include' "
                 "'--with-tcltk-libs=-L/opt/anaconda1anaconda2anaconda3/lib "
                 "-ltcl8.6 -ltk8.6' '--enable-optimizations' '--with-lto' "
-                "'--disable-shared' 'build_alias=i686-conda_cos6-linux-gnu' "
-                "'host_alias=i686-conda_cos6-linux-gnu' "
-                "'CC=i686-conda_cos6-linux-gnu-gcc' 'CFLAGS=-march=prescott "
+                "'--disable-shared' 'build_alias=i686-conda-linux-gnu' "
+                "'host_alias=i686-conda-linux-gnu' "
+                "'CC=i686-conda-linux-gnu-gcc' 'CFLAGS=-march=prescott "
                 '-mtune=haswell -ftree-vectorize -fPIC '
                 '-fstack-protector-strong -fno-plt -O2 -pipe '
                 '   '
@@ -71,7 +71,7 @@ build_time_vars = {'ABIFLAGS': 'm',
                 "-L/opt/anaconda1anaconda2anaconda3/lib' "
                 "'CPPFLAGS=-D_FORTIFY_SOURCE=2 -O2 "
                 "-I/opt/anaconda1anaconda2anaconda3/include' "
-                "'CPP=/opt/anaconda1anaconda2anaconda3/bin/i686-conda_cos6-linux-gnu-cpp' "
+                "'CPP=/opt/anaconda1anaconda2anaconda3/bin/i686-conda-linux-gnu-cpp' "
                 "'PKG_CONFIG_PATH=/opt/anaconda1anaconda2anaconda3/lib/pkgconfig'",
  'CONFINCLUDEDIR': '/opt/anaconda1anaconda2anaconda3/include',
  'CONFINCLUDEPY': '/opt/anaconda1anaconda2anaconda3/include/python3.6m',
@@ -86,7 +86,7 @@ build_time_vars = {'ABIFLAGS': 'm',
              '-I/opt/anaconda1anaconda2anaconda3/include '
              '-D_FORTIFY_SOURCE=2 -O2 '
              '-I/opt/anaconda1anaconda2anaconda3/include',
- 'CXX': 'i686-conda_cos6-linux-gnu-c++ -pthread',
+ 'CXX': 'i686-conda-linux-gnu-c++ -pthread',
  'DESTDIRS': '/opt/anaconda1anaconda2anaconda3 '
              '/opt/anaconda1anaconda2anaconda3/lib '
              '/opt/anaconda1anaconda2anaconda3/lib/python3.6 '
@@ -506,7 +506,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'HAVE_WRITEV': 1,
  'HAVE_ZLIB_COPY': 1,
  'HAVE__GETPTY': 0,
- 'HOST_GNU_TYPE': 'i686-conda_cos6-linux-gnu',
+ 'HOST_GNU_TYPE': 'i686-conda-linux-gnu',
  'INCLDIRSTOMAKE': '/opt/anaconda1anaconda2anaconda3/include '
                    '/opt/anaconda1anaconda2anaconda3/include '
                    '/opt/anaconda1anaconda2anaconda3/include/python3.6m '
@@ -521,7 +521,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'INSTSONAME': 'libpython3.6m.a',
  'IO_H': 'Modules/_io/_iomodule.h',
  'IO_OBJS': '\\',
- 'LDCXXSHARED': 'i686-conda_cos6-linux-gnu-c++ -pthread -shared',
+ 'LDCXXSHARED': 'i686-conda-linux-gnu-c++ -pthread -shared',
  'LDFLAGS': '-Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now '
             '-Wl,-rpath,/opt/anaconda1anaconda2anaconda3/lib '
             '-L/opt/anaconda1anaconda2anaconda3/lib '
@@ -532,7 +532,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'LDLAST': '',
  'LDLIBRARY': 'libpython3.6m.a',
  'LDLIBRARYDIR': '',
- 'LDSHARED': 'i686-conda_cos6-linux-gnu-gcc -pthread -shared -Wl,-O2 '
+ 'LDSHARED': 'i686-conda-linux-gnu-gcc -pthread -shared -Wl,-O2 '
              '-Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now '
              '-Wl,-rpath,/opt/anaconda1anaconda2anaconda3/lib '
              '-L/opt/anaconda1anaconda2anaconda3/lib '
@@ -556,7 +556,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'LIBRARY_OBJS_OMIT_FROZEN': '\\',
  'LIBS': '-lpthread -ldl  -lutil -lrt',
  'LIBSUBDIRS': 'tkinter tkinter/test tkinter/test/test_tkinter \\',
- 'LINKCC': 'i686-conda_cos6-linux-gnu-gcc -pthread',
+ 'LINKCC': 'i686-conda-linux-gnu-gcc -pthread',
  'LINKFORSHARED': '-Xlinker -export-dynamic',
  'LIPO_32BIT_FLAGS': '',
  'LLVM_PROF_ERR': 'no',
@@ -570,7 +570,7 @@ build_time_vars = {'ABIFLAGS': 'm',
  'MACHDEP_OBJS': '',
  'MACHDESTLIB': '/opt/anaconda1anaconda2anaconda3/lib/python3.6',
  'MACOSX_DEPLOYMENT_TARGET': '',
- 'MAINCC': 'i686-conda_cos6-linux-gnu-gcc -pthread',
+ 'MAINCC': 'i686-conda-linux-gnu-gcc -pthread',
  'MAJOR_IN_MKDEV': 0,
  'MAJOR_IN_SYSMACROS': 0,
  'MAKESETUP': '/home/nwani/concourse_worker/containers/00003bfv1os/tmp/build/80754af9/python_1510184282133/work/Modules/makesetup',
@@ -692,8 +692,8 @@ build_time_vars = {'ABIFLAGS': 'm',
  'Py_ENABLE_SHARED': 0,
  'Py_HASH_ALGORITHM': 0,
  'QUICKTESTOPTS': '-x test_subprocess test_io test_lib2to3 \\',
- 'RANLIB': 'i686-conda_cos6-linux-gnu-ranlib',
- 'READELF': 'i686-conda_cos6-linux-gnu-readelf',
+ 'RANLIB': 'i686-conda-linux-gnu-ranlib',
+ 'READELF': 'i686-conda-linux-gnu-readelf',
  'RESSRCDIR': 'Mac/Resources/framework',
  'RETSIGTYPE': 'void',
  'RUNSHARED': '',

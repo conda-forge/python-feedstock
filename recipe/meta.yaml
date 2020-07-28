@@ -83,7 +83,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 0
+  number: 1
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -124,10 +124,10 @@ requirements:
     - tk                                 # [unix]
     - ncurses                            # [unix]
     - libffi                             # [unix]
-    - ld_impl_{{ target_platform }}      # [linux]
+    - ld_impl_{{ target_platform }} >=2.34     # [linux]
   run:
     - ncurses                            # [unix]
-    - ld_impl_{{ target_platform }}      # [linux]
+    - ld_impl_{{ target_platform }} >=2.34    # [linux]
   run_constrained:
     - python_abi 3.6.* *_cp36m
 
@@ -141,14 +141,14 @@ test:
     - python3-config --help  # [unix]
     - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"
     {% if 'toolchain' not in compiler('c') %}
-    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
     {% endif %}
     # Test for " -partition=none", can be removed after toolchain is dropped
     - python -c "import sys; files = [f for f in sys.argv[2:] if ' -partition=none' in open(f, 'r').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [unix]
-    - test -f ${PREFIX}/lib/libpython3.6m.so      # [linux] 
-    - test -f ${PREFIX}/lib/libpython3.6m.dylib   # [osx] 
+    - test -f ${PREFIX}/lib/libpython3.6m.so      # [linux]
+    - test -f ${PREFIX}/lib/libpython3.6m.dylib   # [osx]
     - test ! -f default.profraw   # [osx]
-      
+
 
 about:
   home: http://www.python.org/

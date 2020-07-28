@@ -13,7 +13,11 @@ VERABI=${VER}${DBG}
 
 
 cp -pf ${_buildd_static}/libpython${VERABI}.a ${PREFIX}/lib/libpython3.8.a
-pushd ${PREFIX}/lib/python3.8/config-3.8-darwin
+if [[ ${HOST} =~ .*linux.* ]]; then
+  pushd ${PREFIX}/lib/python${VER}/config-${VER}-x86_64-linux-gnu
+elif [[ ${HOST} =~ .*darwin.* ]]; then
+  pushd ${PREFIX}/lib/python3.8/config-3.8-darwin
+fi
 ln -s ${PREFIX}/lib/libpython3.8.a
 popd
 # If the LTO info in the normal lib is problematic (using different compilers for example

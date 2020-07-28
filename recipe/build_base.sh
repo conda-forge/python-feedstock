@@ -404,4 +404,10 @@ fi
 # There are some strange distutils files around. Delete them
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
-rm ${PREFIX}/lib/libpython${VER}.a ${PREFIX}/lib/libpython${VER}.nolto.a ${PREFIX}/lib/python${VER}/config-${VER}-darwin/libpython${VER}.a
+rm ${PREFIX}/lib/libpython${VER}.a ${PREFIX}/lib/libpython${VER}.nolto.a
+# FIXME: How to get the right path for `config-*`?
+if [[ ${HOST} =~ .*linux.* ]]; then
+  rm ${PREFIX}/lib/python${VER}/config-${VER}-x86_64-linux-gnu/libpython${VER}.a
+elif [[ ${HOST} =~ .*darwin.* ]]; then
+  rm ${PREFIX}/lib/python${VER}/config-${VER}-darwin/libpython${VER}.a
+fi

@@ -403,3 +403,5 @@ fi
 
 # There are some strange distutils files around. Delete them
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
+
+rm ${PREFIX}/lib/libpython${VER}.a ${PREFIX}/lib/libpython${VER}.nolto.a ${PREFIX}/lib/python${VER}/config-${VER}-darwin/libpython${VER}.a

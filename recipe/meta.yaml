@@ -121,7 +121,7 @@ outputs:
     build:
       activate_in_script: True
     script: build_base.sh  # [unix]
-    script: build_baset.bat  # [win]
+    script: build_base.bat  # [win]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -204,7 +204,7 @@ outputs:
     build:
       activate_in_script: True
     script: build_static.sh  # [unix]
-    script: build_baset.bat  # [win]
+    script: build_static.bat  # [win]
     requirements:
       build:
         - {{ compiler('c') }}

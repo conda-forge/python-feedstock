@@ -14,7 +14,7 @@ VER=${PKG_VERSION%.*}
 VERNODOTS=${VER//./}
 TCLTK_VER=${tk}
 # Disables some PGO/LTO
-QUICK_BUILD=yes
+QUICK_BUILD=no
 # Remove once: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
 CONDA_FORGE=yes
 
@@ -46,8 +46,6 @@ fi
 if [[ ${target_platform} == linux-ppc64le ]]; then
   _OPTIMIZED=no
 fi
-
-_OPTIMIZED=no
 
 declare -a _dbg_opts
 if [[ ${DEBUG_PY} == yes ]]; then

@@ -307,10 +307,6 @@ if [[ ${target_platform} =~ .*linux.* ]]; then
   ln -sf ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}
 fi
 
-# If the LTO info in the normal lib is problematic (using different compilers for example
-# we also provide a 'nolto' version).
-cp -pf ${_buildd_shared}/libpython${VERABI}-pic.a ${PREFIX}/lib/libpython${VERABI}.nolto.a
-
 SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name "_sysconfigdata*.py" -print0)
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
@@ -354,7 +350,6 @@ pushd ${PREFIX}
   if [[ -f lib/libpython${VERABI}.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
     chmod +w ${CONFIG_LIBPYTHON}
     rm ${CONFIG_LIBPYTHON}
-    ln -s ../../libpython${VERABI}.a ${CONFIG_LIBPYTHON}
   fi
 popd
 
@@ -404,10 +399,4 @@ fi
 # There are some strange distutils files around. Delete them
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
-rm ${PREFIX}/lib/libpython${VER}.a ${PREFIX}/lib/libpython${VER}.nolto.a
-# FIXME: How to get the right path for `config-*`?
-if [[ ${HOST} =~ .*linux.* ]]; then
-  rm ${PREFIX}/lib/python${VER}/config-${VER}-x86_64-linux-gnu/libpython${VER}.a
-elif [[ ${HOST} =~ .*darwin.* ]]; then
-  rm ${PREFIX}/lib/python${VER}/config-${VER}-darwin/libpython${VER}.a
-fi
+rm ${PREFIX}/lib/libpython${VER}.a

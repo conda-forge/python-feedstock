@@ -8,8 +8,13 @@ jobs:
     vmImage: vs2017-win2016
   strategy:
     matrix:
+<<<<<<< HEAD
       win_:
         CONFIG: win_
+=======
+      win_64_target_platformwin-64:
+        CONFIG: win_64_target_platformwin-64
+>>>>>>> beckermr/sysroot-38
         UPLOAD_PACKAGES: 'True'
     maxParallel: 4
   timeoutInMinutes: 360

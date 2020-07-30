@@ -8,8 +8,8 @@ jobs:
     vmImage: vs2017-win2016
   strategy:
     matrix:
-      win_target_platformwin-64:
-        CONFIG: win_target_platformwin-64
+      win_64_target_platformwin-64:
+        CONFIG: win_64_target_platformwin-64
         UPLOAD_PACKAGES: 'True'
     maxParallel: 4
   timeoutInMinutes: 360

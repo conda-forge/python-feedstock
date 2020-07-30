@@ -224,7 +224,7 @@ outputs:
       commands:
         - test -f ${PREFIX}/lib/libpython3.8.a  # [unix]
         - test -f ${PREFIX}/lib/libpython3.8.nolto.a  # [unix]
-        - test -f ${PREFIX}/lib/python3.8/config-3.8-darwin/libpython3.8.a  # [unix]
+        - test -f ${PREFIX}/lib/python3.8/config-3.8-darwin/libpython3.8.a  # [osx]
 
 about:
   home: http://www.python.org/

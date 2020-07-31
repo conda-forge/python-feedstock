@@ -68,7 +68,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 0
+  number: 1
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -131,9 +131,9 @@ requirements:
     - tk  # [not win]
     - ncurses  # [not win]
     - libffi  # [not win]
-    - ld_impl_{{ target_platform }}  # [linux]
+    - ld_impl_{{ target_platform }} >=2.34  # [linux]
   run:
-    - ld_impl_{{ target_platform }}  # [linux]
+    - ld_impl_{{ target_platform }} >=2.34  # [linux]
   run_constrained:
     - python_abi 3.7.* *_cp37m
 
@@ -164,7 +164,7 @@ test:
     # Test for " -partition=none", can be removed after toolchain is dropped
     - python -c "import sys; files = [f for f in sys.argv[2:] if b' -partition=none' in open(f, 'rb').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [not win]
     - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
-    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
     # check for unreplaced @ symbols in sysconfig files
     - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
     - pushd tests

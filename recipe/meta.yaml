@@ -165,6 +165,8 @@ test:
     - tests/cython/*
     - tests/prefix-replacement/*
   commands:
+    - echo on  # [win]
+    - set  # [win]
     - python -V
     - python3 -V            # [not win]
     - 2to3 -h

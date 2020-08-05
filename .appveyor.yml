@@ -11,13 +11,13 @@ environment:
     secure: tumuXLL8PU75WMnRDemRy02ruEq2RpNxeK3dz0MjFssnosPm2v4EFjfNB4PTotA1
 
   matrix:
-    - CONFIG: win_python3.6.____cpython
+    - CONFIG: win_64_python3.6.____cpython
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
-    - CONFIG: win_python3.7.____cpython
+    - CONFIG: win_64_python3.7.____cpython
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
-    - CONFIG: win_python3.8.____cpython
+    - CONFIG: win_64_python3.8.____cpython
       CONDA_INSTALL_LOCN: C:\Miniconda36-x64
 
 

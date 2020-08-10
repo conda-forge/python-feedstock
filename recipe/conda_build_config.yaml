@@ -1,5 +1,5 @@
-python:                        # [win]
-  - 3.8                        # [win]
+python:
+  - 3.8
 c_compiler:                    # [win]
   - vs2017                     # [win]
 cxx_compiler:                  # [win]

@@ -133,6 +133,27 @@ Current build status
                 </a>
               </td>
             </tr><tr>
+              <td>osx_arm64_python3.6.____cpythontarget_platformosx-arm64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=master&jobName=osx&configuration=osx_arm64_python3.6.____cpythontarget_platformosx-arm64" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_python3.7.____cpythontarget_platformosx-arm64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=master&jobName=osx&configuration=osx_arm64_python3.7.____cpythontarget_platformosx-arm64" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_python3.8.____cpythontarget_platformosx-arm64</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=master">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=master&jobName=osx&configuration=osx_arm64_python3.8.____cpythontarget_platformosx-arm64" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
               <td>win_64_target_platformwin-64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=master">

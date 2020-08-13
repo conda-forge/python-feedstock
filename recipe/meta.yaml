@@ -182,6 +182,8 @@ outputs:
         - set "PIP_IGNORE_INSTALLED=True"  # [win]
         - set "PIP_NO_INDEX=True"  # [win]
         - set "PIP_CACHE_DIR=%CONDA_PREFIX%/pip_cache"  # [win]
+        - set "TEMP=%CONDA_PREFIX%/tmp"  # [win]
+        - mkdir "%TEMP%"  # [win]
         - python -Im ensurepip --upgrade --default-pip  # [win]
         - python -m venv test-venv
         - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]

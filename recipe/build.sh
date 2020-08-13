@@ -76,7 +76,7 @@ find "${PREFIX}/lib" -name "libbz2*${SHLIB_EXT}*" | xargs rm -fv {}
 AR=$(basename "${AR}")
 
 # CC must contain the string 'gcc' or else distutils thinks it is on macOS and uses '-R' to set rpaths.
-if [[ ${target_platform} == osx-64 ]]; then
+if [[ ${target_platform} == osx-* ]]; then
   CC=$(basename "${CC}")
 else
   CC=$(basename "${GCC}")
@@ -127,7 +127,7 @@ fi
 
 export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
-if [[ ${target_platform} == osx-64 ]]; then
+if [[ ${target_platform} == osx-* ]]; then
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
 fi
 

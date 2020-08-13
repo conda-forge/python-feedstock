@@ -1,5 +1,7 @@
+build_platform: {osx_arm64: osx_64}
 compiler_stack: comp7
+conda_forge_output_validation: true
 max_py_ver: '38'
 max_r_ver: '35'
 provider: {linux_aarch64: native, linux_ppc64le: native, osx: azure, win: azure}
-conda_forge_output_validation: true
+test_on_native_only: true

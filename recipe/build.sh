@@ -131,7 +131,7 @@ if [[ ${target_platform} == osx-* ]]; then
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
 fi
 
-if [[ "${BUILD}" != "${HOST}" ]] && [[ -n "${BUILD}" ]] && [[ -n "${HOST}" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   # Build the exact same Python for the build machine. It would be nice (and might be
   # possible already?) to be able to make this just an 'exact' pinned build dependency
   # of a split-package?
@@ -139,18 +139,18 @@ if [[ "${BUILD}" != "${HOST}" ]] && [[ -n "${BUILD}" ]] && [[ -n "${HOST}" ]]; t
   mkdir build-python-build
   pushd build-python-build
     (unset CPPFLAGS LDFLAGS;
-     export CC=/usr/bin/gcc \
-            CXX=/usr/bin/g++ \
-            CPP=/usr/bin/cpp \
+     export CC=${CC_FOR_BUILD} \
+            CXX=${CXX_FOR_BUILD} \
+            CPP="${CC_FOR_BUILD} -E" \
             CFLAGS="-O2" \
-            AR=/usr/bin/ar \
-            RANLIB=/usr/bin/ranlib \
-            LD=/usr/bin/ld && \
+            AR="$(${CC_FOR_BUILD} --print-prog-name=ar)" \
+            RANLIB="$(${CC_FOR_BUILD} --print-prog-name=ranlib)" \
+            LD="$(${CC_FOR_BUILD} --print-prog-name=ld)" && \
       ${SRC_DIR}/configure --build=${BUILD} \
                            --host=${BUILD} \
                            --prefix=${BUILD_PYTHON_PREFIX} \
                            --with-ensurepip=no && \
-      make && \
+      make -j${CPU_COUNT} && \
       make install)
     export PATH=${BUILD_PYTHON_PREFIX}/bin:${PATH}
     ln -s ${BUILD_PYTHON_PREFIX}/bin/python${VER} ${BUILD_PYTHON_PREFIX}/bin/python

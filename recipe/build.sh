@@ -1,6 +1,9 @@
 #!/bin/bash
 set -ex
 
+# Get an updated config.sub and config.guess
+cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
+
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
 # https://packages.debian.org/source/sid/python3.6

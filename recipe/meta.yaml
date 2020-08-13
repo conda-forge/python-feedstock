@@ -130,6 +130,7 @@ requirements:
     - patch  # [not win]
     - m2-patch  # [win]
     - posix  # [win]
+    - libtool  # [unix]
     - ld_impl_{{ target_platform }} >=2.34  # [linux]
     - binutils_impl_{{ target_platform }} >=2.34  # [linux]
   host:

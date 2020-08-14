@@ -90,8 +90,6 @@ build:
   # We delete the shared libraries.
   ignore_run_exports:   # [unix]
     - bzip2             # [unix]
-  # TODO: once conda-build defines build_platform, change this condition.
-  skip_compile_pyc:  True  # [osx and arm64]
   # Disabled until new conda-build release
   detect_binary_files_with_prefix: True
   # detect_binary_files_with_prefix: False

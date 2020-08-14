@@ -180,10 +180,24 @@ if [[ -n ${HOST} ]]; then
   fi
 fi
 
-if [[ ${target_platform} == osx-* ]]; then
+if [[ ${target_platform} == osx-64 ]]; then
   export MACHDEP=darwin
   export ac_sys_system=Darwin
-  export ac_sys_release=
+  export ac_sys_release=13.4.0
+  export MACOSX_DEFAULT_ARCH=x86_64
+  # TODO: check with LLVM 12 if the following hack is needed.
+  # https://reviews.llvm.org/D76461 may have fixed the need for the following hack.
+  echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
+  echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
+  chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
+elif [[ ${target_platform} == osx-arm64 ]]; then
+  export MACHDEP=darwin
+  export ac_sys_system=Darwin
+  export ac_sys_release=20.0.0
+  export MACOSX_DEFAULT_ARCH=arm64
+  echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
+  echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
+  chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
 elif [[ ${target_platform} == linux-* ]]; then
   export MACHDEP=linux
   export ac_sys_system=Linux

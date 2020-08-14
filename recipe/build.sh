@@ -237,16 +237,18 @@ _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then
-  _common_configure_args+=(--enable-optimizations)
   _common_configure_args+=(--with-lto)
-  _MAKE_TARGET=profile-opt
-  # To speed up build times during testing (1):
-  if [[ ${QUICK_BUILD} == yes ]]; then
-    # TODO :: It seems this is just profiling everything, on Windows, only 40 odd tests are
-    #         run while on Unix, all 400+ are run, making this slower and less well curated
-    _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
-  else
-    _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
+  if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
+    _common_configure_args+=(--enable-optimizations)
+    _MAKE_TARGET=profile-opt
+    # To speed up build times during testing (1):
+    if [[ ${QUICK_BUILD} == yes ]]; then
+      # TODO :: It seems this is just profiling everything, on Windows, only 40 odd tests are
+      #         run while on Unix, all 400+ are run, making this slower and less well curated
+      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
+    else
+      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
+    fi
   fi
   if [[ ${CC} =~ .*gcc.* ]]; then
     LTO_CFLAGS+=(-fuse-linker-plugin)

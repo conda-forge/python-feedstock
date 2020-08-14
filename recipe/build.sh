@@ -95,16 +95,6 @@ if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
   CPPFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CPPFLAGS}
 fi
 
-if [[ ${target_platform} == osx-* ]]; then
-  export MACHDEP=darwin
-  export ac_sys_system=Darwin
-  export ac_sys_release=
-elif [[ ${target_platform} == linux-* ]]; then
-  export MACHDEP=linux
-  export ac_sys_system=Linux
-  export ac_sys_release=
-fi
-
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py
 if [[ ${_OPTIMIZED} = yes ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")
@@ -188,6 +178,16 @@ if [[ -n ${HOST} ]]; then
     IFS='-' read -r host_arch host_vendor host_os host_libc <<<"${HOST}"
     export _PYTHON_HOST_PLATFORM=${host_os}-${host_arch}
   fi
+fi
+
+if [[ ${target_platform} == osx-* ]]; then
+  export MACHDEP=darwin
+  export ac_sys_system=Darwin
+  export ac_sys_release=
+elif [[ ${target_platform} == linux-* ]]; then
+  export MACHDEP=linux
+  export ac_sys_system=Linux
+  export ac_sys_release=
 fi
 
 # Not used at present but we should run 'make test' and finish up TESTOPTS (see debians rules).

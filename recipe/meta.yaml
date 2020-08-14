@@ -103,6 +103,24 @@ build:
   #   - lib/libpython3.dylib  # [osx]
   # match python.org compiler standard
   skip: True            # [win and int(float(vc)) < 14]
+  skip_compile_pyc:
+    - lib/python3.8/lib2to3/tests/data/bom.py
+    - lib/python3.8/lib2to3/tests/data/crlf.py
+    - lib/python3.8/lib2to3/tests/data/different_encoding.py
+    - lib/python3.8/lib2to3/tests/data/false_encoding.py
+    - lib/python3.8/lib2to3/tests/data/py2_test_grammar.py
+    - lib/python3.8/test/bad_coding.py
+    - lib/python3.8/test/bad_coding2.py
+    - lib/python3.8/test/badsyntax_3131.py
+    - lib/python3.8/test/badsyntax_future10.py
+    - lib/python3.8/test/badsyntax_future3.py
+    - lib/python3.8/test/badsyntax_future4.py
+    - lib/python3.8/test/badsyntax_future5.py
+    - lib/python3.8/test/badsyntax_future6.py
+    - lib/python3.8/test/badsyntax_future7.py
+    - lib/python3.8/test/badsyntax_future8.py
+    - lib/python3.8/test/badsyntax_future9.py
+    - lib/python3.8/test/badsyntax_pep3120.py
 # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
   string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
   run_exports:

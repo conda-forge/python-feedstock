@@ -433,4 +433,4 @@ fi
 # There are some strange distutils files around. Delete them
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
-python -c "import compileall,sys;compileall.compile_dir(sys.prefix)"
+python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"

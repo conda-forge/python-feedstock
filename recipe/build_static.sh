@@ -12,7 +12,7 @@ VER=${PKG_VERSION%.*}
 VERABI=${VER}${DBG}
 
 
-cp -pf ${_buildd_static}/libpython${VERABI}.a ${PREFIX}/lib/libpython3.8.a
+cp -pf ${_buildd_static}/libpython${VERABI}.a ${PREFIX}/lib/libpython${VERABI}.a
 if [[ ${HOST} =~ .*linux.* ]]; then
   pushd ${PREFIX}/lib/python${VERABI}/config-${VERABI}-${HOST/-conda/}
 elif [[ ${HOST} =~ .*darwin.* ]]; then

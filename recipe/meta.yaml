@@ -226,9 +226,9 @@ outputs:
         - {{ pin_subpackage('python', exact=True) }}
     test:
       commands:
-        - test -f ${PREFIX}/lib/libpython3.8.a  # [unix]
-        - test -f ${PREFIX}/lib/libpython3.8.nolto.a  # [unix]
-        - test -f ${PREFIX}/lib/python3.8/config-3.8-darwin/libpython3.8.a  # [osx]
+        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
+        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
 
 about:
   home: http://www.python.org/

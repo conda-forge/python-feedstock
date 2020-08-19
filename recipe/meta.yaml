@@ -48,6 +48,7 @@ source:
       - patches/gh21114.patch
       - patches/gh21241.patch
       - patches/gh21228.patch
+      - patches/gh21564.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]

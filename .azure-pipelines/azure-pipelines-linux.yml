@@ -8,6 +8,10 @@ jobs:
     vmImage: ubuntu-16.04
   strategy:
     matrix:
+      linux_64_python3.6.____73_pypytarget_platformlinux-64:
+        CONFIG: linux_64_python3.6.____73_pypytarget_platformlinux-64
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
       linux_64_python3.6.____cpythontarget_platformlinux-64:
         CONFIG: linux_64_python3.6.____cpythontarget_platformlinux-64
         UPLOAD_PACKAGES: 'True'

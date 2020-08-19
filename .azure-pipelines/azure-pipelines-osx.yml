@@ -8,6 +8,9 @@ jobs:
     vmImage: macOS-10.15
   strategy:
     matrix:
+      osx_64_python3.6.____73_pypytarget_platformosx-64:
+        CONFIG: osx_64_python3.6.____73_pypytarget_platformosx-64
+        UPLOAD_PACKAGES: 'True'
       osx_64_python3.6.____cpythontarget_platformosx-64:
         CONFIG: osx_64_python3.6.____cpythontarget_platformosx-64
         UPLOAD_PACKAGES: 'True'

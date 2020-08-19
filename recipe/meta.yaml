@@ -9,7 +9,7 @@
 {% endif %}
 
 package:
-  name: python
+  name: python-split
   version: {{ version }}
 
 source:
@@ -116,83 +116,119 @@ build:
 #      - CONDA_FORGE=no
 # {% endif %}
 
-requirements:
-  build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}  # [linux]
-    - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
-    - make  # [not win]
-    - pkg-config  # [not win]
-    # configure script looks for llvm-ar for lto
-    - llvm-tools  # [osx]
-    - patch  # [not win]
-    - m2-patch  # [win]
-    - posix  # [win]
-    - ld_impl_{{ target_platform }} >=2.34  # [linux]
-    - binutils_impl_{{ target_platform }} >=2.34  # [linux]
-  host:
-    - bzip2  # [not win]
-    - sqlite
-    - xz  # [not win]
-    - zlib  # [not win]
-    - openssl
-    - readline  # [not win]
-    - tk  # [not win]
-    - ncurses  # [linux]
-    - libffi  # [not win]
-    - ld_impl_{{ target_platform }} >=2.34  # [linux]
-  run:
-    - ld_impl_{{ target_platform }} >=2.34  # [linux]
-  run_constrained:
-    - python_abi 3.8.* *_cp38
-
-test:
-  requires:
-    - ripgrep
-    - cmake
-    - ninja
-    - cython
-    - setuptools
-    - {{ compiler('c') }}
-    # Tried to use enable_language(C) to avoid needing this. It does not work.
-    - {{ compiler('cxx') }}
-  files:
-    - tests/distutils/*
-    - tests/distutils.cext/*
-    - tests/cmake/*
-    - tests/cython/*
-    - tests/prefix-replacement/*
-  commands:
-    - python -V
-    - python3 -V            # [not win]
-    - 2to3 -h
-    - pydoc -h
-    - python3-config --help  # [not win]
-    - python -m venv %%TEMP%%\venv  # [win]
-    - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
-    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
-    # check for unreplaced @ symbols in sysconfig files
-    - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
-    - pushd tests
-    -   pushd distutils
-    -     python setup.py install -v -v
-    -     python -c "import foobar"
-    -   popd
-    -   pushd distutils.cext
-    -     python setup.py install -v -v
-    -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
-    -   popd
-    -   pushd prefix-replacement  # [unix]
-    -     bash build-and-test.sh  # [unix]
-    -   popd  # [unix]
-    -   pushd cmake
-    -     cmake -GNinja -DPY_VER={{ version }}
-          # --trace --debug-output --debug-trycompile .
-    -   popd
-    - popd
-    - test ! -f default.profraw   # [osx]
+outputs:
+  - name: python
+    build:
+      activate_in_script: True
+    script: build_base.sh  # [unix]
+    script: build_base.bat  # [win]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('libx11-devel') }}  # [linux]
+        - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
+        - make  # [not win]
+        - pkg-config  # [not win]
+        # configure script looks for llvm-ar for lto
+        - llvm-tools  # [osx]
+        - patch  # [not win]
+        - m2-patch  # [win]
+        - posix  # [win]
+        - ld_impl_{{ target_platform }} >=2.34  # [linux]
+        - binutils_impl_{{ target_platform }} >=2.34  # [linux]
+      host:
+        - bzip2  # [not win]
+        - sqlite
+        - xz  # [not win]
+        - zlib  # [not win]
+        - openssl
+        - readline  # [not win]
+        - tk  # [not win]
+        - ncurses  # [linux]
+        - libffi  # [not win]
+        - ld_impl_{{ target_platform }} >=2.34  # [linux]
+      run:
+        - ld_impl_{{ target_platform }} >=2.34  # [linux]
+      run_constrained:
+        - python_abi 3.8.* *_cp38
+    test:
+      requires:
+        - ripgrep
+        - cmake
+        - ninja
+        - cython
+        - setuptools
+        - {{ compiler('c') }}
+        # Tried to use enable_language(C) to avoid needing this. It does not work.
+        - {{ compiler('cxx') }}
+      files:
+        - tests/distutils/*
+        - tests/distutils.cext/*
+        - tests/cmake/*
+        - tests/cython/*
+        - tests/prefix-replacement/*
+      commands:
+        - echo on  # [win]
+        - set  # [win]
+        - python -V
+        - python3 -V            # [not win]
+        - 2to3 -h
+        - pydoc -h
+        - python3-config --help  # [not win]
+        - set "PIP_NO_BUILD_ISOLATION=False"  # [win]
+        - set "PIP_NO_DEPENDENCIES=True"  # [win]
+        - set "PIP_IGNORE_INSTALLED=True"  # [win]
+        - set "PIP_NO_INDEX=True"  # [win]
+        - set "PIP_CACHE_DIR=%CONDA_PREFIX%/pip_cache"  # [win]
+        - set "TEMP=%CONDA_PREFIX%/tmp"  # [win]
+        - mkdir "%TEMP%"  # [win]
+        - python -Im ensurepip --upgrade --default-pip  # [win]
+        - python -m venv test-venv
+        - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
+        -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+        # check for unreplaced @ symbols in sysconfig files
+        - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - pushd tests
+        -   pushd distutils
+        -     python setup.py install -v -v
+        -     python -c "import foobar"
+        -   popd
+        -   pushd distutils.cext
+        -     python setup.py install -v -v
+        -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
+        -   popd
+        -   pushd prefix-replacement  # [unix]
+        -     bash build-and-test.sh  # [unix]
+        -   popd  # [unix]
+        -   pushd cmake
+        -     cmake -GNinja -DPY_VER={{ version }}
+              # --trace --debug-output --debug-trycompile .
+        -   popd
+        - popd
+        - test ! -f default.profraw   # [osx]
+  - name: libpython-static
+    build:
+      activate_in_script: True
+    script: build_static.sh  # [unix]
+    script: build_static.bat  # [win]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - posix  # [win]
+      host:
+        - {{ pin_subpackage('python', exact=True) }}
+      run:
+        - {{ pin_subpackage('python', exact=True) }}
+    test:
+      commands:
+        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
+        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
 
 about:
   home: http://www.python.org/

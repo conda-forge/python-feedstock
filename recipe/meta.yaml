@@ -212,6 +212,8 @@ outputs:
   - name: libpython-static
     build:
       activate_in_script: True
+      # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
     requirements:

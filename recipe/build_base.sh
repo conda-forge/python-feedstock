@@ -291,16 +291,29 @@ pushd ${_buildd_static}
                        ${_DISABLE_SHARED} "${_PROFILE_TASK[@]}"
 popd
 
-make -j${CPU_COUNT} -C ${_buildd_static} \
-     EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
-     ${_MAKE_TARGET} "${_PROFILE_TASK[@]}" 2>&1 | tee make-static.log
+if [[ ${target_platform} == linux-ppc64le ]]; then
+  # Travis has issues with long logs
+  make -j${CPU_COUNT} -C ${_buildd_static} \
+       EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
+       ${_MAKE_TARGET} "${_PROFILE_TASK[@]}" 2>&1 >make-static.log
+else
+  make -j${CPU_COUNT} -C ${_buildd_static} \
+       EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
+       ${_MAKE_TARGET} "${_PROFILE_TASK[@]}" 2>&1 | tee make-static.log
+fi
 if rg "Failed to build these modules" make-static.log; then
   echo "(static) :: Failed to build some modules, check the log"
   exit 1
 fi
 
-make -j${CPU_COUNT} -C ${_buildd_shared} \
-        EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log
+if [[ ${target_platform} == linux-ppc64le ]]; then
+  # Travis has issues with long logs
+  make -j${CPU_COUNT} -C ${_buildd_shared} \
+          EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 >make-shared.log
+else
+  make -j${CPU_COUNT} -C ${_buildd_shared} \
+          EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log
+fi
 if rg "Failed to build these modules" make-shared.log; then
   echo "(shared) :: Failed to build some modules, check the log"
   exit 1
@@ -335,10 +348,6 @@ cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}* ${PREFIX}/lib/
 if [[ ${target_platform} =~ .*linux.* ]]; then
   ln -sf ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}
 fi
-
-# If the LTO info in the normal lib is problematic (using different compilers for example
-# we also provide a 'nolto' version).
-cp -pf ${_buildd_shared}/libpython${VERABI}-pic.a ${PREFIX}/lib/libpython${VERABI}.nolto.a
 
 SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name "_sysconfigdata*.py" -print0)
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
@@ -383,7 +392,6 @@ pushd ${PREFIX}
   if [[ -f lib/libpython${VERABI}.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
     chmod +w ${CONFIG_LIBPYTHON}
     rm ${CONFIG_LIBPYTHON}
-    ln -s ../../libpython${VERABI}.a ${CONFIG_LIBPYTHON}
   fi
 popd
 
@@ -434,3 +442,4 @@ fi
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
+rm ${PREFIX}/lib/libpython${VER}.a

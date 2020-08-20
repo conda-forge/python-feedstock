@@ -9,7 +9,7 @@
 {% endif %}
 
 package:
-  name: python
+  name: python-split
   version: {{ version }}
 
 source:
@@ -81,142 +81,177 @@ source:
     folder: externals/libffi                                                         # [win]
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
-
 build:
-  number: 2
-  # Windows has issues updating python if conda is using files itself.
-  # Copy rather than link.
-  no_link:
-    - DLLs/_ctypes.pyd  # [win]
-  # We delete the shared libraries.
-  ignore_run_exports:   # [unix]
-    - bzip2             # [unix]
-  # Disabled until new conda-build release
-  detect_binary_files_with_prefix: True
-  # detect_binary_files_with_prefix: False
-  # binary_has_prefix_files:
-  #   - lib/libpython3.8.*.1.0
-  #   - bin/python3.8  # [linux]
-  #   - lib/libpython3.8.a  # [linux]
-  #   - lib/libpython3.8.nolto.a  # [linux]
-  #   - lib/libpython3.so  # [linux]
-  #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
-  #   - lib/libpython3.dylib  # [osx]
-  # match python.org compiler standard
-  skip: True            # [win and int(float(vc)) < 14]
-  skip_compile_pyc:
-    - lib/python3.8/lib2to3/tests/data/bom.py
-    - lib/python3.8/lib2to3/tests/data/crlf.py
-    - lib/python3.8/lib2to3/tests/data/different_encoding.py
-    - lib/python3.8/lib2to3/tests/data/false_encoding.py
-    - lib/python3.8/lib2to3/tests/data/py2_test_grammar.py
-    - lib/python3.8/test/bad_coding.py
-    - lib/python3.8/test/bad_coding2.py
-    - lib/python3.8/test/badsyntax_3131.py
-    - lib/python3.8/test/badsyntax_future10.py
-    - lib/python3.8/test/badsyntax_future3.py
-    - lib/python3.8/test/badsyntax_future4.py
-    - lib/python3.8/test/badsyntax_future5.py
-    - lib/python3.8/test/badsyntax_future6.py
-    - lib/python3.8/test/badsyntax_future7.py
-    - lib/python3.8/test/badsyntax_future8.py
-    - lib/python3.8/test/badsyntax_future9.py
-    - lib/python3.8/test/badsyntax_pep3120.py
-# Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
-  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
-  run_exports:
-    noarch:
-      - python
-    weak:
-      - python_abi 3.8.* *_cp38
-  script_env:
-   - PY_INTERP_LINKAGE_NATURE
-   - PY_INTERP_DEBUG
-# Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
-# {% if 'conda-forge' not in channel_targets %}
-#      - CONDA_FORGE=yes
-# {% else %}
-#      - CONDA_FORGE=no
-# {% endif %}
+  number: 3
 
-requirements:
-  build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}  # [linux]
-    - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
-    - make  # [not win]
-    - pkg-config  # [not win]
-    # configure script looks for llvm-ar for lto
-    - llvm-tools  # [osx]
-    - patch  # [not win]
-    - m2-patch  # [win]
-    - posix  # [win]
-    - libtool  # [unix]
-    - ld_impl_{{ target_platform }} >=2.34  # [linux]
-    - binutils_impl_{{ target_platform }} >=2.34  # [linux]
-  host:
-    - bzip2  # [not win]
-    - sqlite
-    - xz  # [not win]
-    - zlib  # [not win]
-    - openssl
-    - readline  # [not win]
-    - tk  # [not win]
-    - ncurses  # [linux]
-    - libffi  # [not win]
-    - ld_impl_{{ target_platform }} >=2.34  # [linux]
-  run:
-    - ld_impl_{{ target_platform }} >=2.34  # [linux]
-  run_constrained:
-    - python_abi 3.8.* *_cp38
+outputs:
+  - name: python
+    build:
+      activate_in_script: True
+      # Windows has issues updating python if conda is using files itself.
+      # Copy rather than link.
+      no_link:
+        - DLLs/_ctypes.pyd  # [win]
+      # We delete the shared libraries.
+      ignore_run_exports:   # [unix]
+        - bzip2             # [unix]
+      # Disabled until new conda-build release
+      detect_binary_files_with_prefix: True
+      # detect_binary_files_with_prefix: False
+      # binary_has_prefix_files:
+      #   - lib/libpython3.8.*.1.0
+      #   - bin/python3.8  # [linux]
+      #   - lib/libpython3.8.a  # [linux]
+      #   - lib/libpython3.8.nolto.a  # [linux]
+      #   - lib/libpython3.so  # [linux]
+      #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
+      #   - lib/libpython3.dylib  # [osx]
+      # match python.org compiler standard
+      skip: True            # [win and int(float(vc)) < 14]
+      skip_compile_pyc:
+        - lib/python3.8/lib2to3/tests/data/bom.py
+        - lib/python3.8/lib2to3/tests/data/crlf.py
+        - lib/python3.8/lib2to3/tests/data/different_encoding.py
+        - lib/python3.8/lib2to3/tests/data/false_encoding.py
+        - lib/python3.8/lib2to3/tests/data/py2_test_grammar.py
+        - lib/python3.8/test/bad_coding.py
+        - lib/python3.8/test/bad_coding2.py
+        - lib/python3.8/test/badsyntax_3131.py
+        - lib/python3.8/test/badsyntax_future10.py
+        - lib/python3.8/test/badsyntax_future3.py
+        - lib/python3.8/test/badsyntax_future4.py
+        - lib/python3.8/test/badsyntax_future5.py
+        - lib/python3.8/test/badsyntax_future6.py
+        - lib/python3.8/test/badsyntax_future7.py
+        - lib/python3.8/test/badsyntax_future8.py
+        - lib/python3.8/test/badsyntax_future9.py
+        - lib/python3.8/test/badsyntax_pep3120.py
+    # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+      run_exports:
+        noarch:
+          - python
+        weak:
+          - python_abi 3.8.* *_cp38
+      script_env:
+       - PY_INTERP_LINKAGE_NATURE
+       - PY_INTERP_DEBUG
+    # Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
+    # {% if 'conda-forge' not in channel_targets %}
+    #      - CONDA_FORGE=yes
+    # {% else %}
+    #      - CONDA_FORGE=no
+    # {% endif %}
+    script: build_base.sh  # [unix]
+    script: build_base.bat  # [win]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('libx11-devel') }}  # [linux]
+        - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
+        - make  # [not win]
+        - pkg-config  # [not win]
+        # configure script looks for llvm-ar for lto
+        - llvm-tools  # [osx]
+        - patch  # [not win]
+        - m2-patch  # [win]
+        - posix  # [win]
+        - ld_impl_{{ target_platform }} >=2.34  # [linux]
+        - binutils_impl_{{ target_platform }} >=2.34  # [linux]
+      host:
+        - bzip2  # [not win]
+        - sqlite
+        - xz  # [not win]
+        - zlib  # [not win]
+        - openssl
+        - readline  # [not win]
+        - tk  # [not win]
+        - ncurses  # [linux]
+        - libffi  # [not win]
+        - ld_impl_{{ target_platform }} >=2.34  # [linux]
+      run:
+        - ld_impl_{{ target_platform }} >=2.34  # [linux]
+      run_constrained:
+        - python_abi 3.8.* *_cp38
+    test:
+      requires:
+        - ripgrep
+        - cmake
+        - ninja
+        - cython
+        - setuptools
+        - {{ compiler('c') }}
+        # Tried to use enable_language(C) to avoid needing this. It does not work.
+        - {{ compiler('cxx') }}
+      files:
+        - tests/distutils/*
+        - tests/distutils.cext/*
+        - tests/cmake/*
+        - tests/cython/*
+        - tests/prefix-replacement/*
+      commands:
+        - echo on  # [win]
+        - set  # [win]
+        - python -V
+        - python3 -V            # [not win]
+        - 2to3 -h
+        - pydoc -h
+        - python3-config --help  # [not win]
+        - set "PIP_NO_BUILD_ISOLATION=False"  # [win]
+        - set "PIP_NO_DEPENDENCIES=True"  # [win]
+        - set "PIP_IGNORE_INSTALLED=True"  # [win]
+        - set "PIP_NO_INDEX=True"  # [win]
+        - set "PIP_CACHE_DIR=%CONDA_PREFIX%/pip_cache"  # [win]
+        - set "TEMP=%CONDA_PREFIX%/tmp"  # [win]
+        - mkdir "%TEMP%"  # [win]
+        - python -Im ensurepip --upgrade --default-pip  # [win]
+        - python -m venv test-venv
+        - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
+        -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+        # check for unreplaced @ symbols in sysconfig files
+        - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - pushd tests
+        -   pushd distutils
+        -     python setup.py install -v -v
+        -     python -c "import foobar"
+        -   popd
+        -   pushd distutils.cext
+        -     python setup.py install -v -v
+        -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
+        -   popd
+        -   pushd prefix-replacement  # [unix]
+        -     bash build-and-test.sh  # [unix]
+        -   popd  # [unix]
+        -   pushd cmake
+        -     cmake -GNinja -DPY_VER={{ version }}
+              # --trace --debug-output --debug-trycompile .
+        -   popd
+        - popd
+        - test ! -f default.profraw   # [osx]
 
-test:
-  requires:
-    - ripgrep
-    - cmake
-    - ninja
-    - cython
-    - setuptools
-    - {{ compiler('c') }}
-    # Tried to use enable_language(C) to avoid needing this. It does not work.
-    - {{ compiler('cxx') }}
-  files:
-    - tests/distutils/*
-    - tests/distutils.cext/*
-    - tests/cmake/*
-    - tests/cython/*
-    - tests/prefix-replacement/*
-  commands:
-    - python -V
-    - python3 -V            # [not win]
-    - 2to3 -h
-    - pydoc -h
-    - python3-config --help  # [not win]
-    - python -m venv %%TEMP%%\venv  # [win]
-    - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
-    -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
-    # check for unreplaced @ symbols in sysconfig files
-    - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
-    - pushd tests
-    -   pushd distutils
-    -     python setup.py install -v -v
-    -     python -c "import foobar"
-    -   popd
-    -   pushd distutils.cext
-    -     python setup.py install -v -v
-    -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
-    -   popd
-    -   pushd prefix-replacement  # [unix]
-    -     bash build-and-test.sh  # [unix]
-    -   popd  # [unix]
-    -   pushd cmake
-    -     cmake -GNinja -DPY_VER={{ version }}
-          # --trace --debug-output --debug-trycompile .
-    -   popd
-    - popd
-    - test ! -f default.profraw   # [osx]
+  - name: libpython-static
+    build:
+      activate_in_script: True
+    script: build_static.sh  # [unix]
+    script: build_static.bat  # [win]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - posix  # [win]
+      host:
+        - {{ pin_subpackage('python', exact=True) }}
+      run:
+        - {{ pin_subpackage('python', exact=True) }}
+    test:
+      commands:
+        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
+        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
 
 about:
   home: http://www.python.org/

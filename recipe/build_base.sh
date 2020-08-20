@@ -1,6 +1,9 @@
 #!/bin/bash
 set -ex
 
+# Get an updated config.sub and config.guess
+cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
+
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
 # https://packages.debian.org/source/sid/python3.6
@@ -76,7 +79,7 @@ find "${PREFIX}/lib" -name "libbz2*${SHLIB_EXT}*" | xargs rm -fv {}
 AR=$(basename "${AR}")
 
 # CC must contain the string 'gcc' or else distutils thinks it is on macOS and uses '-R' to set rpaths.
-if [[ ${target_platform} == osx-64 ]]; then
+if [[ ${target_platform} == osx-* ]]; then
   CC=$(basename "${CC}")
 else
   CC=$(basename "${GCC}")
@@ -127,11 +130,11 @@ fi
 
 export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
-if [[ ${target_platform} == osx-64 ]]; then
+if [[ ${target_platform} == osx-* ]]; then
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
 fi
 
-if [[ "${BUILD}" != "${HOST}" ]] && [[ -n "${BUILD}" ]] && [[ -n "${HOST}" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   # Build the exact same Python for the build machine. It would be nice (and might be
   # possible already?) to be able to make this just an 'exact' pinned build dependency
   # of a split-package?
@@ -139,18 +142,18 @@ if [[ "${BUILD}" != "${HOST}" ]] && [[ -n "${BUILD}" ]] && [[ -n "${HOST}" ]]; t
   mkdir build-python-build
   pushd build-python-build
     (unset CPPFLAGS LDFLAGS;
-     export CC=/usr/bin/gcc \
-            CXX=/usr/bin/g++ \
-            CPP=/usr/bin/cpp \
+     export CC=${CC_FOR_BUILD} \
+            CXX=${CXX_FOR_BUILD} \
+            CPP="${CC_FOR_BUILD} -E" \
             CFLAGS="-O2" \
-            AR=/usr/bin/ar \
-            RANLIB=/usr/bin/ranlib \
-            LD=/usr/bin/ld && \
+            AR="$(${CC_FOR_BUILD} --print-prog-name=ar)" \
+            RANLIB="$(${CC_FOR_BUILD} --print-prog-name=ranlib)" \
+            LD="$(${CC_FOR_BUILD} --print-prog-name=ld)" && \
       ${SRC_DIR}/configure --build=${BUILD} \
                            --host=${BUILD} \
                            --prefix=${BUILD_PYTHON_PREFIX} \
                            --with-ensurepip=no && \
-      make && \
+      make -j${CPU_COUNT} && \
       make install)
     export PATH=${BUILD_PYTHON_PREFIX}/bin:${PATH}
     ln -s ${BUILD_PYTHON_PREFIX}/bin/python${VER} ${BUILD_PYTHON_PREFIX}/bin/python
@@ -175,6 +178,30 @@ if [[ -n ${HOST} ]]; then
     IFS='-' read -r host_arch host_vendor host_os host_libc <<<"${HOST}"
     export _PYTHON_HOST_PLATFORM=${host_os}-${host_arch}
   fi
+fi
+
+if [[ ${target_platform} == osx-64 ]]; then
+  export MACHDEP=darwin
+  export ac_sys_system=Darwin
+  export ac_sys_release=13.4.0
+  export MACOSX_DEFAULT_ARCH=x86_64
+  # TODO: check with LLVM 12 if the following hack is needed.
+  # https://reviews.llvm.org/D76461 may have fixed the need for the following hack.
+  echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
+  echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
+  chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
+elif [[ ${target_platform} == osx-arm64 ]]; then
+  export MACHDEP=darwin
+  export ac_sys_system=Darwin
+  export ac_sys_release=20.0.0
+  export MACOSX_DEFAULT_ARCH=arm64
+  echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
+  echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
+  chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
+elif [[ ${target_platform} == linux-* ]]; then
+  export MACHDEP=linux
+  export ac_sys_system=Linux
+  export ac_sys_release=
 fi
 
 # Not used at present but we should run 'make test' and finish up TESTOPTS (see debians rules).
@@ -210,16 +237,18 @@ _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then
-  _common_configure_args+=(--enable-optimizations)
   _common_configure_args+=(--with-lto)
-  _MAKE_TARGET=profile-opt
-  # To speed up build times during testing (1):
-  if [[ ${QUICK_BUILD} == yes ]]; then
-    # TODO :: It seems this is just profiling everything, on Windows, only 40 odd tests are
-    #         run while on Unix, all 400+ are run, making this slower and less well curated
-    _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
-  else
-    _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
+  if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
+    _common_configure_args+=(--enable-optimizations)
+    _MAKE_TARGET=profile-opt
+    # To speed up build times during testing (1):
+    if [[ ${QUICK_BUILD} == yes ]]; then
+      # TODO :: It seems this is just profiling everything, on Windows, only 40 odd tests are
+      #         run while on Unix, all 400+ are run, making this slower and less well curated
+      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
+    else
+      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
+    fi
   fi
   if [[ ${CC} =~ .*gcc.* ]]; then
     LTO_CFLAGS+=(-fuse-linker-plugin)
@@ -412,4 +441,5 @@ fi
 # There are some strange distutils files around. Delete them
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
+python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
 rm ${PREFIX}/lib/libpython${VER}.a

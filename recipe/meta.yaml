@@ -44,6 +44,11 @@ source:
       # Python 3.8 is pretty broken without this.
       - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0026-Revert-part-of-https-bugs.python.org-issue33895-http.patch
+      - patches/0027-cross-compile-darwin.patch
+      - patches/gh21114.patch
+      - patches/gh21241.patch
+      - patches/gh21228.patch
+      - patches/gh21564.patch  # [osx and arm64]
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -76,12 +81,11 @@ source:
     folder: externals/libffi                                                         # [win]
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
-
 build:
-  number: 3
+  number: 4
   script_env:
-   - PY_INTERP_LINKAGE_NATURE
-   - PY_INTERP_DEBUG
+    - PY_INTERP_LINKAGE_NATURE
+    - PY_INTERP_DEBUG
 
 outputs:
   - name: python
@@ -106,6 +110,9 @@ outputs:
       #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
       #   - lib/libpython3.dylib  # [osx]
       # match python.org compiler standard
+      skip: True            # [win and int(float(vc)) < 14]
+      skip_compile_pyc:
+        - '*.py'            # [osx and arm64]
       # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
       run_exports:
@@ -137,6 +144,7 @@ outputs:
         - posix  # [win]
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
         - binutils_impl_{{ target_platform }} >=2.34  # [linux]
+        - libtool  # [unix]
       host:
         - bzip2  # [not win]
         - sqlite
@@ -209,6 +217,7 @@ outputs:
         -   popd
         - popd
         - test ! -f default.profraw   # [osx]
+
   - name: libpython-static
     build:
       activate_in_script: True

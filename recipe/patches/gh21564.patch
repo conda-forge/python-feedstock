@@ -12,21 +12,63 @@ index e9efce7d7e..8ed1eeac85 100644
                  machine = 'fat'
              elif archs == ('i386', 'x86_64'):
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index bf0e8e8dee..d230b23da9 100644
+index bf0e8e8dee..cd8abff681 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
-@@ -6,6 +6,11 @@ import os
+@@ -6,12 +6,11 @@ import os
  from ctypes.macholib.framework import framework_info
  from ctypes.macholib.dylib import dylib_info
  from itertools import *
-+try:
+-
+ try:
+-    from _ctypes import _dyld_shared_cache_contains_path
 +     from _ctypes import _dyld_shared_cache_contains_path
-+except ImportError:
+ except ImportError:
+-    def _dyld_shared_cache_contains_path(*args):
+-        raise NotImplementedError
 +     def _dyld_shared_cache_contains_path(*args):
 +         raise NotImplementedError
  
- try:
-     from _ctypes import _dyld_shared_cache_contains_path
+ __all__ = [
+     'dyld_find', 'framework_find',
+@@ -132,6 +131,7 @@ def dyld_find(name, executable_path=None, env=None):
+                 dyld_executable_path_search(name, executable_path),
+                 dyld_default_search(name, env),
+             ), env):
++
+         if os.path.isfile(path):
+             return path
+         try:
+diff --git a/Lib/ctypes/test/test_macholib.py b/Lib/ctypes/test/test_macholib.py
+index ed04479abd..a1bac26a7d 100644
+--- a/Lib/ctypes/test/test_macholib.py
++++ b/Lib/ctypes/test/test_macholib.py
+@@ -45,13 +45,11 @@ def find_lib(name):
+ class MachOTest(unittest.TestCase):
+     @unittest.skipUnless(sys.platform == "darwin", 'OSX-specific test')
+     def test_find(self):
+-
+         # On Mac OS 11, system dylibs are only present in the shared cache,
+         # so symlinks like libpthread.dylib -> libSystem.B.dylib will not
+         # be resolved by dyld_find
+-
+         self.assertIn(find_lib('pthread'),
+-                             ('/usr/lib/libSystem.B.dylib', '/usr/lib/libpthread.dylib'))
++                              ('/usr/lib/libSystem.B.dylib', '/usr/lib/libpthread.dylib'))
+ 
+         result = find_lib('z')
+         # Issue #21093: dyld default search path includes $HOME/lib and
+@@ -61,8 +59,8 @@ class MachOTest(unittest.TestCase):
+         self.assertRegex(result, r".*/lib/libz.*\.dylib")
+ 
+         self.assertIn(find_lib('IOKit'),
+-                             ('/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit',
+-                             '/System/Library/Frameworks/IOKit.framework/IOKit'))
++                              ('/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit',
++                              '/System/Library/Frameworks/IOKit.framework/IOKit'))
+ 
+ if __name__ == "__main__":
+     unittest.main()
 diff --git a/Lib/distutils/tests/test_build_ext.py b/Lib/distutils/tests/test_build_ext.py
 index 5e47e0773a..5a32e03980 100644
 --- a/Lib/distutils/tests/test_build_ext.py
@@ -323,22 +365,26 @@ index 2a364d6c80..15230ba9bb 100644
          PyErr_Format(PyExc_RuntimeError,
                       "ffi_prep_closure failed with %d", result);
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index 4a296c8b84..498b7fed67 100644
+index 4a296c8b84..2b1a762e7d 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
-@@ -57,6 +57,8 @@
+@@ -57,6 +57,10 @@
  #include "Python.h"
  #include "structmember.h"
  
 +#include <stdbool.h>
 +
++#include <stdbool.h>
++
  #ifdef MS_WIN32
  #include <windows.h>
  #include <tchar.h>
-@@ -68,6 +70,18 @@
- #include <mach-o/dyld.h>
+@@ -64,8 +68,16 @@
+ #include "ctypes_dlfcn.h"
  #endif
  
+-#if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
+-#include <mach-o/dyld.h>
 +#ifdef __APPLE__
 +/*
 + * The API to query if a shared library is in the shared cache is 
@@ -349,12 +395,10 @@ index 4a296c8b84..498b7fed67 100644
 + * - Add feature macro and runtime guards  (as with the ffi.*loc API's)
 + */
 +extern bool _dyld_shared_cache_contains_path(const char* path) __attribute__((weak_import));
-+#endif
-+
- #ifdef MS_WIN32
- #include <malloc.h>
  #endif
-@@ -817,7 +831,8 @@ static int _call_function_pointer(int flags,
+ 
+ #ifdef MS_WIN32
+@@ -817,7 +829,8 @@ static int _call_function_pointer(int flags,
                                    ffi_type **atypes,
                                    ffi_type *restype,
                                    void *resmem,
@@ -364,7 +408,7 @@ index 4a296c8b84..498b7fed67 100644
  {
      PyThreadState *_save = NULL; /* For Py_BLOCK_THREADS and Py_UNBLOCK_THREADS */
      PyObject *error_object = NULL;
-@@ -840,14 +855,60 @@ static int _call_function_pointer(int flags,
+@@ -840,14 +853,60 @@ static int _call_function_pointer(int flags,
      if ((flags & FUNCFLAG_CDECL) == 0)
          cc = FFI_STDCALL;
  #endif
@@ -433,7 +477,7 @@ index 4a296c8b84..498b7fed67 100644
      }
  
      if (flags & (FUNCFLAG_USE_ERRNO | FUNCFLAG_USE_LASTERROR)) {
-@@ -1217,9 +1278,8 @@ PyObject *_ctypes_callproc(PPROC pProc,
+@@ -1217,9 +1276,8 @@ PyObject *_ctypes_callproc(PPROC pProc,
  
      if (-1 == _call_function_pointer(flags, pProc, avalues, atypes,
                                       rtype, resbuf,
@@ -445,10 +489,20 @@ index 4a296c8b84..498b7fed67 100644
          goto cleanup;
  
  #ifdef WORDS_BIGENDIAN
-@@ -1433,6 +1493,37 @@ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *ar
+@@ -1403,6 +1461,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
+ }
+ #else
+ 
++<<<<<<< HEAD
+ #if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
+ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *args)
+ {
+@@ -1433,6 +1492,39 @@ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *ar
  }
  #endif
  
++=======
++>>>>>>> 8e3b4548f3... Merge ctypes changes from Apple (PR 21241)
 +#ifdef __APPLE__
 + static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *args)
 + {
@@ -483,7 +537,7 @@ index 4a296c8b84..498b7fed67 100644
  static PyObject *py_dl_open(PyObject *self, PyObject *args)
  {
      PyObject *name, *name2;
-@@ -1923,6 +2014,8 @@ buffer_info(PyObject *self, PyObject *arg)
+@@ -1923,6 +2015,8 @@ buffer_info(PyObject *self, PyObject *arg)
      return Py_BuildValue("siN", dict->format, dict->ndim, shape);
  }
  
@@ -492,16 +546,22 @@ index 4a296c8b84..498b7fed67 100644
  PyMethodDef _ctypes_module_methods[] = {
      {"get_errno", get_errno, METH_NOARGS},
      {"set_errno", set_errno, METH_VARARGS},
-@@ -1945,6 +2038,9 @@ PyMethodDef _ctypes_module_methods[] = {
+@@ -1945,9 +2039,15 @@ PyMethodDef _ctypes_module_methods[] = {
      {"dlclose", py_dl_close, METH_VARARGS, "dlclose a library"},
      {"dlsym", py_dl_sym, METH_VARARGS, "find symbol in shared library"},
  #endif
 +#ifdef __APPLE__
 +     {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
 +#endif
++<<<<<<< HEAD
  #if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
      {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
  #endif
++=======
++>>>>>>> 8e3b4548f3... Merge ctypes changes from Apple (PR 21241)
+     {"alignment", align_func, METH_O, alignment_doc},
+     {"sizeof", sizeof_func, METH_O, sizeof_doc},
+     {"byref", byref, METH_VARARGS, byref_doc},
 diff --git a/Modules/_ctypes/ctypes.h b/Modules/_ctypes/ctypes.h
 index e58f85233c..0bed85e318 100644
 --- a/Modules/_ctypes/ctypes.h
@@ -670,10 +730,60 @@ index 99deb8c0f7..32856826fd 100644
      	esac
  
 diff --git a/setup.py b/setup.py
-index 59d412da8f..0ed9c03d57 100644
+index 59d412da8f..b4569e54c3 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -227,6 +227,13 @@ def find_file(filename, std_dirs, paths):
+@@ -179,6 +179,35 @@ def macosx_sdk_root():
+     return MACOS_SDK_ROOT
+ 
+ 
++def macosx_sdk_specified():
++    """Returns true if an SDK was explicitly configured.
++
++    True if an SDK was selected at configure time, either by specifying
++    --enable-universalsdk=(something other than no or /) or by adding a
++    -isysroot option to CFLAGS.  In some cases, like when making
++    decisions about macOS Tk framework paths, we need to be able to
++    know whether the user explicitly asked to build with an SDK versus
++    the implicit use of an SDK when header files are no longer
++    installed on a running system by the Command Line Tools.
++    """
++    global MACOS_SDK_SPECIFIED
++
++    # If already called, return cached result.
++    if MACOS_SDK_SPECIFIED:
++        return MACOS_SDK_SPECIFIED
++
++    # Find the sdk root and set MACOS_SDK_SPECIFIED
++    macosx_sdk_root()
++    return MACOS_SDK_SPECIFIED
++
++def is_macosx_at_least(vers):
++    if MACOS:
++        dep_target = sysconfig.get_config_var('MACOSX_DEPLOYMENT_TARGET')
++        if dep_target:
++            return tuple(map(int, dep_target.split('.'))) >= vers
++    return False
++
++
+ def is_macosx_sdk_path(path):
+     """
+     Returns True if 'path' can be located in an OSX SDK
+@@ -188,6 +217,13 @@ def is_macosx_sdk_path(path):
+                 or path.startswith('/Library/') )
+ 
+ 
++def grep_headers_for(function, headers):
++    for header in headers:
++        with open(header, 'r') as f:
++            if function in f.read():
++                return True
++    return False
++
+ def find_file(filename, std_dirs, paths):
+     """Searches for the directory where a given file is located,
+     and returns a possibly-empty list of additional directories, or None
+@@ -227,6 +263,13 @@ def find_file(filename, std_dirs, paths):
      # Not found anywhere
      return None
  
@@ -687,7 +797,7 @@ index 59d412da8f..0ed9c03d57 100644
  
  def find_library_file(compiler, libname, std_dirs, paths):
      result = compiler.find_library_file(std_dirs + paths, libname)
-@@ -1963,43 +1970,18 @@ class PyBuildExt(build_ext):
+@@ -1963,43 +2006,18 @@ class PyBuildExt(build_ext):
                             library_dirs=added_lib_dirs))
          return True
  
@@ -738,7 +848,7 @@ index 59d412da8f..0ed9c03d57 100644
          include_dirs = []
          extra_compile_args = []
          extra_link_args = []
-@@ -2012,11 +1994,10 @@ class PyBuildExt(build_ext):
+@@ -2012,11 +2030,10 @@ class PyBuildExt(build_ext):
  
          if MACOS:
              sources.append('_ctypes/malloc_closure.c')
@@ -752,7 +862,7 @@ index 59d412da8f..0ed9c03d57 100644
  
          elif HOST_PLATFORM == 'sunos5':
              # XXX This shouldn't be necessary; it appears that some
-@@ -2046,31 +2027,48 @@ class PyBuildExt(build_ext):
+@@ -2046,31 +2063,47 @@ class PyBuildExt(build_ext):
                                 sources=['_ctypes/_ctypes_test.c'],
                                 libraries=['m']))
  
@@ -810,7 +920,6 @@ index 59d412da8f..0ed9c03d57 100644
 +                ext.extra_compile_args.append("-DHAVE_FFI_PREP_CLOSURE_LOC=1")
 +            if grep_headers_for('ffi_closure_alloc', ffi_headers):
 +                ext.extra_compile_args.append("-DHAVE_FFI_CLOSURE_ALLOC=1")
-+            
 +            ext.include_dirs.append(ffi_inc)
              ext.libraries.append(ffi_lib)
              self.use_system_libffi = True

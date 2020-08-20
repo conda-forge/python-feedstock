@@ -82,7 +82,7 @@ source:
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
 build:
-  number: 3
+  number: 4
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG
@@ -113,7 +113,7 @@ outputs:
       skip: True            # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [osx and arm64]
-    # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
+      # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
       run_exports:
         noarch:
@@ -221,6 +221,8 @@ outputs:
   - name: libpython-static
     build:
       activate_in_script: True
+      # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
     requirements:

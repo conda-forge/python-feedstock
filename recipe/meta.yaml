@@ -112,7 +112,7 @@ outputs:
       # match python.org compiler standard
       skip: True            # [win and int(float(vc)) < 14]
       skip_compile_pyc:
-        - '*.py'
+        - '*.py'            # [osx and arm64]
     # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
       run_exports:

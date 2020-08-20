@@ -7,8 +7,6 @@
 {% if debug != '' %}
   {% set debug = "_d" ~ debug %}
 {% endif %}
-# Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
-{% set build_string =  "h" ~ PKG_HASH ~ "_" ~ PKG_BUILDNUM ~ linkage_nature ~ debug ~ "_cpython" %}
 
 package:
   name: python-split
@@ -108,7 +106,8 @@ outputs:
       #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
       #   - lib/libpython3.dylib  # [osx]
       # match python.org compiler standard
-      string: {{ build_string }}
+      # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
       run_exports:
         noarch:
           - python
@@ -213,7 +212,6 @@ outputs:
   - name: libpython-static
     build:
       activate_in_script: True
-      string: {{ build_string }}
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
     requirements:

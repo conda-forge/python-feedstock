@@ -83,6 +83,9 @@ source:
 
 build:
   number: 3
+  script_env:
+    - PY_INTERP_LINKAGE_NATURE
+    - PY_INTERP_DEBUG
 
 outputs:
   - name: python
@@ -133,9 +136,6 @@ outputs:
           - python
         weak:
           - python_abi 3.8.* *_cp38
-      script_env:
-       - PY_INTERP_LINKAGE_NATURE
-       - PY_INTERP_DEBUG
     # Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
     # {% if 'conda-forge' not in channel_targets %}
     #      - CONDA_FORGE=yes

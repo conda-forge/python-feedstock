@@ -155,7 +155,7 @@ outputs:
         - tk  # [not win]
         - ncurses  # [linux]
         - libffi  # [not win]
-        #- ld_impl_{{ target_platform }} >=2.34  # [linux]
+        - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run_constrained:

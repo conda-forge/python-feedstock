@@ -1,12 +1,3 @@
-commit 14e426fd4f205e491b4c61a6d4ca6253704fc5eb
-Author: Jonathan Helmus <jjhelmus@gmail.com>
-Date:   Fri Aug 7 15:43:14 2020 -0500
-
-    port PR 21564 to 3.8.5
-    
-    Apply changes from https://github.com/python/cpython/pull/21564
-    to the Python 3.8.5 source code
-
 diff --git a/Lib/_osx_support.py b/Lib/_osx_support.py
 index e9efce7d7e..8ed1eeac85 100644
 --- a/Lib/_osx_support.py
@@ -21,7 +12,7 @@ index e9efce7d7e..8ed1eeac85 100644
                  machine = 'fat'
              elif archs == ('i386', 'x86_64'):
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index 9ab447c0a1..2a8c7f009b 100644
+index bf0e8e8dee..d230b23da9 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
 @@ -6,6 +6,11 @@ import os
@@ -34,57 +25,8 @@ index 9ab447c0a1..2a8c7f009b 100644
 +     def _dyld_shared_cache_contains_path(*args):
 +         raise NotImplementedError
  
- __all__ = [
-     'dyld_find', 'framework_find',
-@@ -126,8 +131,15 @@ def dyld_find(name, executable_path=None, env=None):
-                 dyld_executable_path_search(name, executable_path),
-                 dyld_default_search(name, env),
-             ), env):
-+
-         if os.path.isfile(path):
-             return path
-+        try:
-+            if _dyld_shared_cache_contains_path(path):
-+                return path
-+        except NotImplementedError:
-+             pass
-+
-     raise ValueError("dylib %s could not be found" % (name,))
- 
- def framework_find(fn, executable_path=None, env=None):
-diff --git a/Lib/ctypes/test/test_macholib.py b/Lib/ctypes/test/test_macholib.py
-index 6b3526951a..a1bac26a7d 100644
---- a/Lib/ctypes/test/test_macholib.py
-+++ b/Lib/ctypes/test/test_macholib.py
-@@ -45,19 +45,22 @@ def find_lib(name):
- class MachOTest(unittest.TestCase):
-     @unittest.skipUnless(sys.platform == "darwin", 'OSX-specific test')
-     def test_find(self):
--
--        self.assertEqual(find_lib('pthread'),
--                             '/usr/lib/libSystem.B.dylib')
-+        # On Mac OS 11, system dylibs are only present in the shared cache,
-+        # so symlinks like libpthread.dylib -> libSystem.B.dylib will not
-+        # be resolved by dyld_find
-+        self.assertIn(find_lib('pthread'),
-+                              ('/usr/lib/libSystem.B.dylib', '/usr/lib/libpthread.dylib'))
- 
-         result = find_lib('z')
-         # Issue #21093: dyld default search path includes $HOME/lib and
-         # /usr/local/lib before /usr/lib, which caused test failures if
-         # a local copy of libz exists in one of them. Now ignore the head
-         # of the path.
--        self.assertRegex(result, r".*/lib/libz\..*.*\.dylib")
-+        self.assertRegex(result, r".*/lib/libz.*\.dylib")
- 
--        self.assertEqual(find_lib('IOKit'),
--                             '/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit')
-+        self.assertIn(find_lib('IOKit'),
-+                              ('/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit',
-+                              '/System/Library/Frameworks/IOKit.framework/IOKit'))
- 
- if __name__ == "__main__":
-     unittest.main()
+ try:
+     from _ctypes import _dyld_shared_cache_contains_path
 diff --git a/Lib/distutils/tests/test_build_ext.py b/Lib/distutils/tests/test_build_ext.py
 index 5e47e0773a..5a32e03980 100644
 --- a/Lib/distutils/tests/test_build_ext.py
@@ -283,55 +225,8 @@ index a58b922ce3..56fc20390c 100755
      # Now build python itself
      buildPython()
  
-diff --git a/Mac/BuildScript/openssl-mac-arm64.patch b/Mac/BuildScript/openssl-mac-arm64.patch
-new file mode 100644
-index 0000000000..11267fb118
---- /dev/null
-+++ b/Mac/BuildScript/openssl-mac-arm64.patch
-@@ -0,0 +1,41 @@
-+diff -ur openssl-1.1.1g-orig/Configurations/10-main.conf openssl-1.1.1g/Configurations/10-main.conf
-+--- openssl-1.1.1g-orig/Configurations/10-main.conf	2020-04-21 14:22:39.000000000 +0200
-++++ openssl-1.1.1g/Configurations/10-main.conf	2020-07-26 12:21:32.000000000 +0200
-+@@ -1557,6 +1557,14 @@
-+         bn_ops           => "SIXTY_FOUR_BIT_LONG",
-+         perlasm_scheme   => "macosx",
-+     },
-++    "darwin64-arm64-cc" => {
-++        inherit_from     => [ "darwin-common", asm("aarch64_asm") ],
-++        CFLAGS           => add("-Wall"),
-++        cflags           => add("-arch arm64"),
-++        lib_cppflags     => add("-DL_ENDIAN"),
-++        bn_ops           => "SIXTY_FOUR_BIT_LONG",
-++        perlasm_scheme   => "ios64",
-++    },
-+ 
-+ ##### GNU Hurd
-+     "hurd-x86" => {
-+diff -ur openssl-1.1.1g-orig/config openssl-1.1.1g/config
-+--- openssl-1.1.1g-orig/config	2020-04-21 14:22:39.000000000 +0200
-++++ openssl-1.1.1g/config	2020-07-26 12:21:59.000000000 +0200
-+@@ -255,6 +255,9 @@
-+ 		;;
-+ 	    x86_64)
-+ 		echo "x86_64-apple-darwin${VERSION}"
-++                ;;
-++	    arm64)
-++		echo "arm64-apple-darwin${VERSION}"
-+ 		;;
-+ 	    *)
-+ 		echo "i686-apple-darwin${VERSION}"
-+@@ -497,6 +500,9 @@
-+ 	else
-+ 	    OUT="darwin64-x86_64-cc"
-+ 	fi ;;
-++  x86_64-apple-darwin*)
-++	OUT="darwin64-arm64-cc"
-++        ;;
-+   armv6+7-*-iphoneos)
-+ 	__CNF_CFLAGS="$__CNF_CFLAGS -arch armv6 -arch armv7"
-+ 	__CNF_CXXFLAGS="$__CNF_CXXFLAGS -arch armv6 -arch armv7"
 diff --git a/Mac/Tools/pythonw.c b/Mac/Tools/pythonw.c
-index c8bd3ba8d6..78813e818e 100644
+index ae4c262129..78813e818e 100644
 --- a/Mac/Tools/pythonw.c
 +++ b/Mac/Tools/pythonw.c
 @@ -95,9 +95,6 @@ setup_spawnattr(posix_spawnattr_t* spawnattr)
@@ -344,24 +239,7 @@ index c8bd3ba8d6..78813e818e 100644
  
      if ((errno = posix_spawnattr_init(spawnattr)) != 0) {
          err(2, "posix_spawnattr_int");
-@@ -119,10 +116,16 @@ setup_spawnattr(posix_spawnattr_t* spawnattr)
- 
- #elif defined(__ppc__)
-     cpu_types[0] = CPU_TYPE_POWERPC;
-+
- #elif defined(__i386__)
-     cpu_types[0] = CPU_TYPE_X86;
-+
-+#elif defined(__arm64__)
-+    cpu_types[0] = CPU_TYPE_ARM64;
-+
- #else
- #       error "Unknown CPU"
-+
- #endif
- 
-     if (posix_spawnattr_setbinpref_np(spawnattr, count,
-@@ -220,7 +223,8 @@ main(int argc, char **argv) {
+@@ -226,7 +223,8 @@ main(int argc, char **argv) {
      /* We're weak-linking to posix-spawnv to ensure that
       * an executable build on 10.5 can work on 10.4.
       */
@@ -445,7 +323,7 @@ index 2a364d6c80..15230ba9bb 100644
          PyErr_Format(PyExc_RuntimeError,
                       "ffi_prep_closure failed with %d", result);
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index a9b8675cd9..9bfca631bb 100644
+index 4a296c8b84..498b7fed67 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
 @@ -57,6 +57,8 @@
@@ -457,8 +335,8 @@ index a9b8675cd9..9bfca631bb 100644
  #ifdef MS_WIN32
  #include <windows.h>
  #include <tchar.h>
-@@ -64,6 +66,18 @@
- #include "ctypes_dlfcn.h"
+@@ -68,6 +70,18 @@
+ #include <mach-o/dyld.h>
  #endif
  
 +#ifdef __APPLE__
@@ -476,7 +354,7 @@ index a9b8675cd9..9bfca631bb 100644
  #ifdef MS_WIN32
  #include <malloc.h>
  #endif
-@@ -813,7 +827,8 @@ static int _call_function_pointer(int flags,
+@@ -817,7 +831,8 @@ static int _call_function_pointer(int flags,
                                    ffi_type **atypes,
                                    ffi_type *restype,
                                    void *resmem,
@@ -486,7 +364,7 @@ index a9b8675cd9..9bfca631bb 100644
  {
      PyThreadState *_save = NULL; /* For Py_BLOCK_THREADS and Py_UNBLOCK_THREADS */
      PyObject *error_object = NULL;
-@@ -836,14 +851,60 @@ static int _call_function_pointer(int flags,
+@@ -840,14 +855,60 @@ static int _call_function_pointer(int flags,
      if ((flags & FUNCFLAG_CDECL) == 0)
          cc = FFI_STDCALL;
  #endif
@@ -555,7 +433,7 @@ index a9b8675cd9..9bfca631bb 100644
      }
  
      if (flags & (FUNCFLAG_USE_ERRNO | FUNCFLAG_USE_LASTERROR)) {
-@@ -1213,9 +1274,8 @@ PyObject *_ctypes_callproc(PPROC pProc,
+@@ -1217,9 +1278,8 @@ PyObject *_ctypes_callproc(PPROC pProc,
  
      if (-1 == _call_function_pointer(flags, pProc, avalues, atypes,
                                       rtype, resbuf,
@@ -567,9 +445,9 @@ index a9b8675cd9..9bfca631bb 100644
          goto cleanup;
  
  #ifdef WORDS_BIGENDIAN
-@@ -1399,6 +1459,37 @@ copy_com_pointer(PyObject *self, PyObject *args)
+@@ -1433,6 +1493,37 @@ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *ar
  }
- #else
+ #endif
  
 +#ifdef __APPLE__
 + static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *args)
@@ -605,7 +483,7 @@ index a9b8675cd9..9bfca631bb 100644
  static PyObject *py_dl_open(PyObject *self, PyObject *args)
  {
      PyObject *name, *name2;
-@@ -1889,6 +1980,8 @@ buffer_info(PyObject *self, PyObject *arg)
+@@ -1923,6 +2014,8 @@ buffer_info(PyObject *self, PyObject *arg)
      return Py_BuildValue("siN", dict->format, dict->ndim, shape);
  }
  
@@ -614,16 +492,16 @@ index a9b8675cd9..9bfca631bb 100644
  PyMethodDef _ctypes_module_methods[] = {
      {"get_errno", get_errno, METH_NOARGS},
      {"set_errno", set_errno, METH_VARARGS},
-@@ -1910,6 +2003,9 @@ PyMethodDef _ctypes_module_methods[] = {
-      "dlopen(name, flag={RTLD_GLOBAL|RTLD_LOCAL}) open a shared library"},
+@@ -1945,6 +2038,9 @@ PyMethodDef _ctypes_module_methods[] = {
      {"dlclose", py_dl_close, METH_VARARGS, "dlclose a library"},
      {"dlsym", py_dl_sym, METH_VARARGS, "find symbol in shared library"},
-+#endif
+ #endif
 +#ifdef __APPLE__
 +     {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
++#endif
+ #if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
+     {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
  #endif
-     {"alignment", align_func, METH_O, alignment_doc},
-     {"sizeof", sizeof_func, METH_O, sizeof_doc},
 diff --git a/Modules/_ctypes/ctypes.h b/Modules/_ctypes/ctypes.h
 index e58f85233c..0bed85e318 100644
 --- a/Modules/_ctypes/ctypes.h
@@ -678,10 +556,10 @@ index f9cdb33695..4f220e42ff 100644
      if (!free_list)
          more_core();
 diff --git a/configure b/configure
-index f3979f16be..adf471180e 100755
+index 23e81243ef..465bd6de17 100755
 --- a/configure
 +++ b/configure
-@@ -6919,7 +6919,7 @@ fi
+@@ -6922,7 +6922,7 @@ fi
  
  
  
@@ -690,7 +568,7 @@ index f3979f16be..adf471180e 100755
  UNIVERSAL_ARCH_FLAGS=
  
  
-@@ -7405,6 +7405,11 @@ $as_echo "$CC" >&6; }
+@@ -7408,6 +7408,11 @@ $as_echo "$CC" >&6; }
                 LIPO_32BIT_FLAGS="-extract ppc7400 -extract i386"
                 ARCH_RUN_32BIT="/usr/bin/arch -i386 -ppc"
                 ;;
@@ -702,7 +580,7 @@ index f3979f16be..adf471180e 100755
              intel)
                 UNIVERSAL_ARCH_FLAGS="-arch i386 -arch x86_64"
                 LIPO_32BIT_FLAGS="-extract i386"
-@@ -7426,7 +7431,7 @@ $as_echo "$CC" >&6; }
+@@ -7429,7 +7434,7 @@ $as_echo "$CC" >&6; }
                 ARCH_RUN_32BIT="/usr/bin/arch -i386 -ppc"
                 ;;
              *)
@@ -711,7 +589,7 @@ index f3979f16be..adf471180e 100755
                 ;;
              esac
  
-@@ -9255,7 +9260,7 @@ fi
+@@ -9258,7 +9263,7 @@ fi
      		MACOSX_DEFAULT_ARCH="ppc"
      		;;
      	*)
@@ -720,7 +598,7 @@ index f3979f16be..adf471180e 100755
      		;;
      	esac
      else
-@@ -9265,9 +9270,12 @@ fi
+@@ -9268,9 +9273,12 @@ fi
      		;;
      	ppc)
      		MACOSX_DEFAULT_ARCH="ppc64"
@@ -735,7 +613,7 @@ index f3979f16be..adf471180e 100755
      	esac
  
 diff --git a/configure.ac b/configure.ac
-index 7c688668c1..269a462dcf 100644
+index 99deb8c0f7..32856826fd 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1564,7 +1564,7 @@ AC_SUBST(BASECFLAGS)

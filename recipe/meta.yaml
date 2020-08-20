@@ -155,7 +155,7 @@ outputs:
         - tk  # [not win]
         - ncurses  # [linux]
         - libffi  # [not win]
-        #- ld_impl_{{ target_platform }} >=2.34  # [linux]
+        - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run_constrained:
@@ -221,6 +221,7 @@ outputs:
   - name: libpython-static
     build:
       activate_in_script: True
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
     requirements:

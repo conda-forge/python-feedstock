@@ -12,63 +12,21 @@ index e9efce7d7e..8ed1eeac85 100644
                  machine = 'fat'
              elif archs == ('i386', 'x86_64'):
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index bf0e8e8dee..cd8abff681 100644
+index bf0e8e8dee..d230b23da9 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
-@@ -6,12 +6,11 @@ import os
+@@ -6,6 +6,11 @@ import os
  from ctypes.macholib.framework import framework_info
  from ctypes.macholib.dylib import dylib_info
  from itertools import *
--
- try:
--    from _ctypes import _dyld_shared_cache_contains_path
++try:
 +     from _ctypes import _dyld_shared_cache_contains_path
- except ImportError:
--    def _dyld_shared_cache_contains_path(*args):
--        raise NotImplementedError
++except ImportError:
 +     def _dyld_shared_cache_contains_path(*args):
 +         raise NotImplementedError
  
- __all__ = [
-     'dyld_find', 'framework_find',
-@@ -132,6 +131,7 @@ def dyld_find(name, executable_path=None, env=None):
-                 dyld_executable_path_search(name, executable_path),
-                 dyld_default_search(name, env),
-             ), env):
-+
-         if os.path.isfile(path):
-             return path
-         try:
-diff --git a/Lib/ctypes/test/test_macholib.py b/Lib/ctypes/test/test_macholib.py
-index ed04479abd..a1bac26a7d 100644
---- a/Lib/ctypes/test/test_macholib.py
-+++ b/Lib/ctypes/test/test_macholib.py
-@@ -45,13 +45,11 @@ def find_lib(name):
- class MachOTest(unittest.TestCase):
-     @unittest.skipUnless(sys.platform == "darwin", 'OSX-specific test')
-     def test_find(self):
--
-         # On Mac OS 11, system dylibs are only present in the shared cache,
-         # so symlinks like libpthread.dylib -> libSystem.B.dylib will not
-         # be resolved by dyld_find
--
-         self.assertIn(find_lib('pthread'),
--                             ('/usr/lib/libSystem.B.dylib', '/usr/lib/libpthread.dylib'))
-+                              ('/usr/lib/libSystem.B.dylib', '/usr/lib/libpthread.dylib'))
- 
-         result = find_lib('z')
-         # Issue #21093: dyld default search path includes $HOME/lib and
-@@ -61,8 +59,8 @@ class MachOTest(unittest.TestCase):
-         self.assertRegex(result, r".*/lib/libz.*\.dylib")
- 
-         self.assertIn(find_lib('IOKit'),
--                             ('/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit',
--                             '/System/Library/Frameworks/IOKit.framework/IOKit'))
-+                              ('/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit',
-+                              '/System/Library/Frameworks/IOKit.framework/IOKit'))
- 
- if __name__ == "__main__":
-     unittest.main()
+ try:
+     from _ctypes import _dyld_shared_cache_contains_path
 diff --git a/Lib/distutils/tests/test_build_ext.py b/Lib/distutils/tests/test_build_ext.py
 index 5e47e0773a..5a32e03980 100644
 --- a/Lib/distutils/tests/test_build_ext.py
@@ -365,21 +323,19 @@ index 2a364d6c80..15230ba9bb 100644
          PyErr_Format(PyExc_RuntimeError,
                       "ffi_prep_closure failed with %d", result);
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index 4a296c8b84..2b1a762e7d 100644
+index 4a296c8b84..20b7adc8bf 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
-@@ -57,6 +57,10 @@
+@@ -57,6 +57,8 @@
  #include "Python.h"
  #include "structmember.h"
  
 +#include <stdbool.h>
 +
-+#include <stdbool.h>
-+
  #ifdef MS_WIN32
  #include <windows.h>
  #include <tchar.h>
-@@ -64,8 +68,16 @@
+@@ -64,8 +66,16 @@
  #include "ctypes_dlfcn.h"
  #endif
  
@@ -398,7 +354,7 @@ index 4a296c8b84..2b1a762e7d 100644
  #endif
  
  #ifdef MS_WIN32
-@@ -817,7 +829,8 @@ static int _call_function_pointer(int flags,
+@@ -817,7 +827,8 @@ static int _call_function_pointer(int flags,
                                    ffi_type **atypes,
                                    ffi_type *restype,
                                    void *resmem,
@@ -408,7 +364,7 @@ index 4a296c8b84..2b1a762e7d 100644
  {
      PyThreadState *_save = NULL; /* For Py_BLOCK_THREADS and Py_UNBLOCK_THREADS */
      PyObject *error_object = NULL;
-@@ -840,14 +853,60 @@ static int _call_function_pointer(int flags,
+@@ -840,14 +851,60 @@ static int _call_function_pointer(int flags,
      if ((flags & FUNCFLAG_CDECL) == 0)
          cc = FFI_STDCALL;
  #endif
@@ -477,7 +433,7 @@ index 4a296c8b84..2b1a762e7d 100644
      }
  
      if (flags & (FUNCFLAG_USE_ERRNO | FUNCFLAG_USE_LASTERROR)) {
-@@ -1217,9 +1276,8 @@ PyObject *_ctypes_callproc(PPROC pProc,
+@@ -1217,9 +1274,8 @@ PyObject *_ctypes_callproc(PPROC pProc,
  
      if (-1 == _call_function_pointer(flags, pProc, avalues, atypes,
                                       rtype, resbuf,
@@ -489,20 +445,10 @@ index 4a296c8b84..2b1a762e7d 100644
          goto cleanup;
  
  #ifdef WORDS_BIGENDIAN
-@@ -1403,6 +1461,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
- }
- #else
- 
-+<<<<<<< HEAD
- #if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
- static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *args)
- {
-@@ -1433,6 +1492,39 @@ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *ar
+@@ -1433,6 +1489,37 @@ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *ar
  }
  #endif
  
-+=======
-+>>>>>>> 8e3b4548f3... Merge ctypes changes from Apple (PR 21241)
 +#ifdef __APPLE__
 + static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *args)
 + {
@@ -537,7 +483,7 @@ index 4a296c8b84..2b1a762e7d 100644
  static PyObject *py_dl_open(PyObject *self, PyObject *args)
  {
      PyObject *name, *name2;
-@@ -1923,6 +2015,8 @@ buffer_info(PyObject *self, PyObject *arg)
+@@ -1923,6 +2010,8 @@ buffer_info(PyObject *self, PyObject *arg)
      return Py_BuildValue("siN", dict->format, dict->ndim, shape);
  }
  
@@ -546,22 +492,16 @@ index 4a296c8b84..2b1a762e7d 100644
  PyMethodDef _ctypes_module_methods[] = {
      {"get_errno", get_errno, METH_NOARGS},
      {"set_errno", set_errno, METH_VARARGS},
-@@ -1945,9 +2039,15 @@ PyMethodDef _ctypes_module_methods[] = {
+@@ -1945,6 +2034,9 @@ PyMethodDef _ctypes_module_methods[] = {
      {"dlclose", py_dl_close, METH_VARARGS, "dlclose a library"},
      {"dlsym", py_dl_sym, METH_VARARGS, "find symbol in shared library"},
  #endif
 +#ifdef __APPLE__
 +     {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
 +#endif
-+<<<<<<< HEAD
  #if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
      {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
  #endif
-+=======
-+>>>>>>> 8e3b4548f3... Merge ctypes changes from Apple (PR 21241)
-     {"alignment", align_func, METH_O, alignment_doc},
-     {"sizeof", sizeof_func, METH_O, sizeof_doc},
-     {"byref", byref, METH_VARARGS, byref_doc},
 diff --git a/Modules/_ctypes/ctypes.h b/Modules/_ctypes/ctypes.h
 index e58f85233c..0bed85e318 100644
 --- a/Modules/_ctypes/ctypes.h

@@ -323,7 +323,7 @@ index 2a364d6c80..15230ba9bb 100644
          PyErr_Format(PyExc_RuntimeError,
                       "ffi_prep_closure failed with %d", result);
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index 4a296c8b84..20b7adc8bf 100644
+index 4a296c8b84..9bfca631bb 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
 @@ -57,6 +57,8 @@
@@ -445,10 +445,39 @@ index 4a296c8b84..20b7adc8bf 100644
          goto cleanup;
  
  #ifdef WORDS_BIGENDIAN
-@@ -1433,6 +1489,37 @@ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *ar
+@@ -1403,35 +1459,36 @@ copy_com_pointer(PyObject *self, PyObject *args)
  }
- #endif
+ #else
  
+-#if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
+-static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *args)
+-{
+-    if (__builtin_available(macos 11, ios 14, watchos 7, tvos 14, *)) {
+-        PyObject *name, *name2;
+-        char *name_str;
+-        if (!PyArg_ParseTuple(args, "O", &name))
+-            return NULL;
+-
+-        if (name == Py_None)
+-            Py_RETURN_FALSE;
+-
+-        if (PyUnicode_FSConverter(name, &name2) == 0)
+-            return NULL;
+-        if (PyBytes_Check(name2))
+-            name_str = PyBytes_AS_STRING(name2);
+-        else
+-            name_str = PyByteArray_AS_STRING(name2);
+-
+-        if(_dyld_shared_cache_contains_path(name_str))
+-            Py_RETURN_TRUE;
+-        else
+-            Py_RETURN_FALSE;
+-    } else {
+-        PyErr_SetString(PyExc_NotImplementedError, "_dyld_shared_cache_contains_path symbol is missing");
+-        return NULL;
+-    }
+-}
+-#endif
 +#ifdef __APPLE__
 + static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *args)
 + {
@@ -479,11 +508,10 @@ index 4a296c8b84..20b7adc8bf 100644
 +         Py_RETURN_FALSE;
 + }
 + #endif
-+
+ 
  static PyObject *py_dl_open(PyObject *self, PyObject *args)
  {
-     PyObject *name, *name2;
-@@ -1923,6 +2010,8 @@ buffer_info(PyObject *self, PyObject *arg)
+@@ -1923,6 +1980,8 @@ buffer_info(PyObject *self, PyObject *arg)
      return Py_BuildValue("siN", dict->format, dict->ndim, shape);
  }
  
@@ -492,16 +520,17 @@ index 4a296c8b84..20b7adc8bf 100644
  PyMethodDef _ctypes_module_methods[] = {
      {"get_errno", get_errno, METH_NOARGS},
      {"set_errno", set_errno, METH_VARARGS},
-@@ -1945,6 +2034,9 @@ PyMethodDef _ctypes_module_methods[] = {
+@@ -1945,8 +2004,8 @@ PyMethodDef _ctypes_module_methods[] = {
      {"dlclose", py_dl_close, METH_VARARGS, "dlclose a library"},
      {"dlsym", py_dl_sym, METH_VARARGS, "find symbol in shared library"},
  #endif
+-#if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
+-    {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
 +#ifdef __APPLE__
 +     {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
-+#endif
- #if __APPLE__ && HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
-     {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
  #endif
+     {"alignment", align_func, METH_O, alignment_doc},
+     {"sizeof", sizeof_func, METH_O, sizeof_doc},
 diff --git a/Modules/_ctypes/ctypes.h b/Modules/_ctypes/ctypes.h
 index e58f85233c..0bed85e318 100644
 --- a/Modules/_ctypes/ctypes.h

@@ -112,7 +112,7 @@ outputs:
       # match python.org compiler standard
       skip: True            # [win and int(float(vc)) < 14]
       skip_compile_pyc:
-        - *.py
+        - '*.py'
     # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
       run_exports:
@@ -155,7 +155,7 @@ outputs:
         - tk  # [not win]
         - ncurses  # [linux]
         - libffi  # [not win]
-        - ld_impl_{{ target_platform }} >=2.34  # [linux]
+        #- ld_impl_{{ target_platform }} >=2.34  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run_constrained:

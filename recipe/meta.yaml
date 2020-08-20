@@ -78,48 +78,47 @@ source:
 
 
 build:
-  number: 2
-  # Windows has issues updating python if conda is using files itself.
-  # Copy rather than link.
-  no_link:
-    - DLLs/_ctypes.pyd  # [win]
-  # We delete the shared libraries.
-  ignore_run_exports:   # [unix]
-    - bzip2             # [unix]
-  # Disabled until new conda-build release
-  detect_binary_files_with_prefix: True
-  # detect_binary_files_with_prefix: False
-  # binary_has_prefix_files:
-  #   - lib/libpython3.8.*.1.0
-  #   - bin/python3.8  # [linux]
-  #   - lib/libpython3.8.a  # [linux]
-  #   - lib/libpython3.8.nolto.a  # [linux]
-  #   - lib/libpython3.so  # [linux]
-  #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
-  #   - lib/libpython3.dylib  # [osx]
-  # match python.org compiler standard
-  skip: True            # [win and int(float(vc)) < 14]
-# Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
-  string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
-  run_exports:
-    noarch:
-      - python
-    weak:
-      - python_abi 3.8.* *_cp38
+  number: 3
   script_env:
    - PY_INTERP_LINKAGE_NATURE
    - PY_INTERP_DEBUG
-# Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
-# {% if 'conda-forge' not in channel_targets %}
-#      - CONDA_FORGE=yes
-# {% else %}
-#      - CONDA_FORGE=no
-# {% endif %}
 
 outputs:
   - name: python
     build:
       activate_in_script: True
+      # Windows has issues updating python if conda is using files itself.
+      # Copy rather than link.
+      no_link:
+        - DLLs/_ctypes.pyd  # [win]
+      # We delete the shared libraries.
+      ignore_run_exports:   # [unix]
+        - bzip2             # [unix]
+      # Disabled until new conda-build release
+      detect_binary_files_with_prefix: True
+      # detect_binary_files_with_prefix: False
+      # binary_has_prefix_files:
+      #   - lib/libpython3.8.*.1.0
+      #   - bin/python3.8  # [linux]
+      #   - lib/libpython3.8.a  # [linux]
+      #   - lib/libpython3.8.nolto.a  # [linux]
+      #   - lib/libpython3.so  # [linux]
+      #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
+      #   - lib/libpython3.dylib  # [osx]
+      # match python.org compiler standard
+      # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+      run_exports:
+        noarch:
+          - python
+        weak:
+          - python_abi 3.8.* *_cp38
+    # Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
+    # {% if 'conda-forge' not in channel_targets %}
+    #      - CONDA_FORGE=yes
+    # {% else %}
+    #      - CONDA_FORGE=no
+    # {% endif %}
     script: build_base.sh  # [unix]
     script: build_base.bat  # [win]
     requirements:
@@ -213,6 +212,8 @@ outputs:
   - name: libpython-static
     build:
       activate_in_script: True
+      # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
     requirements:

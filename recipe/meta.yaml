@@ -160,6 +160,7 @@ outputs:
         - posix  # [win]
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
         - binutils_impl_{{ target_platform }} >=2.34  # [linux]
+        - libtool  # [unix]
       host:
         - bzip2  # [not win]
         - sqlite

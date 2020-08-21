@@ -173,7 +173,8 @@ fi
 if [[ -n ${HOST} ]]; then
   if [[ ${HOST} =~ .*darwin.* ]]; then
     # Even if BUILD is .*darwin.* you get better isolation by cross_compiling (no /usr/local)
-    export _PYTHON_HOST_PLATFORM=darwin
+    IFS='-' read -r host_arch host_os host_kernel <<<"${HOST}"
+    export _PYTHON_HOST_PLATFORM=darwin-${host_arch}
   else
     IFS='-' read -r host_arch host_vendor host_os host_libc <<<"${HOST}"
     export _PYTHON_HOST_PLATFORM=${host_os}-${host_arch}

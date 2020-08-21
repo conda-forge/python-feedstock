@@ -43,3 +43,34 @@
  
      LIBTOOL_CRUFT=$LIBTOOL_CRUFT" -lSystem -lSystemStubs -arch_only ${MACOSX_DEFAULT_ARCH}"
      LIBTOOL_CRUFT=$LIBTOOL_CRUFT' -install_name $(PYTHONFRAMEWORKINSTALLDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)'
+diff --git a/Lib/platform.py b/Lib/platform.py
+index 994d892c5e..11d0b50921 100755
+--- a/Lib/platform.py
++++ b/Lib/platform.py
+@@ -406,7 +406,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
+ def _mac_ver_xml():
+     fn = '/System/Library/CoreServices/SystemVersion.plist'
+     if not os.path.exists(fn):
+-        return None
++        if 'SDKROOT' in os.environ:
++            fn = os.environ['SDKROOT'] + fn
++            if not os.path.exists(fn):
++                return None
++        else:
++            return None
+ 
+     try:
+         import plistlib
+diff --git a/setup.py b/setup.py
+index 59d412da8f..85e1d5dd1a 100644
+--- a/setup.py
++++ b/setup.py
+@@ -42,7 +42,7 @@ CROSS_COMPILING = ("_PYTHON_HOST_PLATFORM" in os.environ)
+ HOST_PLATFORM = get_platform()
+ MS_WINDOWS = (HOST_PLATFORM == 'win32')
+ CYGWIN = (HOST_PLATFORM == 'cygwin')
+-MACOS = (HOST_PLATFORM == 'darwin')
++MACOS = (HOST_PLATFORM.startswith('darwin'))
+ AIX = (HOST_PLATFORM.startswith('aix'))
+ VXWORKS = ('vxworks' in HOST_PLATFORM)
+ 

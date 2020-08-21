@@ -1,7 +1,7 @@
 About python-split
 ==================
 
-Home: http://www.python.org/
+Home: https://www.python.org/
 
 Package license: Python-2.0
 

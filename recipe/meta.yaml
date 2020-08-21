@@ -241,7 +241,7 @@ outputs:
         - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
 
 about:
-  home: http://www.python.org/
+  home: https://www.python.org/
   license: Python-2.0
   license_file: LICENSE
   summary: General purpose programming language

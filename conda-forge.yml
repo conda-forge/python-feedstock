@@ -5,3 +5,5 @@ max_py_ver: '38'
 max_r_ver: '35'
 provider: {linux_aarch64: native, linux_ppc64le: native, osx: azure, win: azure}
 test_on_native_only: true
+azure:
+  store_build_artifacts: true

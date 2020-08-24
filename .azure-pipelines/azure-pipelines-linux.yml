@@ -39,3 +39,13 @@ jobs:
       BINSTAR_TOKEN: $(BINSTAR_TOKEN)
       FEEDSTOCK_TOKEN: $(FEEDSTOCK_TOKEN)
       STAGING_BINSTAR_TOKEN: $(STAGING_BINSTAR_TOKEN)
+  - script: |
+        if [ -d build_artifacts ]; then
+          echo "##vso[task.setVariable variable=CONDA_BLD_DIR_EXISTS]true"
+        fi
+    displayName: Check for conda build artifacts
+    condition: succeededOrFailed()
+
+  - publish: build_artifacts/
+    artifact: conda_artifacts_$(CONFIG)_$(system.JobId)
+    condition: eq(variables.CONDA_BLD_DIR_EXISTS, 'true')

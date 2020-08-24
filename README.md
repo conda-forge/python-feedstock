@@ -77,12 +77,6 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-<<<<<<< HEAD
-              <td>win_64_target_platformwin-64</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=master">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=master&jobName=win&configuration=win_64_target_platformwin-64" alt="variant">
-=======
               <td>osx_arm64_target_platformosx-arm64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=master">
@@ -94,7 +88,6 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=master">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=master&jobName=win&configuration=win_64_" alt="variant">
->>>>>>> origin/master
                 </a>
               </td>
             </tr>

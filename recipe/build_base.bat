@@ -175,6 +175,11 @@ if errorlevel 1 exit 1
 :: Pickle lib2to3 Grammar
 %PREFIX%\python.exe -m lib2to3 --help
 
+:: Ensure that scripts are generated
+:: https://github.com/conda-forge/python-feedstock/issues/384
+%PREFIX%\python.exe %RECIPE_DIR%\fix_staged_scripts.py
+if errorlevel 1 exit 1
+
 :: Some quick tests for common failures
 echo "Testing print() does not print: Hello"
 %CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -c "print()" 2>&1 | findstr /r /c:"Hello"

@@ -201,6 +201,7 @@ elif [[ ${target_platform} == osx-arm64 ]]; then
   echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
   chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
   export ARCHFLAGS="-arch arm64"
+  export CFLAGS="$CFLAGS $ARCHFLAGS"
 elif [[ ${target_platform} == linux-* ]]; then
   export MACHDEP=linux
   export ac_sys_system=Linux

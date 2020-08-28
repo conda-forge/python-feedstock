@@ -82,7 +82,7 @@ source:
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
 build:
-  number: 5
+  number: 6
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG
@@ -199,6 +199,16 @@ outputs:
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        # https://github.com/conda-forge/python-feedstock/issues/384
+        - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
+        - if exist %PREFIX%\\Scripts\\idle exit 1  # [win]
+        - if exist %PREFIX%\\Scripts\\2to3 exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\pydoc-script.py exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\idle-script.py exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\2to3-script.py exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\idle.exe exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - pushd tests
         -   pushd distutils
         -     python setup.py install -v -v

@@ -191,6 +191,7 @@ if [[ ${target_platform} == osx-64 ]]; then
   echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
   echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
   chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
+  export ARCHFLAGS="-arch x86_64"
 elif [[ ${target_platform} == osx-arm64 ]]; then
   export MACHDEP=darwin
   export ac_sys_system=Darwin
@@ -199,6 +200,8 @@ elif [[ ${target_platform} == osx-arm64 ]]; then
   echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
   echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
   chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
+  export ARCHFLAGS="-arch arm64"
+  export CFLAGS="$CFLAGS $ARCHFLAGS"
 elif [[ ${target_platform} == linux-* ]]; then
   export MACHDEP=linux
   export ac_sys_system=Linux

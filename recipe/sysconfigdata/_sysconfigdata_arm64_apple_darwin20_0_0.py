@@ -27,7 +27,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'CC': 'arm64-apple-darwin20.0.0-clang',
  'CCSHARED': '',
  'CFLAGS': '-fno-strict-aliasing -Wsign-compare -Wunreachable-code -DNDEBUG '
-           '-fwrapv -O3 -Wall -Wstrict-prototypes '
+           '-fwrapv -O3 -Wall -Wstrict-prototypes -arch arm64 '
            '-ftree-vectorize -fPIC -fPIE -fstack-protector-strong -O3 '
            '-pipe  '
            '-fdebug-prefix-map=${SRC_DIR}=/usr/local/src/conda/${PKG_NAME}-${PKG_VERSION} '

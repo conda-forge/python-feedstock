@@ -121,6 +121,11 @@ if [[ ${CFLAGS} =~ $re ]]; then
   CFLAGS="${BASH_REMATCH[1]}${BASH_REMATCH[3]}"
 fi
 
+# https://src.fedoraproject.org/rpms/python39/pull-request/9
+if [[ ${target_platform} =~ linux.* ]] && [[ ${_OPTIMIZED} == yes ]]; then
+  CFLAGS="${CFLAGS} -fno-semantic-interposition"
+fi
+
 # Force rebuild to avoid:
 # ../work/Modules/unicodename_db.h:24118:30: note: (near initialization for 'code_hash')
 # ../work/Modules/unicodename_db.h:24118:33: warning: excess elements in scalar initializer

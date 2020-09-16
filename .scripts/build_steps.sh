@@ -20,6 +20,7 @@ conda-build:
 CONDARC
 
 conda install --yes --quiet conda-forge-ci-setup=3 conda-build pip -c conda-forge
+pip instal git+https://github.com/isuruf/conda-build@patch-11
 
 # set up the condarc
 setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"

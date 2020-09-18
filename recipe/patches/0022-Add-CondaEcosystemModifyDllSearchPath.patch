@@ -1,27 +1,10 @@
-From 45076be3111fa0c00b8e868bdb7a4224edf8c6b0 Mon Sep 17 00:00:00 2001
-From: Ray Donnelly <mingw.android@gmail.com>
-Date: Tue, 24 Dec 2019 18:37:17 +0100
-Subject: [PATCH 22/22] Add CondaEcosystemModifyDllSearchPath()
-
-This changes the DLL search order so that C:\Windows\System32 does not
-get searched in before entries in PATH.
-
-Reviewed by Kai Tietz 7.2.2019
-
-Updated a bit to include other directories.
----
- Modules/main.c       | 384 +++++++++++++++++++++++++++++++++++++++++++
- Python/dynload_win.c |   7 +-
- 2 files changed, 389 insertions(+), 2 deletions(-)
-
-diff --git a/Modules/main.c b/Modules/main.c
-index 5150587..6e75e54 100644
---- a/Modules/main.c
-+++ b/Modules/main.c
-@@ -20,6 +20,10 @@
+diff -Naur Python-3.9.0rc2.orig/Modules/main.c Python-3.9.0rc2/Modules/main.c
+--- Python-3.9.0rc2.orig/Modules/main.c	2020-09-18 14:53:14.936268719 -0300
++++ Python-3.9.0rc2/Modules/main.c	2020-09-18 15:34:33.883378201 -0300
+@@ -17,6 +17,10 @@
  #endif
  #ifdef MS_WINDOWS
- #  include <windows.h>  /* STATUS_CONTROL_C_EXIT */
+ #  include <windows.h>            // STATUS_CONTROL_C_EXIT
 +#  include <shlwapi.h>
 +#  include <string.h>
 +#  include <malloc.h>
@@ -29,7 +12,7 @@ index 5150587..6e75e54 100644
  #endif
  /* End of includes for exit_sigint() */
  
-@@ -31,6 +35,8 @@
+@@ -28,6 +32,8 @@
  extern "C" {
  #endif
  
@@ -38,7 +21,7 @@ index 5150587..6e75e54 100644
  /* --- pymain_init() ---------------------------------------------- */
  
  static PyStatus
-@@ -699,10 +705,388 @@ Py_RunMain(void)
+@@ -687,10 +693,387 @@
      return exitcode;
  }
  
@@ -414,7 +397,6 @@ index 5150587..6e75e54 100644
 +    return "";
 +}
 +#endif
-+
  
  static int
  pymain_main(_PyArgv *args)
@@ -427,11 +409,10 @@ index 5150587..6e75e54 100644
      PyStatus status = pymain_init(args);
      if (_PyStatus_IS_EXIT(status)) {
          pymain_free();
-diff --git a/Python/dynload_win.c b/Python/dynload_win.c
-index 4896c6d..cf5cb5c 100644
---- a/Python/dynload_win.c
-+++ b/Python/dynload_win.c
-@@ -199,10 +199,13 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
+diff -Naur Python-3.9.0rc2.orig/Python/dynload_win.c Python-3.9.0rc2/Python/dynload_win.c
+--- Python-3.9.0rc2.orig/Python/dynload_win.c	2020-09-16 18:23:13.000000000 -0300
++++ Python-3.9.0rc2/Python/dynload_win.c	2020-09-18 15:35:09.343854484 -0300
+@@ -187,10 +187,13 @@
             to avoid DLL preloading attacks and enable use of the
             AddDllDirectory function. We add SEARCH_DLL_LOAD_DIR to
             ensure DLLs adjacent to the PYD are preferred. */
@@ -445,8 +426,5 @@ index 4896c6d..cf5cb5c 100644
 -                              LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR);
 +                              LOAD_WITH_ALTERED_SEARCH_PATH);
          Py_END_ALLOW_THREADS
- #if HAVE_SXS
-         _Py_DeactivateActCtx(cookie);
--- 
-2.20.1
-
+ 
+         /* restore old error mode settings */

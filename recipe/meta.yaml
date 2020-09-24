@@ -18,6 +18,7 @@ source:
     # md5 from: https://www.python.org/downloads/release/python-385/
     md5: 835f3cb29e4065b9a2dea1c7b9bfc37f
     patches:
+      - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
 {% if 'conda-forge' not in channel_targets %}
       - patches/0001-Add-Anaconda-Distribution-version-logic.patch
 {% endif %}

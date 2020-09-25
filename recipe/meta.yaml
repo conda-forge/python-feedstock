@@ -167,14 +167,14 @@ outputs:
         - ripgrep
         - cmake
         - ninja
-        - cython
-        - setuptools
+        # - cython
+        # - setuptools
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
       files:
         - tests/distutils/*
-        - tests/distutils.cext/*
+        # - tests/distutils.cext/*
         - tests/cmake/*
         - tests/cython/*
         - tests/prefix-replacement/*
@@ -216,10 +216,10 @@ outputs:
         -     python setup.py install -v -v
         -     python -c "import foobar"
         -   popd
-        -   pushd distutils.cext
-        -     python setup.py install -v -v
-        -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
-        -   popd
+        # -   pushd distutils.cext
+        # -     python setup.py install -v -v
+        # -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
+        # -   popd
         -   pushd prefix-replacement  # [unix]
         -     bash build-and-test.sh  # [unix]
         -   popd  # [unix]

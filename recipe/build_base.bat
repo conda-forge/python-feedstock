@@ -85,8 +85,6 @@ xcopy /s /y /i %SRC_DIR%\Tools\demo %PREFIX%\Tools\demo
 if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
 if errorlevel 1 exit 1
-xcopy /s /y /i %SRC_DIR%\Tools\parser %PREFIX%\Tools\parser
-if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\pynche %PREFIX%\Tools\pynche
 if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\scripts

@@ -160,6 +160,7 @@ outputs:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
+        - tzdata
       run_constrained:
         - python_abi 3.8.* *_cp38
     test:

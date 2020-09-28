@@ -120,12 +120,11 @@ outputs:
           - python
         weak:
           - python_abi 3.8.* *_cp38
-    # Not until: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
-    # {% if 'conda-forge' not in channel_targets %}
-    #      - CONDA_FORGE=yes
-    # {% else %}
-    #      - CONDA_FORGE=no
-    # {% endif %}
+         {% if 'conda-forge' not in channel_targets %}
+          - CONDA_FORGE=yes
+         {% else %}
+          - CONDA_FORGE=no
+         {% endif %}
     script: build_base.sh  # [unix]
     script: build_base.bat  # [win]
     requirements:
@@ -216,6 +215,7 @@ outputs:
         -     python setup.py install -v -v
         -     python -c "import foobar"
         -   popd
+        # Requires cython
         # -   pushd distutils.cext
         # -     python setup.py install -v -v
         # -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"

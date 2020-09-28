@@ -173,7 +173,6 @@ outputs:
         - {{ compiler('cxx') }}
       files:
         - tests/distutils/*
-        # - tests/distutils.cext/*
         - tests/cmake/*
         - tests/cython/*
         - tests/prefix-replacement/*
@@ -216,11 +215,6 @@ outputs:
         -     python setup.py install -v -v
         -     python -c "import foobar"
         -   popd
-        # Requires cython
-        # -   pushd distutils.cext
-        # -     python setup.py install -v -v
-        # -     python -c "import greet; greet.greet('Python user')" | rg "Hello Python"
-        # -   popd
         -   pushd prefix-replacement  # [unix]
         -     bash build-and-test.sh  # [unix]
         -   popd  # [unix]

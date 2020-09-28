@@ -161,12 +161,13 @@ outputs:
       run_constrained:
         - python_abi 3.8.* *_cp38
     test:
+      downstream:
+        - cython
+        - setuptools
       requires:
         - ripgrep
         - cmake
         - ninja
-        # - cython
-        # - setuptools
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}

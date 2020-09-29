@@ -161,7 +161,7 @@ outputs:
       run_constrained:
         - python_abi 3.8.* *_cp38
     test:
-      downstream:
+      downstreams:
         - cython
         - setuptools
       requires:

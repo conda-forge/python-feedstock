@@ -157,7 +157,7 @@ outputs:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
-        - tzdata
+        # - tzdata # We need to discuss a canonical source for this package that comes from a non-python pkg
       run_constrained:
         - python_abi 3.8.* *_cp38
     test:
@@ -192,7 +192,8 @@ outputs:
         - set "TEMP=%CONDA_PREFIX%/tmp"  # [win]
         - mkdir "%TEMP%"  # [win]
         - python -Im ensurepip --upgrade --default-pip  # [win]
-        - python -c "from zoneinfo import ZoneInfo; from datetime import datetime; dt = datetime(2020, 10, 31, 12, tzinfo=ZoneInfo('America/Los_Angeles')); print(dt.tzname())"
+        # tzdata/zoneinfo test that will need the tzdata package to pass
+        # - python -c "from zoneinfo import ZoneInfo; from datetime import datetime; dt = datetime(2020, 10, 31, 12, tzinfo=ZoneInfo('America/Los_Angeles')); print(dt.tzname())"
         - python -m venv test-venv
         - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
         -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]

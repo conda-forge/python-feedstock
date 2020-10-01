@@ -1,5 +1,5 @@
 {% set version = "3.9.0" %}
-{% set dev = "rc1" %}
+{% set dev = "rc2" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
@@ -16,7 +16,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-385/
-    md5: 835f3cb29e4065b9a2dea1c7b9bfc37f
+    md5: 3e34e48b479f4beec2c0c80fdbde52a2
     patches:
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
 {% if 'conda-forge' not in channel_targets %}

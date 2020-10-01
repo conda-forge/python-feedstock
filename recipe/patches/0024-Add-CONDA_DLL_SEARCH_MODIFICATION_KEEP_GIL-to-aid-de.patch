@@ -2,7 +2,7 @@ From cf269b8b99dc239aadcf759bf2450d96a6d75a7b Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 18 Feb 2020 17:38:32 +0100
 Subject: [PATCH 24/30] Add CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL to aid
- deubbing extension module load issues
+ debugging extension module load issues
 
 LIEF (before it was fixed) crashed because Python code gets called from its static initialization
 code (CreateModule2 gets called, more?) and it now drops the GIL during DLL init.

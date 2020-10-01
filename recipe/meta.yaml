@@ -268,6 +268,7 @@ about:
   dev_url: https://docs.python.org/devguide/
 
 extra:
+  feedstock-name: python
   recipe-maintainers:
     - isuruf
     - jakirkham

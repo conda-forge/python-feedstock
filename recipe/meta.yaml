@@ -1,12 +1,18 @@
 {% set version = "3.9.0" %}
 {% set dev = "rc2" %}
+{% set ver2 = '.'.join(version.split('.')[0:2]) %}
+{% set ver2nd = ''.join(version.split('.')[0:2]) %}
+{% set ver3nd = ''.join(version.split('.')[0:3]) %}
+{% set from_source_control = 'yes' %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
-{% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}
 {% endif %}
+{% set dbg_abi = '' %}
+{% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if debug != '' %}
-  {% set debug = "_d" ~ debug %}
+  {% set debug = "_dbg" %}
+  {% set dbg_abi = "d" %}  # [win]
 {% endif %}
 
 package:
@@ -14,42 +20,47 @@ package:
   version: {{ version }}
 
 source:
+{% if from_source_control == 'yes' %}
+  - git_url: https://github.com/python/CPython.git
+    git_ref: v{{ version }}{{ dev }}
+{% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
-    # md5 from: https://www.python.org/downloads/release/python-385/
+    # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
     md5: 3e34e48b479f4beec2c0c80fdbde52a2
-    patches:
-      - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
-{% if 'conda-forge' not in channel_targets %}
-      - patches/0001-Add-Anaconda-Distribution-version-logic.patch
 {% endif %}
-      - patches/0002-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
-      - patches/0003-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - patches/0004-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - patches/0005-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - patches/0006-Support-cross-compiling-byte-code.patch
-      - patches/0007-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - patches/0008-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - patches/0009-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - patches/0010-Win32-Do-not-download-externals.patch
-      - patches/0011-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      - patches/0012-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0013-Disable-new-dtags-in-unixccompiler.py.patch
-      - patches/0014-Fix-cross-compilation-on-Debian-based-distros.patch
-      - patches/0015-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      - patches/0016-Unvendor-openssl.patch
-      - patches/0017-Unvendor-sqlite3.patch
-      # https://bugs.python.org/issue35644
-      - patches/0018-venv-Revert-a-change-from-https-github.com-python-cp.patch
-      - patches/0019-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
-      - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
-      - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
-      - patches/0026-Revert-part-of-https-bugs.python.org-issue33895-http.patch
-      - patches/0027-cross-compile-darwin.patch
-      - patches/gh21114.patch
-      - patches/gh21241.patch
-      - patches/gh21228.patch
-      - patches/gh21564.patch  # [osx and arm64]
-
+    patches:
+      0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
+      0001-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
+      0002-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      0003-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      0004-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      0005-Support-cross-compiling-byte-code.patch
+      0006-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      0007-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      0008-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      0009-Win32-Do-not-download-externals.patch
+      0010-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
+      0011-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      0012-Disable-new-dtags-in-unixccompiler.py.patch
+      0013-Fix-cross-compilation-on-Debian-based-distros.patch
+      0014-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      0015-Unvendor-openssl.patch
+      0016-Unvendor-sqlite3.patch
+      0017-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      0018-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
+      0019-Use-ranlib-from-env-if-env-variable-is-set.patch
+      0020-Add-CondaEcosystemModifyDllSearchPath.patch
+      0021-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
+      0022-Doing-d1trimfile.patch
+      0023-egg-debugging-with-Windows-debug-builds.patch
+      0024-Revert-part-of-https-bugs.python.org-issue33895-http.patch
+      0025-cross-compile-darwin.patch
+      0026-BPO-41101-Support-arm64-in-Mac-Tools-pythonw.patch
+      0027-ctypes-check-_dyld_shared_cache_contains_path-in-fin.patch
+      0028-fix-test_macholib-for-Mac-OS-11.patch
+      0029-Xcode-12-Beta-4-declares-_dyld_shared_cache_contains.patch
+      0030-gh21564.patch
+  
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -102,12 +113,12 @@ outputs:
       detect_binary_files_with_prefix: True
       # detect_binary_files_with_prefix: False
       # binary_has_prefix_files:
-      #   - lib/libpython3.8.*.1.0
-      #   - bin/python3.8  # [linux]
-      #   - lib/libpython3.8.a  # [linux]
-      #   - lib/libpython3.8.nolto.a  # [linux]
+      #   - lib/libpython{{ ver2 }}.*.1.0
+      #   - bin/python{{ ver2 }}  # [linux]
+      #   - lib/libpython{{ ver2 }}.a  # [linux]
+      #   - lib/libpython{{ ver2 }}.nolto.a  # [linux]
       #   - lib/libpython3.so  # [linux]
-      #   - lib/python3.8/lib-dynload/_hashlib.cpython-38-x86_64-linux-gnu.so  # [linux]
+      #   - lib/python{{ ver2 }}/lib-dynload/_hashlib.cpython-{{ ver2nd }}-x86_64-linux-gnu.so  # [linux]
       #   - lib/libpython3.dylib  # [osx]
       # match python.org compiler standard
       skip: True            # [win and int(float(vc)) < 14]
@@ -119,7 +130,7 @@ outputs:
         noarch:
           - python
         weak:
-          - python_abi 3.8.* *_cp38
+          - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
          {% if 'conda-forge' not in channel_targets %}
           - CONDA_FORGE=yes
          {% else %}
@@ -159,7 +170,7 @@ outputs:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
         # - tzdata # We need to discuss a canonical source for this package that comes from a non-python pkg
       run_constrained:
-        - python_abi 3.8.* *_cp38
+        - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
     test:
       downstreams:
         - cython

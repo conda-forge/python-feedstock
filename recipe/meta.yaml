@@ -58,7 +58,7 @@ source:
       - patches/0021-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
       - patches/0022-Doing-d1trimfile.patch
       - patches/0023-egg-debugging-with-Windows-debug-builds.patch
-      - patches/0024-Revert-part-of-https-bugs.python.org-issue33895-http.patch
+      - patches/0024-Add-CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL-to-aid-de.patch
       - patches/0025-cross-compile-darwin.patch
       - patches/0026-BPO-41101-Support-arm64-in-Mac-Tools-pythonw.patch
       - patches/0027-ctypes-check-_dyld_shared_cache_contains_path-in-fin.patch

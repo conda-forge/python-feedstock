@@ -114,7 +114,11 @@ outputs:
       # We delete the shared libraries.
       ignore_run_exports:   # [unix]
         - bzip2             # [unix]
-      # Disabled until new conda-build release
+        # C++ only installed so CXX is defined for distutils/sysconfig.
+        - libcxx  # [osx]
+        - libcxxabi  # [osx]
+        - libstdcxx-ng  # [linux]
+      # Disabled until verified to work correctly
       detect_binary_files_with_prefix: True
       # detect_binary_files_with_prefix: False
       # binary_has_prefix_files:

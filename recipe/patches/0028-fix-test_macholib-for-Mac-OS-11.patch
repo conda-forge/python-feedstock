@@ -1,0 +1,45 @@
+From 9693ac1909879f60d0cf7d5698cfb5bf06a794ad Mon Sep 17 00:00:00 2001
+From: Lawrence D'Anna <lawrence_danna@apple.com>
+Date: Fri, 17 Jul 2020 16:24:07 -0700
+Subject: [PATCH 28/30] fix test_macholib for Mac OS 11
+
+---
+ Lib/ctypes/test/test_macholib.py | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/Lib/ctypes/test/test_macholib.py b/Lib/ctypes/test/test_macholib.py
+index 6b3526951ac..ed04479abd0 100644
+--- a/Lib/ctypes/test/test_macholib.py
++++ b/Lib/ctypes/test/test_macholib.py
+@@ -46,18 +46,23 @@ class MachOTest(unittest.TestCase):
+     @unittest.skipUnless(sys.platform == "darwin", 'OSX-specific test')
+     def test_find(self):
+ 
+-        self.assertEqual(find_lib('pthread'),
+-                             '/usr/lib/libSystem.B.dylib')
++        # On Mac OS 11, system dylibs are only present in the shared cache,
++        # so symlinks like libpthread.dylib -> libSystem.B.dylib will not
++        # be resolved by dyld_find
++
++        self.assertIn(find_lib('pthread'),
++                             ('/usr/lib/libSystem.B.dylib', '/usr/lib/libpthread.dylib'))
+ 
+         result = find_lib('z')
+         # Issue #21093: dyld default search path includes $HOME/lib and
+         # /usr/local/lib before /usr/lib, which caused test failures if
+         # a local copy of libz exists in one of them. Now ignore the head
+         # of the path.
+-        self.assertRegex(result, r".*/lib/libz\..*.*\.dylib")
++        self.assertRegex(result, r".*/lib/libz.*\.dylib")
+ 
+-        self.assertEqual(find_lib('IOKit'),
+-                             '/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit')
++        self.assertIn(find_lib('IOKit'),
++                             ('/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit',
++                             '/System/Library/Frameworks/IOKit.framework/IOKit'))
+ 
+ if __name__ == "__main__":
+     unittest.main()
+-- 
+2.23.0
+

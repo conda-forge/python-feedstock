@@ -3,7 +3,12 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set from_source_control = 'yes' %}
+{% set from_source_control = os.environ.get('CONDA_BUILD_FROM_SOURCE_CONTROL', '') %}
+{% if from_source_control == '' or from_source_control == 'no' %}
+  {% set from_source_control = 'no' %}
+{% else %}
+  {% set from_source_control = 'yes' %}
+{% endif %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}
@@ -29,37 +34,37 @@ source:
     md5: 3e34e48b479f4beec2c0c80fdbde52a2
 {% endif %}
     patches:
-      0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
-      0001-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
-      0002-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      0003-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      0004-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      0005-Support-cross-compiling-byte-code.patch
-      0006-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      0007-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      0008-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      0009-Win32-Do-not-download-externals.patch
-      0010-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      0011-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      0012-Disable-new-dtags-in-unixccompiler.py.patch
-      0013-Fix-cross-compilation-on-Debian-based-distros.patch
-      0014-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      0015-Unvendor-openssl.patch
-      0016-Unvendor-sqlite3.patch
-      0017-venv-Revert-a-change-from-https-github.com-python-cp.patch
-      0018-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
-      0019-Use-ranlib-from-env-if-env-variable-is-set.patch
-      0020-Add-CondaEcosystemModifyDllSearchPath.patch
-      0021-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
-      0022-Doing-d1trimfile.patch
-      0023-egg-debugging-with-Windows-debug-builds.patch
-      0024-Revert-part-of-https-bugs.python.org-issue33895-http.patch
-      0025-cross-compile-darwin.patch
-      0026-BPO-41101-Support-arm64-in-Mac-Tools-pythonw.patch
-      0027-ctypes-check-_dyld_shared_cache_contains_path-in-fin.patch
-      0028-fix-test_macholib-for-Mac-OS-11.patch
-      0029-Xcode-12-Beta-4-declares-_dyld_shared_cache_contains.patch
-      0030-gh21564.patch
+      - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
+      - patches/0001-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
+      - patches/0002-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - patches/0003-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - patches/0004-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0005-Support-cross-compiling-byte-code.patch
+      - patches/0006-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - patches/0007-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - patches/0008-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - patches/0009-Win32-Do-not-download-externals.patch
+      - patches/0010-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
+      - patches/0011-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0012-Disable-new-dtags-in-unixccompiler.py.patch
+      - patches/0013-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0014-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - patches/0015-Unvendor-openssl.patch
+      - patches/0016-Unvendor-sqlite3.patch
+      - patches/0017-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      - patches/0018-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
+      - patches/0019-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0021-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
+      - patches/0022-Doing-d1trimfile.patch
+      - patches/0023-egg-debugging-with-Windows-debug-builds.patch
+      - patches/0024-Revert-part-of-https-bugs.python.org-issue33895-http.patch
+      - patches/0025-cross-compile-darwin.patch
+      - patches/0026-BPO-41101-Support-arm64-in-Mac-Tools-pythonw.patch
+      - patches/0027-ctypes-check-_dyld_shared_cache_contains_path-in-fin.patch
+      - patches/0028-fix-test_macholib-for-Mac-OS-11.patch
+      - patches/0029-Xcode-12-Beta-4-declares-_dyld_shared_cache_contains.patch
+      - patches/0030-gh21564.patch
   
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]

@@ -1,5 +1,6 @@
 {% set version = "3.9.0" %}
 {% set dev = "rc2" %}
+{% set dev_ = "rc2_" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
@@ -16,6 +17,11 @@
 {% if linkage_nature != '' %}
   {% set linkage_nature = "_" ~ linkage_nature %}
 {% endif %}
+{% if linkage_nature == 'shared' %}
+  {% set linkage_nature_env = 'shared' %}
+{% else %}
+  {% set linkage_nature_env = 'static' %}
+{% endif %}
 {% set dbg_abi = '' %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if debug != '' and debug != 'no' %}
@@ -25,6 +31,7 @@
 {% else %}
   {% set py_interp_debug = "no" %}
 {% endif %}
+{% set build_number = "0" %}
 
 package:
   name: python-split
@@ -103,18 +110,10 @@ source:
     folder: externals/libffi                                                         # [win]
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
-build:
-  number: 0
-
-{% if from_source_control == 'yes' %}
-requirements:
-  build:
-    - git
-{% endif %}
-
 outputs:
   - name: python
     build:
+      number: {{ build_number }}
       activate_in_script: True
       # Windows has issues updating python if conda is using files itself.
       # Copy rather than link.
@@ -143,7 +142,7 @@ outputs:
       skip_compile_pyc:
         - '*.py'            # [osx and arm64]
       # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
       run_exports:
         noarch:
           - python
@@ -152,7 +151,7 @@ outputs:
       script: build_base.sh  # [unix]
       script: build_base.bat  # [win]
       script_env:
-        - PY_INTERP_LINKAGE_NATURE={{ linkage_nature }}
+        - PY_INTERP_LINKAGE_NATURE={{ linkage_nature_env }}
         - PY_INTERP_DEBUG={{ py_interp_debug }}
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
@@ -164,9 +163,9 @@ outputs:
 {% else %}
         - CONDA_FORGE=no
 {% endif %}
-    missing_dso_whitelist:  # [win]
-      - '**/MSVCR71.dll'  # [win]
-      - '**/MSVCR80.dll'  # [win]
+      missing_dso_whitelist:  # [win]
+        - '**/MSVCR71.dll'  # [win]
+        - '**/MSVCR80.dll'  # [win]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -174,6 +173,9 @@ outputs:
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}  # [linux]
         - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
+{% if from_source_control == 'yes' %}
+        - git
+{% endif %}
         - make  # [not win]
         - pkg-config  # [not win]
         # configure script looks for llvm-ar for lto
@@ -268,6 +270,7 @@ outputs:
 
   - name: libpython-static
     build:
+      number: {{ build_number }}
       activate_in_script: True
       ignore_run_exports:
         - python_abi
@@ -279,6 +282,9 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+{% if from_source_control == 'yes' %}
+        - git
+{% endif %}
         - posix  # [win]
       host:
         - {{ pin_subpackage('python', exact=True) }}

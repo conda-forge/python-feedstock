@@ -1,4 +1,5 @@
 setlocal EnableDelayedExpansion
+echo on
 
 :: brand Python with conda-forge startup message
 %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
@@ -52,18 +53,24 @@ cd ..
 
 :: Populate the root package directory
 for %%x in (python%PY_VER%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe venvlauncher%_D%.exe venvwlauncher%_D%.exe) do (
+  if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
-    if errorlevel 1 exit 1
+  ) else (
+    echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x does not exist"
+  )
+  # if errorlevel 1 exit 1
 )
 
 for %%x in (python%_D%.pdb python%PY_VER%%_D%.pdb pythonw%_D%.pdb) do (
+  if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
-    if errorlevel 1 exit 1
+  ) else (
+    echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x does not exist"
+  )
 )
 
 copy %SRC_DIR%\LICENSE %PREFIX%\LICENSE_PYTHON.txt
 if errorlevel 1 exit 1
-
 
 :: Populate the DLLs directory
 mkdir %PREFIX%\DLLs

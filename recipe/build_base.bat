@@ -58,7 +58,6 @@ for %%x in (python%PY_VER%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.ex
   ) else (
     echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x does not exist"
   )
-::if errorlevel 1 exit 1
 )
 
 for %%x in (python%_D%.pdb python%PY_VER%%_D%.pdb pythonw%_D%.pdb) do (
@@ -67,7 +66,6 @@ for %%x in (python%_D%.pdb python%PY_VER%%_D%.pdb pythonw%_D%.pdb) do (
   ) else (
     echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x does not exist"
   )
-::if errorlevel 1 exit 1
 )
 
 copy %SRC_DIR%\LICENSE %PREFIX%\LICENSE_PYTHON.txt

@@ -1,4 +1,4 @@
-From f48370e3beb06a3bd8970593812fabd1f0c153f2 Mon Sep 17 00:00:00 2001
+From d2bec7fa299be363c0c6dab461b6d3172539675b Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 12 Apr 2020 18:22:21 +0200
 Subject: [PATCH 00/30] Fix off-by-one-error in
@@ -9,10 +9,10 @@ Subject: [PATCH 00/30] Fix off-by-one-error in
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Modules/_winapi.c b/Modules/_winapi.c
-index 7ba14095c96..34d46876df1 100644
+index e1672c4785..4206bb6c49 100644
 --- a/Modules/_winapi.c
 +++ b/Modules/_winapi.c
-@@ -1703,7 +1703,7 @@ _winapi_WaitForMultipleObjects_impl(PyObject *module, PyObject *handle_seq,
+@@ -1713,7 +1713,7 @@ _winapi_WaitForMultipleObjects_impl(PyObject *module, PyObject *handle_seq,
      nhandles = PySequence_Length(handle_seq);
      if (nhandles == -1)
          return NULL;

@@ -1,4 +1,5 @@
 setlocal EnableDelayedExpansion
+echo on
 
 :: brand Python with conda-forge startup message
 %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
@@ -43,24 +44,32 @@ set PGO=
 
 cd PCbuild
 
+:: Twice because:
+:: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
+call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
 call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
 for %%x in (python%PY_VER%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe venvlauncher%_D%.exe venvwlauncher%_D%.exe) do (
+  if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
-    if errorlevel 1 exit 1
+  ) else (
+    echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x does not exist"
+  )
 )
 
 for %%x in (python%_D%.pdb python%PY_VER%%_D%.pdb pythonw%_D%.pdb) do (
+  if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
-    if errorlevel 1 exit 1
+  ) else (
+    echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x does not exist"
+  )
 )
 
 copy %SRC_DIR%\LICENSE %PREFIX%\LICENSE_PYTHON.txt
 if errorlevel 1 exit 1
-
 
 :: Populate the DLLs directory
 mkdir %PREFIX%\DLLs
@@ -132,12 +141,12 @@ copy /Y %SRC_DIR%\Tools\scripts\2to3 %SCRIPTS%
 if errorlevel 1 exit 1
 
 :: Populate the libs directory
-mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%PY_VER%%_D%.lib %PREFIX%\libs\
+if not exist %PREFIX%\libs mkdir %PREFIX%\libs
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%PY_VER%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%PY_VER%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 
 

@@ -1,4 +1,4 @@
-From 47b34ef50b64af3b2541f7aad006d0ec5273e8a8 Mon Sep 17 00:00:00 2001
+From b00423aa4195fc140328219d36b12cee4d24e17f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 25/30] cross compile darwin
@@ -11,7 +11,7 @@ By Isuru Fernando.
  3 files changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index e9f50ab622d..408587d36cb 100755
+index e9f50ab622..408587d36c 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -409,7 +409,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
@@ -29,10 +29,10 @@ index e9f50ab622d..408587d36cb 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index c31a7d39ca0..c5f9e74ee9d 100755
+index a8e2400a15..f13bc8cbe0 100755
 --- a/configure
 +++ b/configure
-@@ -3343,6 +3343,8 @@ fi
+@@ -3339,6 +3339,8 @@ fi
  $as_echo "\"$MACHDEP\"" >&6; }
  
  
@@ -41,7 +41,7 @@ index c31a7d39ca0..c5f9e74ee9d 100755
  if test "$cross_compiling" = yes; then
  	case "$host" in
  	*-*-linux*)
-@@ -3367,6 +3369,7 @@ if test "$cross_compiling" = yes; then
+@@ -3363,6 +3365,7 @@ if test "$cross_compiling" = yes; then
  	esac
  	_PYTHON_HOST_PLATFORM="$MACHDEP${_host_cpu:+-$_host_cpu}"
  fi
@@ -49,7 +49,7 @@ index c31a7d39ca0..c5f9e74ee9d 100755
  
  # Some systems cannot stand _XOPEN_SOURCE being defined at all; they
  # disable features if it is defined, without any means to access these
-@@ -6214,7 +6217,7 @@ fi
+@@ -6210,7 +6213,7 @@ fi
  if test "$cross_compiling" = yes; then
      case "$READELF" in
  	readelf|:)
@@ -58,7 +58,7 @@ index c31a7d39ca0..c5f9e74ee9d 100755
  	;;
      esac
  fi
-@@ -9330,7 +9333,7 @@ rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+@@ -9326,7 +9329,7 @@ rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
    conftest.$ac_objext conftest.beam conftest.$ac_ext
  fi
  
@@ -67,7 +67,7 @@ index c31a7d39ca0..c5f9e74ee9d 100755
      if test "${ac_osx_32bit}" = "yes"; then
      	case `/usr/bin/arch` in
      	i386)
-@@ -9357,6 +9360,7 @@ fi
+@@ -9353,6 +9356,7 @@ fi
      	esac
  
      fi
@@ -76,7 +76,7 @@ index c31a7d39ca0..c5f9e74ee9d 100755
      LIBTOOL_CRUFT=$LIBTOOL_CRUFT" -lSystem -lSystemStubs -arch_only ${MACOSX_DEFAULT_ARCH}"
      LIBTOOL_CRUFT=$LIBTOOL_CRUFT' -install_name $(PYTHONFRAMEWORKINSTALLDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)'
 diff --git a/setup.py b/setup.py
-index b1bcd9ddf1d..64438436b1a 100644
+index f2769081e8..a95162b43a 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -61,7 +61,7 @@ CROSS_COMPILING = ("_PYTHON_HOST_PLATFORM" in os.environ)

@@ -1,4 +1,4 @@
-From 6a265be10e30f3e943434535710acf1286ba88f0 Mon Sep 17 00:00:00 2001
+From c714d47f760e1e79cd8e7c6eef5167139e50ab11 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:11:15 +0200
 Subject: [PATCH 30/30] gh21564
@@ -22,7 +22,7 @@ Subject: [PATCH 30/30] gh21564
  15 files changed, 320 insertions(+), 121 deletions(-)
 
 diff --git a/Lib/_osx_support.py b/Lib/_osx_support.py
-index e9efce7d7ed..8ed1eeac852 100644
+index e9efce7d7e..8ed1eeac85 100644
 --- a/Lib/_osx_support.py
 +++ b/Lib/_osx_support.py
 @@ -481,6 +481,8 @@ def get_platform_osx(_config_vars, osname, release, machine):
@@ -35,7 +35,7 @@ index e9efce7d7ed..8ed1eeac852 100644
                  machine = 'fat'
              elif archs == ('i386', 'x86_64'):
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index bf0e8e8dee9..d230b23da9c 100644
+index bf0e8e8dee..d230b23da9 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
 @@ -6,6 +6,11 @@ import os
@@ -51,10 +51,10 @@ index bf0e8e8dee9..d230b23da9c 100644
  try:
      from _ctypes import _dyld_shared_cache_contains_path
 diff --git a/Lib/distutils/tests/test_build_ext.py b/Lib/distutils/tests/test_build_ext.py
-index f9e0d766d87..6bb009a86f4 100644
+index 5e47e0773a..5a32e03980 100644
 --- a/Lib/distutils/tests/test_build_ext.py
 +++ b/Lib/distutils/tests/test_build_ext.py
-@@ -493,7 +493,7 @@ class BuildExtTestCase(TempdirManager,
+@@ -492,7 +492,7 @@ class BuildExtTestCase(TempdirManager,
          # format the target value as defined in the Apple
          # Availability Macros.  We can't use the macro names since
          # at least one value we test with will not exist yet.
@@ -64,10 +64,10 @@ index f9e0d766d87..6bb009a86f4 100644
              target = '%02d%01d0' % target
          else:
 diff --git a/Lib/test/test_bytes.py b/Lib/test/test_bytes.py
-index e61228d1a26..d550abfc656 100644
+index 770e2c5592..05568f2c67 100644
 --- a/Lib/test/test_bytes.py
 +++ b/Lib/test/test_bytes.py
-@@ -1036,6 +1036,7 @@ class BytesTest(BaseBytesTest, unittest.TestCase):
+@@ -1034,6 +1034,7 @@ class BytesTest(BaseBytesTest, unittest.TestCase):
              c_char_p)
  
          PyBytes_FromFormat = pythonapi.PyBytes_FromFormat
@@ -76,10 +76,10 @@ index e61228d1a26..d550abfc656 100644
  
          # basic tests
 diff --git a/Lib/test/test_platform.py b/Lib/test/test_platform.py
-index b5d21e54610..9b6d93cb5fc 100644
+index a5c35dff79..bd953b5d67 100644
 --- a/Lib/test/test_platform.py
 +++ b/Lib/test/test_platform.py
-@@ -246,7 +246,7 @@ class PlatformTest(unittest.TestCase):
+@@ -245,7 +245,7 @@ class PlatformTest(unittest.TestCase):
              self.assertEqual(res[1], ('', '', ''))
  
              if sys.byteorder == 'little':
@@ -89,12 +89,12 @@ index b5d21e54610..9b6d93cb5fc 100644
                  self.assertEqual(res[2], 'PowerPC')
  
 diff --git a/Lib/test/test_unicode.py b/Lib/test/test_unicode.py
-index d485bc7ede2..4cf60591d2d 100644
+index 2ee4e64d63..23508c56e7 100644
 --- a/Lib/test/test_unicode.py
 +++ b/Lib/test/test_unicode.py
-@@ -2513,11 +2513,13 @@ class CAPITest(unittest.TestCase):
+@@ -2523,11 +2523,13 @@ class CAPITest(unittest.TestCase):
      def test_from_format(self):
-         import_helper.import_module('ctypes')
+         support.import_module('ctypes')
          from ctypes import (
 +            c_char_p,
              pythonapi, py_object, sizeof,
@@ -107,7 +107,7 @@ index d485bc7ede2..4cf60591d2d 100644
  
          def PyUnicode_FromFormat(format, *args):
 diff --git a/Mac/BuildScript/build-installer.py b/Mac/BuildScript/build-installer.py
-index a58b922ce30..56fc20390c3 100755
+index a58b922ce3..56fc20390c 100755
 --- a/Mac/BuildScript/build-installer.py
 +++ b/Mac/BuildScript/build-installer.py
 @@ -116,7 +116,8 @@ WORKDIR = "/tmp/_py"
@@ -249,7 +249,7 @@ index a58b922ce30..56fc20390c3 100755
      buildPython()
  
 diff --git a/Mac/Tools/pythonw.c b/Mac/Tools/pythonw.c
-index ae4c262129e..78813e818e7 100644
+index ae4c262129..78813e818e 100644
 --- a/Mac/Tools/pythonw.c
 +++ b/Mac/Tools/pythonw.c
 @@ -95,9 +95,6 @@ setup_spawnattr(posix_spawnattr_t* spawnattr)
@@ -273,7 +273,7 @@ index ae4c262129e..78813e818e7 100644
  
          setup_spawnattr(&spawnattr);
 diff --git a/Modules/_ctypes/callbacks.c b/Modules/_ctypes/callbacks.c
-index 2abfa67cdc0..77d4855277e 100644
+index 2abfa67cdc..77d4855277 100644
 --- a/Modules/_ctypes/callbacks.c
 +++ b/Modules/_ctypes/callbacks.c
 @@ -1,6 +1,8 @@
@@ -346,7 +346,7 @@ index 2abfa67cdc0..77d4855277e 100644
          PyErr_Format(PyExc_RuntimeError,
                       "ffi_prep_closure failed with %d", result);
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index ee64c80605b..824b00af0e6 100644
+index f8007505ed..badd85c8fd 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
 @@ -57,6 +57,8 @@
@@ -555,7 +555,7 @@ index ee64c80605b..824b00af0e6 100644
      {"alignment", align_func, METH_O, alignment_doc},
      {"sizeof", sizeof_func, METH_O, sizeof_doc},
 diff --git a/Modules/_ctypes/ctypes.h b/Modules/_ctypes/ctypes.h
-index 1effccf9cc5..3f20031d671 100644
+index 1effccf9cc..3f20031d67 100644
 --- a/Modules/_ctypes/ctypes.h
 +++ b/Modules/_ctypes/ctypes.h
 @@ -366,6 +366,14 @@ PyObject *_ctypes_get_errobj(int **pspace);
@@ -574,7 +574,7 @@ index 1effccf9cc5..3f20031d671 100644
   Local Variables:
   compile-command: "python setup.py -q build install --home ~"
 diff --git a/Modules/_ctypes/malloc_closure.c b/Modules/_ctypes/malloc_closure.c
-index f9cdb336958..4f220e42ff3 100644
+index f9cdb33695..4f220e42ff 100644
 --- a/Modules/_ctypes/malloc_closure.c
 +++ b/Modules/_ctypes/malloc_closure.c
 @@ -89,16 +89,27 @@ static void more_core(void)
@@ -608,10 +608,10 @@ index f9cdb336958..4f220e42ff3 100644
      if (!free_list)
          more_core();
 diff --git a/configure b/configure
-index 807483fcfd2..3f47cbf5f5a 100755
+index 8f94ca7715..6691ea79bc 100755
 --- a/configure
 +++ b/configure
-@@ -6963,7 +6963,7 @@ fi
+@@ -6959,7 +6959,7 @@ fi
  
  
  
@@ -620,7 +620,7 @@ index 807483fcfd2..3f47cbf5f5a 100755
  UNIVERSAL_ARCH_FLAGS=
  
  
-@@ -7490,6 +7490,11 @@ $as_echo "$CC" >&6; }
+@@ -7486,6 +7486,11 @@ $as_echo "$CC" >&6; }
                 LIPO_32BIT_FLAGS="-extract ppc7400 -extract i386"
                 ARCH_RUN_32BIT="/usr/bin/arch -i386 -ppc"
                 ;;
@@ -632,7 +632,7 @@ index 807483fcfd2..3f47cbf5f5a 100755
              intel)
                 UNIVERSAL_ARCH_FLAGS="-arch i386 -arch x86_64"
                 LIPO_32BIT_FLAGS="-extract i386"
-@@ -7511,7 +7516,7 @@ $as_echo "$CC" >&6; }
+@@ -7507,7 +7512,7 @@ $as_echo "$CC" >&6; }
                 ARCH_RUN_32BIT="/usr/bin/arch -i386 -ppc"
                 ;;
              *)
@@ -641,7 +641,7 @@ index 807483fcfd2..3f47cbf5f5a 100755
                 ;;
              esac
  
-@@ -9343,7 +9348,7 @@ fi
+@@ -9339,7 +9344,7 @@ fi
      		MACOSX_DEFAULT_ARCH="ppc"
      		;;
      	*)
@@ -650,7 +650,7 @@ index 807483fcfd2..3f47cbf5f5a 100755
      		;;
      	esac
      else
-@@ -9353,9 +9358,12 @@ fi
+@@ -9349,9 +9354,12 @@ fi
      		;;
      	ppc)
      		MACOSX_DEFAULT_ARCH="ppc64"
@@ -665,7 +665,7 @@ index 807483fcfd2..3f47cbf5f5a 100755
      	esac
  
 diff --git a/configure.ac b/configure.ac
-index 3eab6ea071c..8e147a2bdf8 100644
+index 40be5384d8..63923a9e2a 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1589,7 +1589,7 @@ AC_SUBST(BASECFLAGS)
@@ -722,7 +722,7 @@ index 3eab6ea071c..8e147a2bdf8 100644
      	esac
  
 diff --git a/setup.py b/setup.py
-index 64438436b1a..925c761d0c9 100644
+index a95162b43a..1add5541ce 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -230,6 +230,35 @@ def macosx_sdk_specified():
@@ -789,7 +789,7 @@ index 64438436b1a..925c761d0c9 100644
  
  def find_library_file(compiler, libname, std_dirs, paths):
      result = compiler.find_library_file(std_dirs + paths, libname)
-@@ -2107,43 +2150,18 @@ class PyBuildExt(build_ext):
+@@ -2108,43 +2151,18 @@ class PyBuildExt(build_ext):
                             library_dirs=added_lib_dirs))
          return True
  
@@ -840,7 +840,7 @@ index 64438436b1a..925c761d0c9 100644
          include_dirs = []
          extra_compile_args = ['-DPy_BUILD_CORE_MODULE']
          extra_link_args = []
-@@ -2156,11 +2174,10 @@ class PyBuildExt(build_ext):
+@@ -2157,11 +2175,10 @@ class PyBuildExt(build_ext):
  
          if MACOS:
              sources.append('_ctypes/malloc_closure.c')
@@ -854,7 +854,7 @@ index 64438436b1a..925c761d0c9 100644
  
          elif HOST_PLATFORM == 'sunos5':
              # XXX This shouldn't be necessary; it appears that some
-@@ -2190,31 +2207,47 @@ class PyBuildExt(build_ext):
+@@ -2191,31 +2208,47 @@ class PyBuildExt(build_ext):
                                 sources=['_ctypes/_ctypes_test.c'],
                                 libraries=['m']))
  

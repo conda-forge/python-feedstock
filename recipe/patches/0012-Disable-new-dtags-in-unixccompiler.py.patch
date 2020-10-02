@@ -1,4 +1,4 @@
-From 8cfcd2a8c4e9b60ee671e55d2d127dc000f4e22c Mon Sep 17 00:00:00 2001
+From c23b6879c789beb899744592bbd5e13a2153c7f1 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 29 Apr 2018 16:10:42 +0100
 Subject: [PATCH 12/30] Disable new-dtags in unixccompiler.py
@@ -21,10 +21,10 @@ itself, MSVC).
  2 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/Lib/distutils/tests/test_unixccompiler.py b/Lib/distutils/tests/test_unixccompiler.py
-index eefe4ba4029..2c7900e48c4 100644
+index eef702cf01..2d8d61df03 100644
 --- a/Lib/distutils/tests/test_unixccompiler.py
 +++ b/Lib/distutils/tests/test_unixccompiler.py
-@@ -60,7 +60,7 @@ class UnixCCompilerTestCase(unittest.TestCase):
+@@ -59,7 +59,7 @@ class UnixCCompilerTestCase(unittest.TestCase):
              elif v == 'GNULD':
                  return 'yes'
          sysconfig.get_config_var = gcv
@@ -33,7 +33,7 @@ index eefe4ba4029..2c7900e48c4 100644
  
          # GCC non-GNULD
          sys.platform = 'bar'
-@@ -70,7 +70,7 @@ class UnixCCompilerTestCase(unittest.TestCase):
+@@ -69,7 +69,7 @@ class UnixCCompilerTestCase(unittest.TestCase):
              elif v == 'GNULD':
                  return 'no'
          sysconfig.get_config_var = gcv
@@ -43,7 +43,7 @@ index eefe4ba4029..2c7900e48c4 100644
          # GCC GNULD with fully qualified configuration prefix
          # see #7617
 diff --git a/Lib/distutils/unixccompiler.py b/Lib/distutils/unixccompiler.py
-index 84a421767dc..12a9f777fe8 100644
+index 84a421767d..12a9f777fe 100644
 --- a/Lib/distutils/unixccompiler.py
 +++ b/Lib/distutils/unixccompiler.py
 @@ -248,12 +248,12 @@ class UnixCCompiler(CCompiler):

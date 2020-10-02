@@ -1,4 +1,4 @@
-From 8f1aeb8d3f99c58db6dadae3131da841df2e4dd4 Mon Sep 17 00:00:00 2001
+From 1f84c5ff3cdd2cfb758f4c7e585e6ae02cf845e6 Mon Sep 17 00:00:00 2001
 From: Lawrence D'Anna <lawrence_danna@apple.com>
 Date: Wed, 5 Aug 2020 15:20:36 -0700
 Subject: [PATCH 29/30] Xcode 12 Beta 4 declares
@@ -12,7 +12,7 @@ Subject: [PATCH 29/30] Xcode 12 Beta 4 declares
  4 files changed, 40 insertions(+), 25 deletions(-)
 
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index be829e39f59..ee64c80605b 100644
+index 572498715f..f8007505ed 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
 @@ -64,8 +64,8 @@
@@ -92,10 +92,10 @@ index be829e39f59..ee64c80605b 100644
  #endif
      {"alignment", align_func, METH_O, alignment_doc},
 diff --git a/configure b/configure
-index c5f9e74ee9d..807483fcfd2 100755
+index f13bc8cbe0..8f94ca7715 100755
 --- a/configure
 +++ b/configure
-@@ -11623,6 +11623,15 @@ fi
+@@ -11619,6 +11619,15 @@ fi
  done
  
  
@@ -112,7 +112,7 @@ index c5f9e74ee9d..807483fcfd2 100755
  # loading of modules.
  
 diff --git a/configure.ac b/configure.ac
-index b39f039f472..3eab6ea071c 100644
+index e178d1fb54..40be5384d8 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -3617,6 +3617,10 @@ DLINCLDIR=.
@@ -127,10 +127,10 @@ index b39f039f472..3eab6ea071c 100644
  # loading of modules.
  AC_SUBST(DYNLOADFILE)
 diff --git a/pyconfig.h.in b/pyconfig.h.in
-index c162a3c33e5..6d3dc16e8e7 100644
+index c9589cd102..823e73c7d9 100644
 --- a/pyconfig.h.in
 +++ b/pyconfig.h.in
-@@ -284,6 +284,9 @@
+@@ -281,6 +281,9 @@
  /* Define to 1 if you have the `dup3' function. */
  #undef HAVE_DUP3
  

@@ -1,4 +1,4 @@
-From 9c3857291651bcf5ab9be2d71a389afc6a04db3d Mon Sep 17 00:00:00 2001
+From c3f4e248b58c6d5fc393d1c8b057c99fca3fc5be Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Mon, 10 Dec 2018 12:22:37 -0600
 Subject: [PATCH 16/30] Unvendor sqlite3
@@ -11,7 +11,7 @@ Subject: [PATCH 16/30] Unvendor sqlite3
  4 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 7e0062692b8..3e7b2262e8f 100644
+index 7e0062692b..3e7b2262e8 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -93,9 +93,12 @@
@@ -40,7 +40,7 @@ index 7e0062692b8..3e7b2262e8f 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 4b6dc1e6771..19d75c75b83 100644
+index 4b6dc1e677..19d75c75b8 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
 @@ -57,8 +57,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bdist_wininst", "..\PC\bdis
@@ -53,7 +53,7 @@ index 4b6dc1e6771..19d75c75b83 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 9c2838b1622..23604177480 100644
+index 9c2838b162..2360417748 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -56,7 +56,7 @@
@@ -66,7 +66,7 @@ index 9c2838b1622..23604177480 100644
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
      <libffiDir>$(ExternalsDir)libffi\</libffiDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index 7351a6dda2c..56d18cfa949 100644
+index 7351a6dda2..56d18cfa94 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
 @@ -88,12 +88,12 @@

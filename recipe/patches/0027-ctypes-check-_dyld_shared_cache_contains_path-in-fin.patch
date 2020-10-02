@@ -1,4 +1,4 @@
-From e3ba89a28a4c8240f38f5f525cc08074c2d9a589 Mon Sep 17 00:00:00 2001
+From 1a9dae009486332cdf262432db54f0df804b7074 Mon Sep 17 00:00:00 2001
 From: Lawrence D'Anna <lawrence_danna@apple.com>
 Date: Tue, 30 Jun 2020 10:37:20 -0700
 Subject: [PATCH 27/30] ctypes: check _dyld_shared_cache_contains_path in
@@ -17,7 +17,7 @@ and earlier and Mac OS 11.0 and later.
  create mode 100644 Misc/NEWS.d/next/Core and Builtins/2020-06-30-18-24-28.bpo-41100._QkcD_.rst
 
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index 9ab447c0a1c..bf0e8e8dee9 100644
+index 9ab447c0a1..bf0e8e8dee 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
 @@ -7,6 +7,12 @@ from ctypes.macholib.framework import framework_info
@@ -48,14 +48,14 @@ index 9ab447c0a1c..bf0e8e8dee9 100644
  def framework_find(fn, executable_path=None, env=None):
 diff --git a/Misc/NEWS.d/next/Core and Builtins/2020-06-30-18-24-28.bpo-41100._QkcD_.rst b/Misc/NEWS.d/next/Core and Builtins/2020-06-30-18-24-28.bpo-41100._QkcD_.rst
 new file mode 100644
-index 00000000000..dbb732432c0
+index 0000000000..dbb732432c
 --- /dev/null
 +++ b/Misc/NEWS.d/next/Core and Builtins/2020-06-30-18-24-28.bpo-41100._QkcD_.rst	
 @@ -0,0 +1 @@
 +ctypes: Mac OS 11: check for system libraries in the shared cache
 \ No newline at end of file
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index 261ae5ceb9e..be829e39f59 100644
+index 6030cc3d43..572498715f 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
 @@ -64,6 +64,10 @@

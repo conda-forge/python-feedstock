@@ -3,6 +3,9 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
+
+# Sanitize build system env. var tweak parameters
+# (passed to the build scripts via script_env).
 {% set from_source_control = os.environ.get('CONDA_BUILD_FROM_SOURCE_CONTROL', '') %}
 {% if from_source_control == '' or from_source_control == 'no' %}
   {% set from_source_control = 'no' %}
@@ -15,9 +18,12 @@
 {% endif %}
 {% set dbg_abi = '' %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
-{% if debug != '' %}
+{% if debug != '' and debug != 'no' %}
+  {% set py_interp_debug = "yes" %}
   {% set debug = "_dbg" %}
   {% set dbg_abi = "d" %}  # [win]
+{% else %}
+  {% set py_interp_debug = "no" %}
 {% endif %}
 
 package:
@@ -99,9 +105,6 @@ source:
 
 build:
   number: 0
-  script_env:
-    - PY_INTERP_LINKAGE_NATURE
-    - PY_INTERP_DEBUG
 
 {% if from_source_control == 'yes' %}
 requirements:
@@ -149,8 +152,8 @@ outputs:
       script: build_base.sh  # [unix]
       script: build_base.bat  # [win]
       script_env:
-        - PY_INTERP_LINKAGE_NATURE
-        - PY_INTERP_DEBUG
+        - PY_INTERP_LINKAGE_NATURE={{ linkage_nature }}
+        - PY_INTERP_DEBUG={{ py_interp_debug }}
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
         # important env. vars.

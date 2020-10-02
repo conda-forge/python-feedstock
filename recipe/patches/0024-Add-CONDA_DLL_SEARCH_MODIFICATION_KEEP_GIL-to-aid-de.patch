@@ -1,4 +1,4 @@
-From cf269b8b99dc239aadcf759bf2450d96a6d75a7b Mon Sep 17 00:00:00 2001
+From b994e0849ac776321ff1e91c6c8cdd6a31d107ab Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 18 Feb 2020 17:38:32 +0100
 Subject: [PATCH 24/30] Add CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL to aid
@@ -12,14 +12,14 @@ be useful when debugging strange extension module import issues.
 
 There really isn't any way to get the ProcAddress without allowing static initialization to happen
 ---
- Python/dynload_win.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ Python/dynload_win.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/Python/dynload_win.c b/Python/dynload_win.c
-index acc582d7ada..00c22e068e9 100644
+index 1b3e275614..071c2623b1 100644
 --- a/Python/dynload_win.c
 +++ b/Python/dynload_win.c
-@@ -182,6 +182,11 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
+@@ -179,6 +179,11 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
      {
          HINSTANCE hDLL = NULL;
          unsigned int old_mode;
@@ -31,7 +31,7 @@ index acc582d7ada..00c22e068e9 100644
  
          /* Don't display a message box when Python can't load a DLL */
          old_mode = SetErrorMode(SEM_FAILCRITICALERRORS);
-@@ -194,10 +199,16 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
+@@ -191,10 +196,19 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
          extern int CondaEcosystemModifyDllSearchPath(int, int);
          CondaEcosystemModifyDllSearchPath(1, 1);
  
@@ -49,9 +49,12 @@ index acc582d7ada..00c22e068e9 100644
 +                                LOAD_WITH_ALTERED_SEARCH_PATH);
 +        }
 +
- #if !USE_UNICODE_WCHAR_CACHE
-         PyMem_Free(wpathname);
- #endif /* USE_UNICODE_WCHAR_CACHE */
++#if !USE_UNICODE_WCHAR_CACHE
++        PyMem_Free(wpathname);
++#endif /* USE_UNICODE_WCHAR_CACHE */
+ 
+         /* restore old error mode settings */
+         SetErrorMode(old_mode);
 -- 
-2.28.0.windows.1
+2.23.0
 

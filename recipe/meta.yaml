@@ -27,7 +27,7 @@ package:
 source:
 {% if from_source_control == 'yes' %}
   - git_url: https://github.com/python/CPython.git
-    git_ref: v{{ version }}{{ dev }}
+    git_tag: v{{ version }}{{ dev }}
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
@@ -103,6 +103,12 @@ build:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG
 
+{% if from_source_control == 'yes' %}
+requirements:
+  build:
+    - git
+{% endif %}
+
 outputs:
   - name: python
     build:
@@ -154,6 +160,9 @@ outputs:
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}  # [linux]
         - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
+{% if from_source_control == 'yes' %}
+        - git
+{% endif %}
         - make  # [not win]
         - pkg-config  # [not win]
         # configure script looks for llvm-ar for lto

@@ -1,4 +1,4 @@
-From ed961642f0cd7f85021b98e483f3ec9488caf602 Mon Sep 17 00:00:00 2001
+From d931b85e44bb5f2aff68f1504ff1aeca76b8f56c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 5 Oct 2017 02:00:41 +0100
 Subject: [PATCH 08/30] runtime_library_dir_option: Use 1st word of CC as
@@ -12,7 +12,7 @@ not get detected as gcc (or whatever it actually is).
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Lib/distutils/unixccompiler.py b/Lib/distutils/unixccompiler.py
-index 3f05cf7f8cd..84a421767dc 100644
+index 3f05cf7f8c..84a421767d 100644
 --- a/Lib/distutils/unixccompiler.py
 +++ b/Lib/distutils/unixccompiler.py
 @@ -232,7 +232,7 @@ class UnixCCompiler(CCompiler):

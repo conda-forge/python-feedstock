@@ -141,12 +141,12 @@ copy /Y %SRC_DIR%\Tools\scripts\2to3 %SCRIPTS%
 if errorlevel 1 exit 1
 
 :: Populate the libs directory
-mkdir %PREFIX%\libs
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%PY_VER%%_D%.lib %PREFIX%\libs\
+if not exist %PREFIX%\libs mkdir %PREFIX%\libs
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%PY_VER%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%PY_VER%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 
 

@@ -146,13 +146,25 @@ outputs:
           - python
         weak:
           - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
-         {% if 'conda-forge' not in channel_targets %}
-          - CONDA_FORGE=yes
-         {% else %}
-          - CONDA_FORGE=no
          {% endif %}
     script: build_base.sh  # [unix]
     script: build_base.bat  # [win]
+    script_env:
+     - PY_INTERP_LINKAGE_NATURE
+     - PY_INTERP_DEBUG
+     # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
+     # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
+     # important env. vars.
+     - 'OPENSSL_DIR=%PREFIX%\Library'  # [win]
+     - 'SQLITE3_DIR=%PREFIX%\Library'  # [win]
+{% if 'conda-forge' in channel_targets %}
+     - CONDA_FORGE=yes
+{% else %}
+     - CONDA_FORGE=no
+{% endif %}
+  missing_dso_whitelist:  # [win]
+    - '**/MSVCR71.dll'  # [win]
+    - '**/MSVCR80.dll'  # [win]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -160,9 +172,6 @@ outputs:
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}  # [linux]
         - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
-{% if from_source_control == 'yes' %}
-        - git
-{% endif %}
         - make  # [not win]
         - pkg-config  # [not win]
         # configure script looks for llvm-ar for lto

@@ -146,7 +146,6 @@ outputs:
           - python
         weak:
           - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
-         {% endif %}
     script: build_base.sh  # [unix]
     script: build_base.bat  # [win]
     script_env:

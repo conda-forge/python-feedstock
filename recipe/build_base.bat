@@ -24,7 +24,7 @@ for /f "usebackq delims=" %%i in (`conda list -p %PREFIX% sqlite --no-show-chann
 for /f "tokens=2 delims==/ " %%i IN ('echo %SQLITE3_VERSION_LINE%') do (set SQLITE3_VERSION=%%~i)
 echo SQLITE3_VERSION detected as %SQLITE3_VERSION%
 
-if "%PY_INTERP_DEBUG%" neq "" (
+if "%PY_INTERP_DEBUG%" eq "yes" (
   set CONFIG=-d
   set _D=_d
 ) else (

@@ -119,13 +119,19 @@ outputs:
       # Copy rather than link.
       no_link:
         - DLLs/_ctypes.pyd  # [win]
-      # We delete the shared libraries.
       ignore_run_exports:   # [unix]
+        # We delete the shared bzip2 library
         - bzip2             # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
-        - libcxx  # [osx]
-        - libcxxabi  # [osx]
-        - libstdcxx-ng  # [linux]
+        # It would be nice to split ignore_run_exports into two:
+        # ignore_run_exports/from and ignore_run_exports/of, that way
+        # we could just use ignore_run_exports/from: {{ compiler('cxx') }}
+        # here instead of this nonsense:
+        - clangxx_osx-64  # [osx]
+        - clangxx_osx-aarch64  # [osxaarch64]
+        - gxx_linux-64  # [linux64]
+        - gxx_linux-aarch64  # [linuxaarch64]
+        - gxx_linux-ppc64le  # [linuxppc64le]
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: True
       # detect_binary_files_with_prefix: False
@@ -194,7 +200,7 @@ outputs:
         - openssl
         - readline  # [not win]
         - tk  # [not win]
-        - ncurses  # [linux]
+        - ncurses  # [unix]
         - libffi  # [not win]
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run:
@@ -274,6 +280,12 @@ outputs:
       activate_in_script: True
       ignore_run_exports:
         - python_abi
+        - clangxx_osx-64  # [osx64]
+        - clangxx_osx-aarch64  # [osxaarch64]
+        - gxx_linux-64  # [linux64]
+        - gxx_linux-aarch64  # [linuxaarch64]
+        - gxx_linux-ppc64le  # [linuxppc64le]
+
       # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
     script: build_static.sh  # [unix]

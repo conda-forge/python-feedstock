@@ -188,7 +188,6 @@ outputs:
         - llvm-tools  # [osx]
         - patch  # [not win]
         - m2-patch  # [win]
-        - posix  # [win]
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
         - binutils_impl_{{ target_platform }} >=2.34  # [linux]
         - libtool  # [unix]
@@ -297,7 +296,6 @@ outputs:
 {% if from_source_control == 'yes' %}
         - git
 {% endif %}
-        - posix  # [win]
       host:
         - {{ pin_subpackage('python', exact=True) }}
       run:

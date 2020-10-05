@@ -303,9 +303,9 @@ outputs:
         - gxx_linux-aarch64  # [linuxaarch64]
         - gxx_linux-ppc64le  # [linuxppc64le]
 {% if 'conda-forge' in channel_targets %}
-    string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
 {% else %}
-    string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}
 {% endif %}
     requirements:
       build:

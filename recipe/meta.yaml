@@ -112,6 +112,8 @@ source:
 
 outputs:
   - name: python
+    script: build_base.sh  # [unix]
+    script: build_base.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: True
@@ -149,13 +151,13 @@ outputs:
         - '*.py'            # [osx and arm64]
       # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
       string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
+{% if 'conda-forge' in channel_targets %}
       run_exports:
         noarch:
           - python
         weak:
           - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
-      script: build_base.sh  # [unix]
-      script: build_base.bat  # [win]
+{% endif %}
       script_env:
         - PY_INTERP_LINKAGE_NATURE={{ linkage_nature_env }}
         - PY_INTERP_DEBUG={{ py_interp_debug }}
@@ -183,16 +185,20 @@ outputs:
         - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
 {% if from_source_control == 'yes' %}
         - git
+{% else %}
+        - patch  # [not win]
+        - m2-patch  # [win]
+        - m2-gcc-libs  # [win]
 {% endif %}
         - make  # [not win]
+        - libtool  # [unix]
         - pkg-config  # [not win]
         # configure script looks for llvm-ar for lto
         - llvm-tools  # [osx]
-        - patch  # [not win]
-        - m2-patch  # [win]
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
+{% if 'conda-forge' in channel_targets %}
         - binutils_impl_{{ target_platform }} >=2.34  # [linux]
-        - libtool  # [unix]
+{% endif %}
       host:
         - bzip2  # [not win]
         - sqlite
@@ -207,8 +213,10 @@ outputs:
       run:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
         # - tzdata # We need to discuss a canonical source for this package that comes from a non-python pkg
+{% if 'conda-forge' in channel_targets %}
       run_constrained:
         - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
+{% endif %}
     test:
       downstreams:
         - cython
@@ -276,6 +284,8 @@ outputs:
         - test ! -f default.profraw   # [osx]
 
   - name: libpython-static
+    script: build_static.sh  # [unix]
+    script: build_static.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: True
@@ -289,8 +299,6 @@ outputs:
 
       # Would like to be able to append to the calculated build string here, ping @msarahan, is this possible?
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
-    script: build_static.sh  # [unix]
-    script: build_static.bat  # [win]
     requirements:
       build:
         - {{ compiler('c') }}

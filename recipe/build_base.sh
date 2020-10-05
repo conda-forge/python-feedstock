@@ -150,7 +150,8 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
       ${SRC_DIR}/configure --build=${BUILD} \
                            --host=${BUILD} \
                            --prefix=${BUILD_PYTHON_PREFIX} \
-                           --with-ensurepip=no && \
+                           --with-ensurepip=no \
+                           --with-platlibdir=lib && \
       make -j${CPU_COUNT} && \
       make install)
     export PATH=${BUILD_PYTHON_PREFIX}/bin:${PATH}
@@ -235,6 +236,7 @@ _common_configure_args+=(--with-system-ffi)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
+_common_configure_args+=(--with-platlibdir=lib)
 
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()

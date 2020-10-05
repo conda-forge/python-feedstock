@@ -214,6 +214,7 @@ outputs:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
         # - tzdata # We need to discuss a canonical source for this package that comes from a non-python pkg
 {% if 'conda-forge' in channel_targets %}
+        - ncurses  # [unix]
       run_constrained:
         - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
 {% endif %}

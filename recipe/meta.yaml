@@ -111,6 +111,16 @@ source:
     folder: externals/libffi                                                         # [win]
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
+requirements:
+  build:
+{% if from_source_control == 'yes' %}
+    - git
+{% else %}
+    - patch  # [not win]
+    - m2-patch  # [win]
+    - m2-gcc-libs  # [win]
+{% endif %}
+
 outputs:
   - name: python
     script: build_base.sh  # [unix]
@@ -187,13 +197,6 @@ outputs:
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}  # [linux]
         - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
-{% if from_source_control == 'yes' %}
-        - git
-{% else %}
-        - patch  # [not win]
-        - m2-patch  # [win]
-        - m2-gcc-libs  # [win]
-{% endif %}
         - make  # [not win]
         - libtool  # [unix]
         - pkg-config  # [not win]

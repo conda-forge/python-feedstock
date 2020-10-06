@@ -111,6 +111,9 @@ source:
     folder: externals/libffi                                                         # [win]
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
+build:
+  number: 0
+
 requirements:
   build:
 {% if from_source_control == 'yes' %}

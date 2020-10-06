@@ -300,11 +300,6 @@ outputs:
       activate_in_script: True
       ignore_run_exports:
         - python_abi
-        - clangxx_osx-64  # [osx64]
-        - clangxx_osx-aarch64  # [osxaarch64]
-        - gxx_linux-64  # [linux64]
-        - gxx_linux-aarch64  # [linuxaarch64]
-        - gxx_linux-ppc64le  # [linuxppc64le]
 {% if 'conda-forge' in channel_targets %}
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
 {% else %}

@@ -1,6 +1,4 @@
 {% set version = "3.9.0" %}
-# {% set dev = "rc2" %}
-# {% set dev_ = "rc2_" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -222,7 +220,7 @@ outputs:
         - ld_impl_{{ target_platform }}  # [linux]
       run:
         - ld_impl_{{ target_platform }}  # [linux]
-        # - tzdata # We need to discuss a canonical source for this package that comes from a non-python pkg
+        - tzdata
 {% if 'conda-forge' in channel_targets %}
         - ncurses  # [unix]
       run_constrained:
@@ -261,7 +259,7 @@ outputs:
         - mkdir "%TEMP%"  # [win]
         - python -Im ensurepip --upgrade --default-pip  # [win]
         # tzdata/zoneinfo test that will need the tzdata package to pass
-        # - python -c "from zoneinfo import ZoneInfo; from datetime import datetime; dt = datetime(2020, 10, 31, 12, tzinfo=ZoneInfo('America/Los_Angeles')); print(dt.tzname())"
+        - python -c "from zoneinfo import ZoneInfo; from datetime import datetime; dt = datetime(2020, 10, 31, 12, tzinfo=ZoneInfo('America/Los_Angeles')); print(dt.tzname())"
         - python -m venv test-venv
         - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
         -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]

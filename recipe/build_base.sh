@@ -151,6 +151,7 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
                            --host=${BUILD} \
                            --prefix=${BUILD_PYTHON_PREFIX} \
                            --with-ensurepip=no \
+                           --with-tzpath=${PREFIX}/share/zoneinfo \
                            --with-platlibdir=lib && \
       make -j${CPU_COUNT} && \
       make install)
@@ -231,6 +232,7 @@ _common_configure_args+=(--build=${BUILD})
 _common_configure_args+=(--host=${HOST})
 _common_configure_args+=(--enable-ipv6)
 _common_configure_args+=(--with-ensurepip=no)
+_common_configure_args+=(--with-tzpath=${PREFIX}/share/zoneinfo)
 _common_configure_args+=(--with-computed-gotos)
 _common_configure_args+=(--with-system-ffi)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)

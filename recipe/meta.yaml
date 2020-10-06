@@ -1,4 +1,4 @@
-{% set version = "3.8.5" %}
+{% set version = "3.8.6" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
@@ -15,7 +15,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-385/
-    md5: 35b5a3d0254c1c59be9736373d429db7
+    md5: 69e73c49eeb1a853cefd26d18c9d069d
     patches:
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
 {% if 'conda-forge' not in channel_targets %}
@@ -83,7 +83,7 @@ source:
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
 build:
-  number: 9
+  number: 0
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG
@@ -268,6 +268,7 @@ about:
   dev_url: https://docs.python.org/devguide/
 
 extra:
+  feedstock-name: python
   recipe-maintainers:
     - isuruf
     - jakirkham

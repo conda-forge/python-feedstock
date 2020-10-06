@@ -1,0 +1,122 @@
+From 1a9dae009486332cdf262432db54f0df804b7074 Mon Sep 17 00:00:00 2001
+From: Lawrence D'Anna <lawrence_danna@apple.com>
+Date: Tue, 30 Jun 2020 10:37:20 -0700
+Subject: [PATCH 27/30] ctypes: check _dyld_shared_cache_contains_path in
+ find_library
+
+System libraries in Mac OS 11 may be present only in the shared cache,
+with the actual mach-o file not present in the corresponding location
+on the filesystem.   ctypes.util.find_library should check the
+shared cache in order to behave consistently across Mac OS 10.15
+and earlier and Mac OS 11.0 and later.
+---
+ Lib/ctypes/macholib/dyld.py                   | 12 ++++++
+ .../2020-06-30-18-24-28.bpo-41100._QkcD_.rst  |  1 +
+ Modules/_ctypes/callproc.c                    | 38 +++++++++++++++++++
+ 3 files changed, 51 insertions(+)
+ create mode 100644 Misc/NEWS.d/next/Core and Builtins/2020-06-30-18-24-28.bpo-41100._QkcD_.rst
+
+diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
+index 9ab447c0a1..bf0e8e8dee 100644
+--- a/Lib/ctypes/macholib/dyld.py
++++ b/Lib/ctypes/macholib/dyld.py
+@@ -7,6 +7,12 @@ from ctypes.macholib.framework import framework_info
+ from ctypes.macholib.dylib import dylib_info
+ from itertools import *
+ 
++try:
++    from _ctypes import _dyld_shared_cache_contains_path
++except ImportError:
++    def _dyld_shared_cache_contains_path(*args):
++        raise NotImplementedError
++
+ __all__ = [
+     'dyld_find', 'framework_find',
+     'framework_info', 'dylib_info',
+@@ -128,6 +134,12 @@ def dyld_find(name, executable_path=None, env=None):
+             ), env):
+         if os.path.isfile(path):
+             return path
++        try:
++            if _dyld_shared_cache_contains_path(path):
++                return path
++        except NotImplementedError:
++            pass
++
+     raise ValueError("dylib %s could not be found" % (name,))
+ 
+ def framework_find(fn, executable_path=None, env=None):
+diff --git a/Misc/NEWS.d/next/Core and Builtins/2020-06-30-18-24-28.bpo-41100._QkcD_.rst b/Misc/NEWS.d/next/Core and Builtins/2020-06-30-18-24-28.bpo-41100._QkcD_.rst
+new file mode 100644
+index 0000000000..dbb732432c
+--- /dev/null
++++ b/Misc/NEWS.d/next/Core and Builtins/2020-06-30-18-24-28.bpo-41100._QkcD_.rst	
+@@ -0,0 +1 @@
++ctypes: Mac OS 11: check for system libraries in the shared cache
+\ No newline at end of file
+diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
+index 6030cc3d43..572498715f 100644
+--- a/Modules/_ctypes/callproc.c
++++ b/Modules/_ctypes/callproc.c
+@@ -64,6 +64,10 @@
+ #include "ctypes_dlfcn.h"
+ #endif
+ 
++#ifdef __APPLE__
++extern bool _dyld_shared_cache_contains_path(const char* path) __attribute__((weak_import));
++#endif
++
+ #ifdef MS_WIN32
+ #include <malloc.h>
+ #endif
+@@ -1398,6 +1402,37 @@ copy_com_pointer(PyObject *self, PyObject *args)
+ }
+ #else
+ 
++#ifdef __APPLE__
++static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *args)
++{
++    PyObject *name, *name2;
++    char *name_str;
++
++    if (_dyld_shared_cache_contains_path == NULL) {
++        PyErr_SetString(PyExc_NotImplementedError, "_dyld_shared_cache_contains_path symbol is missing");
++        return NULL;
++    }
++
++    if (!PyArg_ParseTuple(args, "O", &name))
++        return NULL;
++
++    if (name == Py_None)
++        Py_RETURN_FALSE;
++
++    if (PyUnicode_FSConverter(name, &name2) == 0)
++        return NULL;
++    if (PyBytes_Check(name2))
++        name_str = PyBytes_AS_STRING(name2);
++    else
++        name_str = PyByteArray_AS_STRING(name2);
++
++    if(_dyld_shared_cache_contains_path(name_str))
++        Py_RETURN_TRUE;
++    else
++        Py_RETURN_FALSE;
++}
++#endif
++
+ static PyObject *py_dl_open(PyObject *self, PyObject *args)
+ {
+     PyObject *name, *name2;
+@@ -1908,6 +1943,9 @@ PyMethodDef _ctypes_module_methods[] = {
+      "dlopen(name, flag={RTLD_GLOBAL|RTLD_LOCAL}) open a shared library"},
+     {"dlclose", py_dl_close, METH_VARARGS, "dlclose a library"},
+     {"dlsym", py_dl_sym, METH_VARARGS, "find symbol in shared library"},
++#endif
++#ifdef __APPLE__
++    {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
+ #endif
+     {"alignment", align_func, METH_O, alignment_doc},
+     {"sizeof", sizeof_func, METH_O, sizeof_doc},
+-- 
+2.23.0
+

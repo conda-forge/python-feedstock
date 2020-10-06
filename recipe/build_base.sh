@@ -18,8 +18,6 @@ VERNODOTS=${VER//./}
 TCLTK_VER=${tk}
 # Disables some PGO/LTO
 QUICK_BUILD=no
-# Remove once: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
-CONDA_FORGE=yes
 
 _buildd_static=build-static
 _buildd_shared=build-shared
@@ -152,7 +150,8 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
       ${SRC_DIR}/configure --build=${BUILD} \
                            --host=${BUILD} \
                            --prefix=${BUILD_PYTHON_PREFIX} \
-                           --with-ensurepip=no && \
+                           --with-ensurepip=no \
+                           --with-platlibdir=lib && \
       make -j${CPU_COUNT} && \
       make install)
     export PATH=${BUILD_PYTHON_PREFIX}/bin:${PATH}
@@ -237,6 +236,7 @@ _common_configure_args+=(--with-system-ffi)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
+_common_configure_args+=(--with-platlibdir=lib)
 
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
@@ -251,7 +251,11 @@ if [[ ${_OPTIMIZED} == yes ]]; then
       #         run while on Unix, all 400+ are run, making this slower and less well curated
       _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
     else
-      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
+      # From talking to Steve Dower, who implemented pgo/pgo-extended, it is really not worth
+      # it to run pgo-extended (which runs the whole test-suite). The --pgo set of tests are
+      # curated specifically to be useful/appropriate for pgo instrumentation.
+      # _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
+      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
     fi
   fi
   if [[ ${CC} =~ .*gcc.* ]]; then

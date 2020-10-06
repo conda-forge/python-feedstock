@@ -33,7 +33,6 @@
 {% else %}
   {% set py_interp_debug = "no" %}
 {% endif %}
-{% set build_number = "0" %}
 
 package:
   name: python-split
@@ -117,7 +116,7 @@ outputs:
     script: build_base.sh  # [unix]
     script: build_base.bat  # [win]
     build:
-      number: {{ build_number }}
+      number: 0
       activate_in_script: True
       # Windows has issues updating python if conda is using files itself.
       # Copy rather than link.
@@ -293,7 +292,7 @@ outputs:
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
     build:
-      number: {{ build_number }}
+      number: 0
       activate_in_script: True
       ignore_run_exports:
         - python_abi

@@ -1,0 +1,92 @@
+From 9ecbb4d88857c60adc721e9c50ebb94d8631b858 Mon Sep 17 00:00:00 2001
+From: Filipe Fernandes <ocefpaf@gmail.com>
+Date: Wed, 7 Oct 2020 09:59:09 -0300
+Subject: [PATCH 24/31] cross-compile-darwin.patch
+
+---
+ Lib/platform.py | 7 ++++++-
+ configure       | 8 ++++++--
+ setup.py        | 2 +-
+ 3 files changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/Lib/platform.py b/Lib/platform.py
+index 2df9c1ef92..22e727fce8 100755
+--- a/Lib/platform.py
++++ b/Lib/platform.py
+@@ -406,7 +406,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
+ def _mac_ver_xml():
+     fn = '/System/Library/CoreServices/SystemVersion.plist'
+     if not os.path.exists(fn):
+-        return None
++        if 'SDKROOT' in os.environ:
++            fn = os.environ['SDKROOT'] + fn
++            if not os.path.exists(fn):
++                return None
++        else:
++            return None
+ 
+     try:
+         import plistlib
+diff --git a/configure b/configure
+index f3979f16be..bd4b994e39 100755
+--- a/configure
++++ b/configure
+@@ -3313,6 +3313,8 @@ fi
+ $as_echo "\"$MACHDEP\"" >&6; }
+ 
+ 
++if test -z "${_PYTHON_HOST_PLATFORM}"
++then
+ if test "$cross_compiling" = yes; then
+ 	case "$host" in
+ 	*-*-linux*)
+@@ -3337,6 +3339,7 @@ if test "$cross_compiling" = yes; then
+ 	esac
+ 	_PYTHON_HOST_PLATFORM="$MACHDEP${_host_cpu:+-$_host_cpu}"
+ fi
++fi
+ 
+ # Some systems cannot stand _XOPEN_SOURCE being defined at all; they
+ # disable features if it is defined, without any means to access these
+@@ -6173,7 +6176,7 @@ fi
+ if test "$cross_compiling" = yes; then
+     case "$READELF" in
+ 	readelf|:)
+-	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
++	#as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
+ 	;;
+     esac
+ fi
+@@ -9245,7 +9248,7 @@ rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+   conftest.$ac_objext conftest.beam conftest.$ac_ext
+ fi
+ 
+-
++    if test -z "${MACOSX_DEFAULT_ARCH}"; then
+     if test "${ac_osx_32bit}" = "yes"; then
+     	case `/usr/bin/arch` in
+     	i386)
+@@ -9272,6 +9275,7 @@ fi
+     	esac
+ 
+     fi
++    fi
+ 
+     LIBTOOL_CRUFT=$LIBTOOL_CRUFT" -lSystem -lSystemStubs -arch_only ${MACOSX_DEFAULT_ARCH}"
+     LIBTOOL_CRUFT=$LIBTOOL_CRUFT' -install_name $(PYTHONFRAMEWORKINSTALLDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)'
+diff --git a/setup.py b/setup.py
+index 59d412da8f..e3c97a6466 100644
+--- a/setup.py
++++ b/setup.py
+@@ -42,7 +42,7 @@ CROSS_COMPILING = ("_PYTHON_HOST_PLATFORM" in os.environ)
+ HOST_PLATFORM = get_platform()
+ MS_WINDOWS = (HOST_PLATFORM == 'win32')
+ CYGWIN = (HOST_PLATFORM == 'cygwin')
+-MACOS = (HOST_PLATFORM == 'darwin')
++MACOS = (HOST_PLATFORM.startswith('darwin'))
+ AIX = (HOST_PLATFORM.startswith('aix'))
+ VXWORKS = ('vxworks' in HOST_PLATFORM)
+ 
+-- 
+2.28.0
+

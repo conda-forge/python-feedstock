@@ -394,7 +394,10 @@ popd
 pushd ${PREFIX}
   if [[ -f lib/libpython${VERABI}.a ]]; then
     chmod +w lib/libpython${VERABI}.a
-    ${STRIP} -S lib/libpython${VERABI}.a
+    # 2020-10-07T12:33:30.4130970Z /Users/runner/miniforge3/conda-bld/python-split_1602073181968/work/build_base.sh: line 401: 33344 Segmentation fault: 11 ${STRIP} -S lib/libpython${VERABI}.a
+    if [[ ${target_platform} != osx-arm64 ]]; then
+      ${STRIP} -S lib/libpython${VERABI}.a
+    fi
   fi
   CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VERABI}* -name "libpython${VERABI}.a")
   if [[ -f lib/libpython${VERABI}.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then

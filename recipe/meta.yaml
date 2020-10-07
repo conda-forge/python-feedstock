@@ -78,6 +78,7 @@ source:
       - patches/0029-Xcode-12-Beta-4-declares-_dyld_shared_cache_contains.patch
       - patches/0030-gh21564.patch
       - patches/0031-gh21228.patch
+      - patches/0032-Fix-TZPATH-on-windows.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]

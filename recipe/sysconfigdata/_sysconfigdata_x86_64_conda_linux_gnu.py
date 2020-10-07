@@ -74,7 +74,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
                 "'--with-system-ffi' '--enable-loadable-sqlite-extensions' "
                 "'--with-tcltk-includes=-I/opt/anaconda1anaconda2anaconda3/include' "
                 "'--with-tcltk-libs=-L/opt/anaconda1anaconda2anaconda3/lib "
-                "-ltcl8.6 -ltk8.6' '--with-platlibdir=lib' '--with-lto' "
+                "-ltcl@TCLTK_VER@ -ltk@TCLTK_VER@' '--with-platlibdir=lib' '--with-lto' "
                 "'--enable-optimizations' "
                 "'--disable-shared' 'PROFILE_TASK=-m test --pgo' "
                 "'build_alias=x86_64-conda-linux-gnu' "

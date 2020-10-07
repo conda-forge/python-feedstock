@@ -441,6 +441,8 @@ pushd "${PREFIX}"/lib/python${VER}
   sed -i.bak "s@zoneinfo'@zoneinfo:$PREFIX/share/tzinfo'@g" sysconfigfile
   # Remove osx sysroot as it depends on the build machine
   sed -i.bak "s@-isysroot $CONDA_BUILD_SYSROOT@@g" sysconfigfile
+  # Remove unfilled config option
+  sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
   cp sysconfigfile ${our_compilers_name}
 
   sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile

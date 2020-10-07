@@ -410,7 +410,7 @@ popd
 # with the compilers from conda-forge OLD_HOST != HOST, but when building
 # with the compilers from defaults OLD_HOST == HOST. Both cases are handled in the
 # code below
-case "$target_Platform" in
+case "$target_platform" in
   linux-64)
     OLD_HOST=$(echo ${HOST} | sed -e 's/-conda-/-conda_cos6-/g')
     ;;

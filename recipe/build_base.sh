@@ -18,8 +18,6 @@ VERNODOTS=${VER//./}
 TCLTK_VER=${tk}
 # Disables some PGO/LTO
 QUICK_BUILD=no
-# Remove once: https://github.com/mingwandroid/conda-build/commit/c68a7d100866df7a3e9c0e3177fc7ef0ff76def9
-CONDA_FORGE=yes
 
 _buildd_static=build-static
 _buildd_shared=build-shared
@@ -108,6 +106,7 @@ fi
 
 declare -a LTO_CFLAGS=()
 
+# Following is needed for building extensions like zlib
 CPPFLAGS=${CPPFLAGS}" -I${PREFIX}/include"
 
 re='^(.*)(-I[^ ]*)(.*)$'
@@ -152,7 +151,9 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
       ${SRC_DIR}/configure --build=${BUILD} \
                            --host=${BUILD} \
                            --prefix=${BUILD_PYTHON_PREFIX} \
-                           --with-ensurepip=no && \
+                           --with-ensurepip=no \
+                           --with-tzpath=${PREFIX}/share/zoneinfo \
+                           --with-platlibdir=lib && \
       make -j${CPU_COUNT} && \
       make install)
     export PATH=${BUILD_PYTHON_PREFIX}/bin:${PATH}
@@ -232,11 +233,13 @@ _common_configure_args+=(--build=${BUILD})
 _common_configure_args+=(--host=${HOST})
 _common_configure_args+=(--enable-ipv6)
 _common_configure_args+=(--with-ensurepip=no)
+_common_configure_args+=(--with-tzpath=${PREFIX}/share/zoneinfo)
 _common_configure_args+=(--with-computed-gotos)
 _common_configure_args+=(--with-system-ffi)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
+_common_configure_args+=(--with-platlibdir=lib)
 
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
@@ -251,7 +254,11 @@ if [[ ${_OPTIMIZED} == yes ]]; then
       #         run while on Unix, all 400+ are run, making this slower and less well curated
       _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
     else
-      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
+      # From talking to Steve Dower, who implemented pgo/pgo-extended, it is really not worth
+      # it to run pgo-extended (which runs the whole test-suite). The --pgo set of tests are
+      # curated specifically to be useful/appropriate for pgo instrumentation.
+      # _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo-extended")
+      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
     fi
   fi
   if [[ ${CC} =~ .*gcc.* ]]; then
@@ -399,10 +406,25 @@ pushd ${PREFIX}
   fi
 popd
 
+# OLD_HOST is with CentOS version in them. When building this recipe
+# with the compilers from conda-forge OLD_HOST != HOST, but when building
+# with the compilers from defaults OLD_HOST == HOST. Both cases are handled in the
+# code below
+case "$target_platform" in
+  linux-64)
+    OLD_HOST=$(echo ${HOST} | sed -e 's/-conda-/-conda_cos6-/g')
+    ;;
+  linux-*)
+    OLD_HOST=$(echo ${HOST} | sed -e 's/-conda-/-conda_cos7-/g')
+    ;;
+  *)
+    OLD_HOST=$HOST
+    ;;
+esac
 
 # Copy sysconfig that gets recorded to a non-default name
-#   using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
-#   to the name of this file (minus the .py extension)
+# using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
+# to the name of this file (minus the .py extension)
 pushd "${PREFIX}"/lib/python${VER}
   # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
   # This breaks our attempt to find the right one as recorded_name.
@@ -411,28 +433,45 @@ pushd "${PREFIX}"/lib/python${VER}
   our_compilers_name=_sysconfigdata_$(echo ${HOST} | sed -e 's/[.-]/_/g').py
   # So we can see if anything has significantly diverged by looking in a built package.
   cp ${recorded_name} ${recorded_name}.orig
-  mv ${recorded_name} ${our_compilers_name}
-  PY_ARCH=${HOST%-conda*}
-  # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
-  # from the previous build unfortunately so care must be taken at version bumps and flag changes.
-  SRC_SYSCONFIGS=$(find "${RECIPE_DIR}"/sysconfigdata -name '*sysconfigdata*.py')
-  for SRC_SYSCONFIG in ${SRC_SYSCONFIGS}; do
-    DST_SYSCONFIG=$(basename ${SRC_SYSCONFIG})
-    cat ${SRC_SYSCONFIG} | sed -e "s|@SGI_ABI@||g" \
-                               -e "s|@ABIFLAGS@|${ABIFLAGS}|g" \
-                               -e "s|@ARCH@|${PY_ARCH}|g" \
-                               -e "s|@PYVERNODOTS@|${VERNODOTS}|g" \
-                               -e "s|@PYVER@|${VER}|g" \
-                               -e "s|@PYVERFULL@|${VERFULL}|g" \
-                               -e "s|@TCLTK_VER@|${TCLTK_VER}|g" > ${DST_SYSCONFIG}
-  done
-  if [[ ${HOST} =~ .*darwin.* ]]; then
-    mv _sysconfigdata_osx.py ${recorded_name}
-    rm _sysconfigdata_linux.py
-  else
-    mv _sysconfigdata_linux.py ${recorded_name}
-    rm _sysconfigdata_osx.py
+  cp ${recorded_name} sysconfigfile
+  # fdebug-prefix-map for python work dir is useless for extensions
+  sed -i.bak "s@-fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/python-$PKG_VERSION@@g" sysconfigfile
+  sed -i.bak "s@-fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix@@g" sysconfigfile
+  # Append the conda-forge zoneinfo to the end
+  sed -i.bak "s@zoneinfo'@zoneinfo:$PREFIX/share/tzinfo'@g" sysconfigfile
+  # Remove osx sysroot as it depends on the build machine
+  sed -i.bak "s@-isysroot $CONDA_BUILD_SYSROOT@@g" sysconfigfile
+  # Remove unfilled config option
+  sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
+  cp sysconfigfile ${our_compilers_name}
+
+  sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile
+  old_compiler_name=_sysconfigdata_$(echo ${OLD_HOST} | sed -e 's/[.-]/_/g').py
+  cp sysconfigfile ${old_compiler_name}
+
+  # For system gcc remove the triple
+  sed -i.bak "s@$OLD_HOST-c++@g++@g" sysconfigfile
+  sed -i.bak "s@$OLD_HOST-@@g" sysconfigfile
+  if [[ "$target_platform" == linux* ]]; then
+    # For linux, make sure the system gcc uses our linker
+    sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat -Wl,--sysroot=/@g" sysconfigfile
   fi
+  # Don't set -march and -mtune for system gcc
+  sed -i.bak "s@-march=[a-z0-9]*@@g" sysconfigfile
+  sed -i.bak "s@-mtune=[a-z0-9]*@@g" sysconfigfile
+  # Remove these flags that older compilers and linkers may not know
+  for flag in "-fstack-protector-strong" "-ffunction-sections" "-pipe" "-fno-plt" \
+            "-ftree-vectorize" "-Wl,--sort-common" "-Wl,--as-needed" "-Wl,-z,relro" \
+            "-Wl,-z,now" "-Wl,--disable-new-dtags" "-Wl,--gc-sections" "-Wl,-O2" \
+            "-fPIE" "-ftree-vectorize" "-mssse3"; do
+    sed -i.bak "s@$flag@@g" sysconfigfile
+  done
+  # Cleanup some extra spaces from above
+  sed -i.bak "s@' [ ]*@'@g" sysconfigfile
+  cp sysconfigfile $recorded_name
+
+  rm sysconfigfile
+  rm sysconfigfile.bak
 popd
 
 if [[ ${HOST} =~ .*linux.* ]]; then

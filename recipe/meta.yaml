@@ -221,7 +221,7 @@ outputs:
         - ld_impl_{{ target_platform }}  # [linux]
       run:
         - ld_impl_{{ target_platform }}  # [linux]
-        - python-tzdata
+        - tzdata
 {% if 'conda-forge' in channel_targets %}
         - ncurses  # [unix]
       run_constrained:

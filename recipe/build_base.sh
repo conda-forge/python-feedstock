@@ -106,8 +106,6 @@ fi
 
 declare -a LTO_CFLAGS=()
 
-CPPFLAGS=${CPPFLAGS}" -I${PREFIX}/include"
-
 re='^(.*)(-I[^ ]*)(.*)$'
 if [[ ${CFLAGS} =~ $re ]]; then
   CFLAGS="${BASH_REMATCH[1]}${BASH_REMATCH[3]}"

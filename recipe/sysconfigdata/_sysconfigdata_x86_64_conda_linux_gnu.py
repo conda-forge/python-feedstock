@@ -754,7 +754,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
                      '-Wno-unused-result -Wno-unused-parameter '
                      '-Wno-missing-field-initializers '
                      '-Werror=implicit-function-declaration '
-                     '-fvisibility=hidden   '
+                     '-fvisibility=hidden   ',
  'PY_COERCE_C_LOCALE': 1,
  'PY_CORE_CFLAGS': '-Wno-unused-result -Wsign-compare -DNDEBUG -fwrapv -O2 '
                    '-Wall -march=nocona -mtune=haswell -ftree-vectorize -fPIC '

@@ -443,7 +443,7 @@ pushd "${PREFIX}"/lib/python${VER}
   cp sysconfigfile ${our_compilers_name}
 
   sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile
-  old_compiler_name=_sysconfigdata_${OLD_HOST}.py
+  old_compiler_name=_sysconfigdata_$(echo ${OLD_HOST} | sed -e 's/[.-]/_/g').py
   cp sysconfigfile ${old_compiler_name}
 
   # For system gcc remove the triple

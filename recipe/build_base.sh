@@ -106,6 +106,9 @@ fi
 
 declare -a LTO_CFLAGS=()
 
+# Following is needed for building extensions like zlib
+CPPFLAGS=${CPPFLAGS}" -I${PREFIX}/include"
+
 re='^(.*)(-I[^ ]*)(.*)$'
 if [[ ${CFLAGS} =~ $re ]]; then
   CFLAGS="${BASH_REMATCH[1]}${BASH_REMATCH[3]}"

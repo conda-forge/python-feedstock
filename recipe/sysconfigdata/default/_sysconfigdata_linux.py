@@ -35,6 +35,8 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'CONFIGURE_LDFLAGS': '-L/opt/anaconda1anaconda2anaconda3/lib '
                       '-Wl,-rpath=/opt/anaconda1anaconda2anaconda3/lib -Wl,--no-as-needed '
                       '-Wl,--sysroot=/',
+ 'CONFIGURE_LDFLAGS_NODIST': ' '
+                             ' -g',
  'CONFIG_ARGS': "'--enable-shared' '--enable-ipv6' '--with-ensurepip=no' "
                 "'--prefix=/opt/anaconda1anaconda2anaconda3' "
                 "'--with-tcltk-includes=-I/opt/anaconda1anaconda2anaconda3/include' "
@@ -664,6 +666,10 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'PY_LDFLAGS': '-L/opt/anaconda1anaconda2anaconda3/lib '
                '-Wl,-rpath=/opt/anaconda1anaconda2anaconda3/lib -Wl,--no-as-needed '
                '-Wl,--sysroot=/',
+ 'PY_LDFLAGS_NODIST': '   '
+                      ' -g',
+ 'PY_SSL_DEFAULT_CIPHERS': 1,
+ 'PY_SSL_DEFAULT_CIPHER_STRING': 0,
  'Py_DEBUG': 0,
  'Py_ENABLE_SHARED': 0,
  'Py_HASH_ALGORITHM': 0,

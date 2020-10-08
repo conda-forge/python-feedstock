@@ -296,9 +296,10 @@ outputs:
         - test ! -f default.profraw   # [osx]
 
   - name: python_abi
+    version: {{ ver2 }}
     build:
       number: {{ build_number }}
-      string: {{ build_number }}_{{ ver2nd }}
+      string: {{ build_number }}_cp{{ ver2nd }}
     requirements:
       run:
         - python {{ version }}.*

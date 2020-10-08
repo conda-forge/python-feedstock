@@ -295,6 +295,16 @@ outputs:
         - popd
         - test ! -f default.profraw   # [osx]
 
+  - name: python_abi
+    build:
+      number: {{ build_number }}
+      string: {{ build_number }}_{{ ver2nd }}
+    requirements:
+      run:
+        - python {{ version }}.*
+      run_constrained:
+        - pypy <0a0
+
   - name: libpython-static
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]

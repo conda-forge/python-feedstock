@@ -4,6 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
+{% set build_number = 1 %}
 
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).
@@ -112,7 +113,7 @@ source:
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
 build:
-  number: 1
+  number: {{ build_number }}
 
 requirements:
   build:
@@ -129,7 +130,7 @@ outputs:
     script: build_base.sh  # [unix]
     script: build_base.bat  # [win]
     build:
-      number: 0
+      number: {{ build_number }}
       activate_in_script: True
       # Windows has issues updating python if conda is using files itself.
       # Copy rather than link.
@@ -298,7 +299,7 @@ outputs:
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
     build:
-      number: 0
+      number: {{ build_number }}
       activate_in_script: True
       ignore_run_exports:
         - python_abi

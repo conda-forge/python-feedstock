@@ -440,7 +440,8 @@ pushd "${PREFIX}"/lib/python${VER}
   # Append the conda-forge zoneinfo to the end
   sed -i.bak "s@zoneinfo'@zoneinfo:$PREFIX/share/tzinfo'@g" sysconfigfile
   # Remove osx sysroot as it depends on the build machine
-  sed -i.bak "s@-isysroot $CONDA_BUILD_SYSROOT@@g" sysconfigfile
+  sed -i.bak "s@-isysroot @@g" sysconfigfile
+  sed -i.bak "s@$CONDA_BUILD_SYSROOT @@g" sysconfigfile
   # Remove unfilled config option
   sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
   cp sysconfigfile ${our_compilers_name}
@@ -463,7 +464,8 @@ pushd "${PREFIX}"/lib/python${VER}
   for flag in "-fstack-protector-strong" "-ffunction-sections" "-pipe" "-fno-plt" \
             "-ftree-vectorize" "-Wl,--sort-common" "-Wl,--as-needed" "-Wl,-z,relro" \
             "-Wl,-z,now" "-Wl,--disable-new-dtags" "-Wl,--gc-sections" "-Wl,-O2" \
-            "-fPIE" "-ftree-vectorize" "-mssse3"; do
+            "-fPIE" "-ftree-vectorize" "-mssse3" "-Wl,-pie" "-Wl,-dead_strip_dylibs" \
+            "-Wl,-headerpad_max_install_names"; do
     sed -i.bak "s@$flag@@g" sysconfigfile
   done
   # Cleanup some extra spaces from above

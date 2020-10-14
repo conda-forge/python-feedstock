@@ -16,7 +16,14 @@ if "%ARCH%"=="64" (
    set BUILD_PATH=win32
 )
 
-set PY_VER=39
+for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
+  set "VERNODOTS=%%i%%j"
+)
+
+::  Make sure the "python" value in conda_build_config.yaml is up to date.
+for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
+  if NOT "%PY_VER%"=="%%i.%%j" exit 1
+)
 
 set "OPENSSL_DIR=%LIBRARY_PREFIX%"
 set "SQLITE3_DIR=%LIBRARY_PREFIX%"
@@ -52,7 +59,7 @@ if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
-for %%x in (python%PY_VER%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe venvlauncher%_D%.exe venvwlauncher%_D%.exe) do (
+for %%x in (python%VERNODOTS%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe venvlauncher%_D%.exe venvwlauncher%_D%.exe) do (
   if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
   ) else (
@@ -60,7 +67,7 @@ for %%x in (python%PY_VER%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.ex
   )
 )
 
-for %%x in (python%_D%.pdb python%PY_VER%%_D%.pdb pythonw%_D%.pdb) do (
+for %%x in (python%_D%.pdb python%VERNODOTS%%_D%.pdb pythonw%_D%.pdb) do (
   if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
   ) else (
@@ -142,7 +149,7 @@ if errorlevel 1 exit 1
 
 :: Populate the libs directory
 if not exist %PREFIX%\libs mkdir %PREFIX%\libs
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%PY_VER%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%PY_VER%%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1

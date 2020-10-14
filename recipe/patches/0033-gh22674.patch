@@ -1,0 +1,51 @@
+From c2fe794b81af88b232fddaefaa7460d444941548 Mon Sep 17 00:00:00 2001
+From: Yannick Jadoul <yannick.jadoul@belgacom.net>
+Date: Mon, 12 Oct 2020 23:06:19 +0200
+Subject: [PATCH] bpo-42015: Reorder dereferencing calls in meth_dealloc, to
+ make sure m_self is kept alive long enough (GH-22670) (cherry picked from
+ commit 04b8631d84a870dda456ef86039c1baf34d08500)
+
+Co-authored-by: Yannick Jadoul <yannick.jadoul@belgacom.net>
+---
+ .../next/C API/2020-10-12-20-13-58.bpo-42015.X4H2_V.rst     | 3 +++
+ Objects/methodobject.c                                      | 6 ++++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+ create mode 100644 Misc/NEWS.d/next/C API/2020-10-12-20-13-58.bpo-42015.X4H2_V.rst
+
+diff --git a/Misc/NEWS.d/next/C API/2020-10-12-20-13-58.bpo-42015.X4H2_V.rst b/Misc/NEWS.d/next/C API/2020-10-12-20-13-58.bpo-42015.X4H2_V.rst
+new file mode 100644
+index 0000000000000..d77619f64bb17
+--- /dev/null
++++ b/Misc/NEWS.d/next/C API/2020-10-12-20-13-58.bpo-42015.X4H2_V.rst	
+@@ -0,0 +1,3 @@
++Fix potential crash in deallocating method objects when dynamically
++allocated `PyMethodDef`'s lifetime is managed through the ``self``
++argument of a `PyCFunction`.
+diff --git a/Objects/methodobject.c b/Objects/methodobject.c
+index 5659f2143d182..7b430416c5a04 100644
+--- a/Objects/methodobject.c
++++ b/Objects/methodobject.c
+@@ -164,9 +164,11 @@ meth_dealloc(PyCFunctionObject *m)
+     if (m->m_weakreflist != NULL) {
+         PyObject_ClearWeakRefs((PyObject*) m);
+     }
++    // Dereference class before m_self: PyCFunction_GET_CLASS accesses
++    // PyMethodDef m_ml, which could be kept alive by m_self
++    Py_XDECREF(PyCFunction_GET_CLASS(m));
+     Py_XDECREF(m->m_self);
+     Py_XDECREF(m->m_module);
+-    Py_XDECREF(PyCFunction_GET_CLASS(m));
+     PyObject_GC_Del(m);
+ }
+ 
+@@ -243,9 +245,9 @@ meth_get__qualname__(PyCFunctionObject *m, void *closure)
+ static int
+ meth_traverse(PyCFunctionObject *m, visitproc visit, void *arg)
+ {
++    Py_VISIT(PyCFunction_GET_CLASS(m));
+     Py_VISIT(m->m_self);
+     Py_VISIT(m->m_module);
+-    Py_VISIT(PyCFunction_GET_CLASS(m));
+     return 0;
+ }
+ 

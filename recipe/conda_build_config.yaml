@@ -1,9 +1,5 @@
 python:
   - 3.9
-python_impl:
-  - cpython
-numpy:
-  - 1.19
 c_compiler:                    # [win]
   - vs2017                     # [win]
 cxx_compiler:                  # [win]

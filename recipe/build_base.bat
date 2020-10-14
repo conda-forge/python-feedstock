@@ -16,7 +16,13 @@ if "%ARCH%"=="64" (
    set BUILD_PATH=win32
 )
 
-set PY_VER=39
+for /F "token=1,2 delims=." %%i in ("%PKG_VERSION%") do (
+  :: Make sure PKG_VERSION and PY_VER are in agreement.
+  if NOT "%PY_VER%"=="%%i%%j" exit 1
+  :: PY_VER is set due to "python" being in conda_build_config.yaml.
+  :: If we are going to change it, we need to set it manually via the line below:
+  :: set "PY_VER=:%i%%j"
+)
 
 set "OPENSSL_DIR=%LIBRARY_PREFIX%"
 set "SQLITE3_DIR=%LIBRARY_PREFIX%"

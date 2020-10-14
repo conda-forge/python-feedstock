@@ -60,6 +60,9 @@ fi
 ABIFLAGS=${DBG}
 VERABI=${VER}${DBG}
 
+# Make sure the "python" value in conda_build_config.yaml is up to date.
+test "${PY_VER}" = "${VER}"
+
 # This is the mechanism by which we fall back to default gcc, but having it defined here
 # would probably break the build by using incorrect settings and/or importing files that
 # do not yet exist.

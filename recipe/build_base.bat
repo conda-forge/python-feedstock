@@ -17,7 +17,7 @@ if "%ARCH%"=="64" (
 )
 
 for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
-  set "VERNODOTS=:%%i%%j"
+  set "VERNODOTS=%%i%%j"
 )
 
 ::  Make sure the "python" value in conda_build_config.yaml is up to date.

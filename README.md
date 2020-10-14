@@ -5,9 +5,13 @@ Home: https://www.python.org/
 
 Package license: Python-2.0
 
-Feedstock license: BSD-3-Clause
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/python-feedstock/blob/master/LICENSE.txt)
 
 Summary: General purpose programming language
+
+Development: https://docs.python.org/devguide/
+
+Documentation: https://www.python.org/doc/versions/
 
 Python is a widely used high-level, general-purpose, interpreted, dynamic
 programming language. Its design philosophy emphasizes code

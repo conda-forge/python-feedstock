@@ -16,7 +16,7 @@ if "%ARCH%"=="64" (
    set BUILD_PATH=win32
 )
 
-for /F "token=1,2 delims=." %%i in ("%PKG_VERSION%") do (
+for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   :: Make sure PKG_VERSION and PY_VER are in agreement.
   if NOT "%PY_VER%"=="%%i%%j" exit 1
   :: PY_VER is set due to "python" being in conda_build_config.yaml.

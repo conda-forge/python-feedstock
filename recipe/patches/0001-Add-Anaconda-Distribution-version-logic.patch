@@ -1,0 +1,113 @@
+From cfcc0cc2d833494518bea3812943786c319aa7a2 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 15 Aug 2017 22:34:16 +0100
+Subject: [PATCH 01/19] Add Anaconda Distribution version logic
+
+---
+ Include/pylifecycle.h |  1 +
+ Lib/platform.py       |  1 +
+ Modules/main.c        |  3 ++-
+ Python/getversion.c   | 44 ++++++++++++++++++++++++++++++++++++++++---
+ 4 files changed, 45 insertions(+), 4 deletions(-)
+
+diff --git a/Include/pylifecycle.h b/Include/pylifecycle.h
+index 9a528218e4..4b84977e61 100644
+--- a/Include/pylifecycle.h
++++ b/Include/pylifecycle.h
+@@ -66,6 +66,7 @@ int _Py_CheckPython3();
+ #endif
+ 
+ /* In their own files */
++PyAPI_FUNC(const char *) Anaconda_GetVersion(void);
+ PyAPI_FUNC(const char *) Py_GetVersion(void);
+ PyAPI_FUNC(const char *) Py_GetPlatform(void);
+ PyAPI_FUNC(const char *) Py_GetCopyright(void);
+diff --git a/Lib/platform.py b/Lib/platform.py
+index fa56d4114c..9e5295e646 100755
+--- a/Lib/platform.py
++++ b/Lib/platform.py
+@@ -1120,6 +1120,7 @@ def processor():
+ 
+ _sys_version_parser = re.compile(
+     r'([\w.+]+)\s*'  # "version<space>"
++    r'(?:\|[^|]*\|)?\s*' # version extra
+     r'\(#?([^,]+)'  # "(#buildno"
+     r'(?:,\s*([\w ]*)'  # ", builddate"
+     r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
+diff --git a/Modules/main.c b/Modules/main.c
+index 585d6965dd..5076d5442c 100644
+--- a/Modules/main.c
++++ b/Modules/main.c
+@@ -533,7 +533,8 @@ Py_Main(int argc, wchar_t **argv)
+         return usage(0, argv[0]);
+ 
+     if (version) {
+-        printf("Python %s\n", version >= 2 ? Py_GetVersion() : PY_VERSION);
++        Py_SetProgramName(argv[0]);
++        fprintf(stderr, "Python %s :: %s\n", PY_VERSION, Anaconda_GetVersion());
+         return 0;
+     }
+ 
+diff --git a/Python/getversion.c b/Python/getversion.c
+index 7bd6efd0a0..46554e6a37 100644
+--- a/Python/getversion.c
++++ b/Python/getversion.c
+@@ -2,14 +2,52 @@
+ /* Return the full version string. */
+ 
+ #include "Python.h"
+-
++#include "osdefs.h"
+ #include "patchlevel.h"
+ 
++
++const char *
++Anaconda_GetVersion(void)
++{
++	#ifdef MS_WIN32
++	#define STDLIB_DIR  L"\\Lib\\"
++	#else
++	#define STDLIB_DIR  L"/lib/python3.6/"
++	#endif
++	static char res[128];
++	FILE *f;
++	wchar_t path[MAXPATHLEN+1];
++	int c, i;
++
++	wcscpy(path, Py_GetPrefix());
++	wcscat(path, STDLIB_DIR L"version.txt");
++
++	f = _Py_wfopen(path, L"rb");
++	if (f == NULL) {
++		strcpy(res, "Anaconda, Inc.");
++	}
++	else {
++		i = 0;
++		while (i + 1 < sizeof(res)) {
++		c = fgetc(f);
++			if (c == EOF || c == '\n' || c == '\r')
++				break;
++			res[i++] = c;
++		}
++		fclose(f);
++		res[i] = '\0';
++	}
++	return res;
++	#undef STDLIB_DIR
++}
++
++
+ const char *
+ Py_GetVersion(void)
+ {
+ 	static char version[250];
+-	PyOS_snprintf(version, sizeof(version), "%.80s (%.80s) %.80s",
+-		      PY_VERSION, Py_GetBuildInfo(), Py_GetCompiler());
++	PyOS_snprintf(version, sizeof(version), "%.80s |%s| (%.80s) %.80s",
++		      PY_VERSION, Anaconda_GetVersion(),
++		      Py_GetBuildInfo(), Py_GetCompiler());
+ 	return version;
+ }
+-- 
+2.23.0
+

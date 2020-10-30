@@ -1,0 +1,45 @@
+From c696398a9cb22d7a9f4e2ddcc0e4f45be647aeae Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Sat, 27 Oct 2018 18:48:30 +0100
+Subject: [PATCH 17/19] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
+ is not 0
+
+---
+ PC/getpathp.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/PC/getpathp.c b/PC/getpathp.c
+index f6f362c7f9..9d97211f6f 100644
+--- a/PC/getpathp.c
++++ b/PC/getpathp.c
+@@ -691,6 +691,7 @@ calculate_path(void)
+     size_t bufsz;
+     wchar_t *pythonhome = Py_GetPythonHome();
+     wchar_t *envpath = NULL;
++    char * allow_registry_paths = NULL;
+ 
+     int skiphome, skipdefault;
+     wchar_t *machinepath = NULL;
+@@ -779,8 +780,17 @@ calculate_path(void)
+ 
+     skiphome = pythonhome==NULL ? 0 : 1;
+ #ifdef Py_ENABLE_SHARED
+-    machinepath = getpythonregpath(HKEY_LOCAL_MACHINE, skiphome);
+-    userpath = getpythonregpath(HKEY_CURRENT_USER, skiphome);
++    allow_registry_paths = getenv("CONDA_PY_ALLOW_REG_PATHS");
++    if (allow_registry_paths && allow_registry_paths[0] != '0')
++    {
++        machinepath = getpythonregpath(HKEY_LOCAL_MACHINE, skiphome);
++        userpath = getpythonregpath(HKEY_CURRENT_USER, skiphome);
++    }
++    else
++    {
++        machinepath = NULL;
++        userpath = NULL;
++    }
+ #endif
+     /* We only use the default relative PYTHONPATH if we havent
+        anything better to use! */
+-- 
+2.23.0
+

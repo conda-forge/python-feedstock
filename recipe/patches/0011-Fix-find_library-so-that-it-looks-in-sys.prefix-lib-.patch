@@ -38,7 +38,7 @@ index 01176bf969..b80dc43b4f 100644
                      '%s.dylib' % name,
                      '%s.framework/%s' % (name, name)]
          for name in possible:
-@@ -306,10 +307,30 @@ elif os.name == "posix":
+@@ -324,10 +325,30 @@ elif os.name == "posix":
                  pass  # result will be None
              return result
  
@@ -54,7 +54,7 @@ index 01176bf969..b80dc43b4f 100644
          def find_library(name):
              # See issue #9998
 -            return _findSoname_ldconfig(name) or \
--                   _get_soname(_findLib_gcc(name) or _findLib_ld(name))
+-                   _get_soname(_findLib_gcc(name)) or _get_soname(_findLib_ld(name))
 +            # Yes calling _findLib_prefix twice is deliberate, because _get_soname ditches
 +            # the full path.
 +            # When objdump is unavailable this returns None
@@ -63,11 +63,11 @@ index 01176bf969..b80dc43b4f 100644
 +                return _findLib_prefix(so_name) or \
 +                       _findLib_prefix(name) or \
 +                       _findSoname_ldconfig(name) or \
-+                       _get_soname(_findLib_gcc(name) or _findLib_ld(name))
++                       _get_soname(_findLib_gcc(name)) or _get_soname(_findLib_ld(name))
 +            else:
 +                 return _findLib_prefix(name) or \
 +                        _findSoname_ldconfig(name) or \
-+                        _get_soname(_findLib_gcc(name) or _findLib_ld(name))
++                        _get_soname(_findLib_gcc(name)) or _get_soname(_findLib_ld(name))
  
  ################################################################
  # test code

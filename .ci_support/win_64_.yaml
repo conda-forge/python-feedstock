@@ -3,7 +3,7 @@ c_compiler:
 channel_sources:
 - conda-forge,defaults
 channel_targets:
-- conda-forge main
+- conda-forge python_rc
 cxx_compiler:
 - vs2017
 openssl:

@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: linux_aarch64_target_platformlinux-aarch64
+name: linux_aarch64_
 
 platform:
   os: linux
@@ -8,9 +8,9 @@ platform:
 
 steps:
 - name: Install and build
-  image: condaforge/linux-anvil-aarch64
+  image: quay.io/condaforge/linux-anvil-aarch64
   environment:
-    CONFIG: linux_aarch64_target_platformlinux-aarch64
+    CONFIG: linux_aarch64_
     UPLOAD_PACKAGES: True
     PLATFORM: linux-aarch64
     BINSTAR_TOKEN:

@@ -35,7 +35,7 @@
 
 package:
   name: python-split
-  version: {{ version }}
+  version: {{ version }}{{ dev }}
 
 source:
 {% if from_source_control == 'yes' %}

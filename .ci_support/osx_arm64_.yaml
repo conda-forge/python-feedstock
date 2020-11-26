@@ -15,7 +15,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '11'
 libffi:
-- '3.2'
+- '3.3'
 macos_machine:
 - arm64-apple-darwin20.0.0
 ncurses:

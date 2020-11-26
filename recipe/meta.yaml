@@ -1,10 +1,10 @@
-{% set version = "3.9.0" %}
-{% set dev = "" %}
+{% set version = "3.9.1" %}
+{% set dev = "rc1" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 5 %}
+{% set build_number = 0 %}
 
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).
@@ -44,7 +44,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: 6ebfe157f6e88d9eabfbaf3fa92129f6
+    md5: bb5950be70e8271d09a120158e7e425d
 {% endif %}
     patches:
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
@@ -73,14 +73,7 @@ source:
       - patches/0023-egg-debugging-with-Windows-debug-builds.patch
       - patches/0024-Add-CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL-to-aid-de.patch
       - patches/0025-cross-compile-darwin.patch
-      - patches/0026-BPO-41101-Support-arm64-in-Mac-Tools-pythonw.patch
-      - patches/0027-ctypes-check-_dyld_shared_cache_contains_path-in-fin.patch
-      - patches/0028-fix-test_macholib-for-Mac-OS-11.patch
-      - patches/0029-Xcode-12-Beta-4-declares-_dyld_shared_cache_contains.patch
-      - patches/0030-gh21564.patch
-      - patches/0031-gh21228.patch
       - patches/0032-Fix-TZPATH-on-windows.patch
-      - patches/0033-gh22674.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]

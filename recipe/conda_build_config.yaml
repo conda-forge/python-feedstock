@@ -1,0 +1,6 @@
+python:
+  - 3.6
+python_impl:
+  - cpython
+numpy:
+  - 1.16

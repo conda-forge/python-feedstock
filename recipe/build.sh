@@ -1,4 +1,6 @@
 #!/bin/bash
+# Get an updated config.sub and config.guess
+cp $BUILD_PREFIX/share/gnuconfig/config.* .
 set -ex
 
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:

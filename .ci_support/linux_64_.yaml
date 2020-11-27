@@ -3,7 +3,9 @@ bzip2:
 c_compiler:
 - gcc
 c_compiler_version:
-- '7'
+- '9'
+cdt_name:
+- cos6
 channel_sources:
 - conda-forge,defaults
 channel_targets:
@@ -11,11 +13,11 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '7'
+- '9'
 docker_image:
-- condaforge/linux-anvil-comp7
+- quay.io/condaforge/linux-anvil-comp7
 libffi:
-- '3.2'
+- '3.3'
 ncurses:
 - '6.2'
 openssl:
@@ -43,7 +45,7 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 python:
-- 3.7.* *_cpython
+- '3.7'
 readline:
 - '8.0'
 sqlite:
@@ -54,5 +56,8 @@ tk:
 - '8.6'
 xz:
 - '5.2'
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 zlib:
 - '1.2'

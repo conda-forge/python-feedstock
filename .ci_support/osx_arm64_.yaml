@@ -1,23 +1,23 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
+- '11.0'
 bzip2:
 - '1'
 c_compiler:
 - clang
 c_compiler_version:
-- '10'
+- '11'
 channel_sources:
-- conda-forge,defaults
+- conda-forge/label/rust_dev,conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '10'
+- '11'
 libffi:
-- '3.2'
+- '3.3'
 macos_machine:
-- x86_64-apple-darwin13.4.0
+- arm64-apple-darwin20.0.0
 openssl:
 - 1.1.1
 pin_run_as_build:
@@ -47,10 +47,13 @@ readline:
 sqlite:
 - '3'
 target_platform:
-- osx-64
+- osx-arm64
 tk:
 - '8.6'
 xz:
 - '5.2'
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 zlib:
 - '1.2'

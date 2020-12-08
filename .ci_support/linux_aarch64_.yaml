@@ -13,7 +13,7 @@ cdt_name:
 channel_sources:
 - conda-forge
 channel_targets:
-- conda-forge python_rc
+- conda-forge main
 cxx_compiler:
 - gxx
 cxx_compiler_version:

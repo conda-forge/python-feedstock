@@ -12,7 +12,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ base_version }}/Python-{{ version }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-379/
-    md5: bcd9f22cf531efc6f06ca6b9b2919bd4
+    md5: 389d3ed26b4d97c741d9e5423da1f43b
     patches:
       # https://bugs.python.org/issue40263
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch

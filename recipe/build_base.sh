@@ -431,6 +431,7 @@ pushd "${PREFIX}"/lib/python${VER}
                                -e "s|@PYVERNODOTS@|${VERNODOTS}|g" \
                                -e "s|@PYVER@|${VER}|g" \
                                -e "s|@PYVERFULL@|${VERFULL}|g" \
+                               -e "s|@MACOSX_DEPLOYMENT_TARGET@|${MACOSX_DEPLOYMENT_TARGET:-10.9}|g" \
                                -e "s|@TCLTK_VER@|${TCLTK_VER}|g" > ${DST_SYSCONFIG}
   done
   if [[ ${HOST} =~ .*darwin.* ]]; then

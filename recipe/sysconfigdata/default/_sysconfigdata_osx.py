@@ -13,40 +13,40 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'BLDLIBRARY': '-L. -lpython@PYVER@@ABIFLAGS@',
  'BLDSHARED': 'gcc -bundle -undefined dynamic_lookup '
               '-L/opt/anaconda1anaconda2anaconda3/lib  '
-              '-arch x86_64 '
+              '-arch @ARCH@ '
               '-L/opt/anaconda1anaconda2anaconda3/lib  '
-              '-arch x86_64',
+              '-arch @ARCH@',
  'BUILDEXE': '.exe',
  'BUILDPYTHON': 'python.exe',
- 'BUILD_GNU_TYPE': 'x86_64-apple-darwin13.4.0',
+ 'BUILD_GNU_TYPE': '@ARCH@-apple-darwin13.4.0',
  'BYTESTR_DEPS': '\\',
  'CC': 'gcc',
  'CCSHARED': '',
  'CFLAGS': '-Wno-unused-result -Wsign-compare -Wunreachable-code -DNDEBUG -g '
            '-fwrapv -O3 -Wall -Wstrict-prototypes '
            '-I/opt/anaconda1anaconda2anaconda3/include  '
-           '-arch x86_64 '
+           '-arch @ARCH@ '
            '-I/opt/anaconda1anaconda2anaconda3/include  '
-           '-arch x86_64',
+           '-arch @ARCH@',
  'CFLAGSFORSHARED': '',
  'CFLAGS_ALIASING': '-fno-strict-aliasing',
  'CFLAGS_NODIST': '',
  'CONFIGFILES': 'configure configure.ac acconfig.h pyconfig.h.in '
                 'Makefile.pre.in',
  'CONFIGURE_CFLAGS': '-I/opt/anaconda1anaconda2anaconda3/include  '
-                     '-arch x86_64',
+                     '-arch @ARCH@',
  'CONFIGURE_CFLAGS_NODIST': '-std=c99 -Wextra -Wno-unused-result '
                             '-Wno-unused-parameter '
                             '-Wno-missing-field-initializers',
  'CONFIGURE_CPPFLAGS': '',
  'CONFIGURE_LDFLAGS': '-L/opt/anaconda1anaconda2anaconda3/lib  '
-                      '-arch x86_64',
+                      '-arch @ARCH@',
  'CONFIG_ARGS': "'--enable-shared' '--enable-ipv6' '--with-ensurepip=no' "
                 "'--prefix=/opt/anaconda1anaconda2anaconda3' "
                 "'CFLAGS=-I/opt/anaconda1anaconda2anaconda3/include  "
-                "-arch x86_64' "
+                "-arch @ARCH@' "
                 "'LDFLAGS=-L/opt/anaconda1anaconda2anaconda3/lib  "
-                "-arch x86_64' "
+                "-arch @ARCH@' "
                 "'PKG_CONFIG_PATH=/opt/anaconda1anaconda2anaconda3/lib/pkgconfig'",
  'CONFINCLUDEDIR': '/opt/anaconda1anaconda2anaconda3/include',
  'CONFINCLUDEPY': '/opt/anaconda1anaconda2anaconda3/include/python@PYVER@@ABIFLAGS@',
@@ -476,7 +476,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'HAVE_WRITEV': 1,
  'HAVE_ZLIB_COPY': 1,
  'HAVE__GETPTY': 0,
- 'HOST_GNU_TYPE': 'x86_64-apple-darwin13.4.0',
+ 'HOST_GNU_TYPE': '@ARCH@-apple-darwin13.4.0',
  'INCLDIRSTOMAKE': '/opt/anaconda1anaconda2anaconda3/include '
                    '/opt/anaconda1anaconda2anaconda3/include '
                    '/opt/anaconda1anaconda2anaconda3/include/python@PYVER@@ABIFLAGS@ '
@@ -493,17 +493,17 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'IO_OBJS': '\\',
  'LDCXXSHARED': 'g++ -bundle -undefined dynamic_lookup',
  'LDFLAGS': '-L/opt/anaconda1anaconda2anaconda3/lib  '
-            '-arch x86_64 '
+            '-arch @ARCH@ '
             '-L/opt/anaconda1anaconda2anaconda3/lib  '
-            '-arch x86_64',
+            '-arch @ARCH@',
  'LDLAST': '',
  'LDLIBRARY': 'libpython@PYVER@@ABIFLAGS@.dylib',
  'LDLIBRARYDIR': '',
  'LDSHARED': 'gcc -bundle -undefined dynamic_lookup '
              '-L/opt/anaconda1anaconda2anaconda3/lib  '
-             '-arch x86_64 '
+             '-arch @ARCH@ '
              '-L/opt/anaconda1anaconda2anaconda3/lib  '
-             '-arch x86_64',
+             '-arch @ARCH@',
  'LDVERSION': '@PYVER@@ABIFLAGS@',
  'LIBC': '',
  'LIBDEST': '/opt/anaconda1anaconda2anaconda3/lib/python@PYVER@',
@@ -533,7 +533,7 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'MACHDEPPATH': ':',
  'MACHDEP_OBJS': '',
  'MACHDESTLIB': '/opt/anaconda1anaconda2anaconda3/lib/python@PYVER@',
- 'MACOSX_DEPLOYMENT_TARGET': '10.9',
+ 'MACOSX_DEPLOYMENT_TARGET': '@MACOSX_DEPLOYMENT_TARGET@',
  'MAINCC': 'gcc',
  'MAJOR_IN_MKDEV': 0,
  'MAJOR_IN_SYSMACROS': 0,
@@ -599,25 +599,25 @@ build_time_vars = {'ABIFLAGS': '@ABIFLAGS@',
  'PY_CFLAGS': '-Wno-unused-result -Wsign-compare -Wunreachable-code -DNDEBUG '
               '-g -fwrapv -O3 -Wall -Wstrict-prototypes '
               '-I/opt/anaconda1anaconda2anaconda3/include  '
-              '-arch x86_64 '
+              '-arch @ARCH@ '
               '-I/opt/anaconda1anaconda2anaconda3/include  '
-              '-arch x86_64',
+              '-arch @ARCH@',
  'PY_CFLAGS_NODIST': '-std=c99 -Wextra -Wno-unused-result '
                      '-Wno-unused-parameter -Wno-missing-field-initializers',
  'PY_CORE_CFLAGS': '-Wno-unused-result -Wsign-compare -Wunreachable-code '
                    '-DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes '
                    '-I/opt/anaconda1anaconda2anaconda3/include  '
-                   '-arch x86_64 '
+                   '-arch @ARCH@ '
                    '-I/opt/anaconda1anaconda2anaconda3/include  '
-                   '-arch x86_64 -std=c99 -Wextra -Wno-unused-result '
+                   '-arch @ARCH@ -std=c99 -Wextra -Wno-unused-result '
                    '-Wno-unused-parameter -Wno-missing-field-initializers -I. '
                    '-I./Include  -DPy_BUILD_CORE',
  'PY_CPPFLAGS': '-I. -I./Include',
  'PY_FORMAT_SIZE_T': '"z"',
  'PY_LDFLAGS': '-L/opt/anaconda1anaconda2anaconda3/lib  '
-               '-arch x86_64 '
+               '-arch @ARCH@ '
                '-L/opt/anaconda1anaconda2anaconda3/lib  '
-               '-arch x86_64',
+               '-arch @ARCH@',
  'Py_DEBUG': 0,
  'Py_ENABLE_SHARED': 0,
  'Py_HASH_ALGORITHM': 0,

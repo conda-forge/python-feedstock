@@ -419,7 +419,7 @@ pushd "${PREFIX}"/lib/python${VER}
   # So we can see if anything has significantly diverged by looking in a built package.
   cp ${recorded_name} ${recorded_name}.orig
   mv ${recorded_name} ${our_compilers_name}
-  PY_ARCH=${HOST%-conda*}
+  PY_ARCH=$(echo ${HOST} | cut -d- -f1)
   # Copy all "${RECIPE_DIR}"/sysconfigdata/*.py. This is to support cross-compilation. They will be
   # from the previous build unfortunately so care must be taken at version bumps and flag changes.
   SRC_SYSCONFIGS=$(find "${RECIPE_DIR}"/sysconfigdata -name '*sysconfigdata*.py')

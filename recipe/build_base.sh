@@ -454,6 +454,7 @@ pushd "${PREFIX}"/lib/python${VER}
   sed -i.bak "s@$CONDA_BUILD_SYSROOT @@g" sysconfigfile
   # Remove unfilled config option
   sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
+  sed -i.bak "s@$BUILD_PREFIX/bin/${HOST}-llvm-ar@${HOST}-ar@g" sysconfigfile
   cp sysconfigfile ${our_compilers_name}
 
   sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile

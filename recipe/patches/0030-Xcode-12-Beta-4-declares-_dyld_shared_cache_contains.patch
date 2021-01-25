@@ -41,7 +41,7 @@ index a7a99fff25..4a296c8b84 100644
 -        PyErr_SetString(PyExc_NotImplementedError, "_dyld_shared_cache_contains_path symbol is missing");
 -        return NULL;
 -    }
-+    if (__builtin_available(macos 11, ios 14, watchos 7, tvos 14, *)) {
++    if (__builtin_available(macos 10.16, ios 14, watchos 7, tvos 14, *)) {
 +        PyObject *name, *name2;
 +        char *name_str;
 +        if (!PyArg_ParseTuple(args, "O", &name))

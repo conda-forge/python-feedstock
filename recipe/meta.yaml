@@ -33,13 +33,13 @@ source:
       - patches/0013-Disable-new-dtags-in-unixccompiler.py.patch
       - patches/0014-Fix-cross-compilation-on-Debian-based-distros.patch
       - patches/0015-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      - patches/0016-Unvendor-openssl.patch  # [win]
-      - patches/0017-Unvendor-sqlite3.patch  # [win]
+      - patches/0016-Unvendor-openssl.patch
+      - patches/0017-Unvendor-sqlite3.patch
+      # https://bugs.python.org/issue35644
+      - patches/0018-venv-Revert-a-change-from-https-github.com-python-cp.patch
 {% if 'conda-forge' not in channel_targets %}
       - patches/0019-Add-CondaEcosystemModifyDllSearchPath.patch
 {% endif %}
-      # https://bugs.python.org/issue35644
-      - patches/0018-venv-Revert-a-change-from-https-github.com-python-cp.patch
       - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -212,3 +212,4 @@ extra:
     - pelson
     - ocefpaf
     - scopatz
+    - wolfv

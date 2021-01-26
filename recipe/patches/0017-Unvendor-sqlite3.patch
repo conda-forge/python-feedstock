@@ -1,3 +1,15 @@
+From 670e7fad1a30a0949faa4509ea089856f9b700e2 Mon Sep 17 00:00:00 2001
+From: Mike Sarahan <msarahan@gmail.com>
+Date: Thu, 24 Oct 2019 21:55:24 -0500
+Subject: [PATCH 17/19] Unvendor sqlite3
+
+---
+ PCbuild/_sqlite3.vcxproj |  9 ++++-----
+ PCbuild/pcbuild.sln      |  2 --
+ PCbuild/python.props     |  2 +-
+ PCbuild/sqlite3.vcxproj  | 12 ++++++------
+ 4 files changed, 11 insertions(+), 14 deletions(-)
+
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
 index 9c8e7f3..61d369b 100644
 --- a/PCbuild/_sqlite3.vcxproj

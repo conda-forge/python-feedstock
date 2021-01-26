@@ -1,3 +1,17 @@
+From 6347e6f912010af99d24e3e3eeb3784c2efdcb3c Mon Sep 17 00:00:00 2001
+From: Mike Sarahan <msarahan@gmail.com>
+Date: Thu, 24 Oct 2019 21:54:17 -0500
+Subject: [PATCH 16/20] Unvendor openssl
+
+---
+ PCbuild/_ssl.vcxproj         |  3 ---
+ PCbuild/_ssl.vcxproj.filters |  5 +----
+ PCbuild/openssl.props        | 21 ++-------------------
+ PCbuild/python.props         |  6 +++---
+ PCbuild/python.vcxproj       |  3 +++
+ PCbuild/pythonw.vcxproj      |  3 +++
+ 6 files changed, 12 insertions(+), 29 deletions(-)
+
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
 index 506d5ca..0cf66da 100644
 --- a/PCbuild/_ssl.vcxproj

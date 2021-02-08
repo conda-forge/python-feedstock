@@ -70,11 +70,15 @@ source:
       - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0021-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
       - patches/0022-Doing-d1trimfile.patch
+      # May be causing PGO to fail?
       - patches/0023-egg-debugging-with-Windows-debug-builds.patch
       - patches/0024-Add-CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL-to-aid-de.patch
       - patches/0025-cross-compile-darwin.patch
       - patches/0032-Fix-TZPATH-on-windows.patch
       - patches/0033-gh24324.patch
+{% if 'conda-forge' not in channel_targets %}
+      - patches/9999-Add-Anaconda-Distribution-version-logic.patch
+{% endif %}
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -119,6 +123,7 @@ requirements:
     - m2-patch  # [win]
     - m2-gcc-libs  # [win]
 {% endif %}
+  host:
 
 outputs:
   - name: python
@@ -144,6 +149,7 @@ outputs:
         - gxx_linux-64  # [linux64]
         - gxx_linux-aarch64  # [linuxaarch64]
         - gxx_linux-ppc64le  # [linuxppc64le]
+        - gxx_linux-s390x    # [linuxs390x]
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: True
       # detect_binary_files_with_prefix: False
@@ -193,6 +199,9 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
+        - {{ ccache('native') }}  # [unix]
+        - ripgrep
+        - sed  # [unix]
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}  # [linux]
         - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
@@ -230,7 +239,8 @@ outputs:
         - setuptools
       requires:
         - ripgrep
-        - cmake
+        - cmake  # [not (linux and ppc64le)]
+        - make  # [unix]
         - ninja
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
@@ -239,7 +249,8 @@ outputs:
         - tests/distutils/*
         - tests/cmake/*
         - tests/cython/*
-        - tests/prefix-replacement/*
+        - tests/embedding-interpreter/*
+        - tests/processpoolexecutor-max_workers-61/*
       commands:
         - echo on  # [win]
         - set  # [win]
@@ -280,19 +291,30 @@ outputs:
         -     python setup.py install -v -v
         -     python -c "import foobar"
         -   popd
-        -   pushd prefix-replacement  # [unix]
+        -   pushd embedding-interpreter  # [unix]
         -     bash build-and-test.sh  # [unix]
         -   popd  # [unix]
-        -   pushd cmake
-        -     cmake -GNinja -DPY_VER={{ version }}
-              # --trace --debug-output --debug-trycompile .
+        -   pushd cmake  # [not (linux and ppc64le)]
+        -     run_cmake_test.bat {{ version }}  # [win]
+        -     bash run_cmake_test.sh {{ version }}  # [not win and not (linux and ppc64le)]
+        -   popd  # [not (linux and ppc64le)]
+        -   pushd processpoolexecutor-max_workers-61
+        -     python ppe.py
         -   popd
         - popd
         - test ! -f default.profraw   # [osx]
 
+  - name: python-regr-testsuite
+    requirements:
+      host:
+        - {{ pin_subpackage('python', exact=True) }}
+    script: install_regr_testsuite.sh  # [unix]
+
   - name: libpython-static
+    noarch: python  # [unix]
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
+    skip: True  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: True
@@ -310,15 +332,30 @@ outputs:
 {% if from_source_control == 'yes' %}
         - git
 {% endif %}
+        - {{ ccache('native') }}  # [unix]
       host:
         - {{ pin_subpackage('python', exact=True) }}
       run:
         - {{ pin_subpackage('python', exact=True) }}
     test:
+      files:
+        - tests/embedding-interpreter/*
+      requires:
+        - ripgrep
+        - cmake  # [not (linux and ppc64le)]
+        - make  # [unix]
+        - {{ compiler('c') }}
+        # Tried to use enable_language(C) to avoid needing this. It does not work.
+        - {{ compiler('cxx') }}
       commands:
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
         - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
+        - pushd tests  # [unix]
+        -   pushd embedding-interpreter  # [unix]
+        -     bash build-and-test.sh  # [unix]
+        -   popd  # [unix]
+        - popd  # [unix]
 
 about:
   home: https://www.python.org/

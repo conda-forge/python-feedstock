@@ -2,8 +2,10 @@ setlocal EnableDelayedExpansion
 echo on
 
 :: brand Python with conda-forge startup message
-%SYS_PYTHON% %RECIPE_DIR%\brand_python.py
-if errorlevel 1 exit 1
+if "%CONDA_FORGE%"=="yes" (
+  %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
+  if errorlevel 1 exit 1
+)
 
 :: Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
@@ -47,7 +49,13 @@ if "%DEBUG_C%"=="yes" (
 )
 
 :: AP doesn't support PGO atm?
-set PGO=
+if "%CONDA_FORGE%"=="yes" (
+  set PGO=
+)
+:: PGO is not yet working for Python 3.9:
+:: (CopyPGCFiles target) ->
+::   C:\opt\conda\conda-bld\python-split-3.9.0_7\work\PCbuild\pyproject.props(165,5): error : PGO run did not succeed (no python39!*.pgc files) and there is no data to merge [C:\opt\conda\conda-bld\python-split-3.9.0_7\work\PCbuild\pythoncore.vcxproj]
+:: set PGO=
 
 cd PCbuild
 
@@ -174,8 +182,16 @@ rd /s /q %PREFIX%\Lib\test
 if errorlevel 1 exit 1
 move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
 if errorlevel 1 exit 1
+
+:: Remove some tests (unfortunate, a split package would be nice)
 rd /s /q %PREFIX%\Lib\lib2to3\tests\
 if errorlevel 1 exit 1
+
+:: Remove PGO DLLs
+if exist %PREFIX%\DLLs\instrumented (
+  rd /s /q %PREFIX%\DLLs\instrumented\
+  if errorlevel 1 exit 1
+)
 
 :: bytecode compile the standard library
 
@@ -193,7 +209,7 @@ if errorlevel 1 exit 1
 
 :: Ensure that scripts are generated
 :: https://github.com/conda-forge/python-feedstock/issues/384
-%PREFIX%\python.exe %RECIPE_DIR%\fix_staged_scripts.py
+%SYS_PREFIX%\python.exe %RECIPE_DIR%\fix_staged_scripts.py %ARCH%
 if errorlevel 1 exit 1
 
 :: Some quick tests for common failures

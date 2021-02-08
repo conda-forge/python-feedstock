@@ -12,11 +12,9 @@ cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
 # .. but upstream regrtest.py now has --pgo (since >= 3.6) and skips tests that are:
 # "not helpful for PGO".
 
-VERFULL=${PKG_VERSION}
 VER=${PKG_VERSION%.*}
-VERNODOTS=${VER//./}
 TCLTK_VER=${tk}
-# Disables some PGO/LTO
+# Disables some PGO/LTO but not optimizations.
 QUICK_BUILD=no
 
 _buildd_static=build-static
@@ -41,11 +39,13 @@ else
 fi
 
 # Since these take very long to build in our emulated ci, disable for now
-if [[ ${target_platform} == linux-aarch64 ]]; then
-  _OPTIMIZED=no
-fi
-if [[ ${target_platform} == linux-ppc64le ]]; then
-  _OPTIMIZED=no
+if [[ ${CONDA_FORGE} == yes ]]; then
+  if [[ ${target_platform} == linux-aarch64 ]]; then
+    _OPTIMIZED=no
+  fi
+  if [[ ${target_platform} == linux-ppc64le ]]; then
+    _OPTIMIZED=no
+  fi
 fi
 
 declare -a _dbg_opts
@@ -84,6 +84,10 @@ if [[ ${target_platform} == osx-* ]]; then
   CC=$(basename "${CC}")
 else
   CC=$(basename "${GCC}")
+fi
+_CCACHE=$(type -P ccache) || true
+if [[ ${_CCACHE} =~ ${BUILD_PREFIX}.* ]]; then
+  CC="${_CCACHE} ${CC}"
 fi
 CXX=$(basename "${CXX}")
 RANLIB=$(basename "${RANLIB}")
@@ -202,7 +206,19 @@ if [[ ${target_platform} == osx-64 ]]; then
   echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
   echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
   chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
+  echo "WARNING :: For some reason, configure finds libintl (gettext) in the BUILD_PREFIX on macOS."
+  echo "WARNING :: to prevent this, removing BUILD_PREFIX/include/libintl.h"
+  echo "WARNING :: and also setting ac_cv_lib_intl_textdomain=no"
+  rm ${BUILD_PREFIX}/include/libintl.h
+  export ac_cv_lib_intl_textdomain=no
+fi
+
+if [[ ${target_platform} == osx-64 ]]; then
+  export MACHDEP=darwin
+  export ac_sys_release=13.4.0
+  export MACOSX_DEFAULT_ARCH=x86_64
   export ARCHFLAGS="-arch x86_64"
+  export CFLAGS="$CFLAGS $ARCHFLAGS"
 elif [[ ${target_platform} == osx-arm64 ]]; then
   export MACHDEP=darwin
   export ac_sys_system=Darwin
@@ -260,9 +276,8 @@ if [[ ${_OPTIMIZED} == yes ]]; then
     _MAKE_TARGET=profile-opt
     # To speed up build times during testing (1):
     if [[ ${QUICK_BUILD} == yes ]]; then
-      # TODO :: It seems this is just profiling everything, on Windows, only 40 odd tests are
-      #         run while on Unix, all 400+ are run, making this slower and less well curated
-      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
+	    echo "WARNING :: Setting empty PROFILE_TASK as QUICK_BUILD set"
+      _PROFILE_TASK+=(PROFILE_TASK="")
     else
       # From talking to Steve Dower, who implemented pgo/pgo-extended, it is really not worth
       # it to run pgo-extended (which runs the whole test-suite). The --pgo set of tests are
@@ -298,10 +313,17 @@ fi
 
 mkdir -p ${_buildd_shared}
 pushd ${_buildd_shared}
+  set +e
   ${SRC_DIR}/configure "${_common_configure_args[@]}" \
                        "${_dbg_opts[@]}" \
                        --oldincludedir=${BUILD_PREFIX}/${HOST}/sysroot/usr/include \
                        --enable-shared
+  if [[ $? != 0 ]]; then
+    echo "ERROR :: configure of shared python failed. config.log contains:"
+	cat config.log
+	exit 1
+  fi
+  set +e
 popd
 
 mkdir -p ${_buildd_static}
@@ -348,20 +370,26 @@ make -j${CPU_COUNT} -C ${_buildd_shared} \
 make -C ${_buildd_static} install
 
 declare -a _FLAGS_REPLACE=()
+if [[ -n ${_CCACHE} ]]; then
+  _FLAGS_REPLACE+=("${_CCACHE}"); _FLAGS_REPLACE+=("")
+fi
+_FLAGS_REPLACE+=("-L."); _FLAGS_REPLACE+=("")
+# 3 entries as this can be split over two lines.
+_FLAGS_REPLACE+=("-isysroot ${CONDA_BUILD_SYSROOT}"); _FLAGS_REPLACE+=("")
+_FLAGS_REPLACE+=("-isysroot"); _FLAGS_REPLACE+=("")
+_FLAGS_REPLACE+=("${CONDA_BUILD_SYSROOT}"); _FLAGS_REPLACE+=("")
+  # fdebug-prefix-map for python work dir is useless for extensions
+_FLAGS_REPLACE+=("-fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/python-$PKG_VERSION"); _FLAGS_REPLACE+=("")
+_FLAGS_REPLACE+=("-fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix"); _FLAGS_REPLACE+=("")
 if [[ ${_OPTIMIZED} == yes ]]; then
-  _FLAGS_REPLACE+=(-O3)
-  _FLAGS_REPLACE+=(-O2)
-  _FLAGS_REPLACE+=("-fprofile-use")
-  _FLAGS_REPLACE+=("")
-  _FLAGS_REPLACE+=("-fprofile-correction")
-  _FLAGS_REPLACE+=("")
-  _FLAGS_REPLACE+=("-L.")
-  _FLAGS_REPLACE+=("")
+  _FLAGS_REPLACE+=("-O3"); _FLAGS_REPLACE+=("-O2")
+  _FLAGS_REPLACE+=("-fprofile-use"); _FLAGS_REPLACE+=("")
+  _FLAGS_REPLACE+=("-fprofile-correction"); _FLAGS_REPLACE+=("")
   for _LTO_CFLAG in "${LTO_CFLAGS[@]}"; do
-    _FLAGS_REPLACE+=(${_LTO_CFLAG})
-    _FLAGS_REPLACE+=("")
+    _FLAGS_REPLACE+=("${_LTO_CFLAG}"); _FLAGS_REPLACE+=("")
   done
 fi
+
 # Install the shared library (for people who embed Python only, e.g. GDB).
 # Linking module extensions to this on Linux is redundant (but harmless).
 # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
@@ -393,12 +421,21 @@ fi
 ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python
 ln -s ${PREFIX}/bin/pydoc${VER} ${PREFIX}/bin/pydoc
 
-# Remove test data to save space
-# Though keep `support` as some things use that.
+# Exclude test data from the base package to save space
+# though keep `support` as some things use that.
 # TODO :: Make a subpackage for this once we implement multi-level testing.
 pushd ${PREFIX}/lib/python${VER}
   mkdir test_keep
   mv test/__init__.py test/support test/test_support* test/test_script_helper* test_keep/
+  # This will be put into the regr-testsuite package.
+  mkdir ${SRC_DIR}/test.backup || true
+  mv test ${SRC_DIR}/test.backup/
+  if [[ $(uname) == Darwin ]]; then
+    rsync */test ${SRC_DIR}/test.backup/
+  else
+    cp -rnf --parents */test ${SRC_DIR}/test.backup/
+  fi
+  cp -rf */test ${SRC_DIR}/test.backup/
   rm -rf test */test
   mv test_keep test
 popd
@@ -450,11 +487,9 @@ pushd "${PREFIX}"/lib/python${VER}
   # Append the conda-forge zoneinfo to the end
   sed -i.bak "s@zoneinfo'@zoneinfo:$PREFIX/share/tzinfo'@g" sysconfigfile
   # Remove osx sysroot as it depends on the build machine
-  sed -i.bak "s@-isysroot @@g" sysconfigfile
-  sed -i.bak "s@$CONDA_BUILD_SYSROOT @@g" sysconfigfile
+  # sed -i.bak "s@-isysroot ${CONDA_BUILD_SYSROOT}@@g" sysconfigfile
   # Remove unfilled config option
   sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
-  sed -i.bak "s@$BUILD_PREFIX/bin/${HOST}-llvm-ar@${HOST}-ar@g" sysconfigfile
   cp sysconfigfile ${our_compilers_name}
 
   sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile
@@ -480,7 +515,7 @@ pushd "${PREFIX}"/lib/python${VER}
     sed -i.bak "s@$flag@@g" sysconfigfile
   done
   # Cleanup some extra spaces from above
-  sed -i.bak "s@' [ ]*@'@g" sysconfigfile
+  sed -r -i.bak "s/' +'/''/g" sysconfigfile
   cp sysconfigfile $recorded_name
 
   rm sysconfigfile

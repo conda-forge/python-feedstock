@@ -1,4 +1,4 @@
-{% set base_version = "3.7.9" %}
+{% set base_version = "3.7.10" %}
 {% set version = base_version %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
@@ -11,8 +11,8 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ base_version }}/Python-{{ version }}.tar.xz
-    # md5 from: https://www.python.org/downloads/release/python-379/
-    md5: 389d3ed26b4d97c741d9e5423da1f43b
+    # md5 from: https://www.python.org/downloads/release/python-3710/
+    md5: 9e34914bc804ab2e7d955b49c5e1e391
     patches:
       # https://bugs.python.org/issue40263
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch

@@ -36,7 +36,7 @@ source:
       - patches/0015-Fix-cross-compilation-on-Debian-based-distros.patch
       - patches/0016-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
       - patches/0017-Unvendor-openssl.patch
-      - patches/0018-Unvendor-sqlite3.patch
+      - patches/0018-Unvendor-sqlite3-save1.patch
       # https://bugs.python.org/issue35644
       - patches/0019-venv-Revert-a-change-from-https-github.com-python-cp.patch
       - patches/0020-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch

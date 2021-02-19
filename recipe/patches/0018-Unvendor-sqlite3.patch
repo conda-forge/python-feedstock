@@ -4,14 +4,14 @@ Date: Mon, 10 Dec 2018 12:22:37 -0600
 Subject: [PATCH 18/31] Unvendor sqlite3
 
 ---
- PCbuild/_sqlite3.vcxproj |  9 ++++-----
+ PCbuild/_sqlite3.vcxproj | 11 +++++------
  PCbuild/pcbuild.sln      |  2 --
  PCbuild/python.props     |  2 +-
  PCbuild/sqlite3.vcxproj  | 12 ++++++------
- 4 files changed, 11 insertions(+), 14 deletions(-)
+ 4 files changed, 12 insertions(+), 15 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 7e0062692b..3e7b2262e8 100644
+index 7e0062692b..44856cea1f 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -93,9 +93,12 @@
@@ -28,7 +28,7 @@ index 7e0062692b..3e7b2262e8 100644
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClInclude Include="..\Modules\_sqlite\cache.h" />
-@@ -127,10 +130,6 @@
+@@ -127,12 +130,8 @@
        <Project>{cf7ac3d1-e2df-41d2-bea6-1e2556cdea26}</Project>
        <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
      </ProjectReference>
@@ -39,6 +39,10 @@ index 7e0062692b..3e7b2262e8 100644
    </ItemGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
 index 6dc0139bc4..2f58d8ab24 100644
 --- a/PCbuild/pcbuild.sln
@@ -53,14 +57,14 @@ index 6dc0139bc4..2f58d8ab24 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 9c2838b162..2360417748 100644
+index acc41a2c01..0fead360a6 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -56,7 +56,7 @@
      <ExternalsDir>$(EXTERNALS_DIR)</ExternalsDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
--    <sqlite3Dir>$(ExternalsDir)sqlite-3.32.3.0\</sqlite3Dir>
+-    <sqlite3Dir>$(ExternalsDir)sqlite-3.33.0.0\</sqlite3Dir>
 +    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
      <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
@@ -88,6 +92,6 @@ index 90b4d3108f..6deeafd422 100644
    </PropertyGroup>
    <ItemDefinitionGroup>
      <ClCompile>
--- 
+--
 2.28.0
 

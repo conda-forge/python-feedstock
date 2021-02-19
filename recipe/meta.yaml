@@ -35,7 +35,7 @@ source:
       - patches/0014-Disable-new-dtags-in-unixccompiler.py.patch
       - patches/0015-Fix-cross-compilation-on-Debian-based-distros.patch
       - patches/0016-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      - patches/0017-Unvendor-openssl.patch
+      - patches/0017-Unvendor-openssl-fix.patch
       - patches/0018-Unvendor-sqlite3.patch
       # https://bugs.python.org/issue35644
       - patches/0019-venv-Revert-a-change-from-https-github.com-python-cp.patch

@@ -251,6 +251,7 @@ outputs:
         - tests/cython/*
         - tests/embedding-interpreter/*
         - tests/processpoolexecutor-max_workers-61/*
+        - run_test.py
       commands:
         - echo on  # [win]
         - set  # [win]
@@ -259,6 +260,7 @@ outputs:
         - 2to3 -h
         - pydoc -h
         - python3-config --help  # [not win]
+        - python run_test.py
         - set "PIP_NO_BUILD_ISOLATION=False"  # [win]
         - set "PIP_NO_DEPENDENCIES=True"  # [win]
         - set "PIP_IGNORE_INSTALLED=True"  # [win]
@@ -310,6 +312,7 @@ outputs:
         - {{ pin_subpackage('python', exact=True) }}
     script: install_regr_testsuite.sh  # [unix]
 
+{% if os.getenv("build_platform") != "linux-aarch64"  %}
   - name: libpython-static
     noarch: python  # [unix]
     script: build_static.sh  # [unix]
@@ -356,6 +359,7 @@ outputs:
         -     bash build-and-test.sh  # [unix]
         -   popd  # [unix]
         - popd  # [unix]
+{% endif %}
 
 about:
   home: https://www.python.org/

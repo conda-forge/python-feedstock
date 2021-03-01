@@ -100,6 +100,10 @@ if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
   CPPFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CPPFLAGS}
 fi
 
+if [[ ${target_platform} == linux-aarch64 ]]; then
+    LDFLAGS="$LDFLAGS -L/usr/lib64"
+fi
+
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py
 if [[ ${_OPTIMIZED} = yes ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")
@@ -281,7 +285,7 @@ if [[ ${_OPTIMIZED} == yes ]]; then
     _MAKE_TARGET=profile-opt
     # To speed up build times during testing (1):
     if [[ ${QUICK_BUILD} == yes ]]; then
-	    echo "WARNING :: Setting empty PROFILE_TASK as QUICK_BUILD set"
+            echo "WARNING :: Setting empty PROFILE_TASK as QUICK_BUILD set"
       _PROFILE_TASK+=(PROFILE_TASK="")
     else
       # From talking to Steve Dower, who implemented pgo/pgo-extended, it is really not worth
@@ -325,8 +329,8 @@ pushd ${_buildd_shared}
                        --enable-shared
   if [[ $? != 0 ]]; then
     echo "ERROR :: configure of shared python failed. config.log contains:"
-	cat config.log
-	exit 1
+        cat config.log
+        exit 1
   fi
   set +e
 popd

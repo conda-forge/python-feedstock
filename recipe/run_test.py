@@ -5,6 +5,7 @@ import subprocess
 armv6l = bool(platform.machine() == 'armv6l')
 armv7l = bool(platform.machine() == 'armv7l')
 ppc64le = bool(platform.machine() == 'ppc64le')
+aarch64 = bool(platform.machine() == 'aarch64')
 if sys.platform == 'darwin':
     osx105 = b'10.5.' in subprocess.check_output('sw_vers')
 else:
@@ -87,7 +88,7 @@ if sys.platform != 'win32':
     import termios
 
 
-if not (armv6l or armv7l or ppc64le or osx105):
+if not (armv6l or armv7l or ppc64le or osx105 or aarch64):
     import tkinter
     import turtle
     import _tkinter

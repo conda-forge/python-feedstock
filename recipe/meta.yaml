@@ -295,7 +295,7 @@ outputs:
         -     python -c "import foobar"
         -   popd
         -   pushd embedding-interpreter  # [unix]
-        -     bash build-and-test.sh  # [unix]
+        -     bash build-and-test.sh  # [unix and not (linux and aarch64)]
         -   popd  # [unix]
         -   pushd cmake  # [not (linux and ppc64le)]
         -     run_cmake_test.bat {{ version }}  # [win]

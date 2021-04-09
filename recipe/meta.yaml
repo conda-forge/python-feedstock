@@ -1,4 +1,4 @@
-{% set version = "3.9.2" %}
+{% set version = "3.9.4" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -44,7 +44,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: f0dc9000312abeb16de4eccce9a870ab
+    md5: 2a3dba5fc75b695c45cf1806156e1a97
 {% endif %}
     patches:
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch

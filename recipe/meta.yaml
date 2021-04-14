@@ -76,7 +76,6 @@ source:
       - patches/0025-cross-compile-darwin.patch
       - patches/0032-Fix-TZPATH-on-windows.patch
       - patches/0033-gh24324.patch
-      - patches/0034-crypt-aarch64.patch      # [linux and aarch64]
 {% if 'conda-forge' not in channel_targets %}
       - patches/9999-Add-Anaconda-Distribution-version-logic.patch
 {% endif %}
@@ -313,7 +312,7 @@ outputs:
         - {{ pin_subpackage('python', exact=True) }}
     script: install_regr_testsuite.sh  # [unix]
 
-{% if os.getenv("build_platform") != "linux-aarch64"  %}
+{% if target_platform != "linux-aarch64" %}
   - name: libpython-static
     noarch: python  # [unix]
     script: build_static.sh  # [unix]

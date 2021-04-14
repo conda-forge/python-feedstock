@@ -1,4 +1,5 @@
 import platform
+import re
 import sys
 import subprocess
 
@@ -75,10 +76,12 @@ t = 100 * b'Foo '
 assert lzma.decompress(lzma.compress(t)) == t
 
 if sys.platform != 'win32':
+    fedora_pat = re.compile('.*\.fc\d+\.aarch64')
     if not (ppc64le or armv7l):
         import _curses
         import _curses_panel
-    import crypt
+    if not fedora_pat.match(platform.release()):
+        import crypt
     import fcntl
     import grp
     import nis
@@ -104,3 +107,4 @@ import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
 if sys.platform != 'win32':
     assert '1.1.1' in ssl.OPENSSL_VERSION
+

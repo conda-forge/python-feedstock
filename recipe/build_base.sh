@@ -127,7 +127,7 @@ fi
 
 # https://src.fedoraproject.org/rpms/python39/pull-request/9
 if [[ ${target_platform} =~ linux.* ]] && [[ ${_OPTIMIZED} == yes ]]; then
-  CFLAGS="${CFLAGS} -fno-semantic-interposition"
+  CFLAGS_NODIST="${CFLAGS_NODIST} -fno-semantic-interposition"
 fi
 
 # Force rebuild to avoid:

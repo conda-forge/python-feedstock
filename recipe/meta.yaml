@@ -1,4 +1,4 @@
-{% set version = "3.9.2" %}
+{% set version = "3.9.4" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -44,7 +44,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: f0dc9000312abeb16de4eccce9a870ab
+    md5: 2a3dba5fc75b695c45cf1806156e1a97
 {% endif %}
     patches:
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
@@ -131,19 +131,11 @@ outputs:
       # Copy rather than link.
       no_link:
         - DLLs/_ctypes.pyd  # [win]
-      ignore_run_exports:   # [unix]
+      ignore_run_exports_from:   # [unix]
         # We delete the shared bzip2 library
         - bzip2             # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
-        # It would be nice to split ignore_run_exports into two:
-        # ignore_run_exports/from and ignore_run_exports/of, that way
-        # we could just use ignore_run_exports/from: {{ compiler('cxx') }}
-        # here instead of this nonsense:
-        - clangxx_osx-64  # [osx]
-        - clangxx_osx-aarch64  # [osxaarch64]
-        - gxx_linux-64  # [linux64]
-        - gxx_linux-aarch64  # [linuxaarch64]
-        - gxx_linux-ppc64le  # [linuxppc64le]
+        - {{ compiler('cxx') }}
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: True
       # detect_binary_files_with_prefix: False

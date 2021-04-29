@@ -101,7 +101,9 @@ if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
 fi
 
 if [[ ${target_platform} == linux-aarch64 ]]; then
-    LDFLAGS="$LDFLAGS -L/usr/lib64"
+  # Necessary for Graviton2 because shared objects like "libcrypt.so"
+  # are stored in the /usr/lib64 directory.
+  LDFLAGS="$LDFLAGS -L/usr/lib64"
 fi
 
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py

@@ -5,6 +5,10 @@
 # changes to this script, consider a proposal to conda-smithy so that other feedstocks can also
 # benefit from the improvement.
 
+source .scripts/logging_utils.sh
+
+( startgroup "Configure Docker" ) 2> /dev/null
+
 set -xeo pipefail
 
 THISDIR="$( cd "$( dirname "$0" )" >/dev/null && pwd )"
@@ -45,10 +49,14 @@ fi
 if [ -z "${DOCKER_IMAGE}" ]; then
     SHYAML_INSTALLED="$(shyaml -h || echo NO)"
     if [ "${SHYAML_INSTALLED}" == "NO" ]; then
-        echo "WARNING: DOCKER_IMAGE variable not set and shyaml not installed. Falling back to condaforge/linux-anvil-comp7"
-        DOCKER_IMAGE="condaforge/linux-anvil-comp7"
+        echo "WARNING: DOCKER_IMAGE variable not set and shyaml not installed. Trying to parse with coreutils"
+        DOCKER_IMAGE=$(cat .ci_support/${CONFIG}.yaml | grep '^docker_image:$' -A 1 | tail -n 1 | cut -b 3-)
+        if [ "${DOCKER_IMAGE}" = "" ]; then
+            echo "No docker_image entry found in ${CONFIG}. Falling back to quay.io/condaforge/linux-anvil-comp7"
+            DOCKER_IMAGE="quay.io/condaforge/linux-anvil-comp7"
+        fi
     else
-        DOCKER_IMAGE="$(cat "${FEEDSTOCK_ROOT}/.ci_support/${CONFIG}.yaml" | shyaml get-value docker_image.0 condaforge/linux-anvil-comp7 )"
+        DOCKER_IMAGE="$(cat "${FEEDSTOCK_ROOT}/.ci_support/${CONFIG}.yaml" | shyaml get-value docker_image.0 quay.io/condaforge/linux-anvil-comp7 )"
     fi
 fi
 
@@ -62,10 +70,14 @@ if [ -z "${CI}" ]; then
     DOCKER_RUN_ARGS="-it ${DOCKER_RUN_ARGS}"
 fi
 
+( endgroup "Configure Docker" ) 2> /dev/null
+
+( startgroup "Start Docker" ) 2> /dev/null
+
 export UPLOAD_PACKAGES="${UPLOAD_PACKAGES:-True}"
 docker run ${DOCKER_RUN_ARGS} \
-           -v "${RECIPE_ROOT}":/home/conda/recipe_root:rw,z \
-           -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root:rw,z \
+           -v "${RECIPE_ROOT}":/home/conda/recipe_root:rw,z,delegated \
+           -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root:rw,z,delegated \
            -e CONFIG \
            -e HOST_USER_ID \
            -e UPLOAD_PACKAGES \
@@ -85,3 +97,6 @@ docker run ${DOCKER_RUN_ARGS} \
 
 # verify that the end of the script was reached
 test -f "$DONE_CANARY"
+
+# This closes the last group opened in `build_steps.sh`
+( endgroup "Final checks" ) 2> /dev/null

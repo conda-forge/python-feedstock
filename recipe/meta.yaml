@@ -1,4 +1,4 @@
-{% set version = "3.8.8" %}
+{% set version = "3.8.10" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
@@ -15,7 +15,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-388/
-    md5: 23e6b769857233c1ac07b6be7442eff4
+    md5: d9eee4b20155553830a2025e4dcaa7b3
     patches:
       - patches/0001-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
 {% if 'conda-forge' not in channel_targets %}
@@ -45,13 +45,6 @@ source:
       - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0023-Revert-part-of-https-bugs.python.org-issue33895-http.patch
       - patches/0024-cross-compile-darwin.patch.patch
-      - patches/0025-BPO-41101-Support-arm64-in-Mac-Tools-pythonw.patch
-      - patches/0026-fix-_decimal-for-arm64-Mac-OS.patch
-      - patches/0027-Added-by-blurb_it.patch
-      - patches/0028-ctypes-check-_dyld_shared_cache_contains_path-in-fin.patch
-      - patches/0029-fix-test_macholib-for-Mac-OS-11.patch
-      - patches/0030-Xcode-12-Beta-4-declares-_dyld_shared_cache_contains.patch
-      - patches/0031-gh21564.patch.patch  # [osx and arm64]
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]

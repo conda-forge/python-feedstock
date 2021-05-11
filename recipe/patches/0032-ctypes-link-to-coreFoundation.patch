@@ -17,7 +17,7 @@ index e3e5e0f5fc..d943e84b89 100644
              extra_compile_args.append('-DUSING_MALLOC_CLOSURE_DOT_C=1')
              extra_compile_args.append('-DMACOSX')
              include_dirs.append('_ctypes/darwin')
-+            extra_compile_args.extend(['-framework', 'CoreFoundation'])
++            extra_link_args.extend(['-framework', 'CoreFoundation'])
  
          elif HOST_PLATFORM == 'sunos5':
              # XXX This shouldn't be necessary; it appears that some

@@ -43,7 +43,7 @@ pin_run_as_build:
 python:
 - '3.8'
 readline:
-- '8.0'
+- '8'
 sqlite:
 - '3'
 target_platform:

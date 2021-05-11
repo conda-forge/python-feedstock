@@ -45,6 +45,7 @@ source:
       - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0023-Revert-part-of-https-bugs.python.org-issue33895-http.patch
       - patches/0024-cross-compile-darwin.patch.patch
+      - patches/0032-ctypes-link-to-coreFoundation.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]

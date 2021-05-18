@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 1 %}
+{% set build_number = 3 %}
 
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).
@@ -147,9 +147,10 @@ outputs:
         - clangxx_osx-64  # [osx]
         - clangxx_osx-aarch64  # [osxaarch64]
         - gxx_linux-64  # [linux64]
-        - gxx_linux-aarch64  # [linuxaarch64]
+        - gxx_linux-aarch64  # [linux and aarch64]
         - gxx_linux-ppc64le  # [linuxppc64le]
         - gxx_linux-s390x    # [linuxs390x]
+        - libstdcxx-ng       # [linux and aarch64]
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: True
       # detect_binary_files_with_prefix: False
@@ -190,11 +191,12 @@ outputs:
 {% else %}
         - CONDA_FORGE=no
 {% endif %}
-      missing_dso_whitelist:  # [win]
+      missing_dso_whitelist:
         - '**/MSVCR71.dll'  # [win]
         - '**/MSVCR80.dll'  # [win]
         # I have no idea why this is not in C:\Windows\System32\downlevel
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
+        - '**libcrypt.so.1'  # [linux and aarch64]
     requirements:
       build:
         - {{ compiler('c') }}

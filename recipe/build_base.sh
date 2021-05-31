@@ -507,6 +507,24 @@ pushd "${PREFIX}"/lib/python${VER}
   old_compiler_name=_sysconfigdata_$(echo ${OLD_HOST} | sed -e 's/[.-]/_/g').py
   cp sysconfigfile ${old_compiler_name}
 
+  if [[ "$target_platform" == linux-64 ]]; then
+    HOST_COS=no
+    if [[ "$HOST" == *_cos6* ]]; then
+      HOST_COS=$(echo $HOST | sed -e 's/_cos6/_cos7/g')
+    elif [[ "$OLD_HOST" == *_cos6* ]]; then
+      HOST_COS=$(echo $OLD_HOST | sed -e 's/_cos6/_cos7/g')
+    elif [[ "$HOST" == *_cos7* ]]; then
+      HOST_COS=$(echo $HOST | sed -e 's/_cos7/_cos6/g')
+    elif [[ "$OLD_HOST" == *_cos7* ]]; then
+      HOST_COS=$(echo $OLD_HOST | sed -e 's/_cos7/_cos6/g')
+    fi
+    if [[ ${HOST_COS} == *cos* ]]; then
+      cos_compiler_name=_sysconfigdata_$(echo ${HOST_COS} | sed -e 's/[.-]/_/g').py
+      sed -i.bak "s@${OLD_HOST}@${HOST_COS}@g" sysconfigfile
+      cp sysconfigfile ${cos_compiler_name}
+    fi
+  fi
+
   # For system gcc remove the triple
   sed -i.bak "s@$OLD_HOST-c++@g++@g" sysconfigfile
   sed -i.bak "s@$OLD_HOST-@@g" sysconfigfile

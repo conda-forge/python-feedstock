@@ -519,9 +519,10 @@ pushd "${PREFIX}"/lib/python${VER}
       HOST_COS=$(echo $OLD_HOST | sed -e 's/_cos7/_cos6/g')
     fi
     if [[ ${HOST_COS} == *cos* ]]; then
+      cp sysconfigfile sysconfigfile_alt
       cos_compiler_name=_sysconfigdata_$(echo ${HOST_COS} | sed -e 's/[.-]/_/g').py
-      sed -i.bak "s@${OLD_HOST}@${HOST_COS}@g" sysconfigfile
-      cp sysconfigfile ${cos_compiler_name}
+      sed -i.bak "s@${OLD_HOST}@${HOST_COS}@g" sysconfigfile_alt
+      cp sysconfigfile_alt ${cos_compiler_name}
     fi
   fi
 

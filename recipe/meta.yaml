@@ -7,7 +7,7 @@
 {% set build_number = 1 %}
 
 # this makes the linter happy
-{% set channel_targets = channel_targets or ['conda-forge main'] %}
+{% set channel_targets = channel_targets or 'conda-forge main' %}
 
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).

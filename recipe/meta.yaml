@@ -6,6 +6,9 @@
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
 {% set build_number = 0 %}
 
+# this makes the linter happy
+{% set channel_targets = channel_targets or 'conda-forge main' %}
+
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).
 {% set from_source_control = os.environ.get('CONDA_BUILD_FROM_SOURCE_CONTROL', '') %}
@@ -151,11 +154,8 @@ outputs:
       skip: True            # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [osx and arm64]
-{% if 'conda-forge' in channel_targets %}
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
-{% else %}
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}
-{% endif %}
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
 {% if 'conda-forge' in channel_targets %}
       run_exports:
         noarch:
@@ -290,11 +290,8 @@ outputs:
       activate_in_script: True
       ignore_run_exports:
         - python_abi
-{% if 'conda-forge' in channel_targets %}
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
-{% else %}
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}
-{% endif %}
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
     requirements:
       build:
         - {{ compiler('c') }}

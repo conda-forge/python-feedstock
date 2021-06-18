@@ -1,4 +1,4 @@
-{% set version = "3.9.4" %}
+{% set version = "3.9.5" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -26,7 +26,7 @@
 {% else %}
   {% set linkage_nature_env = 'static' %}
 {% endif %}
-{% set dbg_abi = '' %}
+{% set dbg_abi = "" %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if debug != '' and debug != 'no' %}
   {% set py_interp_debug = "yes" %}
@@ -47,7 +47,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: 2a3dba5fc75b695c45cf1806156e1a97
+    md5: 71f7ada6bec9cdbf4538adc326120cfd
 {% endif %}
     patches:
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
@@ -80,35 +80,35 @@ source:
       - patches/0033-gh24324.patch
 
   # TODO :: Depend on our own packages for these:
-  - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
-    folder: externals/xz-5.2.2                                                       # [win]
-    sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]
+    folder: externals/xz-5.2.2  # [win]
+    sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f  # [win]
   # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
   - url: https://github.com/python/cpython-source-deps/archive/tcl-core-8.6.9.0.zip  # [win]
-    folder: externals/tcl-core-8.6.9.0                                               # [win]
-    sha256: ea9e724536ec13b476ebbd47948303b92fdd90a33aa94f30fcc2f5c3a899f69e         # [win]
+    folder: externals/tcl-core-8.6.9.0  # [win]
+    sha256: ea9e724536ec13b476ebbd47948303b92fdd90a33aa94f30fcc2f5c3a899f69e  # [win]
   # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/tk-8.6.9.0.zip        # [win]
-    folder: externals/tk-8.6.9.0                                                     # [win]
-    sha256: f3112b6bbc3bd163c877030187e73ce9a113ce03eff559ec5b9df697e3a08fad         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/tcltk-8.6.9.0.zip        # [win]
-    folder: externals/tcltk-8.6.9.0                                                  # [win]
-    sha256: 37cd629a75d2a34974a3d771ccab5c9e3caf3d138cea81040f9cdba1aded1cf2         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip       # [win]
-    folder: externals/tix-8.4.3.6                                                    # [win]
-    sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
-    folder: externals/bzip2-1.0.6                                                    # [win]
-    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip       # [win]
-    folder: externals/zlib-1.2.11                                                    # [win]
-    sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
-    folder: externals/nasm-2.11.06                                                   # [win]
-    sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip               # [win]
-    folder: externals/libffi                                                         # [win]
-    sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/tk-8.6.9.0.zip  # [win]
+    folder: externals/tk-8.6.9.0  # [win]
+    sha256: f3112b6bbc3bd163c877030187e73ce9a113ce03eff559ec5b9df697e3a08fad  # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/tcltk-8.6.9.0.zip  # [win]
+    folder: externals/tcltk-8.6.9.0  # [win]
+    sha256: 37cd629a75d2a34974a3d771ccab5c9e3caf3d138cea81040f9cdba1aded1cf2  # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip  # [win]
+    folder: externals/tix-8.4.3.6  # [win]
+    sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56  # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip  # [win]
+    folder: externals/bzip2-1.0.6  # [win]
+    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d  # [win]
+  - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip  # [win]
+    folder: externals/zlib-1.2.11  # [win]
+    sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a  # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip  # [win]
+    folder: externals/nasm-2.11.06  # [win]
+    sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac  # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip  # [win]
+    folder: externals/libffi  # [win]
+    sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a  # [win]
 
 build:
   number: {{ build_number }}
@@ -129,7 +129,7 @@ outputs:
     script: build_base.bat  # [win]
     build:
       number: {{ build_number }}
-      activate_in_script: True
+      activate_in_script: true
       # Windows has issues updating python if conda is using files itself.
       # Copy rather than link.
       no_link:
@@ -140,7 +140,7 @@ outputs:
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}
       # Disabled until verified to work correctly
-      detect_binary_files_with_prefix: True
+      detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
       # binary_has_prefix_files:
       #   - lib/libpython{{ ver2 }}.*.1.0
@@ -151,7 +151,7 @@ outputs:
       #   - lib/python{{ ver2 }}/lib-dynload/_hashlib.cpython-{{ ver2nd }}-x86_64-linux-gnu.so  # [linux]
       #   - lib/libpython3.dylib  # [osx]
       # match python.org compiler standard
-      skip: True            # [win and int(float(vc)) < 14]
+      skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [osx and arm64]
       string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
@@ -169,14 +169,14 @@ outputs:
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
         # important env. vars.
-        - 'OPENSSL_DIR=%PREFIX%\Library'  # [win]
-        - 'SQLITE3_DIR=%PREFIX%\Library'  # [win]
+        - OPENSSL_DIR=%PREFIX%\Library    # [win]
+        - SQLITE3_DIR=%PREFIX%\Library    # [win]
 {% if 'conda-forge' in channel_targets %}
         - CONDA_FORGE=yes
 {% else %}
         - CONDA_FORGE=no
 {% endif %}
-      missing_dso_whitelist:  # [win]
+      missing_dso_whitelist:   # [win]
         - '**/MSVCR71.dll'  # [win]
         - '**/MSVCR80.dll'  # [win]
         # I have no idea why this is not in C:\Windows\System32\downlevel
@@ -252,7 +252,7 @@ outputs:
         - python -c "from zoneinfo import ZoneInfo; from datetime import datetime; dt = datetime(2020, 10, 31, 12, tzinfo=ZoneInfo('America/Los_Angeles')); print(dt.tzname())"
         - python -m venv test-venv
         - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
-        -  _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [linux64]
+        - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         # check for unreplaced @ symbols in sysconfig files
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
@@ -268,17 +268,17 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - pushd tests
-        -   pushd distutils
-        -     python setup.py install -v -v
-        -     python -c "import foobar"
-        -   popd
-        -   pushd prefix-replacement  # [unix]
-        -     bash build-and-test.sh  # [unix]
-        -   popd  # [unix]
-        -   pushd cmake
-        -     cmake -GNinja -DPY_VER={{ version }}
+        - pushd distutils
+        - python setup.py install -v -v
+        - python -c "import foobar"
+        - popd
+        - pushd prefix-replacement    # [unix]
+        - bash build-and-test.sh      # [unix]
+        - popd    # [unix]
+        - pushd cmake
+        - cmake -GNinja -DPY_VER={{ version }}
               # --trace --debug-output --debug-trycompile .
-        -   popd
+        - popd
         - popd
         - test ! -f default.profraw   # [osx]
 
@@ -287,7 +287,7 @@ outputs:
     script: build_static.bat  # [win]
     build:
       number: {{ build_number }}
-      activate_in_script: True
+      activate_in_script: true
       ignore_run_exports:
         - python_abi
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]

@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -78,6 +78,7 @@ source:
       - patches/0025-cross-compile-darwin.patch
       - patches/0032-Fix-TZPATH-on-windows.patch
       - patches/0033-gh24324.patch
+      - patches/0034-Unvendor-bzip2.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -97,9 +98,6 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip       # [win]
     folder: externals/tix-8.4.3.6                                                    # [win]
     sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56         # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip       # [win]
-    folder: externals/bzip2-1.0.6                                                    # [win]
-    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d         # [win]
   - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip       # [win]
     folder: externals/zlib-1.2.11                                                    # [win]
     sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a         # [win]
@@ -198,7 +196,7 @@ outputs:
         - binutils_impl_{{ target_platform }}  # [linux]
 {% endif %}
       host:
-        - bzip2  # [not win]
+        - bzip2
         - sqlite
         - xz  # [not win]
         - zlib  # [not win]

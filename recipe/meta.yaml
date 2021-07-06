@@ -208,9 +208,9 @@ outputs:
         - tk  # [not win]
         - ncurses  # [unix]
         - libffi   # [not (win or (osx and arm64))]
-        - ld_impl_{{ target_platform }}  # [linux]
+        - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
       run:
-        - ld_impl_{{ target_platform }}  # [linux]
+        - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
 {% if 'conda-forge' in channel_targets %}
         - ncurses  # [unix]

@@ -455,18 +455,13 @@ pushd "${PREFIX}"/lib/python${VER}
   # Remove unfilled config option
   sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
   sed -i.bak "s@$BUILD_PREFIX/bin/${HOST}-llvm-ar@${HOST}-ar@g" sysconfigfile
-  cp sysconfigfile ${our_compilers_name}
 
-  sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile
-  old_compiler_name=_sysconfigdata_$(echo ${OLD_HOST} | sed -e 's/[.-]/_/g').py
-  cp sysconfigfile ${old_compiler_name}
-
-  # For system gcc remove the triple
-  sed -i.bak "s@$OLD_HOST-c++@g++@g" sysconfigfile
-  sed -i.bak "s@$OLD_HOST-@@g" sysconfigfile
+  # For system gcc remove the triplei
+  sed -i.bak "s@$HOST-c++@g++@g" sysconfigfile
+  sed -i.bak "s@$HOST-@@g" sysconfigfile
   if [[ "$target_platform" == linux* ]]; then
     # For linux, make sure the system gcc uses our linker
-    sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat -Wl,--sysroot=/@g" sysconfigfile
+    sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat @g" sysconfigfile
   fi
   # Don't set -march and -mtune for system gcc
   sed -i.bak "s@-march=[a-z0-9]*@@g" sysconfigfile

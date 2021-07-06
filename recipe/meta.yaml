@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -78,6 +78,7 @@ source:
       - patches/0025-cross-compile-darwin.patch
       - patches/0032-Fix-TZPATH-on-windows.patch
       - patches/0033-gh24324.patch
+      - patches/0034-distutils-fix-ldshared.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]

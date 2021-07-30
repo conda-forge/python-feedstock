@@ -86,8 +86,10 @@ else
   CC=$(basename "${GCC}")
 fi
 _CCACHE=$(type -P ccache) || true
-if [[ ${_CCACHE} =~ ${BUILD_PREFIX}.* ]]; then
-  CC="${_CCACHE} ${CC}"
+if [[ ${target_platform} != osx-* ]]; then
+  if [[ ${_CCACHE} =~ ${BUILD_PREFIX}.* ]]; then
+    CC="${_CCACHE} ${CC}"
+  fi
 fi
 CXX=$(basename "${CXX}")
 RANLIB=$(basename "${RANLIB}")
@@ -101,7 +103,7 @@ if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
 fi
 
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py
-if [[ ${_OPTIMIZED} = yes ]]; then
+if [[ ${_OPTIMIZED} = yes && ${target_platform} != osx-* ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")
   CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O3/g")
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O3/g")
@@ -358,6 +360,16 @@ if [[ ${target_platform} == linux-ppc64le ]]; then
   # Travis has issues with long logs
   make -j${CPU_COUNT} -C ${_buildd_shared} \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 >make-shared.log
+elif [[ ${target_platform} == osx-* ]]; then
+  # Additional env vars required for osx builds.
+  # The "-undefined" flag allows for undefined symbols.
+  env LDFLAGS="${LDFLAGS} -Xlinker -undefined -Xlinker dynamic_lookup" \
+  make -j${CPU_COUNT} -C ${_buildd_shared} \
+          CROSS_COMPILE=no \
+          # This is the key fix for ensuring libpython*.dylib is built:
+          BLDSHARED="${CC} -shared" \
+          V=1 \
+          EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log
 else
   make -j${CPU_COUNT} -C ${_buildd_shared} \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log

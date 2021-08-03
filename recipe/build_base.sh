@@ -466,7 +466,7 @@ pushd "${PREFIX}"/lib/python${VER}
   sed -i.bak "s@$OLD_HOST-@@g" sysconfigfile
   if [[ "$target_platform" == linux* ]]; then
     # For linux, make sure the system gcc uses our linker
-    sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat@g" sysconfigfile
+    sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat -Wl,--sysroot=/@g" sysconfigfile
   fi
   # Don't set -march and -mtune for system gcc
   sed -i.bak "s@-march=[a-z0-9]*@@g" sysconfigfile

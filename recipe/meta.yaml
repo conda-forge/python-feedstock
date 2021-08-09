@@ -238,7 +238,7 @@ outputs:
         - tk  # [not win]
         - ncurses  # [unix]
         - libffi   # [not win]
-        - expat    # [not win]
+        - expat    # [not (win or aarch64)]
         - ld_impl_{{ target_platform }}  # [linux]
       run:
         - ld_impl_{{ target_platform }}  # [linux]

@@ -84,9 +84,7 @@ if [[ ${target_platform} == osx-* ]]; then
   CC=$(basename "${CC}")
 else
   CC=$(basename "${GCC}")
-fi
-_CCACHE=$(type -P ccache) || true
-if [[ ${target_platform} != osx-* ]]; then
+  _CCACHE=$(type -P ccache) || true
   if [[ ${_CCACHE} =~ ${BUILD_PREFIX}.* ]]; then
     CC="${_CCACHE} ${CC}"
   fi
@@ -203,11 +201,7 @@ if [[ -n ${HOST} ]]; then
   fi
 fi
 
-if [[ ${target_platform} == osx-64 ]]; then
-  export MACHDEP=darwin
-  export ac_sys_system=Darwin
-  export ac_sys_release=13.4.0
-  export MACOSX_DEFAULT_ARCH=x86_64
+if [[ ${target_platform} == osx-* ]]; then
   # TODO: check with LLVM 12 if the following hack is needed.
   # https://reviews.llvm.org/D76461 may have fixed the need for the following hack.
   echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
@@ -216,12 +210,13 @@ if [[ ${target_platform} == osx-64 ]]; then
   echo "WARNING :: For some reason, configure finds libintl (gettext) in the BUILD_PREFIX on macOS."
   echo "WARNING :: to prevent this, removing BUILD_PREFIX/include/libintl.h"
   echo "WARNING :: and also setting ac_cv_lib_intl_textdomain=no"
-  rm ${BUILD_PREFIX}/include/libintl.h
+  rm -f ${BUILD_PREFIX}/include/libintl.h
   export ac_cv_lib_intl_textdomain=no
 fi
 
 if [[ ${target_platform} == osx-64 ]]; then
   export MACHDEP=darwin
+  export ac_sys_system=Darwin
   export ac_sys_release=13.4.0
   export MACOSX_DEFAULT_ARCH=x86_64
   export ARCHFLAGS="-arch x86_64"
@@ -231,9 +226,6 @@ elif [[ ${target_platform} == osx-arm64 ]]; then
   export ac_sys_system=Darwin
   export ac_sys_release=20.0.0
   export MACOSX_DEFAULT_ARCH=arm64
-  echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
-  echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
-  chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
   export ARCHFLAGS="-arch arm64"
   export CFLAGS="$CFLAGS $ARCHFLAGS"
 elif [[ ${target_platform} == linux-* ]]; then
@@ -273,6 +265,21 @@ _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 _common_configure_args+=(--with-platlibdir=lib)
+_common_configure_args+=(--with-openssl="${PREFIX}")
+
+if [[ ${target_platform} == osx-arm64 ]]; then
+  _common_configure_args+=(--with-dtrace)
+fi
+
+_common_configure_args+=(PKG_CONFIG_LIBDIR="${PREFIX}/lib")
+_common_configure_args+=(PKG_CONFIG_PATH="${PREFIX}/lib")
+_common_configure_args+=(CPPFLAGS="${CPPFLAGS} -I${PREFIX}/include")
+_common_configure_args+=(CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include")
+_common_configure_args+=(CFLAGS="${CFLAGS} -I${PREFIX}/include")
+_common_configure_args+=(LDFLAGS="${LDFLAGS} -L${PREFIX}/lib")
+_common_configure_args+=(CC="${CC}")
+_common_configure_args+=(CXX="${CXX}")
+_comoon_configure_args+=(CC_FOR_BUIL="${CC}")
 
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
@@ -369,6 +376,7 @@ elif [[ ${target_platform} == osx-* ]]; then
           # This is the key fix for ensuring libpython*.dylib is built:
           BLDSHARED="${CC} -shared" \
           V=1 \
+          _PYTHON_HOST_PLATFORM="${_PYTHON_HOST_PLATFORM}" \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log
 else
   make -j${CPU_COUNT} -C ${_buildd_shared} \
@@ -387,8 +395,10 @@ make -j${CPU_COUNT} -C ${_buildd_shared} \
 make -C ${_buildd_static} install
 
 declare -a _FLAGS_REPLACE=()
-if [[ -n ${_CCACHE} ]]; then
-  _FLAGS_REPLACE+=("${_CCACHE}"); _FLAGS_REPLACE+=("")
+if [[ ${target_platform} != osx-* ]]; then
+  if [[ -n ${_CCACHE} ]]; then
+    _FLAGS_REPLACE+=("${_CCACHE}"); _FLAGS_REPLACE+=("")
+  fi
 fi
 _FLAGS_REPLACE+=("-L."); _FLAGS_REPLACE+=("")
 # 3 entries as this can be split over two lines.

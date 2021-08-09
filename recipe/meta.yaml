@@ -166,8 +166,8 @@ outputs:
       #   - lib/libpython3.dylib  # [osx]
       # match python.org compiler standard
       skip: true            # [win and int(float(vc)) < 14]
-      skip_compile_pyc:
-        - '*.py'            # [osx and arm64]
+      # skip_compile_pyc:
+      #  - '*.py'            # [osx and arm64]
 {% if 'conda-forge' in channel_targets %}
       string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython
 {% else %}
@@ -229,13 +229,16 @@ outputs:
       host:
         - bzip2  # [not win]
         - sqlite
-        - xz  # [not win]
-        - zlib  # [not win]
+        - xz     # [not win]
+        - unzip  # [not win]
+        - zlib   # [not win]
         - openssl
         - readline  # [not win]
+        - libiconv  # [osx]
         - tk  # [not win]
         - ncurses  # [unix]
-        - libffi   # [not (win or (osx and arm64))]
+        - libffi   # [not win]
+        - expat    # [not win]
         - ld_impl_{{ target_platform }}  # [linux]
       run:
         - ld_impl_{{ target_platform }}  # [linux]

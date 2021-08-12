@@ -77,6 +77,7 @@ source:
       - patches/0025-cross-compile-darwin.patch
       - patches/0032-Fix-TZPATH-on-windows.patch
       - patches/0033-gh24324.patch
+      - patches/0034-distutils-fix-ldshared.patch
 {% if 'conda-forge' not in channel_targets %}
       - patches/9999-Add-Anaconda-Distribution-version-logic.patch
 {% endif %}
@@ -132,7 +133,7 @@ outputs:
     script: build_base.bat  # [win]
     build:
       number: {{ build_number }}
-      activate_in_script: True
+      activate_in_script: true
       # Windows has issues updating python if conda is using files itself.
       # Copy rather than link.
       no_link:
@@ -153,7 +154,7 @@ outputs:
         - gxx_linux-s390x    # [linuxs390x]
         - libstdcxx-ng       # [linux and aarch64]
       # Disabled until verified to work correctly
-      detect_binary_files_with_prefix: True
+      detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
       # binary_has_prefix_files:
       #   - lib/libpython{{ ver2 }}.*.1.0
@@ -164,7 +165,7 @@ outputs:
       #   - lib/python{{ ver2 }}/lib-dynload/_hashlib.cpython-{{ ver2nd }}-x86_64-linux-gnu.so  # [linux]
       #   - lib/libpython3.dylib  # [osx]
       # match python.org compiler standard
-      skip: True            # [win and int(float(vc)) < 14]
+      skip: true            # [win and int(float(vc)) < 14]
       # skip_compile_pyc:
       #  - '*.py'            # [osx and arm64]
 {% if 'conda-forge' in channel_targets %}
@@ -185,8 +186,8 @@ outputs:
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
         # important env. vars.
-        - 'OPENSSL_DIR=%PREFIX%\Library'  # [win]
-        - 'SQLITE3_DIR=%PREFIX%\Library'  # [win]
+        - OPENSSL_DIR=%PREFIX%\Library  # [win]
+        - SQLITE3_DIR=%PREFIX%\Library  # [win]
 {% if 'conda-forge' in channel_targets %}
         - CONDA_FORGE=yes
 {% else %}
@@ -197,7 +198,15 @@ outputs:
         - '**/MSVCR80.dll'  # [win]
         # I have no idea why this is not in C:\Windows\System32\downlevel
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
-        - '**libcrypt.so.1'  # [linux and aarch64]
+          # -=- libs that come from the sysroot.
+        - '$RPATH/libc.so.6'        # [linux64]
+        - '$RPATH/libcrypt.so.1'    # [linux64]
+        - '$RPATH/libdl.so.2'       # [linux64]
+        - '$RPATH/libm.so.6'        # [linux64]
+        - '$RPATH/libnsl.so.1'      # [linux64]
+        - '$RPATH/libpthread.so.0'  # [linux64]
+        - '$RPATH/librt.so.1'       # [linux64]
+        - '$RPATH/libutil.so.1'     # [linux64]
     requirements:
       build:
         - {{ compiler('c') }}
@@ -229,7 +238,7 @@ outputs:
         - tk  # [not win]
         - ncurses  # [unix]
         - libffi   # [not win]
-        - expat    # [not win]
+        - expat    # [not (win or aarch64)]
         - ld_impl_{{ target_platform }}  # [linux]
       run:
         - ld_impl_{{ target_platform }}  # [linux]
@@ -324,10 +333,10 @@ outputs:
     noarch: python  # [unix]
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
-    skip: True  # [win]
+    skip: true  # [win]
     build:
       number: {{ build_number }}
-      activate_in_script: True
+      activate_in_script: true
       ignore_run_exports:
         - python_abi
 {% if 'conda-forge' in channel_targets %}

@@ -100,14 +100,8 @@ if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
   CPPFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CPPFLAGS}
 fi
 
-if [[ ${target_platform} == linux-aarch64 ]]; then
-  # Necessary for Graviton2 because shared objects like "libcrypt.so"
-  # are stored in the /usr/lib64 directory.
-  LDFLAGS="$LDFLAGS -L/usr/lib64"
-fi
-
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py
-if [[ ${_OPTIMIZED} = yes ]]; then
+if [[ ${_OPTIMIZED} = yes && ${target_platform} != osx-* ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")
   CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O3/g")
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O3/g")
@@ -374,9 +368,14 @@ if [[ ${target_platform} == linux-ppc64le ]]; then
   make -j${CPU_COUNT} -C ${_buildd_shared} \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 >make-shared.log
 elif [[ ${target_platform} == osx-* ]]; then
+  # Additional env vars required for osx builds.
+  # The "-undefined" flag allows for undefined symbols.
   env LDFLAGS="${LDFLAGS} -Xlinker -undefined -Xlinker dynamic_lookup" \
   make -j${CPU_COUNT} -C ${_buildd_shared} \
-          CROSSCOMPILE=no BLDSHARED="${CC} -shared" V=1 \
+          CROSS_COMPILE=no \
+          # This is the key fix for ensuring libpython*.dylib is built:
+          BLDSHARED="${CC} -shared" \
+          V=1 \
           _PYTHON_HOST_PLATFORM="${_PYTHON_HOST_PLATFORM}" \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log
 else
@@ -548,7 +547,7 @@ pushd "${PREFIX}"/lib/python${VER}
   sed -i.bak "s@$OLD_HOST-@@g" sysconfigfile
   if [[ "$target_platform" == linux* ]]; then
     # For linux, make sure the system gcc uses our linker
-    sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat -Wl,--sysroot=/@g" sysconfigfile
+    sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat@g" sysconfigfile
   fi
   # Don't set -march and -mtune for system gcc
   sed -i.bak "s@-march=[a-z0-9]*@@g" sysconfigfile

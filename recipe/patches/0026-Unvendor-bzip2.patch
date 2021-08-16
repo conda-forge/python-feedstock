@@ -1,0 +1,130 @@
+From 0db73c27c6b321a7b9a3f824756d1760c8c355cd Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Mon, 16 Aug 2021 02:56:27 -0700
+Subject: [PATCH 26/27] Unvendor bzip2
+
+---
+ PCbuild/_bz2.vcxproj         | 17 ++++++-----------
+ PCbuild/_bz2.vcxproj.filters | 28 ++--------------------------
+ PCbuild/python.props         |  1 +
+ PCbuild/regen.targets        |  1 -
+ 4 files changed, 9 insertions(+), 38 deletions(-)
+
+diff --git a/PCbuild/_bz2.vcxproj b/PCbuild/_bz2.vcxproj
+index 0402f7a9aa..8d887a5dcb 100644
+--- a/PCbuild/_bz2.vcxproj
++++ b/PCbuild/_bz2.vcxproj
+@@ -94,7 +94,7 @@
+   </PropertyGroup>
+   <ItemDefinitionGroup>
+     <ClCompile>
+-      <AdditionalIncludeDirectories>$(bz2Dir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>WIN32;_FILE_OFFSET_BITS=64;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <DisableSpecificWarnings>4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+@@ -102,20 +102,15 @@
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+     </ClCompile>
++    <Link>
++      <AdditionalDependencies>$(condaDir)\lib\bzip2.lib;%(AdditionalDependencies)</AdditionalDependencies>
++    </Link>
+   </ItemDefinitionGroup>
+   <ItemGroup>
+     <ClCompile Include="..\Modules\_bz2module.c" />
+-    <ClCompile Include="$(bz2Dir)\blocksort.c" />
+-    <ClCompile Include="$(bz2Dir)\bzlib.c" />
+-    <ClCompile Include="$(bz2Dir)\compress.c" />
+-    <ClCompile Include="$(bz2Dir)\crctable.c" />
+-    <ClCompile Include="$(bz2Dir)\decompress.c" />
+-    <ClCompile Include="$(bz2Dir)\huffman.c" />
+-    <ClCompile Include="$(bz2Dir)\randtable.c" />
+   </ItemGroup>
+   <ItemGroup>
+-    <ClInclude Include="$(bz2Dir)\bzlib.h" />
+-    <ClInclude Include="$(bz2Dir)\bzlib_private.h" />
++    <ClInclude Include="$(condaDir)\include\bzlib.h" />
+   </ItemGroup>
+   <ItemGroup>
+     <ResourceCompile Include="..\PC\python_nt.rc" />
+@@ -129,4 +124,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
+diff --git a/PCbuild/_bz2.vcxproj.filters b/PCbuild/_bz2.vcxproj.filters
+index 7c0b516253..ed9510978f 100644
+--- a/PCbuild/_bz2.vcxproj.filters
++++ b/PCbuild/_bz2.vcxproj.filters
+@@ -21,33 +21,9 @@
+     <ClCompile Include="..\Modules\_bz2module.c">
+       <Filter>Source Files</Filter>
+     </ClCompile>
+-    <ClCompile Include="$(bz2Dir)\blocksort.c">
+-      <Filter>Source Files\bzip2</Filter>
+-    </ClCompile>
+-    <ClCompile Include="$(bz2Dir)\bzlib.c">
+-      <Filter>Source Files\bzip2</Filter>
+-    </ClCompile>
+-    <ClCompile Include="$(bz2Dir)\compress.c">
+-      <Filter>Source Files\bzip2</Filter>
+-    </ClCompile>
+-    <ClCompile Include="$(bz2Dir)\crctable.c">
+-      <Filter>Source Files\bzip2</Filter>
+-    </ClCompile>
+-    <ClCompile Include="$(bz2Dir)\decompress.c">
+-      <Filter>Source Files\bzip2</Filter>
+-    </ClCompile>
+-    <ClCompile Include="$(bz2Dir)\huffman.c">
+-      <Filter>Source Files\bzip2</Filter>
+-    </ClCompile>
+-    <ClCompile Include="$(bz2Dir)\randtable.c">
+-      <Filter>Source Files\bzip2</Filter>
+-    </ClCompile>
+   </ItemGroup>
+   <ItemGroup>
+-    <ClInclude Include="$(bz2Dir)\bzlib_private.h">
+-      <Filter>Header Files\bzip2</Filter>
+-    </ClInclude>
+-    <ClInclude Include="$(bz2Dir)\bzlib.h">
++    <ClInclude Include="$(condaDir)\include\bzlib.h">
+       <Filter>Header Files\bzip2</Filter>
+     </ClInclude>
+   </ItemGroup>
+@@ -56,4 +32,4 @@
+       <Filter>Resource Files</Filter>
+     </ResourceCompile>
+   </ItemGroup>
+-</Project>
+\ No newline at end of file
++</Project>
+diff --git a/PCbuild/python.props b/PCbuild/python.props
+index bc05038c30..a6ed45f632 100644
+--- a/PCbuild/python.props
++++ b/PCbuild/python.props
+@@ -55,6 +55,7 @@
+     
+     <!-- Directories of external projects. tcltk is handled in tcltk.props -->
+     <ExternalsDir>$(EXTERNALS_DIR)</ExternalsDir>
++    <condaDir>$(LIBRARY_PREFIX)\</condaDir>
+     <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
+     <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
+     <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
+diff --git a/PCbuild/regen.targets b/PCbuild/regen.targets
+index ff56d1148e..e835236b8a 100644
+--- a/PCbuild/regen.targets
++++ b/PCbuild/regen.targets
+@@ -88,7 +88,6 @@
+   <ItemGroup>
+     <_LicenseSources Include="$(PySourcePath)LICENSE;
+                               $(PySourcePath)PC\crtlicense.txt;
+-                              $(bz2Dir)LICENSE;
+                               $(opensslOutDir)LICENSE;
+                               $(libffiDir)LICENSE;" />
+     <_LicenseSources Include="$(tcltkDir)tcllicense.terms;
+-- 
+2.30.2
+

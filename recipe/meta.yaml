@@ -96,18 +96,12 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip  # [win]
     folder: externals/tix-8.4.3.6  # [win]
     sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56  # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip  # [win]
-    folder: externals/bzip2-1.0.6  # [win]
-    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d  # [win]
   - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip  # [win]
     folder: externals/zlib-1.2.11  # [win]
     sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a  # [win]
   - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip  # [win]
     folder: externals/nasm-2.11.06  # [win]
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac  # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip  # [win]
-    folder: externals/libffi  # [win]
-    sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a  # [win]
 
 build:
   number: {{ build_number }}
@@ -197,7 +191,7 @@ outputs:
         - binutils_impl_{{ target_platform }}  # [linux]
 {% endif %}
       host:
-        - bzip2  # [not win]
+        - bzip2
         - sqlite
         - xz  # [not win]
         - zlib  # [not win]
@@ -205,7 +199,7 @@ outputs:
         - readline  # [not win]
         - tk  # [not win]
         - ncurses  # [unix]
-        - libffi   # [not (win or (osx and arm64))]
+        - libffi   # [not (osx and arm64)]
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]

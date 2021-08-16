@@ -1,10 +1,10 @@
-{% set version = "3.9.6" %}
-{% set dev = "" %}
+{% set version = "3.10.0" %}
+{% set dev = "rc1" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 1 %}
+{% set build_number = 0 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -47,38 +47,36 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: ecc29a7688f86e550d29dba2ee66cf80
+    md5: edd2eb2f7f4a932ed59196cbe373e5fb
 {% endif %}
     patches:
-      - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
-      - patches/0001-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
-      - patches/0002-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - patches/0003-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - patches/0004-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - patches/0005-Support-cross-compiling-byte-code.patch
-      - patches/0006-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - patches/0007-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - patches/0008-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - patches/0009-Win32-Do-not-download-externals.patch
-      - patches/0010-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      - patches/0011-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0012-Disable-new-dtags-in-unixccompiler.py.patch
-      - patches/0013-Fix-cross-compilation-on-Debian-based-distros.patch
-      - patches/0014-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      - patches/0015-Unvendor-openssl.patch
-      - patches/0016-Unvendor-sqlite3.patch
-      - patches/0017-venv-Revert-a-change-from-https-github.com-python-cp.patch
-      - patches/0018-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
-      - patches/0019-Use-ranlib-from-env-if-env-variable-is-set.patch
-      - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
-      - patches/0021-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
-      - patches/0022-Doing-d1trimfile.patch
-      - patches/0023-egg-debugging-with-Windows-debug-builds.patch
-      - patches/0024-Add-CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL-to-aid-de.patch
-      - patches/0025-cross-compile-darwin.patch
-      - patches/0032-Fix-TZPATH-on-windows.patch
-      - patches/0033-gh24324.patch
-      - patches/0034-distutils-fix-ldshared.patch
+      - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - patches/0002-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - patches/0003-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0004-Support-cross-compiling-byte-code.patch
+      - patches/0005-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - patches/0006-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - patches/0007-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - patches/0008-Win32-Do-not-download-externals.patch
+      - patches/0009-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0010-Disable-new-dtags-in-unixccompiler.py.patch
+      - patches/0011-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0012-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - patches/0013-Unvendor-openssl.patch
+      - patches/0014-Unvendor-sqlite3.patch
+      - patches/0015-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      - patches/0016-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
+      - patches/0017-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0018-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0019-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
+      - patches/0020-Doing-d1trimfile.patch
+      - patches/0021-egg-debugging-with-Windows-debug-builds.patch
+      - patches/0022-cross-compile-darwin.patch
+      - patches/0023-Fix-TZPATH-on-windows.patch
+      - patches/0024-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
+      - patches/0025-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
+      - patches/0026-Unvendor-bzip2.patch
+      - patches/0027-Unvendor-libffi.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]

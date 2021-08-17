@@ -7,3 +7,6 @@ bot:
     - 3.6
     - 3.7
     - 3.8
+    - 3.9
+azure:
+  store_build_artifacts: true

@@ -269,13 +269,13 @@ index 2684d23067..e86a24d8e0 100644
 +    const wchar_t *path_env = _wgetenv(L"PATH");
 +    wchar_t current_working_directory[1024];
 +    const wchar_t *p_cwd = NULL;
-+    ssize_t entry_num = 0;
-+    ssize_t i;
++    long long entry_num = 0;
++    long long i;
 +    wchar_t **path_entries;
 +    wchar_t *path_end;
-+    ssize_t num_entries = 1;
++    long long num_entries = 1;
 +#if defined(HARDCODE_CONDA_PATHS)
-+    ssize_t j;
++    long long j;
 +    CONDA_PATH *p_conda_path;
 +    int foundCondaPath[NUM_CONDA_PATHS] = {0, 0, 0, 0, 0};
 +#endif /* defined(HARDCODE_CONDA_PATHS) */

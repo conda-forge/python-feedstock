@@ -31,13 +31,6 @@ index 975c4a0d35..5700e755ab 100644
    </ItemGroup>
    <Target Name="_CopyLIBFFIDLL" Inputs="@(_LIBFFIDLL)" Outputs="@(_LIBFFIDLL->'$(OutDir)%(Filename)%(Extension)')" AfterTargets="Build">
      <Copy SourceFiles="@(_LIBFFIDLL)" DestinationFolder="$(OutDir)" />
-@@ -18,4 +18,4 @@
-   <Target Name="_CleanLIBFFIDLL" BeforeTargets="Clean">
-     <Delete Files="@(_LIBFFIDLL->'$(OutDir)%(Filename)%(Extension)')" TreatErrorsAsWarnings="true" />
-   </Target>
--</Project>
-\ No newline at end of file
-+</Project>
 -- 
 2.30.2
 

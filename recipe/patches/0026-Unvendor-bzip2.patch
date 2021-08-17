@@ -48,13 +48,6 @@ index 0402f7a9aa..8d887a5dcb 100644
    </ItemGroup>
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
-@@ -129,4 +124,4 @@
-   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-   <ImportGroup Label="ExtensionTargets">
-   </ImportGroup>
--</Project>
-\ No newline at end of file
-+</Project>
 diff --git a/PCbuild/_bz2.vcxproj.filters b/PCbuild/_bz2.vcxproj.filters
 index 7c0b516253..ed9510978f 100644
 --- a/PCbuild/_bz2.vcxproj.filters
@@ -94,13 +87,6 @@ index 7c0b516253..ed9510978f 100644
        <Filter>Header Files\bzip2</Filter>
      </ClInclude>
    </ItemGroup>
-@@ -56,4 +32,4 @@
-       <Filter>Resource Files</Filter>
-     </ResourceCompile>
-   </ItemGroup>
--</Project>
-\ No newline at end of file
-+</Project>
 diff --git a/PCbuild/python.props b/PCbuild/python.props
 index bc05038c30..a6ed45f632 100644
 --- a/PCbuild/python.props
@@ -113,18 +99,6 @@ index bc05038c30..a6ed45f632 100644
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
      <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
-diff --git a/PCbuild/regen.targets b/PCbuild/regen.targets
-index ff56d1148e..e835236b8a 100644
---- a/PCbuild/regen.targets
-+++ b/PCbuild/regen.targets
-@@ -88,7 +88,6 @@
-   <ItemGroup>
-     <_LicenseSources Include="$(PySourcePath)LICENSE;
-                               $(PySourcePath)PC\crtlicense.txt;
--                              $(bz2Dir)LICENSE;
-                               $(opensslOutDir)LICENSE;
-                               $(libffiDir)LICENSE;" />
-     <_LicenseSources Include="$(tcltkDir)tcllicense.terms;
 -- 
 2.30.2
 

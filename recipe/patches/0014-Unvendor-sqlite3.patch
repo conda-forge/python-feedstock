@@ -27,7 +27,7 @@ index 5eb8559d29..55e59834f0 100644
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClInclude Include="..\Modules\_sqlite\cache.h" />
-@@ -126,12 +129,8 @@
+@@ -126,10 +129,6 @@
        <Project>{cf7ac3d1-e2df-41d2-bea6-1e2556cdea26}</Project>
        <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
      </ProjectReference>
@@ -38,10 +38,6 @@ index 5eb8559d29..55e59834f0 100644
    </ItemGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
-   </ImportGroup>
--</Project>
-\ No newline at end of file
-+</Project>
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
 index 3507b97279..2b4ac3258c 100644
 --- a/PCbuild/pcbuild.sln

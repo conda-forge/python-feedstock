@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 {% set channel_targets = ('abc', 'def')  %}
 
 # Sanitize build system env. var tweak parameters
@@ -77,7 +77,6 @@ source:
       - patches/0025-cross-compile-darwin.patch
       - patches/0032-Fix-TZPATH-on-windows.patch
       - patches/0033-gh24324.patch
-      - patches/0034-distutils-fix-ldshared.patch
 {% if 'conda-forge' not in channel_targets %}
       - patches/9999-Add-Anaconda-Distribution-version-logic.patch
 {% endif %}
@@ -234,11 +233,11 @@ outputs:
         - zlib   # [not win]
         - openssl
         - readline  # [not win]
-        - libiconv  # [osx]
+        - libiconv  # [osx and arm64]
         - tk  # [not win]
         - ncurses  # [unix]
         - libffi   # [not win]
-        - expat    # [not (win or aarch64)]
+        - expat    # [osx and arm64]
         - ld_impl_{{ target_platform }}  # [linux]
       run:
         - ld_impl_{{ target_platform }}  # [linux]

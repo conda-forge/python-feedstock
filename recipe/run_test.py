@@ -59,7 +59,6 @@ import lzma
 import math
 import mmap
 import operator
-import parser
 import pyexpat
 import select
 import time

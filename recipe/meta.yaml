@@ -222,6 +222,7 @@ outputs:
         - tests/cmake/*
         - tests/cython/*
         - tests/prefix-replacement/*
+        - run_test.py
       commands:
         - echo on  # [win]
         - set  # [win]
@@ -270,6 +271,7 @@ outputs:
               # --trace --debug-output --debug-trycompile .
         - popd
         - popd
+        - python run_test.py
         - test ! -f default.profraw   # [osx]
 
   - name: libpython-static

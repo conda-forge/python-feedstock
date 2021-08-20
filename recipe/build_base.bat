@@ -82,10 +82,6 @@ if errorlevel 1 exit 1
 mkdir %PREFIX%\DLLs
 xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tcl86t.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tk86t.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
 
 copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
@@ -120,10 +116,6 @@ if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\2to3 %PREFIX%\Tools\scripts\2to3.py
 if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
-if errorlevel 1 exit 1
-
-:: Populate the tcl directory
-xcopy /s /y /i %SRC_DIR%\externals\tcltk-8.6.11.0\%BUILD_PATH%\lib %PREFIX%\tcl
 if errorlevel 1 exit 1
 
 :: Populate the include directory

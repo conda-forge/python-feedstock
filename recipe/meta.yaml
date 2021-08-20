@@ -77,22 +77,12 @@ source:
       - patches/0025-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
       - patches/0026-Unvendor-bzip2.patch
       - patches/0027-Unvendor-libffi.patch
+      - patches/0028-Unvendor-tcltk.patch
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]
     folder: externals/xz-5.2.2  # [win]
     sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f  # [win]
-  # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/tcl-core-8.6.11.0.zip  # [win]
-    folder: externals/tcl-core-8.6.11.0  # [win]
-  # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/tk-8.6.11.0.zip  # [win]
-    folder: externals/tk-8.6.11.0  # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/tcltk-8.6.11.0.zip  # [win]
-    folder: externals/tcltk-8.6.11.0  # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip  # [win]
-    folder: externals/tix-8.4.3.6  # [win]
-    sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56  # [win]
   - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip  # [win]
     folder: externals/zlib-1.2.11  # [win]
     sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a  # [win]
@@ -194,7 +184,7 @@ outputs:
         - zlib  # [not win]
         - openssl
         - readline  # [not win]
-        - tk  # [not win]
+        - tk
         - ncurses  # [unix]
         - libffi   # [not (osx and arm64)]
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]

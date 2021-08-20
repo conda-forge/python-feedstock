@@ -86,8 +86,6 @@ copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tcl86t.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tk86t.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libffi-7.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
 
 copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1

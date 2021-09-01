@@ -50,7 +50,6 @@ source:
     md5: fddb060b483bc01850a3f412eea1d954
 {% endif %}
     patches:
-      - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
       - patches/0001-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
       - patches/0002-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0003-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch

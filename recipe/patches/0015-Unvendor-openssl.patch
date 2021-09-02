@@ -54,15 +54,15 @@ index a7e16793c7..af1350cae7 100644
      </Link>
    </ItemDefinitionGroup>
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 5f4926efa2..9c2838b162 100644
+index 42c67de4af..4c5c18a81d 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -62,9 +62,9 @@
-     <libffiDir>$(ExternalsDir)libffi\</libffiDir>
-     <libffiOutDir>$(ExternalsDir)libffi\$(ArchName)\</libffiOutDir>
+@@ -63,9 +63,9 @@
+     <libffiDir>$(ExternalsDir)libffi-3.3.0\</libffiDir>
+     <libffiOutDir>$(ExternalsDir)libffi-3.3.0\$(ArchName)\</libffiOutDir>
      <libffiIncludeDir>$(libffiOutDir)include</libffiIncludeDir>
--    <opensslDir>$(ExternalsDir)openssl-1.1.1k\</opensslDir>
--    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.1k-1\$(ArchName)\</opensslOutDir>
+-    <opensslDir>$(ExternalsDir)openssl-1.1.1l\</opensslDir>
+-    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.1l\$(ArchName)\</opensslOutDir>
 -    <opensslIncludeDir>$(opensslOutDir)include</opensslIncludeDir>
 +    <opensslDir>$(OPENSSL_DIR)\</opensslDir>
 +    <opensslOutDir>$(opensslDir)bin</opensslOutDir>

@@ -1,7 +1,7 @@
-From f7e82001da5c0b6adaae05c54eeff11627f7f023 Mon Sep 17 00:00:00 2001
-From: Eric Dill <ericdill@pm.me>
-Date: Wed, 1 Sep 2021 18:34:07 -0400
-Subject: [PATCH] Apply patch 005 from conda-forge
+From ee0faacf1f8c46e331e537ca1c5eded2fc0b9783 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Wed, 16 Aug 2017 12:17:33 +0100
+Subject: [PATCH 05/30] Support cross-compiling byte-code
 
 ---
  Makefile.pre.in | 13 +++++++------

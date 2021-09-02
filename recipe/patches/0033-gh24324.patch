@@ -1,7 +1,7 @@
-From fbba5b23a1a930157f03d45dd0b3ccc5e0fc0539 Mon Sep 17 00:00:00 2001
-From: Eric Dill <ericdill@pm.me>
-Date: Wed, 1 Sep 2021 19:15:57 -0400
-Subject: [PATCH] Applying 0033
+From afddfa8176cf8969055c6319504069b250723d3d Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Mon, 25 Jan 2021 03:28:08 -0600
+Subject: [PATCH] Make dyld search work with SYSTEM_VERSION_COMPAT=1
 
 ---
  Modules/_ctypes/callproc.c | 2 +-

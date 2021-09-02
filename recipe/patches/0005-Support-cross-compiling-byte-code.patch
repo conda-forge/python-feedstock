@@ -3,6 +3,7 @@ From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 05/30] Support cross-compiling byte-code
 
+https://bugs.python.org/issue22724
 ---
  Makefile.pre.in | 13 +++++++------
  configure       |  4 +++-

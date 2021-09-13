@@ -5,6 +5,9 @@
   {% set linkage_nature = "_" ~ linkage_nature %}
 {% endif %}
 
+# this makes the linter happy
+{% set channel_targets = channel_targets or 'conda-forge main' %}
+
 package:
   name: python
   version: {{ base_version }}

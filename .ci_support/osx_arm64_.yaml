@@ -7,7 +7,7 @@ c_compiler:
 c_compiler_version:
 - '11'
 channel_sources:
-- conda-forge/label/rust_dev,conda-forge
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -15,7 +15,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '11'
 libffi:
-- '3.3'
+- '3.4'
 macos_machine:
 - arm64-apple-darwin20.0.0
 openssl:

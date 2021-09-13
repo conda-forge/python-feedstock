@@ -18,7 +18,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-3811/
-    md5: f22ef46ebf8d15d8e495a237277bf2fa
+    md5: 5840ba601128f48fee4e7c98fbdac65d
     patches:
       - patches/0001-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
 {% if 'conda-forge' not in channel_targets %}

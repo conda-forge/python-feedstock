@@ -21,7 +21,7 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-aarch64
 libffi:
-- '3.3'
+- '3.4'
 ncurses:
 - '6.2'
 openssl:
@@ -51,7 +51,7 @@ pin_run_as_build:
 python:
 - '3.7'
 readline:
-- '8.0'
+- '8'
 sqlite:
 - '3'
 target_platform:

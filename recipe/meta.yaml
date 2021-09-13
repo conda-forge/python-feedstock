@@ -5,6 +5,9 @@
   {% set linkage_nature = "_" ~ linkage_nature %}
 {% endif %}
 
+# this makes the linter happy
+{% set channel_targets = channel_targets or 'conda-forge main' %}
+
 package:
   name: python
   version: {{ base_version }}
@@ -70,7 +73,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 100
+  number: 101
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

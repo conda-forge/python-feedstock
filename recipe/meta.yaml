@@ -8,6 +8,9 @@
   {% set debug = "_d" ~ debug %}
 {% endif %}
 
+# this makes the linter happy
+{% set channel_targets = channel_targets or 'conda-forge main' %}
+
 package:
   name: python-split
   version: {{ version }}
@@ -79,7 +82,7 @@ source:
     sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
 
 build:
-  number: 1
+  number: 2
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG

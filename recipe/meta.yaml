@@ -77,12 +77,12 @@ source:
   - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip         # [win]
     folder: externals/nasm-2.11.06                                                   # [win]
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip               # [win]
+  - url: https://github.com/python/cpython-bin-deps/archive/libffi-3.3.0.zip         # [win]
     folder: externals/libffi                                                         # [win]
-    sha256: 346978268569d63cecf668e031d56908019b4098cdad18729d1d5af495d34641         # [win]
+    sha256: 69e3f7235108a75033cb9325a0a3535ba271d144ec66fccefe134eda27d7bcfe         # [win]
 
 build:
-  number: 1
+  number: 2
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG

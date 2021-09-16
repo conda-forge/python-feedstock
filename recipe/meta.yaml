@@ -1,4 +1,4 @@
-{% set version = "3.9.6" %}
+{% set version = "3.9.7" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -45,10 +45,10 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: ecc29a7688f86e550d29dba2ee66cf80
+    md5: fddb060b483bc01850a3f412eea1d954
 {% endif %}
     patches:
-      - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
+      ## - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
       - patches/0001-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
       - patches/0002-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0003-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
@@ -110,7 +110,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
   - url: https://github.com/python/cpython-bin-deps/archive/libffi.zip               # [win]
     folder: externals/libffi                                                         # [win]
-    sha256: 4872e72e188a5aa1124db0c3b163a4163e84ead359a514d86dd7c6fa2d2ff02a         # [win]
+    sha256: 346978268569d63cecf668e031d56908019b4098cdad18729d1d5af495d34641         # [win]
 
 build:
   number: {{ build_number }}

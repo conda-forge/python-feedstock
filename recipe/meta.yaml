@@ -1,4 +1,4 @@
-{% set version = "3.8.10" %}
+{% set version = "3.8.12" %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
 {% if linkage_nature != '' %}
@@ -17,8 +17,8 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
-    # md5 from: https://www.python.org/downloads/release/python-388/
-    md5: d9eee4b20155553830a2025e4dcaa7b3
+    # md5 from: https://www.python.org/downloads/release/python-3812/
+    md5: 9dd8f82e586b776383c82e27923f8795
     patches:
       - patches/0001-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
 {% if 'conda-forge' not in channel_targets %}
@@ -82,7 +82,7 @@ source:
     sha256: 69e3f7235108a75033cb9325a0a3535ba271d144ec66fccefe134eda27d7bcfe         # [win]
 
 build:
-  number: 2
+  number: 0
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG

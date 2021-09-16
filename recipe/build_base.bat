@@ -18,6 +18,11 @@ if "%ARCH%"=="64" (
    set BUILD_PATH=win32
 )
 
+:: libffi is no longer provided as 3.2 compatible, it is now 3.3 variant ... sadly project
+:: mixes now old and new version ... so copy lib that everything is satisfied ...
+copy externals\libffi-3.3.0\%BUILD_PATH%\libffi-8.lib externals\libffi-3.3.0\%BUILD_PATH%\libffi-7.lib
+if errorlevel 1 exit 1
+
 for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   set "VERNODOTS=%%i%%j"
 )
@@ -94,7 +99,7 @@ copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tcl86t.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tk86t.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libffi-7.dll %PREFIX%\DLLs\
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\libffi-*.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
 copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\

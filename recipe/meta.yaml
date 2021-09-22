@@ -52,28 +52,31 @@ source:
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - patches/0003-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
       - patches/0004-Support-cross-compiling-byte-code.patch
-      - patches/0005-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      # https://github.com/python/cpython/pull/28501
       - patches/0006-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      # https://github.com/pypa/distutils/pull/54
       - patches/0007-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
       - patches/0008-Win32-Do-not-download-externals.patch
       - patches/0009-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0010-Disable-new-dtags-in-unixccompiler.py.patch
+      # https://github.com/python/cpython/pull/28397
       - patches/0011-Fix-cross-compilation-on-Debian-based-distros.patch
       - patches/0012-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
       - patches/0013-Unvendor-openssl.patch
       - patches/0014-Unvendor-sqlite3.patch
       - patches/0015-venv-Revert-a-change-from-https-github.com-python-cp.patch
       - patches/0016-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
+      # https://github.com/pypa/distutils/pull/53
       - patches/0017-Use-ranlib-from-env-if-env-variable-is-set.patch
       - patches/0018-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0019-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
       - patches/0020-Doing-d1trimfile.patch
-      - patches/0021-egg-debugging-with-Windows-debug-builds.patch
+      # https://github.com/python/cpython/pull/23523
       - patches/0022-cross-compile-darwin.patch
       - patches/0023-Fix-TZPATH-on-windows.patch
+      # https://github.com/python/cpython/pull/24324
       - patches/0024-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
+      # https://github.com/pypa/distutils/pull/53
       - patches/0025-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
       - patches/0026-Unvendor-bzip2.patch
       - patches/0027-Unvendor-libffi.patch

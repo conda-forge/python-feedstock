@@ -1,32 +1,24 @@
-From 5fea00ca97a76a0e81b30a99e97365c71ae13a5a Mon Sep 17 00:00:00 2001
-From: Ray Donnelly <mingw.android@gmail.com>
-Date: Sun, 20 Aug 2017 00:22:22 +0100
-Subject: [PATCH 06/27] Darwin: Look in ${sysroot}/usr/{lib,include} if sysroot
- is set
+From 9dfbdb796592542afab40bddcbf323cf8ef74664 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Tue, 21 Sep 2021 13:05:20 -0500
+Subject: [PATCH 1/2] bpo-45258: search for -isysroot in addition to --sysroot
 
+-isysroot is for macOS, while --sysroot is for gcc/linux
 ---
- setup.py | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 16081a0696..f979e41dea 100644
+index 9e411cb35e00b..1c51030daec50 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -837,7 +837,13 @@ def init_inc_lib_dirs(self):
-         # lib_dirs and inc_dirs are used to search for files;
-         # if a file is found in one of those directories, it can
-         # be assumed that no additional -I,-L directives are needed.
--        if not CROSS_COMPILING:
-+        # If we are using a macosx sysroot then ensure we look in
-+        # sysroot/usr/{lib,include} (irrespective of whether we consider
-+        # this cross_compiling or not).
-+        if macosx_sdk_root() != '/':
-+            self.lib_dirs = self.compiler.library_dirs + ['/usr/lib']
-+            self.inc_dirs = self.compiler.include_dirs + ['/usr/include']
-+        elif not CROSS_COMPILING:
-             self.lib_dirs = self.compiler.library_dirs + system_lib_dirs
-             self.inc_dirs = self.compiler.include_dirs + system_include_dirs
-         else:
--- 
-2.30.2
+@@ -160,7 +160,7 @@ def sysroot_paths(make_vars, subdirs):
+     for var_name in make_vars:
+         var = sysconfig.get_config_var(var_name)
+         if var is not None:
+-            m = re.search(r'--sysroot=([^"]\S*|"[^"]+")', var)
++            m = re.search(r'(?:--sysroot|-isysroot)=([^"]\S*|"[^"]+")', var)
+             if m is not None:
+                 sysroot = m.group(1).strip('"')
+                 for subdir in subdirs:
 

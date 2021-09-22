@@ -455,6 +455,8 @@ pushd "${PREFIX}"/lib/python${VER}
   # Remove unfilled config option
   sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
   sed -i.bak "s@$BUILD_PREFIX/bin/${HOST}-llvm-ar@${HOST}-ar@g" sysconfigfile
+  # Remove GNULD=yes to make sure new-dtags are not used
+  sed -i.bak "s/'GNULD': 'yes'/'GNULD': 'no'/g" sysconfigfile
   cp sysconfigfile ${our_compilers_name}
 
   sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile

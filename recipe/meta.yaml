@@ -82,7 +82,7 @@ source:
     sha256: 69e3f7235108a75033cb9325a0a3535ba271d144ec66fccefe134eda27d7bcfe         # [win]
 
 build:
-  number: 0
+  number: 1
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG

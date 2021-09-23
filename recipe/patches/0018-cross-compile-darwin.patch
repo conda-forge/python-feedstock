@@ -30,10 +30,20 @@ index 134fbae6b1..fbf27ac7d3 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index 376a63c9a0..e659efa861 100755
+index 2e3c9ba7baddd..6c529009cfa78 100755
 --- a/configure
 +++ b/configure
-@@ -6227,7 +6227,7 @@ esac
+@@ -3382,6 +3382,9 @@ if test "$cross_compiling" = yes; then
+ 			_host_cpu=$host_cpu
+ 		esac
+ 		;;
++	*-*-darwin*)
++		_host_cpu=$host_cpu
++		;;
+ 	*-*-cygwin*)
+ 		_host_cpu=
+ 		;;
+@@ -6226,7 +6229,7 @@ esac
    fi
  fi
  
@@ -43,10 +53,20 @@ index 376a63c9a0..e659efa861 100755
  	readelf|:)
  	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index f70a69b2f9..a3f38918f9 100644
+index 4a0694c442f3f..3514ec9274562 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1204,7 +1204,7 @@ then
+@@ -446,6 +446,9 @@ if test "$cross_compiling" = yes; then
+ 			_host_cpu=$host_cpu
+ 		esac
+ 		;;
++	*-*-darwin*)
++		_host_cpu=$host_cpu
++		;;
+ 	*-*-cygwin*)
+ 		_host_cpu=
+ 		;;
+@@ -1202,7 +1205,7 @@ then
  fi
  
  AC_CHECK_TOOLS([READELF], [readelf], [:])

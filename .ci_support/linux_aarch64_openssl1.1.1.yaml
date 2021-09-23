@@ -1,13 +1,17 @@
+BUILD:
+- aarch64-conda_cos7-linux-gnu
 bzip2:
 - '1'
 c_compiler:
 - gcc
 c_compiler_version:
 - '9'
+cdt_arch:
+- aarch64
 cdt_name:
 - cos7
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -15,7 +19,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '9'
 docker_image:
-- quay.io/condaforge/linux-anvil-ppc64le
+- quay.io/condaforge/linux-anvil-aarch64
 libffi:
 - '3.4'
 ncurses:
@@ -29,8 +33,6 @@ pin_run_as_build:
     max_pin: x.x
   ncurses:
     max_pin: x.x
-  openssl:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x
@@ -38,6 +40,8 @@ pin_run_as_build:
     max_pin: x
   sqlite:
     max_pin: x
+  tk:
+    max_pin: x.x
   xz:
     max_pin: x.x
   zlib:
@@ -49,7 +53,9 @@ readline:
 sqlite:
 - '3'
 target_platform:
-- linux-ppc64le
+- linux-aarch64
+tk:
+- '8.6'
 xz:
 - '5.2'
 zip_keys:

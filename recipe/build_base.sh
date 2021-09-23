@@ -107,6 +107,8 @@ if [[ ${CONDA_FORGE} == yes ]]; then
   ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
 fi
 
+cp ${PREFIX}/include/uuid/uuid.h ${PREFIX}/include/uuid.h
+
 declare -a LTO_CFLAGS=()
 
 # Following is needed for building extensions like zlib
@@ -501,3 +503,4 @@ rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
 rm ${PREFIX}/lib/libpython${VER}.a
+rm ${PREFIX}/include/uuid.h

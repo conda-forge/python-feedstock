@@ -209,7 +209,7 @@ if [[ ${target_platform} == osx-64 ]]; then
 elif [[ ${target_platform} == osx-arm64 ]]; then
   export MACHDEP=darwin
   export ac_sys_system=Darwin
-  export ac_sys_release=20.0.0
+  export ac_sys_release=
   export MACOSX_DEFAULT_ARCH=arm64
   echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
   echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar

@@ -76,10 +76,19 @@ index 4a0694c442f3f..3514ec9274562 100644
  	readelf|:)
  	AC_MSG_ERROR([readelf for the host is required for cross builds])
 diff --git a/setup.py b/setup.py
-index 783d20bdcd..721927a74f 100644
+index 9e411cb35e00b..7db265f5695d4 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -1079,11 +1079,11 @@ def detect_readline_curses(self):
+@@ -83,7 +83,7 @@ def get_platform():
+ HOST_PLATFORM = get_platform()
+ MS_WINDOWS = (HOST_PLATFORM == 'win32')
+ CYGWIN = (HOST_PLATFORM == 'cygwin')
+-MACOS = (HOST_PLATFORM == 'darwin')
++MACOS = (HOST_PLATFORM.startswith('darwin'))
+ AIX = (HOST_PLATFORM.startswith('aix'))
+ VXWORKS = ('vxworks' in HOST_PLATFORM)
+ 
+@@ -1064,11 +1064,11 @@ def detect_readline_curses(self):
                  readline_lib = 'readline'
              do_readline = self.compiler.find_library_file(self.lib_dirs,
                  readline_lib)

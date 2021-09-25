@@ -222,7 +222,7 @@ outputs:
         - setuptools
       requires:
         - ripgrep
-        - cmake
+        - cmake >=3.10
         - ninja
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.

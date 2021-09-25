@@ -1,4 +1,4 @@
-From 09400e7a73781aa6479c4fad6ca399802ccb9425 Mon Sep 17 00:00:00 2001
+From 5bb1915898462b89ea9ed9791e26a2e7e3c63fd2 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH] Add CondaEcosystemModifyDllSearchPath()
@@ -7,8 +7,8 @@ There are 3 depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 
 - unset CONDA_DLL_SEARCH_MODIFICATION (Default)
 
-  In this mode, the python interpreter works as in upstream python
-  with the following calls added.
+  In this mode, the python interpreter works as if the python interpreter
+  was called with the following directories.
 
     os.add_dll_directory(join(sys.prefix, 'bin'))
     os.add_dll_directory(join(sys.prefix, 'Scripts'))
@@ -16,23 +16,36 @@ There are 3 depending on CONDA_DLL_SEARCH_MODIFICATION env variable
     os.add_dll_directory(join(sys.prefix, 'Library', 'usr', 'bin'))
     os.add_dll_directory(join(sys.prefix, 'Library', 'mingw-w64', 'bin'))
 
+  Search order
+    - The directory that contains the DLL
+    - Application directory
+    - Directories added with os.add_dll_directory
+    - Above 5 directories
+    - C:\Windows\System32
+
+  Note that the default behaviour changed in conda python 3.9 to
+  make os.add_dll_directory work in user code.
+
 - CONDA_DLL_SEARCH_MODIFICATION=0
 
   Behaves like upstream python. Modules will fail to load
 
 - CONDA_DLL_SEARCH_MODIFICATION=1
 
-  Search order
+  Search order is roughly,
+
     - The directory that contains the DLL
     - Application directory
     - C:\Windows
     - Current working directory
     - Above 5 directories if not in PATH
     - PATH
+    - Directories added with os.add_dll_directory
+    - Old PATH entries (Deficiency in current patch)
     - C:\Windows\System32
 
   Adds the 5 directories as above, then directories in PATH environment.
-  C:\Windows\System32 gets searched at the end
+  C:\Windows\System32 gets searched at the end.
 
 This changes the DLL search order so that C:\Windows\System32 does not
 get searched in before entries in PATH.
@@ -48,13 +61,13 @@ Fix CondaEcosystemModifyDllSearchPath for users of the Python DLL
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
- Modules/main.c       | 361 +++++++++++++++++++++++++++++++++++++++++++
+ Modules/main.c       | 362 +++++++++++++++++++++++++++++++++++++++++++
  Python/dynload_win.c |   4 +
  Python/pylifecycle.c |   5 +-
- 3 files changed, 369 insertions(+), 1 deletion(-)
+ 3 files changed, 370 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index 2684d23067..b6ced89ee7 100644
+index 2684d23067..04362ea168 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -17,6 +17,10 @@
@@ -68,7 +81,7 @@ index 2684d23067..b6ced89ee7 100644
  #endif
  /* End of includes for exit_sigint() */
  
-@@ -680,10 +684,367 @@ Py_RunMain(void)
+@@ -680,10 +684,368 @@ Py_RunMain(void)
      return exitcode;
  }
  
@@ -167,6 +180,7 @@ index 2684d23067..b6ced89ee7 100644
 +    int debug_it = _wgetenv(L"CONDA_DLL_SEARCH_MODIFICATION_DEBUG") ? 1 : 0;
 +    int res = 0;
 +#if defined(HARDCODE_CONDA_PATHS)
++    long long j;
 +    CONDA_PATH *p_conda_path;
 +#endif /* defined(HARDCODE_CONDA_PATHS) */
 +

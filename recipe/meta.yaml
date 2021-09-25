@@ -181,7 +181,7 @@ outputs:
       host:
         - bzip2
         - sqlite
-        - xz  # [not win]
+        - xz
         - zlib  # [not win]
         - openssl
         - readline  # [not win]

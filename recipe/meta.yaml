@@ -87,9 +87,6 @@ source:
   - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip  # [win]
     folder: externals/zlib-1.2.11  # [win]
     sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a  # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip  # [win]
-    folder: externals/nasm-2.11.06  # [win]
-    sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac  # [win]
 
 build:
   number: {{ build_number }}

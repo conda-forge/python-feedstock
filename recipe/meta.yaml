@@ -116,10 +116,8 @@ outputs:
       no_link:
         - DLLs/_ctypes.pyd  # [win]
       ignore_run_exports_from:   # [unix]
-        # We delete the shared bzip2 library
-        - bzip2             # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
-        - {{ compiler('cxx') }}
+        - {{ compiler('cxx') }}  # [unix]
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -134,7 +132,7 @@ outputs:
       # match python.org compiler standard
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
-        - '*.py'            # [osx and arm64]
+        - '*.py'            # [build_platform != target_platform]
       string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
 {% if 'conda-forge' in channel_targets %}

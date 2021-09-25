@@ -187,7 +187,7 @@ outputs:
         - readline  # [not win]
         - tk
         - ncurses  # [unix]
-        - libffi   # [not (osx and arm64)]
+        - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - libuuid  # [unix]
       run:

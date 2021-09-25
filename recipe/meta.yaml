@@ -81,11 +81,9 @@ source:
       - patches/0022-Unvendor-bzip2.patch
       - patches/0023-Unvendor-libffi.patch
       - patches/0024-Unvendor-tcltk.patch
+      - patches/0025-unvendor-xz.patch
 
   # TODO :: Depend on our own packages for these:
-  - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]
-    folder: externals/xz-5.2.2  # [win]
-    sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f  # [win]
   - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip  # [win]
     folder: externals/zlib-1.2.11  # [win]
     sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a  # [win]

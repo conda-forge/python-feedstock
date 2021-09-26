@@ -38,6 +38,7 @@ There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
     - PATH
     - Directories added with os.add_dll_directory
     - Old PATH entries (Deficiency in current patch)
+    - Old working directories (Deficiency in current patch)
     - C:\Windows\System32
 
   Adds the 5 directories as above, then directories in PATH environment.

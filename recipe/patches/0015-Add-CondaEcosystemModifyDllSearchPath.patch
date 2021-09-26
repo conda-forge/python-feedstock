@@ -3,7 +3,7 @@ From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH] Add CondaEcosystemModifyDllSearchPath()
 
-There are 3 depending on CONDA_DLL_SEARCH_MODIFICATION env variable
+There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 
 - unset CONDA_DLL_SEARCH_MODIFICATION (Default)
 
@@ -25,10 +25,6 @@ There are 3 depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 
   Note that the default behaviour changed in conda python 3.9 to
   make os.add_dll_directory work in user code.
-
-- CONDA_DLL_SEARCH_MODIFICATION=0
-
-  Behaves like upstream python. Modules will fail to load
 
 - CONDA_DLL_SEARCH_MODIFICATION=1
 
@@ -81,7 +77,7 @@ index 2684d23067..04362ea168 100644
  #endif
  /* End of includes for exit_sigint() */
  
-@@ -680,10 +684,368 @@ Py_RunMain(void)
+@@ -680,10 +684,369 @@ Py_RunMain(void)
      return exitcode;
  }
  
@@ -178,6 +174,7 @@ index 2684d23067..04362ea168 100644
 +int CondaEcosystemModifyDllSearchPath_Init()
 +{
 +    int debug_it = _wgetenv(L"CONDA_DLL_SEARCH_MODIFICATION_DEBUG") ? 1 : 0;
++    wchar_t* enable = _wgetenv(L"CONDA_DLL_SEARCH_MODIFICATION_ENABLE");
 +    int res = 0;
 +#if defined(HARDCODE_CONDA_PATHS)
 +    long long j;
@@ -230,7 +227,7 @@ index 2684d23067..04362ea168 100644
 +        res = 2;
 +    }
 +#if defined(HARDCODE_CONDA_PATHS)
-+    else if (_wgetenv(L"CONDA_DLL_SEARCH_MODIFICATION_ENABLE") == NULL) {
++    else if (enable == NULL || !wcscmp(enable, L"0")) {
 +        for (j = NUM_CONDA_PATHS-1, p_conda_path = &condaPaths[NUM_CONDA_PATHS-1]; j > -1; --j, --p_conda_path)
 +        {
 +            if (debug_it)

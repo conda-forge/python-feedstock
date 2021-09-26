@@ -191,7 +191,6 @@ fi
 if [[ ${target_platform} == osx-64 ]]; then
   export MACHDEP=darwin
   export ac_sys_system=Darwin
-  # Don't set this as configure will not define _XOPEN_SOURCE_EXTENDED
   export ac_sys_release=13.4.0
   export MACOSX_DEFAULT_ARCH=x86_64
   # TODO: check with LLVM 12 if the following hack is needed.

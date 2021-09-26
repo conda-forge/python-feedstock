@@ -271,7 +271,7 @@ index 2684d23067..04362ea168 100644
 +        return 1;
 +
 +    enable = _wgetenv(L"CONDA_DLL_SEARCH_MODIFICATION_ENABLE");
-+    if (enable == NULL || wcscmp(enable, L"0"))
++    if (enable == NULL || !wcscmp(enable, L"0"))
 +        return 0;
 +    if (_wgetenv(L"CONDA_DLL_SEARCH_MODIFICATION_NEVER_ADD_WINDOWS_DIRECTORY"))
 +        add_windows_directory = 0;

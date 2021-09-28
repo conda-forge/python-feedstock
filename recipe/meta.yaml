@@ -49,6 +49,7 @@ source:
       - patches/0023-Revert-part-of-https-bugs.python.org-issue33895-http.patch
       - patches/0024-cross-compile-darwin.patch.patch
       - patches/0032-ctypes-link-to-coreFoundation.patch
+      - patches/0033-set-ssltag-to-3.patch  # [openssl != '1.1.1']
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]

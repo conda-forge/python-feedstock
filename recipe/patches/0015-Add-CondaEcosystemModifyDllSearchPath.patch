@@ -8,7 +8,7 @@ There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 - unset CONDA_DLL_SEARCH_MODIFICATION (Default)
 
   In this mode, the python interpreter works as if the python interpreter
-  was called with the following directories.
+  was called with the following conda directories.
 
     os.add_dll_directory(join(sys.prefix, 'bin'))
     os.add_dll_directory(join(sys.prefix, 'Scripts'))
@@ -17,10 +17,10 @@ There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
     os.add_dll_directory(join(sys.prefix, 'Library', 'mingw-w64', 'bin'))
 
   Search order
-    - The directory that contains the DLL
-    - Application directory
+    - The directory that contains the DLL (if looking for a dependency)
+    - Application (python.exe) directory
     - Directories added with os.add_dll_directory
-    - Above 5 directories
+    - The 5 conda directories
     - C:\Windows\System32
 
   Note that the default behaviour changed in conda python 3.9 to
@@ -30,11 +30,11 @@ There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 
   Search order is roughly,
 
-    - The directory that contains the DLL
-    - Application directory
+    - The directory that contains the DLL (if looking for a dependency)
+    - Application (python.exe) directory
     - C:\Windows
     - Current working directory
-    - Above 5 directories if not in PATH
+    - The 5 conda directories
     - PATH
     - Directories added with os.add_dll_directory
     - Old PATH entries (Deficiency in current patch)

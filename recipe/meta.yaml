@@ -78,6 +78,7 @@ source:
       - patches/0032-Fix-TZPATH-on-windows.patch
       - patches/0033-gh24324.patch
       - patches/0034-distutils-fix-ldshared.patch
+      - patches/0035-set-ssltag-to-3.patch  # [openssl != '1.1.1']
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]

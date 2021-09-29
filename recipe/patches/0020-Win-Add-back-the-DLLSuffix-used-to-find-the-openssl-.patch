@@ -1,7 +1,7 @@
-From 0d6eb78f71ecd79c9d72e4012eea221784488bc4 Mon Sep 17 00:00:00 2001
+From 9865031f58aafab2cdf6f9e580d3b01be44b0c01 Mon Sep 17 00:00:00 2001
 From: Marius van Niekerk <marius.v.niekerk@gmail.com>
 Date: Thu, 31 Oct 2019 16:46:21 -0400
-Subject: [PATCH 20/31] Win: Add back the DLLSuffix used to find the openssl
+Subject: [PATCH 20/26] Win: Add back the DLLSuffix used to find the openssl
  dlls and debug files
 
 ---
@@ -21,5 +21,5 @@ index af1350cae7..eeb8677517 100644
      <_DLLSuffix Condition="$(Platform) == 'ARM64'">$(_DLLSuffix)-arm64</_DLLSuffix>
    </PropertyGroup>
 -- 
-2.28.0
+2.33.0
 

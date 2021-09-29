@@ -23,7 +23,7 @@ There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
     - The 5 conda directories
     - C:\Windows\System32
 
-  Note that the default behaviour changed in conda python 3.9 to
+  Note that the default behaviour changed in conda python 3.10 to
   make os.add_dll_directory work in user code.
 
 - CONDA_DLL_SEARCH_MODIFICATION=1
@@ -40,9 +40,6 @@ There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
     - Old PATH entries (Deficiency in current patch)
     - Old working directories (Deficiency in current patch)
     - C:\Windows\System32
-
-  Adds the 5 directories as above, then directories in PATH environment.
-  C:\Windows\System32 gets searched at the end.
 
 This changes the DLL search order so that C:\Windows\System32 does not
 get searched in before entries in PATH.

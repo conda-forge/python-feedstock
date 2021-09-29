@@ -1,7 +1,7 @@
-From 308450c4bee248fd29d640d83415e1e19bc1d02c Mon Sep 17 00:00:00 2001
+From 7837cf219e72ab58d341c1c885ea526fa10e59d4 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
-Subject: [PATCH 03/24] Support cross-compiling byte-code
+Subject: [PATCH 03/25] Support cross-compiling byte-code
 
 https://bugs.python.org/issue22724
 ---
@@ -77,7 +77,7 @@ index 790d974b96..b851467f38 100644
  		--install-scripts=$(BINDIR) \
  		--install-platlib=$(DESTSHARED) \
 diff --git a/configure b/configure
-index 1baa145e3e..376a63c9a0 100755
+index 1baa145e3e..f227dd88c0 100755
 --- a/configure
 +++ b/configure
 @@ -758,6 +758,7 @@ CONFIG_ARGS

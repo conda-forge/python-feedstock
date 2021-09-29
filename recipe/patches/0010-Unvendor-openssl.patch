@@ -1,7 +1,7 @@
-From f99ca4c4361550add6d0f4a22a60527c3129adc9 Mon Sep 17 00:00:00 2001
+From 61c5bea8d1e95d68cde1e760973ede96ffde30ff Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
-Subject: [PATCH 10/24] Unvendor openssl
+Subject: [PATCH 10/25] Unvendor openssl
 
 ---
  PCbuild/_ssl.vcxproj         | 3 ---

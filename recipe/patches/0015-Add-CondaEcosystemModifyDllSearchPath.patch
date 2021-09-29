@@ -1,7 +1,7 @@
-From 5bb1915898462b89ea9ed9791e26a2e7e3c63fd2 Mon Sep 17 00:00:00 2001
+From d360bc26d65ccaae7e388f76ec4e2f8617ef05a3 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
-Subject: [PATCH] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 15/25] Add CondaEcosystemModifyDllSearchPath()
 
 There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 
@@ -58,13 +58,13 @@ Fix CondaEcosystemModifyDllSearchPath for users of the Python DLL
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
- Modules/main.c       | 362 +++++++++++++++++++++++++++++++++++++++++++
+ Modules/main.c       | 363 +++++++++++++++++++++++++++++++++++++++++++
  Python/dynload_win.c |   4 +
  Python/pylifecycle.c |   5 +-
- 3 files changed, 370 insertions(+), 1 deletion(-)
+ 3 files changed, 371 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index 2684d23067..04362ea168 100644
+index 2684d23067..f0bcb0616f 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -17,6 +17,10 @@

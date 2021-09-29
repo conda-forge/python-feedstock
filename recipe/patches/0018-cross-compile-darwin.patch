@@ -1,15 +1,15 @@
-From 9e28990cb91b9bc44b572c929f300201866e3b22 Mon Sep 17 00:00:00 2001
+From 2d33a359ac5308ebf6dbf4dcab94bcc954004265 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 18/24] cross compile darwin
+Subject: [PATCH 18/25] cross compile darwin
 
 By Isuru Fernando.
 ---
  Lib/platform.py | 7 ++++++-
- configure       | 2 +-
- configure.ac    | 2 +-
- setup.py        | 4 ++--
- 4 files changed, 10 insertions(+), 5 deletions(-)
+ configure       | 5 ++++-
+ configure.ac    | 5 ++++-
+ setup.py        | 6 +++---
+ 4 files changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
 index 134fbae6b1..fbf27ac7d3 100755
@@ -30,10 +30,10 @@ index 134fbae6b1..fbf27ac7d3 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index 2e3c9ba7baddd..6c529009cfa78 100755
+index f227dd88c0..2e2a4a6628 100755
 --- a/configure
 +++ b/configure
-@@ -3382,6 +3382,9 @@ if test "$cross_compiling" = yes; then
+@@ -3383,6 +3383,9 @@ if test "$cross_compiling" = yes; then
  			_host_cpu=$host_cpu
  		esac
  		;;
@@ -43,7 +43,7 @@ index 2e3c9ba7baddd..6c529009cfa78 100755
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -6226,7 +6229,7 @@ esac
+@@ -6227,7 +6230,7 @@ esac
    fi
  fi
  
@@ -53,10 +53,10 @@ index 2e3c9ba7baddd..6c529009cfa78 100755
  	readelf|:)
  	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index 4a0694c442f3f..3514ec9274562 100644
+index f70a69b2f9..f58eb5c607 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -446,6 +446,9 @@ if test "$cross_compiling" = yes; then
+@@ -448,6 +448,9 @@ if test "$cross_compiling" = yes; then
  			_host_cpu=$host_cpu
  		esac
  		;;
@@ -66,7 +66,7 @@ index 4a0694c442f3f..3514ec9274562 100644
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -1202,7 +1205,7 @@ then
+@@ -1204,7 +1207,7 @@ then
  fi
  
  AC_CHECK_TOOLS([READELF], [readelf], [:])
@@ -76,7 +76,7 @@ index 4a0694c442f3f..3514ec9274562 100644
  	readelf|:)
  	AC_MSG_ERROR([readelf for the host is required for cross builds])
 diff --git a/setup.py b/setup.py
-index 9e411cb35e00b..7db265f5695d4 100644
+index 783d20bdcd..36119d3ba9 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -83,7 +83,7 @@ def get_platform():
@@ -88,7 +88,7 @@ index 9e411cb35e00b..7db265f5695d4 100644
  AIX = (HOST_PLATFORM.startswith('aix'))
  VXWORKS = ('vxworks' in HOST_PLATFORM)
  
-@@ -1064,11 +1064,11 @@ def detect_readline_curses(self):
+@@ -1079,11 +1079,11 @@ def detect_readline_curses(self):
                  readline_lib = 'readline'
              do_readline = self.compiler.find_library_file(self.lib_dirs,
                  readline_lib)

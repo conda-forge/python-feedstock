@@ -1,7 +1,7 @@
-From 9f264bf26028de616ae82a267a720fe8507977b3 Mon Sep 17 00:00:00 2001
+From f5b34a9a777f2e20dfb21591e524f6593339cb09 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sat, 25 Sep 2021 10:07:05 -0700
-Subject: [PATCH] unvendor xz
+Subject: [PATCH 25/25] unvendor xz
 
 ---
  PCbuild/_lzma.vcxproj | 10 +++-------

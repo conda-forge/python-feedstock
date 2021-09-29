@@ -1,7 +1,7 @@
-From 6c9e62f6dd68b4cc9107997b32b1403652e364a6 Mon Sep 17 00:00:00 2001
+From 9f866cc8bfb2ef2372ad26c9c557749360d34fcd Mon Sep 17 00:00:00 2001
 From: Marius van Niekerk <marius.v.niekerk@gmail.com>
 Date: Thu, 31 Oct 2019 16:46:21 -0400
-Subject: [PATCH 13/24] Win: Add back the DLLSuffix used to find the openssl
+Subject: [PATCH 13/25] Win: Add back the DLLSuffix used to find the openssl
  dlls and debug files
 
 ---

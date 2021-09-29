@@ -1,7 +1,7 @@
-From 4133e6cddfc57ece30ab16e0bbac2fefdd864d09 Mon Sep 17 00:00:00 2001
+From 3901842711d3c9a36692bc356f3a090a26a1a4d9 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:56:27 -0700
-Subject: [PATCH 22/24] Unvendor bzip2
+Subject: [PATCH 22/25] Unvendor bzip2
 
 ---
  PCbuild/_bz2.vcxproj         | 15 +++++----------

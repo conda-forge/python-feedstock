@@ -1,7 +1,7 @@
-From ccddca40dd754562f517c56f28ee9f0feb2d7524 Mon Sep 17 00:00:00 2001
+From 321741f8a203529b5fc972d76b69f221926c00d6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 2 Jan 2019 21:38:48 +0000
-Subject: [PATCH 12/24] venv: Revert a change from
+Subject: [PATCH 12/25] venv: Revert a change from
  https://github.com/python/cpython/commit/1c3de541e64f75046b20cdd27bada1557e550bcd
  https://bugs.python.org/issue35644
 

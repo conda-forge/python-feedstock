@@ -1,7 +1,7 @@
-From c23b6879c789beb899744592bbd5e13a2153c7f1 Mon Sep 17 00:00:00 2001
+From a28c703ff8dcc05afe8a633d0906f0d51a24ccf8 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 29 Apr 2018 16:10:42 +0100
-Subject: [PATCH 12/30] Disable new-dtags in unixccompiler.py
+Subject: [PATCH 12/29] Disable new-dtags in unixccompiler.py
 
 They prevent isolation from system libraries and the HPC 'modules' system
 by giving precedence to LD_LIBRARY_PATH. We never want our libraries to
@@ -43,10 +43,10 @@ index eef702cf01..2d8d61df03 100644
          # GCC GNULD with fully qualified configuration prefix
          # see #7617
 diff --git a/Lib/distutils/unixccompiler.py b/Lib/distutils/unixccompiler.py
-index 84a421767d..12a9f777fe 100644
+index 3f65253308..ba0580daf1 100644
 --- a/Lib/distutils/unixccompiler.py
 +++ b/Lib/distutils/unixccompiler.py
-@@ -248,12 +248,12 @@ class UnixCCompiler(CCompiler):
+@@ -249,12 +249,12 @@ class UnixCCompiler(CCompiler):
                  # use it anyway.  Since distutils has always passed in
                  # -Wl whenever gcc was used in the past it is probably
                  # safest to keep doing so.
@@ -63,5 +63,5 @@ index 84a421767d..12a9f777fe 100644
                  # No idea how --enable-new-dtags would be passed on to
                  # ld if this system was using GNU ld.  Don't know if a
 -- 
-2.23.0
+2.32.0.windows.2
 

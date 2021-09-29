@@ -19,14 +19,12 @@ macos_machine:
 ncurses:
 - '6.2'
 openssl:
-- 1.1.1
+- '3'
 pin_run_as_build:
   bzip2:
     max_pin: x
   ncurses:
     max_pin: x.x
-  openssl:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x

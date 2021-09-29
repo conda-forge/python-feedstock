@@ -1,7 +1,7 @@
-From fe6e847bbea130ace6ad0b018ea34adc16914f55 Mon Sep 17 00:00:00 2001
+From c39bf6a37e4b8754b4fb63a647bdf3c52093d444 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 3 Dec 2017 17:31:27 +0000
-Subject: [PATCH 10/30] Add support for _CONDA_PYTHON_SYSCONFIGDATA_NAME if
+Subject: [PATCH 10/29] Add support for _CONDA_PYTHON_SYSCONFIGDATA_NAME if
  _PYTHON_SYSCONFIGDATA_NAME is not set and ignore
  {_CONDA,}_PYTHON_SYSCONFIGDATA_NAME if it does not exist
 
@@ -37,10 +37,10 @@ index 37feae5df7..f56ebe6c3a 100644
      build_time_vars = _temp.build_time_vars
      global _config_vars
 diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index bf04ac541e..3c971b82c2 100644
+index e3f79bfde5..dd995cc2b9 100644
 --- a/Lib/sysconfig.py
 +++ b/Lib/sysconfig.py
-@@ -341,13 +341,21 @@ def get_makefile_filename():
+@@ -351,13 +351,21 @@ def get_makefile_filename():
      return os.path.join(get_path('stdlib'), config_dir_name, 'Makefile')
  
  
@@ -69,7 +69,7 @@ index bf04ac541e..3c971b82c2 100644
  
  
  def _generate_posix_vars():
-@@ -416,7 +424,7 @@ def _generate_posix_vars():
+@@ -426,7 +434,7 @@ def _generate_posix_vars():
  def _init_posix(vars):
      """Initialize the module as appropriate for POSIX systems."""
      # _sysconfigdata is generated at build time, see _generate_posix_vars()
@@ -79,5 +79,5 @@ index bf04ac541e..3c971b82c2 100644
      build_time_vars = _temp.build_time_vars
      vars.update(build_time_vars)
 -- 
-2.23.0
+2.32.0.windows.2
 

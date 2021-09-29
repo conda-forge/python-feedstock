@@ -1,7 +1,7 @@
-From d5081f47837fe8de279c06c4b26ce2a6da02a3f2 Mon Sep 17 00:00:00 2001
+From 3413c394b69690f5e622d0e499c5c2587b9adfa5 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 12 Feb 2020 21:35:50 +0100
-Subject: [PATCH 23/30] egg debugging with Windows debug builds
+Subject: [PATCH 23/29] egg debugging with Windows debug builds
 
 ---
  Lib/zipimport.py | 1 +
@@ -20,5 +20,5 @@ index 5ef0a17c2a..4e8d8da1f6 100644
      _bootstrap._verbose_message('zipimport: found {} names in {!r}', count, archive)
      return files
 -- 
-2.23.0
+2.32.0.windows.2
 

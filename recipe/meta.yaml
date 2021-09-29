@@ -82,11 +82,7 @@ source:
       - patches/0023-Unvendor-libffi.patch
       - patches/0024-Unvendor-tcltk.patch
       - patches/0025-unvendor-xz.patch
-
-  # TODO :: Depend on our own packages for these:
-  - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip  # [win]
-    folder: externals/zlib-1.2.11  # [win]
-    sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a  # [win]
+      - patches/0026-unvendor-zlib.patch
 
 build:
   number: {{ build_number }}
@@ -177,7 +173,7 @@ outputs:
         - bzip2
         - sqlite
         - xz
-        - zlib  # [not win]
+        - zlib
         - openssl
         - readline  # [not win]
         - tk

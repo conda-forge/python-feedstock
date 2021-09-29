@@ -17,7 +17,9 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-ppc64le
 libffi:
-- '3.3'
+- '3.4'
+libuuid:
+- 2.32.1
 ncurses:
 - '6.2'
 openssl:
@@ -27,10 +29,10 @@ pin_run_as_build:
     max_pin: x
   libffi:
     max_pin: x.x
+  libuuid:
+    max_pin: x
   ncurses:
     max_pin: x.x
-  openssl:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x

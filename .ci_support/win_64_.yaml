@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - vs2017
 libffi:
-- '3.3'
+- '3.4'
 openssl:
 - 1.1.1
 pin_run_as_build:
@@ -17,14 +17,14 @@ pin_run_as_build:
     max_pin: x
   libffi:
     max_pin: x.x
-  openssl:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x
   sqlite:
     max_pin: x
   tk:
+    max_pin: x.x
+  xz:
     max_pin: x.x
 python:
 - '3.10'
@@ -34,3 +34,5 @@ target_platform:
 - win-64
 tk:
 - '8.6'
+xz:
+- '5.2'

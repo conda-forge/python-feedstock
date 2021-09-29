@@ -75,10 +75,11 @@ source:
       - patches/0023-egg-debugging-with-Windows-debug-builds.patch
       - patches/0024-Add-CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL-to-aid-de.patch
       - patches/0025-cross-compile-darwin.patch
-      - patches/0032-Fix-TZPATH-on-windows.patch
-      - patches/0033-gh24324.patch
-      - patches/0034-distutils-fix-ldshared.patch
-      - patches/0035-set-ssltag-to-3.patch  # [openssl != '1.1.1']
+      - patches/0026-Fix-TZPATH-on-windows.patch
+      # see python/cpython#24324
+      - patches/0027-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
+      - patches/0028-Fix-distutils-ldshared-overriding-when-a-compiler-is.patch
+      - patches/0029-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]

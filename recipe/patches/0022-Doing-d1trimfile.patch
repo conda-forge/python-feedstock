@@ -1,7 +1,7 @@
-From 383752963a4ce4c08d052b28842e843567ae4079 Mon Sep 17 00:00:00 2001
+From 246cb397a6075afe2c767d2f1d1b686f024db3a3 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 22/30] Doing d1trimfile
+Subject: [PATCH 22/29] Doing d1trimfile
 
 ---
  PC/bdist_wininst/bdist_wininst.vcxproj |  4 ++++
@@ -873,5 +873,5 @@ index 776335a15c..6e9e556e81 100644
      <Link>
        <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
 -- 
-2.23.0
+2.32.0.windows.2
 

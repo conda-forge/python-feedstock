@@ -48,7 +48,8 @@ source:
       - patches/0022-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0023-Revert-part-of-https-bugs.python.org-issue33895-http.patch
       - patches/0024-cross-compile-darwin.patch.patch
-      - patches/0032-ctypes-link-to-coreFoundation.patch
+      - patches/0025-ctypes-link-to-coreFoundation.patch
+      - patches/0026-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
 
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
@@ -82,7 +83,7 @@ source:
     sha256: 69e3f7235108a75033cb9325a0a3535ba271d144ec66fccefe134eda27d7bcfe         # [win]
 
 build:
-  number: 0
+  number: 1
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG

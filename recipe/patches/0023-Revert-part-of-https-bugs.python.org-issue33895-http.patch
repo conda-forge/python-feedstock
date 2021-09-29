@@ -1,7 +1,7 @@
-From 4b64f013c9d9e3445deb2ebde6958ece3c54e040 Mon Sep 17 00:00:00 2001
+From 05af06cc34f5fbd02a55a40822f4d5185cc9c0c0 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 18 Feb 2020 17:38:32 +0100
-Subject: [PATCH 23/31] Revert part of https://bugs.python.org/issue33895
+Subject: [PATCH 23/26] Revert part of https://bugs.python.org/issue33895
  https://github.com/python/cpython/commit/4860f01ac0f07cdc8fc0cc27c33f5a64e5cfec9f
 
 LIEF crashes because Python code gets called from its static initialization code (CreateModule2 gets called, more?)
@@ -64,5 +64,5 @@ index cf5cb5cf78..9a8ffcf3f9 100644
          _Py_DeactivateActCtx(cookie);
  #endif
 -- 
-2.28.0
+2.33.0
 

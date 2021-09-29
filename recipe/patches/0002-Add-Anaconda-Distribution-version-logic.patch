@@ -1,7 +1,7 @@
-From 15ee989aff78d9f18f4bec79bff3cb8d28baa890 Mon Sep 17 00:00:00 2001
+From 8d19b97f0f2f9a68916e718d51658eac353fa001 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 15 Aug 2017 22:34:16 +0100
-Subject: [PATCH 02/31] Add Anaconda Distribution version logic
+Subject: [PATCH 02/26] Add Anaconda Distribution version logic
 
 ---
  Include/pylifecycle.h |  1 +
@@ -23,10 +23,10 @@ index c5368b3c5e..06cb88ee9c 100644
  PyAPI_FUNC(const char *) Py_GetPlatform(void);
  PyAPI_FUNC(const char *) Py_GetCopyright(void);
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 994d892c5e..2df9c1ef92 100755
+index b7e7bc439e..1ac887f7c7 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -943,6 +943,7 @@ def processor():
+@@ -944,6 +944,7 @@ def processor():
  
  _sys_version_parser = re.compile(
      r'([\w.+]+)\s*'  # "version<space>"
@@ -35,7 +35,7 @@ index 994d892c5e..2df9c1ef92 100755
      r'(?:,\s*([\w ]*)'  # ", builddate"
      r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
 diff --git a/Modules/main.c b/Modules/main.c
-index 70be4cfacb..5150587a75 100644
+index ea6250e28c..2ed76c347d 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -204,7 +204,7 @@ pymain_header(const PyConfig *config)
@@ -109,5 +109,5 @@ index c32b6f9d60..b5dfffb606 100644
  Py_GetVersion(void)
  {
 -- 
-2.28.0
+2.33.0
 

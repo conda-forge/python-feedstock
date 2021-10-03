@@ -2,7 +2,7 @@
 
 set -x
 
-${CC} a.c $(python3-config --cflags) $(python3-config --ldflags) -o ${CONDA_PREFIX}/bin/embedded-python-static
+${CC} a.c $(python3-config --cflags) $(python3-config --embed --ldflags) -o ${CONDA_PREFIX}/bin/embedded-python-static
 if ${READELF} -d ${CONDA_PREFIX}/bin/embedded-python-static | rg libpython; then
   echo "ERROR :: Embedded python linked to shared python library. It is expected to link to the static library."
 fi
@@ -19,7 +19,7 @@ ${CONDA_PREFIX}/bin/embedded-python-static
 # Brute-force way of linking to the shared library, sorry!
 rm -rf ${CONDA_PREFIX}/lib/libpython*.a
 
-${CC} a.c $(python3-config --cflags) $(python3-config --ldflags) -o ${CONDA_PREFIX}/bin/embedded-python-shared
+${CC} a.c $(python3-config --cflags) $(python3-config --embed --ldflags) -o ${CONDA_PREFIX}/bin/embedded-python-shared
 if [[ -n ${READELF} ]]; then
   if ! ${READELF} -d ${CONDA_PREFIX}/bin/embedded-python-shared | rg libpython; then
     echo "ERROR :: Embedded python linked to static python library. We tried to force it to use the shared library."

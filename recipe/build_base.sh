@@ -482,6 +482,9 @@ pushd "${PREFIX}"/lib/python${VER}
   # Cleanup some extra spaces from above
   sed -i.bak "s@' [ ]*@'@g" sysconfigfile
   cp sysconfigfile $recorded_name
+  echo "========================sysconfig==========================="
+  cat $recorded_name
+  echo "============================================================"
 
   rm sysconfigfile
   rm sysconfigfile.bak

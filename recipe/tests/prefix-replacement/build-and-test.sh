@@ -4,11 +4,11 @@ set -x
 
 if [[ "$PKG_NAME" == "libpython-static" ]]; then
   ${CC} a.c $(python3-config --cflags) $(python3-config --embed --ldflags) -o ${CONDA_PREFIX}/bin/embedded-python-static
-  if [[ -n ${READELF} ]]; then
+  if [[ "$target_platform" == linux-* ]]; then
     if ${READELF} -d ${CONDA_PREFIX}/bin/embedded-python-static | rg libpython; then
       echo "ERROR :: Embedded python linked to shared python library. It is expected to link to the static library."
     fi
-  elif [[ -n ${OTOOL} ]]; then
+  elif [[ "$target_platform" == osx-* ]]; then
     if ${OTOOL} -l ${CONDA_PREFIX}/bin/embedded-python-static | rg libpython; then
       echo "ERROR :: Embedded python linked to shared python library. It is expected to link to the static library."
     fi
@@ -28,11 +28,11 @@ if [[ "$PKG_NAME" == "libpython-static" ]]; then
 fi
 
 ${CC} a.c $(python3-config --cflags) $(python3-config --embed --ldflags) -o ${CONDA_PREFIX}/bin/embedded-python-shared
-if [[ -n ${READELF} ]]; then
+if [[ "$target_platform" == linux-* ]]; then
   if ! ${READELF} -d ${CONDA_PREFIX}/bin/embedded-python-shared | rg libpython; then
     echo "ERROR :: Embedded python linked to static python library. We tried to force it to use the shared library."
   fi
-elif [[ -n ${OTOOL} ]]; then
+elif [[ "$target_platform" == osx-* ]]; then
   if ! ${OTOOL} -l ${CONDA_PREFIX}/bin/embedded-python-shared | rg libpython; then
     echo "ERROR :: Embedded python linked to static python library. We tried to force it to use the shared library."
   fi

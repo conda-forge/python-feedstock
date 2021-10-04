@@ -279,6 +279,8 @@ outputs:
     test:
       files:
         - tests/prefix-replacement/*
+      requires:
+        - {{ compiler('c') }}
       commands:
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]

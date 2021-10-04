@@ -277,11 +277,13 @@ outputs:
       run:
         - {{ pin_subpackage('python', exact=True) }}
     test:
+      files:
+        - tests/prefix-replacement/*
       commands:
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
         - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
-        - pushd prefix-replacement    # [unix]
+        - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
 

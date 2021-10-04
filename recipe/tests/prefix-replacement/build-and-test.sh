@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x
+set -ex
 
 if [[ "$PKG_NAME" == "libpython-static" ]]; then
   # see bpo44182 for why -L${CONDA_PREFIX}/lib is added

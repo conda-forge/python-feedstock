@@ -28,7 +28,11 @@ if [[ "$PKG_NAME" == "libpython-static" ]]; then
   rm -rf ${CONDA_PREFIX}/lib/libpython*.a
 fi
 
-${CC} a.c $(python3-config --cflags) $(python3-config --embed --ldflags) -L${CONDA_PREFIX}/lib -o ${CONDA_PREFIX}/bin/embedded-python-shared
+${CC} a.c $(python3-config --cflags) \
+    $(python3-config --embed --ldflags) \
+    -L${CONDA_PREFIX}/lib -Wl,-rpath,${CONDA_PREFIX}/lib \
+    -o ${CONDA_PREFIX}/bin/embedded-python-shared
+
 if [[ "$target_platform" == linux-* ]]; then
   if ! ${READELF} -d ${CONDA_PREFIX}/bin/embedded-python-shared | rg libpython; then
     echo "ERROR :: Embedded python linked to static python library. We tried to force it to use the shared library."

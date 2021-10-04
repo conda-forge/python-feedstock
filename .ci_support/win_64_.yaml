@@ -1,7 +1,7 @@
 c_compiler:
 - vs2017
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -9,8 +9,6 @@ cxx_compiler:
 openssl:
 - 1.1.1
 pin_run_as_build:
-  openssl:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x

@@ -190,8 +190,9 @@ outputs:
 {% endif %}
     test:
       downstreams:
-        - cython
-        - setuptools
+        # Temporarily disable dowmstream tests on aarch64 as the solver causes timeouts on drone
+        - cython  # [not aarch64]
+        - setuptools # [not aarch64]
       requires:
         - ripgrep
         - cmake

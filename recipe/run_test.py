@@ -1,12 +1,10 @@
 import platform
-import re
 import sys
 import subprocess
 
 armv6l = bool(platform.machine() == 'armv6l')
 armv7l = bool(platform.machine() == 'armv7l')
 ppc64le = bool(platform.machine() == 'ppc64le')
-aarch64 = bool(platform.machine() == 'aarch64')
 if sys.platform == 'darwin':
     osx105 = b'10.5.' in subprocess.check_output('sw_vers')
 else:
@@ -61,7 +59,6 @@ import lzma
 import math
 import mmap
 import operator
-import parser
 import pyexpat
 import select
 import time
@@ -76,12 +73,10 @@ t = 100 * b'Foo '
 assert lzma.decompress(lzma.compress(t)) == t
 
 if sys.platform != 'win32':
-    fedora_pat = re.compile('.*\.fc\d+\.aarch64')
     if not (ppc64le or armv7l):
         import _curses
         import _curses_panel
-    if not fedora_pat.match(platform.release()):
-        import crypt
+    import crypt
     import fcntl
     import grp
     import nis
@@ -91,20 +86,15 @@ if sys.platform != 'win32':
     import termios
 
 
-if not (armv6l or armv7l or ppc64le or osx105 or aarch64):
+if not (armv6l or armv7l or ppc64le or osx105):
     import tkinter
     import turtle
     import _tkinter
     print('TK_VERSION: %s' % _tkinter.TK_VERSION)
     print('TCL_VERSION: %s' % _tkinter.TCL_VERSION)
-    if sys.platform == 'win32':
-        TCLTK_VER = '8.6'
-    else:
-        TCLTK_VER = os.getenv("tk")
+    TCLTK_VER = os.getenv("tk")
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
 
 import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
-if sys.platform != 'win32':
-    assert '1.1.1' in ssl.OPENSSL_VERSION
-
+assert '1.1.1' in ssl.OPENSSL_VERSION

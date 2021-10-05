@@ -12,9 +12,11 @@ cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
 # .. but upstream regrtest.py now has --pgo (since >= 3.6) and skips tests that are:
 # "not helpful for PGO".
 
+VERFULL=${PKG_VERSION}
 VER=${PKG_VERSION%.*}
+VERNODOTS=${VER//./}
 TCLTK_VER=${tk}
-# Disables some PGO/LTO but not optimizations.
+# Disables some PGO/LTO
 QUICK_BUILD=no
 
 _buildd_static=build-static
@@ -39,13 +41,11 @@ else
 fi
 
 # Since these take very long to build in our emulated ci, disable for now
-if [[ ${CONDA_FORGE} == yes ]]; then
-  if [[ ${target_platform} == linux-aarch64 ]]; then
-    _OPTIMIZED=no
-  fi
-  if [[ ${target_platform} == linux-ppc64le ]]; then
-    _OPTIMIZED=no
-  fi
+if [[ ${target_platform} == linux-aarch64 ]]; then
+  _OPTIMIZED=no
+fi
+if [[ ${target_platform} == linux-ppc64le ]]; then
+  _OPTIMIZED=no
 fi
 
 declare -a _dbg_opts
@@ -69,12 +69,6 @@ test "${PY_VER}" = "${VER}"
 unset _PYTHON_SYSCONFIGDATA_NAME
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
-# Remove bzip2's shared library if present,
-# as we only want to link to it statically.
-# This is important in cases where conda
-# tries to update bzip2.
-find "${PREFIX}/lib" -name "libbz2*${SHLIB_EXT}*" | xargs rm -fv {}
-
 # Prevent lib/python${VER}/_sysconfigdata_*.py from ending up with full paths to these things
 # in _build_env because _build_env will not get found during prefix replacement, only _h_env_placeh ...
 AR=$(basename "${AR}")
@@ -84,10 +78,6 @@ if [[ ${target_platform} == osx-* ]]; then
   CC=$(basename "${CC}")
 else
   CC=$(basename "${GCC}")
-  _CCACHE=$(type -P ccache) || true
-  if [[ ${_CCACHE} =~ ${BUILD_PREFIX}.* ]]; then
-    CC="${_CCACHE} ${CC}"
-  fi
 fi
 CXX=$(basename "${CXX}")
 RANLIB=$(basename "${RANLIB}")
@@ -101,7 +91,7 @@ if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
 fi
 
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py
-if [[ ${_OPTIMIZED} = yes && ${target_platform} != osx-* ]]; then
+if [[ ${_OPTIMIZED} = yes ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")
   CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O3/g")
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O3/g")
@@ -109,6 +99,10 @@ fi
 
 if [[ ${CONDA_FORGE} == yes ]]; then
   ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
+fi
+
+if [[ "$target_platform" == linux-* ]]; then
+  cp ${PREFIX}/include/uuid/uuid.h ${PREFIX}/include/uuid.h
 fi
 
 declare -a LTO_CFLAGS=()
@@ -119,11 +113,6 @@ CPPFLAGS=${CPPFLAGS}" -I${PREFIX}/include"
 re='^(.*)(-I[^ ]*)(.*)$'
 if [[ ${CFLAGS} =~ $re ]]; then
   CFLAGS="${BASH_REMATCH[1]}${BASH_REMATCH[3]}"
-fi
-
-# https://src.fedoraproject.org/rpms/python39/pull-request/9
-if [[ ${target_platform} =~ linux.* ]] && [[ ${_OPTIMIZED} == yes ]]; then
-  CFLAGS_NODIST="${CFLAGS_NODIST} -fno-semantic-interposition"
 fi
 
 # Force rebuild to avoid:
@@ -201,31 +190,25 @@ if [[ -n ${HOST} ]]; then
   fi
 fi
 
-if [[ ${target_platform} == osx-* ]]; then
-  # TODO: check with LLVM 12 if the following hack is needed.
-  # https://reviews.llvm.org/D76461 may have fixed the need for the following hack.
-  echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
-  echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
-  chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
-  echo "WARNING :: For some reason, configure finds libintl (gettext) in the BUILD_PREFIX on macOS."
-  echo "WARNING :: to prevent this, removing BUILD_PREFIX/include/libintl.h"
-  echo "WARNING :: and also setting ac_cv_lib_intl_textdomain=no"
-  rm -f ${BUILD_PREFIX}/include/libintl.h
-  export ac_cv_lib_intl_textdomain=no
-fi
-
 if [[ ${target_platform} == osx-64 ]]; then
   export MACHDEP=darwin
   export ac_sys_system=Darwin
   export ac_sys_release=13.4.0
   export MACOSX_DEFAULT_ARCH=x86_64
+  # TODO: check with LLVM 12 if the following hack is needed.
+  # https://reviews.llvm.org/D76461 may have fixed the need for the following hack.
+  echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
+  echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
+  chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
   export ARCHFLAGS="-arch x86_64"
-  export CFLAGS="$CFLAGS $ARCHFLAGS"
 elif [[ ${target_platform} == osx-arm64 ]]; then
   export MACHDEP=darwin
   export ac_sys_system=Darwin
   export ac_sys_release=20.0.0
   export MACOSX_DEFAULT_ARCH=arm64
+  echo '#!/bin/bash' > $BUILD_PREFIX/bin/$HOST-llvm-ar
+  echo "$BUILD_PREFIX/bin/llvm-ar --format=darwin" '"$@"' >> $BUILD_PREFIX/bin/$HOST-llvm-ar
+  chmod +x $BUILD_PREFIX/bin/$HOST-llvm-ar
   export ARCHFLAGS="-arch arm64"
   export CFLAGS="$CFLAGS $ARCHFLAGS"
 elif [[ ${target_platform} == linux-* ]]; then
@@ -265,21 +248,6 @@ _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 _common_configure_args+=(--with-platlibdir=lib)
-_common_configure_args+=(--with-openssl="${PREFIX}")
-
-if [[ ${target_platform} == osx-arm64 ]]; then
-  _common_configure_args+=(--with-dtrace)
-fi
-
-_common_configure_args+=(PKG_CONFIG_LIBDIR="${PREFIX}/lib")
-_common_configure_args+=(PKG_CONFIG_PATH="${PREFIX}/lib")
-_common_configure_args+=(CPPFLAGS="${CPPFLAGS} -I${PREFIX}/include")
-_common_configure_args+=(CXXFLAGS="${CXXFLAGS} -I${PREFIX}/include")
-_common_configure_args+=(CFLAGS="${CFLAGS} -I${PREFIX}/include")
-_common_configure_args+=(LDFLAGS="${LDFLAGS} -L${PREFIX}/lib")
-_common_configure_args+=(CC="${CC}")
-_common_configure_args+=(CXX="${CXX}")
-_comoon_configure_args+=(CC_FOR_BUIL="${CC}")
 
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
@@ -290,8 +258,9 @@ if [[ ${_OPTIMIZED} == yes ]]; then
     _MAKE_TARGET=profile-opt
     # To speed up build times during testing (1):
     if [[ ${QUICK_BUILD} == yes ]]; then
-            echo "WARNING :: Setting empty PROFILE_TASK as QUICK_BUILD set"
-      _PROFILE_TASK+=(PROFILE_TASK="")
+      # TODO :: It seems this is just profiling everything, on Windows, only 40 odd tests are
+      #         run while on Unix, all 400+ are run, making this slower and less well curated
+      _PROFILE_TASK+=(PROFILE_TASK="-m test --pgo")
     else
       # From talking to Steve Dower, who implemented pgo/pgo-extended, it is really not worth
       # it to run pgo-extended (which runs the whole test-suite). The --pgo set of tests are
@@ -327,17 +296,10 @@ fi
 
 mkdir -p ${_buildd_shared}
 pushd ${_buildd_shared}
-  set +e
   ${SRC_DIR}/configure "${_common_configure_args[@]}" \
                        "${_dbg_opts[@]}" \
                        --oldincludedir=${BUILD_PREFIX}/${HOST}/sysroot/usr/include \
                        --enable-shared
-  if [[ $? != 0 ]]; then
-    echo "ERROR :: configure of shared python failed. config.log contains:"
-        cat config.log
-        exit 1
-  fi
-  set +e
 popd
 
 mkdir -p ${_buildd_static}
@@ -367,17 +329,6 @@ if [[ ${target_platform} == linux-ppc64le ]]; then
   # Travis has issues with long logs
   make -j${CPU_COUNT} -C ${_buildd_shared} \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 >make-shared.log
-elif [[ ${target_platform} == osx-* ]]; then
-  # Additional env vars required for osx builds.
-  # The "-undefined" flag allows for undefined symbols.
-  env LDFLAGS="${LDFLAGS} -Xlinker -undefined -Xlinker dynamic_lookup" \
-  make -j${CPU_COUNT} -C ${_buildd_shared} \
-          CROSS_COMPILE=no \
-          # This is the key fix for ensuring libpython*.dylib is built:
-          BLDSHARED="${CC} -shared" \
-          V=1 \
-          _PYTHON_HOST_PLATFORM="${_PYTHON_HOST_PLATFORM}" \
-          EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log
 else
   make -j${CPU_COUNT} -C ${_buildd_shared} \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 | tee make-shared.log
@@ -395,28 +346,20 @@ make -j${CPU_COUNT} -C ${_buildd_shared} \
 make -C ${_buildd_static} install
 
 declare -a _FLAGS_REPLACE=()
-if [[ ${target_platform} != osx-* ]]; then
-  if [[ -n ${_CCACHE} ]]; then
-    _FLAGS_REPLACE+=("${_CCACHE}"); _FLAGS_REPLACE+=("")
-  fi
-fi
-_FLAGS_REPLACE+=("-L."); _FLAGS_REPLACE+=("")
-# 3 entries as this can be split over two lines.
-_FLAGS_REPLACE+=("-isysroot ${CONDA_BUILD_SYSROOT}"); _FLAGS_REPLACE+=("")
-_FLAGS_REPLACE+=("-isysroot"); _FLAGS_REPLACE+=("")
-_FLAGS_REPLACE+=("${CONDA_BUILD_SYSROOT}"); _FLAGS_REPLACE+=("")
-  # fdebug-prefix-map for python work dir is useless for extensions
-_FLAGS_REPLACE+=("-fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/python-$PKG_VERSION"); _FLAGS_REPLACE+=("")
-_FLAGS_REPLACE+=("-fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix"); _FLAGS_REPLACE+=("")
 if [[ ${_OPTIMIZED} == yes ]]; then
-  _FLAGS_REPLACE+=("-O3"); _FLAGS_REPLACE+=("-O2")
-  _FLAGS_REPLACE+=("-fprofile-use"); _FLAGS_REPLACE+=("")
-  _FLAGS_REPLACE+=("-fprofile-correction"); _FLAGS_REPLACE+=("")
+  _FLAGS_REPLACE+=(-O3)
+  _FLAGS_REPLACE+=(-O2)
+  _FLAGS_REPLACE+=("-fprofile-use")
+  _FLAGS_REPLACE+=("")
+  _FLAGS_REPLACE+=("-fprofile-correction")
+  _FLAGS_REPLACE+=("")
+  _FLAGS_REPLACE+=("-L.")
+  _FLAGS_REPLACE+=("")
   for _LTO_CFLAG in "${LTO_CFLAGS[@]}"; do
-    _FLAGS_REPLACE+=("${_LTO_CFLAG}"); _FLAGS_REPLACE+=("")
+    _FLAGS_REPLACE+=(${_LTO_CFLAG})
+    _FLAGS_REPLACE+=("")
   done
 fi
-
 # Install the shared library (for people who embed Python only, e.g. GDB).
 # Linking module extensions to this on Linux is redundant (but harmless).
 # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
@@ -448,21 +391,12 @@ fi
 ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python
 ln -s ${PREFIX}/bin/pydoc${VER} ${PREFIX}/bin/pydoc
 
-# Exclude test data from the base package to save space
-# though keep `support` as some things use that.
+# Remove test data to save space
+# Though keep `support` as some things use that.
 # TODO :: Make a subpackage for this once we implement multi-level testing.
 pushd ${PREFIX}/lib/python${VER}
   mkdir test_keep
   mv test/__init__.py test/support test/test_support* test/test_script_helper* test_keep/
-  # This will be put into the regr-testsuite package.
-  mkdir ${SRC_DIR}/test.backup || true
-  mv test ${SRC_DIR}/test.backup/
-  if [[ $(uname) == Darwin ]]; then
-    rsync */test ${SRC_DIR}/test.backup/
-  else
-    cp -rnf --parents */test ${SRC_DIR}/test.backup/
-  fi
-  cp -rf */test ${SRC_DIR}/test.backup/
   rm -rf test */test
   mv test_keep test
 popd
@@ -514,33 +448,18 @@ pushd "${PREFIX}"/lib/python${VER}
   # Append the conda-forge zoneinfo to the end
   sed -i.bak "s@zoneinfo'@zoneinfo:$PREFIX/share/tzinfo'@g" sysconfigfile
   # Remove osx sysroot as it depends on the build machine
-  # sed -i.bak "s@-isysroot ${CONDA_BUILD_SYSROOT}@@g" sysconfigfile
+  sed -i.bak "s@-isysroot @@g" sysconfigfile
+  sed -i.bak "s@$CONDA_BUILD_SYSROOT @@g" sysconfigfile
   # Remove unfilled config option
   sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
+  sed -i.bak "s@$BUILD_PREFIX/bin/${HOST}-llvm-ar@${HOST}-ar@g" sysconfigfile
+  # Remove GNULD=yes to make sure new-dtags are not used
+  sed -i.bak "s/'GNULD': 'yes'/'GNULD': 'no'/g" sysconfigfile
   cp sysconfigfile ${our_compilers_name}
 
   sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile
   old_compiler_name=_sysconfigdata_$(echo ${OLD_HOST} | sed -e 's/[.-]/_/g').py
   cp sysconfigfile ${old_compiler_name}
-
-  if [[ "$target_platform" == linux-64 ]]; then
-    HOST_COS=no
-    if [[ "$HOST" == *_cos6* ]]; then
-      HOST_COS=$(echo $HOST | sed -e 's/_cos6/_cos7/g')
-    elif [[ "$OLD_HOST" == *_cos6* ]]; then
-      HOST_COS=$(echo $OLD_HOST | sed -e 's/_cos6/_cos7/g')
-    elif [[ "$HOST" == *_cos7* ]]; then
-      HOST_COS=$(echo $HOST | sed -e 's/_cos7/_cos6/g')
-    elif [[ "$OLD_HOST" == *_cos7* ]]; then
-      HOST_COS=$(echo $OLD_HOST | sed -e 's/_cos7/_cos6/g')
-    fi
-    if [[ ${HOST_COS} == *cos* ]]; then
-      cp sysconfigfile sysconfigfile_alt
-      cos_compiler_name=_sysconfigdata_$(echo ${HOST_COS} | sed -e 's/[.-]/_/g').py
-      sed -i.bak "s@${OLD_HOST}@${HOST_COS}@g" sysconfigfile_alt
-      cp sysconfigfile_alt ${cos_compiler_name}
-    fi
-  fi
 
   # For system gcc remove the triple
   sed -i.bak "s@$OLD_HOST-c++@g++@g" sysconfigfile
@@ -561,8 +480,11 @@ pushd "${PREFIX}"/lib/python${VER}
     sed -i.bak "s@$flag@@g" sysconfigfile
   done
   # Cleanup some extra spaces from above
-  sed -r -i.bak "s/' +'/''/g" sysconfigfile
+  sed -i.bak "s@' [ ]*@'@g" sysconfigfile
   cp sysconfigfile $recorded_name
+  echo "========================sysconfig==========================="
+  cat $recorded_name
+  echo "============================================================"
 
   rm sysconfigfile
   rm sysconfigfile.bak
@@ -580,3 +502,6 @@ rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
 rm ${PREFIX}/lib/libpython${VER}.a
+if [[ "$target_platform" == linux-* ]]; then
+  rm ${PREFIX}/include/uuid.h
+fi

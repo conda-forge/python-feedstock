@@ -2,10 +2,8 @@ setlocal EnableDelayedExpansion
 echo on
 
 :: brand Python with conda-forge startup message
-if "%CONDA_FORGE%"=="yes" (
-  %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
-  if errorlevel 1 exit 1
-)
+%SYS_PYTHON% %RECIPE_DIR%\brand_python.py
+if errorlevel 1 exit 1
 
 :: Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
@@ -17,11 +15,6 @@ if "%ARCH%"=="64" (
    set VC_PATH=x86
    set BUILD_PATH=win32
 )
-
-:: libffi is no longer provided as 3.2 compatible, it is now 3.3 variant ... sadly project
-:: mixes now old and new version ... so copy lib that everything is satisfied ...
-copy externals\libffi-3.3.0\%BUILD_PATH%\libffi-8.lib externals\libffi-3.3.0\%BUILD_PATH%\libffi-7.lib
-if errorlevel 1 exit 1
 
 for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   set "VERNODOTS=%%i%%j"
@@ -54,13 +47,7 @@ if "%DEBUG_C%"=="yes" (
 )
 
 :: AP doesn't support PGO atm?
-if "%CONDA_FORGE%"=="yes" (
-  set PGO=
-)
-:: PGO is not yet working for Python 3.9:
-:: (CopyPGCFiles target) ->
-::   C:\opt\conda\conda-bld\python-split-3.9.0_7\work\PCbuild\pyproject.props(165,5): error : PGO run did not succeed (no python39!*.pgc files) and there is no data to merge [C:\opt\conda\conda-bld\python-split-3.9.0_7\work\PCbuild\pythoncore.vcxproj]
-:: set PGO=
+set PGO=
 
 cd PCbuild
 
@@ -94,12 +81,6 @@ if errorlevel 1 exit 1
 :: Populate the DLLs directory
 mkdir %PREFIX%\DLLs
 xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tcl86t.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\tk86t.dll %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\externals\libffi-3.3.0\%BUILD_PATH%\libffi-8.dll %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
 copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
@@ -135,10 +116,6 @@ if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\2to3 %PREFIX%\Tools\scripts\2to3.py
 if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
-if errorlevel 1 exit 1
-
-:: Populate the tcl directory
-xcopy /s /y /i %SRC_DIR%\externals\tcltk-8.6.9.0\%BUILD_PATH%\lib %PREFIX%\tcl
 if errorlevel 1 exit 1
 
 :: Populate the include directory
@@ -187,16 +164,8 @@ rd /s /q %PREFIX%\Lib\test
 if errorlevel 1 exit 1
 move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
 if errorlevel 1 exit 1
-
-:: Remove some tests (unfortunate, a split package would be nice)
 rd /s /q %PREFIX%\Lib\lib2to3\tests\
 if errorlevel 1 exit 1
-
-:: Remove PGO DLLs
-if exist %PREFIX%\DLLs\instrumented (
-  rd /s /q %PREFIX%\DLLs\instrumented\
-  if errorlevel 1 exit 1
-)
 
 :: bytecode compile the standard library
 
@@ -214,7 +183,7 @@ if errorlevel 1 exit 1
 
 :: Ensure that scripts are generated
 :: https://github.com/conda-forge/python-feedstock/issues/384
-%SYS_PREFIX%\python.exe %RECIPE_DIR%\fix_staged_scripts.py %ARCH%
+%PREFIX%\python.exe %RECIPE_DIR%\fix_staged_scripts.py
 if errorlevel 1 exit 1
 
 :: Some quick tests for common failures

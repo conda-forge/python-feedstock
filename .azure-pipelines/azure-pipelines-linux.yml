@@ -8,10 +8,16 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_:
-        CONFIG: linux_64_
+      linux_64_openssl1.1.1:
+        CONFIG: linux_64_openssl1.1.1
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
+        SHORT_CONFIG_NAME: linux_64_openssl1.1.1
+      linux_64_openssl3:
+        CONFIG: linux_64_openssl3
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
+        SHORT_CONFIG_NAME: linux_64_openssl3
   timeoutInMinutes: 360
 
   steps:
@@ -38,3 +44,15 @@ jobs:
       BINSTAR_TOKEN: $(BINSTAR_TOKEN)
       FEEDSTOCK_TOKEN: $(FEEDSTOCK_TOKEN)
       STAGING_BINSTAR_TOKEN: $(STAGING_BINSTAR_TOKEN)
+  - script: |
+        artifact_name="conda_artifacts_$(build.BuildId)_$(SHORT_CONFIG_NAME)"
+        echo "##vso[task.setVariable variable=ARTIFACT_NAME]$artifact_name"
+        if [ -d build_artifacts ]; then
+          echo "##vso[task.setVariable variable=CONDA_BLD_DIR_EXISTS]true"
+        fi
+    displayName: Check for conda build artifacts
+    condition: succeededOrFailed()
+
+  - publish: build_artifacts/
+    artifact: $(ARTIFACT_NAME)
+    condition: eq(variables.CONDA_BLD_DIR_EXISTS, 'true')

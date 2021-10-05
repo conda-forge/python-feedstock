@@ -8,9 +8,14 @@ jobs:
     vmImage: vs2017-win2016
   strategy:
     matrix:
-      win_64_:
-        CONFIG: win_64_
+      win_64_openssl1.1.1:
+        CONFIG: win_64_openssl1.1.1
         UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG_NAME: win_64_openssl1.1.1
+      win_64_openssl3:
+        CONFIG: win_64_openssl3
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG_NAME: win_64_openssl3
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
@@ -86,11 +91,23 @@ jobs:
 
     - script: |
         call activate base
-        conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml
+        conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml --suppress-variables
       displayName: Build recipe
       env:
         PYTHONUNBUFFERED: 1
       condition: not(contains(variables['CONFIG'], 'vs2008'))
+    - script: |
+        set artifact_name=conda_artifacts_$(build.BuildID)_$(SHORT_CONFIG_NAME)
+        echo ##vso[task.setVariable variable=ARTIFACT_NAME]%artifact_name%
+        if exist $(CONDA_BLD_PATH)\\ (
+          echo ##vso[task.setVariable variable=CONDA_BLD_DIR_EXISTS]true
+        )
+      displayName: Check for conda build artifacts
+      condition: succeededOrFailed()
+
+    - publish: $(CONDA_BLD_PATH)\\
+      artifact: $(ARTIFACT_NAME)
+      condition: eq(variables.CONDA_BLD_DIR_EXISTS, 'true')
     - script: |
         set "FEEDSTOCK_NAME=%BUILD_REPOSITORY_NAME:*/=%"
         call activate base

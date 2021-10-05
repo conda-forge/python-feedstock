@@ -8,14 +8,22 @@ jobs:
     vmImage: macOS-10.15
   strategy:
     matrix:
-      osx_64_:
-        CONFIG: osx_64_
+      osx_64_openssl1.1.1:
+        CONFIG: osx_64_openssl1.1.1
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG_NAME: osx_64_
-      osx_arm64_:
-        CONFIG: osx_arm64_
+        SHORT_CONFIG_NAME: osx_64_openssl1.1.1
+      osx_64_openssl3:
+        CONFIG: osx_64_openssl3
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG_NAME: osx_arm64_
+        SHORT_CONFIG_NAME: osx_64_openssl3
+      osx_arm64_openssl1.1.1:
+        CONFIG: osx_arm64_openssl1.1.1
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG_NAME: osx_arm64_openssl1.1.1
+      osx_arm64_openssl3:
+        CONFIG: osx_arm64_openssl3
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG_NAME: osx_arm64_openssl3
   timeoutInMinutes: 360
 
   steps:

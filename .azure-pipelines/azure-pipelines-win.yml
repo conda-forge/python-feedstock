@@ -8,10 +8,14 @@ jobs:
     vmImage: vs2017-win2016
   strategy:
     matrix:
-      win_64_:
-        CONFIG: win_64_
+      win_64_openssl1.1.1:
+        CONFIG: win_64_openssl1.1.1
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG_NAME: win_64_
+        SHORT_CONFIG_NAME: win_64_openssl1.1.1
+      win_64_openssl3:
+        CONFIG: win_64_openssl3
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG_NAME: win_64_openssl3
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\

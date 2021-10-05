@@ -23,7 +23,7 @@ docker_image:
 libffi:
 - '3.4'
 libuuid:
-- 2.32.1
+- '2'
 ncurses:
 - '6.2'
 openssl:

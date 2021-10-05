@@ -44,6 +44,7 @@ source:
       - patches/0019-Add-CondaEcosystemModifyDllSearchPath.patch
 {% endif %}
       - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0021-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -73,7 +74,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 101
+  number: 102
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -149,6 +150,8 @@ test:
     - ninja
     - cython
     - setuptools
+    # conda-build solves the environment incorrectly if this isn't included
+    - openssl
     - {{ compiler('c') }}
     # Tried to use enable_language(C) to avoid needing this. It does not work.
     - {{ compiler('cxx') }}

@@ -1,3 +1,4 @@
+import os
 import platform
 import sys
 import subprocess
@@ -97,5 +98,5 @@ if not (armv6l or armv7l or ppc64le or osx105):
 
 import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
-if sys.platform != 'win32':
-    assert '1.1.1' in ssl.OPENSSL_VERSION
+CONDA_OPENSSL_VERSION = os.getenv("openssl")
+assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION

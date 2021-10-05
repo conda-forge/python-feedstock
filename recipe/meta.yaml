@@ -44,6 +44,7 @@ source:
       - patches/0019-Add-CondaEcosystemModifyDllSearchPath.patch
 {% endif %}
       - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0021-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -149,6 +150,8 @@ test:
     - ninja
     - cython
     - setuptools
+    # conda-build solves the environment incorrectly if this isn't included
+    - openssl
     - {{ compiler('c') }}
     # Tried to use enable_language(C) to avoid needing this. It does not work.
     - {{ compiler('cxx') }}

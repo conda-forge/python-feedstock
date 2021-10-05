@@ -65,24 +65,23 @@ source:
       - patches/0010-Unvendor-openssl.patch
       - patches/0011-Unvendor-sqlite3.patch
       - patches/0012-venv-Revert-a-change-from-https-github.com-python-cp.patch
-      - patches/0013-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
       # https://github.com/pypa/distutils/pull/53
-      - patches/0014-Use-ranlib-from-env-if-env-variable-is-set.patch
-      - patches/0015-Add-CondaEcosystemModifyDllSearchPath.patch
-      - patches/0016-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
-      - patches/0017-Doing-d1trimfile.patch
+      - patches/0013-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0014-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0015-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
+      - patches/0016-Doing-d1trimfile.patch
       # https://github.com/python/cpython/pull/23523
-      - patches/0018-cross-compile-darwin.patch
-      - patches/0019-Fix-TZPATH-on-windows.patch
+      - patches/0017-cross-compile-darwin.patch
+      - patches/0018-Fix-TZPATH-on-windows.patch
       # https://github.com/python/cpython/pull/24324
-      - patches/0020-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
+      - patches/0019-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
       # https://github.com/pypa/distutils/pull/53
-      - patches/0021-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
-      - patches/0022-Unvendor-bzip2.patch
-      - patches/0023-Unvendor-libffi.patch
-      - patches/0024-Unvendor-tcltk.patch
-      - patches/0025-unvendor-xz.patch
-      - patches/0026-unvendor-zlib.patch
+      - patches/0020-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
+      - patches/0021-Unvendor-bzip2.patch
+      - patches/0022-Unvendor-libffi.patch
+      - patches/0023-Unvendor-tcltk.patch
+      - patches/0024-unvendor-xz.patch
+      - patches/0025-unvendor-zlib.patch
 
 build:
   number: {{ build_number }}

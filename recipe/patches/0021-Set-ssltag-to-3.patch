@@ -4,23 +4,9 @@ Date: Tue, 28 Sep 2021 12:40:44 +0200
 Subject: [PATCH] Set ssltag to 3
 
 ---
- PCbuild/openssl.props | 2 +-
  Tools/msi/msi.props   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
-index a7e16793c7..3da93ae6bb 100644
---- a/PCbuild/openssl.props
-+++ b/PCbuild/openssl.props
-@@ -10,7 +10,7 @@
-     </Link>
-   </ItemDefinitionGroup>
-   <PropertyGroup>
--    <_DLLSuffix>-1_1</_DLLSuffix>
-+    <_DLLSuffix>-3</_DLLSuffix>
-     <_DLLSuffix Condition="$(Platform) == 'ARM'">$(_DLLSuffix)-arm</_DLLSuffix>
-     <_DLLSuffix Condition="$(Platform) == 'ARM64'">$(_DLLSuffix)-arm64</_DLLSuffix>
-   </PropertyGroup>
 diff --git a/Tools/msi/msi.props b/Tools/msi/msi.props
 index 5da901c021..ba08d08938 100644
 --- a/Tools/msi/msi.props

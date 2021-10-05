@@ -1,7 +1,7 @@
-From dd315752acb1b108697f37ee0a8df50ffb200085 Mon Sep 17 00:00:00 2001
+From 2ba3c685f214652bc36149c574c16ac68fc37d35 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
-Date: Mon, 10 Dec 2018 12:22:37 -0600
-Subject: [PATCH 11/25] Unvendor sqlite3
+Date: Tue, 5 Oct 2021 12:42:06 -0700
+Subject: [PATCH 11/27] Unvendor sqlite3
 
 ---
  PCbuild/_sqlite3.vcxproj |  9 ++++-----
@@ -52,11 +52,11 @@ index 3507b97279..2b4ac3258c 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 4c5c18a81d..7b99766d21 100644
+index 306f4d4658..f29293a0f4 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -57,7 +57,7 @@
-     <ExternalsDir>$(EXTERNALS_DIR)</ExternalsDir>
+@@ -58,7 +58,7 @@
+     <condaDir>$(LIBRARY_PREFIX)\</condaDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
 -    <sqlite3Dir>$(ExternalsDir)sqlite-3.35.5.0\</sqlite3Dir>

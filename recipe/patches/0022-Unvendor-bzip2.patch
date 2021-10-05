@@ -1,13 +1,12 @@
-From 3901842711d3c9a36692bc356f3a090a26a1a4d9 Mon Sep 17 00:00:00 2001
+From f82d377f9850ed273a5d966d637eb6add628d3f9 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:56:27 -0700
-Subject: [PATCH 22/25] Unvendor bzip2
+Subject: [PATCH 22/27] Unvendor bzip2
 
 ---
  PCbuild/_bz2.vcxproj         | 15 +++++----------
  PCbuild/_bz2.vcxproj.filters | 26 +-------------------------
- PCbuild/python.props         |  1 +
- 3 files changed, 7 insertions(+), 35 deletions(-)
+ 2 files changed, 6 insertions(+), 35 deletions(-)
 
 diff --git a/PCbuild/_bz2.vcxproj b/PCbuild/_bz2.vcxproj
 index 0402f7a9aa..569c7c5de9 100644
@@ -86,18 +85,6 @@ index 7c0b516253..c1f960608c 100644
        <Filter>Header Files\bzip2</Filter>
      </ClInclude>
    </ItemGroup>
-diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 7b99766d21..83d537e110 100644
---- a/PCbuild/python.props
-+++ b/PCbuild/python.props
-@@ -55,6 +55,7 @@
-     
-     <!-- Directories of external projects. tcltk is handled in tcltk.props -->
-     <ExternalsDir>$(EXTERNALS_DIR)</ExternalsDir>
-+    <condaDir>$(LIBRARY_PREFIX)\</condaDir>
-     <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
-     <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
-     <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
 -- 
 2.30.2
 

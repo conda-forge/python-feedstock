@@ -83,7 +83,6 @@ source:
       - patches/0024-Unvendor-tcltk.patch
       - patches/0025-unvendor-xz.patch
       - patches/0026-unvendor-zlib.patch
-      - patches/0027-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
 
 build:
   number: {{ build_number }}

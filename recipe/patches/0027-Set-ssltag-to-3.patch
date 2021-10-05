@@ -1,7 +1,7 @@
-From eb3e4e0dbd5a925825cd2fb989033d8b1860cfc0 Mon Sep 17 00:00:00 2001
+From f6ff67241ab4e1fe6f8c78e4e6a05bf4fdbb52e2 Mon Sep 17 00:00:00 2001
 From: Chris Burr <chrisburr@users.noreply.github.com>
 Date: Tue, 28 Sep 2021 12:40:44 +0200
-Subject: [PATCH 29/29] Set ssltag to 3
+Subject: [PATCH 27/27] Set ssltag to 3
 
 ---
  PCbuild/openssl.props | 2 +-
@@ -9,7 +9,7 @@ Subject: [PATCH 29/29] Set ssltag to 3
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
-index eeb8677517..57caf8f2fc 100644
+index cc63dcfe36..bfa829cb76 100644
 --- a/PCbuild/openssl.props
 +++ b/PCbuild/openssl.props
 @@ -10,7 +10,7 @@
@@ -35,5 +35,5 @@ index cb9221fddf..9c7226fdf1 100644
          <DefineConstants Condition="'$(CRTRedist)' != ''">
              $(DefineConstants);CRTRedist=$(CRTRedist);
 -- 
-2.32.0.windows.2
+2.30.2
 

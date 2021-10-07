@@ -125,8 +125,10 @@ outputs:
       #   - lib/libpython3.dylib  # [osx]
       # match python.org compiler standard
       skip: true  # [win and int(float(vc)) < 14]
+{% if 'conda-forge' in channel_targets %}
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
+{% endif %}
       string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
 {% if 'conda-forge' in channel_targets %}

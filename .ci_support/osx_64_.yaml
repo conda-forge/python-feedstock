@@ -17,7 +17,9 @@ cxx_compiler:
 cxx_compiler_version:
 - '11'
 libffi:
-- '3.3'
+- '3.4'
+libuuid:
+- 2.32.1
 macos_machine:
 - x86_64-apple-darwin13.4.0
 ncurses:
@@ -29,10 +31,10 @@ pin_run_as_build:
     max_pin: x
   libffi:
     max_pin: x.x
+  libuuid:
+    max_pin: x
   ncurses:
     max_pin: x.x
-  openssl:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x

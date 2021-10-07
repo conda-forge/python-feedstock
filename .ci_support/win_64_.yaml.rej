@@ -1,0 +1,62 @@
+***************
+*** 9,15 ****
+  cxx_compiler:
+  - vs2017
+  libffi:
+- - '3.3'
+  openssl:
+  - 1.1.1
+  pin_run_as_build:
+--- 9,15 ----
+  cxx_compiler:
+  - vs2017
+  libffi:
++ - '3.4'
+  openssl:
+  - 1.1.1
+  pin_run_as_build:
+***************
+*** 17,24 ****
+      max_pin: x
+    libffi:
+      max_pin: x.x
+-   openssl:
+-     max_pin: x.x.x
+    python:
+      min_pin: x.x
+      max_pin: x.x
+--- 17,22 ----
+      max_pin: x
+    libffi:
+      max_pin: x.x
+    python:
+      min_pin: x.x
+      max_pin: x.x
+***************
+*** 26,31 ****
+      max_pin: x
+    tk:
+      max_pin: x.x
+  python:
+  - '3.10'
+  sqlite:
+--- 24,31 ----
+      max_pin: x
+    tk:
+      max_pin: x.x
++   xz:
++     max_pin: x.x
+  python:
+  - '3.10'
+  sqlite:
+***************
+*** 34,36 ****
+  - win-64
+  tk:
+  - '8.6'
+--- 34,38 ----
+  - win-64
+  tk:
+  - '8.6'
++ xz:
++ - '5.2'

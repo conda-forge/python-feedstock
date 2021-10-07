@@ -1,26 +1,17 @@
 from os.path import isdir, isfile, dirname, join
-from sys import argv
 
 import os
 import shutil
 
 
 # Taken and adapted from conda_build/windows.py
-def fix_staged_scripts(scripts_dir, arch):
+def fix_staged_scripts(scripts_dir):
     """
     Fixes scripts which have been installed unix-style to have a .bat
     helper
     """
     if not isdir(scripts_dir):
         return
-
-    import conda_build
-    cli_exe = os.path.dirname(conda_build.__file__)
-    cli_exe = os.path.join(cli_exe, 'cli-{}.exe'.format(arch))
-    if not os.path.exists(cli_exe):
-        print("ERROR :: cli_exe {} does not exist".format(cli_exe))
-        sys.exit(1)
-
     for fn in os.listdir(scripts_dir):
         # process all the extensionless files
         if not isfile(join(scripts_dir, fn)) or '.' in fn:
@@ -40,10 +31,11 @@ def fix_staged_scripts(scripts_dir, arch):
             # now create the .exe file
             # This is hardcoded that conda and conda-build are in the same environment
             base_env = dirname(dirname(os.environ['CONDA_EXE']))
-            shutil.copyfile(cli_exe, join(scripts_dir, fn + '.exe'))
+            exe = join(base_env, 'lib', 'site-packages', 'conda_build', 'cli-64.exe')
+            shutil.copyfile(exe, join(scripts_dir, fn + '.exe'))
 
         # remove the original script
         os.remove(join(scripts_dir, fn))
 
 
-fix_staged_scripts(os.environ['SCRIPTS'], argv[1])
+fix_staged_scripts(os.environ['SCRIPTS'])

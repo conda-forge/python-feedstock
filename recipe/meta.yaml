@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -254,6 +254,9 @@ outputs:
         - popd
         - python run_test.py
         - test ! -f default.profraw   # [osx]
+        # Test workaround for https://github.com/conda/conda/issues/10969
+        - test -d "$PREFIX/lib/python3.1/site-packages"  # [unix]
+        - python3.1 --version  # [unix]
 
   - name: libpython-static
     script: build_static.sh  # [unix]

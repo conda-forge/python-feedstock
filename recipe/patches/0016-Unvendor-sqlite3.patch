@@ -1,7 +1,7 @@
-From c3f4e248b58c6d5fc393d1c8b057c99fca3fc5be Mon Sep 17 00:00:00 2001
+From c57a395fc979fd293767ab5d508c0c5b4637cc5b Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Mon, 10 Dec 2018 12:22:37 -0600
-Subject: [PATCH 16/30] Unvendor sqlite3
+Subject: [PATCH 16/29] Unvendor sqlite3
 
 ---
  PCbuild/_sqlite3.vcxproj |  9 ++++-----
@@ -53,10 +53,10 @@ index 4b6dc1e677..19d75c75b8 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 9c2838b162..2360417748 100644
+index 4c5c18a81d..7b99766d21 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -56,7 +56,7 @@
+@@ -57,7 +57,7 @@
      <ExternalsDir>$(EXTERNALS_DIR)</ExternalsDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
@@ -64,7 +64,7 @@ index 9c2838b162..2360417748 100644
 +    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
      <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
-     <libffiDir>$(ExternalsDir)libffi\</libffiDir>
+     <libffiDir>$(ExternalsDir)libffi-3.3.0\</libffiDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
 index 7351a6dda2..56d18cfa94 100644
 --- a/PCbuild/sqlite3.vcxproj
@@ -89,5 +89,5 @@ index 7351a6dda2..56d18cfa94 100644
    <ItemDefinitionGroup>
      <ClCompile>
 -- 
-2.23.0
+2.32.0.windows.2
 

@@ -1,7 +1,7 @@
-From 70e40f6858ac8da70d91869b28792cd5a1e8f076 Mon Sep 17 00:00:00 2001
+From 58a73338461cddd385aaa67682bac34ce3ab9ba0 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
-Subject: [PATCH 11/30] Fix find_library so that it looks in sys.prefix/lib
+Subject: [PATCH 11/29] Fix find_library so that it looks in sys.prefix/lib
  first
 
 ---
@@ -10,10 +10,10 @@ Subject: [PATCH 11/30] Fix find_library so that it looks in sys.prefix/lib
  2 files changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index 9d86b05876..9ab447c0a1 100644
+index 1c3f8fd38b..82a4b4fd58 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
-@@ -88,6 +88,10 @@ def dyld_executable_path_search(name, executable_path=None):
+@@ -93,6 +93,10 @@ def dyld_executable_path_search(name, executable_path=None):
      # If we haven't done any searching and found a library and the
      # dylib_name starts with "@executable_path/" then construct the
      # library name.
@@ -25,7 +25,7 @@ index 9d86b05876..9ab447c0a1 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index 01176bf969..b80dc43b4f 100644
+index 0c2510e161..72b46cc481 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -70,7 +70,8 @@ if os.name == "nt":
@@ -72,5 +72,5 @@ index 01176bf969..b80dc43b4f 100644
  ################################################################
  # test code
 -- 
-2.23.0
+2.32.0.windows.2
 

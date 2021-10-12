@@ -83,7 +83,7 @@ source:
     sha256: 69e3f7235108a75033cb9325a0a3535ba271d144ec66fccefe134eda27d7bcfe         # [win]
 
 build:
-  number: 1
+  number: 2
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG
@@ -156,6 +156,7 @@ outputs:
         - tk  # [not win]
         - ncurses  # [linux]
         - libffi  # [not win]
+        - libnsl  # [linux]
         - ld_impl_{{ target_platform }} >=2.34  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.34  # [linux]

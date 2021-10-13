@@ -169,7 +169,8 @@ test:
     - pydoc -h
     - python3-config --help  # [not win]
     - python -m venv %%TEMP%%\venv  # [win]
-
+    # Test for #516, reading CA store
+    - python -c "import ssl; ssl.create_default_context()"
     # Test for " -partition=none", can be removed after toolchain is dropped
     - python -c "import sys; files = [f for f in sys.argv[2:] if b' -partition=none' in open(f, 'rb').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [not win]
     - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]

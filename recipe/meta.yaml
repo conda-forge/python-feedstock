@@ -45,6 +45,7 @@ source:
 {% endif %}
       - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
       - patches/0021-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
+      - patches/0022-Openssl3-load-verify-error.patch
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]
@@ -74,7 +75,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 103
+  number: 104
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -169,7 +170,8 @@ test:
     - pydoc -h
     - python3-config --help  # [not win]
     - python -m venv %%TEMP%%\venv  # [win]
-
+    # Test for #516, reading CA store
+    - python -c "import ssl; ssl.create_default_context()"
     # Test for " -partition=none", can be removed after toolchain is dropped
     - python -c "import sys; files = [f for f in sys.argv[2:] if b' -partition=none' in open(f, 'rb').read()]; assert len(files) == 0, files" ${PREFIX}/lib/*/*.py  # [not win]
     - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]

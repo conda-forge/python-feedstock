@@ -1,4 +1,4 @@
-{% set base_version = "3.7.10" %}
+{% set base_version = "3.7.12" %}
 {% set version = base_version %}
 {% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
 {% if linkage_nature != '' %}
@@ -14,8 +14,8 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ base_version }}/Python-{{ version }}.tar.xz
-    # md5 from: https://www.python.org/downloads/release/python-3710/
-    md5: 9e34914bc804ab2e7d955b49c5e1e391
+    # md5 from: https://www.python.org/downloads/release/python-3712/
+    md5: 352ea082224121a8b7bc4d6d06e5de39
     patches:
       # https://bugs.python.org/issue40263
       - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
@@ -75,7 +75,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 104
+  number: 100
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:

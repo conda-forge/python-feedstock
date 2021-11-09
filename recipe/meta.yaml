@@ -301,8 +301,15 @@ outputs:
       run:
         - {{ pin_subpackage('python', exact=True) }}
     test:
+      files:
+        - tests/prefix-replacement/*
+      requires:
+        - {{ compiler('c') }}
+        # Tried to use enable_language(C) to avoid needing this. It does not work.
+        - {{ compiler('cxx') }}
+
       commands:
-        - pushd tests
+        - pushd tests                 # [unix]
         - pushd prefix-replacement    # [unix]
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]

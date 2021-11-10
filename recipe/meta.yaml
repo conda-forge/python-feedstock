@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 1 %}
+{% set build_number = 3 %}
 {% set channel_targets = ('abc', 'def')  %}
 
 # this makes the linter happy
@@ -210,7 +210,7 @@ outputs:
 {% endif %}
       requires:
         - ripgrep
-        - cmake  # [not (linux and ppc64le)]
+        - cmake
         - make  # [unix]
         - ninja
         - {{ compiler('c') }}
@@ -272,7 +272,11 @@ outputs:
         - popd
         - python run_test.py
         - test ! -f default.profraw   # [osx]
+        # Test workaround for https://github.com/conda/conda/issues/10969
+        - test -d "$PREFIX/lib/python3.1/site-packages"  # [unix]
+        - python3.1 --version  # [unix]
 
+{% if target_platform != "linux-aarch64" %}
   - name: libpython-static
     script: build_static.sh  # [unix]
     script: build_static.bat  # [win]
@@ -298,13 +302,23 @@ outputs:
       run:
         - {{ pin_subpackage('python', exact=True) }}
     test:
+      files:
+        - tests/prefix-replacement/*
+      requires:
+        - {{ compiler('c') }}
+        # Tried to use enable_language(C) to avoid needing this. It does not work.
+        - {{ compiler('cxx') }}
+
       commands:
+        - pushd tests                 # [unix]
+        - pushd prefix-replacement    # [unix]
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
         - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
-        - pushd prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
+        - popd    # [unix]
+{% endif %}
 
 about:
   home: https://www.python.org/

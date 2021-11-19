@@ -258,6 +258,8 @@ outputs:
         - popd
         - python run_test.py
         - test ! -f default.profraw   # [osx]
+        # Test for segfault on osx-64 with libffi=3.4, see https://bugs.python.org/issue44556
+        - python -c "from ctypes import CFUNCTYPE; CFUNCTYPE(None)(id)"
 
   - name: libpython-static
     script: build_static.sh  # [unix]

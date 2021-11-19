@@ -11,11 +11,11 @@ jobs:
       win_64_openssl1.1.1:
         CONFIG: win_64_openssl1.1.1
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG_NAME: win_64_openssl1.1.1
+        SHORT_CONFIG: win_64_openssl1.1.1
       win_64_openssl3:
         CONFIG: win_64_openssl3
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG_NAME: win_64_openssl3
+        SHORT_CONFIG: win_64_openssl3
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
@@ -57,7 +57,7 @@ jobs:
 
     - task: CondaEnvironment@1
       inputs:
-        packageSpecs: 'python=3.6 conda-build conda "conda-forge-ci-setup=3" pip' # Optional
+        packageSpecs: 'python=3.9 conda-build conda "conda-forge-ci-setup=3" pip boa' # Optional
         installOptions: "-c conda-forge"
         updateConda: true
       displayName: Install conda-build and activate environment
@@ -91,23 +91,38 @@ jobs:
 
     - script: |
         call activate base
-        conda.exe build "recipe" -m .ci_support\%CONFIG%.yaml --suppress-variables
+        conda.exe mambabuild "recipe" -m .ci_support\%CONFIG%.yaml --suppress-variables
       displayName: Build recipe
       env:
         PYTHONUNBUFFERED: 1
       condition: not(contains(variables['CONFIG'], 'vs2008'))
     - script: |
-        set artifact_name=conda_artifacts_$(build.BuildID)_$(SHORT_CONFIG_NAME)
-        echo ##vso[task.setVariable variable=ARTIFACT_NAME]%artifact_name%
-        if exist $(CONDA_BLD_PATH)\\ (
-          echo ##vso[task.setVariable variable=CONDA_BLD_DIR_EXISTS]true
+        set CI=azure
+        set CI_RUN_ID=$(build.BuildNumber).$(system.JobAttempt)
+        set FEEDSTOCK_NAME=$(build.Repository.Name)
+        set ARTIFACT_STAGING_DIR=$(Build.ArtifactStagingDirectory)
+        set CONDA_BLD_DIR=$(CONDA_BLD_PATH)
+        set BLD_ARTIFACT_PREFIX=conda_artifacts
+        if "%AGENT_JOBSTATUS%" == "Failed" (
+            set ENV_ARTIFACT_PREFIX=conda_envs
         )
-      displayName: Check for conda build artifacts
+        call ".scripts\create_conda_build_artifacts.bat"
+      displayName: Prepare conda build artifacts
       condition: succeededOrFailed()
 
-    - publish: $(CONDA_BLD_PATH)\\
-      artifact: $(ARTIFACT_NAME)
-      condition: eq(variables.CONDA_BLD_DIR_EXISTS, 'true')
+    - task: PublishPipelineArtifact@1
+      displayName: Store conda build artifacts
+      condition: not(eq(variables.BLD_ARTIFACT_PATH, ''))
+      inputs:
+        targetPath: $(BLD_ARTIFACT_PATH)
+        artifactName: $(BLD_ARTIFACT_NAME)
+
+    - task: PublishPipelineArtifact@1
+      displayName: Store conda build environment artifacts
+      condition: not(eq(variables.ENV_ARTIFACT_PATH, ''))
+      inputs:
+        targetPath: $(ENV_ARTIFACT_PATH)
+        artifactName: $(ENV_ARTIFACT_NAME)
     - script: |
         set "FEEDSTOCK_NAME=%BUILD_REPOSITORY_NAME:*/=%"
         call activate base
@@ -124,4 +139,4 @@ jobs:
         BINSTAR_TOKEN: $(BINSTAR_TOKEN)
         FEEDSTOCK_TOKEN: $(FEEDSTOCK_TOKEN)
         STAGING_BINSTAR_TOKEN: $(STAGING_BINSTAR_TOKEN)
-      condition: and(succeeded(), not(eq(variables['UPLOAD_PACKAGES'], 'False')))
+      condition: and(succeeded(), not(eq(variables['UPLOAD_PACKAGES'], 'False')), not(eq(variables['Build.Reason'], 'PullRequest')))

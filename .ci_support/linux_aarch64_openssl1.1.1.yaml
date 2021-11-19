@@ -21,7 +21,7 @@ cxx_compiler_version:
 docker_image:
 - quay.io/condaforge/linux-anvil-aarch64
 libffi:
-- '3.4'
+- '3.3'
 libuuid:
 - '2'
 ncurses:

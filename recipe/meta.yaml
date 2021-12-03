@@ -1,4 +1,4 @@
-{% set version = "3.6.13" %}
+{% set version = "3.6.15" %}
 
 package:
   name: python
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}.tar.xz
-    sha256: a47a43a53abb42286a2c11965343ff56711b9e64e8d11bf2c6701a4fb8ce1a0f
+    sha256: 6e28d7cdd6dd513dd190e49bca3972e20fcf455090ccf2ef3f1a227614135d91
     patches:
       {% if 'toolchain' in compiler('c') %}
       # use one set of patches for the toolchain (old compiler) build
@@ -83,7 +83,7 @@ source:
     sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac         # [win]
 
 build:
-  number: 2
+  number: 0
   # Windows has issues updating python if conda is using files itself.
   # Copy rather than link.
   no_link:
@@ -124,6 +124,7 @@ requirements:
     - tk                                 # [unix]
     - ncurses                            # [unix]
     - libffi                             # [unix]
+    - libnsl                             # [linux]
     - ld_impl_{{ target_platform }} >=2.34     # [linux]
   run:
     - ncurses                            # [unix]

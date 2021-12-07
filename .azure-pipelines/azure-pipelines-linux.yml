@@ -11,12 +11,12 @@ jobs:
       linux_64_openssl1.1.1:
         CONFIG: linux_64_openssl1.1.1
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
         SHORT_CONFIG: linux_64_openssl1.1.1
       linux_64_openssl3:
         CONFIG: linux_64_openssl3
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-comp7
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
         SHORT_CONFIG: linux_64_openssl3
       linux_aarch64_openssl1.1.1:
         CONFIG: linux_aarch64_openssl1.1.1

@@ -1,15 +1,15 @@
-From bfd3f7211af40fc269203a9b29156a4cabd103b8 Mon Sep 17 00:00:00 2001
+From 6c567c8d0b17220760a207e321c9fc5c8ed7314b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH] unvendor zlib
 
 ---
- PCbuild/pythoncore.vcxproj         | 30 ++------------
+ PCbuild/pythoncore.vcxproj         | 31 ++------------
  PCbuild/pythoncore.vcxproj.filters | 66 ------------------------------
- 2 files changed, 3 insertions(+), 93 deletions(-)
+ 2 files changed, 4 insertions(+), 93 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 4bc03d4..4ecbe23 100644
+index 4bc03d4..5330841 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -21,7 +21,7 @@ index 4bc03d4..4ecbe23 100644
      <IncludeExternals Condition="$(IncludeExternals) == ''">false</IncludeExternals>
    </PropertyGroup>
    <ImportGroup Label="PropertySheets">
-@@ -101,12 +101,12 @@
+@@ -101,12 +101,13 @@
      <ClCompile>
        <AdditionalOptions>/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalIncludeDirectories>$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -32,11 +32,12 @@ index 4bc03d4..4ecbe23 100644
      </ClCompile>
      <Link>
 -      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
-+      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;zlib.h;%(AdditionalDependencies)</AdditionalDependencies>
++      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -301,19 +301,6 @@
+@@ -301,19 +302,6 @@
      <ClInclude Include="..\Python\thread_nt.h" />
      <ClInclude Include="..\Python\wordcode_helpers.h" />
    </ItemGroup>
@@ -56,7 +57,7 @@ index 4bc03d4..4ecbe23 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_abc.c" />
      <ClCompile Include="..\Modules\_bisectmodule.c" />
-@@ -496,17 +483,6 @@
+@@ -496,17 +484,6 @@
    </ItemGroup>
    <ItemGroup Condition="$(IncludeExternals)">
      <ClCompile Include="..\Modules\zlibmodule.c" />

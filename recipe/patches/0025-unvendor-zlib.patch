@@ -1,15 +1,15 @@
-From fd2ed84332de0815cc0e26171fbc5093ef28ffde Mon Sep 17 00:00:00 2001
+From bfd3f7211af40fc269203a9b29156a4cabd103b8 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
-Subject: [PATCH 25/25] unvendor zlib
+Subject: [PATCH] unvendor zlib
 
 ---
- PCbuild/pythoncore.vcxproj         | 31 ++------------
+ PCbuild/pythoncore.vcxproj         | 30 ++------------
  PCbuild/pythoncore.vcxproj.filters | 66 ------------------------------
- 2 files changed, 4 insertions(+), 93 deletions(-)
+ 2 files changed, 3 insertions(+), 93 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 8da161b446..8f9852511a 100644
+index 4bc03d4..4ecbe23 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -21,7 +21,7 @@ index 8da161b446..8f9852511a 100644
      <IncludeExternals Condition="$(IncludeExternals) == ''">false</IncludeExternals>
    </PropertyGroup>
    <ImportGroup Label="PropertySheets">
-@@ -101,12 +101,13 @@
+@@ -101,12 +101,12 @@
      <ClCompile>
        <AdditionalOptions>/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalIncludeDirectories>$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -31,13 +31,12 @@ index 8da161b446..8f9852511a 100644
        <PreprocessorDefinitions Condition="$(IncludeExternals)">_Py_HAVE_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
      </ClCompile>
      <Link>
--      <AdditionalDependencies>version.lib;shlwapi.lib;ws2_32.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
-+      <AdditionalDependencies>version.lib;shlwapi.lib;ws2_32.lib;pathcch.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-+      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+-      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;zlib.h;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -301,19 +302,6 @@
+@@ -301,19 +301,6 @@
      <ClInclude Include="..\Python\thread_nt.h" />
      <ClInclude Include="..\Python\wordcode_helpers.h" />
    </ItemGroup>
@@ -57,7 +56,7 @@ index 8da161b446..8f9852511a 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_abc.c" />
      <ClCompile Include="..\Modules\_bisectmodule.c" />
-@@ -496,17 +484,6 @@
+@@ -496,17 +483,6 @@
    </ItemGroup>
    <ItemGroup Condition="$(IncludeExternals)">
      <ClCompile Include="..\Modules\zlibmodule.c" />
@@ -76,7 +75,7 @@ index 8da161b446..8f9852511a 100644
    <ItemGroup>
      <ClCompile Include="..\PC\dl_nt.c" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 55b57ef29d..2fc1a57161 100644
+index dfe2b27..52d4750 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
 @@ -606,39 +606,6 @@
@@ -160,5 +159,5 @@ index 55b57ef29d..2fc1a57161 100644
        <Filter>Python</Filter>
      </ClCompile>
 -- 
-2.30.2
+2.34.1
 

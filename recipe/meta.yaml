@@ -82,7 +82,6 @@ source:
       - patches/0023-Unvendor-tcltk.patch
       - patches/0024-unvendor-xz.patch
       - patches/0025-unvendor-zlib.patch
-      - patches/0026-bpo-45350-Rerun-autoreconf-with-the-pkg-config-macro.patch
 
 build:
   number: {{ build_number }}

@@ -1,7 +1,7 @@
-From fd2ed84332de0815cc0e26171fbc5093ef28ffde Mon Sep 17 00:00:00 2001
+From 6c567c8d0b17220760a207e321c9fc5c8ed7314b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
-Subject: [PATCH 25/25] unvendor zlib
+Subject: [PATCH] unvendor zlib
 
 ---
  PCbuild/pythoncore.vcxproj         | 31 ++------------
@@ -9,7 +9,7 @@ Subject: [PATCH 25/25] unvendor zlib
  2 files changed, 4 insertions(+), 93 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 8da161b446..8f9852511a 100644
+index 4bc03d4..5330841 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -31,8 +31,8 @@ index 8da161b446..8f9852511a 100644
        <PreprocessorDefinitions Condition="$(IncludeExternals)">_Py_HAVE_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
      </ClCompile>
      <Link>
--      <AdditionalDependencies>version.lib;shlwapi.lib;ws2_32.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
-+      <AdditionalDependencies>version.lib;shlwapi.lib;ws2_32.lib;pathcch.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
 +      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
      </Link>
    </ItemDefinitionGroup>
@@ -76,7 +76,7 @@ index 8da161b446..8f9852511a 100644
    <ItemGroup>
      <ClCompile Include="..\PC\dl_nt.c" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 55b57ef29d..2fc1a57161 100644
+index dfe2b27..52d4750 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
 @@ -606,39 +606,6 @@
@@ -160,5 +160,5 @@ index 55b57ef29d..2fc1a57161 100644
        <Filter>Python</Filter>
      </ClCompile>
 -- 
-2.30.2
+2.34.1
 

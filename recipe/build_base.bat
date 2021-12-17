@@ -125,7 +125,7 @@ move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
 if errorlevel 1 exit 1
 
 :: Populate the tcl directory
-xcopy /s /y /i %SRC_DIR%\externals\tcltk-8.6.9.0\%BUILD_PATH%\lib %PREFIX%\tcl
+xcopy /s /y /i %SRC_DIR%\externals\tcltk-8.6.12.0\%BUILD_PATH%\lib %PREFIX%\tcl
 if errorlevel 1 exit 1
 
 :: Populate the include directory

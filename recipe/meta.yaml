@@ -1,4 +1,4 @@
-{% set version = "3.9.7" %}
+{% set version = "3.9.9" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -47,7 +47,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: fddb060b483bc01850a3f412eea1d954
+    md5: 11d12076311563252a995201248d17e5
 {% endif %}
     patches:
       - patches/0001-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch

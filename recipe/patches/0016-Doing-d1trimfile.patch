@@ -1,4 +1,4 @@
-From 9aa46bd471a32c46bcae1f2ce65d69ddb5fb52fe Mon Sep 17 00:00:00 2001
+From 568ae03ad16bc69bcc9f44ae9576c644bbcd2e0f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 16/25] Doing d1trimfile
@@ -672,7 +672,7 @@ index fb27e9e712..f8dc841ef1 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 0382977d6c..8da161b446 100644
+index c39ba3e1a9..68cf73be35 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@
@@ -877,5 +877,5 @@ index dd830b3b6a..fef2c5b9f4 100644
        <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
 -- 
-2.30.2
+2.34.1
 

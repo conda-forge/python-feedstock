@@ -1,4 +1,4 @@
-From bf782b0d9d36d3733d981e30852206280d4aad45 Mon Sep 17 00:00:00 2001
+From e4f56875967ad4c156429d45cfab9cb25875aa4d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 2 Jan 2019 21:38:48 +0000
 Subject: [PATCH 12/25] venv: Revert a change from
@@ -13,10 +13,10 @@ Also, on Anaconda Distribution, python.exe lives in sys.prefix.
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/Lib/venv/__init__.py b/Lib/venv/__init__.py
-index 8009deb3ea..e4fd6db818 100644
+index ce1f5d710a..77730f37e5 100644
 --- a/Lib/venv/__init__.py
 +++ b/Lib/venv/__init__.py
-@@ -220,7 +220,12 @@ def symlink_or_copy(self, src, dst, relative_symlinks_ok=False):
+@@ -234,7 +234,12 @@ def symlink_or_copy(self, src, dst, relative_symlinks_ok=False):
                      basename = 'venvwlauncher'
                  src = os.path.join(os.path.dirname(src), basename + ext)
              else:
@@ -30,7 +30,7 @@ index 8009deb3ea..e4fd6db818 100644
              if not os.path.exists(src):
                  if not bad_src:
                      logger.warning('Unable to copy %r', src)
-@@ -238,9 +243,9 @@ def setup_python(self, context):
+@@ -252,9 +257,9 @@ def setup_python(self, context):
          binpath = context.bin_path
          path = context.env_exe
          copier = self.symlink_or_copy
@@ -42,5 +42,5 @@ index 8009deb3ea..e4fd6db818 100644
                  os.chmod(path, 0o755)
              for suffix in ('python', 'python3', f'python3.{sys.version_info[1]}'):
 -- 
-2.30.2
+2.34.1
 

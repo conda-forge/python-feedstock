@@ -1,4 +1,4 @@
-From cd6889b235274585ae4beff8fd655aefb66bf094 Mon Sep 17 00:00:00 2001
+From b046127239a58710e9fe21af960a5545516acc01 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 5 Oct 2017 02:00:41 +0100
 Subject: [PATCH 05/25] runtime_library_dir_option: Use 1st word of CC as
@@ -12,10 +12,10 @@ not get detected as gcc (or whatever it actually is).
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Lib/distutils/unixccompiler.py b/Lib/distutils/unixccompiler.py
-index f0792de74a..2445a5f348 100644
+index d00c48981e..54dd556fe5 100644
 --- a/Lib/distutils/unixccompiler.py
 +++ b/Lib/distutils/unixccompiler.py
-@@ -231,7 +231,8 @@ def runtime_library_dir_option(self, dir):
+@@ -232,7 +232,8 @@ def runtime_library_dir_option(self, dir):
          # this time, there's no way to determine this information from
          # the configuration data stored in the Python installation, so
          # we use this hack.
@@ -26,5 +26,5 @@ index f0792de74a..2445a5f348 100644
              # MacOSX's linker doesn't understand the -R flag at all
              return "-L" + dir
 -- 
-2.30.2
+2.34.1
 

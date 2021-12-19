@@ -1,4 +1,4 @@
-From 2ba3c685f214652bc36149c574c16ac68fc37d35 Mon Sep 17 00:00:00 2001
+From 03356ce9fe231a73da55457d9c2e38716eb2ba95 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
 Subject: [PATCH 11/25] Unvendor sqlite3
@@ -52,7 +52,7 @@ index 3507b97279..2b4ac3258c 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 306f4d4658..f29293a0f4 100644
+index d2b848636e..d647cce36a 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -58,7 +58,7 @@
@@ -88,5 +88,5 @@ index e39e2d9c22..63d1c27fbc 100644
    <ItemDefinitionGroup>
      <ClCompile>
 -- 
-2.30.2
+2.34.1
 

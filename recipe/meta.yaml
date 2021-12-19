@@ -50,35 +50,31 @@ source:
     md5: 11d12076311563252a995201248d17e5
 {% endif %}
     patches:
-      - patches/0001-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
-      - patches/0002-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - patches/0003-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - patches/0004-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - patches/0005-Support-cross-compiling-byte-code.patch
-      - patches/0006-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - patches/0007-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - patches/0008-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - patches/0009-Win32-Do-not-download-externals.patch
-      - patches/0010-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      - patches/0011-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0012-Disable-new-dtags-in-unixccompiler.py.patch
-      - patches/0013-Fix-cross-compilation-on-Debian-based-distros.patch
-      - patches/0014-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      - patches/0015-Unvendor-openssl.patch
-      - patches/0016-Unvendor-sqlite3.patch
-      - patches/0017-venv-Revert-a-change-from-https-github.com-python-cp.patch
-      - patches/0018-Win-Add-back-the-DLLSuffix-used-to-find-the-openssl-.patch
-      - patches/0019-Use-ranlib-from-env-if-env-variable-is-set.patch
-      - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
-      - patches/0021-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
-      - patches/0022-Doing-d1trimfile.patch
-      - patches/0023-egg-debugging-with-Windows-debug-builds.patch
-      - patches/0024-Add-CONDA_DLL_SEARCH_MODIFICATION_KEEP_GIL-to-aid-de.patch
-      - patches/0025-cross-compile-darwin.patch
-      - patches/0026-Fix-TZPATH-on-windows.patch
-      # see python/cpython#24324
-      - patches/0027-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
-      - patches/0028-Fix-distutils-ldshared-overriding-when-a-compiler-is.patch
+      - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - patches/0002-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - patches/0003-Support-cross-compiling-byte-code.patch
+      - patches/0004-bpo-45258-search-for-isysroot-in-addition-to-sysroot.patch
+      - patches/0005-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - patches/0006-Win32-Do-not-download-externals.patch
+      - patches/0007-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0008-bpo-22699-Allow-compiling-on-debian-ubuntu-with-a-di.patch
+      - patches/0009-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - patches/0010-Unvendor-openssl.patch
+      - patches/0011-Unvendor-sqlite3.patch
+      - patches/0012-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      - patches/0013-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0014-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0015-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
+      - patches/0016-Doing-d1trimfile.patch
+      - patches/0017-cross-compile-darwin.patch
+      - patches/0018-Fix-TZPATH-on-windows.patch
+      - patches/0019-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
+      - patches/0020-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
+      - patches/0021-Unvendor-bzip2.patch
+      - patches/0022-Unvendor-libffi.patch
+      - patches/0023-Unvendor-tcltk.patch
+      - patches/0024-unvendor-xz.patch
+      - patches/0025-unvendor-zlib.patch
       - patches/0029-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
 
   # TODO :: Depend on our own packages for these:
@@ -203,7 +199,7 @@ outputs:
         - bzip2  # [not win]
         - sqlite
         - xz  # [not win]
-        - zlib  # [not win]
+        - zlib
         - openssl
         - readline  # [not win]
         - tk  # [not win]

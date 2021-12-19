@@ -14,6 +14,8 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '11'
+libffi:
+- '3.4'
 macos_machine:
 - arm64-apple-darwin20.0.0
 ncurses:
@@ -23,6 +25,8 @@ openssl:
 pin_run_as_build:
   bzip2:
     max_pin: x
+  libffi:
+    max_pin: x.x
   ncurses:
     max_pin: x.x
   python:

@@ -53,60 +53,35 @@ source:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
       - patches/0003-Support-cross-compiling-byte-code.patch
+      # https://github.com/python/cpython/pull/28501
       - patches/0004-bpo-45258-search-for-isysroot-in-addition-to-sysroot.patch
+      # https://github.com/pypa/distutils/pull/54
       - patches/0005-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
       - patches/0006-Win32-Do-not-download-externals.patch
       - patches/0007-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      # https://github.com/python/cpython/pull/28397
       - patches/0008-bpo-22699-Allow-compiling-on-debian-ubuntu-with-a-di.patch
       - patches/0009-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
       - patches/0010-Unvendor-openssl.patch
       - patches/0011-Unvendor-sqlite3.patch
       - patches/0012-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      # https://github.com/pypa/distutils/pull/53
       - patches/0013-Use-ranlib-from-env-if-env-variable-is-set.patch
       - patches/0014-Add-CondaEcosystemModifyDllSearchPath.patch
       - patches/0015-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
       - patches/0016-Doing-d1trimfile.patch
+      # https://github.com/python/cpython/pull/23523
       - patches/0017-cross-compile-darwin.patch
       - patches/0018-Fix-TZPATH-on-windows.patch
+      # https://github.com/python/cpython/pull/24324
       - patches/0019-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
+      # https://github.com/pypa/distutils/pull/53
       - patches/0020-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
       - patches/0021-Unvendor-bzip2.patch
       - patches/0022-Unvendor-libffi.patch
       - patches/0023-Unvendor-tcltk.patch
       - patches/0024-unvendor-xz.patch
       - patches/0025-unvendor-zlib.patch
-      - patches/0029-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
-
-  # TODO :: Depend on our own packages for these:
-  - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip  # [win]
-    folder: externals/xz-5.2.2  # [win]
-    sha256: 02b6d6f1e0369940e7e1f0d324992e069d09f5f3d32d86e2d22cd8b82ac3fb3f  # [win]
-  # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/tcl-core-8.6.12.0.zip  # [win]
-    folder: externals/tcl-core-8.6.12.0  # [win]
-    sha256: 0682e059dd2ec77b16384a98a65b93e5e719958863506b37235a3a26e9f47773  # [win]
-  # Not used as of 3.7b3 (tcltk from cpython-bin- is), but kept for archival and license reasons.
-  - url: https://github.com/python/cpython-source-deps/archive/tk-8.6.12.0.zip  # [win]
-    folder: externals/tk-8.6.12.0  # [win]
-    sha256: 7d61434b941b395526b09f65273212df86681afc835b36494ca7c5bd9d8d3d50  # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/tcltk-8.6.12.0.zip  # [win]
-    folder: externals/tcltk-8.6.12.0  # [win]
-    sha256: 3a55e9e9fcb754b5a484a22d54841153f7624dd30f7b0c81b1cb05f38e2b5216  # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/tix-8.4.3.6.zip  # [win]
-    folder: externals/tix-8.4.3.6  # [win]
-    sha256: e558e3dc5e67ac0942f8fceafce00ca46b177da9ebeaf38ec7fafd9b9913ac56  # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/bzip2-1.0.6.zip  # [win]
-    folder: externals/bzip2-1.0.6  # [win]
-    sha256: c42fd1432a2667b964a74bc423bb7485059c4a6d5dc92946d59dbf9a6bdb988d  # [win]
-  - url: https://github.com/python/cpython-source-deps/archive/zlib-1.2.11.zip  # [win]
-    folder: externals/zlib-1.2.11  # [win]
-    sha256: debb1952945fa6c25817a40abe90641b572c83171f244937b70b9fe156f5a63a  # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/nasm-2.11.06.zip  # [win]
-    folder: externals/nasm-2.11.06  # [win]
-    sha256: de3c87b26a80e789986d8e6950c6304175d3829afe9c6c7211eb7257266ab0ac  # [win]
-  - url: https://github.com/python/cpython-bin-deps/archive/libffi-3.3.0.zip  # [win]
-    folder: externals/libffi-3.3.0  # [win]
-    sha256: 69e3f7235108a75033cb9325a0a3535ba271d144ec66fccefe134eda27d7bcfe  # [win]
 
 build:
   number: {{ build_number }}
@@ -133,10 +108,8 @@ outputs:
       no_link:
         - DLLs/_ctypes.pyd  # [win]
       ignore_run_exports_from:   # [unix]
-        # We delete the shared bzip2 library
-        - bzip2             # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
-        - {{ compiler('cxx') }}
+        - {{ compiler('cxx') }}  # [unix]
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -151,7 +124,7 @@ outputs:
       # match python.org compiler standard
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
-        - '*.py'            # [osx and arm64]
+        - '*.py'            # [build_platform != target_platform]
       string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
 {% if 'conda-forge' in channel_targets %}
@@ -185,7 +158,6 @@ outputs:
         - {{ compiler('cxx') }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}  # [linux]
-        - {{ cdt('libuuid-devel') }}  # [linux and not (ppc64le or aarch64)]
         - make  # [not win]
         - libtool  # [unix]
         - pkg-config  # [not win]
@@ -196,32 +168,33 @@ outputs:
         - binutils_impl_{{ target_platform }}  # [linux]
 {% endif %}
       host:
-        - bzip2  # [not win]
+        - bzip2
         - sqlite
-        - xz  # [not win]
+        - xz
         - zlib
         - openssl
         - readline  # [not win]
-        - tk  # [not win]
+        - tk
         - ncurses  # [unix]
-        - libffi   # [not (win or (osx and arm64))]
+        - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
-        - libnsl   # [linux]
+        - libnsl  # [linux]
+        - libuuid  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
 {% if 'conda-forge' in channel_targets %}
-        - ncurses  # [unix]
       run_constrained:
         - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
 {% endif %}
     test:
       downstreams:
-        - cython
-        - setuptools
+        # Temporarily disable dowmstream tests on aarch64 as the solver causes timeouts on drone
+        - cython  # [not aarch64]
+        - setuptools  # [not aarch64]
       requires:
         - ripgrep
-        - cmake >=3.10
+        - cmake
         - ninja
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
@@ -231,6 +204,7 @@ outputs:
         - tests/cmake/*
         - tests/cython/*
         - tests/prefix-replacement/*
+        - run_test.py
       commands:
         - echo on  # [win]
         - set  # [win]
@@ -279,6 +253,7 @@ outputs:
               # --trace --debug-output --debug-trycompile .
         - popd
         - popd
+        - python run_test.py
         - test ! -f default.profraw   # [osx]
 
   - name: libpython-static
@@ -303,10 +278,17 @@ outputs:
       run:
         - {{ pin_subpackage('python', exact=True) }}
     test:
+      files:
+        - tests/prefix-replacement/*
+      requires:
+        - {{ compiler('c') }}
       commands:
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
         - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
+        - pushd tests/prefix-replacement    # [unix]
+        - bash build-and-test.sh      # [unix]
+        - popd    # [unix]
 
 about:
   home: https://www.python.org/

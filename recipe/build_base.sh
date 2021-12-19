@@ -69,12 +69,6 @@ test "${PY_VER}" = "${VER}"
 unset _PYTHON_SYSCONFIGDATA_NAME
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
-# Remove bzip2's shared library if present,
-# as we only want to link to it statically.
-# This is important in cases where conda
-# tries to update bzip2.
-find "${PREFIX}/lib" -name "libbz2*${SHLIB_EXT}*" | xargs rm -fv {}
-
 # Prevent lib/python${VER}/_sysconfigdata_*.py from ending up with full paths to these things
 # in _build_env because _build_env will not get found during prefix replacement, only _h_env_placeh ...
 AR=$(basename "${AR}")
@@ -105,6 +99,10 @@ fi
 
 if [[ ${CONDA_FORGE} == yes ]]; then
   ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
+fi
+
+if [[ "$target_platform" == linux-* ]]; then
+  cp ${PREFIX}/include/uuid/uuid.h ${PREFIX}/include/uuid.h
 fi
 
 declare -a LTO_CFLAGS=()
@@ -455,6 +453,8 @@ pushd "${PREFIX}"/lib/python${VER}
   # Remove unfilled config option
   sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
   sed -i.bak "s@$BUILD_PREFIX/bin/${HOST}-llvm-ar@${HOST}-ar@g" sysconfigfile
+  # Remove GNULD=yes to make sure new-dtags are not used
+  sed -i.bak "s/'GNULD': 'yes'/'GNULD': 'no'/g" sysconfigfile
   cp sysconfigfile ${our_compilers_name}
 
   sed -i.bak "s@${HOST}@${OLD_HOST}@g" sysconfigfile
@@ -482,6 +482,9 @@ pushd "${PREFIX}"/lib/python${VER}
   # Cleanup some extra spaces from above
   sed -i.bak "s@' [ ]*@'@g" sysconfigfile
   cp sysconfigfile $recorded_name
+  echo "========================sysconfig==========================="
+  cat $recorded_name
+  echo "============================================================"
 
   rm sysconfigfile
   rm sysconfigfile.bak
@@ -499,3 +502,6 @@ rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
 rm ${PREFIX}/lib/libpython${VER}.a
+if [[ "$target_platform" == linux-* ]]; then
+  rm ${PREFIX}/include/uuid.h
+fi

@@ -1,3 +1,4 @@
+import os
 import platform
 import sys
 import subprocess
@@ -59,7 +60,6 @@ import lzma
 import math
 import mmap
 import operator
-import parser
 import pyexpat
 import select
 import time
@@ -93,13 +93,10 @@ if not (armv6l or armv7l or ppc64le or osx105):
     import _tkinter
     print('TK_VERSION: %s' % _tkinter.TK_VERSION)
     print('TCL_VERSION: %s' % _tkinter.TCL_VERSION)
-    if sys.platform == 'win32':
-        TCLTK_VER = '8.6'
-    else:
-        TCLTK_VER = os.getenv("tk")
+    TCLTK_VER = os.getenv("tk")
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
 
 import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
-if sys.platform != 'win32':
-    assert '1.1.1' in ssl.OPENSSL_VERSION
+CONDA_OPENSSL_VERSION = os.getenv("openssl")
+assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION

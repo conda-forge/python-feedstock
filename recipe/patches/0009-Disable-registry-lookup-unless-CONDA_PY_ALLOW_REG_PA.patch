@@ -1,41 +1,47 @@
-From 4571d1454d6461485f484cfa2b2ffc10a1622339 Mon Sep 17 00:00:00 2001
+From 0d6813ab281b7f4798758114378cf04bf35205f5 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
 Subject: [PATCH 09/25] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
  is not 0
 
 ---
- PC/getpathp.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ Modules/getpath.c  | 1 +
+ Modules/getpath.py | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/PC/getpathp.c b/PC/getpathp.c
-index 7c0eeab5db..a73ea8a0e9 100644
---- a/PC/getpathp.c
-+++ b/PC/getpathp.c
-@@ -778,13 +778,18 @@ calculate_module_search_path(PyCalculatePath *calculate,
-                              const wchar_t *zip_path)
- {
-     int skiphome = calculate->home==NULL ? 0 : 1;
--#ifdef Py_ENABLE_SHARED
--    if (!Py_IgnoreEnvironmentFlag) {
--        calculate->machine_path = getpythonregpath(HKEY_LOCAL_MACHINE,
--                                                   skiphome);
-+    char * allow_registry_paths = getenv("CONDA_PY_ALLOW_REG_PATHS");
-+    if (!Py_IgnoreEnvironmentFlag && allow_registry_paths && allow_registry_paths[0] != '0')
-+    {
-+        calculate->machine_path = getpythonregpath(HKEY_LOCAL_MACHINE, skiphome);
-         calculate->user_path = getpythonregpath(HKEY_CURRENT_USER, skiphome);
-     }
--#endif
-+    else
-+    {
-+        calculate->machine_path = NULL;
-+        calculate->user_path = NULL;
-+    }
-+
-     /* We only use the default relative PYTHONPATH if we haven't
-        anything better to use! */
-     int skipdefault = (calculate->pythonpath_env != NULL ||
+diff --git a/Modules/getpath.c b/Modules/getpath.c
+index fedb41cdb3..0bc19a4638 100644
+--- a/Modules/getpath.c
++++ b/Modules/getpath.c
+@@ -890,6 +890,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
+         !env_to_dict(dict, "ENV_PYTHONHOME", 0) ||
+         !env_to_dict(dict, "ENV_PYTHONEXECUTABLE", 0) ||
+         !env_to_dict(dict, "ENV___PYVENV_LAUNCHER__", 1) ||
++        !env_to_dict(dict, "ENV_CONDA_PY_ALLOW_REG_PATHS", 0) ||
+         !progname_to_dict(dict, "real_executable") ||
+         !library_to_dict(dict, "library") ||
+         !wchar_to_dict(dict, "executable_dir", NULL) ||
+diff --git a/Modules/getpath.py b/Modules/getpath.py
+index 84c9760b11..41d3570407 100644
+--- a/Modules/getpath.py
++++ b/Modules/getpath.py
+@@ -50,6 +50,7 @@
+ # ENV_PYTHONHOME          -- [in] getenv(...)
+ # ENV_PYTHONEXECUTABLE    -- [in] getenv(...)
+ # ENV___PYVENV_LAUNCHER__ -- [in] getenv(...)
++# ENV_CONDA_PY_ALLOW_REG_PATHS -- [in] getenv(...)
+ 
+ # ** Values calculated at runtime **
+ # config            -- [in/out] dict of the PyConfig structure
+@@ -632,7 +633,7 @@ def search_up(prefix, *landmarks, test=isfile):
+     else:
+         pythonpath.append(joinpath(prefix, ZIP_LANDMARK))
+ 
+-    if os_name == 'nt' and use_environment and winreg:
++    if os_name == 'nt' and use_environment and winreg and ENV_CONDA_PY_ALLOW_REG_PATHS != '0':
+         # QUIRK: Windows also lists paths in the registry. Paths are stored
+         # as the default value of each subkey of
+         # {HKCU,HKLM}\Software\Python\PythonCore\{winver}\PythonPath
 -- 
 2.34.1
 

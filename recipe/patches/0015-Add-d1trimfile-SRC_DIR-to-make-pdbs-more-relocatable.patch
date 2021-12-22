@@ -1,4 +1,4 @@
-From eee9b091ddc99b1a41b92dde2dee2344b5efa97a Mon Sep 17 00:00:00 2001
+From c66af453d041b531dfd78788bb72bcf4cb9d3e37 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 20:46:36 +0100
 Subject: [PATCH 15/25] Add /d1trimfile:%SRC_DIR% to make pdbs more relocatable

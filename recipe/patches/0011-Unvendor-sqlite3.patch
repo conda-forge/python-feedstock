@@ -1,4 +1,4 @@
-From 03356ce9fe231a73da55457d9c2e38716eb2ba95 Mon Sep 17 00:00:00 2001
+From 78f70f3d7b54e9319190187c590a3a8620b1b3df Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
 Subject: [PATCH 11/25] Unvendor sqlite3
@@ -11,7 +11,7 @@ Subject: [PATCH 11/25] Unvendor sqlite3
  4 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 5eb8559d29..fcdee1be60 100644
+index e268c473f4..0d18a0c5dd 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -93,8 +93,11 @@
@@ -26,8 +26,8 @@ index 5eb8559d29..fcdee1be60 100644
 +    </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-     <ClInclude Include="..\Modules\_sqlite\cache.h" />
-@@ -126,10 +129,6 @@
+     <ClInclude Include="..\Modules\_sqlite\connection.h" />
+@@ -124,10 +127,6 @@
        <Project>{cf7ac3d1-e2df-41d2-bea6-1e2556cdea26}</Project>
        <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
      </ProjectReference>
@@ -39,10 +39,10 @@ index 5eb8559d29..fcdee1be60 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 3507b97279..2b4ac3258c 100644
+index 3629a8508a..94148c9ee3 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
-@@ -55,8 +55,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyexpat", "pyexpat.vcxproj"
+@@ -58,8 +58,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyexpat", "pyexpat.vcxproj"
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_hashlib", "_hashlib.vcxproj", "{447F05A8-F581-4CAC-A466-5AC7936E207E}"
  EndProject
@@ -52,20 +52,20 @@ index 3507b97279..2b4ac3258c 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index d2b848636e..d647cce36a 100644
+index 2d11e0edbf..47747f0a4d 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -58,7 +58,7 @@
      <condaDir>$(LIBRARY_PREFIX)\</condaDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
--    <sqlite3Dir>$(ExternalsDir)sqlite-3.35.5.0\</sqlite3Dir>
+-    <sqlite3Dir>$(ExternalsDir)sqlite-3.36.0.0\</sqlite3Dir>
 +    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
      <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
-     <libffiDir>$(ExternalsDir)libffi-3.3.0\</libffiDir>
+     <libffiDir>$(ExternalsDir)libffi-3.4.2\</libffiDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index e39e2d9c22..63d1c27fbc 100644
+index 310795c4e4..822d00de59 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
 @@ -88,12 +88,12 @@

@@ -1,4 +1,4 @@
-From 9e2d94d0fc6cb6e6c1eb4d6595f5543afdd0046d Mon Sep 17 00:00:00 2001
+From 494641ad3f8652ea6550c486569616972685d906 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
 Subject: [PATCH 08/25] bpo-22699: Allow compiling on debian/ubuntu with a
@@ -12,10 +12,10 @@ patch than given
  1 file changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 554699608d..d5bbeb90d5 100644
+index 2ca51ecfd7..6cc1b114a8 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -667,9 +667,30 @@ def check_extension_import(self, ext):
+@@ -758,9 +758,30 @@ def check_extension_import(self, ext):
      def add_multiarch_paths(self):
          # Debian/Ubuntu multiarch support.
          # https://wiki.ubuntu.com/MultiarchSpec

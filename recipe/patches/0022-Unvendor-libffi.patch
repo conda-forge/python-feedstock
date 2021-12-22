@@ -1,14 +1,14 @@
-From 2f95468fdee980dd9aa87a404faea9ec7f410862 Mon Sep 17 00:00:00 2001
+From 7cc71f89d046749b935658270c80f73fa2eab05c Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 03:07:40 -0700
 Subject: [PATCH 22/25] Unvendor libffi
 
 ---
- PCbuild/libffi.props | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ PCbuild/libffi.props | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
 diff --git a/PCbuild/libffi.props b/PCbuild/libffi.props
-index 975c4a0d35..97fb5966bf 100644
+index 22c9550e2c..40ddb08d2b 100644
 --- a/PCbuild/libffi.props
 +++ b/PCbuild/libffi.props
 @@ -2,20 +2,11 @@
@@ -20,13 +20,13 @@ index 975c4a0d35..97fb5966bf 100644
      </ClCompile>
      <Link>
 -      <AdditionalLibraryDirectories>$(libffiOutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
--      <AdditionalDependencies>libffi-7.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <AdditionalDependencies>libffi-8.lib;%(AdditionalDependencies)</AdditionalDependencies>
 +      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 +      <AdditionalDependencies>ffi.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
    </ItemDefinitionGroup>
 -  <ItemGroup>
--    <_LIBFFIDLL Include="$(libffiOutDir)\libffi-7.dll" />
+-    <_LIBFFIDLL Include="$(libffiOutDir)\libffi-8.dll" />
 -  </ItemGroup>
 -  <Target Name="_CopyLIBFFIDLL" Inputs="@(_LIBFFIDLL)" Outputs="@(_LIBFFIDLL->'$(OutDir)%(Filename)%(Extension)')" AfterTargets="Build">
 -    <Copy SourceFiles="@(_LIBFFIDLL)" DestinationFolder="$(OutDir)" />
@@ -34,8 +34,9 @@ index 975c4a0d35..97fb5966bf 100644
 -  <Target Name="_CleanLIBFFIDLL" BeforeTargets="Clean">
 -    <Delete Files="@(_LIBFFIDLL->'$(OutDir)%(Filename)%(Extension)')" TreatErrorsAsWarnings="true" />
 -  </Target>
- </Project>
+-</Project>
 \ No newline at end of file
++</Project>
 -- 
 2.34.1
 

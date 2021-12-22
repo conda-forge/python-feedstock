@@ -1,15 +1,15 @@
-From a81fbe4dbf92566fc3854f905aa3948864cf47ab Mon Sep 17 00:00:00 2001
+From 4e61c40dde8bde661afea3d6e511fed759f4ac3b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 25/25] unvendor zlib
 
 ---
- PCbuild/pythoncore.vcxproj         | 31 ++------------
- PCbuild/pythoncore.vcxproj.filters | 66 ------------------------------
- 2 files changed, 4 insertions(+), 93 deletions(-)
+ PCbuild/pythoncore.vcxproj         | 32 +++-----------
+ PCbuild/pythoncore.vcxproj.filters | 68 +-----------------------------
+ 2 files changed, 6 insertions(+), 94 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 68cf73be35..16ccc8a349 100644
+index acb7a189b8..e895dcb99b 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -21,7 +21,7 @@ index 68cf73be35..16ccc8a349 100644
      <IncludeExternals Condition="$(IncludeExternals) == ''">false</IncludeExternals>
    </PropertyGroup>
    <ImportGroup Label="PropertySheets">
-@@ -101,12 +101,13 @@
+@@ -101,12 +101,14 @@
      <ClCompile>
        <AdditionalOptions>/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalIncludeDirectories>$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -31,13 +31,14 @@ index 68cf73be35..16ccc8a349 100644
        <PreprocessorDefinitions Condition="$(IncludeExternals)">_Py_HAVE_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
      </ClCompile>
      <Link>
--      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
 +      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
 +      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -301,19 +302,6 @@
+@@ -318,19 +320,6 @@
      <ClInclude Include="..\Python\thread_nt.h" />
      <ClInclude Include="..\Python\wordcode_helpers.h" />
    </ItemGroup>
@@ -57,8 +58,8 @@ index 68cf73be35..16ccc8a349 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_abc.c" />
      <ClCompile Include="..\Modules\_bisectmodule.c" />
-@@ -496,17 +484,6 @@
-   </ItemGroup>
+@@ -542,17 +531,6 @@
+     </ItemGroup>
    <ItemGroup Condition="$(IncludeExternals)">
      <ClCompile Include="..\Modules\zlibmodule.c" />
 -    <ClCompile Include="$(zlibDir)\adler32.c" />
@@ -76,10 +77,10 @@ index 68cf73be35..16ccc8a349 100644
    <ItemGroup>
      <ClCompile Include="..\PC\dl_nt.c" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 55b57ef29d..2fc1a57161 100644
+index c1667e3fb7..ff661ecb9b 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
-@@ -606,39 +606,6 @@
+@@ -615,39 +615,6 @@
      <ClInclude Include="..\Include\internal\pycore_unionobject.h">
        <Filter>Include\internal</Filter>
      </ClInclude>
@@ -116,10 +117,10 @@ index 55b57ef29d..2fc1a57161 100644
 -    <ClInclude Include="$(zlibDir)\zutil.h">
 -      <Filter>Modules\zlib</Filter>
 -    </ClInclude>
-   </ItemGroup>
-   <ItemGroup>
-     <ClCompile Include="..\Modules\_abc.c">
-@@ -1151,39 +1118,6 @@
+     <ClInclude Include="..\Include\internal\pycore_structseq.h">
+       <Filter>Include\internal</Filter>
+     </ClInclude>
+@@ -1163,39 +1130,6 @@
      <ClCompile Include="..\Modules\_contextvarsmodule.c">
        <Filter>Modules</Filter>
      </ClCompile>
@@ -159,6 +160,13 @@ index 55b57ef29d..2fc1a57161 100644
      <ClCompile Include="..\Python\hamt.c">
        <Filter>Python</Filter>
      </ClCompile>
+@@ -1250,4 +1184,4 @@
+       <Filter>Resource Files</Filter>
+     </ResourceCompile>
+   </ItemGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 -- 
 2.34.1
 

@@ -1,4 +1,4 @@
-From 2f28f86dd3aae14a00194b620490087a1207589a Mon Sep 17 00:00:00 2001
+From 1103a5b71aff6636a597dc1e509b738a1b95cc8d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 14/25] Add CondaEcosystemModifyDllSearchPath()
@@ -61,10 +61,10 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  3 files changed, 371 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index 2684d23067..f0bcb0616f 100644
+index b9bcea393a..ef1c55bdf8 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
-@@ -17,6 +17,10 @@
+@@ -18,6 +18,10 @@
  #endif
  #ifdef MS_WINDOWS
  #  include <windows.h>            // STATUS_CONTROL_C_EXIT
@@ -75,7 +75,7 @@ index 2684d23067..f0bcb0616f 100644
  #endif
  /* End of includes for exit_sigint() */
  
-@@ -680,10 +684,369 @@ Py_RunMain(void)
+@@ -686,10 +690,369 @@ Py_RunMain(void)
      return exitcode;
  }
  
@@ -446,10 +446,10 @@ index 2684d23067..f0bcb0616f 100644
      if (_PyStatus_IS_EXIT(status)) {
          pymain_free();
 diff --git a/Python/dynload_win.c b/Python/dynload_win.c
-index 5702ab2cd7..e2efd4c8ea 100644
+index 854b1e64c1..343b5c8ab1 100644
 --- a/Python/dynload_win.c
 +++ b/Python/dynload_win.c
-@@ -190,6 +190,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
+@@ -247,6 +247,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
             to avoid DLL preloading attacks and enable use of the
             AddDllDirectory function. We add SEARCH_DLL_LOAD_DIR to
             ensure DLLs adjacent to the PYD are preferred. */
@@ -461,10 +461,10 @@ index 5702ab2cd7..e2efd4c8ea 100644
          hDLL = LoadLibraryExW(wpathname, NULL,
                                LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index eeaf20b461..a32aa666e4 100644
+index 2b386a11f9..bd3bc70063 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
-@@ -101,7 +101,10 @@ _PyRuntime_Initialize(void)
+@@ -106,7 +106,10 @@ _PyRuntime_Initialize(void)
          return _PyStatus_OK();
      }
      runtime_initialized = 1;

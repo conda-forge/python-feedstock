@@ -1,5 +1,7 @@
+channel_targets:
+  - conda-forge python_alpha
 python:
-  - 3.10
+  - 3.11
 python_impl:
   - cpython
 numpy:

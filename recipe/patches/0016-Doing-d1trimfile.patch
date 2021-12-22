@@ -1,4 +1,4 @@
-From 568ae03ad16bc69bcc9f44ae9576c644bbcd2e0f Mon Sep 17 00:00:00 2001
+From 1e1312c0ba671f925df9e9fe300cea7447940a35 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 16/25] Doing d1trimfile
@@ -10,7 +10,6 @@ Subject: [PATCH 16/25] Doing d1trimfile
  PCbuild/_ctypes_test.vcxproj        | 20 ++++++++++++++++++++
  PCbuild/_decimal.vcxproj            |  4 ++++
  PCbuild/_elementtree.vcxproj        |  4 ++++
- PCbuild/_freeze_importlib.vcxproj   |  4 ++++
  PCbuild/_hashlib.vcxproj            | 12 ++++++++++++
  PCbuild/_lzma.vcxproj               |  4 ++++
  PCbuild/_msi.vcxproj                | 12 ++++++++++++
@@ -46,7 +45,7 @@ Subject: [PATCH 16/25] Doing d1trimfile
  PCbuild/winsound.vcxproj            | 12 ++++++++++++
  PCbuild/xxlimited.vcxproj           |  6 ++++++
  PCbuild/xxlimited_35.vcxproj        |  6 ++++++
- 42 files changed, 363 insertions(+), 3 deletions(-)
+ 41 files changed, 359 insertions(+), 3 deletions(-)
 
 diff --git a/PCbuild/_asyncio.vcxproj b/PCbuild/_asyncio.vcxproj
 index ed1e1bc0a4..47d322be5f 100644
@@ -156,13 +155,13 @@ index 0916f1a2d3..17a4cbfcd7 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index 4a125b243b..20cc09d63f 100644
+index 8da5244bac..dc64dd7d25 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -95,6 +95,10 @@
      <ClCompile>
        <AdditionalIncludeDirectories>..\Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_PYEXPAT_CAPI;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -170,21 +169,6 @@ index 4a125b243b..20cc09d63f 100644
      </ClCompile>
    </ItemDefinitionGroup>
    <ItemGroup>
-diff --git a/PCbuild/_freeze_importlib.vcxproj b/PCbuild/_freeze_importlib.vcxproj
-index e437412a16..c4d5886b9f 100644
---- a/PCbuild/_freeze_importlib.vcxproj
-+++ b/PCbuild/_freeze_importlib.vcxproj
-@@ -89,6 +89,10 @@
-   <ItemDefinitionGroup>
-     <ClCompile>
-       <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-     </ClCompile>
-     <Link>
-       <SubSystem>Console</SubSystem>
 diff --git a/PCbuild/_hashlib.vcxproj b/PCbuild/_hashlib.vcxproj
 index 6dad8183c5..6d3d37fdf9 100644
 --- a/PCbuild/_hashlib.vcxproj
@@ -347,7 +331,7 @@ index 8fd75f90e7..b403828291 100644
    <ItemGroup>
      <ClInclude Include="..\Modules\socketmodule.h" />
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index fcdee1be60..ec2680955f 100644
+index 0d18a0c5dd..ee46cd4093 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -94,6 +94,10 @@
@@ -584,13 +568,13 @@ index a6bd59ec0b..e5d2c4a674 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index b2d9f5d57d..26ac82980c 100644
+index 001f8afd89..3be4ac06dd 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -92,6 +92,10 @@
      <ClCompile>
        <AdditionalIncludeDirectories>$(PySourcePath)Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PYEXPAT_EXPORTS;HAVE_EXPAT_H;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PYEXPAT_EXPORTS;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -629,7 +613,7 @@ index ea432d6bc9..13bc692103 100644
      <Link>
        <AdditionalDependencies>version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 5dac66b4d0..ef27a30506 100644
+index 2d9ea6c21a..bdb937d82e 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -91,6 +91,10 @@
@@ -672,7 +656,7 @@ index fb27e9e712..f8dc841ef1 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index c39ba3e1a9..68cf73be35 100644
+index 119650a1ee..acb7a189b8 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@

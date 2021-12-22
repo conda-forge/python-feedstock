@@ -249,6 +249,11 @@ _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 _common_configure_args+=(--with-platlibdir=lib)
 
+if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
+  _common_configure_args+=("--with-freeze-module=${SRC_DIR}/build-python-build/Programs/_freeze_module")
+  _common_configure_args+=("--with-build-python=${BUILD_PYTHON_PREFIX}/bin/python${PY_VER}")
+fi
+
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then

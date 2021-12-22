@@ -471,8 +471,8 @@ pushd "${PREFIX}"/lib/python${VER}
     sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat@g" sysconfigfile
   fi
   # Don't set -march and -mtune for system gcc
-  sed -i.bak "s@-march=[a-z0-9]*@@g" sysconfigfile
-  sed -i.bak "s@-mtune=[a-z0-9]*@@g" sysconfigfile
+  sed -i.bak "s@-march=[^( |\\\"|\\\')]*@@g" sysconfigfile
+  sed -i.bak "s@-mtune=[^( |\\\"|\\\')]*@@g" sysconfigfile
   # Remove these flags that older compilers and linkers may not know
   for flag in "-fstack-protector-strong" "-ffunction-sections" "-pipe" "-fno-plt" \
             "-ftree-vectorize" "-Wl,--sort-common" "-Wl,--as-needed" "-Wl,-z,relro" \

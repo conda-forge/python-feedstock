@@ -1,7 +1,7 @@
-From 1103a5b71aff6636a597dc1e509b738a1b95cc8d Mon Sep 17 00:00:00 2001
+From 9de44cf26814f4e66c38b7a5c8b84d71638dc87f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
-Date: Tue, 24 Dec 2019 18:37:17 +0100
-Subject: [PATCH 14/25] Add CondaEcosystemModifyDllSearchPath()
+Date: Tue, 28 Dec 2021 09:54:58 +0100
+Subject: [PATCH] Add CondaEcosystemModifyDllSearchPath()
 
 There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 
@@ -54,31 +54,29 @@ From Shaun Walbridge:
 Fix CondaEcosystemModifyDllSearchPath for users of the Python DLL
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
+Co-authored-by: Uwe L. Korn <uwelk@xhochy.com>
 ---
- Modules/main.c       | 363 +++++++++++++++++++++++++++++++++++++++++++
- Python/dynload_win.c |   4 +
- Python/pylifecycle.c |   5 +-
- 3 files changed, 371 insertions(+), 1 deletion(-)
+ Modules/conda_ecosystem.c          | 357 +++++++++++++++++++++++++++++
+ Modules/main.c                     |   6 +
+ PCbuild/_freeze_module.vcxproj     |   1 +
+ PCbuild/pythoncore.vcxproj         |   1 +
+ PCbuild/pythoncore.vcxproj.filters |   3 +
+ Programs/_freeze_module.c          |   6 +
+ Python/dynload_win.c               |   4 +
+ Python/pylifecycle.c               |   4 +
+ 8 files changed, 382 insertions(+)
+ create mode 100644 Modules/conda_ecosystem.c
 
-diff --git a/Modules/main.c b/Modules/main.c
-index b9bcea393a..ef1c55bdf8 100644
---- a/Modules/main.c
-+++ b/Modules/main.c
-@@ -18,6 +18,10 @@
- #endif
- #ifdef MS_WINDOWS
- #  include <windows.h>            // STATUS_CONTROL_C_EXIT
-+#  include <shlwapi.h>
-+#  include <string.h>
-+#  include <malloc.h>
-+#  include <libloaderapi.h>
- #endif
- /* End of includes for exit_sigint() */
- 
-@@ -686,10 +690,369 @@ Py_RunMain(void)
-     return exitcode;
- }
- 
+diff --git a/Modules/conda_ecosystem.c b/Modules/conda_ecosystem.c
+new file mode 100644
+index 0000000000..3719ff2473
+--- /dev/null
++++ b/Modules/conda_ecosystem.c
+@@ -0,0 +1,357 @@
++#ifdef MS_WINDOWS
++#  include <windows.h>            // STATUS_CONTROL_C_EXIT
++#endif
++
 +#ifdef MS_WINDOWS
 +/* Please do not remove this function. It is needed for testing
 +   CondaEcosystemModifyDllSearchPath(). */
@@ -432,19 +430,78 @@ index b9bcea393a..ef1c55bdf8 100644
 +    return 0;
 +}
 +#endif
-+
- 
+diff --git a/Modules/main.c b/Modules/main.c
+index b9bcea393a..3207a62fa6 100644
+--- a/Modules/main.c
++++ b/Modules/main.c
+@@ -690,6 +690,12 @@ Py_RunMain(void)
  static int
  pymain_main(_PyArgv *args)
  {
 +#ifdef MS_WINDOWS
 +    /* LoadAndUnloadTestDLL(L"libiomp5md.dll"); */
++    extern int CondaEcosystemModifyDllSearchPath_Init();
 +    CondaEcosystemModifyDllSearchPath_Init(args->argc, args->wchar_argv);
 +    /* LoadAndUnloadTestDLL(L"libiomp5md.dll"); */
 +#endif
      PyStatus status = pymain_init(args);
      if (_PyStatus_IS_EXIT(status)) {
          pymain_free();
+diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
+index 07a6bfdde7..fe4dc6f89a 100644
+--- a/PCbuild/_freeze_module.vcxproj
++++ b/PCbuild/_freeze_module.vcxproj
+@@ -116,6 +116,7 @@
+     <ClCompile Include="..\Modules\_io\stringio.c" />
+     <ClCompile Include="..\Modules\_io\textio.c" />
+     <ClCompile Include="..\Modules\_io\winconsoleio.c" />
++    <ClCompile Include="..\Modules\conda_ecosystem.c" />
+     <ClCompile Include="..\Objects\abstract.c" />
+     <ClCompile Include="..\Objects\accu.c" />
+     <ClCompile Include="..\Objects\boolobject.c" />
+diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
+index e895dcb99b..2289f1285c 100644
+--- a/PCbuild/pythoncore.vcxproj
++++ b/PCbuild/pythoncore.vcxproj
+@@ -354,6 +354,7 @@
+     <ClCompile Include="..\Modules\getbuildinfo.c" />
+     <ClCompile Include="..\Modules\itertoolsmodule.c" />
+     <ClCompile Include="..\Modules\main.c" />
++    <ClCompile Include="..\Modules\conda_ecosystem.c" />
+     <ClCompile Include="..\Modules\mathmodule.c" />
+     <ClCompile Include="..\Modules\md5module.c" />
+     <ClCompile Include="..\Modules\mmapmodule.c" />
+diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
+index ff661ecb9b..087a9f1089 100644
+--- a/PCbuild/pythoncore.vcxproj.filters
++++ b/PCbuild/pythoncore.vcxproj.filters
+@@ -716,6 +716,9 @@
+     <ClCompile Include="..\Modules\main.c">
+       <Filter>Modules</Filter>
+     </ClCompile>
++    <ClCompile Include="..\Modules\conda_ecosystem.c">
++      <Filter>Modules</Filter>
++    </ClCompile>
+     <ClCompile Include="..\Modules\mathmodule.c">
+       <Filter>Modules</Filter>
+     </ClCompile>
+diff --git a/Programs/_freeze_module.c b/Programs/_freeze_module.c
+index e3f6c11c8b..e3da9c7ef3 100644
+--- a/Programs/_freeze_module.c
++++ b/Programs/_freeze_module.c
+@@ -191,6 +191,12 @@ main(int argc, char *argv[])
+ {
+     const char *name, *inpath, *outpath;
+ 
++#ifdef MS_WINDOWS
++    /* LoadAndUnloadTestDLL(L"libiomp5md.dll"); */
++    extern int CondaEcosystemModifyDllSearchPath_Init();
++    CondaEcosystemModifyDllSearchPath_Init(args->argc, args->wchar_argv);
++    /* LoadAndUnloadTestDLL(L"libiomp5md.dll"); */
++#endif
+     _PyImport_FrozenBootstrap = no_modules;
+     _PyImport_FrozenStdlib = no_modules;
+     _PyImport_FrozenTest = no_modules;
 diff --git a/Python/dynload_win.c b/Python/dynload_win.c
 index 854b1e64c1..343b5c8ab1 100644
 --- a/Python/dynload_win.c
@@ -461,14 +518,13 @@ index 854b1e64c1..343b5c8ab1 100644
          hDLL = LoadLibraryExW(wpathname, NULL,
                                LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index 2b386a11f9..bd3bc70063 100644
+index 2b386a11f9..720a757c20 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
-@@ -106,7 +106,10 @@ _PyRuntime_Initialize(void)
-         return _PyStatus_OK();
+@@ -107,6 +107,10 @@ _PyRuntime_Initialize(void)
      }
      runtime_initialized = 1;
--
+ 
 +#ifdef MS_WINDOWS
 +    extern int CondaEcosystemModifyDllSearchPath_Init();
 +    CondaEcosystemModifyDllSearchPath_Init();

@@ -1,7 +1,7 @@
-From 538c9baf6bd9c44d7dcd8a78499cb6d1ff6ea20a Mon Sep 17 00:00:00 2001
+From 9eb1b4ff8f9b338792747b4afff93f0f22a5aaa0 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 17/25] cross compile darwin
+Subject: [PATCH 17/26] cross compile darwin
 
 By Isuru Fernando.
 ---
@@ -30,7 +30,7 @@ index e32f9c11cd..5f7e46fb6c 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index c43c9dde15..8204d0bd97 100755
+index 0728c72566..96e91ef065 100755
 --- a/configure
 +++ b/configure
 @@ -3393,6 +3393,9 @@ if test "$cross_compiling" = yes; then
@@ -43,7 +43,7 @@ index c43c9dde15..8204d0bd97 100755
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -6239,7 +6242,7 @@ esac
+@@ -6250,7 +6253,7 @@ esac
    fi
  fi
  
@@ -53,7 +53,7 @@ index c43c9dde15..8204d0bd97 100755
  	readelf|:)
  	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index 6227a7cb08..662af6b0c8 100644
+index 86925d9166..890aae7ea1 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -448,6 +448,9 @@ if test "$cross_compiling" = yes; then
@@ -66,7 +66,7 @@ index 6227a7cb08..662af6b0c8 100644
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -1206,7 +1209,7 @@ then
+@@ -1211,7 +1214,7 @@ then
  fi
  
  AC_CHECK_TOOLS([READELF], [readelf], [:])
@@ -103,5 +103,5 @@ index d5bbeb90d5..e3354101e6 100644
              else:
                  ret = 1
 -- 
-2.34.1
+2.35.0
 

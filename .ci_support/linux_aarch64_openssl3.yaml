@@ -25,7 +25,7 @@ libffi:
 libuuid:
 - '2'
 ncurses:
-- '6.2'
+- '6'
 openssl:
 - '3'
 pin_run_as_build:
@@ -35,8 +35,6 @@ pin_run_as_build:
     max_pin: x.x
   libuuid:
     max_pin: x
-  ncurses:
-    max_pin: x.x
   python:
     min_pin: x.x
     max_pin: x.x

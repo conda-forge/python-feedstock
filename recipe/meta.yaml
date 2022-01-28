@@ -82,6 +82,8 @@ source:
       - patches/0023-Unvendor-tcltk.patch
       - patches/0024-unvendor-xz.patch
       - patches/0025-unvendor-zlib.patch
+      - patches/0026-Set-ssltag-to-3.patch
+      - patches/0027-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
 
 build:
   number: {{ build_number }}

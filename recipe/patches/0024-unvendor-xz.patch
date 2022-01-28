@@ -1,7 +1,7 @@
-From 186df68b7583583675cc8773d3d3314e7cd042a0 Mon Sep 17 00:00:00 2001
+From 5b4af000ebf6b79eeb3760daf9fcef6680a4e580 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sat, 25 Sep 2021 10:07:05 -0700
-Subject: [PATCH 24/26] unvendor xz
+Subject: [PATCH 24/27] unvendor xz
 
 ---
  PCbuild/_lzma.vcxproj | 10 +++-------
@@ -42,5 +42,5 @@ index 0565132363..e8b2704cee 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
 -- 
-2.34.1
+2.35.0
 

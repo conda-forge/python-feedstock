@@ -1,7 +1,7 @@
-From c84ac11f75503bd5bd342101d9d52c0df3361fb0 Mon Sep 17 00:00:00 2001
+From 40105691cc706acc992060c88b4edca6aac8b8a1 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 17/26] cross compile darwin
+Subject: [PATCH 17/27] cross compile darwin
 
 By Isuru Fernando.
 ---
@@ -103,5 +103,5 @@ index 178fa88029..5734df4fb0 100644
              else:
                  ret = 1
 -- 
-2.34.1
+2.35.0
 

@@ -1,7 +1,7 @@
-From 5e1d8b84e312270823b9f981dc5a23d95e673c12 Mon Sep 17 00:00:00 2001
+From 28415d0b7d77e1cdb7dcd65ce3ed58c13622af80 Mon Sep 17 00:00:00 2001
 From: Chris Burr <chrisburr@users.noreply.github.com>
 Date: Tue, 28 Sep 2021 12:40:44 +0200
-Subject: [PATCH 26/26] Set ssltag to 3
+Subject: [PATCH 26/27] Set ssltag to 3
 
 ---
  PCbuild/openssl.props | 4 ++--
@@ -42,5 +42,5 @@ index cb9221fddf..9c7226fdf1 100644
          <DefineConstants Condition="'$(CRTRedist)' != ''">
              $(DefineConstants);CRTRedist=$(CRTRedist);
 -- 
-2.34.1
+2.35.0
 

@@ -1,7 +1,7 @@
-From 5e866a8e46eb229348cb415d88c35669c6fdf52e Mon Sep 17 00:00:00 2001
+From 37a02bf2b13acba077e080ce0a26abd21d109bdd Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
-Subject: [PATCH 08/26] bpo-22699: Allow compiling on debian/ubuntu with a
+Subject: [PATCH 08/27] bpo-22699: Allow compiling on debian/ubuntu with a
  different compiler
 
 This PR fixes one issue mentioned in the bpo
@@ -49,5 +49,5 @@ index 36b56ad034..178fa88029 100644
              '%s -print-multiarch > %s 2> /dev/null' % (CC, tmpfile))
          multiarch_path_component = ''
 -- 
-2.34.1
+2.35.0
 

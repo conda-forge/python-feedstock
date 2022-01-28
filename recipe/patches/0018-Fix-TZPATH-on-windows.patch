@@ -1,7 +1,7 @@
-From 758a58a04f2c622c40a005f56ca41930d420dae8 Mon Sep 17 00:00:00 2001
+From a272dedb51226f16e1c9f228b3ce5667f97b3671 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
-Subject: [PATCH 18/26] Fix TZPATH on windows
+Subject: [PATCH 18/27] Fix TZPATH on windows
 
 ---
  Lib/sysconfig.py | 2 +-
@@ -21,5 +21,5 @@ index e3f79bfde5..3b5a506676 100644
              _init_posix(_CONFIG_VARS)
          # For backward compatibility, see issue19555
 -- 
-2.34.1
+2.35.0
 

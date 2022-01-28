@@ -1,7 +1,7 @@
-From 4e260ce1b1c514c0dfb9f2f5f5acbde3d936d3e0 Mon Sep 17 00:00:00 2001
+From 7e5fe75177d374d8867051f4512372004345a850 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
-Subject: [PATCH 19/26] Make dyld search work with SYSTEM_VERSION_COMPAT=1
+Subject: [PATCH 19/27] Make dyld search work with SYSTEM_VERSION_COMPAT=1
 
 In macOS Big Sur, if the executable was compiled with `MACOSX_DEPLOYMENT_TARGET=10.15`
 or below, then SYSTEM_VERSION_COMPAT=1 is the default which means that Big Sur
@@ -28,5 +28,5 @@ index 9aff890afe..3c5956b837 100644
  // Support the deprecated case of compiling on an older macOS version
  static void *libsystem_b_handle;
 -- 
-2.34.1
+2.35.0
 

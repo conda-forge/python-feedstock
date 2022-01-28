@@ -1,7 +1,7 @@
-From 568ae03ad16bc69bcc9f44ae9576c644bbcd2e0f Mon Sep 17 00:00:00 2001
+From 318a22baf1b7e0c786f2bce78086796655ab896e Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 16/25] Doing d1trimfile
+Subject: [PATCH 16/26] Doing d1trimfile
 
 ---
  PCbuild/_asyncio.vcxproj            | 20 ++++++++++++++++++++
@@ -877,5 +877,5 @@ index dd830b3b6a..fef2c5b9f4 100644
        <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
 -- 
-2.34.1
+2.35.0
 

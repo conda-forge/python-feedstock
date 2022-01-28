@@ -1,7 +1,7 @@
-From 9e55721bdebd5eab1f8d1adf90af7911d74827c4 Mon Sep 17 00:00:00 2001
+From 866105839a008e67be4901a75ddd64af7ef8973f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
-Subject: [PATCH 03/25] Support cross-compiling byte-code
+Subject: [PATCH 03/26] Support cross-compiling byte-code
 
 https://bugs.python.org/issue22724
 ---
@@ -11,7 +11,7 @@ https://bugs.python.org/issue22724
  3 files changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index 11230fa563..ebaa089e01 100644
+index 42b1ec622a..3d840d6a79 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -255,6 +255,7 @@ BUILDPYTHON=	python$(BUILDEXE)
@@ -77,7 +77,7 @@ index 11230fa563..ebaa089e01 100644
  		--install-scripts=$(BINDIR) \
  		--install-platlib=$(DESTSHARED) \
 diff --git a/configure b/configure
-index 33ecb16f71..e46e8ef735 100755
+index d078887b2f..d04bec6bfa 100755
 --- a/configure
 +++ b/configure
 @@ -755,6 +755,7 @@ CONFIG_ARGS
@@ -88,7 +88,7 @@ index 33ecb16f71..e46e8ef735 100755
  PYTHON_FOR_REGEN
  host_os
  host_vendor
-@@ -2979,7 +2980,8 @@ $as_echo_n "checking for python interpreter for cross build... " >&6; }
+@@ -2991,7 +2992,8 @@ $as_echo_n "checking for python interpreter for cross build... " >&6; }
  	fi
          { $as_echo "$as_me:${as_lineno-$LINENO}: result: $interp" >&5
  $as_echo "$interp" >&6; }
@@ -99,7 +99,7 @@ index 33ecb16f71..e46e8ef735 100755
  elif test "$cross_compiling" = maybe; then
      as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index 823252be69..c60c8b13ce 100644
+index 431d66197b..c9bf2f4f91 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -82,13 +82,15 @@ if test "$cross_compiling" = yes; then

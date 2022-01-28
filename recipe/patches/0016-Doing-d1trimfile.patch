@@ -1,7 +1,7 @@
-From c428060adfd9be06d2ac6c399b62b24d25b6be7d Mon Sep 17 00:00:00 2001
+From 01d0d8ab9862560c1b46af2c832d25912733a92e Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 16/25] Doing d1trimfile
+Subject: [PATCH 16/26] Doing d1trimfile
 
 ---
  PC/bdist_wininst/bdist_wininst.vcxproj |  8 +++++++-

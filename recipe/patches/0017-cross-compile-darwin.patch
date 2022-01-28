@@ -1,7 +1,7 @@
-From c52484a76af173da35f906e8a87677cad35bf3f6 Mon Sep 17 00:00:00 2001
+From c84ac11f75503bd5bd342101d9d52c0df3361fb0 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 17/25] cross compile darwin
+Subject: [PATCH 17/26] cross compile darwin
 
 By Isuru Fernando.
 ---
@@ -30,10 +30,10 @@ index d6412e169b..618c993205 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index e46e8ef735..7928bc2473 100755
+index d04bec6bfa..d1e57e34c2 100755
 --- a/configure
 +++ b/configure
-@@ -3353,6 +3353,9 @@ if test "$cross_compiling" = yes; then
+@@ -3365,6 +3365,9 @@ if test "$cross_compiling" = yes; then
  			_host_cpu=$host_cpu
  		esac
  		;;
@@ -43,7 +43,7 @@ index e46e8ef735..7928bc2473 100755
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -6212,7 +6215,7 @@ esac
+@@ -6235,7 +6238,7 @@ esac
    fi
  fi
  
@@ -53,7 +53,7 @@ index e46e8ef735..7928bc2473 100755
  	readelf|:)
  	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index c60c8b13ce..f6db39b479 100644
+index c9bf2f4f91..c0062dc7a8 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -448,6 +448,9 @@ if test "$cross_compiling" = yes; then
@@ -66,7 +66,7 @@ index c60c8b13ce..f6db39b479 100644
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -1219,7 +1222,7 @@ then
+@@ -1224,7 +1227,7 @@ then
  fi
  
  AC_CHECK_TOOLS([READELF], [readelf], [:])
@@ -76,7 +76,7 @@ index c60c8b13ce..f6db39b479 100644
  	readelf|:)
  	AC_MSG_ERROR([readelf for the host is required for cross builds])
 diff --git a/setup.py b/setup.py
-index d3661bccdf..293c43fa0f 100644
+index 178fa88029..5734df4fb0 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -62,7 +62,7 @@ CROSS_COMPILING = ("_PYTHON_HOST_PLATFORM" in os.environ)
@@ -87,8 +87,8 @@ index d3661bccdf..293c43fa0f 100644
 +MACOS = (HOST_PLATFORM.startswith('darwin'))
  AIX = (HOST_PLATFORM.startswith('aix'))
  VXWORKS = ('vxworks' in HOST_PLATFORM)
- 
-@@ -996,11 +996,11 @@ class PyBuildExt(build_ext):
+ CC = os.environ.get("CC")
+@@ -1000,11 +1000,11 @@ class PyBuildExt(build_ext):
              os.makedirs(self.build_temp)
          # Determine if readline is already linked against curses or tinfo.
          if do_readline:

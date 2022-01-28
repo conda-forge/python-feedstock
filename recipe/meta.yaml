@@ -1,4 +1,4 @@
-{% set version = "3.9.9" %}
+{% set version = "3.9.10" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}

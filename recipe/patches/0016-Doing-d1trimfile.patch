@@ -1,7 +1,7 @@
-From c428060adfd9be06d2ac6c399b62b24d25b6be7d Mon Sep 17 00:00:00 2001
+From 6bf7b60d519ec4189f00191f6840255b00fd30d5 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 16/25] Doing d1trimfile
+Subject: [PATCH 16/27] Doing d1trimfile
 
 ---
  PC/bdist_wininst/bdist_wininst.vcxproj |  8 +++++++-
@@ -889,5 +889,5 @@ index 776335a15c..e5f8758662 100644
 \ No newline at end of file
 +</Project>
 -- 
-2.34.1
+2.35.0
 

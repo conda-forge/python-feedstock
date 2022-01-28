@@ -1,7 +1,7 @@
-From 0b8300e8a6c40f08d743473a6c5153dff96b54ce Mon Sep 17 00:00:00 2001
+From 67f587781bac454c6ee05cad4eabe1074a422e3c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
-Subject: [PATCH 14/25] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 14/27] Add CondaEcosystemModifyDllSearchPath()
 
 There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 
@@ -477,5 +477,5 @@ index 60f091cbbe..b21f7b58f3 100644
  }
  
 -- 
-2.34.1
+2.35.0
 

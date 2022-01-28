@@ -1,4 +1,4 @@
-{% set version = "3.9.9" %}
+{% set version = "3.9.10" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -47,7 +47,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: 11d12076311563252a995201248d17e5
+    md5: e754c4b2276750fd5b4785a1b443683a
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -82,6 +82,8 @@ source:
       - patches/0023-Unvendor-tcltk.patch
       - patches/0024-unvendor-xz.patch
       - patches/0025-unvendor-zlib.patch
+      - patches/0026-Set-ssltag-to-3.patch
+      - patches/0027-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
 
 build:
   number: {{ build_number }}

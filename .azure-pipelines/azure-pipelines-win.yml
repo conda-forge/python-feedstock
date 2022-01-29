@@ -96,47 +96,59 @@ jobs:
       env:
         PYTHONUNBUFFERED: 1
       condition: not(contains(variables['CONFIG'], 'vs2008'))
-    - script: |
-        set CI=azure
-        set CI_RUN_ID=$(build.BuildNumber).$(system.JobAttempt)
-        set FEEDSTOCK_NAME=$(build.Repository.Name)
-        set ARTIFACT_STAGING_DIR=$(Build.ArtifactStagingDirectory)
-        set CONDA_BLD_DIR=$(CONDA_BLD_PATH)
-        set BLD_ARTIFACT_PREFIX=conda_artifacts
-        if "%AGENT_JOBSTATUS%" == "Failed" (
-            set ENV_ARTIFACT_PREFIX=conda_envs
-        )
-        call ".scripts\create_conda_build_artifacts.bat"
-      displayName: Prepare conda build artifacts
-      condition: succeededOrFailed()
 
-    - task: PublishPipelineArtifact@1
-      displayName: Store conda build artifacts
-      condition: not(eq(variables.BLD_ARTIFACT_PATH, ''))
-      inputs:
-        targetPath: $(BLD_ARTIFACT_PATH)
-        artifactName: $(BLD_ARTIFACT_NAME)
-
-    - task: PublishPipelineArtifact@1
-      displayName: Store conda build environment artifacts
-      condition: not(eq(variables.ENV_ARTIFACT_PATH, ''))
-      inputs:
-        targetPath: $(ENV_ARTIFACT_PATH)
-        artifactName: $(ENV_ARTIFACT_NAME)
     - script: |
-        set "FEEDSTOCK_NAME=%BUILD_REPOSITORY_NAME:*/=%"
+        @echo on
         call activate base
-        validate_recipe_outputs "%FEEDSTOCK_NAME%"
-      displayName: Validate Recipe Outputs
-
+        conda.exe install D:\bld\win-64\python-3.10.2-hcf16a7b_2_cpython.tar.bz2
+        C:\Miniconda\python.exe -c "import sqlite3"
+        conda info
     - script: |
-        set "GIT_BRANCH=%BUILD_SOURCEBRANCHNAME%"
-        set "FEEDSTOCK_NAME=%BUILD_REPOSITORY_NAME:*/=%"
-        call activate base
-        upload_package --validate --feedstock-name="%FEEDSTOCK_NAME%" .\ ".\recipe" .ci_support\%CONFIG%.yaml
-      displayName: Upload package
-      env:
-        BINSTAR_TOKEN: $(BINSTAR_TOKEN)
-        FEEDSTOCK_TOKEN: $(FEEDSTOCK_TOKEN)
-        STAGING_BINSTAR_TOKEN: $(STAGING_BINSTAR_TOKEN)
-      condition: and(succeeded(), not(eq(variables['UPLOAD_PACKAGES'], 'False')), not(eq(variables['Build.Reason'], 'PullRequest')))
+        @echo on
+        C:\Miniconda\python.exe -c "import sqlite3"
+
+
+    #- script: |
+    #    set CI=azure
+    #    set CI_RUN_ID=$(build.BuildNumber).$(system.JobAttempt)
+    #    set FEEDSTOCK_NAME=$(build.Repository.Name)
+    #    set ARTIFACT_STAGING_DIR=$(Build.ArtifactStagingDirectory)
+    #    set CONDA_BLD_DIR=$(CONDA_BLD_PATH)
+    #    set BLD_ARTIFACT_PREFIX=conda_artifacts
+    #    if "%AGENT_JOBSTATUS%" == "Failed" (
+    #        set ENV_ARTIFACT_PREFIX=conda_envs
+    #    )
+    #    call ".scripts\create_conda_build_artifacts.bat"
+    #  displayName: Prepare conda build artifacts
+    #  condition: succeededOrFailed()
+
+    #- task: PublishPipelineArtifact@1
+    #  displayName: Store conda build artifacts
+    #  condition: not(eq(variables.BLD_ARTIFACT_PATH, ''))
+    #  inputs:
+    #    targetPath: $(BLD_ARTIFACT_PATH)
+    #    artifactName: $(BLD_ARTIFACT_NAME)
+
+    #- task: PublishPipelineArtifact@1
+    #  displayName: Store conda build environment artifacts
+    #  condition: not(eq(variables.ENV_ARTIFACT_PATH, ''))
+    #  inputs:
+    #    targetPath: $(ENV_ARTIFACT_PATH)
+    #    artifactName: $(ENV_ARTIFACT_NAME)
+    #- script: |
+    #    set "FEEDSTOCK_NAME=%BUILD_REPOSITORY_NAME:*/=%"
+    #    call activate base
+    #    validate_recipe_outputs "%FEEDSTOCK_NAME%"
+    #  displayName: Validate Recipe Outputs
+
+    #- script: |
+    #    set "GIT_BRANCH=%BUILD_SOURCEBRANCHNAME%"
+    #    set "FEEDSTOCK_NAME=%BUILD_REPOSITORY_NAME:*/=%"
+    #    call activate base
+    #    upload_package --validate --feedstock-name="%FEEDSTOCK_NAME%" .\ ".\recipe" .ci_support\%CONFIG%.yaml
+    #  displayName: Upload package
+    #  env:
+    #    BINSTAR_TOKEN: $(BINSTAR_TOKEN)
+    #    FEEDSTOCK_TOKEN: $(FEEDSTOCK_TOKEN)
+    #    STAGING_BINSTAR_TOKEN: $(STAGING_BINSTAR_TOKEN)
+    #  condition: and(succeeded(), not(eq(variables['UPLOAD_PACKAGES'], 'False')), not(eq(variables['Build.Reason'], 'PullRequest')))

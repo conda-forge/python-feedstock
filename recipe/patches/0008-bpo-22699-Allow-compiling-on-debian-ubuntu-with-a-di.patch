@@ -1,4 +1,4 @@
-From 37a02bf2b13acba077e080ce0a26abd21d109bdd Mon Sep 17 00:00:00 2001
+From b4a90991e70b4aae21b8a51b711d4a74598198b8 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
 Subject: [PATCH 08/27] bpo-22699: Allow compiling on debian/ubuntu with a
@@ -8,25 +8,24 @@ This PR fixes one issue mentioned in the bpo
 https://bugs.python.org/issue22699#msg364685 with a slightly better
 patch than given
 ---
- setup.py | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ setup.py | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 36b56ad034..178fa88029 100644
+index 36b56ad034..5a98b875d7 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -636,9 +636,31 @@ class PyBuildExt(build_ext):
+@@ -636,9 +636,29 @@ class PyBuildExt(build_ext):
      def add_multiarch_paths(self):
          # Debian/Ubuntu multiarch support.
          # https://wiki.ubuntu.com/MultiarchSpec
 -        tmpfile = os.path.join(self.build_temp, 'multiarch')
-+        cc = sysconfig.get_config_var('CC')
          if not os.path.exists(self.build_temp):
              os.makedirs(self.build_temp)
 +
 +        tmpfile_sysroot = os.path.join(self.build_temp, 'sysroot')
 +        ret_sysroot = run_command(
-+            '%s -print-sysroot > %s 2> /dev/null' % (cc, tmpfile_sysroot))
++            '%s -print-sysroot > %s 2> /dev/null' % (CC, tmpfile_sysroot))
 +
 +        try:
 +            if ret_sysroot == 0:
@@ -44,9 +43,8 @@ index 36b56ad034..178fa88029 100644
 +            os.unlink(tmpfile_sysroot)
 +
 +        tmpfile = os.path.join(self.build_temp, 'multiarch')
-+
          ret = run_command(
-             '%s -print-multiarch > %s 2> /dev/null' % (cc, tmpfile))
+             '%s -print-multiarch > %s 2> /dev/null' % (CC, tmpfile))
          multiarch_path_component = ''
 -- 
 2.35.0

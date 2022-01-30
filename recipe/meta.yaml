@@ -24,7 +24,6 @@ source:
 {% if 'conda-forge' not in channel_targets %}
       - patches/0002-Add-Anaconda-Distribution-version-logic.patch
 {% endif %}
-      - patches/0003-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
       - patches/0004-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0005-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
       - patches/0006-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
@@ -83,7 +82,7 @@ source:
     sha256: 69e3f7235108a75033cb9325a0a3535ba271d144ec66fccefe134eda27d7bcfe         # [win]
 
 build:
-  number: 2
+  number: 3
   script_env:
     - PY_INTERP_LINKAGE_NATURE
     - PY_INTERP_DEBUG

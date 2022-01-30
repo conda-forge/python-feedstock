@@ -15,19 +15,17 @@ cxx_compiler:
 cxx_compiler_version:
 - '9'
 docker_image:
-- quay.io/condaforge/linux-anvil-comp7
+- quay.io/condaforge/linux-anvil-cos7-x86_64
 libffi:
 - '3.4'
 ncurses:
-- '6.2'
+- '6'
 openssl:
 - '3'
 pin_run_as_build:
   bzip2:
     max_pin: x
   libffi:
-    max_pin: x.x
-  ncurses:
     max_pin: x.x
   python:
     min_pin: x.x
@@ -57,7 +55,5 @@ xz:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - cdt_name
-  - docker_image
 zlib:
 - '1.2'

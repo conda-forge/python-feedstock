@@ -1,4 +1,4 @@
-From 11b00c3df53f13ba5493cb615890bf91623045bb Mon Sep 17 00:00:00 2001
+From b8c6473828078fdba549d47c11f3085c8f66d5fb Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 2 Jan 2019 21:38:48 +0000
 Subject: [PATCH 12/26] venv: Revert a change from
@@ -42,5 +42,5 @@ index 6f1af294ae..a00e89237a 100644
                  os.chmod(path, 0o755)
              for suffix in ('python', 'python3', f'python3.{sys.version_info[1]}'):
 -- 
-2.35.0
+2.28.0
 

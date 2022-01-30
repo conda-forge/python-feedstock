@@ -1,4 +1,4 @@
-From 0012bdf09671fe8b9989e80985e374f27313f9c8 Mon Sep 17 00:00:00 2001
+From 01c5e09cc8d37886834e00f97b541e08b9eaad2d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 03/26] Support cross-compiling byte-code
@@ -120,5 +120,5 @@ index 5aa91cbad3..86925d9166 100644
  
  dnl Ensure that if prefix is specified, it does not end in a slash. If
 -- 
-2.35.0
+2.28.0
 

@@ -1,4 +1,4 @@
-From b80115d10d733216afdb18215257430a46a1a8ad Mon Sep 17 00:00:00 2001
+From 819812f09e088c87de969213f352c0135f98666d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 14/26] Add CondaEcosystemModifyDllSearchPath()
@@ -55,13 +55,13 @@ Fix CondaEcosystemModifyDllSearchPath for users of the Python DLL
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
- Modules/main.c       | 363 +++++++++++++++++++++++++++++++++++++++++++
+ Modules/main.c       | 370 +++++++++++++++++++++++++++++++++++++++++++
  Python/dynload_win.c |   4 +
  Python/pylifecycle.c |   5 +-
- 3 files changed, 371 insertions(+), 1 deletion(-)
+ 3 files changed, 378 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index 2684d23067..f0bcb0616f 100644
+index 2684d23067..ac5b151367 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -17,6 +17,10 @@
@@ -75,7 +75,7 @@ index 2684d23067..f0bcb0616f 100644
  #endif
  /* End of includes for exit_sigint() */
  
-@@ -680,10 +684,369 @@ Py_RunMain(void)
+@@ -680,10 +684,376 @@ Py_RunMain(void)
      return exitcode;
  }
  
@@ -140,8 +140,6 @@ index 2684d23067..f0bcb0616f 100644
 +static SDD pSetDllDirectory = NULL;
 +static ADD pAddDllDirectory = NULL;
 +static int sv_failed_to_find_dll_fns = 0;
-+/* sv_executable_dirname is gotten but not used ATM. */
-+static wchar_t sv_executable_dirname[1024];
 +/* Have hidden this behind a define because it is clearly not code that
 +   could be considered for upstreaming so clearly delimiting it makes it
 +   easier to remove. */
@@ -164,7 +162,7 @@ index 2684d23067..f0bcb0616f 100644
 +    {L"bin", NULL}
 +};
 +#endif /* HARDCODE_CONDA_PATHS */
-+static wchar_t sv_executable_dirname[1024];
++static wchar_t sv_dll_dirname[1024];
 +static wchar_t sv_windows_directory[1024];
 +static wchar_t *sv_added_windows_directory = NULL;
 +static wchar_t *sv_added_cwd = NULL;
@@ -178,6 +176,7 @@ index 2684d23067..f0bcb0616f 100644
 +    long long j;
 +    CONDA_PATH *p_conda_path;
 +#endif /* defined(HARDCODE_CONDA_PATHS) */
++    HMODULE dll_handle = NULL;
 +
 +    if (pSetDefaultDllDirectories == NULL)
 +    {
@@ -188,18 +187,26 @@ index 2684d23067..f0bcb0616f 100644
 +        pSetDllDirectory = (SDD)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "SetDllDirectoryW");
 +        pAddDllDirectory = (ADD)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "AddDllDirectory");
 +
-+        /* Determine sv_executable_dirname */
-+        GetModuleFileNameW(NULL, &sv_executable_dirname[0], sizeof(sv_executable_dirname)/sizeof(sv_executable_dirname[0])-1);
-+        sv_executable_dirname[sizeof(sv_executable_dirname)/sizeof(sv_executable_dirname[0])-1] = L'\0';
-+        if (wcsrchr(sv_executable_dirname, L'\\'))
-+            *wcsrchr(sv_executable_dirname, L'\\') = L'\0';
++        /* Determine sv_dll_dirname */
++        if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
++            (LPCSTR) &CondaEcosystemModifyDllSearchPath_Init, &dll_handle) == 0)
++        {
++            // Getting the pythonxx.dll path failed. Fall back to relative path of python.exe
++            // assuming that the executable that is running this code is python.exe
++            dll_handle = NULL;
++        }
++        GetModuleFileNameW(dll_handle, &sv_dll_dirname[0], sizeof(sv_dll_dirname)/sizeof(sv_dll_dirname[0])-1);
++        sv_dll_dirname[sizeof(sv_dll_dirname)/sizeof(sv_dll_dirname[0])-1] = L'\0';
++        if (wcsrchr(sv_dll_dirname, L'\\'))
++            *wcsrchr(sv_dll_dirname, L'\\') = L'\0';
++
 +#if defined(HARDCODE_CONDA_PATHS)
 +        for (p_conda_path = &condaPaths[0]; p_conda_path < &condaPaths[NUM_CONDA_PATHS]; ++p_conda_path)
 +        {
-+            size_t n_chars_executable_dirname = wcslen(sv_executable_dirname);
++            size_t n_chars_dll_dirname = wcslen(sv_dll_dirname);
 +            size_t n_chars_p_relative = wcslen(p_conda_path->p_relative);
-+            p_conda_path->p_name = malloc(sizeof(wchar_t) * (n_chars_executable_dirname + n_chars_p_relative + 2));
-+            wcsncpy(p_conda_path->p_name, sv_executable_dirname, n_chars_executable_dirname+1);
++            p_conda_path->p_name = malloc(sizeof(wchar_t) * (n_chars_dll_dirname + n_chars_p_relative + 2));
++            wcsncpy(p_conda_path->p_name, sv_dll_dirname, n_chars_dll_dirname+1);
 +            wcsncat(p_conda_path->p_name, L"\\", 2);
 +            wcsncat(p_conda_path->p_name, p_conda_path->p_relative, n_chars_p_relative+1);
 +        }
@@ -477,5 +484,5 @@ index eeaf20b461..a32aa666e4 100644
  }
  
 -- 
-2.35.0
+2.28.0
 

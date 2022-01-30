@@ -1,4 +1,4 @@
-From fa05e6d837fdfc86cf3c6c6e5fd20b770f33a578 Mon Sep 17 00:00:00 2001
+From c17e952ac5350fd2f04298c77234e4bc1f151d98 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 20:46:36 +0100
 Subject: [PATCH 15/26] Add /d1trimfile:%SRC_DIR% to make pdbs more relocatable
@@ -35,5 +35,5 @@ index af8099a407..0b245adb30 100644
                  args.append('/EHsc')
              args.append(input_opt)
 -- 
-2.35.0
+2.28.0
 

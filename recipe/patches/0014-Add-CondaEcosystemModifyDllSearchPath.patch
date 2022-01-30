@@ -195,7 +195,7 @@ index 2684d23067..ac5b151367 100644
 +            // assuming that the executable that is running this code is python.exe
 +            dll_handle = NULL;
 +        }
-+        GetModuleFileNameW(NULL, &sv_dll_dirname[0], sizeof(sv_dll_dirname)/sizeof(sv_dll_dirname[0])-1);
++        GetModuleFileNameW(dll_handle, &sv_dll_dirname[0], sizeof(sv_dll_dirname)/sizeof(sv_dll_dirname[0])-1);
 +        sv_dll_dirname[sizeof(sv_dll_dirname)/sizeof(sv_dll_dirname[0])-1] = L'\0';
 +        if (wcsrchr(sv_dll_dirname, L'\\'))
 +            *wcsrchr(sv_dll_dirname, L'\\') = L'\0';

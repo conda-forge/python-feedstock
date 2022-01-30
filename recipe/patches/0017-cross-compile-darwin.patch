@@ -1,4 +1,4 @@
-From 40105691cc706acc992060c88b4edca6aac8b8a1 Mon Sep 17 00:00:00 2001
+From 470f8dbace4fb504b70a9de0afe8c6c0f6c54932 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 17/27] cross compile darwin
@@ -76,7 +76,7 @@ index c9bf2f4f91..c0062dc7a8 100644
  	readelf|:)
  	AC_MSG_ERROR([readelf for the host is required for cross builds])
 diff --git a/setup.py b/setup.py
-index 178fa88029..5734df4fb0 100644
+index 5a98b875d7..a09dd3a1db 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -62,7 +62,7 @@ CROSS_COMPILING = ("_PYTHON_HOST_PLATFORM" in os.environ)
@@ -88,7 +88,7 @@ index 178fa88029..5734df4fb0 100644
  AIX = (HOST_PLATFORM.startswith('aix'))
  VXWORKS = ('vxworks' in HOST_PLATFORM)
  CC = os.environ.get("CC")
-@@ -1000,11 +1000,11 @@ class PyBuildExt(build_ext):
+@@ -998,11 +998,11 @@ class PyBuildExt(build_ext):
              os.makedirs(self.build_temp)
          # Determine if readline is already linked against curses or tinfo.
          if do_readline:

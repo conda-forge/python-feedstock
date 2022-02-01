@@ -59,7 +59,7 @@ if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
-for %%x in (python%VERNODOTS%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe venvlauncher%_D%.exe venvwlauncher%_D%.exe) do (
+for %%x in (python%VERNODOTS%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe) do (
   if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
   ) else (
@@ -151,6 +151,20 @@ if errorlevel 1 exit 1
 del %PREFIX%\libs\libpython*.a
 xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
+
+:: Copy venv[w]launcher scripts to venv\srcipts\nt
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe (
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
+) else (
+  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe does not exist"
+)
+
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe (
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
+) else (
+  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe does not exist"
+)
+
 
 :: Remove test data to save space.
 :: Though keep `support` as some things use that.

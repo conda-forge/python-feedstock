@@ -451,7 +451,7 @@ pushd "${PREFIX}"/lib/python${VER}
   sed -i.bak "s@zoneinfo'@zoneinfo:$PREFIX/share/tzinfo'@g" sysconfigfile
   # Remove osx sysroot as it depends on the build machine
   # be sure CONDA_BUILD_SYSROOT has value, as other we will remove here instead spaces
-  if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
+  if [[ "${target_platform}" == osx-* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
     sed -i.bak "s@-isysroot @@g" sysconfigfile
     sed -i.bak "s@$CONDA_BUILD_SYSROOT @@g" sysconfigfile
   fi

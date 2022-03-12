@@ -7,20 +7,22 @@ language: generic
 
 matrix:
   include:
-    - env: CONFIG=linux_ppc64le_openssl1.1.1 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
-      os: linux
-      arch: ppc64le
-      dist: focal
+  - env: CONFIG=linux_ppc64le_openssl1.1.1 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le
+      DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
+    os: linux
+    arch: ppc64le
+    dist: focal
 
-    - env: CONFIG=linux_ppc64le_openssl3 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
-      os: linux
-      arch: ppc64le
-      dist: focal
+  - env: CONFIG=linux_ppc64le_openssl3 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le
+      DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
+    os: linux
+    arch: ppc64le
+    dist: focal
 
 script:
-  - export CI=travis
-  - export GIT_BRANCH="$TRAVIS_BRANCH"
-  - export FEEDSTOCK_NAME=$(basename ${TRAVIS_REPO_SLUG})
+- export CI=travis
+- export GIT_BRANCH="$TRAVIS_BRANCH"
+- export FEEDSTOCK_NAME=$(basename ${TRAVIS_REPO_SLUG})
 
 
-  - if [[ ${PLATFORM} =~ .*linux.* ]]; then ./.scripts/run_docker_build.sh; fi
+- if [[ ${PLATFORM} =~ .*linux.* ]]; then ./.scripts/run_docker_build.sh; fi

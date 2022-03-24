@@ -1,0 +1,35 @@
+From 7ccb7089a1a38889c3d7150f8e02e1fa6248829e Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Sun, 3 Nov 2019 15:09:45 -0600
+Subject: [PATCH 12/25] Use ranlib from env if env variable is set
+
+---
+ Lib/distutils/sysconfig.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
+index b51629eb94..c21e5bddb5 100644
+--- a/Lib/distutils/sysconfig.py
++++ b/Lib/distutils/sysconfig.py
+@@ -223,7 +223,7 @@ def customize_compiler(compiler):
+             archiver = ar + ' ' + os.environ['ARFLAGS']
+         else:
+             archiver = ar + ' ' + ar_flags
+-
++        
+         cc_cmd = cc + ' ' + cflags
+         compiler.set_executables(
+             preprocessor=cpp,
+@@ -234,6 +234,9 @@ def customize_compiler(compiler):
+             linker_exe=cc,
+             archiver=archiver)
+ 
++        if 'RANLIB' in os.environ and 'ranlib' in compiler.executables:
++            compiler.set_executables(ranlib=os.environ['RANLIB'])
++
+         compiler.shared_lib_extension = shlib_suffix
+ 
+ 
+-- 
+2.30.2
+

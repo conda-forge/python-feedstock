@@ -1,0 +1,29 @@
+From 2079eebb67c452ecbb5558f3192db6dcee485522 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Mon, 16 Aug 2021 02:18:50 -0700
+Subject: [PATCH 19/25] Fix LDSHARED when CC is overriden on Linux too
+
+---
+ Lib/distutils/sysconfig.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
+index c21e5bddb5..1355d0bb58 100644
+--- a/Lib/distutils/sysconfig.py
++++ b/Lib/distutils/sysconfig.py
+@@ -193,10 +193,9 @@ def customize_compiler(compiler):
+ 
+         if 'CC' in os.environ:
+             newcc = os.environ['CC']
+-            if (sys.platform == 'darwin'
+-                    and 'LDSHARED' not in os.environ
++            if ('LDSHARED' not in os.environ
+                     and ldshared.startswith(cc)):
+-                # On OS X, if CC is overridden, use that as the default
++                # If CC is overridden, use that as the default
+                 #       command for LDSHARED as well
+                 ldshared = newcc + ldshared[len(cc):]
+             cc = newcc
+-- 
+2.30.2
+

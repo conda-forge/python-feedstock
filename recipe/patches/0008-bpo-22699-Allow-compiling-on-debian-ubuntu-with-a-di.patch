@@ -1,7 +1,7 @@
-From b4a90991e70b4aae21b8a51b711d4a74598198b8 Mon Sep 17 00:00:00 2001
+From 0d47037bb9b76f250482c140bf4b3437a921f8f2 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
-Subject: [PATCH 08/27] bpo-22699: Allow compiling on debian/ubuntu with a
+Subject: [PATCH 08/26] bpo-22699: Allow compiling on debian/ubuntu with a
  different compiler
 
 This PR fixes one issue mentioned in the bpo
@@ -12,7 +12,7 @@ patch than given
  1 file changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 36b56ad034..5a98b875d7 100644
+index 929c6b6a8e..c900c832e3 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -636,9 +636,29 @@ class PyBuildExt(build_ext):
@@ -47,5 +47,5 @@ index 36b56ad034..5a98b875d7 100644
              '%s -print-multiarch > %s 2> /dev/null' % (CC, tmpfile))
          multiarch_path_component = ''
 -- 
-2.35.0
+2.35.1
 

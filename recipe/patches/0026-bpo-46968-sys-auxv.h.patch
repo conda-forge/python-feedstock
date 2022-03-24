@@ -1,0 +1,82 @@
+From 000dabd1eb26e9a2e1ad46921cf8195e52e6f29c Mon Sep 17 00:00:00 2001
+From: Pablo Galindo Salgado <Pablogsal@gmail.com>
+Date: Fri, 18 Mar 2022 12:03:22 +0000
+Subject: [PATCH] [3.10] bpo-46968: Check for 'sys/auxv.h' in the configure
+ script (GH-31961). (cherry picked from commit
+ 8e3fde728f547f1d32bde8adf62b4c50bb877b9d)
+
+Co-authored-by: Pablo Galindo Salgado <Pablogsal@gmail.com>
+---
+ .../2022-03-17-14-22-23.bpo-46968.4gz4NA.rst                | 3 +++
+ Modules/faulthandler.c                                      | 6 +++---
+ configure                                                   | 2 +-
+ configure.ac                                                | 2 +-
+ pyconfig.h.in                                               | 3 +++
+ 5 files changed, 11 insertions(+), 5 deletions(-)
+ create mode 100644 Misc/NEWS.d/next/Core and Builtins/2022-03-17-14-22-23.bpo-46968.4gz4NA.rst
+
+diff --git a/Misc/NEWS.d/next/Core and Builtins/2022-03-17-14-22-23.bpo-46968.4gz4NA.rst b/Misc/NEWS.d/next/Core and Builtins/2022-03-17-14-22-23.bpo-46968.4gz4NA.rst
+new file mode 100644
+index 0000000000000..bef1d0532b098
+--- /dev/null
++++ b/Misc/NEWS.d/next/Core and Builtins/2022-03-17-14-22-23.bpo-46968.4gz4NA.rst	
+@@ -0,0 +1,3 @@
++Check for the existence of the "sys/auxv.h" header in :mod:`faulthandler` to
++avoid compilation problems in systems where this header doesn't exist. Patch
++by Pablo Galindo
+diff --git a/Modules/faulthandler.c b/Modules/faulthandler.c
+index 88a5b9376aa7d..4af8702068b14 100644
+--- a/Modules/faulthandler.c
++++ b/Modules/faulthandler.c
+@@ -23,9 +23,9 @@
+ #  define FAULTHANDLER_USE_ALT_STACK
+ #endif
+ 
+-#if defined(FAULTHANDLER_USE_ALT_STACK) && defined(HAVE_LINUX_AUXVEC_H)
+-#  include <linux/auxvec.h>
+-#  include <sys/auxv.h>
++#if defined(FAULTHANDLER_USE_ALT_STACK) && defined(HAVE_LINUX_AUXVEC_H) && defined(HAVE_SYS_AUXV_H)
++#  include <linux/auxvec.h>       // AT_MINSIGSTKSZ
++#  include <sys/auxv.h>           // getauxval()
+ #endif
+ 
+ /* Allocate at maximum 100 MiB of the stack to raise the stack overflow */
+diff --git a/configure b/configure
+index 0cc86f9ed7687..19f1bd59ba8b1 100755
+--- a/configure
++++ b/configure
+@@ -8101,7 +8101,7 @@ sys/stat.h sys/syscall.h sys/sys_domain.h sys/termio.h sys/time.h \
+ sys/times.h sys/types.h sys/uio.h sys/un.h sys/utsname.h sys/wait.h pty.h \
+ libutil.h sys/resource.h netpacket/packet.h sysexits.h bluetooth.h \
+ linux/tipc.h linux/random.h spawn.h util.h alloca.h endian.h \
+-sys/endian.h sys/sysmacros.h linux/auxvec.h linux/memfd.h linux/wait.h sys/memfd.h \
++sys/endian.h sys/sysmacros.h linux/auxvec.h sys/auxv.h linux/memfd.h linux/wait.h sys/memfd.h \
+ sys/mman.h sys/eventfd.h
+ do :
+   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
+diff --git a/configure.ac b/configure.ac
+index 547255ff31ebc..763fc697be7bc 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2225,7 +2225,7 @@ sys/stat.h sys/syscall.h sys/sys_domain.h sys/termio.h sys/time.h \
+ sys/times.h sys/types.h sys/uio.h sys/un.h sys/utsname.h sys/wait.h pty.h \
+ libutil.h sys/resource.h netpacket/packet.h sysexits.h bluetooth.h \
+ linux/tipc.h linux/random.h spawn.h util.h alloca.h endian.h \
+-sys/endian.h sys/sysmacros.h linux/auxvec.h linux/memfd.h linux/wait.h sys/memfd.h \
++sys/endian.h sys/sysmacros.h linux/auxvec.h sys/auxv.h linux/memfd.h linux/wait.h sys/memfd.h \
+ sys/mman.h sys/eventfd.h)
+ AC_HEADER_DIRENT
+ AC_HEADER_MAJOR
+diff --git a/pyconfig.h.in b/pyconfig.h.in
+index b0948e9b9b79d..57c84e5f8fac0 100644
+--- a/pyconfig.h.in
++++ b/pyconfig.h.in
+@@ -1128,6 +1128,9 @@
+ /* Define to 1 if you have the <sys/audioio.h> header file. */
+ #undef HAVE_SYS_AUDIOIO_H
+ 
++/* Define to 1 if you have the <sys/auxv.h> header file. */
++#undef HAVE_SYS_AUXV_H
++
+ /* Define to 1 if you have the <sys/bsdtty.h> header file. */
+ #undef HAVE_SYS_BSDTTY_H

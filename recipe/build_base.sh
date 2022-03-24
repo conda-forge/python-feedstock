@@ -306,7 +306,7 @@ pushd ${_buildd_static}
                        ${_DISABLE_SHARED} "${_PROFILE_TASK[@]}"
 popd
 
-if [[ ${target_platform} == linux-ppc64le ]]; then
+if [[ "${CI}" == "travis" ]]; then
   # Travis has issues with long logs
   make -j${CPU_COUNT} -C ${_buildd_static} \
        EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
@@ -321,7 +321,7 @@ if rg "Failed to build these modules" make-static.log; then
   exit 1
 fi
 
-if [[ ${target_platform} == linux-ppc64le ]]; then
+if [[ "${CI}" == "travis" ]]; then
   # Travis has issues with long logs
   make -j${CPU_COUNT} -C ${_buildd_shared} \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 >make-shared.log

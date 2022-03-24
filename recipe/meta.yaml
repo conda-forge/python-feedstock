@@ -1,10 +1,10 @@
-{% set version = "3.10.2" %}
+{% set version = "3.10.4" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 4 %}
+{% set build_number = 0 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -47,7 +47,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: 14e8c22458ed7779a1957b26cde01db9
+    md5: 21f2e113e087083a1e8cf10553d93599
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -65,23 +65,23 @@ source:
       - patches/0010-Unvendor-openssl.patch
       - patches/0011-Unvendor-sqlite3.patch
       # https://github.com/pypa/distutils/pull/53
-      - patches/0013-Use-ranlib-from-env-if-env-variable-is-set.patch
-      - patches/0014-Add-CondaEcosystemModifyDllSearchPath.patch
-      - patches/0015-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
-      - patches/0016-Doing-d1trimfile.patch
+      - patches/0012-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0013-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0014-Add-d1trimfile-SRC_DIR-to-make-pdbs-more-relocatable.patch
+      - patches/0015-Doing-d1trimfile.patch
       # https://github.com/python/cpython/pull/23523
-      - patches/0017-cross-compile-darwin.patch
-      - patches/0018-Fix-TZPATH-on-windows.patch
+      - patches/0016-cross-compile-darwin.patch
+      - patches/0017-Fix-TZPATH-on-windows.patch
       # https://github.com/python/cpython/pull/24324
-      - patches/0019-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
+      - patches/0018-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
       # https://github.com/pypa/distutils/pull/53
-      - patches/0020-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
-      - patches/0021-Unvendor-bzip2.patch
-      - patches/0022-Unvendor-libffi.patch
-      - patches/0023-Unvendor-tcltk.patch
-      - patches/0024-unvendor-xz.patch
-      - patches/0025-unvendor-zlib.patch
-      - patches/0026-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0019-Fix-LDSHARED-when-CC-is-overriden-on-Linux-too.patch
+      - patches/0020-Unvendor-bzip2.patch
+      - patches/0021-Unvendor-libffi.patch
+      - patches/0022-Unvendor-tcltk.patch
+      - patches/0023-unvendor-xz.patch
+      - patches/0024-unvendor-zlib.patch
+      - patches/0025-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
 
 build:
   number: {{ build_number }}

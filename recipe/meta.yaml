@@ -82,6 +82,8 @@ source:
       - patches/0023-unvendor-xz.patch
       - patches/0024-unvendor-zlib.patch
       - patches/0025-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      # failing due to sys/auxv.h
+      - patches/0026-bpo-46968-sys-auxv.h.patch
 
 build:
   number: {{ build_number }}

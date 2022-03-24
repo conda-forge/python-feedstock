@@ -24,7 +24,7 @@ index b88d6cc30d..a6296d80ff 100644
              os.makedirs(self.build_temp)
 +
 +        tmpfile_sysroot = os.path.join(self.build_temp, 'sysroot')
-+        ret = os.system(
++        ret_sysroot = os.system(
 +            '%s -print-sysroot > %s 2> /dev/null' % (cc, tmpfile_sysroot))
 +
 +        try:

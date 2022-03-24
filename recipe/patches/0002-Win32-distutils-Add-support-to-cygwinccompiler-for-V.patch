@@ -1,7 +1,7 @@
-From 093a2f6deb905be4e207b32ef3117558fa07581c Mon Sep 17 00:00:00 2001
+From ca3028164aef48702fcdd534f8fce4355abed153 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:59:00 +0100
-Subject: [PATCH 02/27] Win32: distutils: Add support to cygwinccompiler for
+Subject: [PATCH 02/26] Win32: distutils: Add support to cygwinccompiler for
  VS>=2015
 
 Really this is for mingw-w64 though
@@ -24,5 +24,5 @@ index 66c12dd358..e6c790118b 100644
              raise ValueError("Unknown MS Compiler version %s " % msc_ver)
  
 -- 
-2.35.0
+2.35.1
 

@@ -71,7 +71,6 @@ source:
       - patches/0016-Doing-d1trimfile.patch
       # https://github.com/python/cpython/pull/23523
       - patches/0017-cross-compile-darwin.patch
-      - patches/0018-Fix-TZPATH-on-windows.patch
       # https://github.com/python/cpython/pull/24324
       - patches/0019-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
       # https://github.com/pypa/distutils/pull/53
@@ -182,7 +181,6 @@ outputs:
         - libuuid  # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
-        - tzdata
 {% if 'conda-forge' in channel_targets %}
       run_constrained:
         - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
@@ -221,8 +219,6 @@ outputs:
         - set "TEMP=%CONDA_PREFIX%/tmp"  # [win]
         - mkdir "%TEMP%"  # [win]
         - python -Im ensurepip --upgrade --default-pip  # [win]
-        # tzdata/zoneinfo test that will need the tzdata package to pass
-        - python -c "from zoneinfo import ZoneInfo; from datetime import datetime; dt = datetime(2020, 10, 31, 12, tzinfo=ZoneInfo('America/Los_Angeles')); print(dt.tzname())"
         - python -m venv test-venv
         - test-venv\\Scripts\\python.exe -c "import ctypes"  # [win]
         - test-venv/bin/python -c "import ctypes"            # [unix]

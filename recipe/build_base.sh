@@ -152,9 +152,7 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
       ${SRC_DIR}/configure --build=${BUILD} \
                            --host=${BUILD} \
                            --prefix=${BUILD_PYTHON_PREFIX} \
-                           --with-ensurepip=no \
-                           --with-tzpath=${PREFIX}/share/zoneinfo \
-                           --with-platlibdir=lib && \
+                           --with-ensurepip=no && \
       make -j${CPU_COUNT} && \
       make install)
     export PATH=${BUILD_PYTHON_PREFIX}/bin:${PATH}
@@ -241,13 +239,11 @@ _common_configure_args+=(--build=${BUILD})
 _common_configure_args+=(--host=${HOST})
 _common_configure_args+=(--enable-ipv6)
 _common_configure_args+=(--with-ensurepip=no)
-_common_configure_args+=(--with-tzpath=${PREFIX}/share/zoneinfo)
 _common_configure_args+=(--with-computed-gotos)
 _common_configure_args+=(--with-system-ffi)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
-_common_configure_args+=(--with-platlibdir=lib)
 
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
@@ -445,8 +441,6 @@ pushd "${PREFIX}"/lib/python${VER}
   # fdebug-prefix-map for python work dir is useless for extensions
   sed -i.bak "s@-fdebug-prefix-map=$SRC_DIR=/usr/local/src/conda/python-$PKG_VERSION@@g" sysconfigfile
   sed -i.bak "s@-fdebug-prefix-map=$PREFIX=/usr/local/src/conda-prefix@@g" sysconfigfile
-  # Append the conda-forge zoneinfo to the end
-  sed -i.bak "s@zoneinfo'@zoneinfo:$PREFIX/share/tzinfo'@g" sysconfigfile
   # Remove osx sysroot as it depends on the build machine
   # be sure CONDA_BUILD_SYSROOT has value, as other we will remove here instead spaces
   if [[ "${target_platform}" == osx-* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then

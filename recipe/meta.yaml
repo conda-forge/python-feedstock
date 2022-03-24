@@ -155,6 +155,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('c') }}
+        - sysroot_linux-64 2.17  # [linux64]
         - {{ compiler('cxx') }}
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
         - {{ cdt('libx11-devel') }}  # [linux]

@@ -3,7 +3,7 @@ bzip2:
 c_compiler:
 - gcc
 c_compiler_version:
-- '9'
+- '10'
 cdt_name:
 - cos7
 channel_sources:
@@ -13,11 +13,13 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '9'
+- '10'
 docker_image:
 - quay.io/condaforge/linux-anvil-ppc64le
 libffi:
 - '3.4'
+libuuid:
+- '2'
 ncurses:
 - '6'
 openssl:
@@ -27,6 +29,8 @@ pin_run_as_build:
     max_pin: x
   libffi:
     max_pin: x.x
+  libuuid:
+    max_pin: x
   python:
     min_pin: x.x
     max_pin: x.x

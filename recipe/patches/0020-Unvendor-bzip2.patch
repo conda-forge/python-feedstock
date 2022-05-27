@@ -1,4 +1,4 @@
-From a4d636d63a8b4256ec6beb8ba66a96745c120fc0 Mon Sep 17 00:00:00 2001
+From 8fa46fb6cd3232d90051b5196fd4e69a210075f1 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:56:27 -0700
 Subject: [PATCH 20/26] Unvendor bzip2
@@ -86,5 +86,5 @@ index 7c0b516253..c1f960608c 100644
      </ClInclude>
    </ItemGroup>
 -- 
-2.35.1
+2.25.1
 

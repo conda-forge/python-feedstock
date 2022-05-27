@@ -1,15 +1,15 @@
-From 0ad748db923bfc9caa2bab6b5bc0acf9aadd3a4e Mon Sep 17 00:00:00 2001
+From 7aee4a648bc5e27eeb521d0d76df8aed9154e9f9 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 24/26] unvendor zlib
 
 ---
- PCbuild/pythoncore.vcxproj         | 31 ++++--------------------------
+ PCbuild/pythoncore.vcxproj         | 33 ++++--------------------------
  PCbuild/pythoncore.vcxproj.filters |  2 +-
- 2 files changed, 5 insertions(+), 28 deletions(-)
+ 2 files changed, 5 insertions(+), 30 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 78d612c635..5b1972b472 100644
+index 660b61b866..5b1972b472 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -57,14 +57,16 @@ index 78d612c635..5b1972b472 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_abc.c" />
      <ClCompile Include="..\Modules\_bisectmodule.c" />
-@@ -497,17 +485,6 @@
+@@ -497,19 +485,6 @@
    </ItemGroup>
    <ItemGroup Condition="$(IncludeExternals)">
      <ClCompile Include="..\Modules\zlibmodule.c" />
 -    <ClCompile Include="$(zlibDir)\adler32.c" />
 -    <ClCompile Include="$(zlibDir)\compress.c" />
 -    <ClCompile Include="$(zlibDir)\crc32.c" />
--    <ClCompile Include="$(zlibDir)\deflate.c" />
+-    <ClCompile Include="$(zlibDir)\deflate.c">
+-      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+-    </ClCompile>
 -    <ClCompile Include="$(zlibDir)\infback.c" />
 -    <ClCompile Include="$(zlibDir)\inffast.c" />
 -    <ClCompile Include="$(zlibDir)\inflate.c" />
@@ -87,5 +89,5 @@ index 4b9eebde6a..96beb05d48 100644
 \ No newline at end of file
 +</Project>
 -- 
-2.35.1
+2.25.1
 

@@ -1,4 +1,4 @@
-From 6ea620dab733d7dab2a98fda07f1c7c01019669a Mon Sep 17 00:00:00 2001
+From a668fae1aca618dcd725e2aa285107605373f13f Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
 Subject: [PATCH 18/26] Make dyld search work with SYSTEM_VERSION_COMPAT=1
@@ -15,7 +15,7 @@ as that part is compiled with `MACOSX_DEPLOYMENT_TARGET=11.0`)
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index 9aff890afe..3c5956b837 100644
+index b83f7364de..5d4803d1b0 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
 @@ -1452,7 +1452,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
@@ -28,5 +28,5 @@ index 9aff890afe..3c5956b837 100644
  // Support the deprecated case of compiling on an older macOS version
  static void *libsystem_b_handle;
 -- 
-2.35.1
+2.25.1
 

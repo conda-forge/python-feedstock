@@ -1,4 +1,4 @@
-From 6ddd3e94465416c50260865cd2258a29bfbacee3 Mon Sep 17 00:00:00 2001
+From 9cacbfb49d32940ff3830d131c657e291e32b755 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 16/25] cross compile darwin
@@ -103,5 +103,5 @@ index 9c3dd04989..0001e40a32 100644
              else:
                  ret = 1
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

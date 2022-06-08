@@ -1,4 +1,4 @@
-From 505be938618e42701784da135e860e2d3ef6687b Mon Sep 17 00:00:00 2001
+From f0a563100fda2ad855af87a633d60df5e3713dfb Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 3 Nov 2019 15:09:45 -0600
 Subject: [PATCH 12/25] Use ranlib from env if env variable is set
@@ -22,5 +22,5 @@ index 3414a761e7..181f66708e 100644
  
  
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

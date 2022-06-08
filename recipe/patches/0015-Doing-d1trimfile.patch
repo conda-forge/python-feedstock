@@ -1,4 +1,4 @@
-From d852fb0b2c6d5332ec81388987626faa7803b986 Mon Sep 17 00:00:00 2001
+From 7df56c01f83fa3524b7c2045388458fc32146c4b Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 15/25] Doing d1trimfile
@@ -569,12 +569,12 @@ index af813b77c1..9ff2acde0a 100644
      <Link>
        <AdditionalDependencies>$(tcltkLib);%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/liblzma.vcxproj b/PCbuild/liblzma.vcxproj
-index a6bd59ec0b..e5d2c4a674 100644
+index 4dd42ab98a..7c2dbc7e70 100644
 --- a/PCbuild/liblzma.vcxproj
 +++ b/PCbuild/liblzma.vcxproj
 @@ -94,6 +94,10 @@
        <PreprocessorDefinitions>WIN32;HAVE_CONFIG_H;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-       <AdditionalIncludeDirectories>$(lzmaDir)windows;$(lzmaDir)src/liblzma/common;$(lzmaDir)src/common;$(lzmaDir)src/liblzma/api;$(lzmaDir)src/liblzma/check;$(lzmaDir)src/liblzma/delta;$(lzmaDir)src/liblzma/lz;$(lzmaDir)src/liblzma/lzma;$(lzmaDir)src/liblzma/rangecoder;$(lzmaDir)src/liblzma/simple;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalIncludeDirectories>$(lzmaDir)windows/vs2019;$(lzmaDir)src/liblzma/common;$(lzmaDir)src/common;$(lzmaDir)src/liblzma/api;$(lzmaDir)src/liblzma/check;$(lzmaDir)src/liblzma/delta;$(lzmaDir)src/liblzma/lz;$(lzmaDir)src/liblzma/lzma;$(lzmaDir)src/liblzma/rangecoder;$(lzmaDir)src/liblzma/simple;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <DisableSpecificWarnings>4028;4113;4133;4244;4267;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -629,7 +629,7 @@ index ea432d6bc9..13bc692103 100644
      <Link>
        <AdditionalDependencies>version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 5dac66b4d0..ef27a30506 100644
+index 3481ed3d47..06b0858e22 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -91,6 +91,10 @@
@@ -672,7 +672,7 @@ index fb27e9e712..f8dc841ef1 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index c39ba3e1a9..68cf73be35 100644
+index 3ba6358764..5d15834900 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@
@@ -877,5 +877,5 @@ index dd830b3b6a..fef2c5b9f4 100644
        <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

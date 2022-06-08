@@ -1,4 +1,4 @@
-From 8483f964a8198839051301228597b521ba53174b Mon Sep 17 00:00:00 2001
+From 7701b45e89abdbf1980152441b239f717396813e Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 21 Sep 2021 13:05:20 -0500
 Subject: [PATCH 04/25] bpo-45258: search for -isysroot in addition to
@@ -23,5 +23,5 @@ index e74a275edb..534b14104b 100644
                  sysroot = m.group(1).strip('"')
                  for subdir in subdirs:
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

@@ -1,4 +1,4 @@
-From 022d7081eaf3662671f5b58ce4db3622e34469ee Mon Sep 17 00:00:00 2001
+From 344f12bdb694314ca85da16a5b7d0d59d41d9b2f Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
 Subject: [PATCH 08/25] bpo-22699: Allow compiling on debian/ubuntu with a
@@ -48,5 +48,5 @@ index 534b14104b..9c3dd04989 100644
              '%s -print-multiarch > %s 2> /dev/null' % (CC, tmpfile))
          multiarch_path_component = ''
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

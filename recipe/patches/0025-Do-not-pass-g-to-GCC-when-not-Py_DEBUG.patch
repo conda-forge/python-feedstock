@@ -1,4 +1,4 @@
-From 0c316dda3bd37d884933685cb71aa50745ab9678 Mon Sep 17 00:00:00 2001
+From 03c7a620cc45b740a778415eb885497ed97e94d5 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:45:28 +0100
 Subject: [PATCH 25/25] Do not pass -g to GCC when not Py_DEBUG
@@ -48,5 +48,5 @@ index 3b76442881..f89cc0ff8a 100644
  	    ;;
  	*)
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

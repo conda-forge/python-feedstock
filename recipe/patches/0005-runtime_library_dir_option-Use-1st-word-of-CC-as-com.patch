@@ -1,4 +1,4 @@
-From b090a35f21684b2e7903eca83a658f29299a2422 Mon Sep 17 00:00:00 2001
+From edf60960821da692372bef7afcdc6e1e23c3594e Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 5 Oct 2017 02:00:41 +0100
 Subject: [PATCH 05/25] runtime_library_dir_option: Use 1st word of CC as
@@ -26,5 +26,5 @@ index d00c48981e..54dd556fe5 100644
              # MacOSX's linker doesn't understand the -R flag at all
              return "-L" + dir
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

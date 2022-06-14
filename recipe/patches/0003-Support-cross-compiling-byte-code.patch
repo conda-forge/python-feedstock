@@ -1,4 +1,4 @@
-From 1bece4b2f4a5592800c1c7e77b6a2986dabee7c6 Mon Sep 17 00:00:00 2001
+From a56ab41cf6e7a3185f80d32547bedad63810a97f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 03/25] Support cross-compiling byte-code
@@ -120,5 +120,5 @@ index 763fc697be..4e026c2a0f 100644
  
  dnl Ensure that if prefix is specified, it does not end in a slash. If
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

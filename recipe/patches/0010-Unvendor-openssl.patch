@@ -1,4 +1,4 @@
-From 0e23d6c1da33b9a4382da393adf906f741b996f6 Mon Sep 17 00:00:00 2001
+From b01afea20430e9dd2787bf1549fe09876aefadf7 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 10/25] Unvendor openssl
@@ -141,7 +141,7 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 7a11cfafed..fa29afb69a 100644
+index c451429da2..6bb03008bf 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -55,6 +55,7 @@
@@ -153,7 +153,7 @@ index 7a11cfafed..fa29afb69a 100644
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
      <sqlite3Dir>$(ExternalsDir)sqlite-3.37.2.0\</sqlite3Dir>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index b58945a4d1..5dac66b4d0 100644
+index b6dcf14823..3481ed3d47 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -105,6 +105,9 @@
@@ -181,5 +181,5 @@ index e7216dec3a..247ea10d5c 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

@@ -1,4 +1,4 @@
-From b39872a12ac94be45c6fda20cab5444245a0d246 Mon Sep 17 00:00:00 2001
+From 4966a9e99c4ad67ce3b14b37761932e26ea816d0 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
 Subject: [PATCH 22/25] Unvendor tcltk
@@ -27,5 +27,5 @@ index 16dc35d45e..f0ae3372f3 100644
      <tclDLLName>tcl$(TclMajorVersion)$(TclMinorVersion)t$(TclDebugExt).dll</tclDLLName>
      <tclLibName>tcl$(TclMajorVersion)$(TclMinorVersion)t$(TclDebugExt).lib</tclLibName>
 -- 
-2.35.1
+2.32.1 (Apple Git-133)
 

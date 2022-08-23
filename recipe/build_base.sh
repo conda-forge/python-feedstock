@@ -130,6 +130,8 @@ fi
 
 export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
+declare -a _common_configure_args
+
 if [[ ${target_platform} == osx-* ]]; then
   sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
 fi
@@ -174,6 +176,7 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   export CONFIG_SITE=${PWD}/config.site
   # This is needed for libffi:
   export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
+  _common_configure_args+=(--with-build-python=${BUILD_PYTHON_PREFIX}/bin/python)
 fi
 
 # This causes setup.py to query the sysroot directories from the compiler, something which
@@ -235,7 +238,6 @@ if [[ ${CC} =~ .*-arm.* ]]; then
   TEST_EXCLUDES+=(test_compiler)
 fi
 
-declare -a _common_configure_args
 _common_configure_args+=(--prefix=${PREFIX})
 _common_configure_args+=(--build=${BUILD})
 _common_configure_args+=(--host=${HOST})

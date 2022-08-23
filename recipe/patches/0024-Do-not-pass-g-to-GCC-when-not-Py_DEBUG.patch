@@ -1,4 +1,4 @@
-From 8f4a15e0368dd6b6e9dc222aae9b87662b931293 Mon Sep 17 00:00:00 2001
+From 99aeb1e8d54e6ead044d849897f7b943d9be14f4 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:45:28 +0100
 Subject: [PATCH 24/24] Do not pass -g to GCC when not Py_DEBUG

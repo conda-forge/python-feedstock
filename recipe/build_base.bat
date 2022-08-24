@@ -93,16 +93,10 @@ xcopy /s /y /i %SRC_DIR%\Tools\demo %PREFIX%\Tools\demo
 if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
 if errorlevel 1 exit 1
-xcopy /s /y /i %SRC_DIR%\Tools\pynche %PREFIX%\Tools\pynche
-if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\scripts
 if errorlevel 1 exit 1
 
 del %PREFIX%\Tools\demo\README
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\pynche\README
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\pynche\pynche
 if errorlevel 1 exit 1
 del %PREFIX%\Tools\scripts\README
 if errorlevel 1 exit 1

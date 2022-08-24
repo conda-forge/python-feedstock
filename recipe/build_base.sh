@@ -515,4 +515,4 @@ fi
 
 # Workaround for old conda versions which fail to install noarch packages for Python 3.10+
 # https://github.com/conda/conda/issues/10969
-ln -s "${PREFIX}/lib/python3.10" "${PREFIX}/lib/python3.1"
+ln -s "${PREFIX}/lib/python3.11" "${PREFIX}/lib/python3.1"

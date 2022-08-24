@@ -1,4 +1,4 @@
-From 3ec9ee951d6d0ccdbd896cd6e00f414d79fd11a7 Mon Sep 17 00:00:00 2001
+From d906e29bacb60724b1862ecef527ad623bddee3f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 12/24] Add CondaEcosystemModifyDllSearchPath()
@@ -29,44 +29,32 @@ Subject: [PATCH 12/24] Add CondaEcosystemModifyDllSearchPath()
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
- Modules/main.c       | 106 +++++++++++++++++++++++++++++++++++++++++++
- Python/pylifecycle.c |   5 +-
- 2 files changed, 110 insertions(+), 1 deletion(-)
+ Python/pylifecycle.c | 96 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
 
-diff --git a/Modules/main.c b/Modules/main.c
-index 6904e3f76e..1db4780578 100644
---- a/Modules/main.c
-+++ b/Modules/main.c
-@@ -18,6 +18,10 @@
- #endif
+diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
+index 960a38aebe..a05002b904 100644
+--- a/Python/pylifecycle.c
++++ b/Python/pylifecycle.c
+@@ -53,6 +53,10 @@ extern void _PyIO_Fini(void);
  #ifdef MS_WINDOWS
- #  include <windows.h>            // STATUS_CONTROL_C_EXIT
+ #  undef BYTE
+ #  include "windows.h"
 +#  include <shlwapi.h>
 +#  include <string.h>
 +#  include <malloc.h>
 +#  include <libloaderapi.h>
- #endif
- /* End of includes for exit_sigint() */
  
-@@ -694,10 +698,112 @@ Py_RunMain(void)
-     return exitcode;
- }
+    extern PyTypeObject PyWindowsConsoleIO_Type;
+ #  define PyWindowsConsoleIO_Check(op) \
+@@ -105,6 +109,94 @@ __attribute__ ((section (".PyRuntime")))
+ = _PyRuntimeState_INIT;
+ _Py_COMP_DIAG_POP
  
 +#ifdef MS_WINDOWS
 +/*
-+    Provided CONDA_DLL_SEARCH_MODIFICATION_ENABLE is set (to anything at all!)
-+    this function will modify the DLL search path so that C:\Windows\System32
-+    does not appear before entries in PATH. If it does appear in PATH then it
-+    gets added at the position it was in in PATH.
-+
-+    This is achieved via a call to SetDefaultDllDirectories() then calls to
-+    AddDllDirectory() for each entry in PATH. We also take the opportunity to
-+    clean-up these PATH entries such that any '/' are replaced with '\', no
-+    double quotes occour and no PATH entry ends with '\'.
-+
-+    Caution: Microsoft's documentation says that the search order of entries
-+    passed to AddDllDirectory is not respected and arbitrary. I do not think
-+    this will be the case but it is worth bearing in mind.
++    This function will modify the DLL search path so that <PREFIX>/Library\bin
++    and other conda PATHS are added to the front of the DLL search path.
 +*/
 +
 +#if !defined(LOAD_LIBRARY_SEARCH_DEFAULT_DIRS)
@@ -151,25 +139,13 @@ index 6904e3f76e..1db4780578 100644
 +
 +#endif
 +
+ static int runtime_initialized = 0;
  
- static int
- pymain_main(_PyArgv *args)
- {
-+#ifdef MS_WINDOWS
-+    CondaEcosystemModifyDllSearchPath_Init(args->argc, args->wchar_argv);
-+#endif
-     PyStatus status = pymain_init(args);
-     if (_PyStatus_IS_EXIT(status)) {
-         pymain_free();
-diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index 960a38aebe..8f4c105fb9 100644
---- a/Python/pylifecycle.c
-+++ b/Python/pylifecycle.c
-@@ -120,7 +120,10 @@ _PyRuntime_Initialize(void)
-         return _PyStatus_OK();
+ PyStatus
+@@ -121,6 +213,10 @@ _PyRuntime_Initialize(void)
      }
      runtime_initialized = 1;
--
+ 
 +#ifdef MS_WINDOWS
 +    extern int CondaEcosystemModifyDllSearchPath_Init();
 +    CondaEcosystemModifyDllSearchPath_Init();

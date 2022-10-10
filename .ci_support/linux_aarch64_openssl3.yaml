@@ -5,7 +5,7 @@ bzip2:
 c_compiler:
 - gcc
 c_compiler_version:
-- '9'
+- '10'
 cdt_arch:
 - aarch64
 cdt_name:
@@ -17,34 +17,18 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '9'
+- '10'
 docker_image:
 - quay.io/condaforge/linux-anvil-aarch64
 libffi:
 - '3.4'
 ncurses:
-- '6.2'
+- '6'
 openssl:
 - '3'
 pin_run_as_build:
-  bzip2:
-    max_pin: x
-  libffi:
-    max_pin: x.x
-  ncurses:
-    max_pin: x.x
   python:
     min_pin: x.x
-    max_pin: x.x
-  readline:
-    max_pin: x
-  sqlite:
-    max_pin: x
-  tk:
-    max_pin: x.x
-  xz:
-    max_pin: x.x
-  zlib:
     max_pin: x.x
 python:
 - '3.7'
@@ -57,7 +41,7 @@ target_platform:
 tk:
 - '8.6'
 xz:
-- '5.2'
+- '5'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

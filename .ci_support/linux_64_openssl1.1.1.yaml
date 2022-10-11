@@ -25,24 +25,8 @@ ncurses:
 openssl:
 - 1.1.1
 pin_run_as_build:
-  bzip2:
-    max_pin: x
-  libffi:
-    max_pin: x.x
-  libuuid:
-    max_pin: x
   python:
     min_pin: x.x
-    max_pin: x.x
-  readline:
-    max_pin: x
-  sqlite:
-    max_pin: x
-  tk:
-    max_pin: x.x
-  xz:
-    max_pin: x.x
-  zlib:
     max_pin: x.x
 python:
 - '3.10'
@@ -55,7 +39,7 @@ target_platform:
 tk:
 - '8.6'
 xz:
-- '5.2'
+- '5'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

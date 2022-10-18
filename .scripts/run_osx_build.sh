@@ -6,6 +6,18 @@ source .scripts/logging_utils.sh
 
 set -xe
 
+if [ -z "$CONFIG" ]; then
+    set +x
+    FILES=`ls .ci_support/osx_*`
+    CONFIGS=""
+    for file in $FILES; do
+        file=${file/\.yaml/}
+        CONFIGS="${CONFIGS}'${file:12}' or ";
+    done
+    echo "Need to set CONFIG env variable. Value can be one of ${CONFIGS:0:${#CONFIGS}-4}"
+    exit 1
+fi
+
 MINIFORGE_HOME=${MINIFORGE_HOME:-${HOME}/miniforge3}
 
 ( startgroup "Installing a fresh version of Miniforge" ) 2> /dev/null
@@ -28,8 +40,6 @@ mamba install --update-specs --quiet --yes --channel conda-forge \
     conda-build pip boa conda-forge-ci-setup=3
 mamba update --update-specs --yes --quiet --channel conda-forge \
     conda-build pip boa conda-forge-ci-setup=3
-
-
 
 echo -e "\n\nSetting up the condarc and mangling the compiler."
 setup_conda_rc ./ ./recipe ./.ci_support/${CONFIG}.yaml

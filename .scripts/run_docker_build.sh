@@ -40,9 +40,10 @@ if [ -z "$CONFIG" ]; then
     FILES=`ls .ci_support/linux_*`
     CONFIGS=""
     for file in $FILES; do
-        CONFIGS="${CONFIGS}'${file:12:-5}' or ";
+        file=${file/\.yaml/}
+        CONFIGS="${CONFIGS}'${file:12}' or ";
     done
-    echo "Need to set CONFIG env variable. Value can be one of ${CONFIGS:0:-4}"
+    echo "Need to set CONFIG env variable. Value can be one of ${CONFIGS:0:${#CONFIGS}-4}"
     exit 1
 fi
 

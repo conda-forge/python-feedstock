@@ -25,8 +25,6 @@ for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   if NOT "%PY_VER%"=="%%i.%%j" exit 1
 )
 
-set "OPENSSL_DIR=%LIBRARY_PREFIX%"
-set "SQLITE3_DIR=%LIBRARY_PREFIX%"
 for /f "usebackq delims=" %%i in (`conda list -p %PREFIX% sqlite --no-show-channel-urls --json ^| findstr "version"`) do set SQLITE3_VERSION_LINE=%%i
 for /f "tokens=2 delims==/ " %%i IN ('echo %SQLITE3_VERSION_LINE%') do (set SQLITE3_VERSION=%%~i)
 echo SQLITE3_VERSION detected as %SQLITE3_VERSION%
@@ -95,16 +93,10 @@ xcopy /s /y /i %SRC_DIR%\Tools\demo %PREFIX%\Tools\demo
 if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
 if errorlevel 1 exit 1
-xcopy /s /y /i %SRC_DIR%\Tools\pynche %PREFIX%\Tools\pynche
-if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\scripts
 if errorlevel 1 exit 1
 
 del %PREFIX%\Tools\demo\README
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\pynche\README
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\pynche\pynche
 if errorlevel 1 exit 1
 del %PREFIX%\Tools\scripts\README
 if errorlevel 1 exit 1

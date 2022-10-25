@@ -314,6 +314,7 @@ about:
 extra:
   feedstock-name: python
   recipe-maintainers:
+    - chrisburr
     - isuruf
     - jakirkham
     - mbargull

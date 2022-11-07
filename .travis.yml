@@ -3,57 +3,35 @@
 
 language: generic
 
-os: osx
-osx_image: xcode6.4
-
-env:
-  matrix:
-    
-    - CONDA_PY=35
-  global:
-    # The BINSTAR_TOKEN secure variable. This is defined canonically in conda-forge.yml.
-    - secure: "nkZ1RWSP1PIRI6OqCwqeLrib7nXeBzX7PJg+P72RH1LQ56SZCdzqmvr3IoC2gxayZBzDnFsq7bU1ypy/gNtKDfWaXJvUQVKcKrbWF6dQxVXP/X5go+y9stSjI/WGXMbBr8ZwePR3lDmEPifEKdpgOaMWosqnK+ThtRNdxqKbnzRB6cOJSCcRGIMexauJg+IkPyQ5MFh59VHLdvfxfqNXa1Kdv2WkgfKX+apjLlCJoDP34zUcGFyIccbbq130AW0aYiJV3ZJIIVfcAgJqS7Ons0X3biA7/Fp6AWQKx91Ew/aoN3xb878CVr5ygKqjDdVkZClW2JEaSW9w+WG7RWomPJIPvmAuoKg50S4D07iBZf89Hjg+oybZ17ct+OA1UdW8EK8c/gaPFQsBuN1sRG2DNAJug+ViPPl7hnoAfRhRcPnUEuLcPJ6kyEcpYZgPE3MMRtjIiRRyNRzccinjxjPbojFTkiCHM9U9krFVGwIKNHp6623rttriu9YGU7yd6wRGbD09AUajT8r9iPn2OJ1+ibzCIbzJx6Nb7290+Fs4UbU29m1bAiabBTnN6EVim20tMtqCxA6HNbji30SBB/C+lQ/pf9D16Nxy+FCEdQXb193iqBxhjzEpJZHkFY/g8b1C6yJGi6dzbNDKT63HbGduQUZ99rKMmI8XaAf3ANRm/Vs="
 
 
-before_install:
-    # Fast finish the PR.
-    - |
-      (curl https://raw.githubusercontent.com/conda-forge/conda-forge-build-setup-feedstock/master/recipe/ff_ci_pr_build.py | \
-          python - -v --ci "travis" "${TRAVIS_REPO_SLUG}" "${TRAVIS_BUILD_NUMBER}" "${TRAVIS_PULL_REQUEST}") || exit 1
+matrix:
+  include:
+    - env: CONFIG=linux_aarch64_openssl1.1.1 UPLOAD_PACKAGES=True PLATFORM=linux-aarch64 DOCKER_IMAGE=quay.io/condaforge/linux-anvil-aarch64
+      os: linux
+      arch: arm64
+      dist: focal
 
-    # Remove homebrew.
-    - |
-      echo ""
-      echo "Removing homebrew from Travis CI to avoid conflicts."
-      curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall > ~/uninstall_homebrew
-      chmod +x ~/uninstall_homebrew
-      ~/uninstall_homebrew -fq
-      rm ~/uninstall_homebrew
+    - env: CONFIG=linux_aarch64_openssl3 UPLOAD_PACKAGES=True PLATFORM=linux-aarch64 DOCKER_IMAGE=quay.io/condaforge/linux-anvil-aarch64
+      os: linux
+      arch: arm64
+      dist: focal
 
+    - env: CONFIG=linux_ppc64le_openssl1.1.1 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
+      os: linux
+      arch: ppc64le
+      dist: focal
 
-install:
-    # Install Miniconda.
-    - |
-      echo ""
-      echo "Installing a fresh version of Miniconda."
-      MINICONDA_URL="https://repo.continuum.io/miniconda"
-      MINICONDA_FILE="Miniconda3-latest-MacOSX-x86_64.sh"
-      curl -L -O "${MINICONDA_URL}/${MINICONDA_FILE}"
-      bash $MINICONDA_FILE -b
-
-    # Configure conda.
-    - |
-      echo ""
-      echo "Configuring conda."
-      source /Users/travis/miniconda3/bin/activate root
-      conda config --remove channels defaults
-      conda config --add channels defaults
-      conda config --add channels conda-forge
-      conda config --set show_channel_urls true
-      conda install --yes --quiet conda-forge-build-setup
-      source run_conda_forge_build_setup
+    - env: CONFIG=linux_ppc64le_openssl3 UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
+      os: linux
+      arch: ppc64le
+      dist: focal
 
 script:
-  - conda build ./recipe
+  - export CI=travis
+  - export GIT_BRANCH="$TRAVIS_BRANCH"
+  - export FEEDSTOCK_NAME=$(basename ${TRAVIS_REPO_SLUG})
+  - if [[ "${TRAVIS_PULL_REQUEST:-}" == "false" ]]; then export IS_PR_BUILD="False"; else export IS_PR_BUILD="True"; fi
 
-  - upload_or_check_non_existence ./recipe conda-forge --channel=main
+
+  - if [[ ${PLATFORM} =~ .*linux.* ]]; then CONDA_FORGE_DOCKER_RUN_ARGS="--network=host --security-opt=seccomp=unconfined" ./.scripts/run_docker_build.sh; fi

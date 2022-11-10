@@ -26,15 +26,6 @@
 {% else %}
   {% set linkage_nature_env = 'static' %}
 {% endif %}
-{% set dbg_abi = "" %}
-{% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
-{% if debug != '' and debug != 'no' %}
-  {% set py_interp_debug = "yes" %}
-  {% set debug = "_dbg" %}
-  {% set dbg_abi = "d" %}  # [win]
-{% else %}
-  {% set py_interp_debug = "no" %}
-{% endif %}
 
 package:
   name: python-split
@@ -124,8 +115,8 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython  # ["conda-forge" in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}  # ["conda-forge" not in (channel_targets or "")]
 {% if 'conda-forge' in channel_targets %}
       run_exports:
         noarch:
@@ -135,7 +126,173 @@ outputs:
 {% endif %}
       script_env:
         - PY_INTERP_LINKAGE_NATURE={{ linkage_nature_env }}
-        - PY_INTERP_DEBUG={{ py_interp_debug }}
+        - PY_INTERP_DEBUG=no
+        # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
+        # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
+        # important env. vars.
+{% if 'conda-forge' in channel_targets %}
+        - CONDA_FORGE=yes
+{% else %}
+        - CONDA_FORGE=no
+{% endif %}
+      missing_dso_whitelist:   # [win]
+        - '**/MSVCR71.dll'  # [win]
+        - '**/MSVCR80.dll'  # [win]
+        # I have no idea why this is not in C:\Windows\System32\downlevel
+        - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
+        - {{ cdt('libx11-devel') }}  # [linux]
+        - make  # [not win]
+        - libtool  # [unix]
+        - pkg-config  # [not win]
+        # configure script looks for llvm-ar for lto
+        - llvm-tools  # [osx]
+        - ld_impl_{{ target_platform }}  # [linux]
+{% if 'conda-forge' in channel_targets %}
+        - binutils_impl_{{ target_platform }}  # [linux]
+{% endif %}
+      host:
+        - bzip2
+        - sqlite
+        - xz
+        - zlib
+        - openssl
+        - readline  # [not win]
+        - tk
+        - ncurses  # [unix]
+        - libffi
+        - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
+        - libnsl  # [linux]
+        - libuuid  # [linux]
+      run:
+        - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
+        - tzdata
+{% if 'conda-forge' in channel_targets %}
+      run_constrained:
+        - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
+{% endif %}
+    test:
+      downstreams:
+        # Temporarily disable dowmstream tests on aarch64 as the solver causes timeouts on drone
+        # Fully disable while migrating as the automatic skip doesn't work
+        # - cython  # [not aarch64]
+        # - setuptools  # [not aarch64]
+      requires:
+        - ripgrep
+        - cmake
+        - ninja
+        - {{ compiler('c') }}
+        # Tried to use enable_language(C) to avoid needing this. It does not work.
+        - {{ compiler('cxx') }}
+      files:
+        - tests/distutils/*
+        - tests/cmake/*
+        - tests/cython/*
+        - tests/prefix-replacement/*
+        - run_test.py
+      commands:
+        - echo on  # [win]
+        - set  # [win]
+        - python -V
+        - python3 -V            # [not win]
+        - 2to3 -h
+        - pydoc -h
+        - python3-config --help  # [not win]
+        - set "PIP_NO_BUILD_ISOLATION=False"  # [win]
+        - set "PIP_NO_DEPENDENCIES=True"  # [win]
+        - set "PIP_IGNORE_INSTALLED=True"  # [win]
+        - set "PIP_NO_INDEX=True"  # [win]
+        - set "PIP_CACHE_DIR=%CONDA_PREFIX%/pip_cache"  # [win]
+        - set "TEMP=%CONDA_PREFIX%/tmp"  # [win]
+        - mkdir "%TEMP%"  # [win]
+        - python -Im ensurepip --upgrade --default-pip  # [win]
+        # tzdata/zoneinfo test that will need the tzdata package to pass
+        - python -c "from zoneinfo import ZoneInfo; from datetime import datetime; dt = datetime(2020, 10, 31, 12, tzinfo=ZoneInfo('America/Los_Angeles')); print(dt.tzname())"
+        - python -m venv test-venv
+        - test-venv\\Scripts\\python.exe -c "import ctypes"  # [win]
+        - test-venv/bin/python -c "import ctypes"            # [unix]
+        - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
+        - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
+        # check for unreplaced @ symbols in sysconfig files
+        - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        # https://github.com/conda-forge/python-feedstock/issues/384
+        - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
+        - if exist %PREFIX%\\Scripts\\idle exit 1  # [win]
+        - if exist %PREFIX%\\Scripts\\2to3 exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\pydoc-script.py exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\idle-script.py exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\2to3-script.py exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\idle.exe exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
+        - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
+        - pushd tests
+        - pushd distutils
+        - python setup.py install -v -v
+        - python -c "import foobar"
+        - popd
+        - pushd prefix-replacement    # [unix]
+        - bash build-and-test.sh      # [unix]
+        - popd    # [unix]
+        - pushd cmake
+        - cmake -GNinja -DPY_VER={{ version }}
+              # --trace --debug-output --debug-trycompile .
+        - popd
+        - popd
+        - python run_test.py
+        - test ! -f default.profraw   # [osx]
+        # Test workaround for https://github.com/conda/conda/issues/10969
+        - test -d "$PREFIX/lib/python3.1/site-packages"  # [unix]
+        - python3.1 --version  # [unix]
+        # Test for segfault on osx-64 with libffi=3.4, see https://bugs.python.org/issue44556
+        - python -c "from ctypes import CFUNCTYPE; CFUNCTYPE(None)(id)"
+
+  - name: python-debug
+    script: build_base.sh  # [unix]
+    script: build_base.bat  # [win]
+    build:
+      number: {{ build_number }}
+      activate_in_script: true
+      # Windows has issues updating python if conda is using files itself.
+      # Copy rather than link.
+      no_link:
+        - DLLs/_ctypes.pyd  # [win]
+      ignore_run_exports_from:   # [unix]
+        # C++ only installed so CXX is defined for distutils/sysconfig.
+        - {{ compiler('cxx') }}  # [unix]
+      # Disabled until verified to work correctly
+      detect_binary_files_with_prefix: true
+      # detect_binary_files_with_prefix: False
+      # binary_has_prefix_files:
+      #   - lib/libpython{{ ver2 }}.*.1.0
+      #   - bin/python{{ ver2 }}  # [linux]
+      #   - lib/libpython{{ ver2 }}.a  # [linux]
+      #   - lib/libpython{{ ver2 }}.nolto.a  # [linux]
+      #   - lib/libpython3.so  # [linux]
+      #   - lib/python{{ ver2 }}/lib-dynload/_hashlib.cpython-{{ ver2nd }}-x86_64-linux-gnu.so  # [linux]
+      #   - lib/libpython3.dylib  # [osx]
+      # match python.org compiler standard
+      skip: true  # [win and int(float(vc)) < 14]
+      skip_compile_pyc:
+        - '*.py'            # [build_platform != target_platform]
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython  # ["conda-forge" in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}  # ["conda-forge" not in (channel_targets or "")]
+{% if 'conda-forge' in channel_targets %}
+      run_exports:
+        noarch:
+          - python
+        weak:
+          - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
+{% endif %}
+      script_env:
+        - PY_INTERP_LINKAGE_NATURE={{ linkage_nature_env }}
+        - PY_INTERP_DEBUG=yes
+        - DEBUG_PY=yes
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
         # important env. vars.
@@ -269,8 +426,8 @@ outputs:
       activate_in_script: true
       ignore_run_exports:
         - python_abi
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}_cpython  # ["conda-forge" in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}  # ["conda-forge" not in (channel_targets or "")]
     requirements:
       build:
         - {{ compiler('c') }}

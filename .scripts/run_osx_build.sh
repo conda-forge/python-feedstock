@@ -3,7 +3,7 @@
 # -*- mode: jinja-shell -*-
 
 source .scripts/logging_utils.sh
-
+export PS4='\033[0;33m+(${BASH_SOURCE}:${LINENO})\033[0m '
 set -xe
 
 MINIFORGE_HOME=${MINIFORGE_HOME:-${HOME}/miniforge3}

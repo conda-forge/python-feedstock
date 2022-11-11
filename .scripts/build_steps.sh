@@ -8,6 +8,7 @@
 # -*- mode: jinja-shell -*-
 
 set -xeuo pipefail
+export PS4='\033[0;33m+(${BASH_SOURCE}:${LINENO})\033[0m '
 export FEEDSTOCK_ROOT="${FEEDSTOCK_ROOT:-/home/conda/feedstock_root}"
 source ${FEEDSTOCK_ROOT}/.scripts/logging_utils.sh
 

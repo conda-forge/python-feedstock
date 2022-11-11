@@ -1,5 +1,6 @@
 #!/bin/bash
 set -ex
+export PS4='\033[0;33m+(${BASH_SOURCE}:${LINENO})\033[0m '
 
 # Get an updated config.sub and config.guess
 cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
@@ -508,7 +509,8 @@ fi
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
-rm ${PREFIX}/lib/libpython${VER}.a
+# May not exist for python-debug. Using rm -f to ignore
+rm -f ${PREFIX}/lib/libpython${VER}.a
 if [[ "$target_platform" == linux-* ]]; then
   rm ${PREFIX}/include/uuid.h
 fi

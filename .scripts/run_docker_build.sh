@@ -5,7 +5,7 @@
 # changes to this script, consider a proposal to conda-smithy so that other feedstocks can also
 # benefit from the improvement.
 
-export PS4='\033[0;33m+(${BASH_SOURCE}:${LINENO})\033[0m '
+export PS4='\e[33m+ ${BASH_SOURCE}:${LINENO} \e[0m'
 
 source .scripts/logging_utils.sh
 

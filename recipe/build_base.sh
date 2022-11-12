@@ -1,6 +1,6 @@
 #!/bin/bash
 set -ex
-export PS4='\033[0;33m+(${BASH_SOURCE}:${LINENO})\033[0m '
+export PS4='+ ${BASH_SOURCE}:${LINENO} '
 
 # Get an updated config.sub and config.guess
 cp $BUILD_PREFIX/share/libtool/build-aux/config.* .

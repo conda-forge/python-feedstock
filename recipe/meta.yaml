@@ -290,9 +290,15 @@ outputs:
       requires:
         - {{ compiler('c') }}
       commands:
-        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
-        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
-        - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
+        - VER=${PKG_VERSION%.*}   # [not win]
+{% if py_interp_debug == "yes" %}
+        - VERABI=${VER}d    # [not win]
+{% else %}
+        - VERABI=${VER}   # [not win]
+{% endif %}
+        - test -f ${PREFIX}/lib/libpython${VERABI}.a  # [unix]
+        - test -f ${PREFIX}/lib/libpython${VERABI}.nolto.a  # [unix]
+        - test -f ${PREFIX}/lib/python${VER}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
         - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]

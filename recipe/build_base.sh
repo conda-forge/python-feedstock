@@ -508,7 +508,8 @@ fi
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
-rm ${PREFIX}/lib/libpython${VER}.a
+rm ${PREFIX}/lib/libpython${VERABI}.a
+
 if [[ "$target_platform" == linux-* ]]; then
   rm ${PREFIX}/include/uuid.h
 fi

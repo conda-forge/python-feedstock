@@ -269,6 +269,8 @@ outputs:
       activate_in_script: true
       ignore_run_exports:
         - python_abi
+      script_env:
+        - PY_INTERP_DEBUG={{ py_interp_debug }}
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
     requirements:

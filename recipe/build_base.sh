@@ -49,7 +49,7 @@ if [[ ${target_platform} == linux-ppc64le ]]; then
 fi
 
 declare -a _dbg_opts
-if [[ ${DEBUG_PY} == yes ]]; then
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   # This Python will not be usable with non-debug Python modules.
   _dbg_opts+=(--with-pydebug)
   DBG=d

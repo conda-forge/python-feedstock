@@ -28,11 +28,11 @@
 {% endif %}
 {% if build_type == "debug" %}
   {% set py_interp_debug = "yes" %}
-  {% set debug = "_dbg" %}
+  {% set debug = "_debug" %}
   {% set dbg_abi = "d" %}  # [win]
 {% else %}
   {% set py_interp_debug = "no" %}
-  {% set debug = "_dbg" %}
+  {% set debug = "" %}
   {% set dbg_abi = "" %}  # [win]
 {% endif %}
 
@@ -84,6 +84,7 @@ source:
 
 build:
   number: {{ build_number }}
+  skip: true  # [win and build_type == "debug"]
 
 requirements:
   build:

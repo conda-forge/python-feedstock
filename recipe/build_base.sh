@@ -132,10 +132,6 @@ export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
 declare -a _common_configure_args
 
-if [[ ${target_platform} == osx-* ]]; then
-  sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
-fi
-
 if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   # Build the exact same Python for the build machine. It would be nice (and might be
   # possible already?) to be able to make this just an 'exact' pinned build dependency
@@ -503,9 +499,6 @@ if [[ ${HOST} =~ .*linux.* ]]; then
   echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
   echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
 fi
-
-# There are some strange distutils files around. Delete them
-rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
 rm ${PREFIX}/lib/libpython${VER}.a

@@ -393,7 +393,7 @@ fi
 ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python
 ln -s ${PREFIX}/bin/pydoc${VER} ${PREFIX}/bin/pydoc
 # Workaround for https://github.com/conda/conda/issues/10969
-ln -s ${PREFIX}/bin/python3.11 ${PREFIX}/bin/python3.1
+ln -s ${PREFIX}/bin/python3.12 ${PREFIX}/bin/python3.1
 
 # Remove test data to save space
 # Though keep `support` as some things use that.
@@ -515,4 +515,4 @@ fi
 
 # Workaround for old conda versions which fail to install noarch packages for Python 3.10+
 # https://github.com/conda/conda/issues/10969
-ln -s "${PREFIX}/lib/python3.11" "${PREFIX}/lib/python3.1"
+ln -s "${PREFIX}/lib/python3.12" "${PREFIX}/lib/python3.1"

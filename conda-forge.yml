@@ -3,3 +3,5 @@ provider: {linux_aarch64: default, linux_ppc64le: default, win: appveyor}
 azure:
   force: false
 conda_forge_output_validation: true
+conda_build:
+  pkg_format: '2'

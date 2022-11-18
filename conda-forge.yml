@@ -2,3 +2,5 @@ channels:
   targets:
   - [conda-forge, prerelease]
 conda_forge_output_validation: true
+conda_build:
+  pkg_format: '2'

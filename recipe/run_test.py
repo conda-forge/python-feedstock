@@ -86,6 +86,10 @@ if sys.platform != 'win32':
     import syslog
     import termios
 
+    if os.getenv('PY_INTERP_DEBUG') == 'yes':
+        assert 'd' in sys.abiflags
+        assert 'gettotalrefcount' in dir(sys)
+
 
 if not (armv6l or armv7l or ppc64le or osx105):
     import tkinter
@@ -93,10 +97,10 @@ if not (armv6l or armv7l or ppc64le or osx105):
     import _tkinter
     print('TK_VERSION: %s' % _tkinter.TK_VERSION)
     print('TCL_VERSION: %s' % _tkinter.TCL_VERSION)
-    TCLTK_VER = os.getenv("tk")
+    TCLTK_VER = os.getenv('tk')
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
 
 import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
-CONDA_OPENSSL_VERSION = os.getenv("openssl")
+CONDA_OPENSSL_VERSION = os.getenv('openssl')
 assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION

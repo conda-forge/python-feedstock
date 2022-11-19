@@ -34,7 +34,7 @@ if [[ ${PY_INTERP_LINKAGE_NATURE} == shared ]]; then
 fi
 
 # For debugging builds, set this to no to disable profile-guided optimization
-if [[ ${DEBUG_C} == yes ]]; then
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   _OPTIMIZED=no
 else
   _OPTIMIZED=yes
@@ -509,6 +509,13 @@ rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
 rm ${PREFIX}/lib/libpython${VERABI}.a
+
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+  rm ${PREFIX}/bin/python${VER}
+  ln -s ${PREFIX}/bin/python${VERABI} ${PREFIX}/bin/python${VER}
+  ln -s ${PREFIX}/lib/libpython${VERABI}.so ${PREFIX}/lib/libpython${VER}.so
+  ln -s ${PREFIX}/lib/libpython${VERABI}.so.1.0 ${PREFIX}/lib/libpython${VER}.so.1.0
+fi
 
 if [[ "$target_platform" == linux-* ]]; then
   rm ${PREFIX}/include/uuid.h

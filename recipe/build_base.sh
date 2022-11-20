@@ -97,6 +97,12 @@ if [[ ${_OPTIMIZED} = yes ]]; then
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O3/g")
 fi
 
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+  CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O0/g")
+  CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O0/g")
+  CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O0/g")
+fi
+
 if [[ ${CONDA_FORGE} == yes ]]; then
   ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
 fi

@@ -1,4 +1,4 @@
-From b01afea20430e9dd2787bf1549fe09876aefadf7 Mon Sep 17 00:00:00 2001
+From 2a1bf56d3ed651c1418efc76f0027cf4b48ce6a2 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 10/25] Unvendor openssl
@@ -141,7 +141,7 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index c451429da2..6bb03008bf 100644
+index b3604b19a1..40d56ddecc 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -55,6 +55,7 @@
@@ -181,5 +181,5 @@ index e7216dec3a..247ea10d5c 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 -- 
-2.32.1 (Apple Git-133)
+2.38.1
 

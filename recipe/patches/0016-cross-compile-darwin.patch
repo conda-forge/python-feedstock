@@ -1,4 +1,4 @@
-From 9cacbfb49d32940ff3830d131c657e291e32b755 Mon Sep 17 00:00:00 2001
+From 96a1b4d20972653048e52ead6facc16810dcec94 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 16/25] cross compile darwin
@@ -30,7 +30,7 @@ index e32f9c11cd..5f7e46fb6c 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index 5075304e93..9399fe6cd8 100755
+index cb545e49ef..5b70f0833c 100755
 --- a/configure
 +++ b/configure
 @@ -3393,6 +3393,9 @@ if test "$cross_compiling" = yes; then
@@ -53,7 +53,7 @@ index 5075304e93..9399fe6cd8 100755
  	readelf|:)
  	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index 4e026c2a0f..3b76442881 100644
+index d017c2b35b..4fbbd0cb3a 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -448,6 +448,9 @@ if test "$cross_compiling" = yes; then
@@ -76,7 +76,7 @@ index 4e026c2a0f..3b76442881 100644
  	readelf|:)
  	AC_MSG_ERROR([readelf for the host is required for cross builds])
 diff --git a/setup.py b/setup.py
-index 9c3dd04989..0001e40a32 100644
+index a75c62d4d3..df29fe9785 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -83,7 +83,7 @@ def get_platform():
@@ -88,7 +88,7 @@ index 9c3dd04989..0001e40a32 100644
  AIX = (HOST_PLATFORM.startswith('aix'))
  VXWORKS = ('vxworks' in HOST_PLATFORM)
  CC = os.environ.get("CC")
-@@ -1099,11 +1099,11 @@ def detect_readline_curses(self):
+@@ -1098,11 +1098,11 @@ def detect_readline_curses(self):
                  readline_lib = 'readline'
              do_readline = self.compiler.find_library_file(self.lib_dirs,
                  readline_lib)
@@ -103,5 +103,5 @@ index 9c3dd04989..0001e40a32 100644
              else:
                  ret = 1
 -- 
-2.32.1 (Apple Git-133)
+2.38.1
 

@@ -1,4 +1,4 @@
-From a56ab41cf6e7a3185f80d32547bedad63810a97f Mon Sep 17 00:00:00 2001
+From b7686ba51e5e59348b4b61056932650eee53abea Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 03/25] Support cross-compiling byte-code
@@ -11,7 +11,7 @@ https://bugs.python.org/issue22724
  3 files changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index ee85f35b10..3fb65371c9 100644
+index 8ee44bfc0a..a39b0fd1bc 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -261,6 +261,7 @@ BUILDPYTHON=	python$(BUILDEXE)
@@ -67,7 +67,7 @@ index ee85f35b10..3fb65371c9 100644
  			$$ensurepip --root=$(DESTDIR)/ ; \
  	fi
  
-@@ -1746,7 +1747,7 @@ libainstall:	@DEF_MAKE_RULE@ python-config
+@@ -1747,7 +1748,7 @@ libainstall:	@DEF_MAKE_RULE@ python-config
  # Install the dynamically loadable modules
  # This goes into $(exec_prefix)
  sharedinstall: sharedmods
@@ -77,7 +77,7 @@ index ee85f35b10..3fb65371c9 100644
  		--install-scripts=$(BINDIR) \
  		--install-platlib=$(DESTSHARED) \
 diff --git a/configure b/configure
-index 19f1bd59ba..5075304e93 100755
+index bad619963a..cb545e49ef 100755
 --- a/configure
 +++ b/configure
 @@ -760,6 +760,7 @@ CONFIG_ARGS
@@ -99,7 +99,7 @@ index 19f1bd59ba..5075304e93 100755
  elif test "$cross_compiling" = maybe; then
      as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index 763fc697be..4e026c2a0f 100644
+index cc69015b10..d017c2b35b 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -82,13 +82,15 @@ if test "$cross_compiling" = yes; then
@@ -120,5 +120,5 @@ index 763fc697be..4e026c2a0f 100644
  
  dnl Ensure that if prefix is specified, it does not end in a slash. If
 -- 
-2.32.1 (Apple Git-133)
+2.38.1
 

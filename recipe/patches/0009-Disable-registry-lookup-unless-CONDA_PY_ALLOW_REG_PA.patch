@@ -1,4 +1,4 @@
-From 4f44e06371573bd9fb419d8157ff204bcdb1200e Mon Sep 17 00:00:00 2001
+From bcabc5061a04990139b6b394d5720a5127fde103 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
 Subject: [PATCH 09/25] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
@@ -37,5 +37,5 @@ index 7c0eeab5db..a73ea8a0e9 100644
         anything better to use! */
      int skipdefault = (calculate->pythonpath_env != NULL ||
 -- 
-2.32.1 (Apple Git-133)
+2.38.1
 

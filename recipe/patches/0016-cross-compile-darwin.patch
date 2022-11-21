@@ -1,4 +1,4 @@
-From b813e4438cbec91adff21d8b55b7be9cd37797a7 Mon Sep 17 00:00:00 2001
+From 5be994ebf67dcd09f7fa3828ddf2a4f78ac30194 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 16/26] cross compile darwin
@@ -102,6 +102,3 @@ index c900c832e3..74ea2fbefa 100644
                  ret = run_command("ldd %s > %s" % (do_readline, tmpfile))
              else:
                  ret = 1
--- 
-2.25.1
-

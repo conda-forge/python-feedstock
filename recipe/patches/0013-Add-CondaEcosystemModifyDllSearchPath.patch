@@ -1,4 +1,4 @@
-From b44ebbb99326b24af093432558d28fb57f1e9965 Mon Sep 17 00:00:00 2001
+From 0dab4011b207b79ff9fa6b483a8e7eadd30d0faf Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 13/26] Add CondaEcosystemModifyDllSearchPath()
@@ -483,6 +483,3 @@ index 60f091cbbe..b21f7b58f3 100644
      return _PyRuntimeState_Init(&_PyRuntime);
  }
  
--- 
-2.25.1
-

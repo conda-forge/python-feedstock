@@ -1,4 +1,4 @@
-From 3b62c16d7644cd9087d0513028b249e6e47b04c9 Mon Sep 17 00:00:00 2001
+From ff186e604da9f2548914b7c4bbc5bf389ace18fa Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
 Subject: [PATCH 08/26] bpo-22699: Allow compiling on debian/ubuntu with a
@@ -46,6 +46,3 @@ index 929c6b6a8e..c900c832e3 100644
          ret = run_command(
              '%s -print-multiarch > %s 2> /dev/null' % (CC, tmpfile))
          multiarch_path_component = ''
--- 
-2.25.1
-

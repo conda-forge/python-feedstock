@@ -1,4 +1,4 @@
-From ce2ecca0bdbe1007bf618a8ded069d4f5e3c0075 Mon Sep 17 00:00:00 2001
+From 17ebb2c04a96bbdd3bf4d43c29f0cd823368cf48 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 3 Nov 2019 15:09:45 -0600
 Subject: [PATCH 12/26] Use ranlib from env if env variable is set
@@ -21,6 +21,3 @@ index 37feae5df7..372678bf52 100644
          compiler.shared_lib_extension = shlib_suffix
  
  
--- 
-2.25.1
-

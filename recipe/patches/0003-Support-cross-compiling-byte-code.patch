@@ -1,7 +1,7 @@
-From 48abe3b0000b2454b22366730942ca5e248440ef Mon Sep 17 00:00:00 2001
+From 9169b8654e47034b4839d73cd06f4425e74b85aa Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
-Subject: [PATCH 03/25] Support cross-compiling byte-code
+Subject: [PATCH 03/24] Support cross-compiling byte-code
 
 https://bugs.python.org/issue22724
 ---
@@ -123,6 +123,3 @@ index de83332dd3..703c59ab25 100644
  AC_SUBST(PYTHON_FOR_BUILD)
  
  dnl Ensure that if prefix is specified, it does not end in a slash. If
--- 
-2.30.2
-

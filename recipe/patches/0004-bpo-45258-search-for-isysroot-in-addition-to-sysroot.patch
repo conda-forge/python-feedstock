@@ -1,7 +1,7 @@
-From 34a3b58c88b7e4adf1e61c09a5440904d51197c8 Mon Sep 17 00:00:00 2001
+From cca80ec83786263a223728e14b97d2a711b79a43 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 21 Sep 2021 13:05:20 -0500
-Subject: [PATCH 04/25] bpo-45258: search for -isysroot in addition to
+Subject: [PATCH 04/24] bpo-45258: search for -isysroot in addition to
  --sysroot
 
 -isysroot is for macOS, while --sysroot is for gcc/linux
@@ -22,6 +22,3 @@ index 57be07a7e0..b88d6cc30d 100644
              if m is not None:
                  sysroot = m.group(1).strip('"')
                  for subdir in subdirs:
--- 
-2.30.2
-

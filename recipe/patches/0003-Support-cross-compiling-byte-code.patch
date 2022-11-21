@@ -1,4 +1,4 @@
-From b7686ba51e5e59348b4b61056932650eee53abea Mon Sep 17 00:00:00 2001
+From 2b5147b5d4e8fee66f032c32483d3d81e84dfc7c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 03/25] Support cross-compiling byte-code
@@ -119,6 +119,3 @@ index cc69015b10..d017c2b35b 100644
  AC_SUBST(PYTHON_FOR_BUILD)
  
  dnl Ensure that if prefix is specified, it does not end in a slash. If
--- 
-2.38.1
-

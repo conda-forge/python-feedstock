@@ -1,4 +1,4 @@
-From dad98f9492af2aa80a9d9c95324bc06da11c516d Mon Sep 17 00:00:00 2001
+From cc3dc6178a25e6ddf251f87cc47fcdec9ca8253a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 5 Oct 2017 02:00:41 +0100
 Subject: [PATCH 05/25] runtime_library_dir_option: Use 1st word of CC as
@@ -25,6 +25,3 @@ index d00c48981e..54dd556fe5 100644
          if sys.platform[:6] == "darwin":
              # MacOSX's linker doesn't understand the -R flag at all
              return "-L" + dir
--- 
-2.38.1
-

@@ -1,4 +1,4 @@
-From eaf99848c144bd320b388d028fd026ed40c1ec10 Mon Sep 17 00:00:00 2001
+From 3f196d5280398ba986654005b7521042230ebc9f Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
 Subject: [PATCH 18/25] Make dyld search work with SYSTEM_VERSION_COMPAT=1
@@ -27,6 +27,3 @@ index 48694760db..e72352ffac 100644
  #else
  // Support the deprecated case of compiling on an older macOS version
  static void *libsystem_b_handle;
--- 
-2.38.1
-

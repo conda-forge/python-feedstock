@@ -1,4 +1,4 @@
-From d6e10b7a7c023bde8ad218dc68b7c90735f68b2e Mon Sep 17 00:00:00 2001
+From 5f4ca300d7e4613c80569c32a491c628d235c61b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 24/25] unvendor zlib
@@ -161,6 +161,3 @@ index 55b57ef29d..2fc1a57161 100644
      <ClCompile Include="..\Python\hamt.c">
        <Filter>Python</Filter>
      </ClCompile>
--- 
-2.38.1
-

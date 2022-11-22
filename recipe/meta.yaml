@@ -26,14 +26,13 @@
 {% else %}
   {% set linkage_nature_env = 'static' %}
 {% endif %}
+{% set dbg_abi = "" %}
 {% if build_type == "debug" %}
   {% set py_interp_debug = "yes" %}
   {% set debug = "_debug" %}
-  {% set dbg_abi = "d" %}  # [win]
 {% else %}
   {% set py_interp_debug = "no" %}
   {% set debug = "" %}
-  {% set dbg_abi = "" %}  # [win]
 {% endif %}
 
 package:

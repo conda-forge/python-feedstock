@@ -128,6 +128,9 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
 {% if 'conda-forge' in channel_targets %}
       run_exports:
+{% if py_interp_debug == "yes" %}
+        - python=*=*debug*
+{% endif %}
         noarch:
           - python
         weak:

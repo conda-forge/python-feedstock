@@ -1,7 +1,7 @@
-From 9b229d840fac7f5d1f75fdf377efe2a418dfc134 Mon Sep 17 00:00:00 2001
+From 56bc800f3b9ebc403a2ca88d3175a77e76be69e0 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 16/25] cross compile darwin
+Subject: [PATCH 16/24] cross compile darwin
 
 By Isuru Fernando.
 ---
@@ -76,7 +76,7 @@ index 703c59ab25..13dc4d8780 100644
  	readelf|:)
  	AC_MSG_ERROR([readelf for the host is required for cross builds])
 diff --git a/setup.py b/setup.py
-index a6296d80ff..64b2ab9cba 100644
+index 4af4a15243..92958e7ef7 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -43,7 +43,7 @@ CROSS_COMPILING = ("_PYTHON_HOST_PLATFORM" in os.environ)
@@ -102,6 +102,3 @@ index a6296d80ff..64b2ab9cba 100644
                  ret = os.system("ldd %s > %s" % (do_readline, tmpfile))
              else:
                  ret = 256
--- 
-2.30.2
-

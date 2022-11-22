@@ -1,7 +1,7 @@
-From 5b3fe654faa342929e1feff1fee0490c3af7d540 Mon Sep 17 00:00:00 2001
+From 8179665c51ee194846b925747bcf9abbb8433d41 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
-Subject: [PATCH 13/25] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 13/24] Add CondaEcosystemModifyDllSearchPath()
 
 There are 2 modes depending on CONDA_DLL_SEARCH_MODIFICATION env variable
 
@@ -483,6 +483,3 @@ index 8732d814f8..10700e0a1b 100644
      return _PyRuntimeState_Init(&_PyRuntime);
  }
  
--- 
-2.30.2
-

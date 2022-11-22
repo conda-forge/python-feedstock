@@ -1,7 +1,7 @@
-From 7ccb7089a1a38889c3d7150f8e02e1fa6248829e Mon Sep 17 00:00:00 2001
+From 6fdb48eafb573efb82c1d03fa6f79a87c4a75252 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 3 Nov 2019 15:09:45 -0600
-Subject: [PATCH 12/25] Use ranlib from env if env variable is set
+Subject: [PATCH 12/24] Use ranlib from env if env variable is set
 
 ---
  Lib/distutils/sysconfig.py | 5 ++++-
@@ -30,6 +30,3 @@ index b51629eb94..c21e5bddb5 100644
          compiler.shared_lib_extension = shlib_suffix
  
  
--- 
-2.30.2
-

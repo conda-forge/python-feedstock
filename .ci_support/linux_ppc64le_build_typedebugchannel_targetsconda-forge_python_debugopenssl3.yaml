@@ -1,3 +1,5 @@
+build_type:
+- debug
 bzip2:
 - '1'
 c_compiler:
@@ -9,7 +11,7 @@ cdt_name:
 channel_sources:
 - conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_debug
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -39,6 +41,8 @@ target_platform:
 xz:
 - '5'
 zip_keys:
+- - build_type
+  - channel_targets
 - - c_compiler_version
   - cxx_compiler_version
 zlib:

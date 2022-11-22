@@ -1,4 +1,4 @@
-From 7aee4a648bc5e27eeb521d0d76df8aed9154e9f9 Mon Sep 17 00:00:00 2001
+From 895cedf3900c01fd253d9edf2715b136fe93cac5 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 24/26] unvendor zlib
@@ -88,6 +88,3 @@ index 4b9eebde6a..96beb05d48 100644
 -</Project>
 \ No newline at end of file
 +</Project>
--- 
-2.25.1
-

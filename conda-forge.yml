@@ -8,5 +8,8 @@ bot:
   - 3.7
   - 3.8
   - 3.9
+github:
+  branch_name: main
+  tooling_branch_name: main
 conda_build:
   pkg_format: '2'

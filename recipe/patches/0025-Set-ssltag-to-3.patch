@@ -1,4 +1,4 @@
-From 1f638c83e2741447b6621917bb7440b9976e9186 Mon Sep 17 00:00:00 2001
+From 2be568fdfaca8337eb39323202abf0b1f45386df Mon Sep 17 00:00:00 2001
 From: Chris Burr <chrisburr@users.noreply.github.com>
 Date: Tue, 28 Sep 2021 12:40:44 +0200
 Subject: [PATCH 25/26] Set ssltag to 3
@@ -41,6 +41,3 @@ index cb9221fddf..9c7226fdf1 100644
          </DefineConstants>
          <DefineConstants Condition="'$(CRTRedist)' != ''">
              $(DefineConstants);CRTRedist=$(CRTRedist);
--- 
-2.25.1
-

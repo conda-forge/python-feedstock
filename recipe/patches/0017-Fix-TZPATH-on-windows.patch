@@ -1,4 +1,4 @@
-From 611c2379286dbb1c2b50f217628abc38b5606497 Mon Sep 17 00:00:00 2001
+From 2418b056ba84e352c2a8514b97c5cce9e7def159 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
 Subject: [PATCH 17/26] Fix TZPATH on windows
@@ -20,6 +20,3 @@ index e3f79bfde5..3b5a506676 100644
          if os.name == 'posix':
              _init_posix(_CONFIG_VARS)
          # For backward compatibility, see issue19555
--- 
-2.25.1
-

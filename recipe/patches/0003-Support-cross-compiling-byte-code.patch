@@ -1,4 +1,4 @@
-From adeb8eb7ff006d021503c1afc47929bb7b45e5b1 Mon Sep 17 00:00:00 2001
+From d90f54d2f07fa7e2c407ace36db3f244acd3322e Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 03/26] Support cross-compiling byte-code
@@ -11,7 +11,7 @@ https://bugs.python.org/issue22724
  3 files changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index 42b1ec622a..3d840d6a79 100644
+index c0272bfcdd..f8b40208f0 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -255,6 +255,7 @@ BUILDPYTHON=	python$(BUILDEXE)
@@ -49,7 +49,7 @@ index 42b1ec622a..3d840d6a79 100644
  
  
  # Build static library
-@@ -1254,7 +1255,7 @@ install: @FRAMEWORKINSTALLFIRST@ commoninstall bininstall maninstall @FRAMEWORKI
+@@ -1255,7 +1256,7 @@ install: @FRAMEWORKINSTALLFIRST@ commoninstall bininstall maninstall @FRAMEWORKI
  			upgrade) ensurepip="--upgrade" ;; \
  			install|*) ensurepip="" ;; \
  		esac; \
@@ -58,7 +58,7 @@ index 42b1ec622a..3d840d6a79 100644
  			$$ensurepip --root=$(DESTDIR)/ ; \
  	fi
  
-@@ -1264,7 +1265,7 @@ altinstall: commoninstall
+@@ -1265,7 +1266,7 @@ altinstall: commoninstall
  			upgrade) ensurepip="--altinstall --upgrade" ;; \
  			install|*) ensurepip="--altinstall" ;; \
  		esac; \
@@ -67,7 +67,7 @@ index 42b1ec622a..3d840d6a79 100644
  			$$ensurepip --root=$(DESTDIR)/ ; \
  	fi
  
-@@ -1693,7 +1694,7 @@ libainstall:	@DEF_MAKE_RULE@ python-config
+@@ -1694,7 +1695,7 @@ libainstall:	@DEF_MAKE_RULE@ python-config
  # Install the dynamically loadable modules
  # This goes into $(exec_prefix)
  sharedinstall: sharedmods
@@ -119,6 +119,3 @@ index aa515da465..250ef5aad7 100644
  AC_SUBST(PYTHON_FOR_BUILD)
  
  dnl Ensure that if prefix is specified, it does not end in a slash. If
--- 
-2.25.1
-

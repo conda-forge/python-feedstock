@@ -86,9 +86,10 @@ if sys.platform != 'win32':
     import syslog
     import termios
 
-    if os.getenv('PY_INTERP_DEBUG') == 'yes':
+if os.getenv('PY_INTERP_DEBUG') == 'yes':
+    if sys.platform != 'win32':
         assert 'd' in sys.abiflags
-        assert 'gettotalrefcount' in dir(sys)
+    assert 'gettotalrefcount' in dir(sys)
 
 if not (armv6l or armv7l or ppc64le or osx105):
     import tkinter

@@ -1,4 +1,4 @@
-From d9038a6a49c00958b6cc0663c28656d4016ec25a Mon Sep 17 00:00:00 2001
+From 88426d845404bf82dc0c48f7f269e80ac84c6131 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
 Subject: [PATCH 06/25] Win32: Do not download externals
@@ -20,6 +20,3 @@ index d333ceabd2..11e3d16a4f 100644
  
  if "%do_pgo%" EQU "true" if "%platf%" EQU "x64" (
      if "%PROCESSOR_ARCHITEW6432%" NEQ "AMD64" if "%PROCESSOR_ARCHITECTURE%" NEQ "AMD64" (
--- 
-2.32.1 (Apple Git-133)
-

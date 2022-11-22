@@ -1,4 +1,4 @@
-From a9cd933d936a603aa2326fe57a73d086609603c3 Mon Sep 17 00:00:00 2001
+From e9ee5290ab393b93e19e663b188e7e769efce5cc Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:53:55 +0100
 Subject: [PATCH 01/25] Win32: Change FD_SETSIZE from 512 to 2048
@@ -21,6 +21,3 @@ index 3afcb0e2a0..1ee953a6ae 100644
  #endif
  
  #if defined(HAVE_POLL_H)
--- 
-2.32.1 (Apple Git-133)
-

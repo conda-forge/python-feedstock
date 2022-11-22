@@ -1,4 +1,4 @@
-From e5d365fb1b73272492ef47eea91481190c845d8b Mon Sep 17 00:00:00 2001
+From 07feb8b14b6a35768d5124b133de1fe2e8c58d6f Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
 Subject: [PATCH 17/25] Fix TZPATH on windows
@@ -19,6 +19,3 @@ index daf9f00006..5d12426756 100644
          if os.name == 'posix':
              _init_posix(_CONFIG_VARS)
          # For backward compatibility, see issue19555
--- 
-2.32.1 (Apple Git-133)
-

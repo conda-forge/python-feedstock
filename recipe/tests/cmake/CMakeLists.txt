@@ -1,11 +1,9 @@
 # https://martinopilia.com/posts/2018/09/15/building-python-extension.html
+# FindPythonInterp and FindPythonLibs is deprecated since cmake 3.12
+
 cmake_minimum_required(VERSION 3.10)
 enable_language(C)
 project(mymath)
 
 option(PY_VER, "Python version to use")
-
-find_package(PythonInterp ${PY_VER} REQUIRED)
-#             PATHS $ENV{CONDA_PREFIX})
-# This goes after, since it uses PythonInterp as hint
-find_package(PythonLibs ${PY_VER} REQUIRED)
+find_package(Python ${PY_VER} REQUIRED)

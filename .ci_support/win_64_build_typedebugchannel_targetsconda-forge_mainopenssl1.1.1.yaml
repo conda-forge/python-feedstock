@@ -1,3 +1,5 @@
+build_type:
+- debug
 bzip2:
 - '1'
 c_compiler:
@@ -11,7 +13,7 @@ cxx_compiler:
 libffi:
 - '3.4'
 openssl:
-- '3'
+- 1.1.1
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -26,5 +28,8 @@ tk:
 - '8.6'
 xz:
 - '5'
+zip_keys:
+- - build_type
+  - channel_targets
 zlib:
 - '1.2'

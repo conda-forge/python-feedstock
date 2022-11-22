@@ -8,22 +8,38 @@ jobs:
     vmImage: macOS-11
   strategy:
     matrix:
-      osx_64_openssl1.1.1:
-        CONFIG: osx_64_openssl1.1.1
+      osx_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_openssl1.1.1
-      osx_64_openssl3:
-        CONFIG: osx_64_openssl3
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h53db747388
+      osx_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl3:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl3
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_openssl3
-      osx_arm64_openssl1.1.1:
-        CONFIG: osx_arm64_openssl1.1.1
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h6f2b7213c3
+      osx_64_build_typereleasechannel_targetsconda-forge_mainopenssl1.1.1:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainopenssl1.1.1
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_openssl1.1.1
-      osx_arm64_openssl3:
-        CONFIG: osx_arm64_openssl3
+        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h97238b3e09
+      osx_64_build_typereleasechannel_targetsconda-forge_mainopenssl3:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainopenssl3
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_openssl3
+        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h16248986ae
+      osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1:
+        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h07aab89ef4
+      osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugopenssl3:
+        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugopenssl3
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h73717dc4ce
+      osx_arm64_build_typereleasechannel_targetsconda-forge_mainopenssl1.1.1:
+        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainopenssl1.1.1
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG: osx_arm64_build_typereleasechannel__h4d9aff7ee9
+      osx_arm64_build_typereleasechannel_targetsconda-forge_mainopenssl3:
+        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainopenssl3
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG: osx_arm64_build_typereleasechannel__h92ebfec36c
   timeoutInMinutes: 360
 
   steps:

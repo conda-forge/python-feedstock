@@ -8,22 +8,22 @@ jobs:
     vmImage: macOS-11
   strategy:
     matrix:
-      osx_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1:
-        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1
+      osx_64_build_typedebugchannel_targetsconda-forge_mainopenssl1.1.1:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_mainopenssl1.1.1
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h53db747388
-      osx_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl3:
-        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl3
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_he9bb30c0b5
+      osx_64_build_typedebugchannel_targetsconda-forge_mainopenssl3:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_mainopenssl3
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h6f2b7213c3
-      osx_64_build_typereleasechannel_targetsconda-forge_mainopenssl1.1.1:
-        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainopenssl1.1.1
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_hd0cdfef905
+      osx_64_build_typereleasechannel_targetsconda-forge_python_debugopenssl1.1.1:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_python_debugopenssl1.1.1
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h97238b3e09
-      osx_64_build_typereleasechannel_targetsconda-forge_mainopenssl3:
-        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainopenssl3
+        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h718e08571b
+      osx_64_build_typereleasechannel_targetsconda-forge_python_debugopenssl3:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_python_debugopenssl3
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h16248986ae
+        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h6d9d0bb8cf
       osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1:
         CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1
         UPLOAD_PACKAGES: 'True'

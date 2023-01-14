@@ -62,7 +62,7 @@ index 670feeb..2255b5c 100644
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
 -    <sqlite3Dir>$(ExternalsDir)sqlite-3.31.1.0\</sqlite3Dir>
 +    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
-     <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
+     <bz2Dir>$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
      <opensslDir>$(OPENSSL_DIR)\</opensslDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj

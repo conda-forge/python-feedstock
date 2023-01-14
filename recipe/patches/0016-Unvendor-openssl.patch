@@ -83,16 +83,16 @@ index 8c8392d..670feeb 100644
 +++ b/PCbuild/python.props
 @@ -49,9 +49,9 @@
      <sqlite3Dir>$(ExternalsDir)sqlite-3.31.1.0\</sqlite3Dir>
-     <bz2Dir>$(ExternalsDir)bzip2-1.0.6\</bz2Dir>
+     <bz2Dir>$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
      <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
--    <opensslDir>$(ExternalsDir)openssl-1.1.1g\</opensslDir>
--    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.1g\$(ArchName)\</opensslOutDir>
+-    <opensslDir>$(ExternalsDir)openssl-1.1.1n\</opensslDir>
+-    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.1n\$(ArchName)\</opensslOutDir>
 -    <opensslIncludeDir>$(opensslOutDir)include</opensslIncludeDir>
 +    <opensslDir>$(OPENSSL_DIR)\</opensslDir>
 +    <opensslOutDir>$(opensslDir)bin</opensslOutDir>
 +    <opensslIncludeDir>$(opensslDir)include</opensslIncludeDir>
      <nasmDir>$(ExternalsDir)\nasm-2.11.06\</nasmDir>
-     <zlibDir>$(ExternalsDir)\zlib-1.2.11\</zlibDir>
+     <zlibDir>$(ExternalsDir)\zlib-1.2.12\</zlibDir>
      
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
 index 854211e..a59b1cb 100644

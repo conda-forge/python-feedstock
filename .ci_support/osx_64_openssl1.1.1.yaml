@@ -5,7 +5,7 @@ bzip2:
 c_compiler:
 - clang
 c_compiler_version:
-- '11'
+- '14'
 channel_sources:
 - conda-forge
 channel_targets:
@@ -13,34 +13,18 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '11'
+- '14'
 libffi:
 - '3.4'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 ncurses:
-- '6.2'
+- '6'
 openssl:
 - 1.1.1
 pin_run_as_build:
-  bzip2:
-    max_pin: x
-  libffi:
-    max_pin: x.x
-  ncurses:
-    max_pin: x.x
   python:
     min_pin: x.x
-    max_pin: x.x
-  readline:
-    max_pin: x
-  sqlite:
-    max_pin: x
-  tk:
-    max_pin: x.x
-  xz:
-    max_pin: x.x
-  zlib:
     max_pin: x.x
 python:
 - '3.7'
@@ -53,7 +37,7 @@ target_platform:
 tk:
 - '8.6'
 xz:
-- '5.2'
+- '5'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

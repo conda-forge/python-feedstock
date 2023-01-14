@@ -8,16 +8,26 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_openssl1.1.1:
-        CONFIG: linux_64_openssl1.1.1
+      linux_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1:
+        CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl1.1.1
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_openssl1.1.1
-      linux_64_openssl3:
-        CONFIG: linux_64_openssl3
+        SHORT_CONFIG: linux_64_build_typedebugchannel_tar_hcda62207c0
+      linux_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl3:
+        CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugopenssl3
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_openssl3
+        SHORT_CONFIG: linux_64_build_typedebugchannel_tar_h30c384a389
+      linux_64_build_typereleasechannel_targetsconda-forge_mainopenssl1.1.1:
+        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainopenssl1.1.1
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+        SHORT_CONFIG: linux_64_build_typereleasechannel_t_h1b30d0c4c1
+      linux_64_build_typereleasechannel_targetsconda-forge_mainopenssl3:
+        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainopenssl3
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+        SHORT_CONFIG: linux_64_build_typereleasechannel_t_h8be0192cab
   timeoutInMinutes: 360
 
   steps:

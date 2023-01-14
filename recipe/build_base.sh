@@ -34,7 +34,7 @@ if [[ ${PY_INTERP_LINKAGE_NATURE} == shared ]]; then
 fi
 
 # For debugging builds, set this to no to disable profile-guided optimization
-if [[ ${DEBUG_C} == yes ]]; then
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   _OPTIMIZED=no
 else
   _OPTIMIZED=yes
@@ -49,7 +49,7 @@ if [[ ${target_platform} == linux-ppc64le ]]; then
 fi
 
 declare -a _dbg_opts
-if [[ ${DEBUG_PY} == yes ]]; then
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   # This Python will not be usable with non-debug Python modules.
   _dbg_opts+=(--with-pydebug)
   DBG=d
@@ -95,6 +95,12 @@ if [[ ${_OPTIMIZED} = yes ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")
   CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O3/g")
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O3/g")
+fi
+
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+  CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O0/g")
+  CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O0/g")
+  CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O0/g")
 fi
 
 if [[ ${CONDA_FORGE} == yes ]]; then
@@ -508,7 +514,15 @@ fi
 rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
-rm ${PREFIX}/lib/libpython${VER}.a
+rm ${PREFIX}/lib/libpython${VERABI}.a
+
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+  rm ${PREFIX}/bin/python${VER}
+  ln -s ${PREFIX}/bin/python${VERABI} ${PREFIX}/bin/python${VER}
+  ln -s ${PREFIX}/lib/libpython${VERABI}.so ${PREFIX}/lib/libpython${VER}.so
+  ln -s ${PREFIX}/include/python${VERABI} ${PREFIX}/include/python${VER}
+fi
+
 if [[ "$target_platform" == linux-* ]]; then
   rm ${PREFIX}/include/uuid.h
 fi

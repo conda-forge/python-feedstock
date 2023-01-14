@@ -3,7 +3,7 @@ set -ex
 
 _buildd_static=build-static
 _buildd_shared=build-shared
-if [[ ${DEBUG_PY} == yes ]]; then
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   DBG=d
 else
   DBG=
@@ -14,9 +14,9 @@ VERABI=${VER}${DBG}
 
 cp -pf ${_buildd_static}/libpython${VERABI}.a ${PREFIX}/lib/libpython${VERABI}.a
 if [[ ${HOST} =~ .*linux.* ]]; then
-  pushd ${PREFIX}/lib/python${VERABI}/config-${VERABI}-${HOST/-conda/}
+  pushd ${PREFIX}/lib/python${VER}/config-${VERABI}-${HOST/-conda/}
 elif [[ ${HOST} =~ .*darwin.* ]]; then
-  pushd ${PREFIX}/lib/python${VERABI}/config-${VERABI}-darwin
+  pushd ${PREFIX}/lib/python${VER}/config-${VERABI}-darwin
 fi
 ln -s ../../libpython${VERABI}.a libpython${VERABI}.a
 popd

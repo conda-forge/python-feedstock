@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -27,13 +27,12 @@
   {% set linkage_nature_env = 'static' %}
 {% endif %}
 {% set dbg_abi = "" %}
-{% set debug = os.environ.get('PY_INTERP_DEBUG', '') %}
-{% if debug != '' and debug != 'no' %}
+{% if build_type == "debug" %}
   {% set py_interp_debug = "yes" %}
-  {% set debug = "_dbg" %}
-  {% set dbg_abi = "d" %}  # [win]
+  {% set debug = "_debug" %}
 {% else %}
   {% set py_interp_debug = "no" %}
+  {% set debug = "" %}
 {% endif %}
 
 package:
@@ -84,6 +83,7 @@ source:
 
 build:
   number: {{ build_number }}
+  skip: true  # [win and build_type != "release"]
 
 requirements:
   build:
@@ -132,6 +132,9 @@ outputs:
           - python
         weak:
           - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
+{% if py_interp_debug == "yes" %}
+          - python {{ ver2 }}.* *_debug_cpython
+{% endif %}
 {% endif %}
       script_env:
         - PY_INTERP_LINKAGE_NATURE={{ linkage_nature_env }}
@@ -269,6 +272,8 @@ outputs:
       activate_in_script: true
       ignore_run_exports:
         - python_abi
+      script_env:
+        - PY_INTERP_DEBUG={{ py_interp_debug }}
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
     requirements:
@@ -288,9 +293,15 @@ outputs:
       requires:
         - {{ compiler('c') }}
       commands:
-        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
-        - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
-        - test -f ${PREFIX}/lib/python${PKG_VERSION%.*}/config-${PKG_VERSION%.*}-darwin/libpython${PKG_VERSION%.*}.a  # [osx]
+        - VER=${PKG_VERSION%.*}   # [not win]
+{% if py_interp_debug == "yes" %}
+        - VERABI=${VER}d    # [not win]
+{% else %}
+        - VERABI=${VER}   # [not win]
+{% endif %}
+        - test -f ${PREFIX}/lib/libpython${VERABI}.a  # [unix]
+        - test -f ${PREFIX}/lib/libpython${VERABI}.nolto.a  # [unix]
+        - test -f ${PREFIX}/lib/python${VER}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
         - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]

@@ -1,17 +1,21 @@
-From 82b6c0909aae423d9c8f4ff7d0e8df16106dbe28 Mon Sep 17 00:00:00 2001
+From 384f16baa87ccdbe99ee3f27b847e5bcc5e5ab90 Mon Sep 17 00:00:00 2001
 From: Christian Heimes <christian@python.org>
 Date: Fri, 23 Apr 2021 16:37:09 +0200
-Subject: [PATCH] [3.8] bpo-43920: Make load_verify_locations(cadata) error
+Subject: [PATCH 22/22] bpo-43920: Make load_verify_locations(cadata) error
  message consistent (GH-25554) (GH-25556)
 
 Co-authored-by: akrherz <akrherz@iastate.edu>.
 (cherry picked from commit 82b6c0909aae423d9c8f4ff7d0e8df16106dbe28)
+---
+ Lib/test/test_ssl.py | 11 ++++++++---
+ Modules/_ssl.c       | 23 ++++++++++++++++-------
+ 2 files changed, 24 insertions(+), 10 deletions(-)
 
 diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
-index f691b2820a..a1c4fcc0dd 100644
+index 1418a84d1d..b0f275763e 100644
 --- a/Lib/test/test_ssl.py
 +++ b/Lib/test/test_ssl.py
-@@ -1484,12 +1484,17 @@ class ContextTests(unittest.TestCase):
+@@ -1488,12 +1488,17 @@ class ContextTests(unittest.TestCase):
          ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
          self.assertRaises(TypeError, ctx.load_verify_locations, cadata=object)
  

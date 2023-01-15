@@ -1,7 +1,7 @@
-From d2bec7fa299be363c0c6dab461b6d3172539675b Mon Sep 17 00:00:00 2001
+From 1ddda00237c9f734b36e8364d01aa8e98eecbd06 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 12 Apr 2020 18:22:21 +0200
-Subject: [PATCH 00/30] Fix off-by-one-error in
+Subject: [PATCH 00/22] Fix off-by-one-error in
  _winapi_WaitForMultipleObjects_impl
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 00/30] Fix off-by-one-error in
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Modules/_winapi.c b/Modules/_winapi.c
-index e1672c4785..4206bb6c49 100644
+index 036464d9ab..21edf7b196 100644
 --- a/Modules/_winapi.c
 +++ b/Modules/_winapi.c
-@@ -1713,7 +1713,7 @@ _winapi_WaitForMultipleObjects_impl(PyObject *module, PyObject *handle_seq,
+@@ -1543,7 +1543,7 @@ _winapi_WaitForMultipleObjects_impl(PyObject *module, PyObject *handle_seq,
      nhandles = PySequence_Length(handle_seq);
      if (nhandles == -1)
          return NULL;
@@ -21,6 +21,3 @@ index e1672c4785..4206bb6c49 100644
          PyErr_Format(PyExc_ValueError,
                       "need at most %zd handles, got a sequence of length %zd",
                       MAXIMUM_WAIT_OBJECTS - 1, nhandles);
--- 
-2.23.0
-

@@ -1,7 +1,7 @@
-From fdabb87dcb2938c1c980e68e39d11b5196e11045 Mon Sep 17 00:00:00 2001
+From f53063db6b867b0cbabdc96aebff2eb590e36382 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 25 Jan 2019 22:54:57 +0000
-Subject: [PATCH 19/20] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 19/22] Add CondaEcosystemModifyDllSearchPath()
 
 This changes the DLL search order so that C:\Windows\System32 does not
 get searched in before entries in PATH.
@@ -15,10 +15,10 @@ Updated a bit to include other directories.
  2 files changed, 390 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index a29f2f8..318c3f1 100644
+index fbc8096123..40aaea3c04 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
-@@ -16,6 +16,10 @@
+@@ -17,6 +17,10 @@
  #  ifdef HAVE_FCNTL_H
  #    include <fcntl.h>
  #  endif
@@ -29,7 +29,7 @@ index a29f2f8..318c3f1 100644
  #endif
  
  #ifdef MS_WINDOWS
-@@ -56,6 +60,8 @@ extern "C" {
+@@ -57,6 +61,8 @@ extern "C" {
          } \
      } while (0)
  
@@ -38,7 +38,7 @@ index a29f2f8..318c3f1 100644
  #ifdef MS_WINDOWS
  #define WCSTOK wcstok_s
  #else
-@@ -1278,7 +1284,7 @@ pymain_header(_PyMain *pymain)
+@@ -1286,7 +1292,7 @@ pymain_header(_PyMain *pymain)
          return;
      }
  
@@ -47,7 +47,7 @@ index a29f2f8..318c3f1 100644
      if (!Py_NoSiteFlag) {
          fprintf(stderr, "%s\n", COPYRIGHT);
      }
-@@ -3057,9 +3063,388 @@ pymain_init(_PyMain *pymain)
+@@ -3114,9 +3120,388 @@ pymain_init(_PyMain *pymain)
  }
  
  
@@ -437,10 +437,10 @@ index a29f2f8..318c3f1 100644
      if (res == 1) {
          goto done;
 diff --git a/Python/dynload_win.c b/Python/dynload_win.c
-index 51325be..f52efdf 100644
+index 8d67d2e7ba..62d47a2e53 100644
 --- a/Python/dynload_win.c
 +++ b/Python/dynload_win.c
-@@ -217,6 +217,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
+@@ -215,6 +215,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
  #endif
          /* We use LoadLibraryEx so Windows looks for dependent DLLs
              in directory of pathname first. */
@@ -451,6 +451,3 @@ index 51325be..f52efdf 100644
          /* XXX This call doesn't exist in Windows CE */
          hDLL = LoadLibraryExW(wpathname, NULL,
                                LOAD_WITH_ALTERED_SEARCH_PATH);
--- 
-2.20.1
-

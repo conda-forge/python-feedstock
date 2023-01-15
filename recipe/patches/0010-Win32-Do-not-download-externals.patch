@@ -1,14 +1,14 @@
-From 6b353a337be782ceccea456d4cef9ffc1abbe3aa Mon Sep 17 00:00:00 2001
+From 7f448a4fa715d3209708c645f3b255e4b8ef3cb2 Mon Sep 17 00:00:00 2001
 From: Mike Sarahan <msarahan@gmail.com>
 Date: Thu, 24 Oct 2019 19:59:14 -0500
-Subject: [PATCH 10/20] Win32: Do not download externals
+Subject: [PATCH 10/22] Win32: Do not download externals
 
 ---
  PCbuild/build.bat | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index ddb26e3..02728db 100644
+index 69d43156c6..835484b585 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
 @@ -92,7 +92,7 @@ if "%IncludeExternals%"=="" set IncludeExternals=true
@@ -20,6 +20,3 @@ index ddb26e3..02728db 100644
  
  if "%do_pgo%" EQU "true" if "%platf%" EQU "x64" (
      if "%PROCESSOR_ARCHITEW6432%" NEQ "AMD64" if "%PROCESSOR_ARCHITECTURE%" NEQ "AMD64" (
--- 
-2.20.1
-

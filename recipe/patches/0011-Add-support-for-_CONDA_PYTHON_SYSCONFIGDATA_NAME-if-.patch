@@ -1,7 +1,7 @@
-From d8a87943a6fe10c953b2b7fb150ed904c8079998 Mon Sep 17 00:00:00 2001
+From ec70cedeadf19bddebb2c9c7150a8d5aca4c3cee Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 3 Dec 2017 17:31:27 +0000
-Subject: [PATCH 11/20] Add support for _CONDA_PYTHON_SYSCONFIGDATA_NAME if
+Subject: [PATCH 11/22] Add support for _CONDA_PYTHON_SYSCONFIGDATA_NAME if
  _PYTHON_SYSCONFIGDATA_NAME is not set and ignore
  {_CONDA,}_PYTHON_SYSCONFIGDATA_NAME if it does not exist
 
@@ -14,7 +14,7 @@ manually).
  2 files changed, 23 insertions(+), 13 deletions(-)
 
 diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
-index 0a034ee..ad91204 100644
+index 0a034ee09b..ad912046f8 100644
 --- a/Lib/distutils/sysconfig.py
 +++ b/Lib/distutils/sysconfig.py
 @@ -434,11 +434,13 @@ def _init_posix():
@@ -37,7 +37,7 @@ index 0a034ee..ad91204 100644
      build_time_vars = _temp.build_time_vars
      global _config_vars
 diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index d15cec8..d0fa476 100644
+index d15cec8dbf..d0fa476e32 100644
 --- a/Lib/sysconfig.py
 +++ b/Lib/sysconfig.py
 @@ -343,13 +343,21 @@ def get_makefile_filename():
@@ -78,6 +78,3 @@ index d15cec8..d0fa476 100644
      _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
      build_time_vars = _temp.build_time_vars
      vars.update(build_time_vars)
--- 
-2.20.1
-

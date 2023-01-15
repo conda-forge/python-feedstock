@@ -1,7 +1,7 @@
-From 76ded95f2522684b36e19adc729a5e632e1a37bb Mon Sep 17 00:00:00 2001
+From 9a61d5e4d8cbfd8abac275d1ccbe81d42b8835bc Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:59:00 +0100
-Subject: [PATCH 04/20] Win32: distutils: Add support to cygwinccompiler for
+Subject: [PATCH 04/22] Win32: distutils: Add support to cygwinccompiler for
  VS>=2015
 
 Really this is for mingw-w64 though
@@ -10,7 +10,7 @@ Really this is for mingw-w64 though
  1 file changed, 3 insertions(+)
 
 diff --git a/Lib/distutils/cygwinccompiler.py b/Lib/distutils/cygwinccompiler.py
-index 6c5d777..48013e1 100644
+index 6c5d77746b..48013e1000 100644
 --- a/Lib/distutils/cygwinccompiler.py
 +++ b/Lib/distutils/cygwinccompiler.py
 @@ -82,6 +82,9 @@ def get_msvcr():
@@ -23,6 +23,3 @@ index 6c5d777..48013e1 100644
          else:
              raise ValueError("Unknown MS Compiler version %s " % msc_ver)
  
--- 
-2.20.1
-

@@ -1,0 +1,22 @@
+From 0691c8a4c2162557ead0beede53f5cd912ffbb28 Mon Sep 17 00:00:00 2001
+From: Chris Burr <chrisburr@users.noreply.github.com>
+Date: Tue, 28 Sep 2021 12:40:44 +0200
+Subject: [PATCH 22/23] Set ssltag to 3
+
+---
+ Tools/msi/msi.props | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Tools/msi/msi.props b/Tools/msi/msi.props
+index 5da901c021..ba08d08938 100644
+--- a/Tools/msi/msi.props
++++ b/Tools/msi/msi.props
+@@ -87,7 +87,7 @@
+             PyArchExt=$(PyArchExt);
+             PyTestExt=$(PyTestExt);
+             OptionalFeatureName=$(OutputName);
+-            ssltag=-1_1;
++            ssltag=-3;
+         </DefineConstants>
+         <DefineConstants Condition="'$(CRTRedist)' != ''">
+             $(DefineConstants);CRTRedist=$(CRTRedist);

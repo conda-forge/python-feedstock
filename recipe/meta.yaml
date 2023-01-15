@@ -18,34 +18,34 @@ source:
     md5: df3b8ad6e2ab8f198d65ecf68816bf42
     patches:
       # https://bugs.python.org/issue40263
-      - patches/0000-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
+      - patches/0001-Fix-off-by-one-error-in-_winapi_WaitForMultipleObjec.patch
 {% if 'conda-forge' not in channel_targets %}
-      - patches/0001-Add-Anaconda-Distribution-version-logic.patch
+      - patches/0002-Add-Anaconda-Distribution-version-logic.patch
 {% endif %}
-      - patches/0002-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
-      - patches/0003-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - patches/0004-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
-      - patches/0005-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - patches/0006-Support-cross-compiling-byte-code.patch
-      - patches/0007-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
-      - patches/0008-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
-      - patches/0009-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
-      - patches/0010-Win32-Do-not-download-externals.patch
-      - patches/0011-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
-      - patches/0012-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0013-Disable-new-dtags-in-unixccompiler.py.patch
-      - patches/0014-Fix-cross-compilation-on-Debian-based-distros.patch
-      - patches/0015-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      - patches/0016-Unvendor-openssl.patch
-      - patches/0017-Unvendor-sqlite3.patch
+      - patches/0003-Darwin-Add-arch-x86_64-to-UnicCCompiler-ld_args.patch
+      - patches/0004-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
+      - patches/0005-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch
+      - patches/0006-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0007-Support-cross-compiling-byte-code.patch
+      - patches/0008-Win32-Fixes-for-Windows-GCC-interop-needed-by-RPy2-a.patch
+      - patches/0009-Darwin-Look-in-sysroot-usr-lib-include-if-sysroot-is.patch
+      - patches/0010-runtime_library_dir_option-Use-1st-word-of-CC-as-com.patch
+      - patches/0011-Win32-Do-not-download-externals.patch
+      - patches/0012-Add-support-for-_CONDA_PYTHON_SYSCONFIGDATA_NAME-if-.patch
+      - patches/0013-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0014-Disable-new-dtags-in-unixccompiler.py.patch
+      - patches/0015-Fix-cross-compilation-on-Debian-based-distros.patch
+      - patches/0016-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - patches/0017-Unvendor-openssl.patch
+      - patches/0018-Unvendor-sqlite3.patch
       # https://bugs.python.org/issue35644
-      - patches/0018-venv-Revert-a-change-from-https-github.com-python-cp.patch
+      - patches/0019-venv-Revert-a-change-from-https-github.com-python-cp.patch
 {% if 'conda-forge' not in channel_targets %}
-      - patches/0019-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0020-Add-CondaEcosystemModifyDllSearchPath.patch
 {% endif %}
-      - patches/0020-Use-ranlib-from-env-if-env-variable-is-set.patch
-      - patches/0021-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
-      - patches/0022-Openssl3-load-verify-error.patch
+      - patches/0021-Use-ranlib-from-env-if-env-variable-is-set.patch
+      - patches/0022-Set-ssltag-to-3.patch  # [openssl != '1.1.1']
+      - patches/0023-bpo-43920-Make-load_verify_locations-cadata-error-me.patch
   # TODO :: Depend on our own packages for these:
   - url: https://github.com/python/cpython-source-deps/archive/xz-5.2.2.zip          # [win]
     folder: externals/xz-5.2.2                                                       # [win]

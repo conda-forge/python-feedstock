@@ -40,6 +40,13 @@ else
   _OPTIMIZED=yes
 fi
 
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+  # check that the rerendering is correct
+  if [[ "$CI" != "" && "$channel_targets" == "conda-forge main" ]]; then
+    exit 1
+  fi
+fi
+
 # Since these take very long to build in our emulated ci, disable for now
 if [[ ${target_platform} == linux-aarch64 ]]; then
   _OPTIMIZED=no

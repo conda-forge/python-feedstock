@@ -1,4 +1,4 @@
-From fdd4d13107175febc40a4436cd650b0121d3f1c6 Mon Sep 17 00:00:00 2001
+From 4e0cad716db300b4581c19cb174da1114591f040 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 5 Oct 2017 02:00:41 +0100
 Subject: [PATCH 05/24] runtime_library_dir_option: Use 1st word of CC as

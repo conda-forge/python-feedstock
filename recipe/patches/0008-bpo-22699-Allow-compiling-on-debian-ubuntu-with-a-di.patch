@@ -1,4 +1,4 @@
-From 600eb35116cc6ec126636c4eeeb7374f2f6434c3 Mon Sep 17 00:00:00 2001
+From dfc23acbb5a02fe2737edbab13d78d8787860290 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
 Subject: [PATCH 08/24] bpo-22699: Allow compiling on debian/ubuntu with a

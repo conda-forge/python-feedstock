@@ -10,7 +10,7 @@ done
 head=$(git rev-parse HEAD)
 git reset --hard $new
 git cherry-pick $old...$head  # fix conflicts and make sure the editor doesn't add end of file line ending
-git format-patch $new
+git format-patch --no-signature $new
 for f in *.patch; do
   python ../recipe/patches/make-mixed-crlf-patch.py $f;
 done

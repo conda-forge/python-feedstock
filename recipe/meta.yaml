@@ -187,9 +187,8 @@ outputs:
 {% endif %}
     test:
       downstreams:
-        # Temporarily disable downstream test for setuptools due to breaking changes
         - cython
-        # - setuptools
+        - setuptools
       requires:
         - ripgrep
         - cmake

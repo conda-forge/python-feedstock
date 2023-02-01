@@ -13,3 +13,6 @@ github:
   tooling_branch_name: main
 conda_build:
   pkg_format: '2'
+remote_ci_setup:
+  - conda-forge-ci-setup=3
+  - libsolv<0.7.23

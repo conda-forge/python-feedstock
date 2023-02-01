@@ -8,20 +8,12 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_openssl1.1.1:
-        CONFIG: linux_64_openssl1.1.1
+      linux_64_:
+        CONFIG: linux_64_
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_64_openssl3:
-        CONFIG: linux_64_openssl3
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-      linux_aarch64_openssl1.1.1:
-        CONFIG: linux_aarch64_openssl1.1.1
-        UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
-      linux_aarch64_openssl3:
-        CONFIG: linux_aarch64_openssl3
+      linux_aarch64_:
+        CONFIG: linux_aarch64_
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64
   timeoutInMinutes: 360

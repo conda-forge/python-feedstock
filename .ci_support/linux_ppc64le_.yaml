@@ -3,9 +3,9 @@ bzip2:
 c_compiler:
 - gcc
 c_compiler_version:
-- '10'
+- '11'
 cdt_name:
-- cos6
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
@@ -13,9 +13,9 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '10'
+- '11'
 docker_image:
-- quay.io/condaforge/linux-anvil-cos7-x86_64
+- quay.io/condaforge/linux-anvil-ppc64le
 libffi:
 - '3.4'
 libuuid:
@@ -35,9 +35,7 @@ readline:
 sqlite:
 - '3'
 target_platform:
-- linux-64
-tk:
-- '8.6'
+- linux-ppc64le
 xz:
 - '5'
 zip_keys:

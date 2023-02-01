@@ -1,27 +1,33 @@
-MACOSX_DEPLOYMENT_TARGET:
-- '11.0'
+BUILD:
+- aarch64-conda_cos7-linux-gnu
 bzip2:
 - '1'
 c_compiler:
-- clang
+- gcc
 c_compiler_version:
-- '14'
+- '11'
+cdt_arch:
+- aarch64
+cdt_name:
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- clangxx
+- gxx
 cxx_compiler_version:
-- '14'
+- '11'
+docker_image:
+- quay.io/condaforge/linux-anvil-aarch64
 libffi:
 - '3.4'
-macos_machine:
-- arm64-apple-darwin20.0.0
+libuuid:
+- '2'
 ncurses:
 - '6'
 openssl:
-- 1.1.1
+- '3'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -33,7 +39,7 @@ readline:
 sqlite:
 - '3'
 target_platform:
-- osx-arm64
+- linux-aarch64
 tk:
 - '8.6'
 xz:

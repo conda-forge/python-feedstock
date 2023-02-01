@@ -8,11 +8,8 @@ jobs:
     vmImage: windows-2019
   strategy:
     matrix:
-      win_64_openssl1.1.1:
-        CONFIG: win_64_openssl1.1.1
-        UPLOAD_PACKAGES: 'True'
-      win_64_openssl3:
-        CONFIG: win_64_openssl3
+      win_64_:
+        CONFIG: win_64_
         UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables:

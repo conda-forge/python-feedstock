@@ -8,14 +8,10 @@ jobs:
     vmImage: windows-2019
   strategy:
     matrix:
-      win_64_build_typedebugchannel_targetsconda-forge_mainopenssl1.1.1:
-        CONFIG: win_64_build_typedebugchannel_targetsconda-forge_mainopenssl1.1.1
+      win_64_build_typedebugchannel_targetsconda-forge_main:
+        CONFIG: win_64_build_typedebugchannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: win_64_build_typedebugchannel_targe_h2b86c86fd2
-      win_64_build_typedebugchannel_targetsconda-forge_mainopenssl3:
-        CONFIG: win_64_build_typedebugchannel_targetsconda-forge_mainopenssl3
-        UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: win_64_build_typedebugchannel_targe_h64a7865dd2
+        SHORT_CONFIG: win_64_build_typedebugchannel_targe_h0865575585
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\

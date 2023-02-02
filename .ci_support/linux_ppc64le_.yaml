@@ -1,13 +1,9 @@
-BUILD:
-- aarch64-conda_cos7-linux-gnu
 bzip2:
 - '1'
 c_compiler:
 - gcc
 c_compiler_version:
-- '10'
-cdt_arch:
-- aarch64
+- '11'
 cdt_name:
 - cos7
 channel_sources:
@@ -17,9 +13,9 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '10'
+- '11'
 docker_image:
-- quay.io/condaforge/linux-anvil-aarch64
+- quay.io/condaforge/linux-anvil-ppc64le
 libffi:
 - '3.4'
 libuuid:
@@ -27,7 +23,7 @@ libuuid:
 ncurses:
 - '6'
 openssl:
-- 1.1.1
+- '3'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -39,9 +35,7 @@ readline:
 sqlite:
 - '3'
 target_platform:
-- linux-aarch64
-tk:
-- '8.6'
+- linux-ppc64le
 xz:
 - '5'
 zip_keys:

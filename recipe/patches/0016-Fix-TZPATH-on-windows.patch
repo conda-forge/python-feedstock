@@ -1,4 +1,4 @@
-From cedc51e9b9484cd0db7c07722d1c480107216c0d Mon Sep 17 00:00:00 2001
+From b9ff5de5a34ab9c802a24f12c01fe01aa332b4a2 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
 Subject: [PATCH 16/24] Fix TZPATH on windows
@@ -19,6 +19,3 @@ index ebe3711827..d51ba78d51 100644
          if os.name == 'posix':
              _init_posix(_CONFIG_VARS)
          if _HAS_USER_BASE:
--- 
-2.30.2
-

@@ -1,4 +1,4 @@
-From d906e29bacb60724b1862ecef527ad623bddee3f Mon Sep 17 00:00:00 2001
+From 5ba27151bea43c756917868c336a42d36e73c3b6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 12/24] Add CondaEcosystemModifyDllSearchPath()
@@ -33,7 +33,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  1 file changed, 96 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index 960a38aebe..a05002b904 100644
+index 4060c23ace..104e2e6638 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
 @@ -53,6 +53,10 @@ extern void _PyIO_Fini(void);
@@ -47,7 +47,7 @@ index 960a38aebe..a05002b904 100644
  
     extern PyTypeObject PyWindowsConsoleIO_Type;
  #  define PyWindowsConsoleIO_Check(op) \
-@@ -105,6 +109,94 @@ __attribute__ ((section (".PyRuntime")))
+@@ -106,6 +110,94 @@ __attribute__ ((section (".PyRuntime")))
  = _PyRuntimeState_INIT;
  _Py_COMP_DIAG_POP
  
@@ -142,7 +142,7 @@ index 960a38aebe..a05002b904 100644
  static int runtime_initialized = 0;
  
  PyStatus
-@@ -121,6 +213,10 @@ _PyRuntime_Initialize(void)
+@@ -122,6 +214,10 @@ _PyRuntime_Initialize(void)
      }
      runtime_initialized = 1;
  
@@ -153,6 +153,3 @@ index 960a38aebe..a05002b904 100644
      return _PyRuntimeState_Init(&_PyRuntime);
  }
  
--- 
-2.30.2
-

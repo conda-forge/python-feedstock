@@ -1,4 +1,4 @@
-From dedf7f42b63f5953d24204e2e8b87137d0e054bf Mon Sep 17 00:00:00 2001
+From b90601752071a69fed4434e7e7fd5b022a9b9061 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
 Subject: [PATCH 17/24] Make dyld search work with SYSTEM_VERSION_COMPAT=1
@@ -15,18 +15,15 @@ as that part is compiled with `MACOSX_DEPLOYMENT_TARGET=11.0`)
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index 3fab9ad0c1..66d52a1314 100644
+index f42ff08f58..cb93b2cfce 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
-@@ -1440,7 +1440,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
- #ifdef __APPLE__
+@@ -1449,7 +1449,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
  #ifdef HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
- #define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
--    __builtin_available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
-+    __builtin_available(macOS 10.16, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
- #else
- // Support the deprecated case of compiling on an older macOS version
- static void *libsystem_b_handle;
--- 
-2.30.2
-
+ #  ifdef HAVE_BUILTIN_AVAILABLE
+ #    define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
+-        __builtin_available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
++        __builtin_available(macOS 10.16, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
+ #  else
+ #    define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
+          (_dyld_shared_cache_contains_path != NULL)

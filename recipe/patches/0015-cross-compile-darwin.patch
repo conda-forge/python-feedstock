@@ -1,4 +1,4 @@
-From 0264f5cfd14e95977ef764e59a45733d28e9bf8c Mon Sep 17 00:00:00 2001
+From 8054e8b69c76a9db3cd083b100d5a81f447431cc Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 15/24] cross compile darwin
@@ -12,7 +12,7 @@ By Isuru Fernando.
  4 files changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index c272c407c7..c05b9b8ea9 100755
+index 9e9f3af3ce..e04cac72ad 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -413,7 +413,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
@@ -30,10 +30,10 @@ index c272c407c7..c05b9b8ea9 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index 91227f00be..b89d1a380a 100755
+index 9567ac3a62..f1bfe4790b 100755
 --- a/configure
 +++ b/configure
-@@ -3873,6 +3873,9 @@ if test "$cross_compiling" = yes; then
+@@ -3874,6 +3874,9 @@ if test "$cross_compiling" = yes; then
  			_host_cpu=$host_cpu
  		esac
  		;;
@@ -43,7 +43,7 @@ index 91227f00be..b89d1a380a 100755
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -7051,7 +7054,7 @@ esac
+@@ -7207,7 +7210,7 @@ esac
    fi
  fi
  
@@ -53,7 +53,7 @@ index 91227f00be..b89d1a380a 100755
  	readelf|:)
  	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index 77fb609b74..1d9fa9e4ef 100644
+index 90008bcae1..24ed6fb365 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -597,6 +597,9 @@ if test "$cross_compiling" = yes; then
@@ -66,7 +66,7 @@ index 77fb609b74..1d9fa9e4ef 100644
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -1590,7 +1593,7 @@ then
+@@ -1626,7 +1629,7 @@ then
  fi
  
  AC_CHECK_TOOLS([READELF], [readelf], [:])
@@ -102,6 +102,3 @@ index 25fc167722..1a354d5bd4 100644
                  ret = run_command("ldd %s > %s" % (do_readline, tmpfile))
              else:
                  ret = 1
--- 
-2.30.2
-

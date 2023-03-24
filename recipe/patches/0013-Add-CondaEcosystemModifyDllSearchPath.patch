@@ -1,4 +1,4 @@
-From 568238fdfbcbc88667f37b539983f3783dd217fb Mon Sep 17 00:00:00 2001
+From aa5e090d97c5175d61a9d620c2d6947fbef5153c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 13/25] Add CondaEcosystemModifyDllSearchPath()

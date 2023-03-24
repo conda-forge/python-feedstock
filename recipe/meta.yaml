@@ -189,10 +189,8 @@ outputs:
 {% endif %}
     test:
       downstreams:
-        # Temporarily disable dowmstream tests on aarch64 as the solver causes timeouts on drone
-        # Fully disable while migrating as the automatic skip doesn't work
-        # - cython  # [not aarch64]
-        # - setuptools  # [not aarch64]
+        - cython
+        - setuptools
       requires:
         - ripgrep
         - cmake

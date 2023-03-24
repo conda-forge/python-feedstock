@@ -1,4 +1,4 @@
-From 3b2dd1d4152fb4746e397e04aeb5fe5cc346c26e Mon Sep 17 00:00:00 2001
+From c59622c07dc9a72cba9b87779b470582eb612c32 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
 Subject: [PATCH 08/25] bpo-22699: Allow compiling on debian/ubuntu with a
@@ -12,7 +12,7 @@ patch than given
  1 file changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 9f3452c3c7..a75c62d4d3 100644
+index b2d68de7cd..ddaa6d743c 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -666,9 +666,30 @@ def check_extension_import(self, ext):

@@ -1,4 +1,4 @@
-From e93a8d59ef5dcc976b3d9ca897a2d93db31786e8 Mon Sep 17 00:00:00 2001
+From 6543328d657a52e7b4a96c8f1dd8a9a6f7fbf71e Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 10/25] Unvendor openssl
@@ -141,17 +141,17 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 56060f798e..9b631d405c 100644
+index 1f9b0e7736..19caa9e3d3 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -55,6 +55,7 @@
-     
-     <!-- Directories of external projects. tcltk is handled in tcltk.props -->
-     <ExternalsDir>$(EXTERNALS_DIR)</ExternalsDir>
+@@ -57,6 +57,7 @@
+   <!-- Directories of external projects. tcltk is handled in tcltk.props -->
+   <PropertyGroup>
+     <ExternalsDir Condition="$(ExternalsDir) == ''">$(EXTERNALS_DIR)</ExternalsDir>
 +    <condaDir>$(LIBRARY_PREFIX)\</condaDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
-     <sqlite3Dir>$(ExternalsDir)sqlite-3.39.4.0\</sqlite3Dir>
+   </PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
 index b6dcf14823..3481ed3d47 100644
 --- a/PCbuild/python.vcxproj

@@ -1,4 +1,4 @@
-From ac9999cf2fa31646c49cfcf558d8af27ff8b28f2 Mon Sep 17 00:00:00 2001
+From cd2046fccbd11752309d4d2d3b4223ce77cda50a Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
 Subject: [PATCH 22/25] Unvendor tcltk
@@ -8,21 +8,21 @@ Subject: [PATCH 22/25] Unvendor tcltk
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
-index 16dc35d45e..f0ae3372f3 100644
+index 6ff152970c..a46efb89d2 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
-@@ -14,10 +14,10 @@
-     <TixMinorVersion>4</TixMinorVersion>
-     <TixPatchLevel>3</TixPatchLevel>
-     <TixRevision>6</TixRevision>
--    <tclDir>$(ExternalsDir)tcl-core-$(TclMajorVersion).$(TclMinorVersion).$(TclPatchLevel).$(TclRevision)\</tclDir>
--    <tkDir>$(ExternalsDir)tk-$(TkMajorVersion).$(TkMinorVersion).$(TkPatchLevel).$(TkRevision)\</tkDir>
--    <tixDir>$(ExternalsDir)tix-$(TixMajorVersion).$(TixMinorVersion).$(TixPatchLevel).$(TixRevision)\</tixDir>
--    <tcltkDir>$(ExternalsDir)tcltk-$(TclMajorVersion).$(TclMinorVersion).$(TclPatchLevel).$(TclRevision)\$(ArchName)\</tcltkDir>
-+    <tclDir>$(condaDir)</tclDir>
-+    <tkDir>$(condaDir)</tkDir>
-+    <tixDir>$(condaDir)</tixDir>
-+    <tcltkDir>$(condaDir)</tcltkDir>
+@@ -17,10 +17,10 @@
+     <TixMinorVersion>$([System.Version]::Parse($(TixVersion)).Minor)</TixMinorVersion>
+     <TixPatchLevel>$([System.Version]::Parse($(TixVersion)).Build)</TixPatchLevel>
+     <TixRevision>$([System.Version]::Parse($(TixVersion)).Revision)</TixRevision>
+-    <tclDir Condition="$(tclDir) == ''">$(ExternalsDir)tcl-core-$(TclVersion)\</tclDir>
+-    <tkDir Condition="$(tkDir) == ''">$(ExternalsDir)tk-$(TkVersion)\</tkDir>
+-    <tixDir Condition="$(tixDir) == ''">$(ExternalsDir)tix-$(TixVersion)\</tixDir>
+-    <tcltkDir Condition="$(tcltkDir) == ''">$(ExternalsDir)tcltk-$(TclVersion)\$(ArchName)\</tcltkDir>
++    <tclDir Condition="$(tclDir) == ''">$(condaDir)\</tclDir>
++    <tkDir Condition="$(tkDir) == ''">$(condaDir)\</tkDir>
++    <tixDir Condition="$(tixDir) == ''">$(condaDir)\</tixDir>
++    <tcltkDir Condition="$(tcltkDir) == ''">$(condaDir)\</tcltkDir>
+ 
      <!--<TclDebugExt Condition="'$(Configuration)' == 'Debug'">g</TclDebugExt>-->
      <tclDLLName>tcl$(TclMajorVersion)$(TclMinorVersion)t$(TclDebugExt).dll</tclDLLName>
-     <tclLibName>tcl$(TclMajorVersion)$(TclMinorVersion)t$(TclDebugExt).lib</tclLibName>

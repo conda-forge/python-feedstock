@@ -1,11 +1,12 @@
-From 507b0127777532b3b10d4ef1edc50ed7f0aec901 Mon Sep 17 00:00:00 2001
+From 1796d1828c610bc67b0911eecb62d03c93498aa0 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Mar 2023 23:07:10 -0500
 Subject: [PATCH 25/25] Unvendor expat
 
 ---
  PCbuild/_elementtree.vcxproj | 24 +++---------------------
- 1 file changed, 3 insertions(+), 21 deletions(-)
+ PCbuild/pyexpat.vcxproj      | 11 +++--------
+ 2 files changed, 6 insertions(+), 29 deletions(-)
 
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
 index 20cc09d63f..042b693c2c 100644
@@ -45,6 +46,37 @@ index 20cc09d63f..042b693c2c 100644
 -  </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\Modules\_elementtree.c" />
+-    <ClCompile Include="..\Modules\expat\xmlparse.c" />
+-    <ClCompile Include="..\Modules\expat\xmlrole.c" />
+-    <ClCompile Include="..\Modules\expat\xmltok.c" />
+   </ItemGroup>
+   <ItemGroup>
+     <ResourceCompile Include="..\PC\python_nt.rc" />
+diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
+index 3be4ac06dd..fac9dbc008 100644
+--- a/PCbuild/pyexpat.vcxproj
++++ b/PCbuild/pyexpat.vcxproj
+@@ -90,7 +90,9 @@
+   <PropertyGroup Label="UserMacros" />
+   <ItemDefinitionGroup>
+     <ClCompile>
+-      <AdditionalIncludeDirectories>$(PySourcePath)Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
++      <AdditionalDependencies>$(condaDir)\lib\expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PYEXPAT_EXPORTS;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+@@ -98,15 +100,8 @@
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+     </ClCompile>
+   </ItemDefinitionGroup>
+-  <ItemGroup>
+-    <ClInclude Include="..\Modules\expat\xmlrole.h" />
+-    <ClInclude Include="..\Modules\expat\xmltok.h" />
+-  </ItemGroup>
+   <ItemGroup>
+     <ClCompile Include="..\Modules\pyexpat.c" />
 -    <ClCompile Include="..\Modules\expat\xmlparse.c" />
 -    <ClCompile Include="..\Modules\expat\xmlrole.c" />
 -    <ClCompile Include="..\Modules\expat\xmltok.c" />

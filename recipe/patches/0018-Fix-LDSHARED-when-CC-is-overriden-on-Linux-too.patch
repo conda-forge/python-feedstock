@@ -1,4 +1,4 @@
-From 125971faa2ca552eb8976f6aa85fb4485c8c0692 Mon Sep 17 00:00:00 2001
+From cd99533ef591c920c733122a115d0741b7d26a2a Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:18:50 -0700
 Subject: [PATCH 18/24] Fix LDSHARED when CC is overriden on Linux too
@@ -24,6 +24,3 @@ index 00133ded58..43eef57419 100644
                  #       command for LDSHARED as well
                  ldshared = newcc + ldshared[len(cc):]
              cc = newcc
--- 
-2.30.2
-

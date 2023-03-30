@@ -1,4 +1,4 @@
-From 717e6526e2f32877a9fad11c76df9674b2928424 Mon Sep 17 00:00:00 2001
+From 3bc5a526cca2674b04e88b077bd6bd4a42c78bab Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 09/24] Unvendor openssl
@@ -146,7 +146,7 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 7f10e7c45e..bd9e59f4c5 100644
+index 320d41f4cc..512104969e 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -59,6 +59,7 @@
@@ -156,7 +156,7 @@ index 7f10e7c45e..bd9e59f4c5 100644
 +    <condaDir>$(LIBRARY_PREFIX)\</condaDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
-     <sqlite3Dir>$(ExternalsDir)sqlite-3.38.4.0\</sqlite3Dir>
+     <sqlite3Dir>$(ExternalsDir)sqlite-3.39.4.0\</sqlite3Dir>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
 index d07db3a681..5f2356cb36 100644
 --- a/PCbuild/python.vcxproj
@@ -185,6 +185,3 @@ index e7216dec3a..247ea10d5c 100644
    </ItemGroup>
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
--- 
-2.30.2
-

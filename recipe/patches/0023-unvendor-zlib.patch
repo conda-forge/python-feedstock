@@ -1,4 +1,4 @@
-From 6e3cba5e8119a2b5d3cc5d6459fb793374e55b42 Mon Sep 17 00:00:00 2001
+From a04efceb1e6cacc01e01ad197dd2f9402c8e9b9e Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 23/24] unvendor zlib
@@ -9,7 +9,7 @@ Subject: [PATCH 23/24] unvendor zlib
  2 files changed, 4 insertions(+), 95 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index c4cb39c821..c1b60bd45b 100644
+index e0a3a1b74d..85fb6715dc 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -161,6 +161,3 @@ index e3fe9271dd..334cb226e2 100644
      <ClCompile Include="..\Python\hamt.c">
        <Filter>Python</Filter>
      </ClCompile>
--- 
-2.30.2
-

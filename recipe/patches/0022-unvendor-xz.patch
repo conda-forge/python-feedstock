@@ -1,4 +1,4 @@
-From 57c17d3e3a4e85c56d6801468488d1f795d732c5 Mon Sep 17 00:00:00 2001
+From b3728c347e743274787178e9708621a2cfc89992 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sat, 25 Sep 2021 10:07:05 -0700
 Subject: [PATCH 22/24] unvendor xz
@@ -41,6 +41,3 @@ index 0565132363..e8b2704cee 100644
    </ItemGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
--- 
-2.30.2
-

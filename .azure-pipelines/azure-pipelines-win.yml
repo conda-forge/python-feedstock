@@ -8,10 +8,10 @@ jobs:
     vmImage: windows-2022
   strategy:
     matrix:
-      win_64_build_typedebugchannel_targetsconda-forge_main:
-        CONFIG: win_64_build_typedebugchannel_targetsconda-forge_main
+      win_64_:
+        CONFIG: win_64_
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: win_64_build_typedebugchannel_targe_h0865575585
+        SHORT_CONFIG: win_64_
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\
@@ -37,7 +37,7 @@ jobs:
 
     - script: |
         call activate base
-        mamba.exe install "python=3.10" conda-build conda pip boa conda-forge-ci-setup=3 -c conda-forge --strict-channel-priority --yes
+        mamba.exe install "python=3.10" conda-build conda pip boa conda-forge-ci-setup=3 "libsolv<0.7.23" -c conda-forge --strict-channel-priority --yes
       displayName: Install conda-build
 
     - script: set PYTHONUNBUFFERED=1

@@ -33,9 +33,9 @@ CONDARC
 
 
 mamba install --update-specs --yes --quiet --channel conda-forge \
-    conda-build pip boa conda-forge-ci-setup=3
+    conda-build pip boa conda-forge-ci-setup=3 "libsolv<0.7.23"
 mamba update --update-specs --yes --quiet --channel conda-forge \
-    conda-build pip boa conda-forge-ci-setup=3
+    conda-build pip boa conda-forge-ci-setup=3 "libsolv<0.7.23"
 
 # set up the condarc
 setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"

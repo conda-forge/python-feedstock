@@ -84,7 +84,6 @@ source:
 
 build:
   number: {{ build_number }}
-  skip: true  # [win and build_type != "release"]
 
 requirements:
   build:

@@ -1,33 +1,34 @@
-From c6c315bf747c98f80956f3187c25904b3908889e Mon Sep 17 00:00:00 2001
+From 7133914c2b2fc4e17a21e9d6c6093c7b39615597 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Mar 2023 23:07:10 -0500
 Subject: [PATCH 25/25] Unvendor expat
 
 ---
- PCbuild/_elementtree.vcxproj         | 24 ++----------
+ PCbuild/_elementtree.vcxproj         | 25 ++----------
  PCbuild/_elementtree.vcxproj.filters | 58 +---------------------------
- PCbuild/pyexpat.vcxproj              | 11 ++----
+ PCbuild/pyexpat.vcxproj              | 12 ++----
  PCbuild/pyexpat.vcxproj.filters      | 19 +--------
- 4 files changed, 8 insertions(+), 104 deletions(-)
+ 4 files changed, 10 insertions(+), 104 deletions(-)
 
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index 20cc09d63f..042b693c2c 100644
+index 20cc09d63f..de476a6add 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
-@@ -93,7 +93,9 @@
+@@ -93,36 +93,19 @@
    </PropertyGroup>
    <ItemDefinitionGroup>
      <ClCompile>
 -      <AdditionalIncludeDirectories>..\Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 +      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-+      <AdditionalDependencies>$(condaDir)\lib\expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
        <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_PYEXPAT_CAPI;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-@@ -101,28 +103,8 @@
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
      </ClCompile>
++    <Link>
++      <AdditionalDependencies>$(condaDir)\lib\expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
++    </Link>
    </ItemDefinitionGroup>
 -  <ItemGroup>
 -    <ClInclude Include="..\Modules\expat\ascii.h" />
@@ -132,23 +133,24 @@ index bc14e31f32..7cc8e9a3b9 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 3be4ac06dd..fac9dbc008 100644
+index 3be4ac06dd..e253b39c86 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
-@@ -90,7 +90,9 @@
+@@ -90,23 +90,19 @@
    <PropertyGroup Label="UserMacros" />
    <ItemDefinitionGroup>
      <ClCompile>
 -      <AdditionalIncludeDirectories>$(PySourcePath)Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 +      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-+      <AdditionalDependencies>$(condaDir)\lib\expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
        <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PYEXPAT_EXPORTS;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-@@ -98,15 +100,8 @@
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
      </ClCompile>
++    <Link>
++      <AdditionalDependencies>$(condaDir)\lib\expat.lib;%(AdditionalDependencies)</AdditionalDependencies>
++    </Link>
    </ItemDefinitionGroup>
 -  <ItemGroup>
 -    <ClInclude Include="..\Modules\expat\xmlrole.h" />

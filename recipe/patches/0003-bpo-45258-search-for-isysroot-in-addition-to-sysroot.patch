@@ -1,7 +1,7 @@
-From f5077412192981ccb8527ad35921f274f5666c67 Mon Sep 17 00:00:00 2001
+From c27448713e69e2ae75fc687e0b5acb0051416a05 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 21 Sep 2021 13:05:20 -0500
-Subject: [PATCH 03/24] bpo-45258: search for -isysroot in addition to
+Subject: [PATCH 03/25] bpo-45258: search for -isysroot in addition to
  --sysroot
 
 -isysroot is for macOS, while --sysroot is for gcc/linux
@@ -10,7 +10,7 @@ Subject: [PATCH 03/24] bpo-45258: search for -isysroot in addition to
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index 15d0d4576a..a15a7a46e0 100644
+index 4f122b62e0..87f76ad41b 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -166,7 +166,7 @@ def sysroot_paths(make_vars, subdirs):

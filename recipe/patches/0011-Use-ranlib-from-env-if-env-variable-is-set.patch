@@ -1,7 +1,7 @@
-From 34c2bfc817cd34611b16af45e48fd2b94f95ccb0 Mon Sep 17 00:00:00 2001
+From 7ecb46f4e4974455cc6e06a8b61d6dc234b820a3 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 3 Nov 2019 15:09:45 -0600
-Subject: [PATCH 11/24] Use ranlib from env if env variable is set
+Subject: [PATCH 11/25] Use ranlib from env if env variable is set
 
 ---
  Lib/distutils/sysconfig.py | 3 +++

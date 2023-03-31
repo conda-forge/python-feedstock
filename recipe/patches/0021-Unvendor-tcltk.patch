@@ -1,24 +1,24 @@
-From 3e0d466952034dcf1117ac304001d1bbba3ccebc Mon Sep 17 00:00:00 2001
+From 375daf999ad578f29a27c6a66a38d985bec1f848 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
-Subject: [PATCH 21/24] Unvendor tcltk
+Subject: [PATCH 21/25] Unvendor tcltk
 
 ---
  PCbuild/tcltk.props | 12 +++++-------
  1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
-index 7fd43e8279..5d7f07567d 100644
+index cd54b2567b..0507b044ee 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
-@@ -14,13 +14,11 @@
-     <TixMinorVersion>4</TixMinorVersion>
-     <TixPatchLevel>3</TixPatchLevel>
-     <TixRevision>6</TixRevision>
--    <tclDir>$(ExternalsDir)tcl-core-$(TclMajorVersion).$(TclMinorVersion).$(TclPatchLevel).$(TclRevision)\</tclDir>
--    <tkDir>$(ExternalsDir)tk-$(TkMajorVersion).$(TkMinorVersion).$(TkPatchLevel).$(TkRevision)\</tkDir>
--    <tixDir>$(ExternalsDir)tix-$(TixMajorVersion).$(TixMinorVersion).$(TixPatchLevel).$(TixRevision)\</tixDir>
--    <tcltkDir>$(ExternalsDir)tcltk-$(TclMajorVersion).$(TclMinorVersion).$(TclPatchLevel).$(TclRevision)\$(ArchName)\</tcltkDir>
+@@ -17,13 +17,11 @@
+     <TixMinorVersion>$([System.Version]::Parse($(TixVersion)).Minor)</TixMinorVersion>
+     <TixPatchLevel>$([System.Version]::Parse($(TixVersion)).Build)</TixPatchLevel>
+     <TixRevision>$([System.Version]::Parse($(TixVersion)).Revision)</TixRevision>
+-    <tclDir Condition="$(tclDir) == ''">$(ExternalsDir)tcl-core-$(TclVersion)\</tclDir>
+-    <tkDir Condition="$(tkDir) == ''">$(ExternalsDir)tk-$(TkVersion)\</tkDir>
+-    <tixDir Condition="$(tixDir) == ''">$(ExternalsDir)tix-$(TixVersion)\</tixDir>
+-    <tcltkDir Condition="$(tcltkDir) == ''">$(ExternalsDir)tcltk-$(TclVersion)\$(ArchName)\</tcltkDir>
 -    <tclWin32Exe Condition="$(Platform) == 'Win32'">$(tcltkDir)\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>
 -    <tclWin32Exe Condition="$(Platform) != 'Win32'">$(tcltkDir)\..\win32\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>
 -

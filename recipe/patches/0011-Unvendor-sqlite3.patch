@@ -1,4 +1,4 @@
-From 6889054e07adf728320f71c0f8ee2de32deeb475 Mon Sep 17 00:00:00 2001
+From d9c6d69a168ca176d98a6196b8984393cf837cc0 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
 Subject: [PATCH 11/25] Unvendor sqlite3
@@ -52,14 +52,14 @@ index 3507b97279..2b4ac3258c 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 19caa9e3d3..bed04f563c 100644
+index 567c50e82a..0ab26a5ca2 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -65,7 +65,7 @@
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>
--    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.39.4.0\</sqlite3Dir>
+-    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.40.1.0\</sqlite3Dir>
 +    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(SQLITE3_DIR)\</sqlite3Dir>
      <bz2Dir Condition="$(bz2Dir) == ''">$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
      <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.5\</lzmaDir>

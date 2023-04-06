@@ -1,4 +1,4 @@
-From 6543328d657a52e7b4a96c8f1dd8a9a6f7fbf71e Mon Sep 17 00:00:00 2001
+From f72ce2adba0667015a928d8861b51887a288cfea Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 10/25] Unvendor openssl
@@ -141,7 +141,7 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 1f9b0e7736..19caa9e3d3 100644
+index c93f25261e..567c50e82a 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -57,6 +57,7 @@
@@ -153,10 +153,10 @@ index 1f9b0e7736..19caa9e3d3 100644
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
    </PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index b6dcf14823..3481ed3d47 100644
+index 0adce0958b..38bab08306 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
-@@ -105,6 +105,9 @@
+@@ -106,6 +106,9 @@
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\Programs\python.c" />
@@ -167,10 +167,10 @@ index b6dcf14823..3481ed3d47 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index e7216dec3a..247ea10d5c 100644
+index e23635e5ea..525295c76f 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
-@@ -97,6 +97,9 @@
+@@ -98,6 +98,9 @@
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\PC\WinMain.c" />

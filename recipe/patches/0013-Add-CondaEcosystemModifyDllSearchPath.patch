@@ -1,4 +1,4 @@
-From c434ddcd1643d0245ad65f6d233a776ba9333393 Mon Sep 17 00:00:00 2001
+From aa6ec1e95e660385adfd4d63d89f583a99897e1a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 13/24] Add CondaEcosystemModifyDllSearchPath()
@@ -61,7 +61,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  3 files changed, 378 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/main.c b/Modules/main.c
-index ea6250e28c..9cfcdc5e39 100644
+index ea6250e..9cfcdc5 100644
 --- a/Modules/main.c
 +++ b/Modules/main.c
 @@ -20,6 +20,10 @@
@@ -453,7 +453,7 @@ index ea6250e28c..9cfcdc5e39 100644
      if (_PyStatus_IS_EXIT(status)) {
          pymain_free();
 diff --git a/Python/dynload_win.c b/Python/dynload_win.c
-index 4896c6dc8c..ab90f62cfc 100644
+index 4896c6d..ab90f62 100644
 --- a/Python/dynload_win.c
 +++ b/Python/dynload_win.c
 @@ -199,6 +199,10 @@ dl_funcptr _PyImport_FindSharedFuncptrWindows(const char *prefix,
@@ -468,7 +468,7 @@ index 4896c6dc8c..ab90f62cfc 100644
          hDLL = LoadLibraryExW(wpathname, NULL,
                                LOAD_LIBRARY_SEARCH_DEFAULT_DIRS |
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index 8732d814f8..10700e0a1b 100644
+index 8732d81..10700e0 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
 @@ -84,7 +84,10 @@ _PyRuntime_Initialize(void)

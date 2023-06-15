@@ -1,4 +1,4 @@
-From 8d99958e6c3910dac432eb6f0a252f09dd091309 Mon Sep 17 00:00:00 2001
+From f783b231db94ded0ab62c4a7f6334a21186ff1bc Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
 Subject: [PATCH 11/24] Unvendor sqlite3
@@ -6,12 +6,12 @@ Subject: [PATCH 11/24] Unvendor sqlite3
 ---
  PCbuild/_sqlite3.vcxproj | 11 +++++------
  PCbuild/pcbuild.sln      |  2 --
- PCbuild/python.props     |  2 +-
+ PCbuild/python.props     | 31 ++++++++++++-------------------
  PCbuild/sqlite3.vcxproj  | 12 ++++++------
- 4 files changed, 12 insertions(+), 15 deletions(-)
+ 4 files changed, 23 insertions(+), 33 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 7e0062692b..44856cea1f 100644
+index 7e00626..44856ce 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -93,9 +93,12 @@
@@ -44,7 +44,7 @@ index 7e0062692b..44856cea1f 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 6dc0139bc4..2f58d8ab24 100644
+index 6dc0139..2f58d8a 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
 @@ -57,8 +57,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bdist_wininst", "..\PC\bdis
@@ -57,20 +57,49 @@ index 6dc0139bc4..2f58d8ab24 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 16fc2da873..426f0358b1 100644
+index 778aa16..426f035 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -57,7 +57,7 @@
+@@ -57,25 +57,18 @@
      <condaDir>$(LIBRARY_PREFIX)\</condaDir>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
--    <sqlite3Dir>$(ExternalsDir)sqlite-3.35.5.0\</sqlite3Dir>
+-  </PropertyGroup>
+-
+-  <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
+-
+-  <PropertyGroup>
+-    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.35.5.0\</sqlite3Dir>
+-    <bz2Dir Condition="$(bz2Dir) == ''">$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
+-    <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.2\</lzmaDir>
+-    <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.3.0\</libffiDir>
+-    <libffiOutDir Condition="$(libffiOutDir) == ''">$(libffiDir)$(ArchName)\</libffiOutDir>
+-    <libffiIncludeDir Condition="$(libffiIncludeDir) == ''">$(libffiOutDir)include</libffiIncludeDir>
+-    <opensslDir Condition="$(opensslDir) == ''">$(ExternalsDir)openssl-1.1.1u\</opensslDir>
+-    <opensslOutDir Condition="$(opensslOutDir) == ''">$(ExternalsDir)openssl-bin-1.1.1u\$(ArchName)\</opensslOutDir>
+-    <opensslIncludeDir Condition="$(opensslIncludeDir) == ''">$(opensslOutDir)include</opensslIncludeDir>
+-    <nasmDir Condition="$(nasmDir) == ''">$(ExternalsDir)\nasm-2.11.06\</nasmDir>
+-    <zlibDir Condition="$(zlibDir) == ''">$(ExternalsDir)\zlib-1.2.12\</zlibDir>
+-  </PropertyGroup>
+-
+-  <PropertyGroup>
 +    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
-     <bz2Dir>$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
-     <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
-     <libffiDir>$(ExternalsDir)libffi-3.3.0\</libffiDir>
++    <bz2Dir>$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
++    <lzmaDir>$(ExternalsDir)xz-5.2.2\</lzmaDir>
++    <libffiDir>$(ExternalsDir)libffi-3.3.0\</libffiDir>
++    <libffiOutDir>$(ExternalsDir)libffi-3.3.0\$(ArchName)\</libffiOutDir>
++    <libffiIncludeDir>$(libffiOutDir)include</libffiIncludeDir>
++    <opensslDir>$(ExternalsDir)openssl-1.1.1n\</opensslDir>
++    <opensslOutDir>$(ExternalsDir)openssl-bin-1.1.1n\$(ArchName)\</opensslOutDir>
++    <opensslIncludeDir>$(opensslOutDir)include</opensslIncludeDir>
++    <nasmDir>$(ExternalsDir)\nasm-2.11.06\</nasmDir>
++    <zlibDir>$(ExternalsDir)\zlib-1.2.12\</zlibDir>
++    
+     <!-- Suffix for all binaries when building for debug -->
+     <PyDebugExt Condition="'$(PyDebugExt)' == '' and $(Configuration) == 'Debug'">_d</PyDebugExt>
+     
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index 90b4d3108f..6deeafd422 100644
+index 90b4d31..6deeafd 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
 @@ -88,12 +88,12 @@

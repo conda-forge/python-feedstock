@@ -1,4 +1,4 @@
-From dfc23acbb5a02fe2737edbab13d78d8787860290 Mon Sep 17 00:00:00 2001
+From 79dadb83f46ab0895088e638c1434920beca59dc Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
 Subject: [PATCH 08/24] bpo-22699: Allow compiling on debian/ubuntu with a
@@ -12,7 +12,7 @@ patch than given
  1 file changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index b88d6cc30d..4af4a15243 100644
+index b88d6cc..4af4a15 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -534,9 +534,30 @@ class PyBuildExt(build_ext):

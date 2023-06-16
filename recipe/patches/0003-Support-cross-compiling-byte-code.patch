@@ -1,4 +1,4 @@
-From b9c14ce082d8c7460f13d2d29c4c7a0603367abd Mon Sep 17 00:00:00 2001
+From a7735149e559b0ad2a445b83e93996723c20c0df Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 03/24] Support cross-compiling byte-code
@@ -11,7 +11,7 @@ https://bugs.python.org/issue22724
  3 files changed, 15 insertions(+), 10 deletions(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index 7e381283fe..981250afcf 100644
+index 7e38128..981250a 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -246,8 +246,9 @@ LIBOBJS=	@LIBOBJS@
@@ -81,7 +81,7 @@ index 7e381283fe..981250afcf 100644
  		--install-scripts=$(BINDIR) \
  		--install-platlib=$(DESTSHARED) \
 diff --git a/configure b/configure
-index c091865aff..0f5cae29a4 100755
+index c091865..0f5cae2 100755
 --- a/configure
 +++ b/configure
 @@ -750,6 +750,7 @@ CONFIG_ARGS
@@ -103,7 +103,7 @@ index c091865aff..0f5cae29a4 100755
  elif test "$cross_compiling" = maybe; then
      as_fn_error $? "Cross compiling required --host=HOST-TUPLE and --build=ARCH" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index de83332dd3..703c59ab25 100644
+index de83332..703c59a 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -82,13 +82,15 @@ if test "$cross_compiling" = yes; then

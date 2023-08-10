@@ -1,4 +1,4 @@
-From 13e5ad2054c83204a327241cae50cfc706c9a0ab Mon Sep 17 00:00:00 2001
+From e891386edddc9a56903a24baacf9b5f45f311764 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
 Subject: [PATCH 11/26] Unvendor sqlite3
@@ -57,18 +57,18 @@ index 4b6dc1e677..19d75c75b8 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 6bb03008bf..0abbd875a1 100644
+index c5d2952042..f329a90a40 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -58,7 +58,7 @@
-     <condaDir>$(LIBRARY_PREFIX)\</condaDir>
-     <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
-     <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
--    <sqlite3Dir>$(ExternalsDir)sqlite-3.37.2.0\</sqlite3Dir>
-+    <sqlite3Dir>$(SQLITE3_DIR)\</sqlite3Dir>
-     <bz2Dir>$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
-     <lzmaDir>$(ExternalsDir)xz-5.2.5\</lzmaDir>
-     <libffiDir>$(ExternalsDir)libffi-3.3.0\</libffiDir>
+@@ -63,7 +63,7 @@
+   <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
+ 
+   <PropertyGroup>
+-    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.37.2.0\</sqlite3Dir>
++    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(SQLITE3_DIR)\</sqlite3Dir>
+     <bz2Dir Condition="$(bz2Dir) == ''">$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
+     <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.5\</lzmaDir>
+     <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.3.0\</libffiDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
 index 7351a6dda2..56d18cfa94 100644
 --- a/PCbuild/sqlite3.vcxproj

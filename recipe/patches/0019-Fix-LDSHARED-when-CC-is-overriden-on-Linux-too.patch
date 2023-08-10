@@ -1,4 +1,4 @@
-From 8d5a385796cdc0f8a6d7cc2a0479dbd55d0a0633 Mon Sep 17 00:00:00 2001
+From d93e72ae50b4671f909f6cceb8c2545d683e8856 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:18:50 -0700
 Subject: [PATCH 19/26] Fix LDSHARED when CC is overriden on Linux too

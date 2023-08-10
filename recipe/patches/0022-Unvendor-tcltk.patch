@@ -1,4 +1,4 @@
-From 885a4b58879842645c457c0cb4cda159913ffcd8 Mon Sep 17 00:00:00 2001
+From 26fc2896491c5914a6e6e6fce1b02260efc6c78b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
 Subject: [PATCH 22/26] Unvendor tcltk

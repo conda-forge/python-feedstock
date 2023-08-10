@@ -1,4 +1,4 @@
-From d90f54d2f07fa7e2c407ace36db3f244acd3322e Mon Sep 17 00:00:00 2001
+From b06ec1cbb2e4549a79bd8b65013727f50904f9e7 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 03/26] Support cross-compiling byte-code

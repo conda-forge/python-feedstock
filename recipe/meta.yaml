@@ -158,6 +158,10 @@ outputs:
 {% if 'conda-forge' in channel_targets %}
         - binutils_impl_{{ target_platform }}  # [linux]
 {% endif %}
+        - tk        # [build_platform != target_platform]
+        - readline  # [build_platform != target_platform]
+        - ncurses   # [build_platform != target_platform]
+        - zlib      # [build_platform != target_platform]
       host:
         - bzip2
         - sqlite

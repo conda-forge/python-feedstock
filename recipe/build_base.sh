@@ -145,10 +145,6 @@ export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
 declare -a _common_configure_args
 
-if [[ ${target_platform} == osx-* ]]; then
-  sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
-fi
-
 if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   # Build the exact same Python for the build machine. It would be nice (and might be
   # possible already?) to be able to make this just an 'exact' pinned build dependency
@@ -268,7 +264,7 @@ _common_configure_args+=(--with-platlibdir=lib)
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then
-  _common_configure_args+=(--with-lto)
+  _common_configure_args+=(--with-lto=full)
   if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
     _common_configure_args+=(--enable-optimizations)
     _MAKE_TARGET=profile-opt
@@ -379,7 +375,9 @@ fi
 # Install the shared library (for people who embed Python only, e.g. GDB).
 # Linking module extensions to this on Linux is redundant (but harmless).
 # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
-cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}* ${PREFIX}/lib/
+shopt -s extglob
+cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}!(.lto) ${PREFIX}/lib/
+shopt -u extglob
 if [[ ${target_platform} =~ .*linux.* ]]; then
   ln -sf ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}
 fi
@@ -407,7 +405,7 @@ fi
 ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python
 ln -s ${PREFIX}/bin/pydoc${VER} ${PREFIX}/bin/pydoc
 # Workaround for https://github.com/conda/conda/issues/10969
-ln -s ${PREFIX}/bin/python3.11 ${PREFIX}/bin/python3.1
+ln -s ${PREFIX}/bin/python3.12 ${PREFIX}/bin/python3.1
 
 # Remove test data to save space
 # Though keep `support` as some things use that.
@@ -518,9 +516,6 @@ if [[ ${HOST} =~ .*linux.* ]]; then
   echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
 fi
 
-# There are some strange distutils files around. Delete them
-rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
-
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
 rm ${PREFIX}/lib/libpython${VERABI}.a
 
@@ -537,4 +532,4 @@ fi
 
 # Workaround for old conda versions which fail to install noarch packages for Python 3.10+
 # https://github.com/conda/conda/issues/10969
-ln -s "${PREFIX}/lib/python3.11" "${PREFIX}/lib/python3.1"
+ln -s "${PREFIX}/lib/python3.12" "${PREFIX}/lib/python3.1"

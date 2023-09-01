@@ -1,0 +1,24 @@
+From 5d81879c38e7c3f10e4c63636f17cc36fb170980 Mon Sep 17 00:00:00 2001
+From: Charles Bousseau <cbousseau@anaconda.com>
+Date: Thu, 25 May 2023 17:01:32 -0400
+Subject: [PATCH] Fix TZPATH on windows
+
+---
+ Lib/sysconfig.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+index 122d441bd1..8e1d823a4c 100644
+--- a/Lib/sysconfig.py
++++ b/Lib/sysconfig.py
+@@ -666,6 +666,7 @@ def _init_config_vars():
+     if os.name == 'nt':
+         _init_non_posix(_CONFIG_VARS)
+         _CONFIG_VARS['VPATH'] = sys._vpath
++        _CONFIG_VARS['TZPATH'] = os.path.join(_PREFIX, "share", "zoneinfo")
+     if os.name == 'posix':
+         _init_posix(_CONFIG_VARS)
+     if _HAS_USER_BASE:
+-- 
+2.32.1 (Apple Git-133)
+

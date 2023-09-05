@@ -89,15 +89,11 @@ if errorlevel 1 exit 1
 
 :: Populate the Tools directory
 mkdir %PREFIX%\Tools
-xcopy /s /y /i %SRC_DIR%\Tools\demo %PREFIX%\Tools\demo
-if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
 if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\scripts
 if errorlevel 1 exit 1
 
-del %PREFIX%\Tools\demo\README
-if errorlevel 1 exit 1
 del %PREFIX%\Tools\scripts\README
 if errorlevel 1 exit 1
 del %PREFIX%\Tools\scripts\dutree.doc

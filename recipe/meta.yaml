@@ -73,6 +73,7 @@ source:
       - patches/0025-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
       - patches/0026-Remove-unused-readelf.patch
       - patches/0001-Don-t-checksharedmods.patch  # [build_platform != target_platform]
+      - patches/0001-Override-configure-LIBFFI.patch
 
 build:
   number: {{ build_number }}

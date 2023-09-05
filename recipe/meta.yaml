@@ -72,6 +72,7 @@ source:
       - patches/0024-unvendor-zlib.patch
       - patches/0025-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
       - patches/0026-Remove-unused-readelf.patch
+      - patches/0001-Don-t-checksharedmods.patch  # [build_platform != target_platform]
 
 build:
   number: {{ build_number }}
@@ -195,7 +196,6 @@ outputs:
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
       files:
-        - tests/distutils/*
         - tests/cmake/*
         - tests/cython/*
         - tests/prefix-replacement/*
@@ -223,8 +223,8 @@ outputs:
         - test-venv/bin/python -c "import ctypes"            # [unix]
         - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
         - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
-        # check for unreplaced @ symbols in sysconfig files
-        - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
+        # check for unreplaced @ symbols in sysconfig files, excluding e.g. '"$@".lto'
+        - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
         # https://github.com/conda-forge/python-feedstock/issues/384
@@ -238,10 +238,6 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - pushd tests
-        - pushd distutils
-        - python setup.py install -v -v
-        - python -c "import foobar"
-        - popd
         - pushd prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]

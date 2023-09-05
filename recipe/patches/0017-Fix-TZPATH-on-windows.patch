@@ -1,5 +1,5 @@
 From 5d81879c38e7c3f10e4c63636f17cc36fb170980 Mon Sep 17 00:00:00 2001
-From: Charles Bousseau <cbousseau@anaconda.com>
+From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 25 May 2023 17:01:32 -0400
 Subject: [PATCH] Fix TZPATH on windows
 

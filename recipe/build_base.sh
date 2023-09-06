@@ -523,7 +523,7 @@ rm ${PREFIX}/lib/libpython${VERABI}.a
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   rm ${PREFIX}/bin/python${VER}
   ln -s ${PREFIX}/bin/python${VERABI} ${PREFIX}/bin/python${VER}
-  ln -s ${PREFIX}/lib/libpython${VERABI}.so ${PREFIX}/lib/libpython${VER}.so
+  ln -s ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT} ${PREFIX}/lib/libpython${VER}${SHLIB_EXT}
   ln -s ${PREFIX}/include/python${VERABI} ${PREFIX}/include/python${VER}
 fi
 

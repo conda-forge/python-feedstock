@@ -10,8 +10,8 @@ build_type:
   - release
   - debug                      # [not win]
 channel_targets:
-  - conda-forge main
-  - conda-forge python_debug   # [not win]
+  - conda-forge python_rc
+  - conda-forge python_rc_debug   # [not win]
 zip_keys:
   - build_type
   - channel_targets

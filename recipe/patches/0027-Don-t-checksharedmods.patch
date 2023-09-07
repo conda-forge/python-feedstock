@@ -1,4 +1,4 @@
-From 45b8889675cbf1261b079beba6cd89152c1abafd Mon Sep 17 00:00:00 2001
+From 1b6604b52651f3088fe07dde50cfc8093124f68a Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
 Subject: [PATCH 20/21] Don't checksharedmods
@@ -8,7 +8,7 @@ Subject: [PATCH 20/21] Don't checksharedmods
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index ac459fc9a8..382c20153c 100644
+index 7acd876bc8..fa0f42cc71 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -611,7 +611,7 @@ all:		@DEF_MAKE_ALL_RULE@

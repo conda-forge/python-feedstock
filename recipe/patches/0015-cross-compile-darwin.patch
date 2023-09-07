@@ -1,14 +1,33 @@
-From cffb3ce03bf75288f40eebbe35960ab84085086d Mon Sep 17 00:00:00 2001
+From 4567cb3fd00921a5cd91c7c47a03059d4fd7aa2d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 09/20] cross compile darwin
+Subject: [PATCH 09/21] cross compile darwin
 
 By Isuru Fernando.
 ---
- configure    | 6 ++++++
- configure.ac | 6 ++++++
- 2 files changed, 12 insertions(+)
+ Lib/platform.py | 7 ++++++-
+ configure       | 6 ++++++
+ configure.ac    | 6 ++++++
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
+diff --git a/Lib/platform.py b/Lib/platform.py
+index 7bb222088d..0b1cbc98e2 100755
+--- a/Lib/platform.py
++++ b/Lib/platform.py
+@@ -458,7 +458,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
+ def _mac_ver_xml():
+     fn = '/System/Library/CoreServices/SystemVersion.plist'
+     if not os.path.exists(fn):
+-        return None
++        if 'SDKROOT' in os.environ:
++            fn = os.environ['SDKROOT'] + fn
++            if not os.path.exists(fn):
++                return None
++        else:
++            return None
+ 
+     try:
+         import plistlib
 diff --git a/configure b/configure
 index b6f90bcd8c..8e60cde53f 100755
 --- a/configure

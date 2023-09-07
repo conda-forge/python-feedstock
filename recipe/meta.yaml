@@ -68,6 +68,7 @@ source:
       - patches/0022-unvendor-xz.patch
       - patches/0023-unvendor-zlib.patch
       - patches/0024-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0025-Unvendor-expat.patch
       - patches/0026-Remove-unused-readelf.patch
       - patches/0027-Don-t-checksharedmods.patch  # [build_platform != target_platform]
       - patches/0028-Override-configure-LIBFFI.patch

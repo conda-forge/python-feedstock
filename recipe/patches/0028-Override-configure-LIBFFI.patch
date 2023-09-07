@@ -1,7 +1,7 @@
-From 88b2eb195c3e7727f3fa8c3682025db12d7e3387 Mon Sep 17 00:00:00 2001
+From aafbe6c1a3e0002196c5e781bb6db377415408fb Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Tue, 5 Sep 2023 21:51:31 +0200
-Subject: [PATCH 20/20] Override configure LIBFFI
+Subject: [PATCH 21/21] Override configure LIBFFI
 
 ---
  configure | 2 +-

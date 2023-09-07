@@ -1,7 +1,7 @@
-From 1c7c9fed2632ac713640d9b45cf433a5704e03cf Mon Sep 17 00:00:00 2001
+From 45b8889675cbf1261b079beba6cd89152c1abafd Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
-Subject: [PATCH 19/20] Don't checksharedmods
+Subject: [PATCH 20/21] Don't checksharedmods
 
 ---
  Makefile.pre.in | 2 +-

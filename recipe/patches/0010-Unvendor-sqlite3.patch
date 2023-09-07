@@ -1,7 +1,7 @@
-From 42c38f2113f14e53b14adc423859128c49a51d24 Mon Sep 17 00:00:00 2001
+From 64c8f03c65ec7028cb32070204dc9ba5dfd16407 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
-Subject: [PATCH 06/20] Unvendor sqlite3
+Subject: [PATCH 06/21] Unvendor sqlite3
 
 ---
  PCbuild/_sqlite3.vcxproj | 11 +++++------

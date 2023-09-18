@@ -1,22 +1,35 @@
 From 1b6604b52651f3088fe07dde50cfc8093124f68a Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
-Subject: [PATCH 20/21] Don't checksharedmods
+Subject: [PATCH 20/21] Don't checksharedmods if cross-compiling
 
 ---
  Makefile.pre.in | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ if_runnable.sh  | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+ create mode 100755 if_runnable.sh
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index 7acd876bc8..fa0f42cc71 100644
+index 7acd876..e50db99 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
-@@ -611,7 +611,7 @@ all:		@DEF_MAKE_ALL_RULE@
- 
- .PHONY: build_all
- build_all:	check-clean-src $(BUILDPYTHON) platform sharedmods \
--		gdbhooks Programs/_testembed scripts checksharedmods rundsymutil
-+		gdbhooks Programs/_testembed scripts rundsymutil
- 
- .PHONY: build_wasm
- build_wasm: check-clean-src $(BUILDPYTHON) platform sharedmods \
+@@ -989,7 +989,7 @@ sharedmods: $(SHAREDMODS) pybuilddir.txt
+ # dependency on BUILDPYTHON ensures that the target is run last
+ .PHONY: checksharedmods
+ checksharedmods: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
+-	@$(RUNSHARED) $(PYTHON_FOR_BUILD) $(srcdir)/Tools/build/check_extension_modules.py
++	@$(srcdir)/if_runnable.sh $(RUNSHARED) $(PYTHON_FOR_BUILD) $(srcdir)/Tools/build/check_extension_modules.py
+
+ .PHONY: rundsymutil
+ rundsymutil: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
+diff --git a/if_runnable.sh b/if_runnable.sh
+new file mode 100755
+index 0000000..14f84a8
+--- /dev/null
++++ b/if_runnable.sh
+@@ -0,0 +1,5 @@
++#!/bin/bash
++
++if [[ "${target_platform}" == "${build_platform}" || "${CROSSCOMPILING_EMULATOR:-}" != "" ]]; then
++    exec $*
++fi

@@ -1,6 +1,6 @@
 {% set version = "3.12.0" %}
-{% set dev = "rc2" %}
-{% set dev_ = "rc2_" %}
+{% set dev = "rc3" %}
+{% set dev_ = "rc3_" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
@@ -46,32 +46,32 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    md5: c6da177d411956a24f15988e22dcfdb8
+    md5: cead7d4428e88e8de9219731c21edb74
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
-      - patches/0005-Win32-Do-not-download-externals.patch
-      - patches/0006-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
-      - patches/0008-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
-      - patches/0009-Unvendor-openssl.patch
-      - patches/0010-Unvendor-sqlite3.patch
-      - patches/0012-Add-CondaEcosystemModifyDllSearchPath.patch
-      - patches/0014-Doing-d1trimfile.patch
+      - patches/0002-Win32-Do-not-download-externals.patch
+      - patches/0003-Fix-find_library-so-that-it-looks-in-sys.prefix-lib-.patch
+      - patches/0004-Disable-registry-lookup-unless-CONDA_PY_ALLOW_REG_PA.patch
+      - patches/0005-Unvendor-openssl.patch
+      - patches/0006-Unvendor-sqlite3.patch
+      - patches/0007-Add-CondaEcosystemModifyDllSearchPath.patch
+      - patches/0008-Doing-d1trimfile.patch
       # https://github.com/python/cpython/pull/23523
-      - patches/0015-cross-compile-darwin.patch
-      - patches/0016-Fix-TZPATH-on-windows.patch
+      - patches/0009-cross-compile-darwin.patch
+      - patches/0010-Fix-TZPATH-on-windows.patch
       # https://github.com/python/cpython/pull/24324
-      - patches/0017-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
-      - patches/0019-Unvendor-bzip2.patch
-      - patches/0020-Unvendor-libffi.patch
-      - patches/0021-Unvendor-tcltk.patch
-      - patches/0022-unvendor-xz.patch
-      - patches/0023-unvendor-zlib.patch
-      - patches/0024-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
-      - patches/0025-Unvendor-expat.patch
-      - patches/0026-Remove-unused-readelf.patch
-      - patches/0027-Don-t-checksharedmods.patch
-      - patches/0028-Override-configure-LIBFFI.patch
+      - patches/0011-Make-dyld-search-work-with-SYSTEM_VERSION_COMPAT-1.patch
+      - patches/0012-Unvendor-bzip2.patch
+      - patches/0013-Unvendor-libffi.patch
+      - patches/0014-Unvendor-tcltk.patch
+      - patches/0015-unvendor-xz.patch
+      - patches/0016-unvendor-zlib.patch
+      - patches/0017-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0018-Unvendor-expat.patch
+      - patches/0019-Remove-unused-readelf.patch
+      - patches/0020-Don-t-checksharedmods-if-cross-compiling.patch
+      - patches/0021-Override-configure-LIBFFI.patch
 
 build:
   number: {{ build_number }}

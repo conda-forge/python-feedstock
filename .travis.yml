@@ -7,22 +7,22 @@ language: generic
 
 matrix:
   include:
-    - env: CONFIG=linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debug UPLOAD_PACKAGES=True PLATFORM=linux-aarch64 DOCKER_IMAGE=quay.io/condaforge/linux-anvil-aarch64
+    - env: CONFIG=linux_aarch64_build_typedebugchannel_targetsconda-forge_python_rc_debug UPLOAD_PACKAGES=True PLATFORM=linux-aarch64 DOCKER_IMAGE=quay.io/condaforge/linux-anvil-aarch64
       os: linux
       arch: arm64
       dist: focal
 
-    - env: CONFIG=linux_aarch64_build_typereleasechannel_targetsconda-forge_main UPLOAD_PACKAGES=True PLATFORM=linux-aarch64 DOCKER_IMAGE=quay.io/condaforge/linux-anvil-aarch64
+    - env: CONFIG=linux_aarch64_build_typereleasechannel_targetsconda-forge_python_rc UPLOAD_PACKAGES=True PLATFORM=linux-aarch64 DOCKER_IMAGE=quay.io/condaforge/linux-anvil-aarch64
       os: linux
       arch: arm64
       dist: focal
 
-    - env: CONFIG=linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debug UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
+    - env: CONFIG=linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_rc_debug UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
       os: linux
       arch: ppc64le
       dist: focal
 
-    - env: CONFIG=linux_ppc64le_build_typereleasechannel_targetsconda-forge_main UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
+    - env: CONFIG=linux_ppc64le_build_typereleasechannel_targetsconda-forge_python_rc UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
       os: linux
       arch: ppc64le
       dist: focal

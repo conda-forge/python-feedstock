@@ -15,3 +15,9 @@ for f in *.patch; do
   python ../recipe/patches/make-mixed-crlf-patch.py $f;
 done
 ```
+
+On windows, the last loop can be done as follows (once the patches
+have been copied; executed within the `recipe/patch` folder):
+```bash
+for /f %f in ('dir /b /S .') do python make-mixed-crlf-patch.py %f
+```

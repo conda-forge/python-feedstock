@@ -1,7 +1,7 @@
-From 6ae7d9dfc7bdeb0eb90ceabc0dcd3b3ff54948d1 Mon Sep 17 00:00:00 2001
+From 073a3c8e8d088eca1cdaf21510e56fa51ba900bd Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
-Subject: [PATCH 10/25] Unvendor sqlite3
+Subject: [PATCH 06/21] Unvendor sqlite3
 
 ---
  PCbuild/_sqlite3.vcxproj | 11 +++++------
@@ -43,10 +43,10 @@ index 57c7413671..4735477f00 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 3629a8508a..94148c9ee3 100644
+index bdddec60da..ab43b610a9 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
-@@ -58,8 +58,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyexpat", "pyexpat.vcxproj"
+@@ -99,8 +99,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyexpat", "pyexpat.vcxproj"
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_hashlib", "_hashlib.vcxproj", "{447F05A8-F581-4CAC-A466-5AC7936E207E}"
  EndProject

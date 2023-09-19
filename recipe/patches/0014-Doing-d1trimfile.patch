@@ -1,7 +1,7 @@
-From c31ae7d27dfb867f022dee5ba800e577ef3c906e Mon Sep 17 00:00:00 2001
+From 3e5726d9e714fae5662f8b41d6c6ded333205b9a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 14/25] Doing d1trimfile
+Subject: [PATCH 08/21] Doing d1trimfile
 
 ---
  PCbuild/_asyncio.vcxproj            | 20 ++++++++++++++++++++
@@ -95,7 +95,7 @@ index 3fe95fbf83..0402f7a9aa 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_ctypes.vcxproj b/PCbuild/_ctypes.vcxproj
-index 6ac26f1916..07a58154f7 100644
+index 253da31e9c..9e85bd9723 100644
 --- a/PCbuild/_ctypes.vcxproj
 +++ b/PCbuild/_ctypes.vcxproj
 @@ -95,6 +95,10 @@
@@ -173,7 +173,7 @@ index 8da5244bac..20cc09d63f 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
-index 442e3437da..f12e31d95e 100644
+index 3df0a07204..26982e0ceb 100644
 --- a/PCbuild/_freeze_module.vcxproj
 +++ b/PCbuild/_freeze_module.vcxproj
 @@ -91,6 +91,10 @@
@@ -326,12 +326,12 @@ index 8065b23585..e46ab5a83b 100644
      <ClCompile Include="..\Modules\_queuemodule.c" />
    </ItemGroup>
 diff --git a/PCbuild/_socket.vcxproj b/PCbuild/_socket.vcxproj
-index 8fd75f90e7..b403828291 100644
+index 78fa4d6729..be19cf1dca 100644
 --- a/PCbuild/_socket.vcxproj
 +++ b/PCbuild/_socket.vcxproj
 @@ -95,6 +95,18 @@
      <Link>
-       <AdditionalDependencies>ws2_32.lib;iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+       <AdditionalDependencies>ws2_32.lib;iphlpapi.lib;Rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
 +    <ClCompile>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -364,7 +364,7 @@ index 4735477f00..c7c377e217 100644
      <Link>
        <AdditionalDependencies>$(condaDir)\lib\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index b2c23d5e8c..ebe4e88848 100644
+index e2fac911e1..5c1ae2fce2 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
 @@ -96,6 +96,18 @@
@@ -418,7 +418,7 @@ index 917d7ae50f..8c7e141eea 100644
      <ClCompile Include="..\Modules\_testbuffer.c" />
    </ItemGroup>
 diff --git a/PCbuild/_testcapi.vcxproj b/PCbuild/_testcapi.vcxproj
-index c1a1943725..99ee2f4a41 100644
+index 1843b58de9..66d7e540b4 100644
 --- a/PCbuild/_testcapi.vcxproj
 +++ b/PCbuild/_testcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -447,7 +447,7 @@ index c1a1943725..99ee2f4a41 100644
 +  </ItemDefinitionGroup>
    <ItemGroup>
      <ClCompile Include="..\Modules\_testcapimodule.c" />
-   </ItemGroup>
+     <ClCompile Include="..\Modules\_testcapi\getargs.c" />
 diff --git a/PCbuild/_testconsole.vcxproj b/PCbuild/_testconsole.vcxproj
 index 5d7e14eff1..695dcb3b91 100644
 --- a/PCbuild/_testconsole.vcxproj
@@ -556,7 +556,7 @@ index 430eb528cc..7a268d227b 100644
      <Link>
        <SubSystem>Console</SubSystem>
 diff --git a/PCbuild/_tkinter.vcxproj b/PCbuild/_tkinter.vcxproj
-index af813b77c1..9ff2acde0a 100644
+index 30cedcbb43..0484a5c81f 100644
 --- a/PCbuild/_tkinter.vcxproj
 +++ b/PCbuild/_tkinter.vcxproj
 @@ -96,6 +96,10 @@
@@ -631,7 +631,7 @@ index ea432d6bc9..13bc692103 100644
      <Link>
        <AdditionalDependencies>version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 5f2356cb36..0fd20d010e 100644
+index c1810c7db2..68c228eaeb 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -91,6 +91,10 @@
@@ -674,7 +674,7 @@ index fb27e9e712..f8dc841ef1 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 078cc597a1..e0a3a1b74d 100644
+index b265264dc1..9390c4d7d7 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@
@@ -683,16 +683,16 @@ index 078cc597a1..e0a3a1b74d 100644
      <ClCompile>
 -      <AdditionalOptions>/Zm200  %(AdditionalOptions)</AdditionalOptions>
 +      <AdditionalOptions>/d1trimfile:%SRC_DIR%</AdditionalOptions>
-       <AdditionalIncludeDirectories>$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalIncludeDirectories>$(PySourcePath)Modules\_hacl\include;$(PySourcePath)Modules\_hacl\internal;$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index 247ea10d5c..5bd4bbbc3a 100644
+index 525295c76f..bb4972618a 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
-@@ -91,6 +91,18 @@
-     <Link>
-       <StackReserveSize>2000000</StackReserveSize>
+@@ -92,6 +92,18 @@
+       <StackReserveSize Condition="$(Configuration) != 'Debug'">2000000</StackReserveSize>
+       <StackReserveSize Condition="$(Configuration) == 'Debug'">8000000</StackReserveSize>
      </Link>
 +    <ClCompile>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>

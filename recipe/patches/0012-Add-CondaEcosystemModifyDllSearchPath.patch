@@ -1,7 +1,7 @@
-From 63157df417c2fd9bc42509788c06d0182b99edbe Mon Sep 17 00:00:00 2001
+From ba0ddc7e55bc4833319debbb41e1456ea7390564 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
-Subject: [PATCH 12/25] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 07/21] Add CondaEcosystemModifyDllSearchPath()
 
   The python interpreter is modifed so that it works as if the python interpreter
   was called with the following conda directories.
@@ -33,22 +33,22 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  1 file changed, 96 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index 4060c23ace..104e2e6638 100644
+index 29771e07ae..04b4733098 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
-@@ -53,6 +53,10 @@ extern void _PyIO_Fini(void);
+@@ -51,6 +51,10 @@
+ 
  #ifdef MS_WINDOWS
  #  undef BYTE
- #  include "windows.h"
 +#  include <shlwapi.h>
 +#  include <string.h>
 +#  include <malloc.h>
 +#  include <libloaderapi.h>
+ #endif
  
-    extern PyTypeObject PyWindowsConsoleIO_Type;
- #  define PyWindowsConsoleIO_Check(op) \
-@@ -106,6 +110,94 @@ __attribute__ ((section (".PyRuntime")))
- = _PyRuntimeState_INIT;
+ #define PUTS(fd, str) _Py_write_noraise(fd, str, (int)strlen(str))
+@@ -98,6 +102,94 @@ __attribute__ ((section (".PyRuntime")))
+ = _PyRuntimeState_INIT(_PyRuntime);
  _Py_COMP_DIAG_POP
  
 +#ifdef MS_WINDOWS
@@ -142,7 +142,7 @@ index 4060c23ace..104e2e6638 100644
  static int runtime_initialized = 0;
  
  PyStatus
-@@ -122,6 +214,10 @@ _PyRuntime_Initialize(void)
+@@ -114,6 +206,10 @@ _PyRuntime_Initialize(void)
      }
      runtime_initialized = 1;
  

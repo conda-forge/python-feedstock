@@ -145,10 +145,6 @@ export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
 declare -a _common_configure_args
 
-if [[ ${target_platform} == osx-* ]]; then
-  sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
-fi
-
 if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   # Build the exact same Python for the build machine. It would be nice (and might be
   # possible already?) to be able to make this just an 'exact' pinned build dependency
@@ -156,11 +152,13 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   BUILD_PYTHON_PREFIX=${PWD}/build-python-install
   mkdir build-python-build
   pushd build-python-build
-    (unset CPPFLAGS LDFLAGS;
+    (unset CPPFLAGS;
      export CC=${CC_FOR_BUILD} \
             CXX=${CXX_FOR_BUILD} \
             CPP="${CC_FOR_BUILD} -E" \
             CFLAGS="-O2" \
+	    LDFLAGS=${LDFLAGS//${PREFIX}/${CONDA_PREFIX}} \
+	    PKG_CONFIG_PATH=${BUILD_PREFIX}/lib/pkgconfig \
             AR="$(${CC_FOR_BUILD} --print-prog-name=ar)" \
             RANLIB="$(${CC_FOR_BUILD} --print-prog-name=ranlib)" \
             LD="$(${CC_FOR_BUILD} --print-prog-name=ld)" && \
@@ -258,7 +256,6 @@ _common_configure_args+=(--enable-ipv6)
 _common_configure_args+=(--with-ensurepip=no)
 _common_configure_args+=(--with-tzpath=${PREFIX}/share/zoneinfo)
 _common_configure_args+=(--with-computed-gotos)
-_common_configure_args+=(--with-system-ffi)
 _common_configure_args+=(--with-system-expat)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
@@ -268,7 +265,7 @@ _common_configure_args+=(--with-platlibdir=lib)
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then
-  _common_configure_args+=(--with-lto)
+  _common_configure_args+=(--with-lto=full)
   if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
     _common_configure_args+=(--enable-optimizations)
     _MAKE_TARGET=profile-opt
@@ -379,7 +376,9 @@ fi
 # Install the shared library (for people who embed Python only, e.g. GDB).
 # Linking module extensions to this on Linux is redundant (but harmless).
 # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
-cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}* ${PREFIX}/lib/
+shopt -s extglob
+cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}!(.lto) ${PREFIX}/lib/
+shopt -u extglob
 if [[ ${target_platform} =~ .*linux.* ]]; then
   ln -sf ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}
 fi
@@ -407,7 +406,7 @@ fi
 ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python
 ln -s ${PREFIX}/bin/pydoc${VER} ${PREFIX}/bin/pydoc
 # Workaround for https://github.com/conda/conda/issues/10969
-ln -s ${PREFIX}/bin/python3.11 ${PREFIX}/bin/python3.1
+ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python3.1
 
 # Remove test data to save space
 # Though keep `support` as some things use that.
@@ -518,16 +517,13 @@ if [[ ${HOST} =~ .*linux.* ]]; then
   echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
 fi
 
-# There are some strange distutils files around. Delete them
-rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
-
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
 rm ${PREFIX}/lib/libpython${VERABI}.a
 
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   rm ${PREFIX}/bin/python${VER}
   ln -s ${PREFIX}/bin/python${VERABI} ${PREFIX}/bin/python${VER}
-  ln -s ${PREFIX}/lib/libpython${VERABI}.so ${PREFIX}/lib/libpython${VER}.so
+  ln -s ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT} ${PREFIX}/lib/libpython${VER}${SHLIB_EXT}
   ln -s ${PREFIX}/include/python${VERABI} ${PREFIX}/include/python${VER}
 fi
 
@@ -537,4 +533,4 @@ fi
 
 # Workaround for old conda versions which fail to install noarch packages for Python 3.10+
 # https://github.com/conda/conda/issues/10969
-ln -s "${PREFIX}/lib/python3.11" "${PREFIX}/lib/python3.1"
+ln -s "${PREFIX}/lib/python${VER}" "${PREFIX}/lib/python3.1"

@@ -1,14 +1,32 @@
-From 375daf999ad578f29a27c6a66a38d985bec1f848 Mon Sep 17 00:00:00 2001
+From 67d06a3fbae9263bac8ae8942b54567112015bb1 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
-Subject: [PATCH 21/25] Unvendor tcltk
+Subject: [PATCH 14/21] Unvendor tcltk
 
 ---
- PCbuild/tcltk.props | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ PCbuild/_tkinter.vcxproj |  6 ------
+ PCbuild/tcltk.props      | 12 +++++-------
+ 2 files changed, 5 insertions(+), 13 deletions(-)
 
+diff --git a/PCbuild/_tkinter.vcxproj b/PCbuild/_tkinter.vcxproj
+index 0484a5c81f..d1393c914d 100644
+--- a/PCbuild/_tkinter.vcxproj
++++ b/PCbuild/_tkinter.vcxproj
+@@ -126,12 +126,6 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-  <Target Name="_CopyTclTkDLL" Inputs="@(_TclTkDLL)" Outputs="@(_TclTkDLL->'$(OutDir)%(Filename)%(Extension)')" AfterTargets="Build">
+-    <Copy SourceFiles="@(_TclTkDLL)" DestinationFolder="$(OutDir)" UseHardlinksIfPossible="true" />
+-  </Target>
+-  <Target Name="_CleanTclTkDLL" BeforeTargets="Clean">
+-    <Delete Files="@(_TclTkDLL->'$(OutDir)%(Filename)%(Extension)')" />
+-  </Target>
+   <Target Name="_WriteTCL_LIBRARY" Outputs="$(OutDir)TCL_LIBRARY.env" AfterTargets="Build">
+     <WriteLinesToFile File="$(OutDir)TCL_LIBRARY.env" Lines="$(tcltkdir)\lib\tcl$(TclMajorVersion).$(TclMinorVersion)" Encoding="utf-8" Overwrite="true" />
+   </Target>
 diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
-index cd54b2567b..0507b044ee 100644
+index 9d5189b3b8..a8f5b8811c 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
 @@ -17,13 +17,11 @@

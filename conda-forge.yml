@@ -1,17 +1,22 @@
-build_platform: {osx_arm64: osx_64}
-conda_forge_output_validation: true
-provider: {linux_aarch64: default, linux_ppc64le: native}
-test_on_native_only: true
+azure:
+  store_build_artifacts: true
 bot:
   abi_migration_branches:
   - 3.7
   - 3.8
   - 3.9
-azure:
-  store_build_artifacts: true
+build_platform:
+  osx_arm64: osx_64
+conda_build:
+  pkg_format: '2'
+conda_forge_output_validation: true
 github:
   branch_name: main
   tooling_branch_name: main
-conda_build:
-  pkg_format: '2'
-remote_ci_setup: ["conda-forge-ci-setup=3", "libsolv<0.7.23"]  # https://github.com/conda/conda-build/issues/4750
+provider:
+  linux_aarch64: default
+  linux_ppc64le: native
+remote_ci_setup:
+- conda-forge-ci-setup=3
+- libsolv<0.7.23
+test_on_native_only: true

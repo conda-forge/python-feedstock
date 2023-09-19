@@ -1,6 +1,6 @@
 {% set version = "3.12.0" %}
-{% set dev = "rc2" %}
-{% set dev_ = "rc2_" %}
+{% set dev = "rc3" %}
+{% set dev_ = "rc3_" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
@@ -46,7 +46,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    md5: c6da177d411956a24f15988e22dcfdb8
+    md5: cead7d4428e88e8de9219731c21edb74
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch

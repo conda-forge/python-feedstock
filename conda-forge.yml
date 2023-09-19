@@ -4,9 +4,11 @@ provider: {linux_aarch64: default, linux_ppc64le: native}
 test_on_native_only: true
 bot:
   abi_migration_branches:
-  - 3.7
-  - 3.8
-  - 3.9
+  - "3.7"
+  - "3.8"
+  - "3.9"
+  - "3.10"
+  - "3.11"
 azure:
   store_build_artifacts: true
 github:

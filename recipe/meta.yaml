@@ -93,6 +93,7 @@ requirements:
     - make                               # [unix]
     - pkg-config                         # [unix]
     - openssl                            # [unix]
+    - libtirpc                           # [linux]
   host:
     - bzip2                              # [unix]
     - sqlite                             # [unix]
@@ -106,6 +107,7 @@ requirements:
   run:
     - ld_impl_{{ target_platform }}      # [linux]
     - openssl                            # [unix]
+    - libtirpc                           # [linux]
   run_constrained:
     - python_abi 2.7.* *_cp27m           # [not linux]
     - python_abi 2.7.* *_cp27mu          # [linux]

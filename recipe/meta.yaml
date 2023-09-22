@@ -90,6 +90,8 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
+    - {{ cdt('libnsl-devel') }}          # [linux]
+    - {{ cdt('libtirpc-devel') }}        # [linux]
     - make                               # [unix]
     - pkg-config                         # [unix]
     - openssl                            # [unix]

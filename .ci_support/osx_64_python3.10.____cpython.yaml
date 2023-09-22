@@ -14,6 +14,8 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '15'
+docker_image:
+- quay.io/condaforge/linux-anvil-comp7
 libffi:
 - '3.4'
 macos_machine:
@@ -21,7 +23,7 @@ macos_machine:
 ncurses:
 - '6'
 openssl:
-- 1.1.1
+- 1.1.1u
 pin_run_as_build:
   python:
     min_pin: x.x

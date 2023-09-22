@@ -1,2 +1,2 @@
-openssl:
-  - 1.1.1
+openssl:                             # [unix]
+  - 1.1.1                            # [unix]

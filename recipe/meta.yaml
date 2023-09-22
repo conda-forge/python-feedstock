@@ -1,5 +1,5 @@
-{% set version = "2.7.15" %}
-{% set sha256 = "18617d1f15a380a919d517630a9cd85ce17ea602f9bbdc58ddc672df4b0239db" %}
+{% set version = "2.7.18" %}
+{% set sha256 = "da3080e3b488f648a3d7a4560ddee895284c3380b11d6de75edb986526b9a814" %}
 
 package:
   name: python
@@ -65,7 +65,7 @@ source:
 
 
 build:
-  number: 1011
+  number: 0
   no_link:
     - bin/python2.7     # [unix]
     - DLLs/_ctypes.pyd  # [win]

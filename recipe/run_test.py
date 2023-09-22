@@ -22,7 +22,7 @@ debug = int(os.getenv('DEBUG', 0))
 
 print('Python version:', platform.python_version())
 assert platform.python_version() == '2.7.18'
-assert sys.version_info[:3] == (2, 7, 15)
+assert sys.version_info[:3] == (2, 7, 18)
 if sys.platform == 'win32':
     assert 'MSC v.1500' in sys.version
 print('max unicode:', sys.maxunicode)

@@ -92,6 +92,7 @@ requirements:
     - {{ cdt('libx11-devel') }}          # [linux]
     - make                               # [unix]
     - pkg-config                         # [unix]
+    - openssl                            # [unix]
   host:
     - bzip2                              # [unix]
     - sqlite                             # [unix]
@@ -104,6 +105,7 @@ requirements:
     - ld_impl_{{ target_platform }}      # [linux]
   run:
     - ld_impl_{{ target_platform }}      # [linux]
+    - openssl                            # [unix]
   run_constrained:
     - python_abi 2.7.* *_cp27m           # [not linux]
     - python_abi 2.7.* *_cp27mu          # [linux]

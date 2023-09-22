@@ -4,5 +4,4 @@ libXrender-devel
 libSM-devel
 libX11-devel
 prelink
-libnsl-devel
 libtirpc-devel

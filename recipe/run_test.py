@@ -1,8 +1,8 @@
 # make sure Grammar pickle files are present
 import os
 from os.path import dirname, isfile, join
-for fn in ('Grammar2.7.15.final.0.pickle',
-           'PatternGrammar2.7.15.final.0.pickle'):
+for fn in ('Grammar2.7.18.final.0.pickle',
+           'PatternGrammar2.7.18.final.0.pickle'):
     assert isfile(join(dirname(os.__file__), 'lib2to3', fn))
 
 import platform
@@ -21,7 +21,7 @@ ppc64le = bool(platform.machine() == 'ppc64le')
 debug = int(os.getenv('DEBUG', 0))
 
 print('Python version:', platform.python_version())
-assert platform.python_version() == '2.7.15'
+assert platform.python_version() == '2.7.18'
 assert sys.version_info[:3] == (2, 7, 15)
 if sys.platform == 'win32':
     assert 'MSC v.1500' in sys.version

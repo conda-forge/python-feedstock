@@ -85,6 +85,10 @@ requirements:
     - m2-patch  # [win]
     - m2-gcc-libs  # [win]
 {% endif %}
+  run:
+{% if dev != '' %}
+    - _python_rc
+{% endif %}
 
 outputs:
   - name: python

@@ -13,11 +13,11 @@ jobs:
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
         SHORT_CONFIG: linux_64_build_typedebugchannel_tar_h3ac49dcecd
-      linux_64_build_typereleasechannel_targetsconda-forge_python_rc:
-        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_python_rc
+      linux_64_build_typereleasechannel_targetsconda-forge_main:
+        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_build_typereleasechannel_t_h73b9c8c361
+        SHORT_CONFIG: linux_64_build_typereleasechannel_t_h0a44af7c38
   timeoutInMinutes: 360
 
   steps:

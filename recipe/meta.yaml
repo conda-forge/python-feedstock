@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -84,10 +84,6 @@ requirements:
     - patch  # [not win]
     - m2-patch  # [win]
     - m2-gcc-libs  # [win]
-{% endif %}
-  run:
-{% if dev != '' %}
-    - _python_rc
 {% endif %}
 
 outputs:
@@ -183,6 +179,9 @@ outputs:
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
+{% if dev != '' %}
+        - _python_rc
+{% endif %}
 {% if 'conda-forge' in channel_targets %}
       run_constrained:
         - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}

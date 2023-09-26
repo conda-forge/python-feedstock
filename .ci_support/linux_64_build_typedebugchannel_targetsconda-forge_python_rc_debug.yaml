@@ -9,7 +9,7 @@ c_compiler_version:
 cdt_name:
 - cos6
 channel_sources:
-- conda-forge
+- conda-forge/label/python_rc,conda-forge
 channel_targets:
 - conda-forge python_rc_debug
 cxx_compiler:

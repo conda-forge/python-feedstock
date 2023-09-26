@@ -12,18 +12,18 @@ jobs:
         CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_rc_debug
         UPLOAD_PACKAGES: 'True'
         SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h5bbcd659fa
-      osx_64_build_typereleasechannel_targetsconda-forge_python_rc:
-        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_python_rc
+      osx_64_build_typereleasechannel_targetsconda-forge_main:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h6fa325a877
+        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h217401936b
       osx_arm64_build_typedebugchannel_targetsconda-forge_python_rc_debug:
         CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_rc_debug
         UPLOAD_PACKAGES: 'True'
         SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_haae78a064e
-      osx_arm64_build_typereleasechannel_targetsconda-forge_python_rc:
-        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_python_rc
+      osx_arm64_build_typereleasechannel_targetsconda-forge_main:
+        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_build_typereleasechannel__hcff798967a
+        SHORT_CONFIG: osx_arm64_build_typereleasechannel__hbf952199ba
   timeoutInMinutes: 360
 
   steps:

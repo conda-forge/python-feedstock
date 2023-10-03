@@ -8,18 +8,18 @@ jobs:
     vmImage: macOS-11
   strategy:
     matrix:
-      osx_64_build_typedebugchannel_targetsconda-forge_python_rc_debug:
-        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_rc_debug
+      osx_64_build_typedebugchannel_targetsconda-forge_python_debug:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debug
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h5bbcd659fa
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h343640355d
       osx_64_build_typereleasechannel_targetsconda-forge_main:
         CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
         SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h217401936b
-      osx_arm64_build_typedebugchannel_targetsconda-forge_python_rc_debug:
-        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_rc_debug
+      osx_arm64_build_typedebugchannel_targetsconda-forge_python_debug:
+        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debug
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_haae78a064e
+        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h18126b8f59
       osx_arm64_build_typereleasechannel_targetsconda-forge_main:
         CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'

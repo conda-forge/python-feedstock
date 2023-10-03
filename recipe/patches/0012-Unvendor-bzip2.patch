@@ -1,4 +1,4 @@
-From 6666bbb1790d683b5bc7dd997ac6d44e9681158c Mon Sep 17 00:00:00 2001
+From 6f6760a46f464e90ab9bdf74c392c847ad43988c Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:56:27 -0700
 Subject: [PATCH 12/21] Unvendor bzip2

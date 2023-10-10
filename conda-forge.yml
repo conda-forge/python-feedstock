@@ -1,3 +1,7 @@
+azure:
+  settings_win:
+    pool:
+      vmImage: windows-2019
 build_platform: {osx_arm64: osx_64}
 conda_forge_output_validation: true
 provider: {linux_aarch64: native, linux_ppc64le: native, osx: azure, win: azure}

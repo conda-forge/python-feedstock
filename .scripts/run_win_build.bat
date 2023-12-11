@@ -24,7 +24,7 @@ set "CONDA_LIBMAMBA_SOLVER_NO_CHANNELS_FROM_INSTALLED=1"
 
 :: Provision the necessary dependencies to build the recipe later
 echo Installing dependencies
-mamba.exe install "python=3.10" pip mamba conda-build boa conda-forge-ci-setup=3 "libsolv<0.7.23" -c conda-forge --strict-channel-priority --yes
+mamba.exe install "python=3.10" pip mamba conda-build boa conda-forge-ci-setup=4 -c conda-forge --strict-channel-priority --yes
 if !errorlevel! neq 0 exit /b !errorlevel!
 
 :: Set basic configuration

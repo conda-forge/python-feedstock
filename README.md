@@ -141,14 +141,14 @@ Current release info
 Installing python
 =================
 
-Installing `python` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `python` from the `conda-forge/label/python_debug` channel can be achieved by adding `conda-forge/label/python_debug` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/python_debug
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libpython-static, python` can be installed with `conda`:
+Once the `conda-forge/label/python_debug` channel has been enabled, `libpython-static, python` can be installed with `conda`:
 
 ```
 conda install libpython-static python
@@ -163,26 +163,26 @@ mamba install libpython-static python
 It is possible to list all of the versions of `libpython-static` available on your platform with `conda`:
 
 ```
-conda search libpython-static --channel conda-forge
+conda search libpython-static --channel conda-forge/label/python_debug
 ```
 
 or with `mamba`:
 
 ```
-mamba search libpython-static --channel conda-forge
+mamba search libpython-static --channel conda-forge/label/python_debug
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libpython-static --channel conda-forge
+mamba repoquery search libpython-static --channel conda-forge/label/python_debug
 
 # List packages depending on `libpython-static`:
-mamba repoquery whoneeds libpython-static --channel conda-forge
+mamba repoquery whoneeds libpython-static --channel conda-forge/label/python_debug
 
 # List dependencies of `libpython-static`:
-mamba repoquery depends libpython-static --channel conda-forge
+mamba repoquery depends libpython-static --channel conda-forge/label/python_debug
 ```
 
 
@@ -204,7 +204,7 @@ available continuous integration services. Thanks to the awesome service provide
 [CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
 [Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
 it is possible to build and upload installable packages to the
-[conda-forge](https://anaconda.org/conda-forge) [Anaconda-Cloud](https://anaconda.org/)
+[conda-forge](https://anaconda.org/conda-forge) [anaconda.org](https://anaconda.org/)
 channel for Linux, Windows and OSX respectively.
 
 To manage the continuous integration and simplify feedstock maintenance

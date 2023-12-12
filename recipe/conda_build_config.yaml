@@ -1,5 +1,6 @@
 python:
   - 3.12
+  - 3.12.1
 python_impl:
   - cpython
 numpy:

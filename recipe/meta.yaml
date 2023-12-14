@@ -72,6 +72,7 @@ source:
       - patches/0019-Remove-unused-readelf.patch
       - patches/0020-Don-t-checksharedmods-if-cross-compiling.patch
       - patches/0021-Override-configure-LIBFFI.patch
+      - patches/0022-Allow-linking-ncursesw-panelw-on-macOS-if-available.patch
 
 build:
   number: {{ build_number }}

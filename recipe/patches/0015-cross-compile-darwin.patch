@@ -1,4 +1,4 @@
-From a4e1504dda93eeafc3932ff00bbb5d509ca92314 Mon Sep 17 00:00:00 2001
+From 773114220ddac23364e836d0f217d1cd185d7d26 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 15/25] cross compile darwin
@@ -30,7 +30,7 @@ index 9b9d88bf58..9b2807d61f 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index 9e76287725..57b2fad82d 100755
+index af4a5bbfdf..839d73be58 100755
 --- a/configure
 +++ b/configure
 @@ -3876,6 +3876,9 @@ if test "$cross_compiling" = yes; then
@@ -53,7 +53,7 @@ index 9e76287725..57b2fad82d 100755
  	readelf|:)
  	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index c62a565eb6..229d5593ea 100644
+index e1cbb7c7fb..8a3ef67c46 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -597,6 +597,9 @@ if test "$cross_compiling" = yes; then

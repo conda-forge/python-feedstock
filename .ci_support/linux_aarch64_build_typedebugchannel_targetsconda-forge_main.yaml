@@ -1,7 +1,7 @@
 BUILD:
 - aarch64-conda_cos7-linux-gnu
 build_type:
-- release
+- debug
 bzip2:
 - '1'
 c_compiler:

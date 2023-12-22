@@ -17,6 +17,10 @@ call :start_group "Configuring conda"
 
 :: Activate the base conda environment
 call activate base
+:: Configure the solver
+set "CONDA_SOLVER=libmamba"
+if !errorlevel! neq 0 exit /b !errorlevel!
+set "CONDA_LIBMAMBA_SOLVER_NO_CHANNELS_FROM_INSTALLED=1"
 
 :: Provision the necessary dependencies to build the recipe later
 echo Installing dependencies
@@ -38,7 +42,13 @@ if EXIST LICENSE.txt (
     copy LICENSE.txt "recipe\\recipe-scripts-license.txt"
 )
 if NOT [%HOST_PLATFORM%] == [%BUILD_PLATFORM%] (
-    set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --no-test"
+    if [%CROSSCOMPILING_EMULATOR%] == [] (
+        set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --no-test"
+    )
+)
+
+if NOT [%flow_run_id%] == [] (
+    set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --extra-meta flow_run_id=%flow_run_id% remote_url=%remote_url% sha=%sha%"
 )
 
 call :end_group

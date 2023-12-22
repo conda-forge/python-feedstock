@@ -1,4 +1,4 @@
-{% set version = "3.12.0" %}
+{% set version = "3.12.1" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -46,7 +46,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    md5: f6f4616584b23254d165f4db90c247d6
+    md5: 50f827c800483776c8ef86e6a53831fa
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -72,6 +72,7 @@ source:
       - patches/0019-Remove-unused-readelf.patch
       - patches/0020-Don-t-checksharedmods-if-cross-compiling.patch
       - patches/0021-Override-configure-LIBFFI.patch
+      - patches/0022-Allow-linking-ncursesw-panelw-on-macOS-if-available.patch
 
 build:
   number: {{ build_number }}
@@ -255,6 +256,8 @@ outputs:
         - python3.1 --version  # [unix]
         # Test for segfault on osx-64 with libffi=3.4, see https://bugs.python.org/issue44556
         - python -c "from ctypes import CFUNCTYPE; CFUNCTYPE(None)(id)"
+        # Test for wide character supported via ncursesw
+        - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
 
   - name: libpython-static
     script: build_static.sh  # [unix]

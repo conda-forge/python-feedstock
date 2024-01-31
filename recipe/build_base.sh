@@ -1,5 +1,8 @@
 #!/bin/bash
 set -ex
+set +e
+
+echo "Build start"
 
 # Get an updated config.sub and config.guess
 cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
@@ -34,17 +37,10 @@ if [[ ${PY_INTERP_LINKAGE_NATURE} == shared ]]; then
 fi
 
 # For debugging builds, set this to no to disable profile-guided optimization
-if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+if [[ ${DEBUG_C} == yes ]]; then
   _OPTIMIZED=no
 else
   _OPTIMIZED=yes
-fi
-
-if [[ ${PY_INTERP_DEBUG} == yes ]]; then
-  # check that the rerendering is correct
-  if [[ "$CI" != "" && "$channel_targets" == "conda-forge main" ]]; then
-    exit 1
-  fi
 fi
 
 # Since these take very long to build in our emulated ci, disable for now
@@ -56,7 +52,7 @@ if [[ ${target_platform} == linux-ppc64le ]]; then
 fi
 
 declare -a _dbg_opts
-if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+if [[ ${DEBUG_PY} == yes ]]; then
   # This Python will not be usable with non-debug Python modules.
   _dbg_opts+=(--with-pydebug)
   DBG=d
@@ -92,9 +88,11 @@ READELF=$(basename "${READELF}")
 
 if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
   # Python's setup.py will figure out that this is a macOS sysroot.
-  CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CFLAGS}
-  LDFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${LDFLAGS}
-  CPPFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CPPFLAGS}
+  # CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CFLAGS}
+  # LDFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${LDFLAGS}
+  # CPPFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CPPFLAGS}
+  CPPFLAGS="-I$(brew --prefix zlib)/include"
+  LDFLAGS="-L$(brew --prefix zlib)/lib"
 fi
 
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py
@@ -102,12 +100,6 @@ if [[ ${_OPTIMIZED} = yes ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")
   CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O3/g")
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O3/g")
-fi
-
-if [[ ${PY_INTERP_DEBUG} == yes ]]; then
-  CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O0/g")
-  CFLAGS=$(echo "${CFLAGS}" | sed "s/-O2/-O0/g")
-  CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O0/g")
 fi
 
 if [[ ${CONDA_FORGE} == yes ]]; then
@@ -143,7 +135,9 @@ fi
 
 export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
 
-declare -a _common_configure_args
+if [[ ${target_platform} == osx-* ]]; then
+  sed -i -e "s/@OSX_ARCH@/$ARCH/g" Lib/distutils/unixccompiler.py
+fi
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   # Build the exact same Python for the build machine. It would be nice (and might be
@@ -152,13 +146,11 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   BUILD_PYTHON_PREFIX=${PWD}/build-python-install
   mkdir build-python-build
   pushd build-python-build
-    (unset CPPFLAGS;
+    (unset CPPFLAGS LDFLAGS;
      export CC=${CC_FOR_BUILD} \
             CXX=${CXX_FOR_BUILD} \
             CPP="${CC_FOR_BUILD} -E" \
             CFLAGS="-O2" \
-	    LDFLAGS=${LDFLAGS//${PREFIX}/${CONDA_PREFIX}} \
-	    PKG_CONFIG_PATH=${BUILD_PREFIX}/lib/pkgconfig \
             AR="$(${CC_FOR_BUILD} --print-prog-name=ar)" \
             RANLIB="$(${CC_FOR_BUILD} --print-prog-name=ranlib)" \
             LD="$(${CC_FOR_BUILD} --print-prog-name=ld)" && \
@@ -187,7 +179,6 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   export CONFIG_SITE=${PWD}/config.site
   # This is needed for libffi:
   export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
-  _common_configure_args+=(--with-build-python=${BUILD_PYTHON_PREFIX}/bin/python)
 fi
 
 # This causes setup.py to query the sysroot directories from the compiler, something which
@@ -249,6 +240,7 @@ if [[ ${CC} =~ .*-arm.* ]]; then
   TEST_EXCLUDES+=(test_compiler)
 fi
 
+declare -a _common_configure_args
 _common_configure_args+=(--prefix=${PREFIX})
 _common_configure_args+=(--build=${BUILD})
 _common_configure_args+=(--host=${HOST})
@@ -256,7 +248,7 @@ _common_configure_args+=(--enable-ipv6)
 _common_configure_args+=(--with-ensurepip=no)
 _common_configure_args+=(--with-tzpath=${PREFIX}/share/zoneinfo)
 _common_configure_args+=(--with-computed-gotos)
-_common_configure_args+=(--with-system-expat)
+_common_configure_args+=(--with-system-ffi)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
@@ -265,7 +257,7 @@ _common_configure_args+=(--with-platlibdir=lib)
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then
-  _common_configure_args+=(--with-lto=full)
+  _common_configure_args+=(--with-lto)
   if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
     _common_configure_args+=(--enable-optimizations)
     _MAKE_TARGET=profile-opt
@@ -323,7 +315,7 @@ pushd ${_buildd_static}
                        ${_DISABLE_SHARED} "${_PROFILE_TASK[@]}"
 popd
 
-if [[ "${CI}" == "travis" ]]; then
+if [[ ${target_platform} == linux-ppc64le ]]; then
   # Travis has issues with long logs
   make -j${CPU_COUNT} -C ${_buildd_static} \
        EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
@@ -338,7 +330,7 @@ if rg "Failed to build these modules" make-static.log; then
   exit 1
 fi
 
-if [[ "${CI}" == "travis" ]]; then
+if [[ ${target_platform} == linux-ppc64le ]]; then
   # Travis has issues with long logs
   make -j${CPU_COUNT} -C ${_buildd_shared} \
           EXTRA_CFLAGS="${EXTRA_CFLAGS}" 2>&1 >make-shared.log
@@ -376,9 +368,7 @@ fi
 # Install the shared library (for people who embed Python only, e.g. GDB).
 # Linking module extensions to this on Linux is redundant (but harmless).
 # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
-shopt -s extglob
-cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}!(.lto) ${PREFIX}/lib/
-shopt -u extglob
+cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}* ${PREFIX}/lib/
 if [[ ${target_platform} =~ .*linux.* ]]; then
   ln -sf ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}
 fi
@@ -387,6 +377,9 @@ SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
     > ${PREFIX}/lib/python${VER}/$(basename ${SYSCONFIG})
+tree ${PREFIX}
+# exit
+# MAKEFILE=$(find ${PREFIX}/lib/ -path "*config-*/Makefile" -print0)
 MAKEFILE=$(find ${PREFIX}/lib/python${VER}/ -path "*config-*/Makefile" -print0)
 cp ${MAKEFILE} /tmp/Makefile-$$
 cat /tmp/Makefile-$$ | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
@@ -405,8 +398,6 @@ if [[ -f ${PREFIX}/bin/python${VER}m ]]; then
 fi
 ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python
 ln -s ${PREFIX}/bin/pydoc${VER} ${PREFIX}/bin/pydoc
-# Workaround for https://github.com/conda/conda/issues/10969
-ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python3.1
 
 # Remove test data to save space
 # Though keep `support` as some things use that.
@@ -465,11 +456,8 @@ pushd "${PREFIX}"/lib/python${VER}
   # Append the conda-forge zoneinfo to the end
   sed -i.bak "s@zoneinfo'@zoneinfo:$PREFIX/share/tzinfo'@g" sysconfigfile
   # Remove osx sysroot as it depends on the build machine
-  # be sure CONDA_BUILD_SYSROOT has value, as other we will remove here instead spaces
-  if [[ "${target_platform}" == osx-* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
-    sed -i.bak "s@-isysroot @@g" sysconfigfile
-    sed -i.bak "s@$CONDA_BUILD_SYSROOT @@g" sysconfigfile
-  fi
+  sed -i.bak "s@-isysroot @@g" sysconfigfile
+  sed -i.bak "s@$CONDA_BUILD_SYSROOT @@g" sysconfigfile
   # Remove unfilled config option
   sed -i.bak "s/@SGI_ABI@//g" sysconfigfile
   sed -i.bak "s@$BUILD_PREFIX/bin/${HOST}-llvm-ar@${HOST}-ar@g" sysconfigfile
@@ -489,8 +477,8 @@ pushd "${PREFIX}"/lib/python${VER}
     sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat@g" sysconfigfile
   fi
   # Don't set -march and -mtune for system gcc
-  sed -i.bak "s@-march=[^( |\\\"|\\\')]*@@g" sysconfigfile
-  sed -i.bak "s@-mtune=[^( |\\\"|\\\')]*@@g" sysconfigfile
+  sed -i.bak "s@-march=[a-z0-9]*@@g" sysconfigfile
+  sed -i.bak "s@-mtune=[a-z0-9]*@@g" sysconfigfile
   # Remove these flags that older compilers and linkers may not know
   for flag in "-fstack-protector-strong" "-ffunction-sections" "-pipe" "-fno-plt" \
             "-ftree-vectorize" "-Wl,--sort-common" "-Wl,--as-needed" "-Wl,-z,relro" \
@@ -517,20 +505,13 @@ if [[ ${HOST} =~ .*linux.* ]]; then
   echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
 fi
 
+# There are some strange distutils files around. Delete them
+rm -rf ${PREFIX}/lib/python${VER}/distutils/command/*.exe
+
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
-rm ${PREFIX}/lib/libpython${VERABI}.a
-
-if [[ ${PY_INTERP_DEBUG} == yes ]]; then
-  rm ${PREFIX}/bin/python${VER}
-  ln -s ${PREFIX}/bin/python${VERABI} ${PREFIX}/bin/python${VER}
-  ln -s ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT} ${PREFIX}/lib/libpython${VER}${SHLIB_EXT}
-  ln -s ${PREFIX}/include/python${VERABI} ${PREFIX}/include/python${VER}
-fi
-
+rm ${PREFIX}/lib/libpython${VER}.a
 if [[ "$target_platform" == linux-* ]]; then
   rm ${PREFIX}/include/uuid.h
 fi
 
-# Workaround for old conda versions which fail to install noarch packages for Python 3.10+
-# https://github.com/conda/conda/issues/10969
-ln -s "${PREFIX}/lib/python${VER}" "${PREFIX}/lib/python3.1"
+# cat ${PREFIX}/work/build-python-build/config.log

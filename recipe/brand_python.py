@@ -15,7 +15,7 @@ def patch_platform(msg):
     with open(platform_file, 'w') as fh:
         for line in lines_it:
             fh.write(line)
-            if line.lstrip().startswith('sys_version_parser'):
+            if line.startswith('_sys_version_parser'):
                 next_line = next(lines_it)
                 fh.write("    r'([\w.+]+)\s*" + '(?:' + re.escape(' ' + msg) + ')?' + "\s*'\n")
 

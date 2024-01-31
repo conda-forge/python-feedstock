@@ -1,5 +1,22 @@
 setlocal EnableDelayedExpansion
 echo on
+echo "Build start"
+
+@REM  ImportError: DLL load failed while importing _sqlite3: The specified module could not be found.
+
+@REM iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
+@REM scoop bucket add main
+@REM scoop install main/7zip
+curl -o C:\sqlite-dll-win-x64-3450000.zip https://www.sqlite.org/2024/sqlite-dll-win-x64-3450000.zip
+7z.exe x -y -oC:\Miniconda3\DLLs C:\sqlite-dll-win-x64-3450000.zip
+7z.exe x -y -oC:\Miniconda3\envs\test\DLLs C:\sqlite-dll-win-x64-3450000.zip
+7z.exe x -y -o%PREFIX%\_build_env\DLLs C:\sqlite-dll-win-x64-3450000.zip
+7z.exe x -y -o%PREFIX%\_h_env\DLLs C:\sqlite-dll-win-x64-3450000.zip
+7z.exe x -y -o%PREFIX%\_h_env\Library\bin C:\sqlite-dll-win-x64-3450000.zip
+7z.exe x -y -o%PREFIX%\Library\bin C:\sqlite-dll-win-x64-3450000.zip
+@REM tree %PREFIX%
+
+mamba install sqlite
 
 :: brand Python with conda-forge startup message
 %SYS_PYTHON% %RECIPE_DIR%\brand_python.py
@@ -25,6 +42,8 @@ for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   if NOT "%PY_VER%"=="%%i.%%j" exit 1
 )
 
+set "OPENSSL_DIR=%LIBRARY_PREFIX%"
+set "SQLITE3_DIR=%LIBRARY_PREFIX%"
 for /f "usebackq delims=" %%i in (`conda list -p %PREFIX% sqlite --no-show-channel-urls --json ^| findstr "version"`) do set SQLITE3_VERSION_LINE=%%i
 for /f "tokens=2 delims==/ " %%i IN ('echo %SQLITE3_VERSION_LINE%') do (set SQLITE3_VERSION=%%~i)
 echo SQLITE3_VERSION detected as %SQLITE3_VERSION%
@@ -89,11 +108,21 @@ if errorlevel 1 exit 1
 
 :: Populate the Tools directory
 mkdir %PREFIX%\Tools
+xcopy /s /y /i %SRC_DIR%\Tools\demo %PREFIX%\Tools\demo
+if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
+if errorlevel 1 exit 1
+xcopy /s /y /i %SRC_DIR%\Tools\pynche %PREFIX%\Tools\pynche
 if errorlevel 1 exit 1
 xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\scripts
 if errorlevel 1 exit 1
 
+del %PREFIX%\Tools\demo\README
+if errorlevel 1 exit 1
+del %PREFIX%\Tools\pynche\README
+if errorlevel 1 exit 1
+del %PREFIX%\Tools\pynche\pynche
+if errorlevel 1 exit 1
 del %PREFIX%\Tools\scripts\README
 if errorlevel 1 exit 1
 del %PREFIX%\Tools\scripts\dutree.doc

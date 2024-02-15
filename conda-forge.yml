@@ -3,6 +3,6 @@ conda_forge_output_validation: true
 conda_build:
   pkg_format: '2'
 azure:
-  settings-win:
+  settings_win:
     pool:
       vmImage: vs2017-win2016

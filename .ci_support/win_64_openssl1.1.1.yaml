@@ -1,17 +1,19 @@
 c_compiler:
-- vs2019
+- vs2017
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2019
+- vs2017
 openssl:
-- '3'
+- 1.1.1
 pin_run_as_build:
   python:
     min_pin: x.x
     max_pin: x.x
+  sqlite:
+    max_pin: x
 python:
 - '3.7'
 sqlite:

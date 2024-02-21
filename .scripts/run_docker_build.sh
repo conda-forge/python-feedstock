@@ -14,11 +14,17 @@ set -xeo pipefail
 THISDIR="$( cd "$( dirname "$0" )" >/dev/null && pwd )"
 PROVIDER_DIR="$(basename $THISDIR)"
 
-FEEDSTOCK_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
+FEEDSTOCK_ROOT="$( cd "$( dirname "$0" )/.." >/dev/null && pwd )"
 RECIPE_ROOT="${FEEDSTOCK_ROOT}/recipe"
 
 if [ -z ${FEEDSTOCK_NAME} ]; then
     export FEEDSTOCK_NAME=$(basename ${FEEDSTOCK_ROOT})
+fi
+
+if [[ "${sha:-}" == "" ]]; then
+  pushd "${FEEDSTOCK_ROOT}"
+  sha=$(git rev-parse HEAD)
+  popd
 fi
 
 docker info
@@ -75,12 +81,15 @@ fi
 ( startgroup "Start Docker" ) 2> /dev/null
 
 export UPLOAD_PACKAGES="${UPLOAD_PACKAGES:-True}"
+export IS_PR_BUILD="${IS_PR_BUILD:-False}"
+docker pull "${DOCKER_IMAGE}"
 docker run ${DOCKER_RUN_ARGS} \
            -v "${RECIPE_ROOT}":/home/conda/recipe_root:rw,z,delegated \
            -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root:rw,z,delegated \
            -e CONFIG \
            -e HOST_USER_ID \
            -e UPLOAD_PACKAGES \
+           -e IS_PR_BUILD \
            -e GIT_BRANCH \
            -e UPLOAD_ON_BRANCH \
            -e CI \
@@ -88,12 +97,15 @@ docker run ${DOCKER_RUN_ARGS} \
            -e CPU_COUNT \
            -e BUILD_WITH_CONDA_DEBUG \
            -e BUILD_OUTPUT_ID \
+           -e flow_run_id \
+           -e remote_url \
+           -e sha \
            -e BINSTAR_TOKEN \
            -e FEEDSTOCK_TOKEN \
            -e STAGING_BINSTAR_TOKEN \
-           $DOCKER_IMAGE \
+           "${DOCKER_IMAGE}" \
            bash \
-           /home/conda/feedstock_root/${PROVIDER_DIR}/build_steps.sh
+           "/home/conda/feedstock_root/${PROVIDER_DIR}/build_steps.sh"
 
 # verify that the end of the script was reached
 test -f "$DONE_CANARY"

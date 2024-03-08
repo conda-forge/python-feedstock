@@ -31,7 +31,7 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- '3.12'
+- '3.13'
 readline:
 - '8'
 sqlite:

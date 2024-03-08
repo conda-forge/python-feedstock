@@ -1,4 +1,4 @@
-From d10f5016bcdb34da7a2fb6e747b54af67183cc2d Mon Sep 17 00:00:00 2001
+From cc1070f224b3afecf7a95a9d2331267d38a67c27 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/22] Unvendor openssl
@@ -6,16 +6,16 @@ Subject: [PATCH 05/22] Unvendor openssl
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
  PCbuild/_ssl.vcxproj         |  3 --
- PCbuild/_ssl.vcxproj.filters |  3 --
+ PCbuild/_ssl.vcxproj.filters |  5 +---
  PCbuild/openssl.props        | 14 ++-------
- PCbuild/openssl.vcxproj      | 56 ------------------------------------
+ PCbuild/openssl.vcxproj      | 58 +-----------------------------------
  PCbuild/python.props         | 11 +------
  PCbuild/python.vcxproj       |  3 ++
- PCbuild/pythonw.vcxproj      |  3 ++
- 7 files changed, 9 insertions(+), 84 deletions(-)
+ PCbuild/pythonw.vcxproj      |  5 +++-
+ 7 files changed, 12 insertions(+), 87 deletions(-)
 
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index 226ff506f8..e2fac911e1 100644
+index b83ff5e..0283725 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
 @@ -99,9 +99,6 @@
@@ -29,10 +29,10 @@ index 226ff506f8..e2fac911e1 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_ssl.vcxproj.filters b/PCbuild/_ssl.vcxproj.filters
-index 716a69a41a..8aef9e03fc 100644
+index 7179034..d85e19a 100644
 --- a/PCbuild/_ssl.vcxproj.filters
 +++ b/PCbuild/_ssl.vcxproj.filters
-@@ -12,9 +12,6 @@
+@@ -12,13 +12,10 @@
      <ClCompile Include="..\Modules\_ssl.c">
        <Filter>Source Files</Filter>
      </ClCompile>
@@ -42,8 +42,14 @@ index 716a69a41a..8aef9e03fc 100644
    </ItemGroup>
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc">
+       <Filter>Resource Files</Filter>
+     </ResourceCompile>
+   </ItemGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
-index 5fd708b211..044cefd95e 100644
+index f071060..afb9a08 100644
 --- a/PCbuild/openssl.props
 +++ b/PCbuild/openssl.props
 @@ -2,10 +2,10 @@
@@ -75,7 +81,7 @@ index 5fd708b211..044cefd95e 100644
 -  </Target>
  </Project>
 diff --git a/PCbuild/openssl.vcxproj b/PCbuild/openssl.vcxproj
-index 0da6f67495..17eee400eb 100644
+index 27515ec..6ab16f1 100644
 --- a/PCbuild/openssl.vcxproj
 +++ b/PCbuild/openssl.vcxproj
 @@ -60,64 +60,8 @@
@@ -143,8 +149,15 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="Clean" />
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
+@@ -136,4 +80,4 @@ nmake
+   </Target>
+   
+   <Target Name="ResolveAssemblyReferences" />
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index fcdd9b4075..cf0913f331 100644
+index 3e328ad..e2d6d73 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -61,6 +61,7 @@
@@ -159,7 +172,7 @@ index fcdd9b4075..cf0913f331 100644
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>
--    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.43.1.0\</sqlite3Dir>
+-    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.45.1.0\</sqlite3Dir>
 -    <bz2Dir Condition="$(bz2Dir) == ''">$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
 -    <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.5\</lzmaDir>
 -    <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.4.4\</libffiDir>
@@ -174,10 +187,10 @@ index fcdd9b4075..cf0913f331 100644
  
    <PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index f4640454a7..c1810c7db2 100644
+index 65f092a..bec3de6 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
-@@ -106,6 +106,9 @@
+@@ -110,6 +110,9 @@
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\Programs\python.c" />
@@ -188,10 +201,10 @@ index f4640454a7..c1810c7db2 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index e23635e5ea..525295c76f 100644
+index c13dfd1..2927be9 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
-@@ -98,6 +98,9 @@
+@@ -102,6 +102,9 @@
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\PC\WinMain.c" />
@@ -201,3 +214,10 @@ index e23635e5ea..525295c76f 100644
    </ItemGroup>
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
+@@ -112,4 +115,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>

@@ -1,55 +1,54 @@
-From 2c031dc87b4570d7ea876e99dcd826a8bef3a1c7 Mon Sep 17 00:00:00 2001
+From 9ab9c108ec1b2eec7a88feb7df413737bd47bc7f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/22] Doing d1trimfile
 
 ---
  PCbuild/_asyncio.vcxproj            | 20 ++++++++++++++++++++
- PCbuild/_bz2.vcxproj                |  4 ++++
+ PCbuild/_bz2.vcxproj                |  6 +++++-
  PCbuild/_ctypes.vcxproj             |  4 ++++
- PCbuild/_ctypes_test.vcxproj        | 20 ++++++++++++++++++++
+ PCbuild/_ctypes_test.vcxproj        | 22 +++++++++++++++++++++-
  PCbuild/_decimal.vcxproj            |  4 ++++
  PCbuild/_elementtree.vcxproj        |  6 +++++-
  PCbuild/_freeze_module.vcxproj      |  4 ++++
  PCbuild/_hashlib.vcxproj            | 12 ++++++++++++
  PCbuild/_lzma.vcxproj               |  4 ++++
- PCbuild/_msi.vcxproj                | 12 ++++++++++++
- PCbuild/_multiprocessing.vcxproj    | 12 ++++++++++++
- PCbuild/_overlapped.vcxproj         | 12 ++++++++++++
+ PCbuild/_multiprocessing.vcxproj    | 14 +++++++++++++-
+ PCbuild/_overlapped.vcxproj         | 14 +++++++++++++-
  PCbuild/_queue.vcxproj              | 20 ++++++++++++++++++++
- PCbuild/_socket.vcxproj             | 12 ++++++++++++
+ PCbuild/_socket.vcxproj             | 14 +++++++++++++-
  PCbuild/_sqlite3.vcxproj            |  4 ++++
  PCbuild/_ssl.vcxproj                | 12 ++++++++++++
- PCbuild/_testbuffer.vcxproj         | 20 ++++++++++++++++++++
+ PCbuild/_testbuffer.vcxproj         | 22 +++++++++++++++++++++-
  PCbuild/_testcapi.vcxproj           | 20 ++++++++++++++++++++
- PCbuild/_testconsole.vcxproj        |  4 ++++
- PCbuild/_testembed.vcxproj          |  4 ++++
+ PCbuild/_testconsole.vcxproj        |  6 +++++-
+ PCbuild/_testembed.vcxproj          |  6 +++++-
  PCbuild/_testimportmultiple.vcxproj | 20 ++++++++++++++++++++
  PCbuild/_testinternalcapi.vcxproj   | 20 ++++++++++++++++++++
- PCbuild/_testmultiphase.vcxproj     |  4 ++++
- PCbuild/_tkinter.vcxproj            |  4 ++++
+ PCbuild/_testmultiphase.vcxproj     |  6 +++++-
+ PCbuild/_tkinter.vcxproj            |  6 +++++-
  PCbuild/liblzma.vcxproj             |  4 ++++
  PCbuild/pyexpat.vcxproj             |  4 ++++
  PCbuild/pylauncher.vcxproj          |  4 ++++
- PCbuild/pyshellext.vcxproj          |  4 ++++
+ PCbuild/pyshellext.vcxproj          |  6 +++++-
  PCbuild/python.vcxproj              |  4 ++++
- PCbuild/python3dll.vcxproj          |  4 ++++
+ PCbuild/python3dll.vcxproj          |  6 +++++-
  PCbuild/python_uwp.vcxproj          |  2 +-
  PCbuild/pythoncore.vcxproj          |  2 +-
  PCbuild/pythonw.vcxproj             | 12 ++++++++++++
  PCbuild/pythonw_uwp.vcxproj         |  2 +-
- PCbuild/pywlauncher.vcxproj         |  4 ++++
- PCbuild/select.vcxproj              | 12 ++++++++++++
- PCbuild/unicodedata.vcxproj         | 20 ++++++++++++++++++++
+ PCbuild/pywlauncher.vcxproj         |  6 +++++-
+ PCbuild/select.vcxproj              | 14 +++++++++++++-
+ PCbuild/unicodedata.vcxproj         | 22 +++++++++++++++++++++-
  PCbuild/venvlauncher.vcxproj        |  4 ++++
  PCbuild/venvwlauncher.vcxproj       |  4 ++++
- PCbuild/winsound.vcxproj            | 12 ++++++++++++
+ PCbuild/winsound.vcxproj            | 14 +++++++++++++-
  PCbuild/xxlimited.vcxproj           |  6 ++++++
  PCbuild/xxlimited_35.vcxproj        |  6 ++++++
- 42 files changed, 364 insertions(+), 4 deletions(-)
+ 41 files changed, 368 insertions(+), 20 deletions(-)
 
 diff --git a/PCbuild/_asyncio.vcxproj b/PCbuild/_asyncio.vcxproj
-index ed1e1bc0a4..47d322be5f 100644
+index 1df2583..bb39ae7 100644
 --- a/PCbuild/_asyncio.vcxproj
 +++ b/PCbuild/_asyncio.vcxproj
 @@ -91,6 +91,26 @@
@@ -80,7 +79,7 @@ index ed1e1bc0a4..47d322be5f 100644
      <ClCompile Include="..\Modules\_asynciomodule.c" />
    </ItemGroup>
 diff --git a/PCbuild/_bz2.vcxproj b/PCbuild/_bz2.vcxproj
-index 3fe95fbf83..0402f7a9aa 100644
+index 90db6a8..b4b1713 100644
 --- a/PCbuild/_bz2.vcxproj
 +++ b/PCbuild/_bz2.vcxproj
 @@ -97,6 +97,10 @@
@@ -94,8 +93,15 @@ index 3fe95fbf83..0402f7a9aa 100644
      </ClCompile>
    </ItemDefinitionGroup>
    <ItemGroup>
+@@ -125,4 +129,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_ctypes.vcxproj b/PCbuild/_ctypes.vcxproj
-index 253da31e9c..9e85bd9723 100644
+index 3162ce2..46a212e 100644
 --- a/PCbuild/_ctypes.vcxproj
 +++ b/PCbuild/_ctypes.vcxproj
 @@ -95,6 +95,10 @@
@@ -110,7 +116,7 @@ index 253da31e9c..9e85bd9723 100644
      <Link>
        <AdditionalOptions>/EXPORT:DllGetClassObject,PRIVATE /EXPORT:DllCanUnloadNow,PRIVATE %(AdditionalOptions)</AdditionalOptions>
 diff --git a/PCbuild/_ctypes_test.vcxproj b/PCbuild/_ctypes_test.vcxproj
-index 8a01e743a4..1ad658d5f9 100644
+index 0ca3e61..d17faa9 100644
 --- a/PCbuild/_ctypes_test.vcxproj
 +++ b/PCbuild/_ctypes_test.vcxproj
 @@ -92,6 +92,26 @@
@@ -140,8 +146,15 @@ index 8a01e743a4..1ad658d5f9 100644
    <ItemGroup>
      <ClInclude Include="..\Modules\_ctypes\_ctypes_test.h" />
    </ItemGroup>
+@@ -109,4 +129,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
-index 0916f1a2d3..17a4cbfcd7 100644
+index 1c89c90..14c4c43 100644
 --- a/PCbuild/_decimal.vcxproj
 +++ b/PCbuild/_decimal.vcxproj
 @@ -99,6 +99,10 @@
@@ -156,7 +169,7 @@ index 0916f1a2d3..17a4cbfcd7 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index 8da5244bac..20cc09d63f 100644
+index 6555fd3..4f8cd21 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -94,7 +94,11 @@
@@ -173,11 +186,11 @@ index 8da5244bac..20cc09d63f 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
-index 3df0a07204..26982e0ceb 100644
+index a7973b5..1183343 100644
 --- a/PCbuild/_freeze_module.vcxproj
 +++ b/PCbuild/_freeze_module.vcxproj
-@@ -91,6 +91,10 @@
-       <PreprocessorDefinitions>Py_NO_ENABLE_SHARED;Py_BUILD_CORE;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+@@ -92,6 +92,10 @@
+       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <Optimization>Disabled</Optimization>
        <WholeProgramOptimization>false</WholeProgramOptimization>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -188,7 +201,7 @@ index 3df0a07204..26982e0ceb 100644
      <Link>
        <SubSystem>Console</SubSystem>
 diff --git a/PCbuild/_hashlib.vcxproj b/PCbuild/_hashlib.vcxproj
-index 6dad8183c5..6d3d37fdf9 100644
+index b43da66..ea0ed78 100644
 --- a/PCbuild/_hashlib.vcxproj
 +++ b/PCbuild/_hashlib.vcxproj
 @@ -96,6 +96,18 @@
@@ -211,7 +224,7 @@ index 6dad8183c5..6d3d37fdf9 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_hashopenssl.c" />
 diff --git a/PCbuild/_lzma.vcxproj b/PCbuild/_lzma.vcxproj
-index fe076a6fc5..0565132363 100644
+index 98e551e..8b8b148 100644
 --- a/PCbuild/_lzma.vcxproj
 +++ b/PCbuild/_lzma.vcxproj
 @@ -95,6 +95,10 @@
@@ -225,31 +238,8 @@ index fe076a6fc5..0565132363 100644
      </ClCompile>
      <Link>
        <AdditionalDependencies>$(OutDir)liblzma$(PyDebugExt).lib;%(AdditionalDependencies)</AdditionalDependencies>
-diff --git a/PCbuild/_msi.vcxproj b/PCbuild/_msi.vcxproj
-index 720eb2931b..247ab0e915 100644
---- a/PCbuild/_msi.vcxproj
-+++ b/PCbuild/_msi.vcxproj
-@@ -96,6 +96,18 @@
-     <Link>
-       <AdditionalDependencies>cabinet.lib;msi.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
-     </Link>
-+    <ClCompile>
-+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-+    </ClCompile>
-+    <ClCompile>
-+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-+    </ClCompile>
-+    <ClCompile>
-+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-+    </ClCompile>
-+    <ClCompile>
-+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-+    </ClCompile>
-   </ItemDefinitionGroup>
-   <ItemGroup>
-     <ClCompile Include="..\PC\_msi.c" />
 diff --git a/PCbuild/_multiprocessing.vcxproj b/PCbuild/_multiprocessing.vcxproj
-index 77b6bfc8e1..3c2b651549 100644
+index 33c8537..3ae7bb2 100644
 --- a/PCbuild/_multiprocessing.vcxproj
 +++ b/PCbuild/_multiprocessing.vcxproj
 @@ -95,6 +95,18 @@
@@ -271,8 +261,15 @@ index 77b6bfc8e1..3c2b651549 100644
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClInclude Include="..\Modules\_multiprocessing\multiprocessing.h" />
+@@ -115,4 +127,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_overlapped.vcxproj b/PCbuild/_overlapped.vcxproj
-index 9e60d3b5db..95b57290f8 100644
+index 1cb79b5..de0063e 100644
 --- a/PCbuild/_overlapped.vcxproj
 +++ b/PCbuild/_overlapped.vcxproj
 @@ -95,6 +95,18 @@
@@ -294,8 +291,15 @@ index 9e60d3b5db..95b57290f8 100644
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClCompile Include="..\Modules\overlapped.c" />
+@@ -111,4 +123,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_queue.vcxproj b/PCbuild/_queue.vcxproj
-index 8065b23585..e46ab5a83b 100644
+index db6fbf3..5b4cc1e 100644
 --- a/PCbuild/_queue.vcxproj
 +++ b/PCbuild/_queue.vcxproj
 @@ -91,6 +91,26 @@
@@ -326,7 +330,7 @@ index 8065b23585..e46ab5a83b 100644
      <ClCompile Include="..\Modules\_queuemodule.c" />
    </ItemGroup>
 diff --git a/PCbuild/_socket.vcxproj b/PCbuild/_socket.vcxproj
-index 78fa4d6729..be19cf1dca 100644
+index 257e6df..7c55a42 100644
 --- a/PCbuild/_socket.vcxproj
 +++ b/PCbuild/_socket.vcxproj
 @@ -95,6 +95,18 @@
@@ -348,8 +352,15 @@ index 78fa4d6729..be19cf1dca 100644
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClInclude Include="..\Modules\socketmodule.h" />
+@@ -114,4 +126,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 4735477f00..c7c377e217 100644
+index 0c40ce3..2bd029f 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -95,6 +95,10 @@
@@ -364,7 +375,7 @@ index 4735477f00..c7c377e217 100644
      <Link>
        <AdditionalDependencies>$(condaDir)\lib\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index e2fac911e1..5c1ae2fce2 100644
+index 0283725..eb7b195 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
 @@ -96,6 +96,18 @@
@@ -387,7 +398,7 @@ index e2fac911e1..5c1ae2fce2 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_ssl.c" />
 diff --git a/PCbuild/_testbuffer.vcxproj b/PCbuild/_testbuffer.vcxproj
-index 917d7ae50f..8c7e141eea 100644
+index 85da155..2cccce4 100644
 --- a/PCbuild/_testbuffer.vcxproj
 +++ b/PCbuild/_testbuffer.vcxproj
 @@ -92,6 +92,26 @@
@@ -417,8 +428,15 @@ index 917d7ae50f..8c7e141eea 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_testbuffer.c" />
    </ItemGroup>
+@@ -106,4 +126,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_testcapi.vcxproj b/PCbuild/_testcapi.vcxproj
-index e032e67c25..288f68ee9d 100644
+index 7e76b2d..70e7b93 100644
 --- a/PCbuild/_testcapi.vcxproj
 +++ b/PCbuild/_testcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -449,7 +467,7 @@ index e032e67c25..288f68ee9d 100644
      <ClCompile Include="..\Modules\_testcapimodule.c" />
      <ClCompile Include="..\Modules\_testcapi\getargs.c" />
 diff --git a/PCbuild/_testconsole.vcxproj b/PCbuild/_testconsole.vcxproj
-index 5d7e14eff1..695dcb3b91 100644
+index 70ac452..fa08004 100644
 --- a/PCbuild/_testconsole.vcxproj
 +++ b/PCbuild/_testconsole.vcxproj
 @@ -92,6 +92,10 @@
@@ -463,8 +481,15 @@ index 5d7e14eff1..695dcb3b91 100644
      </ClCompile>
      <Link>
        <SubSystem>Console</SubSystem>
+@@ -112,4 +116,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_testembed.vcxproj b/PCbuild/_testembed.vcxproj
-index a7ea8787e0..eab72171e3 100644
+index ebed0cf..89be794 100644
 --- a/PCbuild/_testembed.vcxproj
 +++ b/PCbuild/_testembed.vcxproj
 @@ -89,6 +89,10 @@
@@ -478,8 +503,15 @@ index a7ea8787e0..eab72171e3 100644
      </ClCompile>
      <Link>
        <SubSystem>Console</SubSystem>
+@@ -109,4 +113,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_testimportmultiple.vcxproj b/PCbuild/_testimportmultiple.vcxproj
-index 6d80d5779f..951bf40e7c 100644
+index 2d705e4..c6f284c 100644
 --- a/PCbuild/_testimportmultiple.vcxproj
 +++ b/PCbuild/_testimportmultiple.vcxproj
 @@ -92,6 +92,26 @@
@@ -510,7 +542,7 @@ index 6d80d5779f..951bf40e7c 100644
      <ClCompile Include="..\Modules\_testimportmultiple.c" />
    </ItemGroup>
 diff --git a/PCbuild/_testinternalcapi.vcxproj b/PCbuild/_testinternalcapi.vcxproj
-index 6c5b12cd40..d25c774913 100644
+index 34ec0a4..10eff6f 100644
 --- a/PCbuild/_testinternalcapi.vcxproj
 +++ b/PCbuild/_testinternalcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -539,9 +571,9 @@ index 6c5b12cd40..d25c774913 100644
 +  </ItemDefinitionGroup>
    <ItemGroup>
      <ClCompile Include="..\Modules\_testinternalcapi.c" />
-   </ItemGroup>
+     <ClCompile Include="..\Modules\_testinternalcapi\pytime.c" />
 diff --git a/PCbuild/_testmultiphase.vcxproj b/PCbuild/_testmultiphase.vcxproj
-index 430eb528cc..7a268d227b 100644
+index f42a0d9..b56cab0 100644
 --- a/PCbuild/_testmultiphase.vcxproj
 +++ b/PCbuild/_testmultiphase.vcxproj
 @@ -92,6 +92,10 @@
@@ -555,8 +587,15 @@ index 430eb528cc..7a268d227b 100644
      </ClCompile>
      <Link>
        <SubSystem>Console</SubSystem>
+@@ -112,4 +116,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/_tkinter.vcxproj b/PCbuild/_tkinter.vcxproj
-index 30cedcbb43..0484a5c81f 100644
+index 1537999..b45baf0 100644
 --- a/PCbuild/_tkinter.vcxproj
 +++ b/PCbuild/_tkinter.vcxproj
 @@ -96,6 +96,10 @@
@@ -570,8 +609,15 @@ index 30cedcbb43..0484a5c81f 100644
      </ClCompile>
      <Link>
        <AdditionalDependencies>$(tcltkLib);%(AdditionalDependencies)</AdditionalDependencies>
+@@ -134,4 +138,4 @@
+   <Target Name="_CleanTCL_LIBRARY" BeforeTargets="Clean">
+     <Delete Files="$(OutDir)TCL_LIBRARY.env" />
+   </Target>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/liblzma.vcxproj b/PCbuild/liblzma.vcxproj
-index 4dd42ab98a..7c2dbc7e70 100644
+index fb1e37d..634af3c 100644
 --- a/PCbuild/liblzma.vcxproj
 +++ b/PCbuild/liblzma.vcxproj
 @@ -94,6 +94,10 @@
@@ -586,7 +632,7 @@ index 4dd42ab98a..7c2dbc7e70 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 001f8afd89..3be4ac06dd 100644
+index 9419aa5..826431a 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -92,6 +92,10 @@
@@ -601,7 +647,7 @@ index 001f8afd89..3be4ac06dd 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/pylauncher.vcxproj b/PCbuild/pylauncher.vcxproj
-index 35f2f7e505..02d7961c5d 100644
+index 7416a57..7a2bfbf 100644
 --- a/PCbuild/pylauncher.vcxproj
 +++ b/PCbuild/pylauncher.vcxproj
 @@ -93,6 +93,10 @@
@@ -616,7 +662,7 @@ index 35f2f7e505..02d7961c5d 100644
      <Link>
        <AdditionalDependencies>shell32.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pyshellext.vcxproj b/PCbuild/pyshellext.vcxproj
-index ea432d6bc9..13bc692103 100644
+index 18ea911..b6b0e56 100644
 --- a/PCbuild/pyshellext.vcxproj
 +++ b/PCbuild/pyshellext.vcxproj
 @@ -92,6 +92,10 @@
@@ -630,11 +676,18 @@ index ea432d6bc9..13bc692103 100644
      </ClCompile>
      <Link>
        <AdditionalDependencies>version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -114,4 +118,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index c1810c7db2..68c228eaeb 100644
+index bec3de6..a4b6026 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
-@@ -91,6 +91,10 @@
+@@ -92,6 +92,10 @@
    <ItemDefinitionGroup>
      <ClCompile>
        <PreprocessorDefinitions>Py_BUILD_CORE;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -646,7 +699,7 @@ index c1810c7db2..68c228eaeb 100644
      <Link>
        <SubSystem>Console</SubSystem>
 diff --git a/PCbuild/python3dll.vcxproj b/PCbuild/python3dll.vcxproj
-index ec22e6fc76..80dff0a3d9 100644
+index 3755dbe..d91bb80 100644
 --- a/PCbuild/python3dll.vcxproj
 +++ b/PCbuild/python3dll.vcxproj
 @@ -93,6 +93,10 @@
@@ -660,8 +713,15 @@ index ec22e6fc76..80dff0a3d9 100644
      </ClCompile>
      <Link>
        <NoEntryPoint>true</NoEntryPoint>
+@@ -107,4 +111,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/python_uwp.vcxproj b/PCbuild/python_uwp.vcxproj
-index fb27e9e712..f8dc841ef1 100644
+index a735274..ca3e407 100644
 --- a/PCbuild/python_uwp.vcxproj
 +++ b/PCbuild/python_uwp.vcxproj
 @@ -90,7 +90,7 @@
@@ -674,7 +734,7 @@ index fb27e9e712..f8dc841ef1 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index b265264dc1..9390c4d7d7 100644
+index 6e36c5c..2a0cd81 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@
@@ -687,12 +747,12 @@ index b265264dc1..9390c4d7d7 100644
        <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index 525295c76f..bb4972618a 100644
+index 2927be9..fc4f662 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
-@@ -92,6 +92,18 @@
-       <StackReserveSize Condition="$(Configuration) != 'Debug'">2000000</StackReserveSize>
-       <StackReserveSize Condition="$(Configuration) == 'Debug'">8000000</StackReserveSize>
+@@ -96,6 +96,18 @@
+       <!-- HACK: Need additional memory to avoid crashing until gh-113655 is fixed -->
+       <StackReserveSize Condition="$(Configuration) == 'PGUpdate' and $(UseExtraStackReserve) == 'true'">3000000</StackReserveSize>
      </Link>
 +    <ClCompile>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -710,7 +770,7 @@ index 525295c76f..bb4972618a 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\pythonw_exe.rc" />
 diff --git a/PCbuild/pythonw_uwp.vcxproj b/PCbuild/pythonw_uwp.vcxproj
-index e21e46a1b7..ff7dc6635d 100644
+index 7f4d314..36c2610 100644
 --- a/PCbuild/pythonw_uwp.vcxproj
 +++ b/PCbuild/pythonw_uwp.vcxproj
 @@ -90,7 +90,7 @@
@@ -723,7 +783,7 @@ index e21e46a1b7..ff7dc6635d 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pywlauncher.vcxproj b/PCbuild/pywlauncher.vcxproj
-index e50b69aefe..3aa738bb7f 100644
+index 2f371a4..606441c 100644
 --- a/PCbuild/pywlauncher.vcxproj
 +++ b/PCbuild/pywlauncher.vcxproj
 @@ -93,6 +93,10 @@
@@ -737,8 +797,15 @@ index e50b69aefe..3aa738bb7f 100644
      </ClCompile>
      <Link>
        <AdditionalDependencies>shell32.lib;pathcch.lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -111,4 +115,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/select.vcxproj b/PCbuild/select.vcxproj
-index 750a713949..1da66eaddc 100644
+index 696b3d6..6de57ba 100644
 --- a/PCbuild/select.vcxproj
 +++ b/PCbuild/select.vcxproj
 @@ -94,6 +94,18 @@
@@ -760,8 +827,15 @@ index 750a713949..1da66eaddc 100644
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClCompile Include="..\Modules\selectmodule.c" />
+@@ -110,4 +122,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/unicodedata.vcxproj b/PCbuild/unicodedata.vcxproj
-index addef75335..1a13f363e2 100644
+index 906d16a..92d10b1 100644
 --- a/PCbuild/unicodedata.vcxproj
 +++ b/PCbuild/unicodedata.vcxproj
 @@ -91,6 +91,26 @@
@@ -791,13 +865,20 @@ index addef75335..1a13f363e2 100644
    <ItemGroup>
      <ClInclude Include="..\Modules\unicodedata_db.h" />
      <ClInclude Include="..\Modules\unicodename_db.h" />
+@@ -110,4 +130,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/venvlauncher.vcxproj b/PCbuild/venvlauncher.vcxproj
-index 123e84ec4e..6272f9f69d 100644
+index a655627..c6af1f9 100644
 --- a/PCbuild/venvlauncher.vcxproj
 +++ b/PCbuild/venvlauncher.vcxproj
-@@ -93,6 +93,10 @@
+@@ -94,6 +94,10 @@
      <ClCompile>
-       <PreprocessorDefinitions>_CONSOLE;VENV_REDIRECT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>EXENAME=L"$(PyExeName)$(PyDebugExt).exe";_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -807,12 +888,12 @@ index 123e84ec4e..6272f9f69d 100644
      <ResourceCompile>
        <PreprocessorDefinitions>PY_ICON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 diff --git a/PCbuild/venvwlauncher.vcxproj b/PCbuild/venvwlauncher.vcxproj
-index b8504d5d08..60d6308713 100644
+index d65c3bd..1c42321 100644
 --- a/PCbuild/venvwlauncher.vcxproj
 +++ b/PCbuild/venvwlauncher.vcxproj
-@@ -93,6 +93,10 @@
+@@ -94,6 +94,10 @@
      <ClCompile>
-       <PreprocessorDefinitions>_WINDOWS;VENV_REDIRECT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>EXENAME=L"$(PyExeName)$(PyDebugExt).exe";_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -822,7 +903,7 @@ index b8504d5d08..60d6308713 100644
      <ResourceCompile>
        <PreprocessorDefinitions>PYW_ICON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 diff --git a/PCbuild/winsound.vcxproj b/PCbuild/winsound.vcxproj
-index 32cedc9b44..c9abee1d69 100644
+index 91b5bca..2689e35 100644
 --- a/PCbuild/winsound.vcxproj
 +++ b/PCbuild/winsound.vcxproj
 @@ -96,6 +96,18 @@
@@ -844,8 +925,15 @@ index 32cedc9b44..c9abee1d69 100644
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClCompile Include="..\PC\winsound.c" />
+@@ -112,4 +124,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/xxlimited.vcxproj b/PCbuild/xxlimited.vcxproj
-index 1c776fb0da..36dec23c20 100644
+index 3312c85..efe3b8d 100644
 --- a/PCbuild/xxlimited.vcxproj
 +++ b/PCbuild/xxlimited.vcxproj
 @@ -93,6 +93,12 @@
@@ -862,7 +950,7 @@ index 1c776fb0da..36dec23c20 100644
        <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
 diff --git a/PCbuild/xxlimited_35.vcxproj b/PCbuild/xxlimited_35.vcxproj
-index dd830b3b6a..fef2c5b9f4 100644
+index 54cd0bc..bb567df 100644
 --- a/PCbuild/xxlimited_35.vcxproj
 +++ b/PCbuild/xxlimited_35.vcxproj
 @@ -93,6 +93,12 @@

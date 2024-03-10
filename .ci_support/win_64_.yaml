@@ -5,9 +5,9 @@ bzip2:
 c_compiler:
 - vs2019
 channel_sources:
-- conda-forge
+- conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_313a4
 cxx_compiler:
 - vs2019
 expat:

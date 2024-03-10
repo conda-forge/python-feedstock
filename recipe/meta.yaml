@@ -209,7 +209,6 @@ outputs:
         - set  # [win]
         - python -V
         - python3 -V            # [not win]
-        - 2to3 -h
         - pydoc -h
         - python3-config --help  # [not win]
         - set "PIP_NO_BUILD_ISOLATION=False"  # [win]

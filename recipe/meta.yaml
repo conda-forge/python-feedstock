@@ -73,6 +73,7 @@ source:
       - patches/0020-Don-t-checksharedmods-if-cross-compiling.patch
       - patches/0021-Override-configure-LIBFFI.patch
       - patches/0022-Allow-linking-ncursesw-panelw-on-macOS-if-available.patch
+      - patches/0001-Set-PYTHONFRAMEWORKINSTALLNAMEPREFIX.patch
 
 build:
   number: {{ build_number }}

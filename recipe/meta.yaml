@@ -177,7 +177,6 @@ outputs:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - libnsl  # [linux]
         - libuuid  # [linux]
-        - libxcrypt  # [linux]
         - expat
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
@@ -259,8 +258,6 @@ outputs:
         - python -c "from ctypes import CFUNCTYPE; CFUNCTYPE(None)(id)"
         # Test for wide character supported via ncursesw
         - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
-        # crypt module will be removed in 3.13 => this failing is a reminder to remove the libxcrypt dependency
-        - python -c "import crypt"  # [unix]
 
   - name: libpython-static
     script: build_static.sh  # [unix]

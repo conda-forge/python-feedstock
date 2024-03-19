@@ -1,4 +1,4 @@
-From d18db28bc2f5b4184a5222f2db0a5f4f644a740a Mon Sep 17 00:00:00 2001
+From 8e8b27848dd241a4cc7a924ae8dcd74b36b723ea Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 3 Nov 2019 15:09:45 -0600
 Subject: [PATCH 12/24] Use ranlib from env if env variable is set
@@ -8,7 +8,7 @@ Subject: [PATCH 12/24] Use ranlib from env if env variable is set
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
-index b51629e..c21e5bd 100644
+index b51629eb94..c21e5bddb5 100644
 --- a/Lib/distutils/sysconfig.py
 +++ b/Lib/distutils/sysconfig.py
 @@ -223,7 +223,7 @@ def customize_compiler(compiler):

@@ -1,4 +1,4 @@
-From 462a272b47ccd0da3b7b38fa43cb35a19ce7dd4b Mon Sep 17 00:00:00 2001
+From e26c73100163e6b4f08c1cff98df0cfcd0d99f1e Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 03:07:40 -0700
 Subject: [PATCH 21/25] Unvendor libffi

@@ -1,4 +1,4 @@
-From 0c0dde67c62407f7dc37393083ff7eeb20c013ba Mon Sep 17 00:00:00 2001
+From 89b3ae18a134779a2dfbc4cc8d1d35d181d0c382 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
 Subject: [PATCH 03/22] Fix find_library so that it looks in sys.prefix/lib
@@ -10,7 +10,7 @@ Subject: [PATCH 03/22] Fix find_library so that it looks in sys.prefix/lib
  2 files changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index 583c47daff..ab9b01c87e 100644
+index 583c47d..ab9b01c 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
 @@ -93,6 +93,10 @@ def dyld_executable_path_search(name, executable_path=None):
@@ -25,10 +25,10 @@ index 583c47daff..ab9b01c87e 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index c550883e7c..78b0b014f0 100644
+index c550883..78b0b01 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
-@@ -70,7 +70,8 @@ def find_library(name):
+@@ -70,7 +70,8 @@ if os.name == "nt":
  elif os.name == "posix" and sys.platform == "darwin":
      from ctypes.macholib.dyld import dyld_find as _dyld_find
      def find_library(name):
@@ -38,7 +38,7 @@ index c550883e7c..78b0b014f0 100644
                      '%s.dylib' % name,
                      '%s.framework/%s' % (name, name)]
          for name in possible:
-@@ -327,10 +328,30 @@ def _findLib_ld(name):
+@@ -327,10 +328,30 @@ elif os.name == "posix":
                  pass  # result will be None
              return result
  

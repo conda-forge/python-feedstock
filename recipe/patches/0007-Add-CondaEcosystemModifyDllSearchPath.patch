@@ -1,4 +1,4 @@
-From 7e32dd6d85201e68f5187ceb3874f66a58203fb2 Mon Sep 17 00:00:00 2001
+From b2af6819cef5a4dab10a0a4e90dd4c2aa5f8c349 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 07/22] Add CondaEcosystemModifyDllSearchPath()
@@ -33,10 +33,10 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  1 file changed, 96 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index a0130fde15..e690dcf7df 100644
+index 5e5db98..1491974 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
-@@ -51,6 +51,10 @@
+@@ -61,6 +61,10 @@
  
  #ifdef MS_WINDOWS
  #  undef BYTE
@@ -46,8 +46,8 @@ index a0130fde15..e690dcf7df 100644
 +#  include <libloaderapi.h>
  #endif
  
- #define PUTS(fd, str) _Py_write_noraise(fd, str, (int)strlen(str))
-@@ -98,6 +102,94 @@ __attribute__ ((section (".PyRuntime")))
+ #define PUTS(fd, str) (void)_Py_write_noraise(fd, str, (int)strlen(str))
+@@ -103,6 +107,94 @@ __attribute__ ((section (".PyRuntime")))
  = _PyRuntimeState_INIT(_PyRuntime);
  _Py_COMP_DIAG_POP
  
@@ -142,7 +142,7 @@ index a0130fde15..e690dcf7df 100644
  static int runtime_initialized = 0;
  
  PyStatus
-@@ -114,6 +206,10 @@ _PyRuntime_Initialize(void)
+@@ -119,6 +211,10 @@ _PyRuntime_Initialize(void)
      }
      runtime_initialized = 1;
  

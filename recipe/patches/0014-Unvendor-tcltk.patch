@@ -1,15 +1,15 @@
-From 7e4536f3269c0f7c8eef31e2e1f148c1bb7f2740 Mon Sep 17 00:00:00 2001
+From d7fae5c4a299788d033fc71e72ebe99e8f22d282 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
 Subject: [PATCH 14/22] Unvendor tcltk
 
 ---
  PCbuild/_tkinter.vcxproj |  6 ------
- PCbuild/tcltk.props      | 12 +++++-------
- 2 files changed, 5 insertions(+), 13 deletions(-)
+ PCbuild/tcltk.props      | 11 +++++------
+ 2 files changed, 5 insertions(+), 12 deletions(-)
 
 diff --git a/PCbuild/_tkinter.vcxproj b/PCbuild/_tkinter.vcxproj
-index 0484a5c81f..d1393c914d 100644
+index b45baf0..73cacde 100644
 --- a/PCbuild/_tkinter.vcxproj
 +++ b/PCbuild/_tkinter.vcxproj
 @@ -126,12 +126,6 @@
@@ -26,16 +26,15 @@ index 0484a5c81f..d1393c914d 100644
      <WriteLinesToFile File="$(OutDir)TCL_LIBRARY.env" Lines="$(tcltkdir)\lib\tcl$(TclMajorVersion).$(TclMinorVersion)" Encoding="utf-8" Overwrite="true" />
    </Target>
 diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
-index 9d5189b3b8..a8f5b8811c 100644
+index 12d9283..8b1d25e 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
-@@ -17,13 +17,11 @@
-     <TixMinorVersion>$([System.Version]::Parse($(TixVersion)).Minor)</TixMinorVersion>
-     <TixPatchLevel>$([System.Version]::Parse($(TixVersion)).Build)</TixPatchLevel>
-     <TixRevision>$([System.Version]::Parse($(TixVersion)).Revision)</TixRevision>
+@@ -12,12 +12,11 @@
+     <TkMinorVersion>$([System.Version]::Parse($(TkVersion)).Minor)</TkMinorVersion>
+     <TkPatchLevel>$([System.Version]::Parse($(TkVersion)).Build)</TkPatchLevel>
+     <TkRevision>$([System.Version]::Parse($(TkVersion)).Revision)</TkRevision>
 -    <tclDir Condition="$(tclDir) == ''">$(ExternalsDir)tcl-core-$(TclVersion)\</tclDir>
 -    <tkDir Condition="$(tkDir) == ''">$(ExternalsDir)tk-$(TkVersion)\</tkDir>
--    <tixDir Condition="$(tixDir) == ''">$(ExternalsDir)tix-$(TixVersion)\</tixDir>
 -    <tcltkDir Condition="$(tcltkDir) == ''">$(ExternalsDir)tcltk-$(TclVersion)\$(ArchName)\</tcltkDir>
 -    <tclWin32Exe Condition="$(Platform) == 'Win32'">$(tcltkDir)\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>
 -    <tclWin32Exe Condition="$(Platform) != 'Win32'">$(tcltkDir)\..\win32\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>

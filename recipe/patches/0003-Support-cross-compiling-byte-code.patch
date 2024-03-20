@@ -1,4 +1,4 @@
-From b06ec1cbb2e4549a79bd8b65013727f50904f9e7 Mon Sep 17 00:00:00 2001
+From 61f638490cff10d9895c5b6f109df5e206625b1e Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
 Subject: [PATCH 03/26] Support cross-compiling byte-code
@@ -11,7 +11,7 @@ https://bugs.python.org/issue22724
  3 files changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index c0272bfcdd..f8b40208f0 100644
+index a276d535c7..3649a73ac4 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -255,6 +255,7 @@ BUILDPYTHON=	python$(BUILDEXE)

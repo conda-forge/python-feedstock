@@ -1,4 +1,4 @@
-From 17f1d11e34bdc178e202b50599248bb5482f895f Mon Sep 17 00:00:00 2001
+From bbe299455c9aa38da7bd4045f39cc65e01a9f1ac Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
 Subject: [PATCH 07/24] Fix find_library so that it looks in sys.prefix/lib
@@ -10,7 +10,7 @@ Subject: [PATCH 07/24] Fix find_library so that it looks in sys.prefix/lib
  2 files changed, 28 insertions(+), 3 deletions(-)
 
 diff --git a/Lib/ctypes/macholib/dyld.py b/Lib/ctypes/macholib/dyld.py
-index 1c3f8fd..82a4b4f 100644
+index 1c3f8fd38b..82a4b4fd58 100644
 --- a/Lib/ctypes/macholib/dyld.py
 +++ b/Lib/ctypes/macholib/dyld.py
 @@ -93,6 +93,10 @@ def dyld_executable_path_search(name, executable_path=None):
@@ -25,7 +25,7 @@ index 1c3f8fd..82a4b4f 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index 0c2510e..72b46cc 100644
+index 0c2510e161..72b46cc481 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -70,7 +70,8 @@ if os.name == "nt":

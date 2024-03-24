@@ -9,6 +9,8 @@ MACOSX_SDK_VERSION:            # [osx and x86_64]
 build_type:
   - release
   - debug                      # [not win]
+channel_sources:                 # [linux]
+  - mark.harfouche,conda-forge   # [linux]
 channel_targets:
   - conda-forge main
   - conda-forge python_debug   # [not win]

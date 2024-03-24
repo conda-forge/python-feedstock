@@ -101,6 +101,7 @@ outputs:
       ignore_run_exports_from:   # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
+        - zlib
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -162,12 +163,12 @@ outputs:
         - tk        # [build_platform != target_platform]
         - readline  # [build_platform != target_platform]
         - ncurses   # [build_platform != target_platform]
-        - zlib      # [build_platform != target_platform]
+        - zlib 1.2.*     # [build_platform != target_platform]
       host:
         - bzip2
         - sqlite
         - xz
-        - zlib
+        - zlib 1.2.*
         - openssl
         - readline  # [not win]
         - tk
@@ -199,6 +200,7 @@ outputs:
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
+        - zlib 1.3.*
       files:
         - tests/cmake/*
         - tests/cython/*

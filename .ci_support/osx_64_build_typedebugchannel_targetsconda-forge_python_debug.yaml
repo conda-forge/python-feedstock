@@ -49,5 +49,3 @@ zip_keys:
   - channel_targets
 - - c_compiler_version
   - cxx_compiler_version
-zlib:
-- '1.2'

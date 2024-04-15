@@ -1,4 +1,4 @@
-From d10f5016bcdb34da7a2fb6e747b54af67183cc2d Mon Sep 17 00:00:00 2001
+From 4fd9f886ff5b07c0ff51a767b147f5154e685686 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/22] Unvendor openssl
@@ -144,7 +144,7 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index fcdd9b4075..cf0913f331 100644
+index d85fe4ab2a..cf0913f331 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -61,6 +61,7 @@
@@ -159,7 +159,7 @@ index fcdd9b4075..cf0913f331 100644
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>
--    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.43.1.0\</sqlite3Dir>
+-    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.45.1.0\</sqlite3Dir>
 -    <bz2Dir Condition="$(bz2Dir) == ''">$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
 -    <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.5\</lzmaDir>
 -    <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.4.4\</libffiDir>
@@ -174,10 +174,10 @@ index fcdd9b4075..cf0913f331 100644
  
    <PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index f4640454a7..c1810c7db2 100644
+index 846c87fd1a..8021002c16 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
-@@ -106,6 +106,9 @@
+@@ -107,6 +107,9 @@
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\Programs\python.c" />
@@ -188,10 +188,10 @@ index f4640454a7..c1810c7db2 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index e23635e5ea..525295c76f 100644
+index f485352f64..38a2547089 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
-@@ -98,6 +98,9 @@
+@@ -99,6 +99,9 @@
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\PC\WinMain.c" />

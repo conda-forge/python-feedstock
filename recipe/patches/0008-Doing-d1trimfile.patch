@@ -1,4 +1,4 @@
-From 2c031dc87b4570d7ea876e99dcd826a8bef3a1c7 Mon Sep 17 00:00:00 2001
+From 9f20e0ac40b761542197d65d4e188c474d42ea2b Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/22] Doing d1trimfile
@@ -631,7 +631,7 @@ index ea432d6bc9..13bc692103 100644
      <Link>
        <AdditionalDependencies>version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index c1810c7db2..68c228eaeb 100644
+index 8021002c16..9eb3f36940 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -91,6 +91,10 @@
@@ -687,12 +687,12 @@ index b265264dc1..9390c4d7d7 100644
        <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index 525295c76f..bb4972618a 100644
+index 38a2547089..0b05df346e 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
-@@ -92,6 +92,18 @@
-       <StackReserveSize Condition="$(Configuration) != 'Debug'">2000000</StackReserveSize>
+@@ -93,6 +93,18 @@
        <StackReserveSize Condition="$(Configuration) == 'Debug'">8000000</StackReserveSize>
+       <StackReserveSize Condition="$(Configuration) == 'PGInstrument'">8000000</StackReserveSize>
      </Link>
 +    <ClCompile>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>

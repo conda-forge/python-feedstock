@@ -1,4 +1,4 @@
-From 0c0dde67c62407f7dc37393083ff7eeb20c013ba Mon Sep 17 00:00:00 2001
+From 6acef4cee4f5107be46225f159cf5a5238f2c6bd Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
 Subject: [PATCH 03/22] Fix find_library so that it looks in sys.prefix/lib

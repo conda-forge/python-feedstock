@@ -1,7 +1,7 @@
 BUILD:
 - aarch64-conda_cos7-linux-gnu
 build_type:
-- debug
+- release
 bzip2:
 - '1'
 c_compiler:
@@ -15,7 +15,7 @@ cdt_name:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_313a4_debug
+- conda-forge python_313a5
 cxx_compiler:
 - gxx
 cxx_compiler_version:

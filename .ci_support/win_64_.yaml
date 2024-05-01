@@ -7,7 +7,7 @@ c_compiler:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_313a4
+- conda-forge python_313a5
 cxx_compiler:
 - vs2019
 expat:

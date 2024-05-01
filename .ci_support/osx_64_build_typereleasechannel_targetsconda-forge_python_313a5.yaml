@@ -3,7 +3,7 @@ MACOSX_DEPLOYMENT_TARGET:
 MACOSX_SDK_VERSION:
 - '11.0'
 build_type:
-- debug
+- release
 bzip2:
 - '1'
 c_compiler:
@@ -13,7 +13,7 @@ c_compiler_version:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_313a4_debug
+- conda-forge python_313a5
 cxx_compiler:
 - clangxx
 cxx_compiler_version:

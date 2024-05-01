@@ -8,22 +8,22 @@ jobs:
     vmImage: macOS-12
   strategy:
     matrix:
-      osx_64_build_typedebugchannel_targetsconda-forge_python_313a4_debug:
-        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_313a4_debug
+      osx_64_build_typedebugchannel_targetsconda-forge_python_313a5_debug:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_313a5_debug
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h268d298fd1
-      osx_64_build_typereleasechannel_targetsconda-forge_python_313a4:
-        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_python_313a4
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h459c65a1b9
+      osx_64_build_typereleasechannel_targetsconda-forge_python_313a5:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_python_313a5
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h3c1599cfdb
-      osx_arm64_build_typedebugchannel_targetsconda-forge_python_313a4_debug:
-        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_313a4_debug
+        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h464b064fd5
+      osx_arm64_build_typedebugchannel_targetsconda-forge_python_313a5_debug:
+        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_313a5_debug
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h4bac8b836a
-      osx_arm64_build_typereleasechannel_targetsconda-forge_python_313a4:
-        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_python_313a4
+        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h18e572b048
+      osx_arm64_build_typereleasechannel_targetsconda-forge_python_313a5:
+        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_python_313a5
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_build_typereleasechannel__h555199d32c
+        SHORT_CONFIG: osx_arm64_build_typereleasechannel__h8822ca3e45
   timeoutInMinutes: 360
   variables: {}
 

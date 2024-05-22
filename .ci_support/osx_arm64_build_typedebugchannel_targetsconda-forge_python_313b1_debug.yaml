@@ -1,9 +1,9 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
+- '11.0'
 MACOSX_SDK_VERSION:
 - '11.0'
 build_type:
-- release
+- debug
 bzip2:
 - '1'
 c_compiler:
@@ -13,11 +13,11 @@ c_compiler_version:
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
-- '10.9'
+- '11.0'
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_313a5
+- conda-forge python_313b1_debug
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
@@ -27,7 +27,7 @@ expat:
 libffi:
 - '3.4'
 macos_machine:
-- x86_64-apple-darwin13.4.0
+- arm64-apple-darwin20.0.0
 ncurses:
 - '6'
 openssl:
@@ -43,7 +43,7 @@ readline:
 sqlite:
 - '3'
 target_platform:
-- osx-64
+- osx-arm64
 tk:
 - '8.6'
 xz:

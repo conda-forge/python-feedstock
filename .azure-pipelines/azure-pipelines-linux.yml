@@ -8,16 +8,16 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_build_typedebugchannel_targetsconda-forge_python_313a5_debug:
-        CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_313a5_debug
+      linux_64_build_typedebugchannel_targetsconda-forge_python_313b1_debug:
+        CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_313b1_debug
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_build_typedebugchannel_tar_h172921de16
-      linux_64_build_typereleasechannel_targetsconda-forge_python_313a5:
-        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_python_313a5
+        SHORT_CONFIG: linux_64_build_typedebugchannel_tar_hcad98b1b57
+      linux_64_build_typereleasechannel_targetsconda-forge_python_313b1:
+        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_python_313b1
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
-        SHORT_CONFIG: linux_64_build_typereleasechannel_t_ha8a2d267b6
+        SHORT_CONFIG: linux_64_build_typereleasechannel_t_h7f874492fe
   timeoutInMinutes: 360
   variables: {}
 

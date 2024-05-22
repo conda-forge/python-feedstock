@@ -9,7 +9,7 @@ c_stdlib:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_313a5
+- conda-forge python_313b1
 cxx_compiler:
 - vs2019
 expat:

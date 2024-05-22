@@ -1,4 +1,4 @@
-From 512d762e4ec0ec92cb697b331e841dd88f46b9f0 Mon Sep 17 00:00:00 2001
+From 13c959b08e3c4d734231f666b45e03bc5eefedb8 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
 Subject: [PATCH 04/22] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
@@ -43,3 +43,6 @@ index 1410ffd..eb3b7c2 100644
          # QUIRK: Windows also lists paths in the registry. Paths are stored
          # as the default value of each subkey of
          # {HKCU,HKLM}\Software\Python\PythonCore\{winver}\PythonPath
+-- 
+2.44.0
+

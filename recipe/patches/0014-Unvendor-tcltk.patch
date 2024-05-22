@@ -1,4 +1,4 @@
-From d7fae5c4a299788d033fc71e72ebe99e8f22d282 Mon Sep 17 00:00:00 2001
+From 9fa8a3f3bccfaa4f4f6d4905c6a20c1e48dfd7bb Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
 Subject: [PATCH 14/22] Unvendor tcltk
@@ -47,3 +47,6 @@ index 12d9283..8b1d25e 100644
      <!--<TclDebugExt Condition="'$(Configuration)' == 'Debug'">g</TclDebugExt>-->
      <tclDLLName>tcl$(TclMajorVersion)$(TclMinorVersion)t$(TclDebugExt).dll</tclDLLName>
      <tclLibName>tcl$(TclMajorVersion)$(TclMinorVersion)t$(TclDebugExt).lib</tclLibName>
+-- 
+2.44.0
+

@@ -1,4 +1,4 @@
-From a7db12fd8f76d8978d1a46c4cce6c16c5b01f3cf Mon Sep 17 00:00:00 2001
+From 3de2f677dd2f07347f738ec7a3e406b812daf064 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:56:27 -0700
 Subject: [PATCH 12/22] Unvendor bzip2
@@ -92,3 +92,6 @@ index ce2e24e..8331a95 100644
 -</Project>
 \ No newline at end of file
 +</Project>
+-- 
+2.44.0
+

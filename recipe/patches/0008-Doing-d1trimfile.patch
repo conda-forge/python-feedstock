@@ -1,4 +1,4 @@
-From 9ab9c108ec1b2eec7a88feb7df413737bd47bc7f Mon Sep 17 00:00:00 2001
+From 2bb5733557724ba4aec0508cefdfa13060bef3c5 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/22] Doing d1trimfile
@@ -186,7 +186,7 @@ index 6555fd3..4f8cd21 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
-index a7973b5..1183343 100644
+index 5ca91e8..21d70db 100644
 --- a/PCbuild/_freeze_module.vcxproj
 +++ b/PCbuild/_freeze_module.vcxproj
 @@ -92,6 +92,10 @@
@@ -436,7 +436,7 @@ index 85da155..2cccce4 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/_testcapi.vcxproj b/PCbuild/_testcapi.vcxproj
-index 7e76b2d..70e7b93 100644
+index 14ad306..93a19ba 100644
 --- a/PCbuild/_testcapi.vcxproj
 +++ b/PCbuild/_testcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -734,7 +734,7 @@ index a735274..ca3e407 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 6e36c5c..2a0cd81 100644
+index 123430c..81b08a7 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@
@@ -966,3 +966,6 @@ index 54cd0bc..bb567df 100644
      <Link>
        <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
+-- 
+2.44.0
+

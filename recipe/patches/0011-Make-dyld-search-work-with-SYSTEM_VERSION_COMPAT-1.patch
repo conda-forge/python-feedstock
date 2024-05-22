@@ -1,4 +1,4 @@
-From aacd848763441b0601f3fe2e1cb25a4732a144f0 Mon Sep 17 00:00:00 2001
+From 83aa1ad27f52c291c436c125b17e26cffd34bc5a Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
 Subject: [PATCH 11/22] Make dyld search work with SYSTEM_VERSION_COMPAT=1
@@ -27,3 +27,6 @@ index 97d1dba..6741730 100644
  #  else
  #    define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
           (_dyld_shared_cache_contains_path != NULL)
+-- 
+2.44.0
+

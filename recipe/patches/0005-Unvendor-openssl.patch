@@ -1,4 +1,4 @@
-From cc1070f224b3afecf7a95a9d2331267d38a67c27 Mon Sep 17 00:00:00 2001
+From 7628c328b6a885b4526b4a4a1f6a6024c39d3eba Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/22] Unvendor openssl
@@ -221,3 +221,6 @@ index c13dfd1..2927be9 100644
 -</Project>
 \ No newline at end of file
 +</Project>
+-- 
+2.44.0
+

@@ -1,4 +1,4 @@
-From 8a074516df0bfdf0234db91c78c23df7707e5079 Mon Sep 17 00:00:00 2001
+From 717b45144d9e7ddd36294b4505782f2ac971e332 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 16/22] unvendor zlib
@@ -9,7 +9,7 @@ Subject: [PATCH 16/22] unvendor zlib
  2 files changed, 4 insertions(+), 95 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 2a0cd81..a2f385e 100644
+index 81b08a7..95b90a4 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -38,7 +38,7 @@ index 2a0cd81..a2f385e 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -389,19 +390,6 @@
+@@ -390,19 +391,6 @@
      <ClInclude Include="..\Python\stdlib_module_names.h" />
      <ClInclude Include="..\Python\thread_nt.h" />
    </ItemGroup>
@@ -58,7 +58,7 @@ index 2a0cd81..a2f385e 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_abc.c" />
      <ClCompile Include="..\Modules\_bisectmodule.c" />
-@@ -636,19 +624,6 @@
+@@ -639,19 +627,6 @@
    </ItemGroup>
    <ItemGroup Condition="$(IncludeExternals)">
      <ClCompile Include="..\Modules\zlibmodule.c" />
@@ -79,10 +79,10 @@ index 2a0cd81..a2f385e 100644
    <ItemGroup>
      <ClCompile Include="..\PC\dl_nt.c" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 699c3e0..5939aaa 100644
+index 9c9844a..7bfce3e 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
-@@ -834,39 +834,6 @@
+@@ -837,39 +837,6 @@
      <ClInclude Include="..\Include\internal\mimalloc\mimalloc\types.h">
        <Filter>Include\internal\mimalloc</Filter>
      </ClInclude>
@@ -122,7 +122,7 @@ index 699c3e0..5939aaa 100644
      <ClInclude Include="..\Include\internal\pycore_structseq.h">
        <Filter>Include\internal</Filter>
      </ClInclude>
-@@ -1484,39 +1451,6 @@
+@@ -1493,39 +1460,6 @@
      <ClCompile Include="..\Modules\_contextvarsmodule.c">
        <Filter>Modules</Filter>
      </ClCompile>
@@ -162,3 +162,6 @@ index 699c3e0..5939aaa 100644
      <ClCompile Include="..\Python\hamt.c">
        <Filter>Python</Filter>
      </ClCompile>
+-- 
+2.44.0
+

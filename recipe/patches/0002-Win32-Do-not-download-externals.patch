@@ -1,4 +1,4 @@
-From 2270cf369006d7744596a1b14d653143ed5b9f7c Mon Sep 17 00:00:00 2001
+From 5e8b1aaff242c415488aef2094fc89b0bdf18296 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
 Subject: [PATCH 02/22] Win32: Do not download externals
@@ -8,18 +8,18 @@ Subject: [PATCH 02/22] Win32: Do not download externals
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index 685ce7b..3433353 100644
+index 685ce7b..fdac5cc 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
-@@ -101,7 +101,7 @@ if "%IncludeCTypes%"=="" set IncludeCTypes=true
+@@ -96,7 +96,7 @@ if "%~1"=="--no-ctypes" (set IncludeCTypes=false) & shift & goto CheckOpts
+ if "%~1"=="--no-ssl" (set IncludeSSL=false) & shift & goto CheckOpts
+ if "%~1"=="--no-tkinter" (set IncludeTkinter=false) & shift & goto CheckOpts
+ 
+-if "%IncludeExternals%"=="" set IncludeExternals=true
++@rem if "%IncludeExternals%"=="" set IncludeExternals=true
+ if "%IncludeCTypes%"=="" set IncludeCTypes=true
  if "%IncludeSSL%"=="" set IncludeSSL=true
  if "%IncludeTkinter%"=="" set IncludeTkinter=true
- 
--if "%IncludeExternals%"=="true" call "%dir%get_externals.bat"
-+rem if "%IncludeExternals%"=="true" call "%dir%get_externals.bat"
- 
- if "%do_pgo%" EQU "true" if "%platf%" EQU "x64" (
-     if "%PROCESSOR_ARCHITEW6432%" NEQ "AMD64" if "%PROCESSOR_ARCHITECTURE%" NEQ "AMD64" (
 @@ -189,4 +189,4 @@ rem Display the current build version information
  call "%dir%find_msbuild.bat" %MSBUILD%
  if ERRORLEVEL 1 (echo Cannot locate MSBuild.exe on PATH or as MSBUILD variable & exit /b 2)
@@ -27,3 +27,6 @@ index 685ce7b..3433353 100644
 -if ERRORLEVEL 1 exit /b 3
 \ No newline at end of file
 +if ERRORLEVEL 1 exit /b 3
+-- 
+2.44.0
+

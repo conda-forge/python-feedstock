@@ -534,3 +534,6 @@ fi
 # Workaround for old conda versions which fail to install noarch packages for Python 3.10+
 # https://github.com/conda/conda/issues/10969
 ln -s "${PREFIX}/lib/python${VER}" "${PREFIX}/lib/python3.1"
+
+# Add a custom site-packages dir ${PREFIX}/lib/site-packages to install abi3 packages
+cp "${RECIPE_DIR}/sitecustomize.py" "${PREFIX}/lib/python${VER}/sitecustomize.py"

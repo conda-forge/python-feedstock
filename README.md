@@ -253,6 +253,7 @@ Feedstock Maintainers
 =====================
 
 * [@chrisburr](https://github.com/chrisburr/)
+* [@h-vetinari](https://github.com/h-vetinari/)
 * [@isuruf](https://github.com/isuruf/)
 * [@jakirkham](https://github.com/jakirkham/)
 * [@katietz](https://github.com/katietz/)

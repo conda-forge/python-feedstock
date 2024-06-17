@@ -1,5 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
+MACOSX_SDK_VERSION:
+- '11.0'
 build_type:
 - release
 bzip2:
@@ -52,4 +54,4 @@ zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
 zlib:
-- '1.2'
+- '1'

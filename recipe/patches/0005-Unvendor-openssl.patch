@@ -1,4 +1,4 @@
-From 4fd9f886ff5b07c0ff51a767b147f5154e685686 Mon Sep 17 00:00:00 2001
+From 91c6890e658e06e72213b8699e9c7e15ab42de55 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/22] Unvendor openssl
@@ -144,7 +144,7 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index d85fe4ab2a..cf0913f331 100644
+index d799948fa3..cf0913f331 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -61,6 +61,7 @@
@@ -159,7 +159,7 @@ index d85fe4ab2a..cf0913f331 100644
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>
--    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.45.1.0\</sqlite3Dir>
+-    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.45.3.0\</sqlite3Dir>
 -    <bz2Dir Condition="$(bz2Dir) == ''">$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
 -    <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.5\</lzmaDir>
 -    <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.4.4\</libffiDir>

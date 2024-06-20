@@ -187,7 +187,7 @@ outputs:
 {% endif %}
 {% if 'conda-forge' in channel_targets %}
       run_constrained:
-        - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
+        - python_abi {{ ver2 }}.* {{ build_number }}_cp{{ ver2nd }}
 {% endif %}
     test:
       downstreams:
@@ -262,6 +262,17 @@ outputs:
         - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
         # crypt module will be removed in 3.13 => this failing is a reminder to remove the libxcrypt dependency
         - python -c "import crypt"  # [unix]
+
+  - name: python_abi
+    version: {{ ver2 }}
+    build:
+      number: {{ build_number }}
+      string: {{ build_number }}_cp{{ ver2nd }}
+    requirements:
+      run:
+        - python {{ version }}.*
+      run_constrained:
+        - pypy <0a0
 
   - name: libpython-static
     script: build_static.sh  # [unix]

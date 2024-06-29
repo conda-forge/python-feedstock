@@ -141,6 +141,7 @@ Current release info
 Installing python
 =================
 
+<<<<<<< HEAD
 Installing `python` from the `conda-forge/label/python_313b1_debug` channel can be achieved by adding `conda-forge/label/python_313b1_debug` to your channels with:
 
 ```
@@ -149,6 +150,16 @@ conda config --set channel_priority strict
 ```
 
 Once the `conda-forge/label/python_313b1_debug` channel has been enabled, `libpython-static, python` can be installed with `conda`:
+=======
+Installing `python` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+
+```
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+```
+
+Once the `conda-forge` channel has been enabled, `libpython-static, python` can be installed with `conda`:
+>>>>>>> upstream/main
 
 ```
 conda install libpython-static python
@@ -163,19 +174,28 @@ mamba install libpython-static python
 It is possible to list all of the versions of `libpython-static` available on your platform with `conda`:
 
 ```
+<<<<<<< HEAD
 conda search libpython-static --channel conda-forge/label/python_313b1_debug
+=======
+conda search libpython-static --channel conda-forge
+>>>>>>> upstream/main
 ```
 
 or with `mamba`:
 
 ```
+<<<<<<< HEAD
 mamba search libpython-static --channel conda-forge/label/python_313b1_debug
+=======
+mamba search libpython-static --channel conda-forge
+>>>>>>> upstream/main
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
+<<<<<<< HEAD
 mamba repoquery search libpython-static --channel conda-forge/label/python_313b1_debug
 
 # List packages depending on `libpython-static`:
@@ -183,6 +203,15 @@ mamba repoquery whoneeds libpython-static --channel conda-forge/label/python_313
 
 # List dependencies of `libpython-static`:
 mamba repoquery depends libpython-static --channel conda-forge/label/python_313b1_debug
+=======
+mamba repoquery search libpython-static --channel conda-forge
+
+# List packages depending on `libpython-static`:
+mamba repoquery whoneeds libpython-static --channel conda-forge
+
+# List dependencies of `libpython-static`:
+mamba repoquery depends libpython-static --channel conda-forge
+>>>>>>> upstream/main
 ```
 
 

@@ -1,4 +1,4 @@
-From 13c959b08e3c4d734231f666b45e03bc5eefedb8 Mon Sep 17 00:00:00 2001
+From 33716791d2d157b14faceb82526ab90e99429381 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
 Subject: [PATCH 04/22] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
@@ -23,7 +23,7 @@ index abed139..d5d8940 100644
          !progname_to_dict(dict, "real_executable") ||
          !library_to_dict(dict, "library") ||
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index 1410ffd..eb3b7c2 100644
+index bc70532..16d00c2 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
 @@ -51,6 +51,7 @@
@@ -34,7 +34,7 @@ index 1410ffd..eb3b7c2 100644
  
  # ** Values calculated at runtime **
  # config            -- [in/out] dict of the PyConfig structure
-@@ -675,7 +676,7 @@ elif not pythonpath_was_set:
+@@ -679,7 +680,7 @@ elif not pythonpath_was_set:
      else:
          pythonpath.append(joinpath(prefix, ZIP_LANDMARK))
  
@@ -43,6 +43,3 @@ index 1410ffd..eb3b7c2 100644
          # QUIRK: Windows also lists paths in the registry. Paths are stored
          # as the default value of each subkey of
          # {HKCU,HKLM}\Software\Python\PythonCore\{winver}\PythonPath
--- 
-2.44.0
-

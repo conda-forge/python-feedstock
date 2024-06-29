@@ -1,4 +1,4 @@
-From 2bb5733557724ba4aec0508cefdfa13060bef3c5 Mon Sep 17 00:00:00 2001
+From 5c53c292ed249b9e70395b5b394da23992a5ed4c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/22] Doing d1trimfile
@@ -154,13 +154,13 @@ index 0ca3e61..d17faa9 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
-index 1c89c90..14c4c43 100644
+index d33c350..ac4710a 100644
 --- a/PCbuild/_decimal.vcxproj
 +++ b/PCbuild/_decimal.vcxproj
 @@ -99,6 +99,10 @@
        <PreprocessorDefinitions Condition="'$(Platform)'=='ARM64'">CONFIG_64;ANSI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="'$(Platform)' == 'x64'">CONFIG_64;MASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-       <AdditionalIncludeDirectories>..\Modules\_decimal;..\Modules\_decimal\libmpdec;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalIncludeDirectories>..\Modules\_decimal;..\Modules\_decimal\windows;$(mpdecimalDir)\libmpdec;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -186,7 +186,7 @@ index 6555fd3..4f8cd21 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
-index 5ca91e8..21d70db 100644
+index 59a615e..4b99588 100644
 --- a/PCbuild/_freeze_module.vcxproj
 +++ b/PCbuild/_freeze_module.vcxproj
 @@ -92,6 +92,10 @@
@@ -436,7 +436,7 @@ index 85da155..2cccce4 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/_testcapi.vcxproj b/PCbuild/_testcapi.vcxproj
-index 14ad306..93a19ba 100644
+index 25027a5..22087c6 100644
 --- a/PCbuild/_testcapi.vcxproj
 +++ b/PCbuild/_testcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -542,7 +542,7 @@ index 2d705e4..c6f284c 100644
      <ClCompile Include="..\Modules\_testimportmultiple.c" />
    </ItemGroup>
 diff --git a/PCbuild/_testinternalcapi.vcxproj b/PCbuild/_testinternalcapi.vcxproj
-index 34ec0a4..10eff6f 100644
+index ed1724b..6c91a8a 100644
 --- a/PCbuild/_testinternalcapi.vcxproj
 +++ b/PCbuild/_testinternalcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -734,7 +734,7 @@ index a735274..ca3e407 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 123430c..81b08a7 100644
+index 0efaa42..40ba04d 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@
@@ -966,6 +966,3 @@ index 54cd0bc..bb567df 100644
      <Link>
        <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
--- 
-2.44.0
-

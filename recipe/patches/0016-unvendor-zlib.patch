@@ -1,4 +1,4 @@
-From 717b45144d9e7ddd36294b4505782f2ac971e332 Mon Sep 17 00:00:00 2001
+From 4f51374db104b411b9d83bb40790abfddd837d06 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 16/22] unvendor zlib
@@ -9,7 +9,7 @@ Subject: [PATCH 16/22] unvendor zlib
  2 files changed, 4 insertions(+), 95 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 81b08a7..95b90a4 100644
+index 40ba04d..5079e84 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -21,7 +21,7 @@ index 81b08a7..95b90a4 100644
      <IncludeExternals Condition="$(IncludeExternals) == ''">false</IncludeExternals>
    </PropertyGroup>
    <ImportGroup Label="PropertySheets">
-@@ -101,13 +101,14 @@
+@@ -101,14 +101,15 @@
      <ClCompile>
        <AdditionalOptions>/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalIncludeDirectories>$(PySourcePath)Modules\_hacl\include;$(PySourcePath)Modules\_hacl\internal;$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -30,6 +30,7 @@ index 81b08a7..95b90a4 100644
        <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="$(IncludeExternals)">_Py_HAVE_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="'$(UseJIT)' == 'true'">_Py_JIT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions Condition="'$(UseTIER2)' != '' and '$(UseTIER2)' != '0'">_Py_TIER2=$(UseTIER2);%(PreprocessorDefinitions)</PreprocessorDefinitions>
      </ClCompile>
      <Link>
 -      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -38,7 +39,7 @@ index 81b08a7..95b90a4 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -390,19 +391,6 @@
+@@ -393,19 +394,6 @@
      <ClInclude Include="..\Python\stdlib_module_names.h" />
      <ClInclude Include="..\Python\thread_nt.h" />
    </ItemGroup>
@@ -79,10 +80,10 @@ index 81b08a7..95b90a4 100644
    <ItemGroup>
      <ClCompile Include="..\PC\dl_nt.c" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 9c9844a..7bfce3e 100644
+index da509b5..7e76094 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
-@@ -837,39 +837,6 @@
+@@ -840,39 +840,6 @@
      <ClInclude Include="..\Include\internal\mimalloc\mimalloc\types.h">
        <Filter>Include\internal\mimalloc</Filter>
      </ClInclude>
@@ -122,7 +123,7 @@ index 9c9844a..7bfce3e 100644
      <ClInclude Include="..\Include\internal\pycore_structseq.h">
        <Filter>Include\internal</Filter>
      </ClInclude>
-@@ -1493,39 +1460,6 @@
+@@ -1502,39 +1469,6 @@
      <ClCompile Include="..\Modules\_contextvarsmodule.c">
        <Filter>Modules</Filter>
      </ClCompile>
@@ -162,6 +163,3 @@ index 9c9844a..7bfce3e 100644
      <ClCompile Include="..\Python\hamt.c">
        <Filter>Python</Filter>
      </ClCompile>
--- 
-2.44.0
-

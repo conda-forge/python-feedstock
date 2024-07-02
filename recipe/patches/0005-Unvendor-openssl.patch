@@ -1,4 +1,4 @@
-From b360df5961032a8fa294c3001b7fc46fd774f202 Mon Sep 17 00:00:00 2001
+From 2f5abb7388ea8f35a31a5f124090f43c29b8d000 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/22] Unvendor openssl
@@ -9,10 +9,10 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  PCbuild/_ssl.vcxproj.filters |  5 +---
  PCbuild/openssl.props        | 14 ++-------
  PCbuild/openssl.vcxproj      | 58 +-----------------------------------
- PCbuild/python.props         | 12 +-------
+ PCbuild/python.props         | 11 +------
  PCbuild/python.vcxproj       |  3 ++
  PCbuild/pythonw.vcxproj      |  5 +++-
- 7 files changed, 12 insertions(+), 88 deletions(-)
+ 7 files changed, 12 insertions(+), 87 deletions(-)
 
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
 index b83ff5e..0283725 100644
@@ -157,7 +157,7 @@ index 27515ec..6ab16f1 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index a9e5e27..e2d6d73 100644
+index a9e5e27..4de47f0 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -61,6 +61,7 @@
@@ -168,7 +168,7 @@ index a9e5e27..e2d6d73 100644
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
    </PropertyGroup>
-@@ -68,18 +69,7 @@
+@@ -68,18 +69,8 @@
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>
@@ -178,7 +178,7 @@ index a9e5e27..e2d6d73 100644
 -    <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.4.4\</libffiDir>
 -    <libffiOutDir Condition="$(libffiOutDir) == ''">$(libffiDir)$(ArchName)\</libffiOutDir>
 -    <libffiIncludeDir Condition="$(libffiIncludeDir) == ''">$(libffiOutDir)include</libffiIncludeDir>
--    <mpdecimalDir Condition="$(mpdecimalDir) == ''">$(ExternalsDir)\mpdecimal-4.0.0\</mpdecimalDir>
+     <mpdecimalDir Condition="$(mpdecimalDir) == ''">$(ExternalsDir)\mpdecimal-4.0.0\</mpdecimalDir>
 -    <opensslDir Condition="$(opensslDir) == ''">$(ExternalsDir)openssl-3.0.13\</opensslDir>
 -    <opensslOutDir Condition="$(opensslOutDir) == ''">$(ExternalsDir)openssl-bin-3.0.13\$(ArchName)\</opensslOutDir>
 -    <opensslIncludeDir Condition="$(opensslIncludeDir) == ''">$(opensslOutDir)include</opensslIncludeDir>

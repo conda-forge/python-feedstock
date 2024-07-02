@@ -31,7 +31,6 @@ import _collections
 import _csv
 import _ctypes
 import _ctypes_test
-import _decimal
 import _elementtree
 import _functools
 import _hashlib
@@ -50,7 +49,6 @@ import _ssl
 import _struct
 import _testcapi
 import array
-import audioop
 import binascii
 import bz2
 import cmath
@@ -77,10 +75,8 @@ if sys.platform != 'win32':
     if not (ppc64le or armv7l):
         import _curses
         import _curses_panel
-    import crypt
     import fcntl
     import grp
-    import nis
     import readline
     import resource
     import syslog

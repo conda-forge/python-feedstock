@@ -9,7 +9,8 @@ main(int argc, char *argv[])
         fprintf(stderr, "Fatal error: cannot decode argv[0]\n");
         exit(1);
     }
-    Py_SetProgramName(program);  /* optional but recommended */
+    // Removed in Python 3.13 and needs to be replaced with https://docs.python.org/3.13/c-api/init_config.html#c.PyConfig.program_name
+    // Py_SetProgramName(program);  /* optional but recommended */
     Py_Initialize();
     PyRun_SimpleString("from time import time,ctime\n"
                        "print('Today is', ctime(time()))\n");

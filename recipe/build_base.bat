@@ -96,8 +96,6 @@ if errorlevel 1 exit 1
 
 del %PREFIX%\Tools\scripts\README
 if errorlevel 1 exit 1
-del %PREFIX%\Tools\scripts\dutree.doc
-if errorlevel 1 exit 1
 del %PREFIX%\Tools\scripts\idle3
 if errorlevel 1 exit 1
 

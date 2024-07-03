@@ -73,6 +73,8 @@ for %%x in (python%_D%.pdb python%VERNODOTS%%_D%.pdb pythonw%_D%.pdb) do (
   )
 )
 
+@echo on
+
 copy %SRC_DIR%\LICENSE %PREFIX%\LICENSE_PYTHON.txt
 if errorlevel 1 exit 1
 
@@ -85,7 +87,6 @@ copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PC\icons\pyc.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
-
 
 :: Populate the Tools directory
 mkdir %PREFIX%\Tools

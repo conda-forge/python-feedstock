@@ -120,9 +120,6 @@ for %%x in (idle pydoc) do (
     if errorlevel 1 exit 1
 )
 
-copy /Y %SRC_DIR%\Tools\scripts\2to3 %SCRIPTS%
-if errorlevel 1 exit 1
-
 :: Populate the libs directory
 if not exist %PREFIX%\libs mkdir %PREFIX%\libs
 if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%_D%.lib %PREFIX%\libs\

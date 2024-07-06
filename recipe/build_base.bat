@@ -137,13 +137,17 @@ if errorlevel 1 exit 1
 
 :: Copy venv[w]launcher scripts to venv\srcipts\nt
 if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe (
+  @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
   copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvlauncher%_D%.exe
 ) else (
   echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe does not exist"
 )
 
 if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe (
+  @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
   copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvwlauncher%_D%.exe
 ) else (
   echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe does not exist"
 )

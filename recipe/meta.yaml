@@ -234,12 +234,9 @@ outputs:
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
         - if exist %PREFIX%\\Scripts\\idle exit 1  # [win]
-        - if exist %PREFIX%\\Scripts\\2to3 exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc-script.py exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\idle-script.py exit 1  # [win]
-        - if not exist %PREFIX%\\Scripts\\2to3-script.py exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\idle.exe exit 1  # [win]
-        - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - pushd tests
         - pushd prefix-replacement    # [unix]

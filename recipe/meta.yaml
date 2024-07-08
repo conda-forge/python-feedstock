@@ -201,6 +201,7 @@ outputs:
         - cmake
         - ninja
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
       files:
@@ -295,6 +296,7 @@ outputs:
         - tests/prefix-replacement/*
       requires:
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
       commands:
         - VER=${PKG_VERSION%.*}   # [not win]
 {% if py_interp_debug == "yes" %}

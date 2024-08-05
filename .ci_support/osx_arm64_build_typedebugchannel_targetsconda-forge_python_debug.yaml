@@ -26,6 +26,8 @@ expat:
 - '2'
 libffi:
 - '3.4'
+libsqlite:
+- '3'
 macos_machine:
 - arm64-apple-darwin20.0.0
 ncurses:
@@ -40,8 +42,6 @@ python:
 - '3.12'
 readline:
 - '8'
-sqlite:
-- '3'
 target_platform:
 - osx-arm64
 tk:

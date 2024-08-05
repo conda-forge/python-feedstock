@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -166,7 +166,7 @@ outputs:
         - zlib      # [build_platform != target_platform]
       host:
         - bzip2
-        - sqlite
+        - libsqlite
         - xz
         - zlib
         - openssl
@@ -198,6 +198,7 @@ outputs:
         - cmake
         - ninja
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
       files:
@@ -292,6 +293,7 @@ outputs:
         - tests/prefix-replacement/*
       requires:
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
       commands:
         - VER=${PKG_VERSION%.*}   # [not win]
 {% if py_interp_debug == "yes" %}

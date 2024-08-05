@@ -26,6 +26,8 @@ expat:
 - '2'
 libffi:
 - '3.4'
+libsqlite:
+- '3'
 libuuid:
 - '2'
 ncurses:
@@ -40,8 +42,6 @@ python:
 - '3.12'
 readline:
 - '8'
-sqlite:
-- '3'
 target_platform:
 - linux-ppc64le
 xz:

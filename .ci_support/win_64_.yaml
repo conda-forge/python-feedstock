@@ -16,6 +16,8 @@ expat:
 - '2'
 libffi:
 - '3.4'
+libsqlite:
+- '3'
 openssl:
 - '3'
 pin_run_as_build:
@@ -24,8 +26,6 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - '3.12'
-sqlite:
-- '3'
 target_platform:
 - win-64
 tk:

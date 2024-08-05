@@ -9,9 +9,9 @@ c_compiler_version:
 c_stdlib:
 - sysroot
 c_stdlib_version:
-- '2.12'
+- '2.17'
 cdt_name:
-- cos6
+- cos7
 channel_sources:
 - conda-forge
 channel_targets:
@@ -26,6 +26,8 @@ expat:
 - '2'
 libffi:
 - '3.4'
+libsqlite:
+- '3'
 libuuid:
 - '2'
 ncurses:
@@ -40,8 +42,6 @@ python:
 - '3.12'
 readline:
 - '8'
-sqlite:
-- '3'
 target_platform:
 - linux-64
 tk:

@@ -11,21 +11,6 @@
 
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).
-{% set from_source_control = os.environ.get('CONDA_BUILD_FROM_SOURCE_CONTROL', '') %}
-{% if from_source_control == '' or from_source_control == 'no' %}
-  {% set from_source_control = 'no' %}
-{% else %}
-  {% set from_source_control = 'yes' %}
-{% endif %}
-{% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
-{% if linkage_nature != '' %}
-  {% set linkage_nature = "_" ~ linkage_nature %}
-{% endif %}
-{% if linkage_nature == 'shared' %}
-  {% set linkage_nature_env = 'shared' %}
-{% else %}
-  {% set linkage_nature_env = 'static' %}
-{% endif %}
 {% set dbg_abi = "" %}
 {% if build_type == "debug" %}
   {% set py_interp_debug = "yes" %}
@@ -40,14 +25,9 @@ package:
   version: {{ version }}{{ dev }}
 
 source:
-{% if from_source_control == 'yes' %}
-  - git_url: https://github.com/python/CPython.git
-    git_tag: v{{ version }}{{ dev }}
-{% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
     md5: 9213ecfedc510ac2a14c0eeea96baf02
-{% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch
@@ -79,13 +59,9 @@ build:
 
 requirements:
   build:
-{% if from_source_control == 'yes' %}
-    - git
-{% else %}
     - patch  # [not win]
     - m2-patch  # [win]
     - m2-gcc-libs  # [win]
-{% endif %}
 
 outputs:
   - name: python
@@ -116,8 +92,8 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
 {% if 'conda-forge' in channel_targets %}
       run_exports:
         noarch:
@@ -129,7 +105,6 @@ outputs:
 {% endif %}
 {% endif %}
       script_env:
-        - PY_INTERP_LINKAGE_NATURE={{ linkage_nature_env }}
         - PY_INTERP_DEBUG={{ py_interp_debug }}
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
@@ -266,16 +241,13 @@ outputs:
         - python_abi
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
     requirements:
       build:
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
-{% if from_source_control == 'yes' %}
-        - git
-{% endif %}
       host:
         - {{ pin_subpackage('python', exact=True) }}
       run:
@@ -322,7 +294,6 @@ extra:
     - isuruf
     - jakirkham
     - mbargull
-    - mingwandroid
     - msarahan
     - pelson
     - ocefpaf

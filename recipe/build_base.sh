@@ -24,14 +24,6 @@ _buildd_shared=build-shared
 _ENABLE_SHARED=--enable-shared
 # We *still* build a shared lib here for non-static embedded use cases
 _DISABLE_SHARED=--disable-shared
-# Hack to allow easily comparing static vs shared interpreter performance
-# .. hack because we just build it shared in both the build-static and
-# build-shared directories.
-# Yes this hack is a bit confusing, sorry about that.
-if [[ ${PY_INTERP_LINKAGE_NATURE} == shared ]]; then
-  _DISABLE_SHARED=--enable-shared
-  _ENABLE_SHARED=--enable-shared
-fi
 
 # For debugging builds, set this to no to disable profile-guided optimization
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then

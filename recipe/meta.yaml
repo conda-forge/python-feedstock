@@ -76,9 +76,6 @@ source:
 
 build:
   number: {{ build_number }}
-  skip: true  # [not linux]
-  skip: true  # [ppc64le]
-  skip: true  # [aarch64]
 
 requirements:
   build:

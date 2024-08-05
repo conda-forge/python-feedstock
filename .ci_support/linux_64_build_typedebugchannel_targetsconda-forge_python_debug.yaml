@@ -15,7 +15,7 @@ cdt_name:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_313b1_debug
+- conda-forge python_debug
 cxx_compiler:
 - gxx
 cxx_compiler_version:

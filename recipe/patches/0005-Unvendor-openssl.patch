@@ -1,7 +1,7 @@
-From 9b14c233686a8f9a62bb2266aa2c22be896b5c75 Mon Sep 17 00:00:00 2001
+From 7c6b174b1753adb3f3fbc71a95331c3fd5d004b9 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
-Subject: [PATCH 05/18] Unvendor openssl
+Subject: [PATCH 05/21] Unvendor openssl
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---

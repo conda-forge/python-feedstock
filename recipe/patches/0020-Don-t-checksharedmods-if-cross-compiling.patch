@@ -1,7 +1,7 @@
-From c4aa529d5f774593c3a4b0128fe9435381eaa6b4 Mon Sep 17 00:00:00 2001
+From a05d76372e3f5ea75a80069a41ad26a462366168 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
-Subject: [PATCH 20/22] Don't checksharedmods if cross-compiling
+Subject: [PATCH 20/21] Don't checksharedmods if cross-compiling
 
 ---
  Makefile.pre.in | 2 +-
@@ -10,10 +10,10 @@ Subject: [PATCH 20/22] Don't checksharedmods if cross-compiling
  create mode 100755 if_runnable.sh
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index ad0573b..940ae4a 100644
+index 79102c6585..ebacdb9d0f 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
-@@ -1347,7 +1347,7 @@ sharedmods: $(SHAREDMODS) pybuilddir.txt
+@@ -1367,7 +1367,7 @@ sharedmods: $(SHAREDMODS) pybuilddir.txt
  # dependency on BUILDPYTHON ensures that the target is run last
  .PHONY: checksharedmods
  checksharedmods: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
@@ -24,7 +24,7 @@ index ad0573b..940ae4a 100644
  rundsymutil: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
 diff --git a/if_runnable.sh b/if_runnable.sh
 new file mode 100755
-index 0000000..14f84a8
+index 0000000000..14f84a8597
 --- /dev/null
 +++ b/if_runnable.sh
 @@ -0,0 +1,5 @@

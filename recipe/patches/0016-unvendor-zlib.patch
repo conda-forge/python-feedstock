@@ -1,7 +1,7 @@
-From a885be166b963965e57aeaa7aa68a932c51f2ad4 Mon Sep 17 00:00:00 2001
+From 9588846c4ae0ece4e97788d112178d67a135611c Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
-Subject: [PATCH 16/18] unvendor zlib
+Subject: [PATCH 16/21] unvendor zlib
 
 ---
  PCbuild/pythoncore.vcxproj         | 33 ++-------------

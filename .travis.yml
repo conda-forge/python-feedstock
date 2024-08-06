@@ -20,12 +20,12 @@ jobs:
     - env: CONFIG=linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debug UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
       os: linux
       arch: ppc64le
-      dist: focal
+      dist: jammy
 
     - env: CONFIG=linux_ppc64le_build_typereleasechannel_targetsconda-forge_main UPLOAD_PACKAGES=True PLATFORM=linux-ppc64le DOCKER_IMAGE=quay.io/condaforge/linux-anvil-ppc64le
       os: linux
       arch: ppc64le
-      dist: focal
+      dist: jammy
 
 script:
   - export CI=travis

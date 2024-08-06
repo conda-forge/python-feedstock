@@ -1,7 +1,7 @@
-From 33716791d2d157b14faceb82526ab90e99429381 Mon Sep 17 00:00:00 2001
+From f8dea3d4692fccfb1babc3e45b3503085a4ea3a4 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
-Subject: [PATCH 04/22] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
+Subject: [PATCH 04/18] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
  is not 0
 
 Co-authored-by: Isuru Fernando<isuruf@gmail.com>
@@ -11,7 +11,7 @@ Co-authored-by: Isuru Fernando<isuruf@gmail.com>
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/getpath.c b/Modules/getpath.c
-index abed139..d5d8940 100644
+index d0128b20fa..e7cfeba25e 100644
 --- a/Modules/getpath.c
 +++ b/Modules/getpath.c
 @@ -945,6 +945,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
@@ -23,10 +23,10 @@ index abed139..d5d8940 100644
          !progname_to_dict(dict, "real_executable") ||
          !library_to_dict(dict, "library") ||
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index bc70532..16d00c2 100644
+index 1f1bfcb4f6..344900c05e 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
-@@ -51,6 +51,7 @@
+@@ -52,6 +52,7 @@
  # ENV_PYTHONHOME          -- [in] getenv(...)
  # ENV_PYTHONEXECUTABLE    -- [in] getenv(...)
  # ENV___PYVENV_LAUNCHER__ -- [in] getenv(...)
@@ -34,7 +34,7 @@ index bc70532..16d00c2 100644
  
  # ** Values calculated at runtime **
  # config            -- [in/out] dict of the PyConfig structure
-@@ -679,7 +680,7 @@ elif not pythonpath_was_set:
+@@ -681,7 +682,7 @@ def search_up(prefix, *landmarks, test=isfile):
      else:
          pythonpath.append(joinpath(prefix, ZIP_LANDMARK))
  

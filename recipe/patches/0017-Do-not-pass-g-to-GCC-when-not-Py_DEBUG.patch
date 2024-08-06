@@ -1,7 +1,7 @@
-From ad6e73e99e09a7e509127f9ce7ccc0861cb84d0d Mon Sep 17 00:00:00 2001
+From fb7e8f8500fe58a3106cbf5632894dd5bfe13042 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:45:28 +0100
-Subject: [PATCH 17/22] Do not pass -g to GCC when not Py_DEBUG
+Subject: [PATCH 17/18] Do not pass -g to GCC when not Py_DEBUG
 
 This bloats our exe and our modules a lot.
 ---
@@ -10,10 +10,10 @@ This bloats our exe and our modules a lot.
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/configure b/configure
-index 501841f..79e0af2 100755
+index c1a6fc4382..1edd09e0cc 100755
 --- a/configure
 +++ b/configure
-@@ -5609,9 +5609,9 @@ if test $ac_test_CFLAGS; then
+@@ -5667,9 +5667,9 @@ if test $ac_test_CFLAGS; then
    CFLAGS=$ac_save_CFLAGS
  elif test $ac_cv_prog_cc_g = yes; then
    if test "$GCC" = yes; then
@@ -25,7 +25,7 @@ index 501841f..79e0af2 100755
    fi
  else
    if test "$GCC" = yes; then
-@@ -9440,7 +9440,7 @@ then
+@@ -9501,7 +9501,7 @@ then
  	    if test "$Py_DEBUG" = 'true' ; then
  		OPT="-g $PYDEBUG_CFLAGS -Wall"
  	    else
@@ -35,10 +35,10 @@ index 501841f..79e0af2 100755
  	    ;;
  	*)
 diff --git a/configure.ac b/configure.ac
-index a50a5f8..90e9eeb 100644
+index e99df82739..2df5beb5c0 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2315,7 +2315,7 @@ then
+@@ -2361,7 +2361,7 @@ then
  	    if test "$Py_DEBUG" = 'true' ; then
  		OPT="-g $PYDEBUG_CFLAGS -Wall"
  	    else

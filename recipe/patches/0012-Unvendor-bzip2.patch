@@ -1,7 +1,7 @@
-From 9a9ff87e2446f57e43341388d8d46c794317a88f Mon Sep 17 00:00:00 2001
+From 445e2ede9d9a6380f822e03894e2a68e4265173c Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:56:27 -0700
-Subject: [PATCH 12/22] Unvendor bzip2
+Subject: [PATCH 12/18] Unvendor bzip2
 
 ---
  PCbuild/_bz2.vcxproj         | 15 +++++----------
@@ -9,7 +9,7 @@ Subject: [PATCH 12/22] Unvendor bzip2
  2 files changed, 7 insertions(+), 36 deletions(-)
 
 diff --git a/PCbuild/_bz2.vcxproj b/PCbuild/_bz2.vcxproj
-index b4b1713..c7fcb6d 100644
+index 30ad0dc486..1d46cc8198 100644
 --- a/PCbuild/_bz2.vcxproj
 +++ b/PCbuild/_bz2.vcxproj
 @@ -94,7 +94,7 @@
@@ -47,7 +47,7 @@ index b4b1713..c7fcb6d 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_bz2.vcxproj.filters b/PCbuild/_bz2.vcxproj.filters
-index ce2e24e..8331a95 100644
+index 7c0b516253..ed9510978f 100644
 --- a/PCbuild/_bz2.vcxproj.filters
 +++ b/PCbuild/_bz2.vcxproj.filters
 @@ -21,33 +21,9 @@

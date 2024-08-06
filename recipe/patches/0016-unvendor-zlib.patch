@@ -1,7 +1,7 @@
-From ed198abcee82865909178e2150b9cd6e7e532bf7 Mon Sep 17 00:00:00 2001
+From a885be166b963965e57aeaa7aa68a932c51f2ad4 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
-Subject: [PATCH 16/22] unvendor zlib
+Subject: [PATCH 16/18] unvendor zlib
 
 ---
  PCbuild/pythoncore.vcxproj         | 33 ++-------------
@@ -9,7 +9,7 @@ Subject: [PATCH 16/22] unvendor zlib
  2 files changed, 4 insertions(+), 95 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 40ba04d..5079e84 100644
+index b85cca2cd5..8e09d243c5 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -39,7 +39,7 @@ index 40ba04d..5079e84 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -393,19 +394,6 @@
+@@ -397,19 +398,6 @@
      <ClInclude Include="..\Python\stdlib_module_names.h" />
      <ClInclude Include="..\Python\thread_nt.h" />
    </ItemGroup>
@@ -59,7 +59,7 @@ index 40ba04d..5079e84 100644
    <ItemGroup>
      <ClCompile Include="..\Modules\_abc.c" />
      <ClCompile Include="..\Modules\_bisectmodule.c" />
-@@ -639,19 +627,6 @@
+@@ -643,19 +631,6 @@
    </ItemGroup>
    <ItemGroup Condition="$(IncludeExternals)">
      <ClCompile Include="..\Modules\zlibmodule.c" />
@@ -80,10 +80,10 @@ index 40ba04d..5079e84 100644
    <ItemGroup>
      <ClCompile Include="..\PC\dl_nt.c" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index da509b5..7e76094 100644
+index 3eed5a9465..0892b669d6 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
-@@ -840,39 +840,6 @@
+@@ -852,39 +852,6 @@
      <ClInclude Include="..\Include\internal\mimalloc\mimalloc\types.h">
        <Filter>Include\internal\mimalloc</Filter>
      </ClInclude>
@@ -123,7 +123,7 @@ index da509b5..7e76094 100644
      <ClInclude Include="..\Include\internal\pycore_structseq.h">
        <Filter>Include\internal</Filter>
      </ClInclude>
-@@ -1502,39 +1469,6 @@
+@@ -1514,39 +1481,6 @@
      <ClCompile Include="..\Modules\_contextvarsmodule.c">
        <Filter>Modules</Filter>
      </ClCompile>

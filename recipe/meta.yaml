@@ -104,9 +104,7 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
-{% if 'conda-forge' in channel_targets %}
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
       run_exports:
         noarch:
           - python
@@ -114,7 +112,6 @@ outputs:
           - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
 {% if py_interp_debug == "yes" %}
           - python {{ ver2 }}.* *_debug_cpython
-{% endif %}
 {% endif %}
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
@@ -142,9 +139,6 @@ outputs:
         # configure script looks for llvm-ar for lto
         - llvm-tools  # [osx]
         - ld_impl_{{ target_platform }}  # [linux]
-{% if 'conda-forge' in channel_targets %}
-        - binutils_impl_{{ target_platform }}  # [linux]
-{% endif %}
       host:
         - bzip2
         - sqlite
@@ -166,10 +160,8 @@ outputs:
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
-{% if 'conda-forge' in channel_targets %}
       run_constrained:
         - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
-{% endif %}
     test:
       downstreams:
         - cython
@@ -261,8 +253,7 @@ outputs:
         - python_abi
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
     requirements:
       build:
         - {{ compiler('c') }}

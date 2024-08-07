@@ -272,7 +272,7 @@ outputs:
     build:
       noarch: generic
     requirements:
-      - python {{ version }}.*  *_cpython
+      - python {{ version }}.*
       - python_abi * *_{{ abi_tag }}
 
   - name: cpython-jit

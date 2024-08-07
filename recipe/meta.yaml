@@ -276,10 +276,10 @@ outputs:
       - python_abi * *_{{ abi_tag }}
 
   - name: cpython-jit
+    script: install_jit_activation.sh   # [not win]
+    script: install_jit_activation.bat  # [win]
     build:
       noarch: generic
-      script: install_jit_activation.sh   # [not win]
-      script: install_jit_activation.bat  # [win]
     requirements:
       - clang-18
       - llvm-tools

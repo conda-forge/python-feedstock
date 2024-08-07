@@ -20,6 +20,12 @@
   {% set debug = "" %}
 {% endif %}
 
+{% set abi_tag = "cp" + ver2nd %}
+# freethreading, set using conda_build_config.yaml
+{% if freethreading is defined and freethreading == "true" %}
+  {% set abi_tag = abi_tag + "t" %}
+{% endif %}
+
 package:
   name: python-split
   version: {{ version }}{{ dev }}
@@ -100,6 +106,7 @@ outputs:
           - python {{ ver2 }}.* *_debug_cpython
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
+        - PY_FREETHREADING={{ freethreading }}
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
         # important env. vars.
@@ -132,6 +139,7 @@ outputs:
         - ncurses   # [build_platform != target_platform]
         - zlib      # [build_platform != target_platform]
         - clang-18
+        - llvm-tools
       host:
         - bzip2
         - sqlite
@@ -152,8 +160,7 @@ outputs:
 {% if dev != '' %}
         - _python_rc
 {% endif %}
-      run_constrained:
-        - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
+        - python_abi {{ ver2 }}.* *_{{ abi_tag }}
     test:
       downstreams:
         - cython
@@ -260,6 +267,25 @@ outputs:
         - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
+
+  - name: cpython
+    build:
+      noarch: generic
+    requirements:
+      - python {{ version }}.*  *_cpython
+      - python_abi * *_{{ abi_tag }}
+
+  - name: cpython-jit
+    build:
+      noarch: generic
+      script: install_jit_activation.sh   # [not win]
+      script: install_jit_activation.bat  # [win]
+    requirements:
+      - clang-18
+      - llvm-tools
+      - cpython {{ version }}.*
+      - __unix   # [unix]
+      - __win    # [win]
 
 about:
   home: https://www.python.org/

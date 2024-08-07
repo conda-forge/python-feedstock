@@ -1,0 +1,3 @@
+@echo off
+set "PYTHON_JIT_CONDA_BACKUP=%PYTHON_JIT%"
+set "PYTHON_JIT=1"

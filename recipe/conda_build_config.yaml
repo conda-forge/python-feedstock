@@ -14,6 +14,9 @@ channel_sources:
 channel_targets:
   - conda-forge main
   - conda-forge python_debug   # [not win]
+freethreading:
+  - true
+  - false
 zip_keys:
   - build_type
   - channel_targets

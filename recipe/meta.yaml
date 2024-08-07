@@ -97,7 +97,7 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}_cpython
       run_exports:
         noarch:
           - python

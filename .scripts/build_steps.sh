@@ -54,7 +54,7 @@ ulimit -n 1024
 # "recipe/yum_requirements.txt" file. After updating that file,
 # run "conda smithy rerender" and this line will be updated
 # automatically.
-/usr/bin/sudo -n yum install -y libx11 libXext-devel libXrender-devel libSM-devel libX11-devel
+/usr/bin/sudo -n yum install -y libX11 libxcb libxau
 
 
 

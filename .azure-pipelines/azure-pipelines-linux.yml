@@ -17,6 +17,7 @@ jobs:
         CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+<<<<<<< HEAD
         SHORT_CONFIG: linux_64_build_typedebugchannel_tar_hb1e295e48b
       linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse:
         CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse
@@ -28,6 +29,29 @@ jobs:
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
         SHORT_CONFIG: linux_64_build_typereleasechannel_t_h34a2b11c36
+=======
+        SHORT_CONFIG: linux_64_build_typereleasechannel_t_h0a44af7c38
+      linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debug:
+        CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debug
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+        SHORT_CONFIG: linux_aarch64_build_typedebugchanne_h4e1127e844
+      linux_aarch64_build_typereleasechannel_targetsconda-forge_main:
+        CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_main
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+        SHORT_CONFIG: linux_aarch64_build_typereleasechan_hcde066807d
+      linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debug:
+        CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debug
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+        SHORT_CONFIG: linux_ppc64le_build_typedebugchanne_he8193b4f7f
+      linux_ppc64le_build_typereleasechannel_targetsconda-forge_main:
+        CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_main
+        UPLOAD_PACKAGES: 'True'
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cos7-x86_64
+        SHORT_CONFIG: linux_ppc64le_build_typereleasechan_h12bca821c7
+>>>>>>> 27ebc9fa08cd1ba6b821de8ae16e470d2264cbd3
   timeoutInMinutes: 360
   variables: {}
 

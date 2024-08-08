@@ -134,12 +134,21 @@ outputs:
         - llvm-tools  # [osx]
         - ld_impl_{{ target_platform }}  # [linux]
         - binutils_impl_{{ target_platform }}  # [linux]
-        - tk        # [build_platform != target_platform]
-        - readline  # [build_platform != target_platform]
-        - ncurses   # [build_platform != target_platform]
-        - zlib      # [build_platform != target_platform]
         - clang-18
         - llvm-tools
+        - bzip2         # [build_platform != target_platform]
+        - sqlite        # [build_platform != target_platform]
+        - xz            # [build_platform != target_platform]
+        - zlib          # [build_platform != target_platform]
+        - openssl       # [build_platform != target_platform]
+        - readline      # [not win and build_platform != target_platform]
+        - tk            # [build_platform != target_platform]
+        - ncurses       # [unix and build_platform != target_platform]
+        - libffi        # [build_platform != target_platform]
+        - libnsl        # [linux and build_platform != target_platform]
+        - libuuid       # [linux and build_platform != target_platform]
+        - libxcrypt     # [linux and build_platform != target_platform]
+        - expat         # [build_platform != target_platform]
       host:
         - bzip2
         - sqlite

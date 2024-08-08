@@ -27,9 +27,10 @@ new file mode 100755
 index 0000000000..14f84a8597
 --- /dev/null
 +++ b/if_runnable.sh
-@@ -0,0 +1,5 @@
+@@ -0,0 +1,6 @@
 +#!/bin/bash
 +
 +if [[ "${target_platform}" == "${build_platform}" || "${CROSSCOMPILING_EMULATOR:-}" != "" ]]; then
-+    exec $*
++    export ${@:1:$#-2}
++    exec ${@: -2}
 +fi

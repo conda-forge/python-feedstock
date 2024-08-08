@@ -164,6 +164,7 @@ outputs:
         - readline  # [build_platform != target_platform]
         - ncurses   # [build_platform != target_platform]
         - zlib      # [build_platform != target_platform]
+        - xz        # [build_platform != target_platform]
       host:
         - bzip2
         - sqlite

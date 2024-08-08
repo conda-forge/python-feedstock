@@ -174,15 +174,17 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
     ln -s ${BUILD_PYTHON_PREFIX}/bin/python${VER} ${BUILD_PYTHON_PREFIX}/bin/python
   popd
   echo "ac_cv_file__dev_ptmx=yes"        > config.site
-  echo "ac_cv_file__dev_ptc=yes"        >> config.site
+  echo "ac_cv_file__dev_ptc=no"         >> config.site
   echo "ac_cv_pthread=yes"              >> config.site
   echo "ac_cv_little_endian_double=yes" >> config.site
-  if [[ ${target_platform} == osx-arm64 ]]; then
+  if [[ "${target_platform}" == "osx-arm64" || "${target_platform}" == "linux-ppc64le" || "${target_platform}" == "linux-aarch64" ]]; then
       echo "ac_cv_aligned_required=no" >> config.site
-      echo "ac_cv_file__dev_ptc=no" >> config.site
       echo "ac_cv_pthread_is_default=yes" >> config.site
       echo "ac_cv_working_tzset=yes" >> config.site
       echo "ac_cv_pthread_system_supported=yes" >> config.site
+  else
+      echo "unknown cross compiling platform"
+      exit 1
   fi
   export CONFIG_SITE=${PWD}/config.site
   # This is needed for libffi:

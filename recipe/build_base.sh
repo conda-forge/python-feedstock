@@ -155,8 +155,8 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
     (export CC=${CC_FOR_BUILD} \
             CXX=${CXX_FOR_BUILD} \
             CPP="${CC_FOR_BUILD} -E" \
-            CFLAGS="-O2 -I${BUILD_PREFIX}" \
-            CPPFLAGS="-O2 -I${BUILD_PREFIX}" \
+            CFLAGS="-O2 -I${BUILD_PREFIX}/include" \
+            CPPFLAGS="-O2 -I${BUILD_PREFIX}/include" \
 	    LDFLAGS=${LDFLAGS//${PREFIX}/${BUILD_PREFIX}} \
 	    PKG_CONFIG_PATH=${BUILD_PREFIX}/lib/pkgconfig \
             AR="$(${CC_FOR_BUILD} --print-prog-name=ar)" \

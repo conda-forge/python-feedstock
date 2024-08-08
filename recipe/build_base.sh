@@ -260,7 +260,12 @@ _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 _common_configure_args+=(--with-platlibdir=lib)
-_common_configure_args+=(--enable-experimental-jit=yes-off)
+
+if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+ _common_configure_args+=(--enable-experimental-jit=off)
+else
+ _common_configure_args+=(--enable-experimental-jit=yes-off)
+fi
 
 if [[ ${PY_FREETHREADING} == true ]]; then
     _common_configure_args+=(--disable-gil)

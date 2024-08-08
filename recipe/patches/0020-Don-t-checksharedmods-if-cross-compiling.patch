@@ -31,7 +31,7 @@ index 0000000000..14f84a8597
 +#!/bin/bash
 +
 +if [[ "${target_platform}" == "${build_platform}" || "${CROSSCOMPILING_EMULATOR:-}" != "" ]]; then
-+  if [[ "$1" == "./python" ]]; then
++  if [[ "$1" == "./"* ]]; then
 +    exec $@
 +  else
 +    export ${@:1:$#-2}

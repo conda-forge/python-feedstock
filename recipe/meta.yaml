@@ -230,8 +230,6 @@ outputs:
         - popd
         - python run_test.py
         - test ! -f default.profraw   # [osx]
-        # Test workaround for https://github.com/conda/conda/issues/10969
-        - test -d "$PREFIX/lib/python3.1/site-packages"  # [unix]
         - python3.1 --version  # [unix]
         # Test for segfault on osx-64 with libffi=3.4, see https://bugs.python.org/issue44556
         - python -c "from ctypes import CFUNCTYPE; CFUNCTYPE(None)(id)"

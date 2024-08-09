@@ -2,7 +2,7 @@ import site, sys, os
 
 dirs_to_add = []
 # Workaround for https://github.com/conda/conda/issues/14053
-if sys.abiflags != '':
+if 't' in sys.abiflags:
     dirs_to_add.append(os.path.join(sys.prefix, 'lib', f'python3.{sys.version_info[1]}', 'site-packages'))
 # Workaround for https://github.com/conda/conda/issues/10969
 dirs_to_add.append(os.path.join(sys.prefix, 'lib', f'python3.1', 'site-packages'))

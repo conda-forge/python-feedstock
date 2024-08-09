@@ -30,4 +30,4 @@ ln -s ../../libpython${VERABI}.a libpython${VERABI}.a
 popd
 # If the LTO info in the normal lib is problematic (using different compilers for example
 # we also provide a 'nolto' version).
-cp -pf ${_buildd_shared}/libpython${VERABI}-pic.a ${PREFIX}/lib/libpython${VERABI}.nolto.a
+cp -pf ${_buildd_shared}/libpython${VERABI_NO_DBG}-pic.a ${PREFIX}/lib/libpython${VERABI_NO_DBG}.nolto.a

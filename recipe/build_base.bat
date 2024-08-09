@@ -20,6 +20,10 @@ for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   set "VERNODOTS=%%i%%j"
 )
 
+for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
+  set "VER=%%i.%%j"
+)
+
 ::  Make sure the "python" value in conda_build_config.yaml is up to date.
 for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   if NOT "%PY_VER%"=="%%i.%%j" exit 1
@@ -192,6 +196,7 @@ if errorlevel 1 exit 1
 
 :: We need our Python to be found!
 if "%_D%" neq "" copy %PREFIX%\python%_D%.exe %PREFIX%\python.exe
+if "%EXE_T%" neq "" copy %PREFIX%\python%EXE_T%.exe %PREFIX%\python.exe
 
 %PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1

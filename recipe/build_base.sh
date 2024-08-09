@@ -63,7 +63,7 @@ else
   DBG=
 fi
 
-if [[ ${PY_FREETHREADING} == yes ]]; then
+if [[ ${PY_FREETHREADING} == true ]]; then
   # This Python will not be usable with non-free threading Python modules.
   THREAD=t
 else

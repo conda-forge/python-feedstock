@@ -46,8 +46,10 @@ if "%DEBUG_C%"=="yes" (
 
 if "%PY_FREETHREADING%" == "true" (
   set "FREETHREADING=--disable-gil"
+  set "EXE_T=%VER%t"
 ) else (
   set "FREETHREADING="
+  set "EXE_T="
 )
 
 :: AP doesn't support PGO atm?
@@ -142,20 +144,27 @@ xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
 
 :: Copy venv[w]launcher scripts to venv\srcipts\nt
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe (
+:: See https://github.com/python/cpython/blob/b4a316087c32d83e375087fd35fc511bc430ee8b/Lib/venv/__init__.py#L334-L376
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvlauncher%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python%EXE_T%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python%EXE_T%%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvlauncher%THREAD%%_D%.exe
 ) else (
-  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe does not exist"
+  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe does not exist"
 )
 
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe (
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvwlauncher%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw%EXE_T%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw%EXE_T%%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvwlauncher%THREAD%%_D%.exe
 ) else (
-  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe does not exist"
+  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe does not exist"
 )
 
 

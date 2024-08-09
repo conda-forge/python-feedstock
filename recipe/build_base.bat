@@ -46,9 +46,11 @@ if "%DEBUG_C%"=="yes" (
 
 if "%PY_FREETHREADING%" == "true" (
   set "FREETHREADING=--disable-gil"
+  set "THREAD=t"
   set "EXE_T=%VER%t"
 ) else (
   set "FREETHREADING="
+  set "THREAD="
   set "EXE_T="
 )
 

@@ -71,7 +71,7 @@ else
 fi
 
 ABIFLAGS=${DBG}${THREAD}
-VERABI=${VER}${ABIFLAGS}
+VERABI=${VER}${THREAD}
 
 # Make sure the "python" value in conda_build_config.yaml is up to date.
 test "${PY_VER}" = "${VER}"

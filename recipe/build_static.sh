@@ -8,15 +8,23 @@ if [[ ${PY_INTERP_DEBUG} == yes ]]; then
 else
   DBG=
 fi
-VER=${PKG_VERSION%.*}
-VERABI=${VER}${DBG}
+if [[ ${PY_FREETHREADING} == true ]]; then
+  # This Python will not be usable with non-free threading Python modules.
+  THREAD=t
+else
+  THREAD=
+fi
 
+VER=${PKG_VERSION%.*}
+ABIFLAGS=${DBG}${THREAD}
+VERABI=${VER}${THREAD}${DBG}
+VERABI_NO_DBG=${VER}${THREAD}
 
 cp -pf ${_buildd_static}/libpython${VERABI}.a ${PREFIX}/lib/libpython${VERABI}.a
 if [[ ${HOST} =~ .*linux.* ]]; then
-  pushd ${PREFIX}/lib/python${VER}/config-${VERABI}-${HOST/-conda/}
+  pushd ${PREFIX}/lib/python${VERABI_NO_DBG}/config-${VERABI}-${HOST/-conda/}
 elif [[ ${HOST} =~ .*darwin.* ]]; then
-  pushd ${PREFIX}/lib/python${VER}/config-${VERABI}-darwin
+  pushd ${PREFIX}/lib/python${VERABI_NO_DBG}/config-${VERABI}-darwin
 fi
 ln -s ../../libpython${VERABI}.a libpython${VERABI}.a
 popd

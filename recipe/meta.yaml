@@ -246,6 +246,7 @@ outputs:
         - python_abi
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
+        - PY_FREETHREADING={{ freethreading }}
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
     requirements:
       build:
@@ -262,15 +263,18 @@ outputs:
       requires:
         - {{ compiler('c') }}
       commands:
-        - VER=${PKG_VERSION%.*}   # [not win]
+        - VER=${PKG_VERSION%.*}    # [not win]
+        - VERABI=${VER}            # [not win]
+{% if freethreading is defined and freethreading == "true" %}
+        - VERABI=${VERABI}t        # [not win]
+{% endif %}
+        - VERABI_NO_DBG=${VERABI}  # [not win]
 {% if py_interp_debug == "yes" %}
-        - VERABI=${VER}d    # [not win]
-{% else %}
-        - VERABI=${VER}   # [not win]
+        - VERABI=${VERABI}d        # [not win]
 {% endif %}
         - test -f ${PREFIX}/lib/libpython${VERABI}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${VERABI}.nolto.a  # [unix]
-        - test -f ${PREFIX}/lib/python${VER}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
+        - test -f ${PREFIX}/lib/python${VERABI_NO_DBG}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
         - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]

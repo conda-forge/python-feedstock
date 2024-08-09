@@ -551,4 +551,4 @@ if [[ "$target_platform" == linux-* ]]; then
 fi
 
 # See ${RECIPE_DIR}/sitecustomize.py
-cp "${RECIPE_DIR}/sitecustomize.py" "${PREFIX}/lib/python${VER}/sitecustomize.py"
+cp "${RECIPE_DIR}/sitecustomize.py" "${PREFIX}/lib/python${VERABI_NO_DBG}/sitecustomize.py"

@@ -134,8 +134,10 @@ outputs:
         - llvm-tools  # [osx]
         - ld_impl_{{ target_platform }}  # [linux]
         - binutils_impl_{{ target_platform }}  # [linux]
-        - clang-18
-        - llvm-tools
+        - clang-18       # [not win]
+        - llvm-tools-18  # [not win]
+        - clang=18       # [win]
+        - llvm-tools=18  # [win]
         - bzip2         # [build_platform != target_platform]
         - sqlite        # [build_platform != target_platform]
         - xz            # [build_platform != target_platform]

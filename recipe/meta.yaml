@@ -288,8 +288,6 @@ outputs:
     build:
       noarch: generic
     requirements:
-      - clang-18
-      - llvm-tools
       - cpython {{ version }}.*
       - __unix   # [unix]
       - __win    # [win]

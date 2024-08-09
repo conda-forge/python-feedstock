@@ -271,7 +271,7 @@ _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 _common_configure_args+=(--with-platlibdir=lib)
 
-if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+if [[ "${PY_INTERP_DEBUG}" == "yes" || "${target_platform}" != *"-64" ]]; then
  _common_configure_args+=(--enable-experimental-jit=no)
 else
  _common_configure_args+=(--enable-experimental-jit=yes-off)

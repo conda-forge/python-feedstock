@@ -44,6 +44,12 @@ if "%DEBUG_C%"=="yes" (
   set PGO=--pgo
 )
 
+if "%PY_FREETHREADING%" == "true" (
+  set "FREETHREADING=--disable-gil"
+) else (
+  set "FREETHREADING="
+)
+
 :: AP doesn't support PGO atm?
 set PGO=
 
@@ -51,8 +57,8 @@ cd PCbuild
 
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% --experimental-jit-off -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% --experimental-jit-off -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 

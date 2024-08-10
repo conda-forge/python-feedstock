@@ -21,12 +21,12 @@
 {% endif %}
 
 {% if freethreading is not defined %}
-  {% set freethreading = false %}
+  {% set freethreading = "yes" %}
 {% endif %}
 
 {% set abi_tag = "cp" + ver2nd %}
 # freethreading, set using conda_build_config.yaml
-{% if freethreading|str == "true" %}
+{% if freethreading == "yes" %}
   {% set abi_tag = abi_tag + "t" %}
 {% endif %}
 
@@ -230,7 +230,7 @@ outputs:
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
         - pushd cmake
-{% if freethreading|str == "true" %}
+{% if freethreading == "yes" %}
         - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile . || echo "fail"
 {% else %}
         - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile .
@@ -274,7 +274,7 @@ outputs:
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]
         - VERABI=${VER}            # [not win]
-{% if freethreading|str == "true" %}
+{% if freethreading == "yes" %}
         - VERABI=${VERABI}t        # [not win]
 {% endif %}
         - VERABI_NO_DBG=${VERABI}  # [not win]

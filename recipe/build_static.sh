@@ -8,7 +8,7 @@ if [[ ${PY_INTERP_DEBUG} == yes ]]; then
 else
   DBG=
 fi
-if [[ ${PY_FREETHREADING} == true ]]; then
+if [[ ${PY_FREETHREADING} == yes ]]; then
   # This Python will not be usable with non-free threading Python modules.
   THREAD=t
 else

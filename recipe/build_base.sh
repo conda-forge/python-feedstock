@@ -63,7 +63,7 @@ else
   DBG=
 fi
 
-if [[ ${PY_FREETHREADING} == true ]]; then
+if [[ ${PY_FREETHREADING} == yes ]]; then
   # This Python will not be usable with non-free threading Python modules.
   THREAD=t
 else
@@ -277,7 +277,7 @@ else
  _common_configure_args+=(--enable-experimental-jit=yes-off)
 fi
 
-if [[ ${PY_FREETHREADING} == true ]]; then
+if [[ ${PY_FREETHREADING} == yes ]]; then
     _common_configure_args+=(--disable-gil)
 fi
 

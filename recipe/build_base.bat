@@ -48,7 +48,7 @@ if "%DEBUG_C%"=="yes" (
   set PGO=--pgo
 )
 
-if "%PY_FREETHREADING%" == "true" (
+if "%PY_FREETHREADING%" == "yes" (
   set "FREETHREADING=--disable-gil"
   set "THREAD=t"
   set "EXE_T=%VER%t"

@@ -15,7 +15,7 @@ cxx_compiler:
 expat:
 - '2'
 freethreading:
-- 'true'
+- 'no'
 libffi:
 - '3.4'
 openssl:

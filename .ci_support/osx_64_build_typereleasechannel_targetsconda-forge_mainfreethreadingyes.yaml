@@ -25,7 +25,7 @@ cxx_compiler_version:
 expat:
 - '2'
 freethreading:
-- 'false'
+- 'yes'
 libffi:
 - '3.4'
 macos_machine:

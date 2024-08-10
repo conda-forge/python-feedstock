@@ -1,7 +1,5 @@
-BUILD:
-- aarch64-conda_cos7-linux-gnu
 build_type:
-- debug
+- release
 bzip2:
 - '1'
 c_compiler:
@@ -12,14 +10,12 @@ c_stdlib:
 - sysroot
 c_stdlib_version:
 - '2.17'
-cdt_arch:
-- aarch64
 cdt_name:
 - cos7
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_debug
+- conda-forge main
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -29,7 +25,7 @@ docker_image:
 expat:
 - '2'
 freethreading:
-- 'true'
+- 'yes'
 libffi:
 - '3.4'
 libuuid:
@@ -49,7 +45,7 @@ readline:
 sqlite:
 - '3'
 target_platform:
-- linux-aarch64
+- linux-64
 tk:
 - '8.6'
 xz:

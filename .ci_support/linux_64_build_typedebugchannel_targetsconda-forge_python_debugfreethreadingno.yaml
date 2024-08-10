@@ -25,7 +25,7 @@ docker_image:
 expat:
 - '2'
 freethreading:
-- 'true'
+- 'no'
 libffi:
 - '3.4'
 libuuid:

@@ -39,157 +39,157 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse</td>
+              <td>linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue</td>
+              <td>linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse</td>
+              <td>linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue</td>
+              <td>linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse</td>
+              <td>linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue</td>
+              <td>linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse</td>
+              <td>linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue</td>
+              <td>linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse</td>
+              <td>linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue</td>
+              <td>linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse</td>
+              <td>linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue</td>
+              <td>linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse</td>
+              <td>osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue</td>
+              <td>osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse</td>
+              <td>osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue</td>
+              <td>osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse</td>
+              <td>osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue</td>
+              <td>osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse</td>
+              <td>osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue</td>
+              <td>osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>win_64_freethreadingfalse</td>
+              <td>win_64_freethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=win&configuration=win%20win_64_freethreadingfalse" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=win&configuration=win%20win_64_freethreadingno" alt="variant">
                 </a>
               </td>
             </tr><tr>
-              <td>win_64_freethreadingtrue</td>
+              <td>win_64_freethreadingyes</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=win&configuration=win%20win_64_freethreadingtrue" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=win&configuration=win%20win_64_freethreadingyes" alt="variant">
                 </a>
               </td>
             </tr>

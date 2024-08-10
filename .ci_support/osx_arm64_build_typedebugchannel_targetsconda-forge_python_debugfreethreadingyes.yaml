@@ -1,23 +1,37 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '11.0'
+MACOSX_SDK_VERSION:
+- '11.0'
 build_type:
-- release
+- debug
 bzip2:
 - '1'
 c_compiler:
-- vs2019
+- clang
+c_compiler_version:
+- '16'
 c_stdlib:
-- vs
+- macosx_deployment_target
+c_stdlib_version:
+- '11.0'
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_debug
 cxx_compiler:
-- vs2019
+- clangxx
+cxx_compiler_version:
+- '16'
 expat:
 - '2'
 freethreading:
-- 'false'
+- 'yes'
 libffi:
 - '3.4'
+macos_machine:
+- arm64-apple-darwin20.0.0
+ncurses:
+- '6'
 openssl:
 - '3'
 pin_run_as_build:
@@ -26,10 +40,12 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - '3.13'
+readline:
+- '8'
 sqlite:
 - '3'
 target_platform:
-- win-64
+- osx-arm64
 tk:
 - '8.6'
 xz:
@@ -37,5 +53,7 @@ xz:
 zip_keys:
 - - build_type
   - channel_targets
+- - c_compiler_version
+  - cxx_compiler_version
 zlib:
 - '1'

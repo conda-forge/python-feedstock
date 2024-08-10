@@ -71,7 +71,7 @@ if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
-for %%x in (python%VERNODOTS%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe) do (
+for %%x in (python%VERNODOTS%%THREAD%%_D%.dll python3%THREAD%%_D%.dll python%EXE_T%%_D%.exe pythonw%EXE_T%%_D%.exe) do (
   if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
   ) else (

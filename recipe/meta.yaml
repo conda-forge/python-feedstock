@@ -231,7 +231,8 @@ outputs:
         - popd    # [unix]
         - pushd cmake
 {% if freethreading == "yes" %}
-        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile . || echo "fail"
+        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile . || true           # [unix]
+        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile . || type nul>nul   # [win]
 {% else %}
         - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile .
 {% endif %}

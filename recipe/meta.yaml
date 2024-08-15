@@ -296,6 +296,26 @@ outputs:
       - python {{ version }}.*
       - python_abi * *_{{ abi_tag }}
 
+  - name: cpython-freethreading
+    build:
+      noarch: generic
+{% if freethreading != "yes" %}
+      skip: True
+{% endif %}
+    requirements:
+      - python {{ version }}.*
+      - python_abi * *_{{ abi_tag }}
+
+  - name: cpython-nonfreethreading
+    build:
+      noarch: generic
+{% if freethreading == "yes" %}
+      skip: True
+{% endif %}
+    requirements:
+      - python {{ version }}.*
+      - python_abi * *_{{ abi_tag }}
+
   - name: cpython-jit
     script: install_jit_activation.sh   # [not win]
     script: install_jit_activation.bat  # [win]
@@ -318,6 +338,27 @@ about:
     fewer lines of code than would be possible in languages such as C++ or
     Java. The language provides constructs intended to enable clear programs
     on both a small and large scale.
+
+    We provide some meta packages for convenience.
+    To get a CPython flavour, use
+
+        conda install python cpython
+
+    To get the freethreading build (i.e. without the Global Interpreter Lock - GIL)
+
+        conda install python cpython-freethreading
+
+    To get the default build (i.e. with the GIL)
+
+        conda install python cpython-nonfreethreading
+
+    To enable the use of the experimental JIT compiler in CPython
+
+        conda install python cpython-jit
+
+    or set the environment variable PYTHON_JIT=1. Note that the JIT support
+    is available only for x86_64 builds only.
+
   doc_url: https://www.python.org/doc/versions/
   doc_source_url: https://github.com/python/pythondotorg/blob/master/docs/source/index.rst
   dev_url: https://docs.python.org/devguide/

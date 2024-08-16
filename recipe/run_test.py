@@ -33,6 +33,7 @@ import _collections
 import _csv
 import _ctypes
 import _ctypes_test
+import _cdecimal
 import _elementtree
 import _functools
 import _hashlib

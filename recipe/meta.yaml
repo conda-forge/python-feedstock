@@ -168,6 +168,7 @@ outputs:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - libnsl  # [linux]
         - libuuid  # [linux]
+        - libmpdec-devel  # [unix]
         - expat
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
@@ -357,7 +358,7 @@ about:
         conda install python cpython-jit
 
     or set the environment variable PYTHON_JIT=1. Note that the JIT support
-    is available only for x86_64 builds only.
+    is available for x86_64 builds only.
 
   doc_url: https://www.python.org/doc/versions/
   doc_source_url: https://github.com/python/pythondotorg/blob/master/docs/source/index.rst

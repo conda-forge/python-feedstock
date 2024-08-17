@@ -351,19 +351,19 @@ about:
     We provide some meta packages for convenience.
     To get a CPython flavour, use
 
-        conda install python cpython
+        conda install cpython
 
     To get the freethreading build (i.e. without the Global Interpreter Lock - GIL)
 
-        conda install python cpython-freethreading
+        conda install cpython-freethreading
 
     To get the default build (i.e. with the GIL)
 
-        conda install python cpython-nonfreethreading
+        conda install cpython-nonfreethreading
 
     To enable the use of the experimental JIT compiler in CPython
 
-        conda install python cpython-jit
+        conda install cpython-jit
 
     or set the environment variable PYTHON_JIT=1. Note that the JIT support
     is available for x86_64 builds only.

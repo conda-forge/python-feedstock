@@ -28,7 +28,7 @@
 {% set dbg_abi = "" %}
 {% if build_type == "debug" %}
   {% set py_interp_debug = "yes" %}
-  {% set abi_tag = abi_tagh + "d" %}
+  {% set abi_tag = abi_tag + "d" %}
 {% else %}
   {% set py_interp_debug = "no" %}
 {% endif %}

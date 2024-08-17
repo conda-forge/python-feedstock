@@ -1,17 +1,23 @@
-From 1f216900860fe6d131cf0847d7ccc0df38934dd7 Mon Sep 17 00:00:00 2001
+From f913216ab628d7519525bd047c6553aec72814cc Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 16 Aug 2024 21:34:43 -0500
 Subject: [PATCH 22/22] Unvendor libmpdec
 
 ---
- PCbuild/_decimal.vcxproj | 48 +++++-----------------------------------
- 1 file changed, 5 insertions(+), 43 deletions(-)
+ PCbuild/_decimal.vcxproj | 50 +++++-----------------------------------
+ 1 file changed, 6 insertions(+), 44 deletions(-)
 
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
-index e9d60b4db1..947a4e56bb 100644
+index e9d60b4db1..0f49d7923f 100644
 --- a/PCbuild/_decimal.vcxproj
 +++ b/PCbuild/_decimal.vcxproj
-@@ -98,60 +98,22 @@
+@@ -93,65 +93,27 @@
+   </PropertyGroup>
+   <ItemDefinitionGroup>
+     <ClCompile>
+-      <PreprocessorDefinitions>BUILD_LIBMPDEC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions Condition="'$(Platform)' == 'Win32'">CONFIG_32;PPRO;MASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="'$(Platform)'=='ARM'">CONFIG_32;ANSI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="'$(Platform)'=='ARM64'">CONFIG_64;ANSI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="'$(Platform)' == 'x64'">CONFIG_64;MASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>

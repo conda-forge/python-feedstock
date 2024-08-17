@@ -1,22 +1,22 @@
-From 604ab8d0d1a2fe410e32597dee13c82692c79509 Mon Sep 17 00:00:00 2001
+From 1f216900860fe6d131cf0847d7ccc0df38934dd7 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 16 Aug 2024 21:34:43 -0500
 Subject: [PATCH 22/22] Unvendor libmpdec
 
 ---
- PCbuild/_decimal.vcxproj | 47 +++++-----------------------------------
- 1 file changed, 5 insertions(+), 42 deletions(-)
+ PCbuild/_decimal.vcxproj | 48 +++++-----------------------------------
+ 1 file changed, 5 insertions(+), 43 deletions(-)
 
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
-index e9d60b4db1..b1449ed82f 100644
+index e9d60b4db1..947a4e56bb 100644
 --- a/PCbuild/_decimal.vcxproj
 +++ b/PCbuild/_decimal.vcxproj
-@@ -98,60 +98,23 @@
+@@ -98,60 +98,22 @@
        <PreprocessorDefinitions Condition="'$(Platform)'=='ARM'">CONFIG_32;ANSI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="'$(Platform)'=='ARM64'">CONFIG_64;ANSI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="'$(Platform)' == 'x64'">CONFIG_64;MASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 -      <AdditionalIncludeDirectories>..\Modules\_decimal;..\Modules\_decimal\windows;$(mpdecimalDir)\libmpdec;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-+      <AdditionalIncludeDirectories>..\Modules\_decimal;..\Modules\_decimal\windows;$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>..\Modules\_decimal;$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -37,7 +37,7 @@ index e9d60b4db1..b1449ed82f 100644
      <ClInclude Include="..\Modules\_decimal\docstrings.h" />
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\fnt.h" />
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\fourstep.h" />
-     <ClInclude Include="..\Modules\_decimal\windows\mpdecimal.h" />
+-    <ClInclude Include="..\Modules\_decimal\windows\mpdecimal.h" />
 -    <ClInclude Condition="'$(Platform)' == 'Win32'" Include="$(mpdecimalDir)\libmpdec\mpdecimal32vc.h" />
 -    <ClInclude Condition="'$(Platform)' == 'ARM'" Include="$(mpdecimalDir)\libmpdec\mpdecimal32vc.h" />
 -    <ClInclude Condition="'$(Platform)' == 'ARM64'" Include="$(mpdecimalDir)\libmpdec\mpdecimal64vc.h" />

@@ -267,7 +267,7 @@ outputs:
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
         - PY_FREETHREADING={{ freethreading }}
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ abi_tag }}
     requirements:
       build:
         - {{ compiler('c') }}

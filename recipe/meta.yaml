@@ -110,7 +110,7 @@ outputs:
         weak:
           - python_abi {{ ver2 }}.* *_{{ abi_tag }}
 {% if py_interp_debug == "yes" %}
-          - python {{ ver2 }}.* *_{{ abi_tag }}
+          - python {{ ver2 }}.* *_debug_{{ abi_tag }}
 {% endif %}
       track_features:
 {% if freethreading == "yes" %}

@@ -11,15 +11,6 @@
 
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).
-{% set dbg_abi = "" %}
-{% if build_type == "debug" %}
-  {% set py_interp_debug = "yes" %}
-  {% set debug = "_debug" %}
-{% else %}
-  {% set py_interp_debug = "no" %}
-  {% set debug = "" %}
-{% endif %}
-
 {% if freethreading is not defined %}
   {% set freethreading = "yes" %}
 {% endif %}
@@ -30,6 +21,16 @@
   {% set abi_tag = abi_tag + "t" %}
 {% else %}
   {% set build_number = build_number + 100 %}
+{% endif %}
+
+{% set abi_tag_no_dbg = abi_tag %}
+
+{% set dbg_abi = "" %}
+{% if build_type == "debug" %}
+  {% set py_interp_debug = "yes" %}
+  {% set abi_tag = abi_tagh + "d" %}
+{% else %}
+  {% set py_interp_debug = "no" %}
 {% endif %}
 
 package:
@@ -103,13 +104,15 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}_cpython
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}_{{ abi_tag }}
       run_exports:
         noarch:
           - python
         weak:
-          - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
-          - python {{ ver2 }}.* *_debug_cpython
+          - python_abi {{ ver2 }}.* *_{{ abi_tag_no_dbg }}
+{% if py_interp_debug == "yes" %}
+          - python {{ ver2 }}.* *_{{ abi_tag }}
+{% endif %}
       track_features:
 {% if freethreading == "yes" %}
         - py_freethreading
@@ -182,7 +185,7 @@ outputs:
 {% if dev != '' %}
         - _python_rc
 {% endif %}
-        - python_abi {{ ver2 }}.* *_{{ abi_tag }}
+        - python_abi {{ ver2 }}.* *_{{ abi_tag_no_dbg }}
     test:
       downstreams:
         - cython
@@ -301,7 +304,7 @@ outputs:
       noarch: generic
     requirements:
       - python {{ version }}.*
-      - python_abi * *_{{ abi_tag }}
+      - python_abi * *_{{ abi_tag_no_dbg }}
 
   - name: cpython-freethreading
     build:
@@ -311,7 +314,7 @@ outputs:
 {% endif %}
     requirements:
       - python {{ version }}.*
-      - python_abi * *_{{ abi_tag }}
+      - python_abi * *_{{ abi_tag_no_dbg }}
 
   - name: cpython-nonfreethreading
     build:
@@ -321,7 +324,7 @@ outputs:
 {% endif %}
     requirements:
       - python {{ version }}.*
-      - python_abi * *_{{ abi_tag }}
+      - python_abi * *_{{ abi_tag_no_dbg }}
 
   - name: cpython-jit
     script: install_jit_activation.sh   # [not win]

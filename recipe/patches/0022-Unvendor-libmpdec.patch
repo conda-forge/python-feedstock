@@ -1,0 +1,79 @@
+From 604ab8d0d1a2fe410e32597dee13c82692c79509 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Fri, 16 Aug 2024 21:34:43 -0500
+Subject: [PATCH 22/22] Unvendor libmpdec
+
+---
+ PCbuild/_decimal.vcxproj | 47 +++++-----------------------------------
+ 1 file changed, 5 insertions(+), 42 deletions(-)
+
+diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
+index e9d60b4db1..b1449ed82f 100644
+--- a/PCbuild/_decimal.vcxproj
++++ b/PCbuild/_decimal.vcxproj
+@@ -98,60 +98,23 @@
+       <PreprocessorDefinitions Condition="'$(Platform)'=='ARM'">CONFIG_32;ANSI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions Condition="'$(Platform)'=='ARM64'">CONFIG_64;ANSI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions Condition="'$(Platform)' == 'x64'">CONFIG_64;MASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+-      <AdditionalIncludeDirectories>..\Modules\_decimal;..\Modules\_decimal\windows;$(mpdecimalDir)\libmpdec;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>..\Modules\_decimal;..\Modules\_decimal\windows;$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+     </ClCompile>
++    <Link>
++      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
++      <AdditionalDependencies>mpdec.lib;%(AdditionalDependencies)</AdditionalDependencies>
++    </Link>
+   </ItemDefinitionGroup>
+   <ItemGroup>
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\basearith.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\bits.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\constants.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\convolute.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\crt.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\difradix2.h" />
+     <ClInclude Include="..\Modules\_decimal\docstrings.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\fnt.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\fourstep.h" />
+     <ClInclude Include="..\Modules\_decimal\windows\mpdecimal.h" />
+-    <ClInclude Condition="'$(Platform)' == 'Win32'" Include="$(mpdecimalDir)\libmpdec\mpdecimal32vc.h" />
+-    <ClInclude Condition="'$(Platform)' == 'ARM'" Include="$(mpdecimalDir)\libmpdec\mpdecimal32vc.h" />
+-    <ClInclude Condition="'$(Platform)' == 'ARM64'" Include="$(mpdecimalDir)\libmpdec\mpdecimal64vc.h" />
+-    <ClInclude Condition="'$(Platform)' == 'x64'" Include="$(mpdecimalDir)\libmpdec\mpdecimal64vc.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\numbertheory.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\sixstep.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\transpose.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\typearith.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\umodarith.h" />
+-    <ClInclude Include="$(mpdecimalDir)\libmpdec\vccompat.h" />
+   </ItemGroup>
+   <ItemGroup>
+     <ClCompile Include="..\Modules\_decimal\_decimal.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\basearith.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\constants.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\context.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\convolute.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\crt.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\difradix2.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\fnt.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\fourstep.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\io.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\mpalloc.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\mpdecimal.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\numbertheory.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\sixstep.c" />
+-    <ClCompile Include="$(mpdecimalDir)\libmpdec\transpose.c" />
+-  </ItemGroup>
+-  <ItemGroup>
+-    <CustomBuild Include="$(mpdecimalDir)\libmpdec\vcdiv64.asm">
+-      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+-      <ExcludedFromBuild Condition="'$(Platform)'=='ARM'">true</ExcludedFromBuild>
+-      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+-      <Command>ml64 /nologo /c /Zi /Fo "$(IntDir)vcdiv64.obj" "%(FullPath)"</Command>
+-      <Outputs>$(IntDir)vcdiv64.obj;%(Outputs)</Outputs>
+-    </CustomBuild>
+   </ItemGroup>
+   <ItemGroup>
+     <ResourceCompile Include="..\PC\python_nt.rc" />

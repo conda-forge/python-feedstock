@@ -1,7 +1,7 @@
-From 7ce8f56496ef5a15e654ffd0696e4777ec93338d Mon Sep 17 00:00:00 2001
+From a8e5a682c72ddd09f434e1cf6cdaa853c4e07f93 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 09/21] cross compile darwin
+Subject: [PATCH 09/22] cross compile darwin
 
 By Isuru Fernando.
 ---

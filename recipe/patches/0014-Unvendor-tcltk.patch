@@ -1,7 +1,7 @@
-From e88dcdca257f98cb9795ef2fd7f0df19e617c13a Mon Sep 17 00:00:00 2001
+From d447498487ffbcb673fd46f2c399049164813b7e Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
-Subject: [PATCH 14/21] Unvendor tcltk
+Subject: [PATCH 14/22] Unvendor tcltk
 
 ---
  PCbuild/_tkinter.vcxproj |  6 ------

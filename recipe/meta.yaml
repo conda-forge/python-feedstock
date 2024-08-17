@@ -65,6 +65,7 @@ source:
       - patches/0019-Remove-unused-readelf.patch
       - patches/0020-Don-t-checksharedmods-if-cross-compiling.patch
       - patches/0021-Override-configure-LIBFFI.patch
+      - patches/0022-Unvendor-libmpdec.patch
 
 build:
   number: {{ build_number }}
@@ -177,7 +178,7 @@ outputs:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - libnsl  # [linux]
         - libuuid  # [linux]
-        - libmpdec-devel  # [unix]
+        - libmpdec-devel
         - expat
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]

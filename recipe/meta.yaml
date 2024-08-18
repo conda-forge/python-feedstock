@@ -159,7 +159,6 @@ outputs:
         - tk            # [build_platform != target_platform]
         - ncurses       # [unix and build_platform != target_platform]
         - libffi        # [build_platform != target_platform]
-        - libnsl        # [linux and build_platform != target_platform]
         - libuuid       # [linux and build_platform != target_platform]
         - libxcrypt     # [linux and build_platform != target_platform]
         - expat         # [build_platform != target_platform]
@@ -174,7 +173,6 @@ outputs:
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
-        - libnsl  # [linux]
         - libuuid  # [linux]
         - libmpdec-devel
         - expat

@@ -313,7 +313,7 @@ outputs:
       - python {{ version }}.*
       - python_abi * *_{{ abi_tag }}
 
-  - name: cpython-nonfreethreading
+  - name: cpython-gil
     build:
       noarch: generic
 {% if freethreading == "yes" %}

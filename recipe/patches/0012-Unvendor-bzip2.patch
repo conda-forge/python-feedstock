@@ -1,15 +1,15 @@
-From 4cfee77c16d2985f27f61ed831027f18ad51a641 Mon Sep 17 00:00:00 2001
+From 2b63337924c78aac42780af33679349b0c1010c5 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:56:27 -0700
 Subject: [PATCH 12/22] Unvendor bzip2
 
 ---
  PCbuild/_bz2.vcxproj         | 15 +++++----------
- PCbuild/_bz2.vcxproj.filters | 26 +-------------------------
- 2 files changed, 6 insertions(+), 35 deletions(-)
+ PCbuild/_bz2.vcxproj.filters | 28 ++--------------------------
+ 2 files changed, 7 insertions(+), 36 deletions(-)
 
 diff --git a/PCbuild/_bz2.vcxproj b/PCbuild/_bz2.vcxproj
-index 0402f7a9aa..569c7c5de9 100644
+index 30ad0dc486..1d46cc8198 100644
 --- a/PCbuild/_bz2.vcxproj
 +++ b/PCbuild/_bz2.vcxproj
 @@ -94,7 +94,7 @@
@@ -47,7 +47,7 @@ index 0402f7a9aa..569c7c5de9 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_bz2.vcxproj.filters b/PCbuild/_bz2.vcxproj.filters
-index 7c0b516253..c1f960608c 100644
+index 7c0b516253..ed9510978f 100644
 --- a/PCbuild/_bz2.vcxproj.filters
 +++ b/PCbuild/_bz2.vcxproj.filters
 @@ -21,33 +21,9 @@
@@ -85,3 +85,10 @@ index 7c0b516253..c1f960608c 100644
        <Filter>Header Files\bzip2</Filter>
      </ClInclude>
    </ItemGroup>
+@@ -56,4 +32,4 @@
+       <Filter>Resource Files</Filter>
+     </ResourceCompile>
+   </ItemGroup>
+-</Project>
+\ No newline at end of file
++</Project>

@@ -1,4 +1,4 @@
-From 91c6890e658e06e72213b8699e9c7e15ab42de55 Mon Sep 17 00:00:00 2001
+From 9b09680cddf6efce8bc7f4ca62b7f31cd5b5eb62 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/22] Unvendor openssl
@@ -6,16 +6,16 @@ Subject: [PATCH 05/22] Unvendor openssl
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
  PCbuild/_ssl.vcxproj         |  3 --
- PCbuild/_ssl.vcxproj.filters |  3 --
+ PCbuild/_ssl.vcxproj.filters |  5 +---
  PCbuild/openssl.props        | 14 ++-------
- PCbuild/openssl.vcxproj      | 56 ------------------------------------
+ PCbuild/openssl.vcxproj      | 58 +-----------------------------------
  PCbuild/python.props         | 11 +------
  PCbuild/python.vcxproj       |  3 ++
- PCbuild/pythonw.vcxproj      |  3 ++
- 7 files changed, 9 insertions(+), 84 deletions(-)
+ PCbuild/pythonw.vcxproj      |  5 +++-
+ 7 files changed, 12 insertions(+), 87 deletions(-)
 
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index 226ff506f8..e2fac911e1 100644
+index d4e1affab0..ce21f992ff 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
 @@ -99,9 +99,6 @@
@@ -29,10 +29,10 @@ index 226ff506f8..e2fac911e1 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_ssl.vcxproj.filters b/PCbuild/_ssl.vcxproj.filters
-index 716a69a41a..8aef9e03fc 100644
+index 716a69a41a..7e8e5800a0 100644
 --- a/PCbuild/_ssl.vcxproj.filters
 +++ b/PCbuild/_ssl.vcxproj.filters
-@@ -12,9 +12,6 @@
+@@ -12,13 +12,10 @@
      <ClCompile Include="..\Modules\_ssl.c">
        <Filter>Source Files</Filter>
      </ClCompile>
@@ -42,6 +42,12 @@ index 716a69a41a..8aef9e03fc 100644
    </ItemGroup>
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc">
+       <Filter>Resource Files</Filter>
+     </ResourceCompile>
+   </ItemGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
 index 5fd708b211..044cefd95e 100644
 --- a/PCbuild/openssl.props
@@ -75,7 +81,7 @@ index 5fd708b211..044cefd95e 100644
 -  </Target>
  </Project>
 diff --git a/PCbuild/openssl.vcxproj b/PCbuild/openssl.vcxproj
-index 0da6f67495..17eee400eb 100644
+index 0da6f67495..b79f35b2c7 100644
 --- a/PCbuild/openssl.vcxproj
 +++ b/PCbuild/openssl.vcxproj
 @@ -60,64 +60,8 @@
@@ -143,8 +149,15 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="Clean" />
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
+@@ -136,4 +80,4 @@ nmake
+   </Target>
+   
+   <Target Name="ResolveAssemblyReferences" />
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index d799948fa3..cf0913f331 100644
+index 86fe8531d7..0ec0914fac 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -61,6 +61,7 @@
@@ -155,7 +168,7 @@ index d799948fa3..cf0913f331 100644
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
    </PropertyGroup>
-@@ -68,17 +69,7 @@
+@@ -68,18 +69,8 @@
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>
@@ -165,6 +178,7 @@ index d799948fa3..cf0913f331 100644
 -    <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.4.4\</libffiDir>
 -    <libffiOutDir Condition="$(libffiOutDir) == ''">$(libffiDir)$(ArchName)\</libffiOutDir>
 -    <libffiIncludeDir Condition="$(libffiIncludeDir) == ''">$(libffiOutDir)include</libffiIncludeDir>
+     <mpdecimalDir Condition="$(mpdecimalDir) == ''">$(ExternalsDir)\mpdecimal-4.0.0\</mpdecimalDir>
 -    <opensslDir Condition="$(opensslDir) == ''">$(ExternalsDir)openssl-3.0.13\</opensslDir>
 -    <opensslOutDir Condition="$(opensslOutDir) == ''">$(ExternalsDir)openssl-bin-3.0.13\$(ArchName)\</opensslOutDir>
 -    <opensslIncludeDir Condition="$(opensslIncludeDir) == ''">$(opensslOutDir)include</opensslIncludeDir>
@@ -174,10 +188,10 @@ index d799948fa3..cf0913f331 100644
  
    <PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 846c87fd1a..8021002c16 100644
+index 4a99ffc677..b11fb61796 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
-@@ -107,6 +107,9 @@
+@@ -110,6 +110,9 @@
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\Programs\python.c" />
@@ -188,10 +202,10 @@ index 846c87fd1a..8021002c16 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index f485352f64..38a2547089 100644
+index d08c210ef8..58a9e852be 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
-@@ -99,6 +99,9 @@
+@@ -102,6 +102,9 @@
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\PC\WinMain.c" />
@@ -201,3 +215,10 @@ index f485352f64..38a2547089 100644
    </ItemGroup>
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
+@@ -112,4 +115,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>

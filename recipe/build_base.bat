@@ -20,6 +20,10 @@ for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   set "VERNODOTS=%%i%%j"
 )
 
+for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
+  set "VER=%%i.%%j"
+)
+
 ::  Make sure the "python" value in conda_build_config.yaml is up to date.
 for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
   if NOT "%PY_VER%"=="%%i.%%j" exit 1
@@ -44,6 +48,16 @@ if "%DEBUG_C%"=="yes" (
   set PGO=--pgo
 )
 
+if "%PY_FREETHREADING%" == "yes" (
+  set "FREETHREADING=--disable-gil"
+  set "THREAD=t"
+  set "EXE_T=%VER%t"
+) else (
+  set "FREETHREADING="
+  set "THREAD="
+  set "EXE_T="
+)
+
 :: AP doesn't support PGO atm?
 set PGO=
 
@@ -51,13 +65,13 @@ cd PCbuild
 
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% --experimental-jit-off -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% --experimental-jit-off -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
-for %%x in (python%VERNODOTS%%_D%.dll python3%_D%.dll python%_D%.exe pythonw%_D%.exe) do (
+for %%x in (python%VERNODOTS%%THREAD%%_D%.dll python3%THREAD%%_D%.dll python%EXE_T%%_D%.exe pythonw%EXE_T%%_D%.exe) do (
   if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
   ) else (
@@ -73,6 +87,8 @@ for %%x in (python%_D%.pdb python%VERNODOTS%%_D%.pdb pythonw%_D%.pdb) do (
   )
 )
 
+@echo on
+
 copy %SRC_DIR%\LICENSE %PREFIX%\LICENSE_PYTHON.txt
 if errorlevel 1 exit 1
 
@@ -86,7 +102,6 @@ if errorlevel 1 exit 1
 copy /Y %SRC_DIR%\PC\icons\pyc.ico %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
-
 :: Populate the Tools directory
 mkdir %PREFIX%\Tools
 xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
@@ -96,13 +111,9 @@ if errorlevel 1 exit 1
 
 del %PREFIX%\Tools\scripts\README
 if errorlevel 1 exit 1
-del %PREFIX%\Tools\scripts\dutree.doc
-if errorlevel 1 exit 1
 del %PREFIX%\Tools\scripts\idle3
 if errorlevel 1 exit 1
 
-move /y %PREFIX%\Tools\scripts\2to3 %PREFIX%\Tools\scripts\2to3.py
-if errorlevel 1 exit 1
 move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
 if errorlevel 1 exit 1
 
@@ -110,8 +121,9 @@ if errorlevel 1 exit 1
 xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\
 if errorlevel 1 exit 1
 
-copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\
-if errorlevel 1 exit 1
+@rem Safe to omit this? Is this maybe somewhere else?
+@rem copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\
+@rem if errorlevel 1 exit 1
 
 :: Populate the Scripts directory
 if not exist %SCRIPTS% (mkdir %SCRIPTS%)
@@ -121,9 +133,6 @@ for %%x in (idle pydoc) do (
     copy /Y %SRC_DIR%\Tools\scripts\%%x3 %SCRIPTS%\%%x
     if errorlevel 1 exit 1
 )
-
-copy /Y %SRC_DIR%\Tools\scripts\2to3 %SCRIPTS%
-if errorlevel 1 exit 1
 
 :: Populate the libs directory
 if not exist %PREFIX%\libs mkdir %PREFIX%\libs
@@ -141,16 +150,21 @@ xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
 if errorlevel 1 exit 1
 
 :: Copy venv[w]launcher scripts to venv\srcipts\nt
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe (
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
+:: See https://github.com/python/cpython/blob/b4a316087c32d83e375087fd35fc511bc430ee8b/Lib/venv/__init__.py#L334-L376
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe (
+  @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvlauncher%THREAD%%_D%.exe
 ) else (
-  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%_D%.exe does not exist"
+  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe does not exist"
 )
 
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe (
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe (
+  @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvwlauncher%THREAD%%_D%.exe
 ) else (
-  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%_D%.exe does not exist"
+  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe does not exist"
 )
 
 
@@ -176,6 +190,7 @@ if errorlevel 1 exit 1
 
 :: We need our Python to be found!
 if "%_D%" neq "" copy %PREFIX%\python%_D%.exe %PREFIX%\python.exe
+if "%EXE_T%" neq "" copy %PREFIX%\python%EXE_T%.exe %PREFIX%\python.exe
 
 %PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1

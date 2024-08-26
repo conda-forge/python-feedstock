@@ -1,5 +1,5 @@
 build_type:
-- release
+- debug
 bzip2:
 - '1'
 c_compiler:
@@ -13,9 +13,9 @@ c_stdlib_version:
 cdt_name:
 - cos7
 channel_sources:
-- conda-forge
+- conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_debug
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -24,6 +24,8 @@ docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
 expat:
 - '2'
+freethreading:
+- 'no'
 libffi:
 - '3.4'
 libuuid:
@@ -37,15 +39,13 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- '3.12'
+- '3.13'
 readline:
 - '8'
 sqlite:
 - '3'
 target_platform:
-- linux-64
-tk:
-- '8.6'
+- linux-ppc64le
 xz:
 - '5'
 zip_keys:

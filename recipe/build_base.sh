@@ -4,6 +4,13 @@ set -ex
 # Get an updated config.sub and config.guess
 cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
 
+if [[ ! -d ${BUILD_PREFIX}/python-bin ]]; then
+  # Need an up-to-date python to build python.
+  # python 3.10 in miniforge is too old.
+  CONDA_SUBDIR=$build_platform conda create -p ${BUILD_PREFIX}/python-bin python -c conda-forge --yes --quiet
+  export PATH=${BUILD_PREFIX}/python-bin/bin:${PATH}
+fi
+
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
 # https://packages.debian.org/source/sid/python3.6
@@ -24,14 +31,6 @@ _buildd_shared=build-shared
 _ENABLE_SHARED=--enable-shared
 # We *still* build a shared lib here for non-static embedded use cases
 _DISABLE_SHARED=--disable-shared
-# Hack to allow easily comparing static vs shared interpreter performance
-# .. hack because we just build it shared in both the build-static and
-# build-shared directories.
-# Yes this hack is a bit confusing, sorry about that.
-if [[ ${PY_INTERP_LINKAGE_NATURE} == shared ]]; then
-  _DISABLE_SHARED=--enable-shared
-  _ENABLE_SHARED=--enable-shared
-fi
 
 # For debugging builds, set this to no to disable profile-guided optimization
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then
@@ -64,8 +63,16 @@ else
   DBG=
 fi
 
-ABIFLAGS=${DBG}
-VERABI=${VER}${DBG}
+if [[ ${PY_FREETHREADING} == yes ]]; then
+  # This Python will not be usable with non-free threading Python modules.
+  THREAD=t
+else
+  THREAD=
+fi
+
+ABIFLAGS=${DBG}${THREAD}
+VERABI=${VER}${THREAD}${DBG}
+VERABI_NO_DBG=${VER}${THREAD}
 
 # Make sure the "python" value in conda_build_config.yaml is up to date.
 test "${PY_VER}" = "${VER}"
@@ -76,7 +83,7 @@ test "${PY_VER}" = "${VER}"
 unset _PYTHON_SYSCONFIGDATA_NAME
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
-# Prevent lib/python${VER}/_sysconfigdata_*.py from ending up with full paths to these things
+# Prevent lib/python${VERABI_NO_DBG}/_sysconfigdata_*.py from ending up with full paths to these things
 # in _build_env because _build_env will not get found during prefix replacement, only _h_env_placeh ...
 AR=$(basename "${AR}")
 
@@ -264,6 +271,16 @@ _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 _common_configure_args+=(--with-platlibdir=lib)
 
+if [[ "${PY_INTERP_DEBUG}" == "yes" || "${target_platform}" != *"-64" ]]; then
+ _common_configure_args+=(--enable-experimental-jit=no)
+else
+ _common_configure_args+=(--enable-experimental-jit=yes-off)
+fi
+
+if [[ ${PY_FREETHREADING} == yes ]]; then
+    _common_configure_args+=(--disable-gil)
+fi
+
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then
@@ -356,7 +373,7 @@ fi
 # build a static library with PIC objects and without LTO/PGO
 make -j${CPU_COUNT} -C ${_buildd_shared} \
         EXTRA_CFLAGS="${EXTRA_CFLAGS}" \
-        LIBRARY=libpython${VERABI}-pic.a libpython${VERABI}-pic.a
+        LIBRARY=libpython${VERABI_NO_DBG}-pic.a libpython${VERABI_NO_DBG}-pic.a
 
 make -C ${_buildd_static} install
 
@@ -388,15 +405,15 @@ fi
 SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name "_sysconfigdata*.py" -print0)
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
-    > ${PREFIX}/lib/python${VER}/$(basename ${SYSCONFIG})
-MAKEFILE=$(find ${PREFIX}/lib/python${VER}/ -path "*config-*/Makefile" -print0)
+    > ${PREFIX}/lib/python${VERABI_NO_DBG}/$(basename ${SYSCONFIG})
+MAKEFILE=$(find ${PREFIX}/lib/python${VERABI_NO_DBG}/ -path "*config-*/Makefile" -print0)
 cp ${MAKEFILE} /tmp/Makefile-$$
 cat /tmp/Makefile-$$ | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
     > ${MAKEFILE}
 # Check to see that our differences took.
-# echo diff -urN ${SYSCONFIG} ${PREFIX}/lib/python${VER}/$(basename ${SYSCONFIG})
-# diff -urN ${SYSCONFIG} ${PREFIX}/lib/python${VER}/$(basename ${SYSCONFIG})
+# echo diff -urN ${SYSCONFIG} ${PREFIX}/lib/python${VERABI_NO_DBG}/$(basename ${SYSCONFIG})
+# diff -urN ${SYSCONFIG} ${PREFIX}/lib/python${VERABI_NO_DBG}/$(basename ${SYSCONFIG})
 
 # Python installs python${VER}m and python${VER}, one as a hardlink to the other. conda-build breaks these
 # by copying. Since the executable may be static it may be very large so change one to be a symlink
@@ -413,7 +430,7 @@ ln -s ${PREFIX}/bin/python${VER} ${PREFIX}/bin/python3.1
 # Remove test data to save space
 # Though keep `support` as some things use that.
 # TODO :: Make a subpackage for this once we implement multi-level testing.
-pushd ${PREFIX}/lib/python${VER}
+pushd ${PREFIX}/lib/python${VERABI_NO_DBG}
   mkdir test_keep
   mv test/__init__.py test/support test/test_support* test/test_script_helper* test_keep/
   rm -rf test */test
@@ -426,7 +443,7 @@ pushd ${PREFIX}
     chmod +w lib/libpython${VERABI}.a
     ${STRIP} -S lib/libpython${VERABI}.a
   fi
-  CONFIG_LIBPYTHON=$(find lib/python${VER}/config-${VERABI}* -name "libpython${VERABI}.a")
+  CONFIG_LIBPYTHON=$(find lib/python${VERABI_NO_DBG}/config-${VERABI}* -name "libpython${VERABI}.a")
   if [[ -f lib/libpython${VERABI}.a ]] && [[ -f ${CONFIG_LIBPYTHON} ]]; then
     chmod +w ${CONFIG_LIBPYTHON}
     rm ${CONFIG_LIBPYTHON}
@@ -452,7 +469,7 @@ esac
 # Copy sysconfig that gets recorded to a non-default name
 # using the new compilers with python will require setting _PYTHON_SYSCONFIGDATA_NAME
 # to the name of this file (minus the .py extension)
-pushd "${PREFIX}"/lib/python${VER}
+pushd "${PREFIX}"/lib/python${VERABI_NO_DBG}
   # On Python 3.5 _sysconfigdata.py was getting copied in here and compiled for some reason.
   # This breaks our attempt to find the right one as recorded_name.
   find lib-dynload -name "_sysconfigdata*.py*" -exec rm {} \;
@@ -488,7 +505,7 @@ pushd "${PREFIX}"/lib/python${VER}
   sed -i.bak "s@$OLD_HOST-@@g" sysconfigfile
   if [[ "$target_platform" == linux* ]]; then
     # For linux, make sure the system gcc uses our linker
-    sed -i.bak "s@-pthread@-pthread -B $PREFIX/compiler_compat@g" sysconfigfile
+    sed -i.bak "s@-pthread@-pthread -B $PREFIX/shared/python_compiler_compat@g" sysconfigfile
   fi
   # Don't set -march and -mtune for system gcc
   sed -i.bak "s@-march=[^( |\\\"|\\\')]*@@g" sysconfigfile
@@ -513,10 +530,10 @@ pushd "${PREFIX}"/lib/python${VER}
 popd
 
 if [[ ${HOST} =~ .*linux.* ]]; then
-  mkdir -p ${PREFIX}/compiler_compat
-  ln -s ${PREFIX}/bin/${HOST}-ld ${PREFIX}/compiler_compat/ld
-  echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/compiler_compat/README
-  echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/compiler_compat/README
+  mkdir -p ${PREFIX}/shared/python_compiler_compat
+  ln -s ${PREFIX}/bin/${HOST}-ld ${PREFIX}/shared/python_compiler_compat/ld
+  echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/shared/python_compiler_compat/README
+  echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/shared/python_compiler_compat/README
 fi
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
@@ -525,7 +542,7 @@ rm ${PREFIX}/lib/libpython${VERABI}.a
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   rm ${PREFIX}/bin/python${VER}
   ln -s ${PREFIX}/bin/python${VERABI} ${PREFIX}/bin/python${VER}
-  ln -s ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT} ${PREFIX}/lib/libpython${VER}${SHLIB_EXT}
+  ln -s ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT} ${PREFIX}/lib/libpython${VERABI_NO_DBG}${SHLIB_EXT}
   ln -s ${PREFIX}/include/python${VERABI} ${PREFIX}/include/python${VER}
 fi
 
@@ -533,6 +550,5 @@ if [[ "$target_platform" == linux-* ]]; then
   rm ${PREFIX}/include/uuid.h
 fi
 
-# Workaround for old conda versions which fail to install noarch packages for Python 3.10+
-# https://github.com/conda/conda/issues/10969
-ln -s "${PREFIX}/lib/python${VER}" "${PREFIX}/lib/python3.1"
+# See ${RECIPE_DIR}/sitecustomize.py
+cp "${RECIPE_DIR}/sitecustomize.py" "${PREFIX}/lib/python${VERABI_NO_DBG}/sitecustomize.py"

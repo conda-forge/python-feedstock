@@ -8,22 +8,38 @@ jobs:
     vmImage: macOS-12
   strategy:
     matrix:
-      osx_64_build_typedebugchannel_targetsconda-forge_python_debug:
-        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debug
+      osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h343640355d
-      osx_64_build_typereleasechannel_targetsconda-forge_main:
-        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_main
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h5e47894640
+      osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h217401936b
-      osx_arm64_build_typedebugchannel_targetsconda-forge_python_debug:
-        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debug
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h116d33564c
+      osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h18126b8f59
-      osx_arm64_build_typereleasechannel_targetsconda-forge_main:
-        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_main
+        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h425d4db04a
+      osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_build_typereleasechannel__hbf952199ba
+        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_haa8f77b834
+      osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
+        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h4a1f0d054b
+      osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
+        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h49dbe0c1f7
+      osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
+        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG: osx_arm64_build_typereleasechannel__h0d9a29af97
+      osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
+        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+        UPLOAD_PACKAGES: 'True'
+        SHORT_CONFIG: osx_arm64_build_typereleasechannel__h92a1d5a633
   timeoutInMinutes: 360
   variables: {}
 

@@ -1,5 +1,5 @@
 python:
-  - 3.12
+  - 3.13
 python_impl:
   - cpython
 numpy:
@@ -9,9 +9,14 @@ MACOSX_SDK_VERSION:            # [osx and x86_64]
 build_type:
   - release
   - debug                      # [not win]
+channel_sources:
+  - conda-forge/label/python_rc,conda-forge
 channel_targets:
   - conda-forge main
   - conda-forge python_debug   # [not win]
+freethreading:
+  - yes
+  - no
 zip_keys:
   - build_type
   - channel_targets

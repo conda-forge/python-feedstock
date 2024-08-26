@@ -1,37 +1,35 @@
-BUILD:
-- aarch64-conda_cos7-linux-gnu
+MACOSX_DEPLOYMENT_TARGET:
+- '11.0'
+MACOSX_SDK_VERSION:
+- '11.0'
 build_type:
-- release
+- debug
 bzip2:
 - '1'
 c_compiler:
-- gcc
+- clang
 c_compiler_version:
-- '12'
+- '16'
 c_stdlib:
-- sysroot
+- macosx_deployment_target
 c_stdlib_version:
-- '2.17'
-cdt_arch:
-- aarch64
-cdt_name:
-- cos7
+- '11.0'
 channel_sources:
-- conda-forge
+- conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_debug
 cxx_compiler:
-- gxx
+- clangxx
 cxx_compiler_version:
-- '12'
-docker_image:
-- quay.io/condaforge/linux-anvil-cos7-x86_64
+- '16'
 expat:
 - '2'
+freethreading:
+- 'yes'
 libffi:
 - '3.4'
-libuuid:
-- '2'
+macos_machine:
+- arm64-apple-darwin20.0.0
 ncurses:
 - '6'
 openssl:
@@ -41,13 +39,13 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- '3.12'
+- '3.13'
 readline:
 - '8'
 sqlite:
 - '3'
 target_platform:
-- linux-aarch64
+- osx-arm64
 tk:
 - '8.6'
 xz:
@@ -57,7 +55,5 @@ zip_keys:
   - channel_targets
 - - c_compiler_version
   - cxx_compiler_version
-- - c_stdlib_version
-  - cdt_name
 zlib:
 - '1'

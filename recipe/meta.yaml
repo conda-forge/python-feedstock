@@ -1,5 +1,5 @@
-{% set version = "3.12.5" %}
-{% set dev = "" %}
+{% set version = "3.13.0" %}
+{% set dev = "rc1" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
@@ -11,22 +11,18 @@
 
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).
-{% set from_source_control = os.environ.get('CONDA_BUILD_FROM_SOURCE_CONTROL', '') %}
-{% if from_source_control == '' or from_source_control == 'no' %}
-  {% set from_source_control = 'no' %}
+{% if freethreading is not defined %}
+  {% set freethreading = "yes" %}
+{% endif %}
+
+{% set abi_tag = "cp" + ver2nd %}
+# freethreading, set using conda_build_config.yaml
+{% if freethreading == "yes" %}
+  {% set abi_tag = abi_tag + "t" %}
 {% else %}
-  {% set from_source_control = 'yes' %}
+  {% set build_number = build_number + 100 %}
 {% endif %}
-{% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
-{% if linkage_nature != '' %}
-  {% set linkage_nature = "_" ~ linkage_nature %}
-{% endif %}
-{% if linkage_nature == 'shared' %}
-  {% set linkage_nature_env = 'shared' %}
-{% else %}
-  {% set linkage_nature_env = 'static' %}
-{% endif %}
-{% set dbg_abi = "" %}
+
 {% if build_type == "debug" %}
   {% set py_interp_debug = "yes" %}
   {% set debug = "_debug" %}
@@ -40,14 +36,9 @@ package:
   version: {{ version }}{{ dev }}
 
 source:
-{% if from_source_control == 'yes' %}
-  - git_url: https://github.com/python/CPython.git
-    git_tag: v{{ version }}{{ dev }}
-{% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    md5: 02c7d269e077f4034963bba6befdc715
-{% endif %}
+    md5: 9213ecfedc510ac2a14c0eeea96baf02
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch
@@ -72,20 +63,16 @@ source:
       - patches/0019-Remove-unused-readelf.patch
       - patches/0020-Don-t-checksharedmods-if-cross-compiling.patch
       - patches/0021-Override-configure-LIBFFI.patch
-      - patches/0022-Allow-linking-ncursesw-panelw-on-macOS-if-available.patch
+      - patches/0022-Unvendor-libmpdec.patch
 
 build:
   number: {{ build_number }}
 
 requirements:
   build:
-{% if from_source_control == 'yes' %}
-    - git
-{% else %}
     - patch  # [not win]
     - m2-patch  # [win]
     - m2-gcc-libs  # [win]
-{% endif %}
 
 outputs:
   - name: python
@@ -116,21 +103,22 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
-{% if 'conda-forge' in channel_targets %}
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
       run_exports:
         noarch:
           - python
         weak:
-          - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
+          - python_abi {{ ver2 }}.* *_{{ abi_tag }}
 {% if py_interp_debug == "yes" %}
-          - python {{ ver2 }}.* *_debug_cpython
+          - python {{ ver2 }}.* *_debug_{{ abi_tag }}
 {% endif %}
+      track_features:
+{% if freethreading == "yes" %}
+        - py_freethreading
 {% endif %}
       script_env:
-        - PY_INTERP_LINKAGE_NATURE={{ linkage_nature_env }}
         - PY_INTERP_DEBUG={{ py_interp_debug }}
+        - PY_FREETHREADING={{ freethreading }}
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
         # important env. vars.
@@ -157,9 +145,11 @@ outputs:
         # configure script looks for llvm-ar for lto
         - llvm-tools  # [osx]
         - ld_impl_{{ target_platform }}  # [linux]
-{% if 'conda-forge' in channel_targets %}
         - binutils_impl_{{ target_platform }}  # [linux]
-{% endif %}
+        - clang-18         # [not win]
+        - llvm-tools-18    # [not win]
+        - clang 18.*       # [win]
+        - llvm-tools 18.*  # [win]
         - bzip2         # [build_platform != target_platform]
         - sqlite        # [build_platform != target_platform]
         - xz            # [build_platform != target_platform]
@@ -169,7 +159,6 @@ outputs:
         - tk            # [build_platform != target_platform]
         - ncurses       # [unix and build_platform != target_platform]
         - libffi        # [build_platform != target_platform]
-        - libnsl        # [linux and build_platform != target_platform]
         - libuuid       # [linux and build_platform != target_platform]
         - libxcrypt     # [linux and build_platform != target_platform]
         - expat         # [build_platform != target_platform]
@@ -184,9 +173,8 @@ outputs:
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
-        - libnsl  # [linux]
         - libuuid  # [linux]
-        - libxcrypt  # [linux]
+        - libmpdec-devel
         - expat
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
@@ -194,10 +182,7 @@ outputs:
 {% if dev != '' %}
         - _python_rc
 {% endif %}
-{% if 'conda-forge' in channel_targets %}
-      run_constrained:
-        - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
-{% endif %}
+        - python_abi {{ ver2 }}.* *_{{ abi_tag }}
     test:
       downstreams:
         - cython
@@ -219,7 +204,6 @@ outputs:
         - set  # [win]
         - python -V
         - python3 -V            # [not win]
-        - 2to3 -h
         - pydoc -h
         - python3-config --help  # [not win]
         - set "PIP_NO_BUILD_ISOLATION=False"  # [win]
@@ -244,33 +228,30 @@ outputs:
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
         - if exist %PREFIX%\\Scripts\\idle exit 1  # [win]
-        - if exist %PREFIX%\\Scripts\\2to3 exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc-script.py exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\idle-script.py exit 1  # [win]
-        - if not exist %PREFIX%\\Scripts\\2to3-script.py exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\idle.exe exit 1  # [win]
-        - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - pushd tests
         - pushd prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
         - pushd cmake
-        - cmake -GNinja -DPY_VER={{ version }}
-              # --trace --debug-output --debug-trycompile .
+{% if freethreading == "yes" %}
+        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile . || true           # [unix]
+        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile . || type nul>nul   # [win]
+{% else %}
+        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile .
+{% endif %}
         - popd
         - popd
         - python run_test.py
         - test ! -f default.profraw   # [osx]
-        # Test workaround for https://github.com/conda/conda/issues/10969
-        - test -d "$PREFIX/lib/python3.1/site-packages"  # [unix]
         - python3.1 --version  # [unix]
         # Test for segfault on osx-64 with libffi=3.4, see https://bugs.python.org/issue44556
         - python -c "from ctypes import CFUNCTYPE; CFUNCTYPE(None)(id)"
         # Test for wide character supported via ncursesw
         - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
-        # crypt module will be removed in 3.13 => this failing is a reminder to remove the libxcrypt dependency
-        - python -c "import crypt"  # [unix]
 
   - name: libpython-static
     script: build_static.sh  # [unix]
@@ -282,16 +263,13 @@ outputs:
         - python_abi
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+        - PY_FREETHREADING={{ freethreading }}
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
     requirements:
       build:
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
-{% if from_source_control == 'yes' %}
-        - git
-{% endif %}
       host:
         - {{ pin_subpackage('python', exact=True) }}
       run:
@@ -302,18 +280,58 @@ outputs:
       requires:
         - {{ compiler('c') }}
       commands:
-        - VER=${PKG_VERSION%.*}   # [not win]
+        - VER=${PKG_VERSION%.*}    # [not win]
+        - VERABI=${VER}            # [not win]
+{% if freethreading == "yes" %}
+        - VERABI=${VERABI}t        # [not win]
+{% endif %}
+        - VERABI_NO_DBG=${VERABI}  # [not win]
 {% if py_interp_debug == "yes" %}
-        - VERABI=${VER}d    # [not win]
-{% else %}
-        - VERABI=${VER}   # [not win]
+        - VERABI=${VERABI}d        # [not win]
 {% endif %}
         - test -f ${PREFIX}/lib/libpython${VERABI}.a  # [unix]
-        - test -f ${PREFIX}/lib/libpython${VERABI}.nolto.a  # [unix]
-        - test -f ${PREFIX}/lib/python${VER}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
+        - test -f ${PREFIX}/lib/libpython${VERABI_NO_DBG}.nolto.a  # [unix]
+        - test -f ${PREFIX}/lib/python${VERABI_NO_DBG}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
         - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
+
+  - name: cpython
+    build:
+      noarch: generic
+    requirements:
+      - python {{ version }}.*
+      - python_abi * *_{{ abi_tag }}
+
+  - name: python-freethreading
+    build:
+      noarch: generic
+{% if freethreading != "yes" %}
+      skip: True
+{% endif %}
+    requirements:
+      - cpython {{ version }}.*
+      - python_abi * *_{{ abi_tag }}
+
+  - name: cpython-gil
+    build:
+      noarch: generic
+{% if freethreading == "yes" %}
+      skip: True
+{% endif %}
+    requirements:
+      - cpython {{ version }}.*
+      - python_abi * *_{{ abi_tag }}
+
+  - name: python-jit
+    script: install_jit_activation.sh   # [not win]
+    script: install_jit_activation.bat  # [win]
+    build:
+      noarch: generic
+    requirements:
+      - cpython {{ version }}.*
+      - __unix   # [unix]
+      - __win    # [win]
 
 about:
   home: https://www.python.org/
@@ -327,6 +345,27 @@ about:
     fewer lines of code than would be possible in languages such as C++ or
     Java. The language provides constructs intended to enable clear programs
     on both a small and large scale.
+
+    We provide some meta packages for convenience.
+    To get a CPython flavour, use
+
+        conda install cpython
+
+    To get the freethreading build (i.e. without the Global Interpreter Lock - GIL)
+
+        conda install python-freethreading
+
+    To get the default build (i.e. with the GIL)
+
+        conda install python-gil
+
+    To enable the use of the experimental JIT compiler in CPython
+
+        conda install python-jit
+
+    or set the environment variable PYTHON_JIT=1. Note that the JIT support
+    is available for x86_64 builds only.
+
   doc_url: https://www.python.org/doc/versions/
   doc_source_url: https://github.com/python/pythondotorg/blob/master/docs/source/index.rst
   dev_url: https://docs.python.org/devguide/
@@ -338,7 +377,6 @@ extra:
     - isuruf
     - jakirkham
     - mbargull
-    - mingwandroid
     - msarahan
     - pelson
     - ocefpaf

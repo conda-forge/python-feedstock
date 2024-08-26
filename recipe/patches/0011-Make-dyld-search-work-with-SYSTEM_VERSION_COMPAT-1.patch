@@ -1,4 +1,4 @@
-From dfa56fb035e286513a96ab1ee60a438a61295aac Mon Sep 17 00:00:00 2001
+From d0ce3c5e7c42270aa5c381e4cf629ddab5205dbc Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
 Subject: [PATCH 11/22] Make dyld search work with SYSTEM_VERSION_COMPAT=1
@@ -15,10 +15,10 @@ as that part is compiled with `MACOSX_DEPLOYMENT_TARGET=11.0`)
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index d2fe525dd4..62eaf1d889 100644
+index cbed2f32ca..f717b1f4d1 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
-@@ -1460,7 +1460,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
+@@ -1489,7 +1489,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
  #ifdef HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
  #  ifdef HAVE_BUILTIN_AVAILABLE
  #    define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \

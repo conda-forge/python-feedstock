@@ -16,6 +16,8 @@ print('sys.platform:', sys.platform)
 print('tuple.__itemsize__:', tuple.__itemsize__)
 if sys.platform == 'win32':
     assert 'MSC v.19' in sys.version
+if hasattr(sys, "abiflags"):
+    print('sys.abiflags', sys.abiflags)
 print('sys.maxunicode:', sys.maxunicode)
 print('platform.architecture:', platform.architecture())
 print('platform.python_version:', platform.python_version())
@@ -50,7 +52,6 @@ import _ssl
 import _struct
 import _testcapi
 import array
-import audioop
 import binascii
 import bz2
 import cmath
@@ -77,10 +78,8 @@ if sys.platform != 'win32':
     if not (ppc64le or armv7l):
         import _curses
         import _curses_panel
-    import crypt
     import fcntl
     import grp
-    import nis
     import readline
     import resource
     import syslog

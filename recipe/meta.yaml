@@ -303,14 +303,14 @@ outputs:
       - python {{ version }}.*
       - python_abi * *_{{ abi_tag }}
 
-  - name: cpython-freethreading
+  - name: python-freethreading
     build:
       noarch: generic
 {% if freethreading != "yes" %}
       skip: True
 {% endif %}
     requirements:
-      - python {{ version }}.*
+      - cpython {{ version }}.*
       - python_abi * *_{{ abi_tag }}
 
   - name: cpython-gil
@@ -320,10 +320,10 @@ outputs:
       skip: True
 {% endif %}
     requirements:
-      - python {{ version }}.*
+      - cpython {{ version }}.*
       - python_abi * *_{{ abi_tag }}
 
-  - name: cpython-jit
+  - name: python-jit
     script: install_jit_activation.sh   # [not win]
     script: install_jit_activation.bat  # [win]
     build:
@@ -353,15 +353,15 @@ about:
 
     To get the freethreading build (i.e. without the Global Interpreter Lock - GIL)
 
-        conda install cpython-freethreading
+        conda install python-freethreading
 
     To get the default build (i.e. with the GIL)
 
-        conda install cpython-nonfreethreading
+        conda install python-gil
 
     To enable the use of the experimental JIT compiler in CPython
 
-        conda install cpython-jit
+        conda install python-jit
 
     or set the environment variable PYTHON_JIT=1. Note that the JIT support
     is available for x86_64 builds only.

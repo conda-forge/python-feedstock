@@ -134,14 +134,14 @@ Current release info
 Installing python
 =================
 
-Installing `python` from the `conda-forge/label/python_debug` channel can be achieved by adding `conda-forge/label/python_debug` to your channels with:
+Installing `python` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
-conda config --add channels conda-forge/label/python_debug
+conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/python_debug` channel has been enabled, `libpython-static, python` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libpython-static, python` can be installed with `conda`:
 
 ```
 conda install libpython-static python
@@ -156,26 +156,26 @@ mamba install libpython-static python
 It is possible to list all of the versions of `libpython-static` available on your platform with `conda`:
 
 ```
-conda search libpython-static --channel conda-forge/label/python_debug
+conda search libpython-static --channel conda-forge
 ```
 
 or with `mamba`:
 
 ```
-mamba search libpython-static --channel conda-forge/label/python_debug
+mamba search libpython-static --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libpython-static --channel conda-forge/label/python_debug
+mamba repoquery search libpython-static --channel conda-forge
 
 # List packages depending on `libpython-static`:
-mamba repoquery whoneeds libpython-static --channel conda-forge/label/python_debug
+mamba repoquery whoneeds libpython-static --channel conda-forge
 
 # List dependencies of `libpython-static`:
-mamba repoquery depends libpython-static --channel conda-forge/label/python_debug
+mamba repoquery depends libpython-static --channel conda-forge
 ```
 
 

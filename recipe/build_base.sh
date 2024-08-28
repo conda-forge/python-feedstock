@@ -117,10 +117,6 @@ if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O0/g")
 fi
 
-if [[ ${CONDA_FORGE} == yes ]]; then
-  ${SYS_PYTHON} ${RECIPE_DIR}/brand_python.py
-fi
-
 if [[ "$target_platform" == linux-* ]]; then
   cp ${PREFIX}/include/uuid/uuid.h ${PREFIX}/include/uuid.h
 fi

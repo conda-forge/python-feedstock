@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -64,6 +64,9 @@ source:
       - patches/0020-Don-t-checksharedmods-if-cross-compiling.patch
       - patches/0021-Override-configure-LIBFFI.patch
       - patches/0022-Unvendor-libmpdec.patch
+{% if 'conda-forge' in channel_targets %}
+      - patches/0023-Brand-conda-forge.patch
+{% endif %}
 
 build:
   number: {{ build_number }}
@@ -122,11 +125,6 @@ outputs:
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
         # important env. vars.
-{% if 'conda-forge' in channel_targets %}
-        - CONDA_FORGE=yes
-{% else %}
-        - CONDA_FORGE=no
-{% endif %}
       missing_dso_whitelist:   # [win]
         - '**/MSVCR71.dll'  # [win]
         - '**/MSVCR80.dll'  # [win]

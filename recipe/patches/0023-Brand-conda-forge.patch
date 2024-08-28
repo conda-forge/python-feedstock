@@ -1,0 +1,38 @@
+From f92249ee257abc9024cddf8239f06cdc738a453f Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Wed, 28 Aug 2024 11:12:22 -0500
+Subject: [PATCH 23/23] Brand conda-forge
+
+---
+ Lib/platform.py     | 1 +
+ Python/getversion.c | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/Lib/platform.py b/Lib/platform.py
+index 44264f0c81..d9e2eb7f1c 100755
+--- a/Lib/platform.py
++++ b/Lib/platform.py
+@@ -1197,6 +1197,7 @@ def _sys_version(sys_version=None):
+         cpython_sys_version_parser = re.compile(
+             r'([\w.+]+)\s*'  # "version<space>"
+             r'(?:experimental free-threading build\s+)?' # "free-threading-build<space>"
++            r'(?:\| packaged by conda-forge \|\s+)?' # "| packaged by conda-forge |<space>"
+             r'\(#?([^,]+)'  # "(#buildno"
+             r'(?:,\s*([\w ]*)'  # ", builddate"
+             r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
+diff --git a/Python/getversion.c b/Python/getversion.c
+index 226b2f999a..92e4459bda 100644
+--- a/Python/getversion.c
++++ b/Python/getversion.c
+@@ -15,9 +15,9 @@ void _Py_InitVersion(void)
+     }
+     initialized = 1;
+ #ifdef Py_GIL_DISABLED
+-    const char *buildinfo_format = "%.80s experimental free-threading build (%.80s) %.80s";
++    const char *buildinfo_format = "%.80s experimental free-threading build | packaged by conda-forge | (%.80s) %.80s";
+ #else
+-    const char *buildinfo_format = "%.80s (%.80s) %.80s";
++    const char *buildinfo_format = "%.80s | packaged by conda-forge | (%.80s) %.80s";
+ #endif
+     PyOS_snprintf(version, sizeof(version), buildinfo_format,
+                   PY_VERSION, Py_GetBuildInfo(), Py_GetCompiler());

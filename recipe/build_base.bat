@@ -117,9 +117,9 @@ if errorlevel 1 exit 1
 xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\
 if errorlevel 1 exit 1
 
-@rem Safe to omit this? Is this maybe somewhere else?
-@rem copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\
-@rem if errorlevel 1 exit 1
+:: Copy generated pyconfig.h
+copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\pyconfig.h %PREFIX%\include\
+if errorlevel 1 exit 1
 
 :: Populate the Scripts directory
 if not exist %SCRIPTS% (mkdir %SCRIPTS%)

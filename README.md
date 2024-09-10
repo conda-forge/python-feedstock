@@ -20,6 +20,26 @@ fewer lines of code than would be possible in languages such as C++ or
 Java. The language provides constructs intended to enable clear programs
 on both a small and large scale.
 
+We provide some meta packages for convenience.
+To get a CPython flavour, use
+
+    conda install cpython
+
+To get the freethreading build (i.e. without the Global Interpreter Lock - GIL)
+
+    conda install python-freethreading
+
+To get the default build (i.e. with the GIL)
+
+    conda install python-gil
+
+To enable the use of the experimental JIT compiler in CPython
+
+    conda install python-jit
+
+or set the environment variable PYTHON_JIT=1. Note that the JIT support
+is available for x86_64 builds only.
+
 
 Current build status
 ====================
@@ -206,9 +226,11 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cpython-green.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-cpython--jit-green.svg)](https://anaconda.org/conda-forge/cpython-jit) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpython-jit.svg)](https://anaconda.org/conda-forge/cpython-jit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpython-jit.svg)](https://anaconda.org/conda-forge/cpython-jit) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpython-jit.svg)](https://anaconda.org/conda-forge/cpython-jit) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-cpython--gil-green.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libpython--static-green.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-python-green.svg)](https://anaconda.org/conda-forge/python) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-python--freethreading-green.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-python--jit-green.svg)](https://anaconda.org/conda-forge/python-jit) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python-jit.svg)](https://anaconda.org/conda-forge/python-jit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python-jit.svg)](https://anaconda.org/conda-forge/python-jit) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python-jit.svg)](https://anaconda.org/conda-forge/python-jit) |
 
 Installing python
 =================
@@ -220,16 +242,16 @@ conda config --add channels conda-forge/label/python_debug
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/python_debug` channel has been enabled, `cpython, cpython-jit, libpython-static, python` can be installed with `conda`:
+Once the `conda-forge/label/python_debug` channel has been enabled, `cpython, cpython-gil, libpython-static, python, python-freethreading, python-jit` can be installed with `conda`:
 
 ```
-conda install cpython cpython-jit libpython-static python
+conda install cpython cpython-gil libpython-static python python-freethreading python-jit
 ```
 
 or with `mamba`:
 
 ```
-mamba install cpython cpython-jit libpython-static python
+mamba install cpython cpython-gil libpython-static python python-freethreading python-jit
 ```
 
 It is possible to list all of the versions of `cpython` available on your platform with `conda`:

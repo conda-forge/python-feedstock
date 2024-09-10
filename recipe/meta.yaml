@@ -1,4 +1,4 @@
-{% set version = "3.9.19" %}
+{% set version = "3.9.20" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -47,7 +47,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: 87d0f8281237b972ff8b23e0e2c8d325
+    md5: bdcda0fdb99e7e17018f6886fae5e1fd
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch

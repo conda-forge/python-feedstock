@@ -1,4 +1,4 @@
-From 4bdb6acf12607d04d1eb19c187fd4002d330859e Mon Sep 17 00:00:00 2001
+From 6c70a788ae4e143e733be3b4fb8c493c761335f6 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 03:07:40 -0700
 Subject: [PATCH 13/23] Unvendor libffi
@@ -8,7 +8,7 @@ Subject: [PATCH 13/23] Unvendor libffi
  1 file changed, 4 insertions(+), 13 deletions(-)
 
 diff --git a/PCbuild/libffi.props b/PCbuild/libffi.props
-index 22c9550e2c..40ddb08d2b 100644
+index 22c9550e2c0..40ddb08d2b0 100644
 --- a/PCbuild/libffi.props
 +++ b/PCbuild/libffi.props
 @@ -2,20 +2,11 @@

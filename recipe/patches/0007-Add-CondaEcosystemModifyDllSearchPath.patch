@@ -1,4 +1,4 @@
-From 549322421754214dfdbc456a51c77d6f64947d16 Mon Sep 17 00:00:00 2001
+From 7f6c5a40be88d1c9c2bed791988925f4e2368e9a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 07/23] Add CondaEcosystemModifyDllSearchPath()
@@ -33,7 +33,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  1 file changed, 96 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index 13bd62da4d..d68bd42a9f 100644
+index 1701a1cd217..e9dba44f800 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
 @@ -60,6 +60,10 @@
@@ -48,7 +48,7 @@ index 13bd62da4d..d68bd42a9f 100644
  
  #define PUTS(fd, str) (void)_Py_write_noraise(fd, str, (int)strlen(str))
 @@ -106,6 +110,94 @@ __attribute__ ((section (".PyRuntime")))
- = _PyRuntimeState_INIT(_PyRuntime);
+ = _PyRuntimeState_INIT(_PyRuntime, _Py_Debug_Cookie);
  _Py_COMP_DIAG_POP
  
 +#ifdef MS_WINDOWS

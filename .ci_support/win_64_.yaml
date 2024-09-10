@@ -2,6 +2,8 @@ bzip2:
 - '1'
 c_compiler:
 - vs2017
+c_stdlib:
+- vs
 channel_sources:
 - conda-forge
 channel_targets:
@@ -27,4 +29,4 @@ tk:
 xz:
 - '5'
 zlib:
-- '1.2'
+- '1'

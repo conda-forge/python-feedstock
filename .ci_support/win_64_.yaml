@@ -36,4 +36,4 @@ zip_keys:
 - - build_type
   - channel_targets
 zlib:
-- '1.2'
+- '1'

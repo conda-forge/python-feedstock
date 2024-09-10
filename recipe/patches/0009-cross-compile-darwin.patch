@@ -1,4 +1,4 @@
-From fae08eb999d62039e0dbbeb65761f0e4c507c471 Mon Sep 17 00:00:00 2001
+From c1a286ccbf25c4e2fd6d74a04a63fa30b37b162d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 09/22] cross compile darwin
@@ -11,7 +11,7 @@ By Isuru Fernando.
  3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index c5b6048036..7470545466 100755
+index c5b60480369..7470545466d 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -459,7 +459,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
@@ -29,7 +29,7 @@ index c5b6048036..7470545466 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index 6dc8a66e48..552597c021 100755
+index 4dfaeecfc0b..0ca93afc4dc 100755
 --- a/configure
 +++ b/configure
 @@ -4267,6 +4267,9 @@ then
@@ -53,7 +53,7 @@ index 6dc8a66e48..552597c021 100755
  		_host_cpu=
  		;;
 diff --git a/configure.ac b/configure.ac
-index 8a32cb58f4..36b565af1b 100644
+index 0d6df8e24e4..2921409d976 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -547,6 +547,9 @@ then

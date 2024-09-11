@@ -1,4 +1,4 @@
-From bbc64a8ca9d69dbfd220a3924a71f7ea12cd43da Mon Sep 17 00:00:00 2001
+From d1de471d3abae6bef7efb96fab37e310133faf19 Mon Sep 17 00:00:00 2001
 From: Marcel Bargull <marcel.bargull@udo.edu>
 Date: Thu, 14 Dec 2023 22:16:33 +0100
 Subject: [PATCH 22/22] Allow linking ncursesw/panelw on macOS if available
@@ -10,7 +10,7 @@ Signed-off-by: Marcel Bargull <marcel.bargull@udo.edu>
  2 files changed, 10 deletions(-)
 
 diff --git a/configure b/configure
-index 50cbcc1ac7..0108f553bf 100755
+index 4dab7d58af2..dac9920fb3f 100755
 --- a/configure
 +++ b/configure
 @@ -25714,7 +25714,6 @@ fi
@@ -46,7 +46,7 @@ index 50cbcc1ac7..0108f553bf 100755
    if test "x$have_curses" = xncurses
  then :
 diff --git a/configure.ac b/configure.ac
-index 538122985c..284c0daddd 100644
+index e188b51f51d..434f18b2d3d 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -6432,8 +6432,6 @@ AH_TEMPLATE([HAVE_NCURSESW], [Define to 1 if you have the `ncursesw' library.])

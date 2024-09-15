@@ -312,6 +312,20 @@ outputs:
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
 
+  - name: cpython
+    build:
+      noarch: generic
+    requirements:
+      - python {{ version }}.*
+      - python_abi * *_{{ abi_tag }}
+
+  - name: cpython-gil
+    build:
+      noarch: generic
+    requirements:
+      - cpython {{ version }}.*
+      - python_abi * *_{{ abi_tag }}
+
 about:
   home: https://www.python.org/
   license: Python-2.0

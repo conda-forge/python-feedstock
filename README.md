@@ -25,14 +25,7 @@ Current build status
 ====================
 
 
-<table><tr>
-    <td>Travis</td>
-    <td>
-      <a href="https://app.travis-ci.com/conda-forge/python-feedstock">
-        <img alt="linux" src="https://img.shields.io/travis/com/conda-forge/python-feedstock/main.svg?label=Linux">
-      </a>
-    </td>
-  </tr>
+<table>
     
   <tr>
     <td>Azure</td>
@@ -100,6 +93,8 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-cpython-green.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-cpython--gil-green.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libpython--static-green.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-python-green.svg)](https://anaconda.org/conda-forge/python) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) |
 
@@ -113,41 +108,41 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libpython-static, python` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `cpython, cpython-gil, libpython-static, python` can be installed with `conda`:
 
 ```
-conda install libpython-static python
-```
-
-or with `mamba`:
-
-```
-mamba install libpython-static python
-```
-
-It is possible to list all of the versions of `libpython-static` available on your platform with `conda`:
-
-```
-conda search libpython-static --channel conda-forge
+conda install cpython cpython-gil libpython-static python
 ```
 
 or with `mamba`:
 
 ```
-mamba search libpython-static --channel conda-forge
+mamba install cpython cpython-gil libpython-static python
+```
+
+It is possible to list all of the versions of `cpython` available on your platform with `conda`:
+
+```
+conda search cpython --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search cpython --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search libpython-static --channel conda-forge
+mamba repoquery search cpython --channel conda-forge
 
-# List packages depending on `libpython-static`:
-mamba repoquery whoneeds libpython-static --channel conda-forge
+# List packages depending on `cpython`:
+mamba repoquery whoneeds cpython --channel conda-forge
 
-# List dependencies of `libpython-static`:
-mamba repoquery depends libpython-static --channel conda-forge
+# List dependencies of `cpython`:
+mamba repoquery depends cpython --channel conda-forge
 ```
 
 

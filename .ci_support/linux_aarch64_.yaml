@@ -28,8 +28,6 @@ libffi:
 - '3.4'
 libuuid:
 - '2'
-libxcb:
-- '1.16'
 ncurses:
 - '6'
 openssl:

@@ -180,7 +180,7 @@ outputs:
         - libnsl  # [linux]
         - libuuid  # [linux]
         - libxcrypt  # [linux]
-        - xorg-libx11               # [linux]
+        - libxcb                    # [linux]
         - xorg-xorgproto            # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]

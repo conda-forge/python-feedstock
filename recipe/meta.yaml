@@ -110,6 +110,7 @@ outputs:
       ignore_run_exports_from:   # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
+        - xorg-libx11            # [linux]
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -181,6 +182,7 @@ outputs:
         - libuuid  # [linux]
         - libxcrypt  # [linux]
         - libxcb                    # [linux]
+        - xorg-libx11               # [linux]
         - xorg-xorgproto            # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]

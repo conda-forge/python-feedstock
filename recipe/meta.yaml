@@ -109,6 +109,8 @@ outputs:
       ignore_run_exports_from:   # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
+        # this is just to get the headers needed for tk.h, but is unused
+        - xorg-libx11
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -173,14 +175,14 @@ outputs:
         - openssl
         - readline  # [not win]
         - tk
+        # this is just to get the headers needed for tk.h, but is unused
+        - xorg-libx11
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - libnsl  # [linux]
         - libuuid  # [linux]
         - libxcrypt  # [linux]
-        - xorg-libx11               # [linux]
-        - xorg-xorgproto            # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
 {% if 'conda-forge' in channel_targets %}

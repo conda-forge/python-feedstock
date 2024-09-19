@@ -156,8 +156,6 @@ outputs:
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('libx11-devel') }}  # [linux]
         - make  # [not win]
         - libtool  # [unix]
         - pkg-config  # [not win]
@@ -181,6 +179,8 @@ outputs:
         - libnsl  # [linux]
         - libuuid  # [linux]
         - libxcrypt  # [linux]
+        - xorg-libx11               # [linux]
+        - xorg-xorgproto            # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
 {% if 'conda-forge' in channel_targets %}

@@ -1,4 +1,4 @@
-{% set version = "3.8.19" %}
+{% set version = "3.8.20" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -47,7 +47,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: 2532d25930266546822c144b99652254
+    md5: 745478c81d6382cf46b5e7ad89e56008
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -153,10 +153,9 @@ outputs:
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('libx11-devel') }}  # [linux]
         - make  # [not win]
         - libtool  # [unix]
         - pkg-config  # [not win]
@@ -180,6 +179,8 @@ outputs:
         - libnsl  # [linux]
         - libuuid  # [linux]
         - libxcrypt  # [linux]
+        - xorg-libx11               # [linux]
+        - xorg-xorgproto            # [linux]
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
 {% if 'conda-forge' in channel_targets %}
@@ -272,6 +273,7 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
 {% if from_source_control == 'yes' %}
@@ -293,6 +295,20 @@ outputs:
         - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
+
+  - name: cpython
+    build:
+      noarch: generic
+    requirements:
+      - python {{ version }}.*
+      - python_abi * *_cp{{ ver2nd }}
+
+  - name: cpython-gil
+    build:
+      noarch: generic
+    requirements:
+      - cpython {{ version }}.*
+      - python_abi * *_cp{{ ver2nd }}
 
 about:
   home: https://www.python.org/

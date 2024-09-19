@@ -1,13 +1,15 @@
 bzip2:
 - '1'
 c_compiler:
-- vs2017
+- vs2019
+c_stdlib:
+- vs
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2017
+- vs2019
 libffi:
 - '3.4'
 openssl:
@@ -27,4 +29,4 @@ tk:
 xz:
 - '5'
 zlib:
-- '1.2'
+- '1'

@@ -1,4 +1,4 @@
-{% set version = "3.10.14" %}
+{% set version = "3.10.15" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -47,7 +47,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: 05148354ce821ba7369e5b7958435400
+    md5: 8b1faa1b193e4e90c0f17eb2decd89b5
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -110,6 +110,8 @@ outputs:
       ignore_run_exports_from:   # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
+        # this is just to get the headers needed for tk.h, but is unused
+        - xorg-libx11
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -154,10 +156,9 @@ outputs:
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('libx11-devel') }}  # [linux]
         - make  # [not win]
         - libtool  # [unix]
         - pkg-config  # [not win]
@@ -175,6 +176,8 @@ outputs:
         - openssl
         - readline  # [not win]
         - tk
+        # this is just to get the headers needed for tk.h, but is unused
+        - xorg-libx11
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
@@ -280,6 +283,7 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
 {% if from_source_control == 'yes' %}
@@ -301,6 +305,20 @@ outputs:
         - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
+
+  - name: cpython
+    build:
+      noarch: generic
+    requirements:
+      - python {{ version }}.*
+      - python_abi * *_cp{{ ver2nd }}
+
+  - name: cpython-gil
+    build:
+      noarch: generic
+    requirements:
+      - cpython {{ version }}.*
+      - python_abi * *_cp{{ ver2nd }}
 
 about:
   home: https://www.python.org/

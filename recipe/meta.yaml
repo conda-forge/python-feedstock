@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -101,6 +101,8 @@ outputs:
       ignore_run_exports_from:   # [unix]
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
+        # this is just to get the headers needed for tk.h, but is unused
+        - xorg-libx11
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -149,8 +151,6 @@ outputs:
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
-        - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-        - {{ cdt('libx11-devel') }}  # [linux]
         - make  # [not win]
         - libtool  # [unix]
         - pkg-config  # [not win]
@@ -181,6 +181,8 @@ outputs:
         - openssl
         - readline  # [not win]
         - tk
+        # this is just to get the headers needed for tk.h, but is unused
+        - xorg-libx11
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
@@ -314,6 +316,20 @@ outputs:
         - pushd tests/prefix-replacement    # [unix]
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
+
+  - name: cpython
+    build:
+      noarch: generic
+    requirements:
+      - python {{ version }}.*
+      - python_abi * *_cp{{ ver2nd }}
+
+  - name: cpython-gil
+    build:
+      noarch: generic
+    requirements:
+      - cpython {{ version }}.*
+      - python_abi * *_cp{{ ver2nd }}
 
 about:
   home: https://www.python.org/

@@ -277,6 +277,9 @@ if [[ ${PY_FREETHREADING} == yes ]]; then
     _common_configure_args+=(--disable-gil)
 fi
 
+# Force siphash24 (https://github.com/conda-forge/python-feedstock/issues/718):
+_common_configure_args+=(--with-hash-algorithm=siphash24)
+
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()
 if [[ ${_OPTIMIZED} == yes ]]; then

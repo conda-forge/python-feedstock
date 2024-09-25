@@ -164,6 +164,7 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
   echo "ac_cv_file__dev_ptc=yes"        >> config.site
   echo "ac_cv_pthread=yes"              >> config.site
   echo "ac_cv_little_endian_double=yes" >> config.site
+  echo "ac_cv_aligned_required=no"      >> config.site
   if [[ ${target_platform} == osx-arm64 ]]; then
       echo "ac_cv_aligned_required=no" >> config.site
       echo "ac_cv_file__dev_ptc=no" >> config.site
@@ -248,10 +249,7 @@ _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 _common_configure_args+=(--with-platlibdir=lib)
-
-if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
-  _common_configure_args+=(--with-hash-algorithm=siphash24)
-fi
+_common_configure_args+=(--with-hash-algorithm=siphash24)
 
 # Add more optimization flags for the static Python interpreter:
 declare -a PROFILE_TASK=()

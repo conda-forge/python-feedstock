@@ -164,7 +164,6 @@ if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe (
   echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe does not exist"
 )
 
-
 :: Remove test data to save space.
 :: Though keep `support` as some things use that.
 mkdir %PREFIX%\Lib\test_keep
@@ -177,23 +176,14 @@ rd /s /q %PREFIX%\Lib\test
 if errorlevel 1 exit 1
 move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
 if errorlevel 1 exit 1
-rd /s /q %PREFIX%\Lib\lib2to3\tests\
-if errorlevel 1 exit 1
-
-:: bytecode compile the standard library
-
-rd /s /q %PREFIX%\Lib\lib2to3\tests\
-if errorlevel 1 exit 1
 
 :: We need our Python to be found!
 if "%_D%" neq "" copy %PREFIX%\python%_D%.exe %PREFIX%\python.exe
 if "%EXE_T%" neq "" copy %PREFIX%\python%EXE_T%.exe %PREFIX%\python.exe
 
+:: bytecode compile the standard library
 %PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
-
-:: Pickle lib2to3 Grammar
-%PREFIX%\python.exe -m lib2to3 --help
 
 :: Ensure that scripts are generated
 :: https://github.com/conda-forge/python-feedstock/issues/384
@@ -202,19 +192,19 @@ if errorlevel 1 exit 1
 
 :: Some quick tests for common failures
 echo "Testing print() does not print: Hello"
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -c "print()" 2>&1 | findstr /r /c:"Hello"
+%PREFIX%\python.exe -c "print()" 2>&1 | findstr /r /c:"Hello"
 if %errorlevel% neq 1 exit /b 1
 
 echo "Testing print('Hello') prints: Hello"
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe "print('Hello')" 2>&1 | findstr /r /c:"Hello"
+%PREFIX%\python.exe -c "print('Hello')" 2>&1 | findstr /r /c:"Hello"
 if %errorlevel% neq 0 exit /b 1
 
 echo "Testing import of os (no DLL needed) does not print: The specified module could not be found"
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import os" 2>&1
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import os" 2>&1 | findstr /r /c:"The specified module could not be found"
+%PREFIX%\python.exe -v -c "import os" 2>&1
+%PREFIX%\python.exe -v -c "import os" 2>&1 | findstr /r /c:"The specified module could not be found"
 if %errorlevel% neq 1 exit /b 1
 
 echo "Testing import of _sqlite3 (DLL located via PATH needed) does not print: The specified module could not be found"
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1
-%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1 | findstr /r /c:"The specified module could not be found"
+%PREFIX%\python.exe -v -c "import _sqlite3" 2>&1
+%PREFIX%\python.exe -v -c "import _sqlite3" 2>&1 | findstr /r /c:"The specified module could not be found"
 if %errorlevel% neq 1 exit /b 1

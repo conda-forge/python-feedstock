@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 2 %}
+{% set build_number = 3 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -229,6 +229,13 @@ outputs:
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        {% if freethreading == "yes" %}
+        - if not exist %PREFIX%\\libs\\python3t.lib exit 1                # [win]
+        - if not exist %PREFIX%\\libs\\python{{ ver2nd }}t.lib exit 1     # [win]
+        {% else %}
+        - if not exist %PREFIX%\\libs\\python3.lib exit 1                 # [win]
+        - if not exist %PREFIX%\\libs\\python{{ ver2nd }}.lib exit 1      # [win]
+        {% endif %}
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
         - if exist %PREFIX%\\Scripts\\idle exit 1  # [win]
@@ -242,10 +249,8 @@ outputs:
         - bash build-and-test.sh      # [unix]
         - popd    # [unix]
         - pushd cmake
-{% if freethreading == "yes" %}
-        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile . || true           # [unix]
-        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile . || type nul>nul   # [win]
-{% else %}
+{% if freethreading == "no" %}
+        # TODO: use the new FindPython3 which supports freethreading
         - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile .
 {% endif %}
         - popd

@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -108,7 +108,7 @@ outputs:
       # Copy rather than link.
       no_link:
         - DLLs/_ctypes.pyd  # [win]
-      ignore_run_exports_from:   # [unix]
+      ignore_run_exports_from:
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
         # this is just to get the headers needed for tk.h, but is unused

@@ -75,7 +75,7 @@ for %%x in (python%VERNODOTS%%THREAD%%_D%.dll python3%THREAD%%_D%.dll python%EXE
   )
 )
 
-for %%x in (python%_D%.pdb python%VERNODOTS%%_D%.pdb pythonw%_D%.pdb) do (
+for %%x in (python%THREAD%%_D%.pdb python%VERNODOTS%%THREAD%%_D%.pdb pythonw%THREAD%%_D%.pdb) do (
   if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
   ) else (
@@ -133,11 +133,11 @@ for %%x in (idle pydoc) do (
 :: Populate the libs directory
 if not exist %PREFIX%\libs mkdir %PREFIX%\libs
 dir %SRC_DIR%\PCbuild\%BUILD_PATH%\
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%THREAD%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%THREAD%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 
 

@@ -185,7 +185,11 @@ outputs:
         - python_abi {{ ver2 }}.* *_{{ abi_tag }}
     test:
       downstreams:
+{% if freethreading == "yes" %}
+        - cython >=3.1.0.a0
+{% else %}
         - cython
+{% endif %}
         - setuptools
       requires:
         - ripgrep

@@ -14,6 +14,7 @@ git format-patch --no-signature $new
 for f in *.patch; do
   python ../recipe/patches/make-mixed-crlf-patch.py $f;
 done
+cp 00*.patch ../recipe/patches/
 ```
 
 On windows, the last loop can be done as follows (once the patches

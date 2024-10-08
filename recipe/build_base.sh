@@ -546,5 +546,24 @@ if [[ "$target_platform" == linux-* ]]; then
   rm ${PREFIX}/include/uuid.h
 fi
 
-# See ${RECIPE_DIR}/sitecustomize.py
-cp "${RECIPE_DIR}/sitecustomize.py" "${PREFIX}/lib/python${VERABI_NO_DBG}/sitecustomize.py"
+# Workaround for https://github.com/conda/conda/issues/14053
+# Older conda versions install noarch: python packages in wrong places.
+# For example python3.1 because older conda assumed python minor version
+# will have only one digit. noarhc pkgs for freethreading builds are supposed
+# to be installed into <prefix>/lib/python3.13t/site-packages, but conda
+# installs them to <prefix>/lib/python3.13/site-packages.
+# The workaround is to add all these wrong paths to sys.path using
+# a pth file so that cpython and other tools like pip know about these
+# locations to check when importing packages and uninstalling packages.
+# When installing packages, pip will use the correct location
+# <prefix>/lib/python3.13t/site-packages.
+# Note that these directories are not added to sys.path if they do not exist.
+SP_DIR="${PREFIX}/lib/python${PY_VER}${THREAD}/site-packages"
+if [[ ${PY_FREETHREADING} == yes ]]; then
+    echo "${PREFIX}/lib/python${PY_VER}/site-packages" >> $SP_DIR/conda-site.pth
+fi
+# Workaround for https://github.com/conda/conda/issues/10969
+echo "${PREFIX}/lib/python3.1/site-packages" >> $SP_DIR/conda-site.pth
+# A python version independent directory that ABI3 and noarch packages can use.
+# This is unused at the moment, but keeping it here for experimentation.
+echo "${PREFIX}/lib/python/site-packages" >> $SP_DIR/conda-site.pth

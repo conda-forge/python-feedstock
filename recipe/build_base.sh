@@ -553,10 +553,11 @@ fi
 # to be installed into <prefix>/lib/python3.13t/site-packages, but conda
 # installs them to <prefix>/lib/python3.13/site-packages.
 # The workaround is to add all these wrong paths to sys.path using
-# site.addsitedir so that cpython and other tools like pip know about these
+# a pth file so that cpython and other tools like pip know about these
 # locations to check when importing packages and uninstalling packages.
 # When installing packages, pip will use the correct location
 # <prefix>/lib/python3.13t/site-packages.
+# Note that these directories are not added to sys.path if they do not exist.
 SP_DIR="${PREFIX}/lib/python${PY_VER}${THREAD}/site-packages"
 if [[ ${PY_FREETHREADING} == yes ]]; then
     echo "${PREFIX}/lib/python${PY_VER}/site-packages" >> $SP_DIR/conda-site.pth

@@ -557,7 +557,7 @@ fi
 # locations to check when importing packages and uninstalling packages.
 # When installing packages, pip will use the correct location
 # <prefix>/lib/python3.13t/site-packages.
-SP_DIR="${PREFIX}/lib/python${PY_VER}{THREAD}/site-packages"
+SP_DIR="${PREFIX}/lib/python${PY_VER}${THREAD}/site-packages"
 if [[ ${PY_FREETHREADING} == yes ]]; then
     echo "${PREFIX}/lib/python${PY_VER}/site-packages" >> $SP_DIR/conda-site.pth
 fi

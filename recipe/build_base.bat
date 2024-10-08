@@ -189,6 +189,9 @@ if errorlevel 1 exit 1
 :: We need our Python to be found!
 if "%_D%" neq "" copy %PREFIX%\python%_D%.exe %PREFIX%\python.exe
 
+:: Provide a python3 alias
+copy %PREFIX%\python.exe %PREFIX%\python3.exe
+
 %PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
 
@@ -217,4 +220,9 @@ if %errorlevel% neq 1 exit /b 1
 echo "Testing import of _sqlite3 (DLL located via PATH needed) does not print: The specified module could not be found"
 %CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1
 %CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1 | findstr /r /c:"The specified module could not be found"
+if %errorlevel% neq 1 exit /b 1
+
+:: Also check python3 alias
+echo "Testing print() does not print: Hello with python3"
+%CONDA_EXE% run -p %PREFIX% cd %PREFIX% & %PREFIX%\python3.exe -c "print()" 2>&1 | findstr /r /c:"Hello"
 if %errorlevel% neq 1 exit /b 1

@@ -323,7 +323,7 @@ outputs:
       - cpython {{ version }}.*
       - python_abi * *_{{ abi_tag }}
 
-  - name: cpython-gil
+  - name: python-gil
     build:
       noarch: generic
 {% if freethreading == "yes" %}

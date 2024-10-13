@@ -226,10 +226,10 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cpython-green.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-cpython--gil-green.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpython-gil.svg)](https://anaconda.org/conda-forge/cpython-gil) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libpython--static-green.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-python-green.svg)](https://anaconda.org/conda-forge/python) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-python--freethreading-green.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-python--gil-green.svg)](https://anaconda.org/conda-forge/python-gil) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python-gil.svg)](https://anaconda.org/conda-forge/python-gil) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python-gil.svg)](https://anaconda.org/conda-forge/python-gil) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python-gil.svg)](https://anaconda.org/conda-forge/python-gil) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-python--jit-green.svg)](https://anaconda.org/conda-forge/python-jit) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python-jit.svg)](https://anaconda.org/conda-forge/python-jit) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python-jit.svg)](https://anaconda.org/conda-forge/python-jit) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python-jit.svg)](https://anaconda.org/conda-forge/python-jit) |
 
 Installing python
@@ -242,16 +242,16 @@ conda config --add channels conda-forge/label/python_debug
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/python_debug` channel has been enabled, `cpython, cpython-gil, libpython-static, python, python-freethreading, python-jit` can be installed with `conda`:
+Once the `conda-forge/label/python_debug` channel has been enabled, `cpython, libpython-static, python, python-freethreading, python-gil, python-jit` can be installed with `conda`:
 
 ```
-conda install cpython cpython-gil libpython-static python python-freethreading python-jit
+conda install cpython libpython-static python python-freethreading python-gil python-jit
 ```
 
 or with `mamba`:
 
 ```
-mamba install cpython cpython-gil libpython-static python python-freethreading python-jit
+mamba install cpython libpython-static python python-freethreading python-gil python-jit
 ```
 
 It is possible to list all of the versions of `cpython` available on your platform with `conda`:

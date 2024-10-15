@@ -103,3 +103,6 @@ import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
 CONDA_OPENSSL_VERSION = os.getenv('openssl')
 assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION
+
+# See https://github.com/conda-forge/python-feedstock/issues/718 for context:
+assert sys.hash_info.algorithm.startswith("siphash")

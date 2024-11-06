@@ -3,48 +3,39 @@ bzip2:
 c_compiler:
 - gcc
 c_compiler_version:
-- '8'
+- '12'
+cdt_name:
+- cos7
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '8'
+- '12'
 docker_image:
-- condaforge/linux-anvil-ppc64le
+- quay.io/condaforge/linux-anvil-comp7
 libffi:
-- '3.2'
+- '3.4'
 ncurses:
-- '6.1'
+- '6'
 openssl:
-- 1.1.1a
+- 1.1.1u
 pin_run_as_build:
-  bzip2:
-    max_pin: x
-  libffi:
-    max_pin: x.x
-  ncurses:
-    max_pin: x.x
-  openssl:
-    max_pin: x.x.x
   python:
     min_pin: x.x
     max_pin: x.x
-  readline:
-    max_pin: x
-  sqlite:
-    max_pin: x
-  zlib:
-    max_pin: x.x
 python:
-- '3.7'
+- 3.9.* *_cpython
 readline:
-- '8.0'
+- '8'
 sqlite:
 - '3'
 target_platform:
 - linux-ppc64le
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 zlib:
 - '1.2'

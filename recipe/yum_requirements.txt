@@ -1,6 +1,6 @@
 libx11
 libXext-devel
-libXrender-devel	
-libSM-devel	
+libXrender-devel
+libSM-devel
 libX11-devel
 prelink

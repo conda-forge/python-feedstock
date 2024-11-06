@@ -1,0 +1,4 @@
+docker_image:
+  - quay.io/condaforge/linux-anvil-comp7
+openssl:                             # [unix]
+  - 1.1.1u                           # [unix]

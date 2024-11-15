@@ -4,13 +4,6 @@ set -ex
 # Get an updated config.sub and config.guess
 cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
 
-if [[ ! -d ${BUILD_PREFIX}/python-bin ]]; then
-  # Need an up-to-date python to build python.
-  # python 3.10 in miniforge is too old.
-  CONDA_SUBDIR=$build_platform conda create -p ${BUILD_PREFIX}/python-bin python -c conda-forge --yes --quiet
-  export PATH=${BUILD_PREFIX}/python-bin/bin:${PATH}
-fi
-
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
 # https://packages.debian.org/source/sid/python3.6
@@ -102,6 +95,15 @@ if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
   CFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CFLAGS}
   LDFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${LDFLAGS}
   CPPFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CPPFLAGS}
+fi
+
+if [[ "$target_platform" == linux-* ]]; then
+  # For https://docs.python.org/3/howto/perf_profiling.html#how-to-obtain-the-best-results
+  CFLAGS+=" -fno-omit-frame-pointer"
+  if [[ "$target_platform" != linux-ppc64le ]]; then
+    # -mno-omit-leaf-frame-pointer is not supported on ppc64le
+    CFLAGS+=" -mno-omit-leaf-frame-pointer"
+  fi
 fi
 
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py

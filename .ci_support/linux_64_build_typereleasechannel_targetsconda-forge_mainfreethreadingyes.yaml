@@ -11,7 +11,7 @@ c_stdlib:
 c_stdlib_version:
 - '2.17'
 cdt_name:
-- cos7
+- conda
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
@@ -55,7 +55,5 @@ zip_keys:
   - channel_targets
 - - c_compiler_version
   - cxx_compiler_version
-- - c_stdlib_version
-  - cdt_name
 zlib:
 - '1'

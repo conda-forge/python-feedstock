@@ -172,14 +172,7 @@ _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 
-mkdir -p ${_buildd_shared}
-pushd ${_buildd_shared}
-  ${SRC_DIR}/configure "${_common_configure_args[@]}" \
-                       "${_dbg_opts[@]}" \
-                       --enable-shared
-popd
-
-# Add more optimization flags for the static Python interpreter:
+# Add more optimization flags
 declare -a _extra_opts
 if [[ ${_OPTIMIZED} == yes ]]; then
   _extra_opts+=(--enable-optimizations)
@@ -204,6 +197,15 @@ if [[ ${_OPTIMIZED} == yes ]]; then
 else
   _MAKE_TARGET=
 fi
+
+
+mkdir -p ${_buildd_shared}
+pushd ${_buildd_shared}
+  ${SRC_DIR}/configure "${_common_configure_args[@]}" \
+                       "${_extra_opts[@]}" \
+                       "${_dbg_opts[@]}" \
+                       --enable-shared
+popd
 
 mkdir -p ${_buildd_static}
 pushd ${_buildd_static}

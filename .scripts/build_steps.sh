@@ -54,7 +54,7 @@ ulimit -n 1024
 # "recipe/yum_requirements.txt" file. After updating that file,
 # run "conda smithy rerender" and this line will be updated
 # automatically.
-/usr/bin/sudo -n yum install -y libX11 libxcb libxau
+/usr/bin/sudo -n yum install -y libX11 libxcb
 )
 
 # make the build number clobber

@@ -532,7 +532,10 @@ if [[ ${HOST} =~ .*linux.* ]]; then
   echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/shared/python_compiler_compat/README
 fi
 
+# Compile all Python files
+# Ensure `sysconfig`'s data is also compiled
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"
+python -c "import pprint, sysconfig; pprint(sysconfig.get_config_vars())"
 rm ${PREFIX}/lib/libpython${VERABI}.a
 
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then

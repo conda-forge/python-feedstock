@@ -185,6 +185,10 @@ if "%EXE_T%" neq "" copy %PREFIX%\python%EXE_T%.exe %PREFIX%\python.exe
 %PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
 
+:: Ensure `sysconfig`'s data is also compiled
+%PREFIX%\python.exe -c "import pprint, sysconfig; pprint(sysconfig.get_config_vars())"
+if %errorlevel% neq 1 exit /b 1
+
 :: Ensure that scripts are generated
 :: https://github.com/conda-forge/python-feedstock/issues/384
 %PREFIX%\python.exe %RECIPE_DIR%\fix_staged_scripts.py

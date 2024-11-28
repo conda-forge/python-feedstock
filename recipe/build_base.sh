@@ -4,6 +4,13 @@ set -ex
 # Get an updated config.sub and config.guess
 cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
 
+if [[ ! -d ${SRC_DIR}/python-bin ]]; then
+  # Need an up-to-date python to build python.
+  # python 3.10 in miniforge is too old.
+  CONDA_SUBDIR=$build_platform conda create -p ${SRC_DIR}/python-bin python -c conda-forge --yes --quiet
+  export PATH=${SRC_DIR}/python-bin/bin:${PATH}
+fi
+
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
 # https://packages.debian.org/source/sid/python3.6

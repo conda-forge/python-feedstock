@@ -21,19 +21,19 @@ Java. The language provides constructs intended to enable clear programs
 on both a small and large scale.
 
 We provide some meta packages for convenience.
-To get a CPython flavour, use
+To get a CPython flavour, use:
 
     conda install cpython
 
-To get the freethreading build (i.e. without the Global Interpreter Lock - GIL)
+To get the freethreading build (i.e. without the Global Interpreter Lock - GIL):
 
     conda install python-freethreading
 
-To get the default build (i.e. with the GIL)
+To get the default build (i.e. with the GIL):
 
     conda install python-gil
 
-To enable the use of the experimental JIT compiler in CPython
+To enable the use of the experimental JIT compiler in CPython:
 
     conda install python-jit
 

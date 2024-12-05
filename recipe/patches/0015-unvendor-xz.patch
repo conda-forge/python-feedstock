@@ -26,7 +26,7 @@ index 321f41d8d27..bd7d6c64b10 100644
      </ClCompile>
      <Link>
 -      <AdditionalDependencies>$(OutDir)liblzma$(PyDebugExt).lib;%(AdditionalDependencies)</AdditionalDependencies>
-+      <AdditionalDependencies>$(condaDir)\lib\liblzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <AdditionalDependencies>$(condaDir)\lib\lzma.lib;%(AdditionalDependencies)</AdditionalDependencies>
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>

@@ -46,8 +46,6 @@ sqlite:
 - '3'
 target_platform:
 - linux-ppc64le
-xz:
-- '5'
 zip_keys:
 - - build_type
   - channel_targets

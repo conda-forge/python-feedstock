@@ -4,6 +4,13 @@ set -ex
 # Get an updated config.sub and config.guess
 cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
 
+if [[ ! -d ${SRC_DIR}/python-bin ]]; then
+  # Need an up-to-date python to build python.
+  # python 3.10 in miniforge is too old.
+  CONDA_SUBDIR=$build_platform conda create -p ${SRC_DIR}/python-bin python -c conda-forge --override-channels --yes --quiet
+  export PATH=${SRC_DIR}/python-bin/bin:${PATH}
+fi
+
 # The LTO/PGO information was sourced from @pitrou and the Debian rules file in:
 # http://http.debian.net/debian/pool/main/p/python3.6/python3.6_3.6.2-2.debian.tar.xz
 # https://packages.debian.org/source/sid/python3.6
@@ -37,14 +44,6 @@ if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   if [[ "$CI" != "" && "$channel_targets" == "conda-forge main" ]]; then
     exit 1
   fi
-fi
-
-# Since these take very long to build in our emulated ci, disable for now
-if [[ ${target_platform} == linux-aarch64 ]]; then
-  _OPTIMIZED=no
-fi
-if [[ ${target_platform} == linux-ppc64le ]]; then
-  _OPTIMIZED=no
 fi
 
 declare -a _dbg_opts

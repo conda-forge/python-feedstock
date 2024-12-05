@@ -48,8 +48,6 @@ target_platform:
 - osx-64
 tk:
 - '8.6'
-xz:
-- '5'
 zip_keys:
 - - build_type
   - channel_targets

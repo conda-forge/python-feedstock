@@ -22,6 +22,8 @@ cxx_compiler_version:
 - '18'
 libffi:
 - '3.4'
+liblzma_devel:
+- '5'
 macos_machine:
 - arm64-apple-darwin20.0.0
 ncurses:
@@ -42,8 +44,6 @@ target_platform:
 - osx-arm64
 tk:
 - '8.6'
-xz:
-- '5'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

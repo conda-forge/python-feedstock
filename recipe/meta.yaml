@@ -110,8 +110,9 @@ outputs:
       ignore_run_exports_from:
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
-        # this is just to get the headers needed for tk.h, but is unused
+        # These two are just to get the headers needed for tk.h, but is unused
         - xorg-libx11
+        - xorg-xorgproto
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -171,13 +172,14 @@ outputs:
       host:
         - bzip2
         - sqlite
-        - xz
+        - liblzma-devel
         - zlib
         - openssl
         - readline  # [not win]
         - tk
-        # this is just to get the headers needed for tk.h, but is unused
+        # These two are just to get the headers needed for tk.h, but is unused
         - xorg-libx11
+        - xorg-xorgproto
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]

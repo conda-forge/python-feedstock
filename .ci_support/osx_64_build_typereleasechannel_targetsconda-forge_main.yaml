@@ -26,6 +26,8 @@ expat:
 - '2'
 libffi:
 - '3.4'
+liblzma_devel:
+- '5'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 ncurses:
@@ -46,8 +48,6 @@ target_platform:
 - osx-64
 tk:
 - '8.6'
-xz:
-- '5'
 zip_keys:
 - - build_type
   - channel_targets

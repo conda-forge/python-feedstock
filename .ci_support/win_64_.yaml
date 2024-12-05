@@ -16,6 +16,8 @@ expat:
 - '2'
 libffi:
 - '3.4'
+liblzma_devel:
+- '5'
 openssl:
 - '3'
 pin_run_as_build:
@@ -30,8 +32,6 @@ target_platform:
 - win-64
 tk:
 - '8.6'
-xz:
-- '5'
 zip_keys:
 - - build_type
   - channel_targets

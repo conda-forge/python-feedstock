@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -101,8 +101,9 @@ outputs:
       ignore_run_exports_from:
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
-        # this is just to get the headers needed for tk.h, but is unused
+        # These two are just to get the headers needed for tk.h, but is unused
         - xorg-libx11
+        - xorg-xorgproto
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -160,29 +161,30 @@ outputs:
 {% if 'conda-forge' in channel_targets %}
         - binutils_impl_{{ target_platform }}  # [linux]
 {% endif %}
-        - bzip2         # [build_platform != target_platform]
-        - sqlite        # [build_platform != target_platform]
-        - xz            # [build_platform != target_platform]
-        - zlib          # [build_platform != target_platform]
-        - openssl       # [build_platform != target_platform]
-        - readline      # [not win and build_platform != target_platform]
-        - tk            # [build_platform != target_platform]
-        - ncurses       # [unix and build_platform != target_platform]
-        - libffi        # [build_platform != target_platform]
-        - libnsl        # [linux and build_platform != target_platform]
-        - libuuid       # [linux and build_platform != target_platform]
-        - libxcrypt     # [linux and build_platform != target_platform]
-        - expat         # [build_platform != target_platform]
+        - bzip2          # [build_platform != target_platform]
+        - sqlite         # [build_platform != target_platform]
+        - liblzma-devel  # [build_platform != target_platform]
+        - zlib           # [build_platform != target_platform]
+        - openssl        # [build_platform != target_platform]
+        - readline       # [not win and build_platform != target_platform]
+        - tk             # [build_platform != target_platform]
+        - ncurses        # [unix and build_platform != target_platform]
+        - libffi         # [build_platform != target_platform]
+        - libnsl         # [linux and build_platform != target_platform]
+        - libuuid        # [linux and build_platform != target_platform]
+        - libxcrypt      # [linux and build_platform != target_platform]
+        - expat          # [build_platform != target_platform]
       host:
         - bzip2
         - sqlite
-        - xz
+        - liblzma-devel
         - zlib
         - openssl
         - readline  # [not win]
         - tk
-        # this is just to get the headers needed for tk.h, but is unused
+        # These two are just to get the headers needed for tk.h, but is unused
         - xorg-libx11
+        - xorg-xorgproto
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]

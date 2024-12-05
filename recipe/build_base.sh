@@ -96,6 +96,15 @@ if [[ ${HOST} =~ .*darwin.* ]] && [[ -n ${CONDA_BUILD_SYSROOT} ]]; then
   CPPFLAGS="-isysroot ${CONDA_BUILD_SYSROOT} "${CPPFLAGS}
 fi
 
+if [[ "$target_platform" == linux-* ]]; then
+  # For https://docs.python.org/3/howto/perf_profiling.html#how-to-obtain-the-best-results
+  CFLAGS+=" -fno-omit-frame-pointer"
+  if [[ "$target_platform" != linux-ppc64le ]]; then
+    # -mno-omit-leaf-frame-pointer is not supported on ppc64le
+    CFLAGS+=" -mno-omit-leaf-frame-pointer"
+  fi
+fi
+
 # Debian uses -O3 then resets it at the end to -O2 in _sysconfigdata.py
 if [[ ${_OPTIMIZED} = yes ]]; then
   CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-O2/-O3/g")

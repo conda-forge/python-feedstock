@@ -28,6 +28,10 @@ freethreading:
 - 'yes'
 libffi:
 - '3.4'
+liblzma_devel:
+- '5'
+libsqlite:
+- '3'
 libuuid:
 - '2'
 ncurses:
@@ -42,8 +46,6 @@ python:
 - '3.13'
 readline:
 - '8'
-sqlite:
-- '3'
 target_platform:
 - linux-64
 tk:

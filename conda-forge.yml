@@ -2,12 +2,19 @@ azure:
   settings_win:
     pool:
       vmImage: windows-2019
-build_platform: {osx_arm64: osx_64, linux_ppc64le: linux_64, linux_aarch64: linux_64}
+build_platform:
+  linux_aarch64: linux_64
+  linux_ppc64le: linux_64
+  osx_arm64: osx_64
+conda_build:
+  pkg_format: '2'
 conda_forge_output_validation: true
-provider: {linux_aarch64: native, linux_ppc64le: native, osx: azure, win: azure}
 github:
   branch_name: main
   tooling_branch_name: main
-conda_build:
-  pkg_format: '2'
+provider:
+  linux_aarch64: native
+  linux_ppc64le: native
+  osx: azure
+  win: azure
 test: native_and_emulated

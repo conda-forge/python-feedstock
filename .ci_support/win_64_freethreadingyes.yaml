@@ -18,6 +18,8 @@ freethreading:
 - 'yes'
 libffi:
 - '3.4'
+liblzma_devel:
+- '5'
 openssl:
 - '3'
 pin_run_as_build:

@@ -313,7 +313,7 @@ outputs:
       - python {{ version }}.*
       - python_abi * *_cp{{ ver2nd }}
 
-  - name: cpython-gil
+  - name: python-gil
     build:
       noarch: generic
     requirements:

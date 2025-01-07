@@ -34,9 +34,9 @@
 {% if win %}
   {% set site_packages_path = "Lib/site-packages" %}
 {% elif freethreading == "yes" %}
-  {% set site_packages_path = "lib/python" + ver_2nd + "t/site-packages" %}
+  {% set site_packages_path = "lib/python" + ver2nd + "t/site-packages" %}
 {% else %}
-  {% set site_packages_path = "lib/python" + ver_2nd + "/site-packages" %}
+  {% set site_packages_path = "lib/python" + ver2nd + "/site-packages" %}
 {% endif %}
 
 package:

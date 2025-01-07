@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 2 %}
+{% set build_number = 3 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -29,6 +29,14 @@
 {% else %}
   {% set py_interp_debug = "no" %}
   {% set debug = "" %}
+{% endif %}
+
+{% if win %}
+  {% set site_packages_path = "Lib/site-packages" %}
+{% elif freethreading == "yes" %}
+  {% set site_packages_path = "lib/python" + ver2nd + "t/site-packages" %}
+{% else %}
+  {% set site_packages_path = "lib/python" + ver2nd + "/site-packages" %}
 {% endif %}
 
 package:
@@ -110,6 +118,7 @@ outputs:
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
       string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
+      python_site_packages_path: {{ site_packages_path }}
       run_exports:
         noarch:
           - python

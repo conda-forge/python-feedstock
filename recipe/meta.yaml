@@ -31,6 +31,14 @@
   {% set debug = "" %}
 {% endif %}
 
+{% if win %}
+  {% set site_packages_path = "Lib/site-packages" %}
+{% elif freethreading == "yes" %}
+  {% set site_packages_path = "lib/python" + ver_2nd + "t/site-packages" %}
+{% else %}
+  {% set site_packages_path = "lib/python" + ver_2nd + "/site-packages" %}
+{% endif %}
+
 package:
   name: python-split
   version: {{ version }}{{ dev }}
@@ -110,12 +118,7 @@ outputs:
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
       string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
-{% if freethreading == "yes" %}
-      python_site_packages_path: lib/python{{ ver2nd }}t/site-packages   # [unix]
-{% else %}
-      python_site_packages_path: lib/python{{ ver2nd }}/site-packages    # [unix]
-{% endif %}
-      python_site_packages_path: Lib/site-packages                       # [win]
+      python_site_packages_path: {{ site_packages_path }}
       run_exports:
         noarch:
           - python

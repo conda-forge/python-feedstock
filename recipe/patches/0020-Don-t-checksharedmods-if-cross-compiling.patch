@@ -1,7 +1,7 @@
-From 534eb93832b4a219bb2b4b940989c3e3809be802 Mon Sep 17 00:00:00 2001
+From cbc6af129157df051115bf5d8f3097d0a01ef8d7 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
-Subject: [PATCH 20/23] Don't checksharedmods if cross-compiling
+Subject: [PATCH 20/24] Don't checksharedmods if cross-compiling
 
 ---
  Makefile.pre.in |  2 +-

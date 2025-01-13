@@ -1,0 +1,23 @@
+From 4fb09595193ab713507e90ecda0d85e5378f9ca0 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Sun, 12 Jan 2025 10:37:29 +0530
+Subject: [PATCH 24/24] Do not define pid_t as it might conflict with the
+ actual definition
+
+---
+ PC/pyconfig.h.in | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/PC/pyconfig.h.in b/PC/pyconfig.h.in
+index 424421f6ff1..2c1b5a5b834 100644
+--- a/PC/pyconfig.h.in
++++ b/PC/pyconfig.h.in
+@@ -230,8 +230,6 @@ typedef _W64 int Py_ssize_t;
+ #endif
+ #endif /* MS_WIN32 && !MS_WIN64 */
+ 
+-typedef int pid_t;
+-
+ /* define some ANSI types that are not defined in earlier Win headers */
+ #if _MSC_VER >= 1200
+ /* This file only exists in VC 6.0 or higher */

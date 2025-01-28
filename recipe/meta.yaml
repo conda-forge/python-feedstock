@@ -81,6 +81,7 @@ source:
       - patches/0023-unvendor-zlib.patch
       - patches/0024-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
       - patches/0025-Unvendor-expat.patch
+      - patches/0026-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
 
 build:
   number: {{ build_number }}

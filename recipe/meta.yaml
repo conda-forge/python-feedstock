@@ -75,6 +75,7 @@ source:
 {% if 'conda-forge' in channel_targets %}
       - patches/0023-Brand-conda-forge.patch
 {% endif %}
+      - patches/0024-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
 
 build:
   number: {{ build_number }}

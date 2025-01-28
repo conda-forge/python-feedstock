@@ -1,8 +1,8 @@
-From 4f71a6e686002663904e1a5363fb889c00dfdd09 Mon Sep 17 00:00:00 2001
+From 53fb7ef329d078e9bd4b688c5d5951a7d0208031 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
-Subject: [PATCH] Do not define pid_t as it might conflict with the actual
- definition
+Subject: [PATCH 23/23] Do not define pid_t as it might conflict with the
+ actual definition
 
 ---
  PC/pyconfig.h | 2 --

@@ -1,7 +1,7 @@
-From f264dd3ca56877b0debf68cddf88e9bc58adfa5f Mon Sep 17 00:00:00 2001
+From c1c44967f935f038bb0f8f668513c5a5cd71e7ab Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 08/22] Doing d1trimfile
+Subject: [PATCH 08/23] Doing d1trimfile
 
 ---
  PCbuild/_asyncio.vcxproj            | 20 ++++++++++++++++++++

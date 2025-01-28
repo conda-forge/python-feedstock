@@ -73,6 +73,7 @@ source:
       - patches/0020-Don-t-checksharedmods-if-cross-compiling.patch
       - patches/0021-Override-configure-LIBFFI.patch
       - patches/0022-Allow-linking-ncursesw-panelw-on-macOS-if-available.patch
+      - patches/0023-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
 
 build:
   number: {{ build_number }}

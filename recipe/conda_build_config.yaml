@@ -14,6 +14,8 @@ channel_sources:
 channel_targets:
   - conda-forge main
   - conda-forge python_debug   # [not win]
+is_python_min:
+  - no
 freethreading:
   - yes
   - no

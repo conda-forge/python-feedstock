@@ -1,4 +1,4 @@
-From c82917b47035e936b2b9ebf35fdc54593e78dbf3 Mon Sep 17 00:00:00 2001
+From edd613346e2c8588712b407108d72563894daa3a Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
 Subject: [PATCH 14/24] Unvendor tcltk
@@ -26,7 +26,7 @@ index 5ca877b5f2e..4ee4ff6d619 100644
      <WriteLinesToFile File="$(OutDir)TCL_LIBRARY.env" Lines="$(tcltkdir)\lib\tcl$(TclMajorVersion).$(TclMinorVersion)" Encoding="utf-8" Overwrite="true" />
    </Target>
 diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
-index 95b699b4cac..7aa8ef582c7 100644
+index 2aa3b7a1e42..81299f3a7dc 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
 @@ -12,12 +12,11 @@

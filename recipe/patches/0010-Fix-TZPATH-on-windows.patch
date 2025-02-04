@@ -1,4 +1,4 @@
-From 68f86b5cd9c77aaccdf285e4d820060c3bd5d0b3 Mon Sep 17 00:00:00 2001
+From 80fa2b3750ebe23002706dfb2c0364068536b2ca Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
 Subject: [PATCH 10/24] Fix TZPATH on windows
@@ -8,10 +8,10 @@ Subject: [PATCH 10/24] Fix TZPATH on windows
  1 file changed, 1 insertion(+)
 
 diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
-index 80aef344711..f31706d7a6b 100644
+index 7bcb737ff2c..09f3a18f751 100644
 --- a/Lib/sysconfig/__init__.py
 +++ b/Lib/sysconfig/__init__.py
-@@ -479,6 +479,7 @@ def _init_config_vars():
+@@ -492,6 +492,7 @@ def _init_config_vars():
      if os.name == 'nt':
          _init_non_posix(_CONFIG_VARS)
          _CONFIG_VARS['VPATH'] = sys._vpath

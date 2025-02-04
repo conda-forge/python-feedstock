@@ -1,4 +1,4 @@
-From 69e659ffc9565bc3a81d01f66aa021fcfaa80e49 Mon Sep 17 00:00:00 2001
+From 01dd68be0e26dfbf1ec8532d94c97b6ca1b2c7f1 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/24] Doing d1trimfile
@@ -888,12 +888,12 @@ index 1193e032245..6855845d131 100644
      <ResourceCompile>
        <PreprocessorDefinitions>PY_ICON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 diff --git a/PCbuild/venvwlauncher.vcxproj b/PCbuild/venvwlauncher.vcxproj
-index 1b617182013..4eecc214aa5 100644
+index db7128272f0..b0f54192eae 100644
 --- a/PCbuild/venvwlauncher.vcxproj
 +++ b/PCbuild/venvwlauncher.vcxproj
 @@ -94,6 +94,10 @@
      <ClCompile>
-       <PreprocessorDefinitions>EXENAME=L"$(PyExeName)$(PyDebugExt).exe";_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>EXENAME=L"$(PyWExeName)$(PyDebugExt).exe";_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>

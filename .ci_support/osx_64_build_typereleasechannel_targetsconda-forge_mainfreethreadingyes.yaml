@@ -28,6 +28,8 @@ freethreading:
 - 'yes'
 libffi:
 - '3.4'
+liblzma_devel:
+- '5'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 ncurses:

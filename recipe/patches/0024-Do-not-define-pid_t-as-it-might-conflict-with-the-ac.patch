@@ -1,13 +1,42 @@
-From 4fb09595193ab713507e90ecda0d85e5378f9ca0 Mon Sep 17 00:00:00 2001
+From dec22f500af594289870ec2ecc08d3f3b7d034a0 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/24] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
- PC/pyconfig.h.in | 2 --
- 1 file changed, 2 deletions(-)
+ Modules/clinic/posixmodule.c.h | 4 ++++
+ Modules/posixmodule.c          | 1 +
+ PC/pyconfig.h.in               | 2 --
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
+index 14a6efb9ac9..7b67d867778 100644
+--- a/Modules/clinic/posixmodule.c.h
++++ b/Modules/clinic/posixmodule.c.h
+@@ -10,6 +10,10 @@ preserve
+ #include "pycore_long.h"          // _PyLong_UnsignedInt_Converter()
+ #include "pycore_modsupport.h"    // _PyArg_UnpackKeywords()
+ 
++#if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM))
++typedef int pid_t;
++#endif
++
+ PyDoc_STRVAR(os_stat__doc__,
+ "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
+ "--\n"
+diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
+index 51e34b5f4b7..d88b1c7fee9 100644
+--- a/Modules/posixmodule.c
++++ b/Modules/posixmodule.c
+@@ -42,6 +42,7 @@
+ #  if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
+ #    define HAVE_SYMLINK
+ #  endif /* MS_WINDOWS_DESKTOP | MS_WINDOWS_SYSTEM */
++#  typedef int pid_t;
+ #endif
+ 
+ #ifndef MS_WINDOWS
 diff --git a/PC/pyconfig.h.in b/PC/pyconfig.h.in
 index 424421f6ff1..2c1b5a5b834 100644
 --- a/PC/pyconfig.h.in
@@ -21,3 +50,6 @@ index 424421f6ff1..2c1b5a5b834 100644
  /* define some ANSI types that are not defined in earlier Win headers */
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
+-- 
+2.44.0
+

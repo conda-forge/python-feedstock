@@ -1,16 +1,17 @@
-From 14a652b8f1262d0019c5912c9e078e9cdbde6f22 Mon Sep 17 00:00:00 2001
+From 27e9a62dcc30d5713cdb709b93cd455af94a837d Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/24] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
- Modules/_testcapi/long.c       | 4 ++++
- Modules/_testcapimodule.c      | 4 ++++
- Modules/clinic/posixmodule.c.h | 4 ++++
- Modules/posixmodule.c          | 1 +
- PC/pyconfig.h.in               | 2 --
- 5 files changed, 13 insertions(+), 2 deletions(-)
+ Modules/_testcapi/long.c        | 4 ++++
+ Modules/_testcapimodule.c       | 4 ++++
+ Modules/_testlimitedcapi/long.c | 4 ++++
+ Modules/clinic/posixmodule.c.h  | 4 ++++
+ Modules/posixmodule.c           | 1 +
+ PC/pyconfig.h.in                | 2 --
+ 6 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
 index 769c3909ea3..242636c7cc4 100644
@@ -42,6 +43,21 @@ index 01b6bd89d13..a811ed8d493 100644
  #ifdef bool
  #  error "The public headers should not include <stdbool.h>, see gh-48924"
  #endif
+diff --git a/Modules/_testlimitedcapi/long.c b/Modules/_testlimitedcapi/long.c
+index 5953009b6ef..299ea06d8f5 100644
+--- a/Modules/_testlimitedcapi/long.c
++++ b/Modules/_testlimitedcapi/long.c
+@@ -8,6 +8,10 @@
+ #include "util.h"
+ #include "clinic/long.c.h"
+ 
++#ifdef _MSC_VER
++typedef int pid_t;
++#endif
++
+ /*[clinic input]
+ module _testlimitedcapi
+ [clinic start generated code]*/
 diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
 index 14a6efb9ac9..7b67d867778 100644
 --- a/Modules/clinic/posixmodule.c.h
@@ -82,6 +98,3 @@ index 424421f6ff1..2c1b5a5b834 100644
  /* define some ANSI types that are not defined in earlier Win headers */
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
--- 
-2.44.0
-

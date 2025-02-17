@@ -33,7 +33,7 @@ index 51e34b5f4b7..d88b1c7fee9 100644
  #  if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
  #    define HAVE_SYMLINK
  #  endif /* MS_WINDOWS_DESKTOP | MS_WINDOWS_SYSTEM */
-+#  typedef int pid_t;
++typedef int pid_t;
  #endif
  
  #ifndef MS_WINDOWS

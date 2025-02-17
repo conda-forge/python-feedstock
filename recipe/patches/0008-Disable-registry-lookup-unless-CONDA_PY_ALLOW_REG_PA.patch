@@ -1,7 +1,7 @@
-From 6487a17368a2db4e1967dbf3963449f19c8f73aa Mon Sep 17 00:00:00 2001
+From bd93c62a12b74eccabff866eba265828d04db569 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
-Subject: [PATCH 08/25] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
+Subject: [PATCH 08/26] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
  is not 0
 
 Co-authored-by: Isuru Fernando<isuruf@gmail.com>
@@ -11,10 +11,10 @@ Co-authored-by: Isuru Fernando<isuruf@gmail.com>
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/getpath.c b/Modules/getpath.c
-index 2a14de0c91..06679ae24a 100644
+index 61d654065fd..b80297c580c 100644
 --- a/Modules/getpath.c
 +++ b/Modules/getpath.c
-@@ -903,6 +903,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
+@@ -907,6 +907,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
          !env_to_dict(dict, "ENV_PATH", 0) ||
          !env_to_dict(dict, "ENV_PYTHONHOME", 0) ||
          !env_to_dict(dict, "ENV_PYTHONEXECUTABLE", 0) ||
@@ -23,7 +23,7 @@ index 2a14de0c91..06679ae24a 100644
          !progname_to_dict(dict, "real_executable") ||
          !library_to_dict(dict, "library") ||
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index 74f918cf28..0726b9932c 100644
+index 74f918cf28e..0726b9932c6 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
 @@ -51,6 +51,7 @@

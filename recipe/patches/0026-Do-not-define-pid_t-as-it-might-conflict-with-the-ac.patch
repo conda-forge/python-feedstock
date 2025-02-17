@@ -1,0 +1,69 @@
+From bbdf1c349b2dfd2ebba8b5d8d6551c031d8c69a7 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Sun, 12 Jan 2025 10:37:29 +0530
+Subject: [PATCH 26/26] Do not define pid_t as it might conflict with the
+ actual definition
+
+---
+ Modules/_testcapimodule.c      | 4 ++++
+ Modules/clinic/posixmodule.c.h | 5 +++++
+ Modules/posixmodule.c          | 1 +
+ PC/pyconfig.h                  | 2 --
+ 4 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
+index becf203d956..718149e715d 100644
+--- a/Modules/_testcapimodule.c
++++ b/Modules/_testcapimodule.c
+@@ -40,6 +40,10 @@
+ #  error "_testcapi must test the public Python C API, not CPython internal C API"
+ #endif
+ 
++#ifdef _MSC_VER
++typedef int pid_t;
++#endif
++
+ #ifdef bool
+ #  error "The public headers should not include <stdbool.h>, see bpo-46748"
+ #endif
+diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
+index 27f12c02a80..4df5947976c 100644
+--- a/Modules/clinic/posixmodule.c.h
++++ b/Modules/clinic/posixmodule.c.h
+@@ -2,6 +2,11 @@
+ preserve
+ [clinic start generated code]*/
+ 
++
++#if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM))
++typedef int pid_t;
++#endif
++
+ PyDoc_STRVAR(os_stat__doc__,
+ "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
+ "--\n"
+diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
+index 6fb2fc8ce25..acc0533aa60 100644
+--- a/Modules/posixmodule.c
++++ b/Modules/posixmodule.c
+@@ -37,6 +37,7 @@
+ #ifdef MS_WINDOWS
+ #  include <aclapi.h>             // SetEntriesInAcl
+ #  include <sddl.h>               // SDDL_REVISION_1
++typedef int pid_t;
+ #endif
+ 
+ #include "structmember.h"         // PyMemberDef
+diff --git a/PC/pyconfig.h b/PC/pyconfig.h
+index 959b851ddcc..8dc0b88b86c 100644
+--- a/PC/pyconfig.h
++++ b/PC/pyconfig.h
+@@ -199,8 +199,6 @@ typedef _W64 int Py_ssize_t;
+ #endif
+ #endif /* MS_WIN32 && !MS_WIN64 */
+ 
+-typedef int pid_t;
+-
+ /* define some ANSI types that are not defined in earlier Win headers */
+ #if _MSC_VER >= 1200
+ /* This file only exists in VC 6.0 or higher */

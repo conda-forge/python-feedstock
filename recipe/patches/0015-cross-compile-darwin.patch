@@ -1,7 +1,7 @@
-From 773114220ddac23364e836d0f217d1cd185d7d26 Mon Sep 17 00:00:00 2001
+From d6f588dd44e11fcf7d3f2b13c9516bed14362015 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 15/25] cross compile darwin
+Subject: [PATCH 15/26] cross compile darwin
 
 By Isuru Fernando.
 ---
@@ -12,7 +12,7 @@ By Isuru Fernando.
  4 files changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 9b9d88bf58..9b2807d61f 100755
+index 9b9d88bf584..9b2807d61fd 100755
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -414,7 +414,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
@@ -30,10 +30,10 @@ index 9b9d88bf58..9b2807d61f 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index af4a5bbfdf..839d73be58 100755
+index a1ad0ae2510..803b9a0e957 100755
 --- a/configure
 +++ b/configure
-@@ -3876,6 +3876,9 @@ if test "$cross_compiling" = yes; then
+@@ -3887,6 +3887,9 @@ if test "$cross_compiling" = yes; then
  			_host_cpu=$host_cpu
  		esac
  		;;
@@ -43,7 +43,7 @@ index af4a5bbfdf..839d73be58 100755
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -7209,7 +7212,7 @@ esac
+@@ -7220,7 +7223,7 @@ esac
    fi
  fi
  
@@ -53,10 +53,10 @@ index af4a5bbfdf..839d73be58 100755
  	readelf|:)
  	as_fn_error $? "readelf for the host is required for cross builds" "$LINENO" 5
 diff --git a/configure.ac b/configure.ac
-index e1cbb7c7fb..8a3ef67c46 100644
+index 7b4000fa9c3..7356243d368 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -597,6 +597,9 @@ if test "$cross_compiling" = yes; then
+@@ -605,6 +605,9 @@ if test "$cross_compiling" = yes; then
  			_host_cpu=$host_cpu
  		esac
  		;;
@@ -66,7 +66,7 @@ index e1cbb7c7fb..8a3ef67c46 100644
  	*-*-cygwin*)
  		_host_cpu=
  		;;
-@@ -1626,7 +1629,7 @@ then
+@@ -1634,7 +1637,7 @@ then
  fi
  
  AC_CHECK_TOOLS([READELF], [readelf], [:])
@@ -76,7 +76,7 @@ index e1cbb7c7fb..8a3ef67c46 100644
  	readelf|:)
  	AC_MSG_ERROR([readelf for the host is required for cross builds])
 diff --git a/setup.py b/setup.py
-index 95ee953e0e..3288fea376 100644
+index feaeb1fcc4f..a7fa4e440fb 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -81,7 +81,7 @@ def get_platform():
@@ -88,7 +88,7 @@ index 95ee953e0e..3288fea376 100644
  AIX = (HOST_PLATFORM.startswith('aix'))
  VXWORKS = ('vxworks' in HOST_PLATFORM)
  EMSCRIPTEN = HOST_PLATFORM == 'emscripten-wasm32'
-@@ -1070,11 +1070,11 @@ def detect_readline_curses(self):
+@@ -1071,11 +1071,11 @@ def detect_readline_curses(self):
                  readline_lib = 'readline'
              do_readline = self.compiler.find_library_file(self.lib_dirs,
                  readline_lib)

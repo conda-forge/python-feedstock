@@ -1,7 +1,7 @@
-From ee398d4ef2cd9dc5f17c3d0ac0ece12aae2f14ea Mon Sep 17 00:00:00 2001
+From a70df903ab7f87c3b8f1f8e38bf0a2cbea84eb9c Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
-Subject: [PATCH 10/25] Unvendor sqlite3
+Subject: [PATCH 10/26] Unvendor sqlite3
 
 ---
  PCbuild/_sqlite3.vcxproj | 11 +++++------
@@ -10,7 +10,7 @@ Subject: [PATCH 10/25] Unvendor sqlite3
  3 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 57c7413671..4735477f00 100644
+index 57c7413671e..4735477f00c 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -93,9 +93,12 @@
@@ -43,7 +43,7 @@ index 57c7413671..4735477f00 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 3629a8508a..94148c9ee3 100644
+index 3629a8508a3..94148c9ee3e 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
 @@ -58,8 +58,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyexpat", "pyexpat.vcxproj"
@@ -56,7 +56,7 @@ index 3629a8508a..94148c9ee3 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index c502d51833..c1ff0c9a08 100644
+index c502d51833b..c1ff0c9a084 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
 @@ -88,12 +88,12 @@

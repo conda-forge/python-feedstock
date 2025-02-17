@@ -1,4 +1,4 @@
-From 6a1ff396c7dda70e871f6fa42bbe88cc6841eff9 Mon Sep 17 00:00:00 2001
+From 6f7107ecaae7e4003739e52dc5804ae713b05299 Mon Sep 17 00:00:00 2001
 From: Marcel Bargull <marcel.bargull@udo.edu>
 Date: Thu, 14 Dec 2023 22:16:33 +0100
 Subject: [PATCH 22/23] Allow linking ncursesw/panelw on macOS if available
@@ -10,10 +10,10 @@ Signed-off-by: Marcel Bargull <marcel.bargull@udo.edu>
  2 files changed, 10 deletions(-)
 
 diff --git a/configure b/configure
-index 59d7407524b..37abeaf85ab 100755
+index 08c21a3ca0a..6a051959dd5 100755
 --- a/configure
 +++ b/configure
-@@ -25721,7 +25721,6 @@ fi
+@@ -25741,7 +25741,6 @@ fi
  if test "x$ac_cv_header_ncurses_h" = xyes
  then :
  
@@ -21,7 +21,7 @@ index 59d7407524b..37abeaf85ab 100755
  
  pkg_failed=no
  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for ncursesw" >&5
-@@ -25917,7 +25916,6 @@ printf "%s\n" "yes" >&6; }
+@@ -25937,7 +25936,6 @@ printf "%s\n" "yes" >&6; }
        have_curses=ncursesw
  
  fi
@@ -29,7 +29,7 @@ index 59d7407524b..37abeaf85ab 100755
  
    if test "x$have_curses" = xno
  then :
-@@ -26153,7 +26151,6 @@ if test "x$ac_cv_header_panel_h" = xyes
+@@ -26173,7 +26171,6 @@ if test "x$ac_cv_header_panel_h" = xyes
  then :
  
  
@@ -37,7 +37,7 @@ index 59d7407524b..37abeaf85ab 100755
          if test "x$have_curses" = xncursesw
  then :
  
-@@ -26348,7 +26345,6 @@ printf "%s\n" "yes" >&6; }
+@@ -26368,7 +26365,6 @@ printf "%s\n" "yes" >&6; }
  fi
  
  fi
@@ -46,10 +46,10 @@ index 59d7407524b..37abeaf85ab 100755
    if test "x$have_curses" = xncurses
  then :
 diff --git a/configure.ac b/configure.ac
-index ecaa066fcc2..c19a53c7d06 100644
+index 8ed2b866754..77e00385c44 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -6435,8 +6435,6 @@ AH_TEMPLATE([HAVE_NCURSESW], [Define to 1 if you have the `ncursesw' library.])
+@@ -6456,8 +6456,6 @@ AH_TEMPLATE([HAVE_NCURSESW], [Define to 1 if you have the `ncursesw' library.])
  AC_CHECK_HEADERS([curses.h ncurses.h])
  
  AS_VAR_IF([ac_cv_header_ncurses_h], [yes], [
@@ -58,7 +58,7 @@ index ecaa066fcc2..c19a53c7d06 100644
      PKG_CHECK_MODULES([CURSES], [ncursesw], [
        AC_DEFINE([HAVE_NCURSESW], [1])
        have_curses=ncursesw
-@@ -6450,7 +6448,6 @@ AS_VAR_IF([ac_cv_header_ncurses_h], [yes], [
+@@ -6471,7 +6469,6 @@ AS_VAR_IF([ac_cv_header_ncurses_h], [yes], [
          ])
        ])
      ])
@@ -66,7 +66,7 @@ index ecaa066fcc2..c19a53c7d06 100644
  
    AS_VAR_IF([have_curses], [no], [
      PKG_CHECK_MODULES([CURSES], [ncurses], [
-@@ -6499,8 +6496,6 @@ AC_CHECK_HEADERS([panel.h])
+@@ -6520,8 +6517,6 @@ AC_CHECK_HEADERS([panel.h])
  
  AS_VAR_IF([ac_cv_header_panel_h], [yes], [
  
@@ -75,7 +75,7 @@ index ecaa066fcc2..c19a53c7d06 100644
      AS_VAR_IF([have_curses], [ncursesw], [
        PKG_CHECK_MODULES([PANEL], [panelw], [
          have_panel=panelw
-@@ -6514,7 +6509,6 @@ AS_VAR_IF([ac_cv_header_panel_h], [yes], [
+@@ -6535,7 +6530,6 @@ AS_VAR_IF([ac_cv_header_panel_h], [yes], [
          ])
        ])
      ])

@@ -1,4 +1,4 @@
-From c1c44967f935f038bb0f8f668513c5a5cd71e7ab Mon Sep 17 00:00:00 2001
+From f1ffaa6db5acc3d8a4886d51d35b415ae9ed78bd Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/23] Doing d1trimfile
@@ -418,7 +418,7 @@ index 917d7ae50fe..8c7e141eeaa 100644
      <ClCompile Include="..\Modules\_testbuffer.c" />
    </ItemGroup>
 diff --git a/PCbuild/_testcapi.vcxproj b/PCbuild/_testcapi.vcxproj
-index 257562c75d1..41bd3cc56cf 100644
+index 06be7d291b1..8cf13cc51cd 100644
 --- a/PCbuild/_testcapi.vcxproj
 +++ b/PCbuild/_testcapi.vcxproj
 @@ -92,6 +92,26 @@

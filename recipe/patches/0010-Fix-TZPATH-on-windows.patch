@@ -1,4 +1,4 @@
-From 200e9251d96888704cab92eba30156c9eac5e15d Mon Sep 17 00:00:00 2001
+From 74b9f6ba7b7205198939f732429b066bf2c2831d Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
 Subject: [PATCH 10/23] Fix TZPATH on windows
@@ -8,7 +8,7 @@ Subject: [PATCH 10/23] Fix TZPATH on windows
  1 file changed, 1 insertion(+)
 
 diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
-index 517b13acaf6..33bfb293ec9 100644
+index 7dd63b93554..37103c888d1 100644
 --- a/Lib/sysconfig.py
 +++ b/Lib/sysconfig.py
 @@ -666,6 +666,7 @@ def _init_config_vars():

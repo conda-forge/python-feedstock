@@ -1,13 +1,73 @@
-From 53fb7ef329d078e9bd4b688c5d5951a7d0208031 Mon Sep 17 00:00:00 2001
+From 1c4d4522758194cdf0509c4afd971a3a7ff8ea0b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 23/23] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
- PC/pyconfig.h | 2 --
- 1 file changed, 2 deletions(-)
+ Modules/_testcapi/long.c       | 3 +++
+ Modules/_testcapimodule.c      | 4 ++++
+ Modules/clinic/posixmodule.c.h | 4 ++++
+ Modules/posixmodule.c          | 1 +
+ PC/pyconfig.h                  | 2 --
+ 5 files changed, 12 insertions(+), 2 deletions(-)
 
+diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
+index 9c5a0e38675..fe70a0bcb7b 100644
+--- a/Modules/_testcapi/long.c
++++ b/Modules/_testcapi/long.c
+@@ -2,6 +2,9 @@
+ #include "parts.h"
+ #include "util.h"
+ 
++#ifdef _MSC_VER
++typedef int pid_t;
++#endif
+ 
+ static PyObject *
+ raiseTestError(const char* test_name, const char* msg)
+diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
+index 36b8fcbcddf..35a0f83a047 100644
+--- a/Modules/_testcapimodule.c
++++ b/Modules/_testcapimodule.c
+@@ -37,6 +37,10 @@
+ #  error "_testcapi must test the public Python C API, not CPython internal C API"
+ #endif
+ 
++#ifdef _MSC_VER
++typedef int pid_t;
++#endif
++
+ #ifdef bool
+ #  error "The public headers should not include <stdbool.h>, see bpo-46748"
+ #endif
+diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
+index 57121e1e890..b765e22f3be 100644
+--- a/Modules/clinic/posixmodule.c.h
++++ b/Modules/clinic/posixmodule.c.h
+@@ -8,6 +8,10 @@ preserve
+ #endif
+ 
+ 
++#if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM))
++typedef int pid_t;
++#endif
++
+ PyDoc_STRVAR(os_stat__doc__,
+ "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
+ "--\n"
+diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
+index c21c6f06c72..d65611ad55b 100644
+--- a/Modules/posixmodule.c
++++ b/Modules/posixmodule.c
+@@ -39,6 +39,7 @@
+ #  if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
+ #    define HAVE_SYMLINK
+ #  endif /* MS_WINDOWS_DESKTOP | MS_WINDOWS_SYSTEM */
++typedef int pid_t;
+ #endif
+ 
+ #include "structmember.h"         // PyMemberDef
 diff --git a/PC/pyconfig.h b/PC/pyconfig.h
 index 7815bfcf8de..4ccb55182a1 100644
 --- a/PC/pyconfig.h

@@ -1,4 +1,4 @@
-From eded359bf69fbfa86d1a3d703d0fe729b1d80e86 Mon Sep 17 00:00:00 2001
+From 14a652b8f1262d0019c5912c9e078e9cdbde6f22 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/24] Do not define pid_t as it might conflict with the
@@ -13,14 +13,14 @@ Subject: [PATCH 24/24] Do not define pid_t as it might conflict with the
  5 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
-index 769c3909ea3..c150516bcbc 100644
+index 769c3909ea3..242636c7cc4 100644
 --- a/Modules/_testcapi/long.c
 +++ b/Modules/_testcapi/long.c
 @@ -6,6 +6,10 @@
  #include "util.h"
  #include "clinic/long.c.h"
  
-+#if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM))
++#ifdef _MSC_VER
 +typedef int pid_t;
 +#endif
 +
@@ -28,14 +28,14 @@ index 769c3909ea3..c150516bcbc 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index 01b6bd89d13..fc587ed1681 100644
+index 01b6bd89d13..a811ed8d493 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -23,6 +23,10 @@
  #  include <sys/wait.h>           // W_STOPCODE
  #endif
  
-+#if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM))
++#ifdef _MSC_VER
 +typedef int pid_t;
 +#endif
 +

@@ -28,6 +28,8 @@ freethreading:
 - 'yes'
 libffi:
 - '3.4'
+liblzma_devel:
+- '5'
 libuuid:
 - '2'
 ncurses:

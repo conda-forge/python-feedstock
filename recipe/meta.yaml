@@ -82,6 +82,7 @@ source:
       - patches/0023-unvendor-xz.patch
       - patches/0024-unvendor-zlib.patch
       - patches/0025-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0026-Unvendor-expat.patch
 
 build:
   number: {{ build_number }}
@@ -186,6 +187,7 @@ outputs:
         - libnsl  # [linux]
         - libuuid  # [linux]
         - libxcrypt  # [linux]
+        - expat
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata

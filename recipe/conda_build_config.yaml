@@ -2,6 +2,8 @@ python:
   - 3.10
 python_impl:
   - cpython
+is_python_min:
+  - no
 numpy:
   - 1.16
 MACOSX_SDK_VERSION:            # [osx and x86_64]

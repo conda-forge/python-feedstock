@@ -1,4 +1,4 @@
-From 6f7107ecaae7e4003739e52dc5804ae713b05299 Mon Sep 17 00:00:00 2001
+From ea8f24b7ef7b7f05bbe958db3bf0acb3ab6de412 Mon Sep 17 00:00:00 2001
 From: Marcel Bargull <marcel.bargull@udo.edu>
 Date: Thu, 14 Dec 2023 22:16:33 +0100
 Subject: [PATCH 22/23] Allow linking ncursesw/panelw on macOS if available

@@ -1,4 +1,4 @@
-From 1c4d4522758194cdf0509c4afd971a3a7ff8ea0b Mon Sep 17 00:00:00 2001
+From 11ee68bc7a0030c8660d26f93b68484759e0e1ca Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 23/23] Do not define pid_t as it might conflict with the
@@ -13,7 +13,7 @@ Subject: [PATCH 23/23] Do not define pid_t as it might conflict with the
  5 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
-index 9c5a0e38675..fe70a0bcb7b 100644
+index 16eb437ffea..a88dd8026ab 100644
 --- a/Modules/_testcapi/long.c
 +++ b/Modules/_testcapi/long.c
 @@ -2,6 +2,9 @@

@@ -20,8 +20,6 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '18'
-libffi:
-- '3.4'
 liblzma_devel:
 - '5'
 macos_machine:

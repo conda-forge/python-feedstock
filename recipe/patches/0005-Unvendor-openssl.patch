@@ -1,47 +1,17 @@
-From 75a226e42ddfc1df0230c74970a5f149d3128899 Mon Sep 17 00:00:00 2001
+From bbdaa0da22722cb184a3b96ea40c53ada029ee1c Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/23] Unvendor openssl
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
- PCbuild/_ssl.vcxproj         |  3 --
- PCbuild/_ssl.vcxproj.filters |  3 --
- PCbuild/openssl.props        | 14 ++-------
- PCbuild/openssl.vcxproj      | 56 ------------------------------------
- PCbuild/python.props         | 11 +------
- PCbuild/python.vcxproj       |  3 ++
- PCbuild/pythonw.vcxproj      |  3 ++
- 7 files changed, 9 insertions(+), 84 deletions(-)
+ PCbuild/openssl.props   | 14 ++------------
+ PCbuild/openssl.vcxproj | 32 --------------------------------
+ PCbuild/python.props    | 11 +----------
+ PCbuild/python.vcxproj  |  3 +++
+ PCbuild/pythonw.vcxproj |  3 +++
+ 5 files changed, 9 insertions(+), 54 deletions(-)
 
-diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index 226ff506f8c..e2fac911e1e 100644
---- a/PCbuild/_ssl.vcxproj
-+++ b/PCbuild/_ssl.vcxproj
-@@ -99,9 +99,6 @@
-   </ItemDefinitionGroup>
-   <ItemGroup>
-     <ClCompile Include="..\Modules\_ssl.c" />
--    <ClCompile Include="$(opensslIncludeDir)\applink.c">
--      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;$(PreprocessorDefinitions)</PreprocessorDefinitions>
--    </ClCompile>
-   </ItemGroup>
-   <ItemGroup>
-     <ResourceCompile Include="..\PC\python_nt.rc" />
-diff --git a/PCbuild/_ssl.vcxproj.filters b/PCbuild/_ssl.vcxproj.filters
-index 716a69a41af..8aef9e03fcc 100644
---- a/PCbuild/_ssl.vcxproj.filters
-+++ b/PCbuild/_ssl.vcxproj.filters
-@@ -12,9 +12,6 @@
-     <ClCompile Include="..\Modules\_ssl.c">
-       <Filter>Source Files</Filter>
-     </ClCompile>
--    <ClCompile Include="$(opensslIncludeDir)\applink.c">
--      <Filter>Source Files</Filter>
--    </ClCompile>
-   </ItemGroup>
-   <ItemGroup>
-     <ResourceCompile Include="..\PC\python_nt.rc">
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
 index 5fd708b211e..044cefd95ea 100644
 --- a/PCbuild/openssl.props
@@ -75,10 +45,10 @@ index 5fd708b211e..044cefd95ea 100644
 -  </Target>
  </Project>
 diff --git a/PCbuild/openssl.vcxproj b/PCbuild/openssl.vcxproj
-index 0da6f674958..17eee400ebb 100644
+index 7ca750dda8f..17eee400ebb 100644
 --- a/PCbuild/openssl.vcxproj
 +++ b/PCbuild/openssl.vcxproj
-@@ -60,64 +60,8 @@
+@@ -60,40 +60,8 @@
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <Import Project="pyproject.props" />
  
@@ -89,47 +59,23 @@ index 0da6f674958..17eee400ebb 100644
 -set VCINSTALLDIR=$(VCInstallDir)
 -if not exist "$(IntDir.TrimEnd('\'))" mkdir "$(IntDir.TrimEnd('\'))"
 -cd /D "$(IntDir.TrimEnd('\'))"
--$(Perl) "$(opensslDir)\configure" $(OpenSSLPlatform) no-asm
+-$(Perl) "$(opensslDir)\configure" $(OpenSSLPlatform) no-asm no-uplink
 -nmake
 -</NMakeBuildCommandLine>
 -  </PropertyGroup>
 -
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
  
--  <Target Name="_PatchUplink" BeforeTargets="Build">
--    <PropertyGroup>
--      <Uplink>$(opensslDir)\ms\uplink.c</Uplink>
--      <BeforePatch>((h = GetModuleHandle(NULL)) == NULL)</BeforePatch>
--      <AfterPatch>((h = GetModuleHandleA("_ssl.pyd")) == NULL) if ((h = GetModuleHandleA("_ssl_d.pyd")) == NULL) if ((h = GetModuleHandle(NULL)) == NULL /*patched*/)</AfterPatch>
--    </PropertyGroup>
--    <Error Text="Cannot find $(Uplink)" Condition="!Exists($(Uplink))" />
--    <PropertyGroup>
--      <_Original>$([System.IO.File]::ReadAllText($(Uplink)))</_Original>
--      <_Patched>$(_Original.Replace($(BeforePatch), $(AfterPatch)))</_Patched>
--      <IsPatched>false</IsPatched>
--      <IsPatched Condition="$(_Patched) == $(_Original)">true</IsPatched>
--    </PropertyGroup>
--    <Message Text="$(Uplink) is already patched" Importance="normal" Condition="$(IsPatched)" />
--    <Message Text="Patching $(Uplink)" Importance="high" Condition="!$(IsPatched)" />
--    <WriteLinesToFile File="$(Uplink)"
--                      Lines="$(_Patched)"
--                      Overwrite="true"
--                      Encoding="ASCII"
--                      Condition="!$(IsPatched)" />
--  </Target>
--
 -  <Target Name="_CopyToOutput" AfterTargets="Build">
 -    <ItemGroup>
 -      <_Built Include="$(opensslDir)\LICENSE" />
 -      <_Built Include="$(IntDir)\libcrypto.lib;$(IntDir)\libcrypto-*.dll;$(IntDir)\libcrypto-*.pdb" />
 -      <_Built Include="$(IntDir)\libssl.lib;$(IntDir)\libssl-*.dll;$(IntDir)\libssl-*.pdb" />
--      <_AppLink Include="$(opensslDir)\ms\applink.c" />
 -      <_Include Include="$(opensslDir)\Include\openssl\*.h" />
 -      <_Include Include="$(IntDir)\include\openssl\*.h" />
 -    </ItemGroup>
 -    <MakeDir Directories="$(opensslOutDir)\include\openssl" />
 -    <Copy SourceFiles="@(_Built)" DestinationFolder="$(opensslOutDir)" />
--    <Copy SourceFiles="@(_AppLink)" DestinationFolder="$(opensslOutDir)\include" />
 -    <Copy SourceFiles="@(_Include)" DestinationFolder="$(opensslOutDir)\include\openssl" />
 -  </Target>
 -
@@ -144,7 +90,7 @@ index 0da6f674958..17eee400ebb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index b893960f996..cf0913f3310 100644
+index 3fba8e09acd..cf0913f3310 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -61,6 +61,7 @@
@@ -159,14 +105,14 @@ index b893960f996..cf0913f3310 100644
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>
--    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.45.3.0\</sqlite3Dir>
+-    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.49.1.0\</sqlite3Dir>
 -    <bz2Dir Condition="$(bz2Dir) == ''">$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
 -    <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.5\</lzmaDir>
 -    <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.4.4\</libffiDir>
 -    <libffiOutDir Condition="$(libffiOutDir) == ''">$(libffiDir)$(ArchName)\</libffiOutDir>
 -    <libffiIncludeDir Condition="$(libffiIncludeDir) == ''">$(libffiOutDir)include</libffiIncludeDir>
--    <opensslDir Condition="$(opensslDir) == ''">$(ExternalsDir)openssl-3.0.15\</opensslDir>
--    <opensslOutDir Condition="$(opensslOutDir) == ''">$(ExternalsDir)openssl-bin-3.0.15\$(ArchName)\</opensslOutDir>
+-    <opensslDir Condition="$(opensslDir) == ''">$(ExternalsDir)openssl-3.0.16\</opensslDir>
+-    <opensslOutDir Condition="$(opensslOutDir) == ''">$(ExternalsDir)openssl-bin-3.0.16.2\$(ArchName)\</opensslOutDir>
 -    <opensslIncludeDir Condition="$(opensslIncludeDir) == ''">$(opensslOutDir)include</opensslIncludeDir>
      <nasmDir Condition="$(nasmDir) == ''">$(ExternalsDir)\nasm-2.11.06\</nasmDir>
 -    <zlibDir Condition="$(zlibDir) == ''">$(ExternalsDir)\zlib-1.3.1\</zlibDir>

@@ -182,7 +182,7 @@ outputs:
         - xorg-libx11
         - xorg-xorgproto
         - ncurses  # [unix]
-        - libffi
+        - libffi >=3.4,<3.4.6
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - libnsl  # [linux]
         - libuuid  # [linux]

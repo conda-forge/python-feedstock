@@ -1,4 +1,4 @@
-From 01dd68be0e26dfbf1ec8532d94c97b6ca1b2c7f1 Mon Sep 17 00:00:00 2001
+From 383c3568b976dcb6a2994b1ea8d127645cf00ade Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/24] Doing d1trimfile
@@ -747,7 +747,7 @@ index 70212903c83..b85cca2cd51 100644
        <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index 58a9e852bed..ce6e35477bf 100644
+index 87f71ca59d1..32873d3db15 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
 @@ -96,6 +96,18 @@

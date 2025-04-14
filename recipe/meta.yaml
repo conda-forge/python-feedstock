@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -83,6 +83,7 @@ source:
       - patches/0024-unvendor-zlib.patch
       - patches/0025-Set-ssltag-to-3.patch
       - patches/0026-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
+      - patches/0027-Unvendor-expat.patch
 
 build:
   number: {{ build_number }}
@@ -187,6 +188,7 @@ outputs:
         - libnsl  # [linux]
         - libuuid  # [linux]
         - libxcrypt  # [linux]
+        - expat
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata

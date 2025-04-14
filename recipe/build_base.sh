@@ -493,7 +493,7 @@ pushd "${PREFIX}"/lib/python${VERABI_NO_DBG}
   sed -i.bak "s@$OLD_HOST-@@g" sysconfigfile
   if [[ "$target_platform" == linux* ]]; then
     # For linux, make sure the system gcc uses our linker
-    sed -i.bak "s@-pthread@-pthread -B $PREFIX/shared/python_compiler_compat@g" sysconfigfile
+    sed -i.bak "s@-pthread@-pthread -B $PREFIX/share/python_compiler_compat@g" sysconfigfile
   fi
   # Don't set -march and -mtune for system gcc
   sed -i.bak "s@-march=[^( |\\\"|\\\')]*@@g" sysconfigfile
@@ -518,10 +518,10 @@ pushd "${PREFIX}"/lib/python${VERABI_NO_DBG}
 popd
 
 if [[ ${HOST} =~ .*linux.* ]]; then
-  mkdir -p ${PREFIX}/shared/python_compiler_compat
-  ln -s ${PREFIX}/bin/${HOST}-ld ${PREFIX}/shared/python_compiler_compat/ld
-  echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/shared/python_compiler_compat/README
-  echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/shared/python_compiler_compat/README
+  mkdir -p ${PREFIX}/share/python_compiler_compat
+  ln -s ${PREFIX}/bin/${HOST}-ld ${PREFIX}/share/python_compiler_compat/ld
+  echo "Files in this folder are to enhance backwards compatibility of anaconda software with older compilers."   > ${PREFIX}/share/python_compiler_compat/README
+  echo "See: https://github.com/conda/conda/issues/6030 for more information."                                   >> ${PREFIX}/share/python_compiler_compat/README
 fi
 
 python -c "import compileall,os;compileall.compile_dir(os.environ['PREFIX'])"

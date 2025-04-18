@@ -160,7 +160,7 @@ outputs:
         - clang 18.*       # [win]
         - llvm-tools 18.*  # [win]
         - bzip2          # [build_platform != target_platform]
-        - sqlite         # [build_platform != target_platform]
+        - libsqlite      # [build_platform != target_platform]
         - liblzma-devel  # [build_platform != target_platform]
         - zlib           # [build_platform != target_platform]
         - openssl        # [build_platform != target_platform]
@@ -173,7 +173,7 @@ outputs:
         - expat          # [build_platform != target_platform]
       host:
         - bzip2
-        - sqlite
+        - libsqlite
         - liblzma-devel
         - zlib
         - openssl

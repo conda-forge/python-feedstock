@@ -1,10 +1,10 @@
-{% set version = "3.9.22" %}
+{% set version = "3.9.23" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 1 %}
+{% set build_number = 0 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -47,7 +47,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: cee32bb2e6abf73bd8dda59a6f5f56bd
+    md5: a4e4a53cbde60b743d7c2f9aa38c3b8f
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -236,8 +236,7 @@ outputs:
         - test-venv\\Scripts\\python.exe -c "import ctypes"  # [win]
         - test-venv/bin/python -c "import ctypes"            # [unix]
         - python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"  # [not win]
-        - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_cos6_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
-        # check for unreplaced @ symbols in sysconfig files
+        - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]

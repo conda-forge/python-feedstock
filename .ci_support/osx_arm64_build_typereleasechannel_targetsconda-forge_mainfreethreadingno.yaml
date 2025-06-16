@@ -30,6 +30,8 @@ libffi:
 - '3.4'
 liblzma_devel:
 - '5'
+libsqlite:
+- '3'
 macos_machine:
 - arm64-apple-darwin20.0.0
 ncurses:
@@ -44,8 +46,6 @@ python:
 - '3.13'
 readline:
 - '8'
-sqlite:
-- '3'
 target_platform:
 - osx-arm64
 tk:

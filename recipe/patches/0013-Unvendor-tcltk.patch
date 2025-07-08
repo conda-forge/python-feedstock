@@ -1,0 +1,49 @@
+From 305037b6a4c2103320a4ddad7685bd6d69e1dac1 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Fri, 20 Aug 2021 10:23:51 -0700
+Subject: [PATCH 13/23] Unvendor tcltk
+
+---
+ PCbuild/_tkinter.vcxproj |  6 ------
+ PCbuild/tcltk.props      | 11 +++++------
+ 2 files changed, 5 insertions(+), 12 deletions(-)
+
+diff --git a/PCbuild/_tkinter.vcxproj b/PCbuild/_tkinter.vcxproj
+index de9358312ac..3fe2c29c823 100644
+--- a/PCbuild/_tkinter.vcxproj
++++ b/PCbuild/_tkinter.vcxproj
+@@ -128,12 +128,6 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-  <Target Name="_CopyTclTkDLL" Inputs="@(_TclTkDLL)" Outputs="@(_TclTkDLL->'$(OutDir)%(Filename)%(Extension)')" AfterTargets="Build">
+-    <Copy SourceFiles="@(_TclTkDLL)" DestinationFolder="$(OutDir)" UseHardlinksIfPossible="true" />
+-  </Target>
+-  <Target Name="_CleanTclTkDLL" BeforeTargets="Clean">
+-    <Delete Files="@(_TclTkDLL->'$(OutDir)%(Filename)%(Extension)')" />
+-  </Target>
+   <Target Name="_WriteTCL_LIBRARY" Outputs="$(OutDir)TCL_LIBRARY.env" AfterTargets="Build">
+     <WriteLinesToFile File="$(OutDir)TCL_LIBRARY.env" Lines="$(tcltkdir)\lib\tcl$(TclMajorVersion).$(TclMinorVersion)" Encoding="utf-8" Overwrite="true" />
+   </Target>
+diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
+index d26b36ba98e..40327f181d8 100644
+--- a/PCbuild/tcltk.props
++++ b/PCbuild/tcltk.props
+@@ -12,12 +12,11 @@
+     <TkMinorVersion>$([System.Version]::Parse($(TkVersion)).Minor)</TkMinorVersion>
+     <TkPatchLevel>$([System.Version]::Parse($(TkVersion)).Build)</TkPatchLevel>
+     <TkRevision>$([System.Version]::Parse($(TkVersion)).Revision)</TkRevision>
+-    <tclDir Condition="$(tclDir) == ''">$(ExternalsDir)tcl-core-$(TclVersion)\</tclDir>
+-    <tkDir Condition="$(tkDir) == ''">$(ExternalsDir)tk-$(TkVersion)\</tkDir>
+-    <tcltkDir Condition="$(tcltkDir) == ''">$(ExternalsDir)tcltk-$(TclVersion)\$(ArchName)\</tcltkDir>
+-    <tclWin32Exe Condition="$(Platform) == 'Win32'">$(tcltkDir)\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>
+-    <tclWin32Exe Condition="$(Platform) != 'Win32'">$(tcltkDir)\..\win32\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>
+-    <tclExternalTommath Condition="$(TclMajorVersion) == '9'">TCL_WITH_EXTERNAL_TOMMATH;</tclExternalTommath>
++    <tclDir>$(condaDir)</tclDir>
++    <tkDir>$(condaDir)</tkDir>
++    <tixDir>$(condaDir)</tixDir>
++    <tcltkDir>$(condaDir)</tcltkDir>
++    <tclWin32Exe>$(condaDir)\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>
+ 
+     <!--<TclDebugExt Condition="'$(Configuration)' == 'Debug'">g</TclDebugExt>-->
+     <tcltkSuffix Condition="'$(TclMajorVersion)' == '8'">t</tcltkSuffix>

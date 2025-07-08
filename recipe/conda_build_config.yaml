@@ -3,7 +3,7 @@ MACOSX_SDK_VERSION:            # [osx and x86_64]
 
 # Override Python `zip_keys`
 python:
-  - 3.13
+  - 3.14
 numpy:
   - 1.16
 python_impl:

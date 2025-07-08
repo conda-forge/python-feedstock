@@ -1,0 +1,21 @@
+From 164748aa59f455e3c635378d8907c2d9670bc407 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Wed, 7 Oct 2020 10:08:30 -0500
+Subject: [PATCH 09/23] Fix TZPATH on windows
+
+---
+ Lib/sysconfig/__init__.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
+index f93b98dd681..f86ae6c08a6 100644
+--- a/Lib/sysconfig/__init__.py
++++ b/Lib/sysconfig/__init__.py
+@@ -555,6 +555,7 @@ def _init_config_vars():
+     if os.name == 'nt':
+         _init_non_posix(_CONFIG_VARS)
+         _CONFIG_VARS['VPATH'] = sys._vpath
++        _CONFIG_VARS['TZPATH'] = os.path.join(_PREFIX, "share", "zoneinfo")
+     if _HAS_USER_BASE:
+         # Setting 'userbase' is done below the call to the
+         # init function to enable using 'get_config_var' in

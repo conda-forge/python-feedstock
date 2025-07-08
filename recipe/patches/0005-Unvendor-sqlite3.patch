@@ -1,0 +1,80 @@
+From 3a63811e119be718594b9f5d68af6f4255089985 Mon Sep 17 00:00:00 2001
+From: Nehal J Wani <nehaljw.kkd1@gmail.com>
+Date: Tue, 5 Oct 2021 12:42:06 -0700
+Subject: [PATCH 05/23] Unvendor sqlite3
+
+---
+ PCbuild/_sqlite3.vcxproj | 11 +++++------
+ PCbuild/pcbuild.sln      |  2 --
+ PCbuild/sqlite3.vcxproj  | 12 ++++++------
+ 3 files changed, 11 insertions(+), 14 deletions(-)
+
+diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
+index 9ae0a0fc3a0..f482734ba1d 100644
+--- a/PCbuild/_sqlite3.vcxproj
++++ b/PCbuild/_sqlite3.vcxproj
+@@ -93,9 +93,12 @@
+   </PropertyGroup>
+   <ItemDefinitionGroup>
+     <ClCompile>
+-      <AdditionalIncludeDirectories>$(sqlite3Dir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>PY_SQLITE_HAVE_SERIALIZE;PY_SQLITE_ENABLE_LOAD_EXTENSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+     </ClCompile>
++    <Link>
++      <AdditionalDependencies>$(condaDir)\lib\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
++    </Link>
+   </ItemDefinitionGroup>
+   <ItemGroup>
+     <ClInclude Include="..\Modules\_sqlite\connection.h" />
+@@ -127,12 +130,8 @@
+       <Project>{cf7ac3d1-e2df-41d2-bea6-1e2556cdea26}</Project>
+       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+     </ProjectReference>
+-    <ProjectReference Include="sqlite3.vcxproj">
+-      <Project>{a1a295e5-463c-437f-81ca-1f32367685da}</Project>
+-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+-    </ProjectReference>
+   </ItemGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
+diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
+index 7296ea75301..9dd5e07ad8a 100644
+--- a/PCbuild/pcbuild.sln
++++ b/PCbuild/pcbuild.sln
+@@ -72,8 +72,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_elementtree", "_elementtre
+ EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_socket", "_socket.vcxproj", "{86937F53-C189-40EF-8CE8-8759D8E7D480}"
+ EndProject
+-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_sqlite3", "_sqlite3.vcxproj", "{13CECB97-4119-4316-9D42-8534019A5A44}"
+-EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_ssl", "_ssl.vcxproj", "{C6E20F84-3247-4AD6-B051-B073268F73BA}"
+ EndProject
+ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_testcapi", "_testcapi.vcxproj", "{6901D91C-6E48-4BB7-9FEC-700C8131DF1D}"
+diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
+index f12ec348b37..f9e5e449a49 100644
+--- a/PCbuild/sqlite3.vcxproj
++++ b/PCbuild/sqlite3.vcxproj
+@@ -88,12 +88,12 @@
+   <PropertyGroup Label="UserMacros" />
+   <PropertyGroup>
+     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+-    <_SqliteVersion>$([System.Text.RegularExpressions.Regex]::Match(`$(sqlite3Dir)`, `((\d+)\.(\d+)\.(\d+)\.(\d+))\\?$`).Groups)</_SqliteVersion>
+-    <SqliteVersion>$(_SqliteVersion.Split(`;`)[1])</SqliteVersion>
+-    <SqliteMajorVersion>$(_SqliteVersion.Split(`;`)[2])</SqliteMajorVersion>
+-    <SqliteMinorVersion>$(_SqliteVersion.Split(`;`)[3])</SqliteMinorVersion>
+-    <SqliteMicroVersion>$(_SqliteVersion.Split(`;`)[4])</SqliteMicroVersion>
+-    <SqlitePatchVersion>$(_SqliteVersion.Split(`;`)[5])</SqlitePatchVersion>
++    <_SqliteVersion>$(SQLITE3_VERSION)</_SqliteVersion>
++    <SqliteVersion>$(_SqliteVersion)</SqliteVersion>
++    <SqliteMajorVersion>$(_SqliteVersion.Split(`.`)[1])</SqliteMajorVersion>
++    <SqliteMinorVersion>$(_SqliteVersion.Split(`.`)[2])</SqliteMinorVersion>
++    <SqliteMicroVersion>$(_SqliteVersion.Split(`.`)[3])</SqliteMicroVersion>
++    <SqlitePatchVersion>$(_SqliteVersion.Split(`.`)[4])</SqlitePatchVersion>
+   </PropertyGroup>
+   <ItemDefinitionGroup>
+     <ClCompile>

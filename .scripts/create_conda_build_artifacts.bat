@@ -19,6 +19,8 @@ rem BLD_ARTIFACT_PATH
 rem ENV_ARTIFACT_NAME
 rem ENV_ARTIFACT_PATH
 
+@echo on
+
 rem Check that the conda-build directory exists
 if not exist %CONDA_BLD_DIR% (
     echo conda-build directory does not exist
@@ -35,9 +37,6 @@ set ARTIFACT_UNIQUE_ID=%CI_RUN_ID%_%CONFIG%
 if not "%ARTIFACT_UNIQUE_ID%" == "%ARTIFACT_UNIQUE_ID:~0,80%" (
     set ARTIFACT_UNIQUE_ID=%CI_RUN_ID%_%SHORT_CONFIG%
 )
-
-rem Set a descriptive ID for the archive(s), specialized for this particular job run
-set ARCHIVE_UNIQUE_ID=%CI_RUN_ID%_%CONFIG%
 
 rem Make the build artifact zip
 if defined BLD_ARTIFACT_PREFIX (

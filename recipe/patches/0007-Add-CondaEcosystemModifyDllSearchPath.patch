@@ -1,4 +1,4 @@
-From 9d2c319335f1a4e0dfb25b4a2e99657afbbd6a67 Mon Sep 17 00:00:00 2001
+From 5734b12525068fdae3273aa7836a881aedf32e59 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 07/24] Add CondaEcosystemModifyDllSearchPath()
@@ -29,14 +29,14 @@ Subject: [PATCH 07/24] Add CondaEcosystemModifyDllSearchPath()
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
- Python/pylifecycle.c | 96 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 96 insertions(+)
+ Python/pylifecycle.c | 95 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index a8852a88f94..f1a919bad51 100644
+index c4c1d9fd9e1..f0e0ca2a715 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
-@@ -74,6 +74,10 @@
+@@ -80,6 +80,10 @@
  
  #ifdef MS_WINDOWS
  #  undef BYTE
@@ -47,7 +47,7 @@ index a8852a88f94..f1a919bad51 100644
  #endif
  
  #define PUTS(fd, str) (void)_Py_write_noraise(fd, str, (int)strlen(str))
-@@ -123,6 +127,94 @@ __attribute__ ((section (".PyRuntime")))
+@@ -114,6 +118,93 @@ GENERATE_DEBUG_SECTION(PyRuntime, _PyRuntimeState _PyRuntime)
  = _PyRuntimeState_INIT(_PyRuntime, _Py_Debug_Cookie);
  _Py_COMP_DIAG_POP
  
@@ -138,11 +138,10 @@ index a8852a88f94..f1a919bad51 100644
 +}
 +
 +#endif
-+
+ 
  static int runtime_initialized = 0;
  
- PyStatus
-@@ -139,6 +231,10 @@ _PyRuntime_Initialize(void)
+@@ -131,6 +222,10 @@ _PyRuntime_Initialize(void)
      }
      runtime_initialized = 1;
  

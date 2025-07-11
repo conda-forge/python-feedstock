@@ -1,4 +1,4 @@
-From f7651087d4ada24bbe464d1c423da5852856ba2e Mon Sep 17 00:00:00 2001
+From 2214d06554be1342e50ca8be29a453a7a1c28390 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 28 Aug 2024 11:12:22 -0500
 Subject: [PATCH 23/24] Brand conda-forge
@@ -9,27 +9,27 @@ Subject: [PATCH 23/24] Brand conda-forge
  2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index fd93841d034..17d59c77025 100755
+index 834fade9265..badd730705a 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -1198,6 +1198,7 @@ def _sys_version(sys_version=None):
+@@ -1204,6 +1204,7 @@ def _sys_version(sys_version=None):
          cpython_sys_version_parser = re.compile(
              r'([\w.+]+)\s*'  # "version<space>"
-             r'(?:experimental free-threading build\s+)?' # "free-threading-build<space>"
+             r'(?:free-threading build\s+)?' # "free-threading-build<space>"
 +            r'(?:\| packaged by conda-forge \|\s+)?' # "| packaged by conda-forge |<space>"
              r'\(#?([^,]+)'  # "(#buildno"
              r'(?:,\s*([\w ]*)'  # ", builddate"
              r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
 diff --git a/Python/getversion.c b/Python/getversion.c
-index 226b2f999a6..92e4459bdac 100644
+index 8d8bc6ea700..2fc5c13dbfb 100644
 --- a/Python/getversion.c
 +++ b/Python/getversion.c
 @@ -15,9 +15,9 @@ void _Py_InitVersion(void)
      }
      initialized = 1;
  #ifdef Py_GIL_DISABLED
--    const char *buildinfo_format = "%.80s experimental free-threading build (%.80s) %.80s";
-+    const char *buildinfo_format = "%.80s experimental free-threading build | packaged by conda-forge | (%.80s) %.80s";
+-    const char *buildinfo_format = "%.80s free-threading build (%.80s) %.80s";
++    const char *buildinfo_format = "%.80s free-threading build | packaged by conda-forge | (%.80s) %.80s";
  #else
 -    const char *buildinfo_format = "%.80s (%.80s) %.80s";
 +    const char *buildinfo_format = "%.80s | packaged by conda-forge | (%.80s) %.80s";

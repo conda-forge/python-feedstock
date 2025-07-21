@@ -175,7 +175,7 @@ outputs:
         - bzip2
         - libsqlite
         - liblzma-devel
-        - zlib
+        - zlib     # [not win]
         - zlib-ng  # [win]
         - openssl
         - readline  # [not win]

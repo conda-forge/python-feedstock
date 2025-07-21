@@ -1,4 +1,4 @@
-From 7857d93ccfe12502e5f3a3497707cbe74e085578 Mon Sep 17 00:00:00 2001
+From 6b81f0576385dd787f493c2c7341c151f16e3e6c Mon Sep 17 00:00:00 2001
 From: Charles Bousseau <cbousseau@anaconda.com>
 Date: Thu, 25 May 2023 17:56:53 -0400
 Subject: [PATCH 19/24] Remove unused readelf

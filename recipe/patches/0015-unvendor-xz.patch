@@ -1,4 +1,4 @@
-From 74322fec74ac8d54289aaba692f0abf63d304a5b Mon Sep 17 00:00:00 2001
+From 54b25d2205b9e43cf1d8d98b6ae49110f5f3e87b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sat, 25 Sep 2021 10:07:05 -0700
 Subject: [PATCH 15/24] unvendor xz

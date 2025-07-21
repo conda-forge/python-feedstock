@@ -1,4 +1,4 @@
-From e6710ffc0cebedc7210554cb0ec395eb453fdc48 Mon Sep 17 00:00:00 2001
+From 7911c1d8f030a11156c59fed35eaf92928f9034c Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 16 Aug 2024 21:34:43 -0500
 Subject: [PATCH 22/24] Unvendor libmpdec

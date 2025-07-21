@@ -1,4 +1,4 @@
-From 328c6cb8cc706a7628c60ad2425f56a4e08cc087 Mon Sep 17 00:00:00 2001
+From 28d38176d7ab4d630fcf3161508ebe0d7b0e076d Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 16/24] unvendor zlib
@@ -9,7 +9,7 @@ Subject: [PATCH 16/24] unvendor zlib
  2 files changed, 4 insertions(+), 76 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 20a08a37e3d..fdbc2c5bb30 100644
+index 8e45967a83c..639cde97c1a 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -41,7 +41,7 @@ index 20a08a37e3d..fdbc2c5bb30 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -677,12 +677,6 @@
+@@ -681,12 +681,6 @@
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
    </ItemGroup>

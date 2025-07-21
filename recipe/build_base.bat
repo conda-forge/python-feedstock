@@ -49,7 +49,7 @@ if "%PY_FREETHREADING%" == "yes" (
   set "THREAD=t"
   set "EXE_T=%VER%t"
 ) else (
-  set "FREETHREADING="
+  set "FREETHREADING=--experimental-jit-off"
   set "THREAD="
   set "EXE_T="
 )
@@ -61,8 +61,8 @@ cd PCbuild
 
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% %FREETHREADING% --experimental-jit-off -m -e -v -p %PLATFORM%
-call build.bat %PGO% %CONFIG% %FREETHREADING% --experimental-jit-off -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 

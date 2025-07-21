@@ -317,8 +317,6 @@ outputs:
 
   - name: cpython
     build:
-      # FIXME: How to get it working with RCs?
-      skip: true
       noarch: generic
     requirements:
       - python {{ version }}.*
@@ -327,8 +325,6 @@ outputs:
   - name: python-freethreading
     build:
       noarch: generic
-      # FIXME: How to get it working with RCs?
-      skip: true
 {% if freethreading != "yes" %}
       skip: true
 {% endif %}
@@ -339,8 +335,6 @@ outputs:
   - name: python-gil
     build:
       noarch: generic
-      # FIXME: How to get it working with RCs?
-      skip: true
 {% if freethreading == "yes" %}
       skip: true
 {% endif %}
@@ -353,8 +347,6 @@ outputs:
     script: install_jit_activation.bat  # [win]
     build:
       noarch: generic
-      # FIXME: How to get it working with RCs?
-      skip: true
     requirements:
       - cpython {{ version }}.*
       - __unix   # [unix]

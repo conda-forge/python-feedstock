@@ -176,6 +176,7 @@ outputs:
         - libsqlite
         - liblzma-devel
         - zlib
+        - zlib-ng  # [win]
         - openssl
         - readline  # [not win]
         - tk

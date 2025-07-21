@@ -319,7 +319,7 @@ outputs:
     build:
       noarch: generic
     requirements:
-      - python {{ version }}.*
+      - python {{ version }}{{ dev }}
       - python_abi * *_{{ abi_tag }}
 
   - name: python-freethreading
@@ -329,7 +329,7 @@ outputs:
       skip: true
 {% endif %}
     requirements:
-      - cpython {{ version }}.*
+      - cpython {{ version }}{{ dev }}
       - python_abi * *_{{ abi_tag }}
 
   - name: python-gil
@@ -339,7 +339,7 @@ outputs:
       skip: true
 {% endif %}
     requirements:
-      - cpython {{ version }}.*
+      - cpython {{ version }}{{ dev }}
       - python_abi * *_{{ abi_tag }}
 
   - name: python-jit
@@ -348,7 +348,7 @@ outputs:
     build:
       noarch: generic
     requirements:
-      - cpython {{ version }}.*
+      - cpython {{ version }}{{ dev }}
       - __unix   # [unix]
       - __win    # [win]
 

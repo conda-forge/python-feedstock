@@ -55,6 +55,7 @@ import array
 import binascii
 import bz2
 import cmath
+import compression.zstd
 import datetime
 import itertools
 import lzma

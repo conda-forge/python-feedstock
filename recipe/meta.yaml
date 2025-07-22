@@ -76,6 +76,7 @@ source:
       - patches/0023-Brand-conda-forge.patch
 {% endif %}
       - patches/0024-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
+      - patches/0025-Unvendor-zstd.patch
 
 build:
   number: {{ build_number }}
@@ -164,6 +165,7 @@ outputs:
         - libsqlite      # [build_platform != target_platform]
         - liblzma-devel  # [build_platform != target_platform]
         - zlib           # [build_platform != target_platform]
+        - zstd           # [build_platform != target_platform]
         - openssl        # [build_platform != target_platform]
         - readline       # [not win and build_platform != target_platform]
         - tk             # [build_platform != target_platform]
@@ -177,6 +179,7 @@ outputs:
         - libsqlite
         - liblzma-devel
         - zlib
+        - zstd
         - openssl
         - readline  # [not win]
         - tk

@@ -76,7 +76,6 @@ source:
       - patches/0023-Brand-conda-forge.patch
 {% endif %}
       - patches/0024-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
-      - patches/0025-Use-zlib-ng.h-on-windows.patch
 
 build:
   number: {{ build_number }}
@@ -177,8 +176,7 @@ outputs:
         - bzip2
         - libsqlite
         - liblzma-devel
-        - zlib     # [not win]
-        - zlib-ng  # [win]
+        - zlib
         - openssl
         - readline  # [not win]
         - tk

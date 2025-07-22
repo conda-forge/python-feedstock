@@ -1,7 +1,7 @@
-From 28d38176d7ab4d630fcf3161508ebe0d7b0e076d Mon Sep 17 00:00:00 2001
+From 79c393c61d9b5939d772312f80e02d001c403643 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
-Subject: [PATCH 16/25] unvendor zlib
+Subject: [PATCH 16/24] unvendor zlib
 
 ---
  PCbuild/pythoncore.vcxproj         | 14 ++-----
@@ -9,7 +9,7 @@ Subject: [PATCH 16/25] unvendor zlib
  2 files changed, 4 insertions(+), 76 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 8e45967a83c..639cde97c1a 100644
+index 8e45967a83c..fc1a6077b34 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -17,7 +17,7 @@ index 8e45967a83c..639cde97c1a 100644
      <KillPython>true</KillPython>
      <RequireProfileData>true</RequireProfileData>
 -    <IncludeExternals Condition="$(IncludeExternals) == '' and Exists('$(zlibNgDir)\zlib-ng.h.in')">true</IncludeExternals>
-+    <IncludeExternals Condition="$(IncludeExternals) == '' and Exists('$(condaDir)\include\zlib-ng.h')">true</IncludeExternals>
++    <IncludeExternals Condition="$(IncludeExternals) == '' and Exists('$(condaDir)\include\zlib.h')">true</IncludeExternals>
      <IncludeExternals Condition="$(IncludeExternals) == ''">false</IncludeExternals>
    </PropertyGroup>
    <ImportGroup Label="PropertySheets">
@@ -36,7 +36,7 @@ index 8e45967a83c..639cde97c1a 100644
      <Link>
 -      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
 -      <AdditionalDependencies Condition="$(IncludeExternals)">zlib-ng$(PyDebugExt).lib;%(AdditionalDependencies)</AdditionalDependencies>
-+      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;zlib-ng.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
 +      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
      </Link>
    </ItemDefinitionGroup>

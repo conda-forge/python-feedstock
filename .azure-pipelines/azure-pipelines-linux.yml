@@ -12,62 +12,50 @@ jobs:
         CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_64_build_typedebugchannel_targetsc_h10d856d4
       linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
         CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_64_build_typedebugchannel_targetsc_hf83d9e2d
       linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
         CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_64_build_typereleasechannel_target_h01f3c156
       linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
         CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_64_build_typereleasechannel_target_hf5ff4d16
       linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
         CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_aarch64_build_typedebugchannel_tar_hd2db0a21
       linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
         CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_aarch64_build_typedebugchannel_tar_h51de9693
       linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
         CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_aarch64_build_typereleasechannel_t_hccc48f4a
       linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
         CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_aarch64_build_typereleasechannel_t_h78d2c7f5
       linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
         CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_ppc64le_build_typedebugchannel_tar_hac8bb296
       linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
         CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_ppc64le_build_typedebugchannel_tar_hb74ed675
       linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
         CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_ppc64le_build_typereleasechannel_t_h5454d1d5
       linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
         CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_ppc64le_build_typereleasechannel_t_hed84b2c3
   timeoutInMinutes: 360
   variables: {}
 
@@ -98,32 +86,3 @@ jobs:
       BINSTAR_TOKEN: $(BINSTAR_TOKEN)
       FEEDSTOCK_TOKEN: $(FEEDSTOCK_TOKEN)
       STAGING_BINSTAR_TOKEN: $(STAGING_BINSTAR_TOKEN)
-  - script: |
-        export CI=azure
-        export CI_RUN_ID=$(build.BuildNumber).$(system.JobAttempt)
-        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
-        export CONDA_BLD_DIR=build_artifacts
-        export ARTIFACT_STAGING_DIR="$(Build.ArtifactStagingDirectory)"
-        # Archive everything in CONDA_BLD_DIR except environments
-        export BLD_ARTIFACT_PREFIX=conda_artifacts
-        if [[ "$AGENT_JOBSTATUS" == "Failed" ]]; then
-          # Archive the CONDA_BLD_DIR environments only when the job fails
-          export ENV_ARTIFACT_PREFIX=conda_envs
-        fi
-        ./.scripts/create_conda_build_artifacts.sh
-    displayName: Prepare conda build artifacts
-    condition: succeededOrFailed()
-
-  - task: PublishPipelineArtifact@1
-    displayName: Store conda build artifacts
-    condition: not(eq(variables.BLD_ARTIFACT_PATH, ''))
-    inputs:
-      targetPath: $(BLD_ARTIFACT_PATH)
-      artifactName: $(BLD_ARTIFACT_NAME)
-
-  - task: PublishPipelineArtifact@1
-    displayName: Store conda build environment artifacts
-    condition: not(eq(variables.ENV_ARTIFACT_PATH, ''))
-    inputs:
-      targetPath: $(ENV_ARTIFACT_PATH)
-      artifactName: $(ENV_ARTIFACT_NAME)

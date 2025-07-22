@@ -37,5 +37,7 @@ tk:
 zip_keys:
 - - build_type
   - channel_targets
-zlib_ng:
-- '2.2'
+zlib:
+- '1'
+zstd:
+- '1.5'

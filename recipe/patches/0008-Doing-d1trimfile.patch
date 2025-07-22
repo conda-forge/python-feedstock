@@ -1,4 +1,4 @@
-From 85d0372f2168c4dc4b430c37d13107d49b24ba8e Mon Sep 17 00:00:00 2001
+From a28b10c19cf9a42ca330c7e8edb2c336164e07ce Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/25] Doing d1trimfile
@@ -179,7 +179,7 @@ index 3eb9c89bcb6..920656f2ee2 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
-index efff6a58d89..28887ae824e 100644
+index 5ceddf759b8..6b113ad8c2e 100644
 --- a/PCbuild/_freeze_module.vcxproj
 +++ b/PCbuild/_freeze_module.vcxproj
 @@ -93,6 +93,10 @@

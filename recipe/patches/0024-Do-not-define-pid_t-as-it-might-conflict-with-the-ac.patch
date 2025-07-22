@@ -1,4 +1,4 @@
-From 715949bbff645bb7a8bf7530734a013a6ce0365a Mon Sep 17 00:00:00 2001
+From ad84812a5d646594872e2d00595aae91e8bd3275 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
@@ -28,7 +28,7 @@ index 6313abf5485..bc8169e2f68 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index 71fffedee14..50b20317d81 100644
+index 2572df9719a..792c0df35af 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -23,6 +23,10 @@
@@ -58,7 +58,7 @@ index 34bc7331da9..abae4b19bf0 100644
  module _testlimitedcapi
  [clinic start generated code]*/
 diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
-index 6b8cc3d07ab..7dfc5b13b4d 100644
+index 87a17935507..a88a9151cb6 100644
 --- a/Modules/clinic/posixmodule.c.h
 +++ b/Modules/clinic/posixmodule.c.h
 @@ -10,6 +10,10 @@ preserve
@@ -73,7 +73,7 @@ index 6b8cc3d07ab..7dfc5b13b4d 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index 27352f0c20d..695123d47f7 100644
+index 904c2f55bbc..b68b2a5e757 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
 @@ -219,6 +219,7 @@

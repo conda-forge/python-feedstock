@@ -118,7 +118,7 @@ xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\
 if errorlevel 1 exit 1
 
 :: Copy generated pyconfig.h
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\pyconfig.h %PREFIX%\include\
+copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\
 if errorlevel 1 exit 1
 
 :: Populate the Scripts directory

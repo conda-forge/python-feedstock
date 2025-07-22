@@ -8,8 +8,6 @@ bot:
   - '3.10'
   - '3.11'
   - '3.12'
-azure:
-  store_build_artifacts: true
 github:
   branch_name: main
   tooling_branch_name: main

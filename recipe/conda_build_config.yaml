@@ -3,6 +3,11 @@ MACOSX_SDK_VERSION:            # [osx and x86_64]
 # Needs pthread_jit_write_protect_np
 c_stdlib_version:              # [osx and x86_64]
   - 11.0                       # [osx and x86_64]
+# See https://docs.python.org/3.14/whatsnew/3.14.html#a-new-type-of-interpreter
+c_compiler_version:    # [osx]
+  - 20.1.1             # [osx]
+cxx_compiler_version:  # [osx]
+  - 20.1.1             # [osx]
 
 # Override Python `zip_keys`
 python:

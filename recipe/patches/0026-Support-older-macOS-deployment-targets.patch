@@ -1,4 +1,4 @@
-From a8f743ec306340d581a0061146992e70af10d09e Mon Sep 17 00:00:00 2001
+From dba7d1e800ec989c178b4120da6f6ff4f7d99c2a Mon Sep 17 00:00:00 2001
 From: Brandt Bucher <brandt@python.org>
 Date: Wed, 21 May 2025 11:40:54 -0400
 Subject: [PATCH 26/26] Support older "macOS" deployment targets

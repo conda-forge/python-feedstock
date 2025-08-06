@@ -1,7 +1,7 @@
-From 017316809897ddd38d5ea0088a628c7e1eb36628 Mon Sep 17 00:00:00 2001
+From 5b70911c8769d86d244055d49692bae4a8abd6af Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwelk@xhochy.com>
 Date: Tue, 22 Jul 2025 18:07:54 +0200
-Subject: [PATCH 25/25] Unvendor zstd
+Subject: [PATCH 25/26] Unvendor zstd
 
 ---
  PCbuild/_zstd.vcxproj         |  58 +------------

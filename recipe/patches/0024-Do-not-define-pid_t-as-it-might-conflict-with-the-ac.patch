@@ -1,7 +1,7 @@
-From 75c454fc360827b74b6b178fbc3f824c23420447 Mon Sep 17 00:00:00 2001
+From d659c16622730e983cdd75fc7228e32391d2acb0 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
-Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
+Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
@@ -11,7 +11,8 @@ Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
  Modules/clinic/posixmodule.c.h  | 4 ++++
  Modules/posixmodule.c           | 1 +
  PC/pyconfig.h                   | 2 --
- 6 files changed, 17 insertions(+), 2 deletions(-)
+ Python/remote_debug.h           | 3 +++
+ 7 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
 index 6313abf5485..bc8169e2f68 100644
@@ -98,3 +99,17 @@ index 710a737ebcc..92d327b1e35 100644
  /* define some ANSI types that are not defined in earlier Win headers */
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
+diff --git a/Python/remote_debug.h b/Python/remote_debug.h
+index 8f9b6cd4c49..ee75bbb8e43 100644
+--- a/Python/remote_debug.h
++++ b/Python/remote_debug.h
+@@ -28,6 +28,9 @@ extern "C" {
+ #endif
+ 
+ #include "pyconfig.h"
++#ifdef _WIN32
++#typedef int pid_t
++#endif
+ #include "internal/pycore_ceval.h"
+ 
+ #ifdef __linux__

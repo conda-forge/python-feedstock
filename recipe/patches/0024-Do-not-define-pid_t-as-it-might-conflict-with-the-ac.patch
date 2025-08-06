@@ -108,7 +108,7 @@ index 8f9b6cd4c49..ee75bbb8e43 100644
  
  #include "pyconfig.h"
 +#ifdef _WIN32
-+#typedef int pid_t
++typedef int pid_t;
 +#endif
  #include "internal/pycore_ceval.h"
  

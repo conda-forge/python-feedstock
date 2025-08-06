@@ -1,4 +1,4 @@
-From ad84812a5d646594872e2d00595aae91e8bd3275 Mon Sep 17 00:00:00 2001
+From 75c454fc360827b74b6b178fbc3f824c23420447 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
@@ -10,7 +10,8 @@ Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
  Modules/_testlimitedcapi/long.c | 4 ++++
  Modules/clinic/posixmodule.c.h  | 4 ++++
  Modules/posixmodule.c           | 1 +
- 5 files changed, 17 insertions(+)
+ PC/pyconfig.h                   | 2 --
+ 6 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
 index 6313abf5485..bc8169e2f68 100644
@@ -84,3 +85,16 @@ index 904c2f55bbc..b68b2a5e757 100644
  #endif
  
  
+diff --git a/PC/pyconfig.h b/PC/pyconfig.h
+index 710a737ebcc..92d327b1e35 100644
+--- a/PC/pyconfig.h
++++ b/PC/pyconfig.h
+@@ -235,8 +235,6 @@ typedef _W64 int Py_ssize_t;
+ #endif
+ #endif /* MS_WIN32 && !MS_WIN64 */
+ 
+-typedef int pid_t;
+-
+ /* define some ANSI types that are not defined in earlier Win headers */
+ #if _MSC_VER >= 1200
+ /* This file only exists in VC 6.0 or higher */

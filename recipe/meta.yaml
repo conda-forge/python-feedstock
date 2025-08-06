@@ -77,6 +77,9 @@ source:
 {% endif %}
       - patches/0024-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
       - patches/0025-Unvendor-zstd.patch
+      # See https://github.com/python/cpython/pull/137211
+      # Applied in main, but will get backported soon
+      - patches/0026-Support-older-macOS-deployment-targets.patch
 
 build:
   number: {{ build_number }}

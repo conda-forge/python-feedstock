@@ -10,6 +10,9 @@ reports itself as 10.16 which means that `__builtin_available(macOS 11.0)` will 
 This can be observed by using the python 3.9.1 universal2 installer and using it on
 x86_64 Big Sur or with Rossetta 2 on arm64 Big Sur. (Not an issue with native arm64
 as that part is compiled with `MACOSX_DEPLOYMENT_TARGET=11.0`)
+
+We also suppress a warning due to the mismatch between header using 11.0
+and this code using 10.16
 ---
  Modules/_ctypes/callproc.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)

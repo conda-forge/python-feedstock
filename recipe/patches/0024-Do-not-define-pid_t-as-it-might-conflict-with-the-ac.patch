@@ -1,7 +1,7 @@
-From 57d58fa6a8cd001be82f6e1adef9640581dbbc7f Mon Sep 17 00:00:00 2001
+From d659c16622730e983cdd75fc7228e32391d2acb0 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
-Subject: [PATCH 24/24] Do not define pid_t as it might conflict with the
+Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
@@ -10,11 +10,12 @@ Subject: [PATCH 24/24] Do not define pid_t as it might conflict with the
  Modules/_testlimitedcapi/long.c | 4 ++++
  Modules/clinic/posixmodule.c.h  | 4 ++++
  Modules/posixmodule.c           | 1 +
- PC/pyconfig.h.in                | 2 --
- 6 files changed, 17 insertions(+), 2 deletions(-)
+ PC/pyconfig.h                   | 2 --
+ Python/remote_debug.h           | 3 +++
+ 7 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
-index 769c3909ea3..242636c7cc4 100644
+index 6313abf5485..bc8169e2f68 100644
 --- a/Modules/_testcapi/long.c
 +++ b/Modules/_testcapi/long.c
 @@ -6,6 +6,10 @@
@@ -29,7 +30,7 @@ index 769c3909ea3..242636c7cc4 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index 97e046a4822..feb5c0b13f0 100644
+index 2572df9719a..792c0df35af 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -23,6 +23,10 @@
@@ -44,7 +45,7 @@ index 97e046a4822..feb5c0b13f0 100644
  #  error "The public headers should not include <stdbool.h>, see gh-48924"
  #endif
 diff --git a/Modules/_testlimitedcapi/long.c b/Modules/_testlimitedcapi/long.c
-index e2af09d0840..24715ac5182 100644
+index 34bc7331da9..abae4b19bf0 100644
 --- a/Modules/_testlimitedcapi/long.c
 +++ b/Modules/_testlimitedcapi/long.c
 @@ -8,6 +8,10 @@
@@ -59,7 +60,7 @@ index e2af09d0840..24715ac5182 100644
  module _testlimitedcapi
  [clinic start generated code]*/
 diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
-index 25d242dbd42..4b166677dcb 100644
+index 87a17935507..a88a9151cb6 100644
 --- a/Modules/clinic/posixmodule.c.h
 +++ b/Modules/clinic/posixmodule.c.h
 @@ -10,6 +10,10 @@ preserve
@@ -74,22 +75,22 @@ index 25d242dbd42..4b166677dcb 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index 601145e561d..4feddc37737 100644
+index 904c2f55bbc..b68b2a5e757 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
-@@ -43,6 +43,7 @@
+@@ -219,6 +219,7 @@
  #  if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
  #    define HAVE_SYMLINK
  #  endif /* MS_WINDOWS_DESKTOP | MS_WINDOWS_SYSTEM */
 +typedef int pid_t;
  #endif
  
- #ifndef MS_WINDOWS
-diff --git a/PC/pyconfig.h.in b/PC/pyconfig.h.in
-index 424421f6ff1..2c1b5a5b834 100644
---- a/PC/pyconfig.h.in
-+++ b/PC/pyconfig.h.in
-@@ -230,8 +230,6 @@ typedef _W64 int Py_ssize_t;
+ 
+diff --git a/PC/pyconfig.h b/PC/pyconfig.h
+index 710a737ebcc..92d327b1e35 100644
+--- a/PC/pyconfig.h
++++ b/PC/pyconfig.h
+@@ -235,8 +235,6 @@ typedef _W64 int Py_ssize_t;
  #endif
  #endif /* MS_WIN32 && !MS_WIN64 */
  
@@ -98,3 +99,17 @@ index 424421f6ff1..2c1b5a5b834 100644
  /* define some ANSI types that are not defined in earlier Win headers */
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
+diff --git a/Python/remote_debug.h b/Python/remote_debug.h
+index 8f9b6cd4c49..ee75bbb8e43 100644
+--- a/Python/remote_debug.h
++++ b/Python/remote_debug.h
+@@ -28,6 +28,9 @@ extern "C" {
+ #endif
+ 
+ #include "pyconfig.h"
++#ifdef _WIN32
++typedef int pid_t;
++#endif
+ #include "internal/pycore_ceval.h"
+ 
+ #ifdef __linux__

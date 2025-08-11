@@ -1,5 +1,5 @@
-{% set version = "3.13.5" %}
-{% set dev = "" %}
+{% set version = "3.14.0" %}
+{% set dev = "rc1" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
@@ -46,7 +46,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    md5: dbaa8833aa736eddbb18a6a6ae0c10fa
+    md5: 48c4518c06dcb675c24276c56f69b9fd
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch
@@ -76,6 +76,10 @@ source:
       - patches/0023-Brand-conda-forge.patch
 {% endif %}
       - patches/0024-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
+      - patches/0025-Unvendor-zstd.patch
+      # See https://github.com/python/cpython/pull/137211
+      # Applied in main, but will get backported soon
+      - patches/0026-Support-older-macOS-deployment-targets.patch
 
 build:
   number: {{ build_number }}
@@ -155,14 +159,15 @@ outputs:
         - llvm-tools  # [osx]
         - ld_impl_{{ target_platform }}  # [linux]
         - binutils_impl_{{ target_platform }}  # [linux]
-        - clang-18         # [not win]
-        - llvm-tools-18    # [not win]
-        - clang 18.*       # [win]
-        - llvm-tools 18.*  # [win]
+        - clang-19         # [not win]
+        - llvm-tools-19    # [not win]
+        - clang 19.*       # [win]
+        - llvm-tools 19.*  # [win]
         - bzip2          # [build_platform != target_platform]
         - libsqlite      # [build_platform != target_platform]
         - liblzma-devel  # [build_platform != target_platform]
         - zlib           # [build_platform != target_platform]
+        - zstd           # [build_platform != target_platform]
         - openssl        # [build_platform != target_platform]
         - readline       # [not win and build_platform != target_platform]
         - tk             # [build_platform != target_platform]
@@ -176,6 +181,7 @@ outputs:
         - libsqlite
         - liblzma-devel
         - zlib
+        - zstd
         - openssl
         - readline  # [not win]
         - tk
@@ -203,6 +209,7 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
@@ -296,6 +303,7 @@ outputs:
       files:
         - tests/prefix-replacement/*
       requires:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]
@@ -318,7 +326,7 @@ outputs:
     build:
       noarch: generic
     requirements:
-      - python {{ version }}.*
+      - python {{ version }}{{ dev }}
       - python_abi * *_{{ abi_tag }}
 
   - name: python-freethreading
@@ -328,7 +336,7 @@ outputs:
       skip: true
 {% endif %}
     requirements:
-      - cpython {{ version }}.*
+      - cpython {{ version }}{{ dev }}
       - python_abi * *_{{ abi_tag }}
 
   - name: python-gil
@@ -338,7 +346,7 @@ outputs:
       skip: true
 {% endif %}
     requirements:
-      - cpython {{ version }}.*
+      - cpython {{ version }}{{ dev }}
       - python_abi * *_{{ abi_tag }}
 
   - name: python-jit
@@ -347,7 +355,7 @@ outputs:
     build:
       noarch: generic
     requirements:
-      - cpython {{ version }}.*
+      - cpython {{ version }}{{ dev }}
       - __unix   # [unix]
       - __win    # [win]
 

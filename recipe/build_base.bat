@@ -49,7 +49,7 @@ if "%PY_FREETHREADING%" == "yes" (
   set "THREAD=t"
   set "EXE_T=%VER%t"
 ) else (
-  set "FREETHREADING="
+  set "FREETHREADING=--experimental-jit-off"
   set "THREAD="
   set "EXE_T="
 )
@@ -61,8 +61,8 @@ cd PCbuild
 
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% %FREETHREADING% --experimental-jit-off -m -e -v -p %PLATFORM%
-call build.bat %PGO% %CONFIG% %FREETHREADING% --experimental-jit-off -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
@@ -118,7 +118,7 @@ xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\
 if errorlevel 1 exit 1
 
 :: Copy generated pyconfig.h
-copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\pyconfig.h %PREFIX%\include\
+copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\
 if errorlevel 1 exit 1
 
 :: Populate the Scripts directory

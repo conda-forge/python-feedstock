@@ -1,13 +1,13 @@
-From 383c3568b976dcb6a2994b1ea8d127645cf00ade Mon Sep 17 00:00:00 2001
+From 11282f5451b71d2f08d0725c17be2656625ecd1a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 08/24] Doing d1trimfile
+Subject: [PATCH 08/26] Doing d1trimfile
 
 ---
  PCbuild/_asyncio.vcxproj            | 20 ++++++++++++++++++++
  PCbuild/_bz2.vcxproj                |  6 +++++-
  PCbuild/_ctypes.vcxproj             |  4 ++++
- PCbuild/_ctypes_test.vcxproj        | 22 +++++++++++++++++++++-
+ PCbuild/_ctypes_test.vcxproj        | 20 ++++++++++++++++++++
  PCbuild/_decimal.vcxproj            |  4 ++++
  PCbuild/_elementtree.vcxproj        |  6 +++++-
  PCbuild/_freeze_module.vcxproj      |  4 ++++
@@ -26,7 +26,7 @@ Subject: [PATCH 08/24] Doing d1trimfile
  PCbuild/_testimportmultiple.vcxproj | 20 ++++++++++++++++++++
  PCbuild/_testinternalcapi.vcxproj   | 20 ++++++++++++++++++++
  PCbuild/_testmultiphase.vcxproj     |  6 +++++-
- PCbuild/_tkinter.vcxproj            |  6 +++++-
+ PCbuild/_tkinter.vcxproj            |  4 ++++
  PCbuild/liblzma.vcxproj             |  4 ++++
  PCbuild/pyexpat.vcxproj             |  4 ++++
  PCbuild/pylauncher.vcxproj          |  4 ++++
@@ -35,7 +35,7 @@ Subject: [PATCH 08/24] Doing d1trimfile
  PCbuild/python3dll.vcxproj          |  6 +++++-
  PCbuild/python_uwp.vcxproj          |  2 +-
  PCbuild/pythoncore.vcxproj          |  2 +-
- PCbuild/pythonw.vcxproj             | 12 ++++++++++++
+ PCbuild/pythonw.vcxproj             | 14 +++++++++++++-
  PCbuild/pythonw_uwp.vcxproj         |  2 +-
  PCbuild/pywlauncher.vcxproj         |  6 +++++-
  PCbuild/select.vcxproj              | 14 +++++++++++++-
@@ -45,7 +45,7 @@ Subject: [PATCH 08/24] Doing d1trimfile
  PCbuild/winsound.vcxproj            | 14 +++++++++++++-
  PCbuild/xxlimited.vcxproj           |  6 ++++++
  PCbuild/xxlimited_35.vcxproj        |  6 ++++++
- 41 files changed, 368 insertions(+), 20 deletions(-)
+ 41 files changed, 367 insertions(+), 19 deletions(-)
 
 diff --git a/PCbuild/_asyncio.vcxproj b/PCbuild/_asyncio.vcxproj
 index 76b0ffd660d..1402860e19b 100644
@@ -116,10 +116,10 @@ index 63d5fa49cd4..6329f3d960f 100644
      <Link>
        <AdditionalOptions>/EXPORT:DllGetClassObject,PRIVATE /EXPORT:DllCanUnloadNow,PRIVATE %(AdditionalOptions)</AdditionalOptions>
 diff --git a/PCbuild/_ctypes_test.vcxproj b/PCbuild/_ctypes_test.vcxproj
-index 97354739c09..b200d592906 100644
+index f15b80852e3..e565441ca4c 100644
 --- a/PCbuild/_ctypes_test.vcxproj
 +++ b/PCbuild/_ctypes_test.vcxproj
-@@ -92,6 +92,26 @@
+@@ -93,6 +93,26 @@
    <PropertyGroup>
      <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
    </PropertyGroup>
@@ -145,14 +145,7 @@ index 97354739c09..b200d592906 100644
 +  </ItemDefinitionGroup>
    <ItemGroup>
      <ClInclude Include="..\Modules\_ctypes\_ctypes_test.h" />
-   </ItemGroup>
-@@ -109,4 +129,4 @@
-   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-   <ImportGroup Label="ExtensionTargets">
-   </ImportGroup>
--</Project>
-\ No newline at end of file
-+</Project>
+     <ClInclude Include="..\Modules\_ctypes\_ctypes_test_generated.c.h" />
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
 index ee7421484b5..e9d60b4db1a 100644
 --- a/PCbuild/_decimal.vcxproj
@@ -169,7 +162,7 @@ index ee7421484b5..e9d60b4db1a 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index 8c9c0e42f7f..94da21f6425 100644
+index 3eb9c89bcb6..920656f2ee2 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -94,7 +94,11 @@
@@ -186,13 +179,13 @@ index 8c9c0e42f7f..94da21f6425 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
-index e5e18de60ec..f9757290b2e 100644
+index 5ceddf759b8..6b113ad8c2e 100644
 --- a/PCbuild/_freeze_module.vcxproj
 +++ b/PCbuild/_freeze_module.vcxproj
-@@ -92,6 +92,10 @@
-       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+@@ -93,6 +93,10 @@
        <Optimization>Disabled</Optimization>
        <WholeProgramOptimization>false</WholeProgramOptimization>
+       <AdditionalOptions Condition="$(PlatformToolset) == 'ClangCL'">%(AdditionalOptions) -fno-lto</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -436,7 +429,7 @@ index 4e721e8ce09..3fec7516ed5 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/_testcapi.vcxproj b/PCbuild/_testcapi.vcxproj
-index 44dbf234813..ec791cfe60c 100644
+index a68f15d25aa..5c42f15c312 100644
 --- a/PCbuild/_testcapi.vcxproj
 +++ b/PCbuild/_testcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -542,7 +535,7 @@ index c35ac83c1c7..c9d7f5d22b7 100644
      <ClCompile Include="..\Modules\_testimportmultiple.c" />
    </ItemGroup>
 diff --git a/PCbuild/_testinternalcapi.vcxproj b/PCbuild/_testinternalcapi.vcxproj
-index 87db569423d..c91bc1a2b96 100644
+index f7e050b7c74..58c3e10c0f0 100644
 --- a/PCbuild/_testinternalcapi.vcxproj
 +++ b/PCbuild/_testinternalcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -595,11 +588,11 @@ index e730fe308ab..a6f13ef31dc 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/_tkinter.vcxproj b/PCbuild/_tkinter.vcxproj
-index 117488a0162..5ca877b5f2e 100644
+index 87f6005fffc..de9358312ac 100644
 --- a/PCbuild/_tkinter.vcxproj
 +++ b/PCbuild/_tkinter.vcxproj
-@@ -96,6 +96,10 @@
-       <AdditionalIncludeDirectories>$(tcltkDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+@@ -97,6 +97,10 @@
+       <PreprocessorDefinitions Condition="$(TclMajorVersion) == '9'">TCL_WITH_EXTERNAL_TOMMATH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions>WITH_APPINIT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="'$(BuildForRelease)' != 'true'">Py_TCLTK_DIR="$(tcltkDir.TrimEnd('\').Replace('\', '\\'))";%(PreprocessorDefinitions)</PreprocessorDefinitions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -609,21 +602,14 @@ index 117488a0162..5ca877b5f2e 100644
      </ClCompile>
      <Link>
        <AdditionalDependencies>$(tcltkLib);%(AdditionalDependencies)</AdditionalDependencies>
-@@ -134,4 +138,4 @@
-   <Target Name="_CleanTCL_LIBRARY" BeforeTargets="Clean">
-     <Delete Files="$(OutDir)TCL_LIBRARY.env" />
-   </Target>
--</Project>
-\ No newline at end of file
-+</Project>
 diff --git a/PCbuild/liblzma.vcxproj b/PCbuild/liblzma.vcxproj
-index 4dd42ab98a9..7c2dbc7e701 100644
+index 97938692328..212fb5e1ebc 100644
 --- a/PCbuild/liblzma.vcxproj
 +++ b/PCbuild/liblzma.vcxproj
-@@ -94,6 +94,10 @@
-       <PreprocessorDefinitions>WIN32;HAVE_CONFIG_H;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+@@ -95,6 +95,10 @@
        <AdditionalIncludeDirectories>$(lzmaDir)windows/vs2019;$(lzmaDir)src/liblzma/common;$(lzmaDir)src/common;$(lzmaDir)src/liblzma/api;$(lzmaDir)src/liblzma/check;$(lzmaDir)src/liblzma/delta;$(lzmaDir)src/liblzma/lz;$(lzmaDir)src/liblzma/lzma;$(lzmaDir)src/liblzma/rangecoder;$(lzmaDir)src/liblzma/simple;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <DisableSpecificWarnings>4028;4113;4133;4244;4267;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+       <DisableSpecificWarnings>4244;4267;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+       <AdditionalOptions Condition="$(PlatformToolset) == 'ClangCL'">%(AdditionalOptions) -Wno-deprecated-declarations</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -647,7 +633,7 @@ index dc9161a8b29..3bcef600a3e 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/pylauncher.vcxproj b/PCbuild/pylauncher.vcxproj
-index 35f2f7e505b..02d7961c5d8 100644
+index ca422ef4d02..0c692649ed6 100644
 --- a/PCbuild/pylauncher.vcxproj
 +++ b/PCbuild/pylauncher.vcxproj
 @@ -93,6 +93,10 @@
@@ -684,7 +670,7 @@ index ea432d6bc9a..50397324a20 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index b11fb617963..dacf01e264f 100644
+index ac5f96ebafc..3d0caa906cf 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -92,6 +92,10 @@
@@ -721,7 +707,7 @@ index 235ea1cf9d3..d861f6c6a43 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/python_uwp.vcxproj b/PCbuild/python_uwp.vcxproj
-index fb27e9e7122..f8dc841ef1b 100644
+index 3f8772d30b4..d80968e351a 100644
 --- a/PCbuild/python_uwp.vcxproj
 +++ b/PCbuild/python_uwp.vcxproj
 @@ -90,7 +90,7 @@
@@ -734,7 +720,7 @@ index fb27e9e7122..f8dc841ef1b 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 70212903c83..b85cca2cd51 100644
+index b911c938563..8e45967a83c 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@
@@ -743,11 +729,11 @@ index 70212903c83..b85cca2cd51 100644
      <ClCompile>
 -      <AdditionalOptions>/Zm200  %(AdditionalOptions)</AdditionalOptions>
 +      <AdditionalOptions>/d1trimfile:%SRC_DIR%</AdditionalOptions>
-       <AdditionalIncludeDirectories>$(PySourcePath)Modules\_hacl\include;$(PySourcePath)Modules\_hacl\internal;$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <AdditionalIncludeDirectories>$(PySourcePath)Modules\_hacl;$(PySourcePath)Modules\_hacl\include;$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibNgDir);$(GeneratedZlibNgDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalIncludeDirectories Condition="'$(UseJIT)' == 'true'">$(GeneratedJitStencilsDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index 87f71ca59d1..32873d3db15 100644
+index 74bd19144f9..6fea2e1f70c 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
 @@ -96,6 +96,18 @@
@@ -768,9 +754,16 @@ index 87f71ca59d1..32873d3db15 100644
 +    </ClCompile>
    </ItemDefinitionGroup>
    <ItemGroup>
-     <ResourceCompile Include="..\PC\pythonw_exe.rc" />
+     <None Include="..\PC\icons\pythonw.ico" />
+@@ -118,4 +130,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/PCbuild/pythonw_uwp.vcxproj b/PCbuild/pythonw_uwp.vcxproj
-index e21e46a1b72..ff7dc6635df 100644
+index f548d022642..fa4e75f9712 100644
 --- a/PCbuild/pythonw_uwp.vcxproj
 +++ b/PCbuild/pythonw_uwp.vcxproj
 @@ -90,7 +90,7 @@
@@ -783,7 +776,7 @@ index e21e46a1b72..ff7dc6635df 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pywlauncher.vcxproj b/PCbuild/pywlauncher.vcxproj
-index e50b69aefe2..d64a06b5e6e 100644
+index 1694548935a..9be580e2663 100644
 --- a/PCbuild/pywlauncher.vcxproj
 +++ b/PCbuild/pywlauncher.vcxproj
 @@ -93,6 +93,10 @@
@@ -873,7 +866,7 @@ index 781f938e2ab..3870c85adf7 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/venvlauncher.vcxproj b/PCbuild/venvlauncher.vcxproj
-index 1193e032245..6855845d131 100644
+index abaf3a979af..324aadcd782 100644
 --- a/PCbuild/venvlauncher.vcxproj
 +++ b/PCbuild/venvlauncher.vcxproj
 @@ -94,6 +94,10 @@
@@ -888,7 +881,7 @@ index 1193e032245..6855845d131 100644
      <ResourceCompile>
        <PreprocessorDefinitions>PY_ICON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 diff --git a/PCbuild/venvwlauncher.vcxproj b/PCbuild/venvwlauncher.vcxproj
-index db7128272f0..b0f54192eae 100644
+index c58280deb8a..4dacf7f2724 100644
 --- a/PCbuild/venvwlauncher.vcxproj
 +++ b/PCbuild/venvwlauncher.vcxproj
 @@ -94,6 +94,10 @@

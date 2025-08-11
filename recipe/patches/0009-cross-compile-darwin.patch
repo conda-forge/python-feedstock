@@ -1,7 +1,7 @@
-From 2b1e4a9b02d9644d294325d2236f57121db8b98f Mon Sep 17 00:00:00 2001
+From 6e8bd58784f1900fd8f8aa0377408c2ea524e51a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 09/24] cross compile darwin
+Subject: [PATCH 09/26] cross compile darwin
 
 By Isuru Fernando.
 ---
@@ -11,10 +11,10 @@ By Isuru Fernando.
  3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 8895177e326..fd93841d034 100755
+index 7dd64de6025..834fade9265 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -460,7 +460,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
+@@ -466,7 +466,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
  def _mac_ver_xml():
      fn = '/System/Library/CoreServices/SystemVersion.plist'
      if not os.path.exists(fn):
@@ -29,10 +29,10 @@ index 8895177e326..fd93841d034 100755
      try:
          import plistlib
 diff --git a/configure b/configure
-index 1cd1f690f7b..603108eb031 100755
+index 345822a6c6d..f0a0664c8d5 100755
 --- a/configure
 +++ b/configure
-@@ -4052,6 +4052,9 @@ then
+@@ -4110,6 +4110,9 @@ then
  	*-*-linux*)
  		ac_sys_system=Linux
  		;;
@@ -42,7 +42,7 @@ index 1cd1f690f7b..603108eb031 100755
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -4500,6 +4503,9 @@ if test "$cross_compiling" = yes; then
+@@ -4589,6 +4592,9 @@ if test "$cross_compiling" = yes; then
  			_host_ident=$host_cpu
  		esac
  		;;
@@ -53,7 +53,7 @@ index 1cd1f690f7b..603108eb031 100755
  		_host_ident=
  		;;
 diff --git a/configure.ac b/configure.ac
-index 3fcb18922c5..fd3cba43283 100644
+index d6059471771..11b9896968e 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -324,6 +324,9 @@ then
@@ -66,7 +66,7 @@ index 3fcb18922c5..fd3cba43283 100644
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -748,6 +751,9 @@ if test "$cross_compiling" = yes; then
+@@ -771,6 +774,9 @@ if test "$cross_compiling" = yes; then
  			_host_ident=$host_cpu
  		esac
  		;;

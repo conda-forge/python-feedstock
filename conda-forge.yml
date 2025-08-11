@@ -3,13 +3,11 @@ conda_forge_output_validation: true
 provider: {linux_aarch64: default, linux_ppc64le: native}
 bot:
   abi_migration_branches:
-  - '3.8'
   - '3.9'
   - '3.10'
   - '3.11'
   - '3.12'
-azure:
-  store_build_artifacts: true
+  - '3.13'
 github:
   branch_name: main
   tooling_branch_name: main

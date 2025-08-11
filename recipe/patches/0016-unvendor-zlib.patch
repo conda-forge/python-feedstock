@@ -1,89 +1,64 @@
-From a6201164d0c51c2aa574aa420d4662fb13481286 Mon Sep 17 00:00:00 2001
+From f446705fe6e9ed28f1e9b6fa83daf97a514d5a39 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
-Subject: [PATCH 16/24] unvendor zlib
+Subject: [PATCH 16/26] unvendor zlib
 
 ---
- PCbuild/pythoncore.vcxproj         | 33 ++-------------
+ PCbuild/pythoncore.vcxproj         | 14 ++-----
  PCbuild/pythoncore.vcxproj.filters | 66 ------------------------------
- 2 files changed, 4 insertions(+), 95 deletions(-)
+ 2 files changed, 4 insertions(+), 76 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index b85cca2cd51..8e09d243c53 100644
+index 8e45967a83c..fc1a6077b34 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
    <PropertyGroup>
      <KillPython>true</KillPython>
-     <RequirePGCFiles>true</RequirePGCFiles>
--    <IncludeExternals Condition="$(IncludeExternals) == '' and Exists('$(zlibDir)\zlib.h')">true</IncludeExternals>
+     <RequireProfileData>true</RequireProfileData>
+-    <IncludeExternals Condition="$(IncludeExternals) == '' and Exists('$(zlibNgDir)\zlib-ng.h.in')">true</IncludeExternals>
 +    <IncludeExternals Condition="$(IncludeExternals) == '' and Exists('$(condaDir)\include\zlib.h')">true</IncludeExternals>
      <IncludeExternals Condition="$(IncludeExternals) == ''">false</IncludeExternals>
    </PropertyGroup>
    <ImportGroup Label="PropertySheets">
-@@ -101,14 +101,15 @@
+@@ -101,7 +101,7 @@
      <ClCompile>
        <AdditionalOptions>/d1trimfile:%SRC_DIR%</AdditionalOptions>
-       <AdditionalIncludeDirectories>$(PySourcePath)Modules\_hacl\include;$(PySourcePath)Modules\_hacl\internal;$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
--      <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalIncludeDirectories>$(PySourcePath)Modules\_hacl;$(PySourcePath)Modules\_hacl\include;$(PySourcePath)Python;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+-      <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(zlibNgDir);$(GeneratedZlibNgDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 +      <AdditionalIncludeDirectories Condition="$(IncludeExternals)">$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <AdditionalIncludeDirectories Condition="'$(UseJIT)' == 'true'">$(GeneratedJitStencilsDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";ZLIB_COMPAT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="$(IncludeExternals)">_Py_HAVE_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-       <PreprocessorDefinitions Condition="'$(UseJIT)' == 'true'">_Py_JIT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-       <PreprocessorDefinitions Condition="'$(UseTIER2)' != '' and '$(UseTIER2)' != '0'">_Py_TIER2=$(UseTIER2);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+@@ -112,8 +112,8 @@
+       <PreprocessorDefinitions Condition="'$(DisableRemoteDebug)' != 'true'">Py_REMOTE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
      </ClCompile>
      <Link>
 -      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <AdditionalDependencies Condition="$(IncludeExternals)">zlib-ng$(PyDebugExt).lib;%(AdditionalDependencies)</AdditionalDependencies>
 +      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
 +      <AdditionalLibraryDirectories>$(condaDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -397,19 +398,6 @@
-     <ClInclude Include="..\Python\stdlib_module_names.h" />
-     <ClInclude Include="..\Python\thread_nt.h" />
+@@ -681,12 +681,6 @@
+   <ItemGroup>
+     <ResourceCompile Include="..\PC\python_nt.rc" />
    </ItemGroup>
--  <ItemGroup Condition="$(IncludeExternals)">
--    <ClInclude Include="$(zlibDir)\crc32.h" />
--    <ClInclude Include="$(zlibDir)\deflate.h" />
--    <ClInclude Include="$(zlibDir)\inffast.h" />
--    <ClInclude Include="$(zlibDir)\inffixed.h" />
--    <ClInclude Include="$(zlibDir)\inflate.h" />
--    <ClInclude Include="$(zlibDir)\inftrees.h" />
--    <ClInclude Include="$(zlibDir)\trees.h" />
--    <ClInclude Include="$(zlibDir)\zconf.h" />
--    <ClInclude Include="$(zlibDir)\zconf.in.h" />
--    <ClInclude Include="$(zlibDir)\zlib.h" />
--    <ClInclude Include="$(zlibDir)\zutil.h" />
+-  <ItemGroup>
+-    <ProjectReference Include="zlib-ng.vcxproj" Condition="$(IncludeExternals)">
+-      <Project>{fb91c8b2-6fbc-3a01-b644-1637111f902d}</Project>
+-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+-    </ProjectReference>
 -  </ItemGroup>
-   <ItemGroup>
-     <ClCompile Include="..\Modules\_abc.c" />
-     <ClCompile Include="..\Modules\_bisectmodule.c" />
-@@ -643,19 +631,6 @@
-   </ItemGroup>
-   <ItemGroup Condition="$(IncludeExternals)">
-     <ClCompile Include="..\Modules\zlibmodule.c" />
--    <ClCompile Include="$(zlibDir)\adler32.c" />
--    <ClCompile Include="$(zlibDir)\compress.c" />
--    <ClCompile Include="$(zlibDir)\crc32.c" />
--    <ClCompile Include="$(zlibDir)\deflate.c">
--      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
--    </ClCompile>
--    <ClCompile Include="$(zlibDir)\infback.c" />
--    <ClCompile Include="$(zlibDir)\inffast.c" />
--    <ClCompile Include="$(zlibDir)\inflate.c" />
--    <ClCompile Include="$(zlibDir)\inftrees.c" />
--    <ClCompile Include="$(zlibDir)\trees.c" />
--    <ClCompile Include="$(zlibDir)\uncompr.c" />
--    <ClCompile Include="$(zlibDir)\zutil.c" />
-   </ItemGroup>
-   <ItemGroup>
-     <ClCompile Include="..\PC\dl_nt.c" />
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+     <Import Project="regen.targets" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 3eed5a9465b..0892b669d6b 100644
+index 0e6d42cc959..144a0e3425a 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
-@@ -852,39 +852,6 @@
+@@ -900,39 +900,6 @@
      <ClInclude Include="..\Include\internal\mimalloc\mimalloc\types.h">
        <Filter>Include\internal\mimalloc</Filter>
      </ClInclude>
@@ -111,7 +86,7 @@ index 3eed5a9465b..0892b669d6b 100644
 -    <ClInclude Include="$(zlibDir)\zconf.h">
 -      <Filter>Modules\zlib</Filter>
 -    </ClInclude>
--    <ClInclude Include="$(zlibDir)\zconf.in.h">
+-    <ClInclude Include="$(zlibDir)\zconf.h.in">
 -      <Filter>Modules\zlib</Filter>
 -    </ClInclude>
 -    <ClInclude Include="$(zlibDir)\zlib.h">
@@ -123,9 +98,9 @@ index 3eed5a9465b..0892b669d6b 100644
      <ClInclude Include="..\Include\internal\pycore_structseq.h">
        <Filter>Include\internal</Filter>
      </ClInclude>
-@@ -1514,39 +1481,6 @@
-     <ClCompile Include="..\Modules\_contextvarsmodule.c">
-       <Filter>Modules</Filter>
+@@ -1580,39 +1547,6 @@
+     <ClCompile Include="..\Objects\odictobject.c">
+       <Filter>Objects</Filter>
      </ClCompile>
 -    <ClCompile Include="$(zlibDir)\adler32.c">
 -      <Filter>Modules\zlib</Filter>

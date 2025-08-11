@@ -1,17 +1,17 @@
-From 6b2be09a90969918df41b16e3f04c6d65c8d618b Mon Sep 17 00:00:00 2001
+From 33a046766d230a1f905090b5b882e2c4b22523b0 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
-Subject: [PATCH 02/24] Win32: Do not download externals
+Subject: [PATCH 02/26] Win32: Do not download externals
 
 ---
- PCbuild/build.bat | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ PCbuild/build.bat | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index 6c76f09a071..3dc802b8cef 100644
+index 60235704886..edb61912b74 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
-@@ -102,7 +102,7 @@ if "%~1"=="--no-ctypes" (set IncludeCTypes=false) & shift & goto CheckOpts
+@@ -107,7 +107,7 @@ if "%~1"=="--no-ctypes" (set IncludeCTypes=false) & shift & goto CheckOpts
  if "%~1"=="--no-ssl" (set IncludeSSL=false) & shift & goto CheckOpts
  if "%~1"=="--no-tkinter" (set IncludeTkinter=false) & shift & goto CheckOpts
  
@@ -20,10 +20,3 @@ index 6c76f09a071..3dc802b8cef 100644
  if "%IncludeCTypes%"=="" set IncludeCTypes=true
  if "%IncludeSSL%"=="" set IncludeSSL=true
  if "%IncludeTkinter%"=="" set IncludeTkinter=true
-@@ -196,4 +196,4 @@ rem Display the current build version information
- call "%dir%find_msbuild.bat" %MSBUILD%
- if ERRORLEVEL 1 (echo Cannot locate MSBuild.exe on PATH or as MSBUILD variable & exit /b 2)
- %MSBUILD% "%dir%pythoncore.vcxproj" /t:ShowVersionInfo /v:m /nologo %1 %2 %3 %4 %5 %6 %7 %8 %9
--if ERRORLEVEL 1 exit /b 3
-\ No newline at end of file
-+if ERRORLEVEL 1 exit /b 3

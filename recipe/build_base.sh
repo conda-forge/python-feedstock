@@ -259,10 +259,15 @@ _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
 _common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
 _common_configure_args+=(--with-platlibdir=lib)
 
-if [[ "${PY_INTERP_DEBUG}" == "yes" || "${target_platform}" != *"-64" ]]; then
+if [[ "${PY_INTERP_DEBUG}" == "yes" || "${target_platform}" != *"-64" || ${PY_FREETHREADING} == yes ]]; then
  _common_configure_args+=(--enable-experimental-jit=no)
 else
  _common_configure_args+=(--enable-experimental-jit=yes-off)
+fi
+
+if [[ "${target_platform}" == osx-* ]]; then
+    # This should only be used with clang 20.1+
+    _common_configure_args+=(--with-tail-call-interp)
 fi
 
 if [[ ${PY_FREETHREADING} == yes ]]; then

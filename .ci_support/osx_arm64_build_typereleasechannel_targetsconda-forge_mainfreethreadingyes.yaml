@@ -9,7 +9,7 @@ bzip2:
 c_compiler:
 - clang
 c_compiler_version:
-- '18'
+- '20.1'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -21,7 +21,7 @@ channel_targets:
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '18'
+- '20.1'
 expat:
 - '2'
 freethreading:
@@ -43,7 +43,7 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- '3.13'
+- '3.14'
 readline:
 - '8'
 target_platform:
@@ -57,3 +57,5 @@ zip_keys:
   - cxx_compiler_version
 zlib:
 - '1'
+zstd:
+- '1.5'

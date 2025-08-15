@@ -1,7 +1,7 @@
-From d659c16622730e983cdd75fc7228e32391d2acb0 Mon Sep 17 00:00:00 2001
+From db7463fa61da246089907979628193c463cf3932 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
-Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
+Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
@@ -100,7 +100,7 @@ index 710a737ebcc..92d327b1e35 100644
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
 diff --git a/Python/remote_debug.h b/Python/remote_debug.h
-index 8f9b6cd4c49..ee75bbb8e43 100644
+index 8f9b6cd4c49..20cd65dd818 100644
 --- a/Python/remote_debug.h
 +++ b/Python/remote_debug.h
 @@ -28,6 +28,9 @@ extern "C" {

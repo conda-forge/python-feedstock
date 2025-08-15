@@ -3,7 +3,7 @@ build_type:
 bzip2:
 - '1'
 c_compiler:
-- vs2019
+- vs2022
 c_stdlib:
 - vs
 channel_sources:
@@ -11,7 +11,7 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cxx_compiler:
-- vs2019
+- vs2022
 expat:
 - '2'
 freethreading:

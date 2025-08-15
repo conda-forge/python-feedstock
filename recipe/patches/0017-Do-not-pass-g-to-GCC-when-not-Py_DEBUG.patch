@@ -1,4 +1,4 @@
-From 27fcf7aefe92bc81c68e73d92268b55213363345 Mon Sep 17 00:00:00 2001
+From aead054ab122ac78a19d0fdcec8281b9591554f7 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:45:28 +0100
 Subject: [PATCH 17/24] Do not pass -g to GCC when not Py_DEBUG
@@ -10,7 +10,7 @@ This bloats our exe and our modules a lot.
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/configure b/configure
-index 603108eb031..a4df798edca 100755
+index e96a4d404e8..007a288bef9 100755
 --- a/configure
 +++ b/configure
 @@ -5671,9 +5671,9 @@ if test $ac_test_CFLAGS; then
@@ -35,7 +35,7 @@ index 603108eb031..a4df798edca 100755
  	    ;;
  	*)
 diff --git a/configure.ac b/configure.ac
-index fd3cba43283..b747715f637 100644
+index 2287ee877c8..4297b33cfad 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -2389,7 +2389,7 @@ then

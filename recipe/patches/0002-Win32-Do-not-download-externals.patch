@@ -1,4 +1,4 @@
-From 6b2be09a90969918df41b16e3f04c6d65c8d618b Mon Sep 17 00:00:00 2001
+From fb978fc203b5318e3fce4361d3698b0feb939abc Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
 Subject: [PATCH 02/24] Win32: Do not download externals

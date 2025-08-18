@@ -1,10 +1,10 @@
 {% set version = "3.14.0" %}
-{% set dev = "rc1" %}
+{% set dev = "rc2" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 2 %}
+{% set build_number = 0 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -46,7 +46,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    md5: 48c4518c06dcb675c24276c56f69b9fd
+    md5: ee7ae62b6ddc66eeca1591730be0f1c4
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch
@@ -77,9 +77,6 @@ source:
 {% endif %}
       - patches/0024-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
       - patches/0025-Unvendor-zstd.patch
-      # See https://github.com/python/cpython/pull/137211
-      # Applied in main, but will get backported soon
-      - patches/0026-Support-older-macOS-deployment-targets.patch
 
 build:
   number: {{ build_number }}

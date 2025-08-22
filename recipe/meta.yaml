@@ -206,6 +206,7 @@ outputs:
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
+        - {{ stdlib('c') }}
       files:
         - tests/cmake/*
         - tests/cython/*

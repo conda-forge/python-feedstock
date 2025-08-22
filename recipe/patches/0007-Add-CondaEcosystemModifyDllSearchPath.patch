@@ -1,4 +1,4 @@
-From 9d2c319335f1a4e0dfb25b4a2e99657afbbd6a67 Mon Sep 17 00:00:00 2001
+From e80541cbc8a42d8cc5d80fbb3dfcd6ec23fdfd8b Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
 Subject: [PATCH 07/24] Add CondaEcosystemModifyDllSearchPath()
@@ -33,7 +33,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  1 file changed, 96 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index a8852a88f94..f1a919bad51 100644
+index 5e420bdf337..8f6b67c42b9 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
 @@ -74,6 +74,10 @@

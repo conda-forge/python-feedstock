@@ -297,6 +297,7 @@ outputs:
       files:
         - tests/prefix-replacement/*
       requires:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]

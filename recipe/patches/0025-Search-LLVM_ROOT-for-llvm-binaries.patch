@@ -1,0 +1,25 @@
+From 3a992e5ffbf40e7aaa451d2a39901a4028d367ab Mon Sep 17 00:00:00 2001
+From: "Uwe L. Korn" <uwe.korn@quantco.com>
+Date: Wed, 3 Sep 2025 13:32:24 +0200
+Subject: [PATCH] Search LLVM_ROOT for llvm binaries
+
+---
+ Tools/jit/_llvm.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Tools/jit/_llvm.py b/Tools/jit/_llvm.py
+index 606f280..95974f5 100644
+--- a/Tools/jit/_llvm.py
++++ b/Tools/jit/_llvm.py
+@@ -66,6 +66,11 @@ async def _get_brew_llvm_prefix(*, echo: bool = False) -> str | None:
+ 
+ @_async_cache
+ async def _find_tool(tool: str, *, echo: bool = False) -> str | None:
++    # Explicitly defined LLVM installation location
++    if (llvm_root := os.getenv("LLVM_ROOT")) is not None:
++        path = os.path.join(llvm_root, "bin", tool)
++        if await _check_tool_version(path, echo=echo):
++            return path
+     # Unversioned executables:
+     path = tool
+     if await _check_tool_version(path, echo=echo):

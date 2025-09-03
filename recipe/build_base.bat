@@ -1,6 +1,8 @@
 setlocal EnableDelayedExpansion
 echo on
 
+set LLVM_ROOT=%BUILD_PREFIX%\Library
+
 :: Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
    set PLATFORM=x64

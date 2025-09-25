@@ -12,32 +12,32 @@ jobs:
         CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debug
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_64_build_typedebugchannel_tar_hcab9fe8502
+        SHORT_CONFIG: linux_64_build_typedebugchannel_targetsc_hcab9fe85
       linux_64_build_typereleasechannel_targetsconda-forge_main:
         CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_64_build_typereleasechannel_t_h0a44af7c38
+        SHORT_CONFIG: linux_64_build_typereleasechannel_target_h0a44af7c
       linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debug:
         CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debug
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_aarch64_build_typedebugchanne_h4e1127e844
+        SHORT_CONFIG: linux_aarch64_build_typedebugchannel_tar_h4e1127e8
       linux_aarch64_build_typereleasechannel_targetsconda-forge_main:
         CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_aarch64_build_typereleasechan_hcde066807d
+        SHORT_CONFIG: linux_aarch64_build_typereleasechannel_t_hcde06680
       linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debug:
         CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debug
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_ppc64le_build_typedebugchanne_he8193b4f7f
+        SHORT_CONFIG: linux_ppc64le_build_typedebugchannel_tar_he8193b4f
       linux_ppc64le_build_typereleasechannel_targetsconda-forge_main:
         CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-        SHORT_CONFIG: linux_ppc64le_build_typereleasechan_h12bca821c7
+        SHORT_CONFIG: linux_ppc64le_build_typereleasechannel_t_h12bca821
   timeoutInMinutes: 360
   variables: {}
 

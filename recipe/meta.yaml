@@ -211,6 +211,7 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
@@ -305,6 +306,7 @@ outputs:
       files:
         - tests/prefix-replacement/*
       requires:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
       commands:
         - VER=${PKG_VERSION%.*}   # [not win]

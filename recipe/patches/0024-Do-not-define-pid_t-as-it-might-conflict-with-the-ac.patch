@@ -1,4 +1,4 @@
-From db7463fa61da246089907979628193c463cf3932 Mon Sep 17 00:00:00 2001
+From dfd3c9a8237180a5456a13ecc3c1e19cb52ccd1a Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
@@ -75,7 +75,7 @@ index 87a17935507..a88a9151cb6 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index 904c2f55bbc..b68b2a5e757 100644
+index e1576f809fa..1ea521478e7 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
 @@ -219,6 +219,7 @@

@@ -136,14 +136,14 @@ Current release info
 Installing python
 =================
 
-Installing `python` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `python` from the `conda-forge/label/python_debug` channel can be achieved by adding `conda-forge/label/python_debug` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/python_debug
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `cpython, libpython-static, python, python-gil` can be installed with `conda`:
+Once the `conda-forge/label/python_debug` channel has been enabled, `cpython, libpython-static, python, python-gil` can be installed with `conda`:
 
 ```
 conda install cpython libpython-static python python-gil
@@ -158,26 +158,26 @@ mamba install cpython libpython-static python python-gil
 It is possible to list all of the versions of `cpython` available on your platform with `conda`:
 
 ```
-conda search cpython --channel conda-forge
+conda search cpython --channel conda-forge/label/python_debug
 ```
 
 or with `mamba`:
 
 ```
-mamba search cpython --channel conda-forge
+mamba search cpython --channel conda-forge/label/python_debug
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search cpython --channel conda-forge
+mamba repoquery search cpython --channel conda-forge/label/python_debug
 
 # List packages depending on `cpython`:
-mamba repoquery whoneeds cpython --channel conda-forge
+mamba repoquery whoneeds cpython --channel conda-forge/label/python_debug
 
 # List dependencies of `cpython`:
-mamba repoquery depends cpython --channel conda-forge
+mamba repoquery depends cpython --channel conda-forge/label/python_debug
 ```
 
 
@@ -202,12 +202,12 @@ it is possible to build and upload installable packages to the
 [conda-forge](https://anaconda.org/conda-forge) [anaconda.org](https://anaconda.org/)
 channel for Linux, Windows and OSX respectively.
 
-To manage the continuous integration and simplify feedstock maintenance
+To manage the continuous integration and simplify feedstock maintenance,
 [conda-smithy](https://github.com/conda-forge/conda-smithy) has been developed.
 Using the ``conda-forge.yml`` within this repository, it is possible to re-render all of
 this feedstock's supporting files (e.g. the CI configuration files) with ``conda smithy rerender``.
 
-For more information please check the [conda-forge documentation](https://conda-forge.org/docs/).
+For more information, please check the [conda-forge documentation](https://conda-forge.org/docs/).
 
 Terminology
 ===========
@@ -234,7 +234,7 @@ merged, the recipe will be re-built and uploaded automatically to the
 everybody to install and use from the `conda-forge` channel.
 Note that all branches in the conda-forge/python-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
-on branches in forks and branches in the main repository should only be used to
+on branches in forks, and branches in the main repository should only be used to
 build distinct package versions.
 
 In order to produce a uniquely identifiable distribution:

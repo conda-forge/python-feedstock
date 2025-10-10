@@ -5,25 +5,25 @@
 jobs:
 - job: osx
   pool:
-    vmImage: macOS-13
+    vmImage: macOS-15
   strategy:
     matrix:
       osx_64_build_typedebugchannel_targetsconda-forge_python_debug:
         CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debug
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typedebugchannel_targe_h343640355d
+        SHORT_CONFIG: osx_64_build_typedebugchannel_targetscon_h34364035
       osx_64_build_typereleasechannel_targetsconda-forge_main:
         CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_64_build_typereleasechannel_tar_h217401936b
+        SHORT_CONFIG: osx_64_build_typereleasechannel_targetsc_h21740193
       osx_arm64_build_typedebugchannel_targetsconda-forge_python_debug:
         CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debug
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_build_typedebugchannel_ta_h18126b8f59
+        SHORT_CONFIG: osx_arm64_build_typedebugchannel_targets_h18126b8f
       osx_arm64_build_typereleasechannel_targetsconda-forge_main:
         CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
-        SHORT_CONFIG: osx_arm64_build_typereleasechannel__hbf952199ba
+        SHORT_CONFIG: osx_arm64_build_typereleasechannel_targe_hbf952199
   timeoutInMinutes: 360
   variables: {}
 

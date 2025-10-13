@@ -1,10 +1,10 @@
-{% set version = "3.11.13" %}
+{% set version = "3.11.14" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -46,7 +46,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: ec39a8018b9eedf6f0edeb44533bd279
+    md5: 2f7d50f6e41d61607022dfeb7741df3a
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -111,8 +111,8 @@ outputs:
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
         # These two are just to get the headers needed for tk.h, but is unused
-        - xorg-libx11
-        - xorg-xorgproto
+        - xorg-libx11            # [unix]
+        - xorg-xorgproto         # [unix]
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -179,8 +179,8 @@ outputs:
         - readline  # [not win]
         - tk
         # These two are just to get the headers needed for tk.h, but is unused
-        - xorg-libx11
-        - xorg-xorgproto
+        - xorg-libx11       # [unix]
+        - xorg-xorgproto    # [unix]
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
@@ -203,9 +203,12 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
+        # For tkinter, but we expect from system
+        - xorg-libx11   # [unix]
       files:
         - tests/distutils/*
         - tests/cmake/*
@@ -301,6 +304,7 @@ outputs:
       files:
         - tests/prefix-replacement/*
       requires:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
       commands:
         - VER=${PKG_VERSION%.*}   # [not win]

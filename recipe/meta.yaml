@@ -1,4 +1,4 @@
-{% set version = "3.12.11" %}
+{% set version = "3.12.12" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -46,7 +46,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    md5: 9613d56b90d0d0cfd19980c7e2956a06
+    md5: 04feb01316c7bb1b448001adbc63dd23
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -103,8 +103,8 @@ outputs:
         # C++ only installed so CXX is defined for distutils/sysconfig.
         - {{ compiler('cxx') }}  # [unix]
         # These two are just to get the headers needed for tk.h, but is unused
-        - xorg-libx11
-        - xorg-xorgproto
+        - xorg-libx11            # [unix]
+        - xorg-xorgproto         # [unix]
       # Disabled until verified to work correctly
       detect_binary_files_with_prefix: true
       # detect_binary_files_with_prefix: False
@@ -184,8 +184,8 @@ outputs:
         - readline  # [not win]
         - tk
         # These two are just to get the headers needed for tk.h, but is unused
-        - xorg-libx11
-        - xorg-xorgproto
+        - xorg-libx11       # [unix]
+        - xorg-xorgproto    # [unix]
         - ncurses  # [unix]
         - libffi
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
@@ -211,9 +211,12 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
+        # For tkinter, but we expect from system
+        - xorg-libx11   # [unix]
       files:
         - tests/cmake/*
         - tests/cython/*
@@ -305,6 +308,7 @@ outputs:
       files:
         - tests/prefix-replacement/*
       requires:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
       commands:
         - VER=${PKG_VERSION%.*}   # [not win]

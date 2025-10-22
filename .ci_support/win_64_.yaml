@@ -15,7 +15,7 @@ expat:
 liblzma_devel:
 - '5'
 openssl:
-- '3'
+- '3.5'
 pin_run_as_build:
   python:
     min_pin: x.x

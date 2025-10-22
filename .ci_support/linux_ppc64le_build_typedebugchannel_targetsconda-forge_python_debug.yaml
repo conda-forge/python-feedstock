@@ -23,7 +23,7 @@ docker_image:
 expat:
 - '2'
 libffi:
-- '3.4'
+- '3.5'
 liblzma_devel:
 - '5'
 libuuid:
@@ -31,7 +31,7 @@ libuuid:
 ncurses:
 - '6'
 openssl:
-- '3'
+- '3.5'
 pin_run_as_build:
   python:
     min_pin: x.x

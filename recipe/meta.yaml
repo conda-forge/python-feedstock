@@ -204,10 +204,13 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        # Pin to the openssl version used during the build to check whether
+        # we load the conda-forge version.
+        - openssl {{ openssl }}
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
-        - {{ stdlib('c') }}
         # For tkinter, but we expect from system
         - xorg-libx11   # [unix]
       files:

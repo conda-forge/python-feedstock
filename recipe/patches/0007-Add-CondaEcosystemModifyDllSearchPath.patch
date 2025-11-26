@@ -1,7 +1,7 @@
-From 966dfbe7e1972661885959ec72d34d52af373698 Mon Sep 17 00:00:00 2001
+From 83958047fd8a64f8c049735d5d8594bd5673a696 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 24 Dec 2019 18:37:17 +0100
-Subject: [PATCH 07/26] Add CondaEcosystemModifyDllSearchPath()
+Subject: [PATCH 07/27] Add CondaEcosystemModifyDllSearchPath()
 
   The python interpreter is modifed so that it works as if the python interpreter
   was called with the following conda directories.
@@ -33,10 +33,10 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  1 file changed, 95 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index 352787c6495..4fd4fcb0f6e 100644
+index 67368b5ce07..e08b2df1226 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
-@@ -80,6 +80,10 @@
+@@ -81,6 +81,10 @@
  
  #ifdef MS_WINDOWS
  #  undef BYTE
@@ -47,7 +47,7 @@ index 352787c6495..4fd4fcb0f6e 100644
  #endif
  
  #define PUTS(fd, str) (void)_Py_write_noraise(fd, str, (int)strlen(str))
-@@ -114,6 +118,93 @@ GENERATE_DEBUG_SECTION(PyRuntime, _PyRuntimeState _PyRuntime)
+@@ -115,6 +119,93 @@ GENERATE_DEBUG_SECTION(PyRuntime, _PyRuntimeState _PyRuntime)
  = _PyRuntimeState_INIT(_PyRuntime, _Py_Debug_Cookie);
  _Py_COMP_DIAG_POP
  
@@ -141,7 +141,7 @@ index 352787c6495..4fd4fcb0f6e 100644
  
  static int runtime_initialized = 0;
  
-@@ -131,6 +222,10 @@ _PyRuntime_Initialize(void)
+@@ -132,6 +223,10 @@ _PyRuntime_Initialize(void)
      }
      runtime_initialized = 1;
  

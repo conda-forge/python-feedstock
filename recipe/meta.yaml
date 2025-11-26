@@ -1,5 +1,5 @@
-{% set version = "3.14.2" %}
-{% set dev = "" %}
+{% set version = "3.15.0" %}
+{% set dev = "a2" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
@@ -46,7 +46,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    md5: 19a31b2838db3b53f9f2db8782bf8773
+    md5: 8a16a56591101a698e8d0779d41782f4
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch
@@ -80,6 +80,8 @@ source:
 {% if freethreading == "yes" %}
       - patches/0026-Set-Py_GIL_DISABLED-in-windows-to-match-unix.patch
 {% endif %}
+      # https://github.com/python/cpython/pull/142039
+      - patches/0027-Expand-guard-for-types_world_is_stopped.patch
 
 build:
   number: {{ build_number }}
@@ -159,10 +161,10 @@ outputs:
         - llvm-tools  # [osx]
         - ld_impl_{{ target_platform }}  # [linux]
         - binutils_impl_{{ target_platform }}  # [linux]
-        - clang-19         # [not win]
-        - llvm-tools-19    # [not win]
-        - clang 19.*       # [win]
-        - llvm-tools 19.*  # [win]
+        - clang-21         # [not win]
+        - llvm-tools-21    # [not win]
+        - clang 21.*       # [win]
+        - llvm-tools 21.*  # [win]
         - bzip2          # [build_platform != target_platform]
         - libsqlite      # [build_platform != target_platform]
         - liblzma-devel  # [build_platform != target_platform]

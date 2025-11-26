@@ -2,13 +2,13 @@ MACOSX_SDK_VERSION:            # [osx and x86_64]
   - 11.0                       # [osx and x86_64]
 # See https://docs.python.org/3.14/whatsnew/3.14.html#a-new-type-of-interpreter
 c_compiler_version:    # [osx]
-  - 20.1             # [osx]
+  - 21                 # [osx]
 cxx_compiler_version:  # [osx]
-  - 20.1             # [osx]
+  - 21                 # [osx]
 
 # Override Python `zip_keys`
 python:
-  - 3.14
+  - 3.15
 numpy:
   - 1.16
 python_impl:

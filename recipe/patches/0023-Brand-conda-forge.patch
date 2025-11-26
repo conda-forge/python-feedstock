@@ -1,4 +1,4 @@
-From 3ae72a4b59fec1f5a8f2431f33b37888ebe2f646 Mon Sep 17 00:00:00 2001
+From c8ae5667d4c3a51ec96718fdd69f22c7d9f53580 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 28 Aug 2024 11:12:22 -0500
 Subject: [PATCH 23/25] Brand conda-forge
@@ -9,10 +9,10 @@ Subject: [PATCH 23/25] Brand conda-forge
  2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 9918b4106e8..1bedf861aad 100644
+index fce802b20a2..a5b7c6f9d2b 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -1215,6 +1215,7 @@ def _sys_version(sys_version=None):
+@@ -1147,6 +1147,7 @@ def _sys_version(sys_version=None):
          cpython_sys_version_parser = re.compile(
              r'([\w.+]+)\s*'  # "version<space>"
              r'(?:free-threading build\s+)?' # "free-threading-build<space>"

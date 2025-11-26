@@ -1,4 +1,4 @@
-From 0c0f398f475a9d61fbec7e004647299cd7e9e049 Mon Sep 17 00:00:00 2001
+From 7bbe08065cdb171461b7c167616c4502e43c9581 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwelk@xhochy.com>
 Date: Tue, 22 Jul 2025 18:07:54 +0200
 Subject: [PATCH 25/25] Unvendor zstd

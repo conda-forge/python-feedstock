@@ -1,4 +1,4 @@
-From aca0e2c3d51aaa449f7e849b7fbc26233d611298 Mon Sep 17 00:00:00 2001
+From 59b4df04ee6775095f53787273d750aa23b96f9e Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 16/25] unvendor zlib
@@ -9,7 +9,7 @@ Subject: [PATCH 16/25] unvendor zlib
  2 files changed, 4 insertions(+), 76 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 8e45967a83c..fc1a6077b34 100644
+index ee07e5cffa2..0dfc40fab7f 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -41,7 +41,7 @@ index 8e45967a83c..fc1a6077b34 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -681,12 +681,6 @@
+@@ -689,12 +689,6 @@
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
    </ItemGroup>
@@ -55,10 +55,10 @@ index 8e45967a83c..fc1a6077b34 100644
    <ImportGroup Label="ExtensionTargets">
      <Import Project="regen.targets" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 0e6d42cc959..144a0e3425a 100644
+index 17999690990..7376f1130b5 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
-@@ -900,39 +900,6 @@
+@@ -915,39 +915,6 @@
      <ClInclude Include="..\Include\internal\mimalloc\mimalloc\types.h">
        <Filter>Include\internal\mimalloc</Filter>
      </ClInclude>
@@ -98,7 +98,7 @@ index 0e6d42cc959..144a0e3425a 100644
      <ClInclude Include="..\Include\internal\pycore_structseq.h">
        <Filter>Include\internal</Filter>
      </ClInclude>
-@@ -1580,39 +1547,6 @@
+@@ -1604,39 +1571,6 @@
      <ClCompile Include="..\Objects\odictobject.c">
        <Filter>Objects</Filter>
      </ClCompile>

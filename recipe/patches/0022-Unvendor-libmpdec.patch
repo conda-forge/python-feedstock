@@ -1,17 +1,17 @@
-From 76f71b983fbe97118ff7e9c187e689226fbdd296 Mon Sep 17 00:00:00 2001
+From 522494d5706490a78702c076959c166bf0141a67 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 16 Aug 2024 21:34:43 -0500
 Subject: [PATCH 22/25] Unvendor libmpdec
 
 ---
- PCbuild/_decimal.vcxproj | 50 +++++-----------------------------------
- 1 file changed, 6 insertions(+), 44 deletions(-)
+ PCbuild/_decimal.vcxproj | 51 ++++++----------------------------------
+ 1 file changed, 7 insertions(+), 44 deletions(-)
 
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
-index e9d60b4db1a..0f49d7923f5 100644
+index 921d22e47b3..0f49d7923f5 100644
 --- a/PCbuild/_decimal.vcxproj
 +++ b/PCbuild/_decimal.vcxproj
-@@ -93,65 +93,27 @@
+@@ -93,64 +93,27 @@
    </PropertyGroup>
    <ItemDefinitionGroup>
      <ClCompile>
@@ -40,7 +40,6 @@ index e9d60b4db1a..0f49d7923f5 100644
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\convolute.h" />
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\crt.h" />
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\difradix2.h" />
-     <ClInclude Include="..\Modules\_decimal\docstrings.h" />
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\fnt.h" />
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\fourstep.h" />
 -    <ClInclude Include="..\Modules\_decimal\windows\mpdecimal.h" />
@@ -54,6 +53,7 @@ index e9d60b4db1a..0f49d7923f5 100644
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\typearith.h" />
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\umodarith.h" />
 -    <ClInclude Include="$(mpdecimalDir)\libmpdec\vccompat.h" />
++    <ClInclude Include="..\Modules\_decimal\docstrings.h" />
    </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\Modules\_decimal\_decimal.c" />

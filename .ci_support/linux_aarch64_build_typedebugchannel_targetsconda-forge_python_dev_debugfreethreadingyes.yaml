@@ -1,5 +1,5 @@
 build_type:
-- release
+- debug
 bzip2:
 - '1'
 c_compiler:
@@ -13,7 +13,7 @@ c_stdlib_version:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_dev_debug
 cxx_compiler:
 - gxx
 cxx_compiler_version:

@@ -1,5 +1,5 @@
 build_type:
-- debug
+- release
 bzip2:
 - '1'
 c_compiler:
@@ -13,7 +13,7 @@ c_stdlib_version:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_debug
+- conda-forge python_dev
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -23,7 +23,7 @@ docker_image:
 expat:
 - '2'
 freethreading:
-- 'yes'
+- 'no'
 libffi:
 - '3.5'
 liblzma_devel:
@@ -45,7 +45,9 @@ python:
 readline:
 - '8'
 target_platform:
-- linux-ppc64le
+- linux-aarch64
+tk:
+- '8.6'
 zip_keys:
 - - build_type
   - channel_targets

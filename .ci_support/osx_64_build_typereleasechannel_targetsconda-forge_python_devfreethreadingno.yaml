@@ -1,37 +1,39 @@
+MACOSX_DEPLOYMENT_TARGET:
+- '10.13'
+MACOSX_SDK_VERSION:
+- '11.0'
 build_type:
-- debug
+- release
 bzip2:
 - '1'
 c_compiler:
-- gcc
+- clang
 c_compiler_version:
-- '14'
+- '21'
 c_stdlib:
-- sysroot
+- macosx_deployment_target
 c_stdlib_version:
-- '2.17'
+- '10.13'
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_debug
+- conda-forge python_dev
 cxx_compiler:
-- gxx
+- clangxx
 cxx_compiler_version:
-- '14'
-docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma9
+- '21'
 expat:
 - '2'
 freethreading:
-- 'yes'
+- 'no'
 libffi:
 - '3.5'
 liblzma_devel:
 - '5'
 libsqlite:
 - '3'
-libuuid:
-- '2'
+macos_machine:
+- x86_64-apple-darwin13.4.0
 ncurses:
 - '6'
 openssl:
@@ -45,7 +47,7 @@ python:
 readline:
 - '8'
 target_platform:
-- linux-aarch64
+- osx-64
 tk:
 - '8.6'
 zip_keys:

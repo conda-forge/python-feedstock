@@ -9,7 +9,7 @@ bzip2:
 c_compiler:
 - clang
 c_compiler_version:
-- '20.1'
+- '21'
 c_stdlib:
 - macosx_deployment_target
 c_stdlib_version:
@@ -17,15 +17,15 @@ c_stdlib_version:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_dev
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
-- '20.1'
+- '21'
 expat:
 - '2'
 freethreading:
-- 'yes'
+- 'no'
 libffi:
 - '3.5'
 liblzma_devel:
@@ -43,7 +43,7 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- '3.14'
+- '3.15'
 readline:
 - '8'
 target_platform:

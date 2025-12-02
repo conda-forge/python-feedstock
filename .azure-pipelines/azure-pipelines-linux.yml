@@ -8,52 +8,52 @@ jobs:
     vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
-        CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+      linux_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno:
+        CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
-        CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+      linux_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes:
+        CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
-        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+      linux_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno:
+        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
-        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+      linux_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes:
+        CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
-        CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+      linux_aarch64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno:
+        CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
-        CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+      linux_aarch64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes:
+        CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
-        CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+      linux_aarch64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno:
+        CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
-        CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+      linux_aarch64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes:
+        CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
-        CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+      linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno:
+        CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
-        CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+      linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes:
+        CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
-        CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+      linux_ppc64le_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno:
+        CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-      linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
-        CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+      linux_ppc64le_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes:
+        CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
   timeoutInMinutes: 360

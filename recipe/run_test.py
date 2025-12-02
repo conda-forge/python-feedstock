@@ -102,8 +102,8 @@ if not (armv6l or armv7l or ppc64le or osx105):
 
 import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
-CONDA_OPENSSL_VERSION = os.getenv('openssl').split(".")[0]
-assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION
+CONDA_OPENSSL_VERSION = os.getenv('openssl')
+assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION, f"{CONDA_OPENSSL_VERSION} not found in {ssl.OPENSSL_VERSION}"
 
 # See https://github.com/conda-forge/python-feedstock/issues/718 for context:
 assert sys.hash_info.algorithm.startswith("siphash")

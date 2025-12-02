@@ -1,7 +1,7 @@
-From 17412eb7031d69a13c749f5d6a5f9cdef01c1188 Mon Sep 17 00:00:00 2001
+From 5c39a338040451810cc97adc1d0088e914cccd07 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 08/26] Doing d1trimfile
+Subject: [PATCH 08/27] Doing d1trimfile
 
 ---
  PCbuild/_asyncio.vcxproj            | 20 ++++++++++++++++++++
@@ -147,7 +147,7 @@ index f15b80852e3..e565441ca4c 100644
      <ClInclude Include="..\Modules\_ctypes\_ctypes_test.h" />
      <ClInclude Include="..\Modules\_ctypes\_ctypes_test_generated.c.h" />
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
-index ee7421484b5..e9d60b4db1a 100644
+index 3ba49370d58..921d22e47b3 100644
 --- a/PCbuild/_decimal.vcxproj
 +++ b/PCbuild/_decimal.vcxproj
 @@ -99,6 +99,10 @@
@@ -179,7 +179,7 @@ index 3eb9c89bcb6..920656f2ee2 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
-index 5ceddf759b8..6b113ad8c2e 100644
+index 605861ad3fd..4082f3f6d51 100644
 --- a/PCbuild/_freeze_module.vcxproj
 +++ b/PCbuild/_freeze_module.vcxproj
 @@ -93,6 +93,10 @@
@@ -429,7 +429,7 @@ index 4e721e8ce09..3fec7516ed5 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/_testcapi.vcxproj b/PCbuild/_testcapi.vcxproj
-index a68f15d25aa..5c42f15c312 100644
+index 68707a54ff6..4e88650812f 100644
 --- a/PCbuild/_testcapi.vcxproj
 +++ b/PCbuild/_testcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -603,11 +603,11 @@ index 87f6005fffc..de9358312ac 100644
      <Link>
        <AdditionalDependencies>$(tcltkLib);%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/liblzma.vcxproj b/PCbuild/liblzma.vcxproj
-index 97938692328..212fb5e1ebc 100644
+index 75d4e162346..d50534affa1 100644
 --- a/PCbuild/liblzma.vcxproj
 +++ b/PCbuild/liblzma.vcxproj
 @@ -95,6 +95,10 @@
-       <AdditionalIncludeDirectories>$(lzmaDir)windows/vs2019;$(lzmaDir)src/liblzma/common;$(lzmaDir)src/common;$(lzmaDir)src/liblzma/api;$(lzmaDir)src/liblzma/check;$(lzmaDir)src/liblzma/delta;$(lzmaDir)src/liblzma/lz;$(lzmaDir)src/liblzma/lzma;$(lzmaDir)src/liblzma/rangecoder;$(lzmaDir)src/liblzma/simple;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalIncludeDirectories>$(lzmaDir)windows;$(lzmaDir)src/liblzma/common;$(lzmaDir)src/common;$(lzmaDir)src/liblzma/api;$(lzmaDir)src/liblzma/check;$(lzmaDir)src/liblzma/delta;$(lzmaDir)src/liblzma/lz;$(lzmaDir)src/liblzma/lzma;$(lzmaDir)src/liblzma/rangecoder;$(lzmaDir)src/liblzma/simple;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <DisableSpecificWarnings>4244;4267;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
        <AdditionalOptions Condition="$(PlatformToolset) == 'ClangCL'">%(AdditionalOptions) -Wno-deprecated-declarations</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -720,7 +720,7 @@ index 3f8772d30b4..d80968e351a 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index b911c938563..8e45967a83c 100644
+index 359a47fbfc4..ee07e5cffa2 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@

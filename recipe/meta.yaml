@@ -78,7 +78,7 @@ source:
       - patches/0024-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
       - patches/0025-Unvendor-zstd.patch
       # https://github.com/python/cpython/pull/142039
-      - patches/0026-Expand-guard-for-types_world_is_stopped.patch
+      # - patches/0026-Expand-guard-for-types_world_is_stopped.patch
 
 build:
   number: {{ build_number }}

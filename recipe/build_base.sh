@@ -109,6 +109,10 @@ if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-O2/-O0/g")
 fi
 
+CPPFLAGS=$(echo "${CPPFLAGS}" | sed "s/-DNDEBUG//g")
+CFLAGS=$(echo "${CFLAGS}" | sed "s/-DNDEBUG//g")
+CXXFLAGS=$(echo "${CXXFLAGS}" | sed "s/-DNDEBUG//g")
+
 if [[ "$target_platform" == linux-* ]]; then
   cp ${PREFIX}/include/uuid/uuid.h ${PREFIX}/include/uuid.h
 fi

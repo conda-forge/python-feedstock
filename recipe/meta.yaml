@@ -82,6 +82,7 @@ source:
 
 build:
   number: {{ build_number }}
+  skip: true  # [not (linux64 and build_type == "debug")]
 
 requirements:
   build:

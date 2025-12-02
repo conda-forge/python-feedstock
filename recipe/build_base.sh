@@ -321,9 +321,10 @@ fi
 
 mkdir -p ${_buildd_shared}
 pushd ${_buildd_shared}
-  ${SRC_DIR}/configure "${_common_configure_args[@]}" \
-                       "${_dbg_opts[@]}" \
-                       --oldincludedir=${BUILD_PREFIX}/${HOST}/sysroot/usr/include \
+  ${SRC_DIR}/configure \
+		       --prefix=$PREFIX \
+                       --disable-gil \
+		       --with-pydebug \
                        --enable-shared
 popd
 

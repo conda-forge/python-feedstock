@@ -1,0 +1,83 @@
+From 7cfb45fa97bcdc97f556bf10d54bd0211f5fca74 Mon Sep 17 00:00:00 2001
+From: Mark Harfouche <mark.harfouche@gmail.com>
+Date: Sat, 1 Nov 2025 13:43:10 -0400
+Subject: [PATCH 27/28] Use zlib-ng on unix instead of zlib
+
+---
+ configure    | 20 ++++++++++----------
+ configure.ac |  2 +-
+ 2 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/configure b/configure
+index 8af6bd4..868896f 100755
+--- a/configure
++++ b/configure
+@@ -21713,19 +21713,19 @@ fi
+ 
+ 
+ pkg_failed=no
+-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for zlib >= 1.2.0" >&5
+-printf %s "checking for zlib >= 1.2.0... " >&6; }
++{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for zlib-ng >= 2.2.5" >&5
++printf %s "checking for zlib-ng >= 2.2.5... " >&6; }
+ 
+ if test -n "$ZLIB_CFLAGS"; then
+     pkg_cv_ZLIB_CFLAGS="$ZLIB_CFLAGS"
+  elif test -n "$PKG_CONFIG"; then
+     if test -n "$PKG_CONFIG" && \
+-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"zlib >= 1.2.0\""; } >&5
+-  ($PKG_CONFIG --exists --print-errors "zlib >= 1.2.0") 2>&5
++    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"zlib-ng >= 2.2.5\""; } >&5
++  ($PKG_CONFIG --exists --print-errors "zlib-ng >= 2.2.5") 2>&5
+   ac_status=$?
+   printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+   test $ac_status = 0; }; then
+-  pkg_cv_ZLIB_CFLAGS=`$PKG_CONFIG --cflags "zlib >= 1.2.0" 2>/dev/null`
++  pkg_cv_ZLIB_CFLAGS=`$PKG_CONFIG --cflags "zlib-ng >= 2.2.5" 2>/dev/null`
+ 		      test "x$?" != "x0" && pkg_failed=yes
+ else
+   pkg_failed=yes
+@@ -21737,12 +21737,12 @@ if test -n "$ZLIB_LIBS"; then
+     pkg_cv_ZLIB_LIBS="$ZLIB_LIBS"
+  elif test -n "$PKG_CONFIG"; then
+     if test -n "$PKG_CONFIG" && \
+-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"zlib >= 1.2.0\""; } >&5
+-  ($PKG_CONFIG --exists --print-errors "zlib >= 1.2.0") 2>&5
++    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"zlib-ng >= 2.2.5\""; } >&5
++  ($PKG_CONFIG --exists --print-errors "zlib-ng >= 2.2.5") 2>&5
+   ac_status=$?
+   printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+   test $ac_status = 0; }; then
+-  pkg_cv_ZLIB_LIBS=`$PKG_CONFIG --libs "zlib >= 1.2.0" 2>/dev/null`
++  pkg_cv_ZLIB_LIBS=`$PKG_CONFIG --libs "zlib-ng >= 2.2.5" 2>/dev/null`
+ 		      test "x$?" != "x0" && pkg_failed=yes
+ else
+   pkg_failed=yes
+@@ -21763,9 +21763,9 @@ else
+         _pkg_short_errors_supported=no
+ fi
+         if test $_pkg_short_errors_supported = yes; then
+-                ZLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "zlib >= 1.2.0" 2>&1`
++                ZLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "zlib-ng >= 2.2.5" 2>&1`
+         else
+-                ZLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "zlib >= 1.2.0" 2>&1`
++                ZLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "zlib-ng >= 2.2.5" 2>&1`
+         fi
+         # Put the nasty error message in config.log where it belongs
+         echo "$ZLIB_PKG_ERRORS" >&5
+diff --git a/configure.ac b/configure.ac
+index 480e59d..18140ec 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -5416,7 +5416,7 @@ AH_TEMPLATE([HAVE_ZLIB_COPY], [Define if the zlib library has inflateCopy])
+ dnl detect zlib from Emscripten emport
+ PY_CHECK_EMSCRIPTEN_PORT([ZLIB], [-sUSE_ZLIB])
+ 
+-PKG_CHECK_MODULES([ZLIB], [zlib >= 1.2.0], [
++PKG_CHECK_MODULES([ZLIB], [zlib-ng >= 2.2.5], [
+   have_zlib=yes
+   dnl zlib 1.2.0 (2003) added inflateCopy
+   AC_DEFINE([HAVE_ZLIB_COPY], [1])
+-- 
+2.51.0
+

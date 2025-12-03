@@ -81,6 +81,11 @@ source:
       - patches/0026-Set-Py_GIL_DISABLED-in-windows-to-match-unix.patch
 {% endif %}
 
+      # zlib-ng for all platforms
+      - patches/0026-Adjust-windows-project-for-zlib-ng.patch
+      - patches/0027-Use-zlib-ng-on-unix-instead-of-zlib.patch
+      - patches/0028-Update-usage-of-zlib-to-explicitely-use-zlib-ng.patch
+
 build:
   number: {{ build_number }}
 
@@ -166,7 +171,7 @@ outputs:
         - bzip2          # [build_platform != target_platform]
         - libsqlite      # [build_platform != target_platform]
         - liblzma-devel  # [build_platform != target_platform]
-        - zlib           # [build_platform != target_platform]
+        - zlib-ng        # [build_platform != target_platform]
         - zstd           # [build_platform != target_platform]
         - openssl        # [build_platform != target_platform]
         - readline       # [not win and build_platform != target_platform]
@@ -180,7 +185,7 @@ outputs:
         - bzip2
         - libsqlite
         - liblzma-devel
-        - zlib
+        - zlib-ng
         - zstd
         - openssl
         - readline  # [not win]

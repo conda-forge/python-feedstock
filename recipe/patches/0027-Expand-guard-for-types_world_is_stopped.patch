@@ -1,0 +1,22 @@
+From f3502590512de85a6ce1fec94434a8da876932d9 Mon Sep 17 00:00:00 2001
+From: "Uwe L. Korn" <uwe.korn@quantco.com>
+Date: Fri, 28 Nov 2025 15:20:43 +0100
+Subject: [PATCH 27/27] Expand guard for types_world_is_stopped
+
+---
+ Objects/typeobject.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Objects/typeobject.c b/Objects/typeobject.c
+index 61bcc21ce13..f48bf0b2b4e 100644
+--- a/Objects/typeobject.c
++++ b/Objects/typeobject.c
+@@ -81,7 +81,7 @@ class object "PyObject *" "&PyBaseObject_Type"
+ 
+ #define END_TYPE_DICT_LOCK() Py_END_CRITICAL_SECTION2()
+ 
+-#ifndef NDEBUG
++#if !defined(NDEBUG) || defined(Py_DEBUG)
+ // Return true if the world is currently stopped.
+ static bool
+ types_world_is_stopped(void)

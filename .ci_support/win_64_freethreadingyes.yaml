@@ -9,7 +9,7 @@ c_stdlib:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_dev
 cxx_compiler:
 - vs2022
 expat:
@@ -29,7 +29,7 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- '3.14'
+- '3.15'
 target_platform:
 - win-64
 tk:

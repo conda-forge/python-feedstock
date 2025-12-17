@@ -1,7 +1,7 @@
-From ea34c3871dc06ae261ba216808dcd4fbfe277759 Mon Sep 17 00:00:00 2001
+From 2a47d939b009483e82dd373c9416227e67478334 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
-Subject: [PATCH 24/27] Do not define pid_t as it might conflict with the
+Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
@@ -75,7 +75,7 @@ index d880fc52bb3..ec0e9c0b13e 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index fc609b2707c..8a4c3d71917 100644
+index 221cfc5a934..6be30793a58 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
 @@ -220,6 +220,7 @@
@@ -100,7 +100,7 @@ index a126fca6f5a..8332de4afb4 100644
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
 diff --git a/Python/remote_debug.h b/Python/remote_debug.h
-index e7676013197..24e78509930 100644
+index d3932a3fd1e..6346deb9f49 100644
 --- a/Python/remote_debug.h
 +++ b/Python/remote_debug.h
 @@ -28,6 +28,9 @@ extern "C" {

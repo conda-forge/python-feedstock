@@ -80,8 +80,6 @@ source:
 {% if freethreading == "yes" %}
       - patches/0026-Set-Py_GIL_DISABLED-in-windows-to-match-unix.patch
 {% endif %}
-      # https://github.com/python/cpython/pull/142039
-      # - patches/0027-Expand-guard-for-types_world_is_stopped.patch
 
 build:
   number: {{ build_number }}

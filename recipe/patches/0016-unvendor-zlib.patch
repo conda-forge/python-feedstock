@@ -1,7 +1,7 @@
-From 59b4df04ee6775095f53787273d750aa23b96f9e Mon Sep 17 00:00:00 2001
+From cb1c4b7ebe9936da5001437bcdd54f3f496ebdcd Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
-Subject: [PATCH 16/27] unvendor zlib
+Subject: [PATCH 16/26] unvendor zlib
 
 ---
  PCbuild/pythoncore.vcxproj         | 14 ++-----
@@ -9,7 +9,7 @@ Subject: [PATCH 16/27] unvendor zlib
  2 files changed, 4 insertions(+), 76 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index ee07e5cffa2..0dfc40fab7f 100644
+index 5bf342227ad..f0e8fa6aaad 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -30,8 +30,8 @@ index ee07e5cffa2..0dfc40fab7f 100644
        <AdditionalIncludeDirectories Condition="'$(UseJIT)' == 'true'">$(GeneratedJitStencilsDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
        <PreprocessorDefinitions>_USRDLL;Py_BUILD_CORE;Py_BUILD_CORE_BUILTIN;Py_ENABLE_SHARED;MS_DLL_ID="$(SysWinVer)";ZLIB_COMPAT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <PreprocessorDefinitions Condition="$(IncludeExternals)">_Py_HAVE_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-@@ -112,8 +112,8 @@
-       <PreprocessorDefinitions Condition="'$(DisableRemoteDebug)' != 'true'">Py_REMOTE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+@@ -113,8 +113,8 @@
+       <PreprocessorDefinitions Condition="'$(StackRefDebug)' == 'true'">Py_STACKREF_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
      </ClCompile>
      <Link>
 -      <AdditionalDependencies>version.lib;ws2_32.lib;pathcch.lib;bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -41,7 +41,7 @@ index ee07e5cffa2..0dfc40fab7f 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -689,12 +689,6 @@
+@@ -691,12 +691,6 @@
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
    </ItemGroup>
@@ -55,10 +55,10 @@ index ee07e5cffa2..0dfc40fab7f 100644
    <ImportGroup Label="ExtensionTargets">
      <Import Project="regen.targets" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 17999690990..7376f1130b5 100644
+index 247f4b5a784..00c8bd6e551 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
-@@ -915,39 +915,6 @@
+@@ -918,39 +918,6 @@
      <ClInclude Include="..\Include\internal\mimalloc\mimalloc\types.h">
        <Filter>Include\internal\mimalloc</Filter>
      </ClInclude>
@@ -98,7 +98,7 @@ index 17999690990..7376f1130b5 100644
      <ClInclude Include="..\Include\internal\pycore_structseq.h">
        <Filter>Include\internal</Filter>
      </ClInclude>
-@@ -1604,39 +1571,6 @@
+@@ -1607,39 +1574,6 @@
      <ClCompile Include="..\Objects\odictobject.c">
        <Filter>Objects</Filter>
      </ClCompile>

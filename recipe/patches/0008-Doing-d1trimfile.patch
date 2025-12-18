@@ -1,7 +1,7 @@
-From 5c39a338040451810cc97adc1d0088e914cccd07 Mon Sep 17 00:00:00 2001
+From 2c64caf81d33ab9dea54bf06d183b877ddc32d47 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
-Subject: [PATCH 08/27] Doing d1trimfile
+Subject: [PATCH 08/26] Doing d1trimfile
 
 ---
  PCbuild/_asyncio.vcxproj            | 20 ++++++++++++++++++++
@@ -720,7 +720,7 @@ index 3f8772d30b4..d80968e351a 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 359a47fbfc4..ee07e5cffa2 100644
+index dcfb75ce162..5bf342227ad 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@

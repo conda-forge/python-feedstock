@@ -1,7 +1,7 @@
-From 73649c07901551bcb28074e72c192e8338f2a794 Mon Sep 17 00:00:00 2001
+From 42d193573c79b9760d36d9150d8308f136e874e9 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 09/27] cross compile darwin
+Subject: [PATCH 09/26] cross compile darwin
 
 By Isuru Fernando.
 ---
@@ -11,10 +11,10 @@ By Isuru Fernando.
  3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 4db93bea2a3..fce802b20a2 100644
+index 3a71b669985..b342ceec761 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -475,7 +475,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
+@@ -474,7 +474,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
  def _mac_ver_xml():
      fn = '/System/Library/CoreServices/SystemVersion.plist'
      if not os.path.exists(fn):
@@ -29,10 +29,10 @@ index 4db93bea2a3..fce802b20a2 100644
      try:
          import plistlib
 diff --git a/configure b/configure
-index a4514f80c3a..3896a8a6fce 100755
+index a1bc7991aa8..f26e19a400a 100755
 --- a/configure
 +++ b/configure
-@@ -4113,6 +4113,9 @@ then
+@@ -4133,6 +4133,9 @@ then
  	*-*-linux*)
  		ac_sys_system=Linux
  		;;
@@ -42,7 +42,7 @@ index a4514f80c3a..3896a8a6fce 100755
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -4592,6 +4595,9 @@ if test "$cross_compiling" = yes; then
+@@ -4612,6 +4615,9 @@ if test "$cross_compiling" = yes; then
  			_host_ident=$host_cpu
  		esac
  		;;
@@ -53,10 +53,10 @@ index a4514f80c3a..3896a8a6fce 100755
  		_host_ident=
  		;;
 diff --git a/configure.ac b/configure.ac
-index a059a07bec2..50381cf760e 100644
+index a284a118f02..b86228cea4f 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -324,6 +324,9 @@ then
+@@ -333,6 +333,9 @@ then
  	*-*-linux*)
  		ac_sys_system=Linux
  		;;
@@ -66,7 +66,7 @@ index a059a07bec2..50381cf760e 100644
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -771,6 +774,9 @@ if test "$cross_compiling" = yes; then
+@@ -780,6 +783,9 @@ if test "$cross_compiling" = yes; then
  			_host_ident=$host_cpu
  		esac
  		;;

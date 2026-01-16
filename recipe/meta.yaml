@@ -310,6 +310,7 @@ outputs:
       requires:
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        - ripgrep
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]
         - VERABI=${VER}            # [not win]

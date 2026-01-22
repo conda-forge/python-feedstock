@@ -189,7 +189,6 @@ outputs:
       files:
         - tests/cmake/*
         - tests/cython/*
-        - tests/prefix-replacement/*
         - run_test.py
       commands:
         - echo on  # [win]
@@ -216,8 +215,11 @@ outputs:
         - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         # check for unreplaced @ symbols in sysconfig files, excluding e.g. '"$@".lto'
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a            # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [linux]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.dylib        # [osx]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
         - if exist %PREFIX%\\Scripts\\idle exit 1  # [win]
@@ -229,12 +231,8 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - pushd tests
-        - pushd prefix-replacement    # [unix]
-        - bash build-and-test.sh      # [unix]
-        - popd    # [unix]
         - pushd cmake
-        - cmake -GNinja -DPY_VER={{ version }}
-              # --trace --debug-output --debug-trycompile .
+        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" --debug-find --trace --debug-output --debug-trycompile .
         - popd
         - popd
         - python run_test.py
@@ -248,6 +246,57 @@ outputs:
         - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
         # crypt module will be removed in 3.13 => this failing is a reminder to remove the libxcrypt dependency
         - python -c "import crypt"  # [unix]
+
+  - name: libpython
+    script: build_shared.sh  # [unix]
+    script: build_shared.bat  # [win]
+    build:
+      number: {{ build_number }}
+      activate_in_script: true
+      ignore_run_exports:
+        - python_abi
+      script_env:
+        - PY_INTERP_DEBUG={{ py_interp_debug }}
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ stdlib('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage('python', exact=True) }}
+      run:
+        - {{ pin_subpackage('python', exact=True) }}
+    test:
+      files:
+        - tests/cmake/*
+        - tests/prefix-replacement/*
+      requires:
+        - {{ stdlib('c') }}
+        - {{ compiler('c') }}
+        # cmake expects a C++ compiler for some reason
+        - {{ compiler('cxx') }}
+        - ripgrep
+        - cmake
+        - ninja
+      commands:
+        - VER=${PKG_VERSION%.*}    # [not win]
+        - VERABI=${VER}            # [not win]
+        - VERABI_NO_DBG=${VERABI}  # [not win]
+{% if py_interp_debug == "yes" %}
+        - VERABI=${VERABI}d        # [not win]
+{% endif %}
+        - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
+        - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
+        - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        - pushd tests
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
+        - pushd cmake
+        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
+        - popd
+        - popd
 
   - name: libpython-static
     script: build_static.sh  # [unix]
@@ -271,10 +320,16 @@ outputs:
         - {{ pin_subpackage('python', exact=True) }}
     test:
       files:
+        - tests/cmake/*
         - tests/prefix-replacement/*
       requires:
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        # cmake expects a C++ compiler for some reason
+        - {{ compiler('cxx') }}
+        - ripgrep
+        - cmake
+        - ninja
       commands:
         - VER=${PKG_VERSION%.*}   # [not win]
 {% if py_interp_debug == "yes" %}
@@ -285,9 +340,14 @@ outputs:
         - test -f ${PREFIX}/lib/libpython${VERABI}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${VERABI}.nolto.a  # [unix]
         - test -f ${PREFIX}/lib/python${VER}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
-        - pushd tests/prefix-replacement    # [unix]
-        - bash build-and-test.sh      # [unix]
-        - popd    # [unix]
+        - pushd tests
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
+        - pushd cmake
+        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
+        - popd
+        - popd
 
   - name: cpython
     build:

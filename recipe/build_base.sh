@@ -365,13 +365,6 @@ if [[ ${_OPTIMIZED} == yes ]]; then
     _FLAGS_REPLACE+=("")
   done
 fi
-# Install the shared library (for people who embed Python only, e.g. GDB).
-# Linking module extensions to this on Linux is redundant (but harmless).
-# Linking module extensions to this on Darwin is harmful (multiply defined symbols).
-cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}* ${PREFIX}/lib/
-if [[ ${target_platform} =~ .*linux.* ]]; then
-  ln -sf ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}.1.0 ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}
-fi
 
 SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name "_sysconfigdata*.py" -print0)
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
@@ -496,7 +489,6 @@ rm ${PREFIX}/lib/libpython${VERABI}.a
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   rm ${PREFIX}/bin/python${VER}
   ln -s ${PREFIX}/bin/python${VERABI} ${PREFIX}/bin/python${VER}
-  ln -s ${PREFIX}/lib/libpython${VERABI}.so ${PREFIX}/lib/libpython${VER}.so
   ln -s ${PREFIX}/include/python${VERABI} ${PREFIX}/include/python${VER}
 fi
 

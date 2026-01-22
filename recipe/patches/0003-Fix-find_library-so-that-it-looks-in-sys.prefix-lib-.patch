@@ -1,8 +1,7 @@
-From dc78dfc446c78f49e86f46b84d0f3ff47bbbb1a0 Mon Sep 17 00:00:00 2001
+From d2c9a52026fcbe57ccf019f9e7870fa94082f7c8 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
-Subject: [PATCH 03/23] Fix find_library so that it looks in sys.prefix/lib
- first
+Subject: [PATCH] Fix find_library so that it looks in sys.prefix/lib first
 
 ---
  Lib/ctypes/macholib/dyld.py |  4 ++++
@@ -25,7 +24,7 @@ index 583c47daff3..ab9b01c87e2 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index c550883e7c7..78b0b014f09 100644
+index c550883e7c7..8f55134805f 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -70,7 +70,8 @@ def find_library(name):
@@ -47,7 +46,7 @@ index c550883e7c7..78b0b014f09 100644
 +                return None
 +            for fullname in (name, "lib%s.so" % (name)):
 +                path = os.path.join(sys.prefix, 'lib', fullname)
-+                if os.path.exists(path):
++                if os.path.exists(path) and not os.path.isdir(path):
 +                    return path
 +            return None
 +

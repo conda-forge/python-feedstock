@@ -226,6 +226,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cpython-green.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cpython.svg)](https://anaconda.org/conda-forge/cpython) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libpython-green.svg)](https://anaconda.org/conda-forge/libpython) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libpython.svg)](https://anaconda.org/conda-forge/libpython) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libpython.svg)](https://anaconda.org/conda-forge/libpython) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libpython.svg)](https://anaconda.org/conda-forge/libpython) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libpython--static-green.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libpython-static.svg)](https://anaconda.org/conda-forge/libpython-static) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-python-green.svg)](https://anaconda.org/conda-forge/python) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python.svg)](https://anaconda.org/conda-forge/python) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-python--freethreading-green.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python-freethreading.svg)](https://anaconda.org/conda-forge/python-freethreading) |
@@ -235,48 +236,48 @@ Current release info
 Installing python
 =================
 
-Installing `python` from the `conda-forge/label/python_dev` channel can be achieved by adding `conda-forge/label/python_dev` to your channels with:
+Installing `python` from the `conda-forge/label/python_dev_debug` channel can be achieved by adding `conda-forge/label/python_dev_debug` to your channels with:
 
 ```
-conda config --add channels conda-forge/label/python_dev
+conda config --add channels conda-forge/label/python_dev_debug
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/python_dev` channel has been enabled, `cpython, libpython-static, python, python-freethreading, python-gil, python-jit` can be installed with `conda`:
+Once the `conda-forge/label/python_dev_debug` channel has been enabled, `cpython, libpython, libpython-static, python, python-freethreading, python-gil, python-jit` can be installed with `conda`:
 
 ```
-conda install cpython libpython-static python python-freethreading python-gil python-jit
+conda install cpython libpython libpython-static python python-freethreading python-gil python-jit
 ```
 
 or with `mamba`:
 
 ```
-mamba install cpython libpython-static python python-freethreading python-gil python-jit
+mamba install cpython libpython libpython-static python python-freethreading python-gil python-jit
 ```
 
 It is possible to list all of the versions of `cpython` available on your platform with `conda`:
 
 ```
-conda search cpython --channel conda-forge/label/python_dev
+conda search cpython --channel conda-forge/label/python_dev_debug
 ```
 
 or with `mamba`:
 
 ```
-mamba search cpython --channel conda-forge/label/python_dev
+mamba search cpython --channel conda-forge/label/python_dev_debug
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search cpython --channel conda-forge/label/python_dev
+mamba repoquery search cpython --channel conda-forge/label/python_dev_debug
 
 # List packages depending on `cpython`:
-mamba repoquery whoneeds cpython --channel conda-forge/label/python_dev
+mamba repoquery whoneeds cpython --channel conda-forge/label/python_dev_debug
 
 # List dependencies of `cpython`:
-mamba repoquery depends cpython --channel conda-forge/label/python_dev
+mamba repoquery depends cpython --channel conda-forge/label/python_dev_debug
 ```
 
 

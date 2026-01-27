@@ -2,14 +2,17 @@ setlocal EnableDelayedExpansion
 echo on
 
 :: Compile python, extensions and external libraries
-if "%ARCH%"=="64" (
+if "%target_platform%"=="win-64" (
    set PLATFORM=x64
-   set VC_PATH=x64
    set BUILD_PATH=amd64
-) else (
+)
+if "%target_platform%"=="win-32" (
    set PLATFORM=Win32
-   set VC_PATH=x86
    set BUILD_PATH=win32
+)
+if "%target_platform%"=="win-arm64" (
+   set PLATFORM=ARM64
+   set BUILD_PATH=arm64
 )
 
 for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (

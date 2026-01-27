@@ -14,6 +14,12 @@ jobs:
       win_64_freethreadingyes:
         CONFIG: win_64_freethreadingyes
         UPLOAD_PACKAGES: 'True'
+      win_arm64_freethreadingno:
+        CONFIG: win_arm64_freethreadingno
+        UPLOAD_PACKAGES: 'True'
+      win_arm64_freethreadingyes:
+        CONFIG: win_arm64_freethreadingyes
+        UPLOAD_PACKAGES: 'True'
   timeoutInMinutes: 360
   variables:
     CONDA_BLD_PATH: D:\\bld\\

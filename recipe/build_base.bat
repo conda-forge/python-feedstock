@@ -3,16 +3,29 @@ echo on
 
 :: Compile python, extensions and external libraries
 if "%target_platform%"=="win-64" (
-   set PLATFORM=x64
-   set BUILD_PATH=amd64
+   set HOST_PLATFORM=x64
+   set HOST_DIR=amd64
 )
 if "%target_platform%"=="win-32" (
-   set PLATFORM=Win32
-   set BUILD_PATH=win32
+   set HOST_PLATFORM=Win32
+   set HOST_DIR=win32
 )
 if "%target_platform%"=="win-arm64" (
-   set PLATFORM=ARM64
-   set BUILD_PATH=arm64
+   set HOST_PLATFORM=ARM64
+   set HOST_DIR=arm64
+)
+
+if "%build_platform%"=="win-64" (
+   set BUILD_PLATFORM=x64
+   set BUILD_DIR=amd64
+)
+if "%build_platform%"=="win-32" (
+   set BUILD_PLATFORM=Win32
+   set BUILD_DIR=win32
+)
+if "%build_platform%"=="win-arm64" (
+   set BUILD_PLATFORM=ARM64
+   set BUILD_DIR=arm64
 )
 
 for /F "tokens=1,2 delims=." %%i in ("%PKG_VERSION%") do (
@@ -61,25 +74,25 @@ cd PCbuild
 
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM%
-call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
 for %%x in (python%VERNODOTS%%THREAD%%_D%.dll python3%THREAD%%_D%.dll python%EXE_T%%_D%.exe pythonw%EXE_T%%_D%.exe) do (
-  if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
-    copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
+  if exist %SRC_DIR%\PCbuild\%HOST_DIR%\%%x (
+    copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\%%x %PREFIX%
   ) else (
-    echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x does not exist"
+    echo "WARNING :: %SRC_DIR%\PCbuild\%HOST_DIR%\%%x does not exist"
   )
 )
 
 for %%x in (python%THREAD%%_D%.pdb python%VERNODOTS%%THREAD%%_D%.pdb pythonw%THREAD%%_D%.pdb) do (
-  if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x (
-    copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x %PREFIX%
+  if exist %SRC_DIR%\PCbuild\%HOST_DIR%\%%x (
+    copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\%%x %PREFIX%
   ) else (
-    echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\%%x does not exist"
+    echo "WARNING :: %SRC_DIR%\PCbuild\%HOST_DIR%\%%x does not exist"
   )
 )
 
@@ -90,7 +103,7 @@ if errorlevel 1 exit 1
 
 :: Populate the DLLs directory
 mkdir %PREFIX%\DLLs
-xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\DLLs\
+xcopy /s /y %SRC_DIR%\PCBuild\%HOST_DIR%\*.pyd %PREFIX%\DLLs\
 if errorlevel 1 exit 1
 
 copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
@@ -132,12 +145,12 @@ for %%x in (idle pydoc) do (
 
 :: Populate the libs directory
 if not exist %PREFIX%\libs mkdir %PREFIX%\libs
-dir %SRC_DIR%\PCbuild\%BUILD_PATH%\
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\libs\
+dir %SRC_DIR%\PCbuild\%HOST_DIR%\
+if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%THREAD%%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%THREAD%%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib %PREFIX%\libs\
 if errorlevel 1 exit 1
 
 
@@ -148,20 +161,20 @@ if errorlevel 1 exit 1
 
 :: Copy venv[w]launcher scripts to venv\srcipts\nt
 :: See https://github.com/python/cpython/blob/b4a316087c32d83e375087fd35fc511bc430ee8b/Lib/venv/__init__.py#L334-L376
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe (
+if exist %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvlauncher%THREAD%%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
+  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvlauncher%THREAD%%_D%.exe
 ) else (
-  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe does not exist"
+  echo "WARNING :: %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe does not exist"
 )
 
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe (
+if exist %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvwlauncher%THREAD%%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
+  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvwlauncher%THREAD%%_D%.exe
 ) else (
-  echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe does not exist"
+  echo "WARNING :: %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe does not exist"
 )
 
 :: Remove test data to save space.

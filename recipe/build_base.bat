@@ -54,9 +54,6 @@ if "%PY_FREETHREADING%" == "yes" (
   set "EXE_T="
 )
 
-:: AP doesn't support PGO atm?
-set PGO=
-
 cd PCbuild
 
 :: Twice because:

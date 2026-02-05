@@ -1,4 +1,4 @@
-From dfd3c9a8237180a5456a13ecc3c1e19cb52ccd1a Mon Sep 17 00:00:00 2001
+From 5cfc14457be90d160d31b2b7b67f04b944f843c5 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
@@ -30,7 +30,7 @@ index 6313abf5485..bc8169e2f68 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index 2572df9719a..792c0df35af 100644
+index 228fe4eff58..1db7b51160e 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -23,6 +23,10 @@
@@ -75,7 +75,7 @@ index 87a17935507..a88a9151cb6 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index e1576f809fa..1ea521478e7 100644
+index cb3a62d211a..428ef667745 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
 @@ -219,6 +219,7 @@
@@ -100,7 +100,7 @@ index 710a737ebcc..92d327b1e35 100644
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
 diff --git a/Python/remote_debug.h b/Python/remote_debug.h
-index 8f9b6cd4c49..20cd65dd818 100644
+index ed213859a8a..bd66dded8cd 100644
 --- a/Python/remote_debug.h
 +++ b/Python/remote_debug.h
 @@ -28,6 +28,9 @@ extern "C" {

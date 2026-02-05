@@ -53,11 +53,12 @@ if "%PY_INTERP_DEBUG%"=="yes" (
   set _D=
 )
 
-
+set PGO=--pgo
 if "%DEBUG_C%"=="yes" (
   set PGO=
-) else (
-  set PGO=--pgo
+)
+if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
+  set PGO=
 )
 
 if "%PY_FREETHREADING%" == "yes" (

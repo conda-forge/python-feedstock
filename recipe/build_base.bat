@@ -80,6 +80,7 @@ if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
   REM we don't need.
   set LIBRARY_PREFIX=%BUILD_PREFIX%\\Library
   call build.bat %CONFIG% %FREETHREADING% -m -E -v -p %BUILD_PLATFORM%
+  if errorlevel 1 exit 1
 )
 endlocal
 :: Twice because:

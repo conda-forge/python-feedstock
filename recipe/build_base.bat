@@ -72,6 +72,13 @@ if "%PY_FREETHREADING%" == "yes" (
 
 cd PCbuild
 
+setlocal EnableDelayedExpansion
+if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
+  REM build for the build platform. LIBRARY_PREFIX is used by the patches
+  set LIBRARY_PREFIX=%BUILD_PREFIX%\\Library
+  call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %BUILD_PLATFORM%
+)
+endlocal
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
 call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM%

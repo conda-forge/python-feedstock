@@ -75,8 +75,10 @@ cd PCbuild
 setlocal EnableDelayedExpansion
 if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
   REM build for the build platform. LIBRARY_PREFIX is used by the patches
+  REM No PGO. No externals, i.e. remove building extension modules
+  REM we don't need.
   set LIBRARY_PREFIX=%BUILD_PREFIX%\\Library
-  call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %BUILD_PLATFORM%
+  call build.bat %CONFIG% %FREETHREADING% -m -E -v -p %BUILD_PLATFORM%
 )
 endlocal
 :: Twice because:

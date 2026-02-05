@@ -1,4 +1,4 @@
-From f3da6c061da6528ac2aa9069418e2abec3e81bec Mon Sep 17 00:00:00 2001
+From 282408229840efda93052f9b6e86775a378a527b Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/26] Unvendor openssl
@@ -90,10 +90,10 @@ index 7ca750dda8f..17eee400ebb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index d4d9a54248d..94fb385c1fb 100644
+index cc157252655..253aa66f477 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -67,6 +67,7 @@
+@@ -68,6 +68,7 @@
    <!-- Directories of external projects. tcltk is handled in tcltk.props -->
    <PropertyGroup>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$(EXTERNALS_DIR)</ExternalsDir>
@@ -101,7 +101,7 @@ index d4d9a54248d..94fb385c1fb 100644
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
    </PropertyGroup>
-@@ -74,20 +75,8 @@
+@@ -75,20 +76,8 @@
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>

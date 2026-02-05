@@ -1,0 +1,43 @@
+build_type:
+- release
+bzip2:
+- '1'
+c_compiler:
+- vs2022
+c_stdlib:
+- vs
+channel_sources:
+- conda-forge/label/python_rc,conda-forge
+channel_targets:
+- conda-forge main
+cxx_compiler:
+- vs2022
+expat:
+- '2'
+freethreading:
+- 'yes'
+libffi:
+- '3.5'
+liblzma_devel:
+- '5'
+libsqlite:
+- '3'
+openssl:
+- '3.5'
+pin_run_as_build:
+  python:
+    min_pin: x.x
+    max_pin: x.x
+python:
+- '3.14'
+target_platform:
+- win-arm64
+tk:
+- '8.6'
+zip_keys:
+- - build_type
+  - channel_targets
+zlib:
+- '1'
+zstd:
+- '1.5'

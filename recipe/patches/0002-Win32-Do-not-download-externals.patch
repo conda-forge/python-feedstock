@@ -1,4 +1,4 @@
-From 15bfc5e613ae654bd685f65d975d79ce88d3853d Mon Sep 17 00:00:00 2001
+From 6c69b44235d9bc5728ec1861823fb93c42af01b6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
 Subject: [PATCH 02/26] Win32: Do not download externals
@@ -8,15 +8,15 @@ Subject: [PATCH 02/26] Win32: Do not download externals
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index 60235704886..edb61912b74 100644
+index 60235704886..717a35c9d7e 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
-@@ -107,7 +107,7 @@ if "%~1"=="--no-ctypes" (set IncludeCTypes=false) & shift & goto CheckOpts
- if "%~1"=="--no-ssl" (set IncludeSSL=false) & shift & goto CheckOpts
- if "%~1"=="--no-tkinter" (set IncludeTkinter=false) & shift & goto CheckOpts
- 
--if "%IncludeExternals%"=="" set IncludeExternals=true
-+@rem if "%IncludeExternals%"=="" set IncludeExternals=true
- if "%IncludeCTypes%"=="" set IncludeCTypes=true
- if "%IncludeSSL%"=="" set IncludeSSL=true
+@@ -113,7 +113,7 @@ if "%IncludeSSL%"=="" set IncludeSSL=true
  if "%IncludeTkinter%"=="" set IncludeTkinter=true
+ if "%UseJIT%" NEQ "true" set IncludeLLVM=false
+ 
+-if "%IncludeExternals%"=="true" call "%dir%get_externals.bat"
++@rem if "%IncludeExternals%"=="true" call "%dir%get_externals.bat"
+ 
+ if "%do_pgo%" EQU "true" if "%platf%" EQU "x64" (
+     if "%PROCESSOR_ARCHITEW6432%" NEQ "AMD64" if "%PROCESSOR_ARCHITECTURE%" NEQ "AMD64" (

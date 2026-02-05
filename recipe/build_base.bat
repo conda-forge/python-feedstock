@@ -201,30 +201,37 @@ if errorlevel 1 exit 1
 if "%_D%" neq "" copy %PREFIX%\python%_D%.exe %PREFIX%\python.exe
 if "%EXE_T%" neq "" copy %PREFIX%\python%EXE_T%.exe %PREFIX%\python.exe
 
+if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
+  set "PYTHON=%SRC_DIR%\PCbuild\%BUILD_DIR%\\python%EXE_T%%_D%.exe"
+) else (
+  set "PYTHON=%PREFIX%\python.exe"
+)
 :: bytecode compile the standard library
-%PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
+%PYTHON% -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
 
 :: Ensure that scripts are generated
 :: https://github.com/conda-forge/python-feedstock/issues/384
-%PREFIX%\python.exe %RECIPE_DIR%\fix_staged_scripts.py
+%PYTHON% %RECIPE_DIR%\fix_staged_scripts.py
 if errorlevel 1 exit 1
 
-:: Some quick tests for common failures
-echo "Testing print() does not print: Hello"
-%PREFIX%\python.exe -c "print()" 2>&1 | findstr /r /c:"Hello"
-if %errorlevel% neq 1 exit /b 1
+if NOT "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
+  REM Some quick tests for common failures
+  echo "Testing print() does not print: Hello"
+  %PREFIX%\python.exe -c "print()" 2>&1 | findstr /r /c:"Hello"
+  if %errorlevel% neq 1 exit /b 1
 
-echo "Testing print('Hello') prints: Hello"
-%PREFIX%\python.exe -c "print('Hello')" 2>&1 | findstr /r /c:"Hello"
-if %errorlevel% neq 0 exit /b 1
+  echo "Testing print('Hello') prints: Hello"
+  %PREFIX%\python.exe -c "print('Hello')" 2>&1 | findstr /r /c:"Hello"
+  if %errorlevel% neq 0 exit /b 1
 
-echo "Testing import of os (no DLL needed) does not print: The specified module could not be found"
-%PREFIX%\python.exe -v -c "import os" 2>&1
-%PREFIX%\python.exe -v -c "import os" 2>&1 | findstr /r /c:"The specified module could not be found"
-if %errorlevel% neq 1 exit /b 1
+  echo "Testing import of os (no DLL needed) does not print: The specified module could not be found"
+  %PREFIX%\python.exe -v -c "import os" 2>&1
+  %PREFIX%\python.exe -v -c "import os" 2>&1 | findstr /r /c:"The specified module could not be found"
+  if %errorlevel% neq 1 exit /b 1
 
-echo "Testing import of _sqlite3 (DLL located via PATH needed) does not print: The specified module could not be found"
-%PREFIX%\python.exe -v -c "import _sqlite3" 2>&1
-%PREFIX%\python.exe -v -c "import _sqlite3" 2>&1 | findstr /r /c:"The specified module could not be found"
-if %errorlevel% neq 1 exit /b 1
+  echo "Testing import of _sqlite3 (DLL located via PATH needed) does not print: The specified module could not be found"
+  %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1
+  %PREFIX%\python.exe -v -c "import _sqlite3" 2>&1 | findstr /r /c:"The specified module could not be found"
+  if %errorlevel% neq 1 exit /b 1
+)

@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -221,7 +221,6 @@ outputs:
       files:
         - tests/cmake/*
         - tests/cython/*
-        - tests/prefix-replacement/*
         - run_test.py
       commands:
         - echo on  # [win]
@@ -247,8 +246,11 @@ outputs:
         - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         # check for unreplaced @ symbols in sysconfig files, excluding e.g. '"$@".lto'
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a            # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [linux]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.dylib        # [osx]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         {% if freethreading == "yes" %}
         - if not exist %PREFIX%\\libs\\python3t.lib exit 1                # [win]
         - if not exist %PREFIX%\\libs\\python{{ ver2nd }}t.lib exit 1     # [win]
@@ -265,14 +267,8 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - if not exist %PREFIX%\\include\\pyconfig.h exit 1  # [win]
         - pushd tests
-        - pushd prefix-replacement    # [unix]
-        - bash build-and-test.sh      # [unix]
-        - popd    # [unix]
         - pushd cmake
-{% if freethreading == "no" %}
-        # TODO: use the new FindPython3 which supports freethreading
-        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile .
-{% endif %}
+        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" --debug-find --trace --debug-output --debug-trycompile .
         - popd
         - popd
         - python run_test.py
@@ -282,6 +278,61 @@ outputs:
         - python -c "from ctypes import CFUNCTYPE; CFUNCTYPE(None)(id)"
         # Test for wide character supported via ncursesw
         - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
+
+  - name: libpython
+    script: build_shared.sh  # [unix]
+    script: build_shared.bat  # [win]
+    build:
+      number: {{ build_number }}
+      activate_in_script: true
+      ignore_run_exports:
+        - python_abi
+      script_env:
+        - PY_INTERP_DEBUG={{ py_interp_debug }}
+        - PY_FREETHREADING={{ freethreading }}
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ stdlib('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage('python', exact=True) }}
+      run:
+        - {{ pin_subpackage('python', exact=True) }}
+    test:
+      files:
+        - tests/cmake/*
+        - tests/prefix-replacement/*
+      requires:
+        - {{ stdlib('c') }}
+        - {{ compiler('c') }}
+        # cmake expects a C++ compiler for some reason
+        - {{ compiler('cxx') }}
+        - ripgrep
+        - cmake
+        - ninja
+      commands:
+        - VER=${PKG_VERSION%.*}    # [not win]
+        - VERABI=${VER}            # [not win]
+{% if freethreading == "yes" %}
+        - VERABI=${VERABI}t        # [not win]
+{% endif %}
+        - VERABI_NO_DBG=${VERABI}  # [not win]
+{% if py_interp_debug == "yes" %}
+        - VERABI=${VERABI}d        # [not win]
+{% endif %}
+        - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
+        - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
+        - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        - pushd tests
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
+        - pushd cmake
+        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
+        - popd
+        - popd
 
   - name: libpython-static
     script: build_static.sh  # [unix]
@@ -306,10 +357,16 @@ outputs:
         - {{ pin_subpackage('python', exact=True) }}
     test:
       files:
+        - tests/cmake/*
         - tests/prefix-replacement/*
       requires:
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        # cmake expects a C++ compiler for some reason
+        - {{ compiler('cxx') }}
+        - ripgrep
+        - cmake
+        - ninja
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]
         - VERABI=${VER}            # [not win]
@@ -323,9 +380,14 @@ outputs:
         - test -f ${PREFIX}/lib/libpython${VERABI}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${VERABI_NO_DBG}.nolto.a  # [unix]
         - test -f ${PREFIX}/lib/python${VERABI_NO_DBG}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
-        - pushd tests/prefix-replacement    # [unix]
-        - bash build-and-test.sh      # [unix]
-        - popd    # [unix]
+        - pushd tests
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
+        - pushd cmake
+        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
+        - popd
+        - popd
 
   - name: cpython
     build:

@@ -399,6 +399,8 @@ SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
     > ${PREFIX}/lib/python${VERABI_NO_DBG}/$(basename ${SYSCONFIG})
+BUILD_DETAILS=${_buildd_shared}/$(cat ${_buildd_shared}/pybuilddir.txt)/build-details.json
+cp ${BUILD_DETAILS} ${PREFIX}/lib/python${VERABI_NO_DBG}/
 MAKEFILE=$(find ${PREFIX}/lib/python${VERABI_NO_DBG}/ -path "*config-*/Makefile" -print0)
 cp ${MAKEFILE} /tmp/Makefile-$$
 cat /tmp/Makefile-$$ | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \

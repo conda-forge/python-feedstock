@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -307,6 +307,7 @@ outputs:
       requires:
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        - ripgrep
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]
         - VERABI=${VER}            # [not win]

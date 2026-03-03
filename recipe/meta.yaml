@@ -1,10 +1,10 @@
-{% set version = "3.11.14" %}
+{% set version = "3.11.15" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 3 %}
+{% set build_number = 0 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -45,8 +45,8 @@ source:
     git_tag: v{{ version }}{{ dev }}
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
-    # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: 2f7d50f6e41d61607022dfeb7741df3a
+    # sha256 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
+    sha256: 272179ddd9a2e41a0fc8e42e33dfbdca0b3711aa5abf372d3f2d51543d09b625
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch

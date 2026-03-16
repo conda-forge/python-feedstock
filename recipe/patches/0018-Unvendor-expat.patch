@@ -1,4 +1,4 @@
-From b795ea2453a53052d407c26c9f145731fed44580 Mon Sep 17 00:00:00 2001
+From a1019278bfabcbacd69bbbf62cba9b5e8edd5763 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Mar 2023 23:07:10 -0500
 Subject: [PATCH 18/26] Unvendor expat
@@ -129,7 +129,7 @@ index a5368024cce..7cc8e9a3b9b 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 3bcef600a3e..ec5d4b64b3c 100644
+index 7a1d5942a6c..8bc1bcec7e8 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -90,23 +90,19 @@
@@ -138,7 +138,7 @@ index 3bcef600a3e..ec5d4b64b3c 100644
      <ClCompile>
 -      <AdditionalIncludeDirectories>$(PySourcePath)Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 +      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PYEXPAT_EXPORTS;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>

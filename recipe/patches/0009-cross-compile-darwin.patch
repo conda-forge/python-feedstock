@@ -1,4 +1,4 @@
-From 42d193573c79b9760d36d9150d8308f136e874e9 Mon Sep 17 00:00:00 2001
+From 323229d393ca44056d519d8b926ac57d900f6fa9 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 09/26] cross compile darwin
@@ -11,7 +11,7 @@ By Isuru Fernando.
  3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 3a71b669985..b342ceec761 100644
+index 9d7aa5c66a9..2401eff96df 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -474,7 +474,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
@@ -29,10 +29,10 @@ index 3a71b669985..b342ceec761 100644
      try:
          import plistlib
 diff --git a/configure b/configure
-index a1bc7991aa8..f26e19a400a 100755
+index eca5f03cdcf..0595b8dc8c2 100755
 --- a/configure
 +++ b/configure
-@@ -4133,6 +4133,9 @@ then
+@@ -4140,6 +4140,9 @@ then
  	*-*-linux*)
  		ac_sys_system=Linux
  		;;
@@ -42,7 +42,7 @@ index a1bc7991aa8..f26e19a400a 100755
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -4612,6 +4615,9 @@ if test "$cross_compiling" = yes; then
+@@ -4619,6 +4622,9 @@ if test "$cross_compiling" = yes; then
  			_host_ident=$host_cpu
  		esac
  		;;
@@ -53,7 +53,7 @@ index a1bc7991aa8..f26e19a400a 100755
  		_host_ident=
  		;;
 diff --git a/configure.ac b/configure.ac
-index a284a118f02..b86228cea4f 100644
+index c21024a1e77..9a63e9bbaef 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -333,6 +333,9 @@ then

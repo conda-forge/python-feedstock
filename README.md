@@ -236,14 +236,14 @@ Current release info
 Installing python
 =================
 
-Installing `python` from the `conda-forge/label/python_dev_debug` channel can be achieved by adding `conda-forge/label/python_dev_debug` to your channels with:
+Installing `python` from the `conda-forge/label/python_dev` channel can be achieved by adding `conda-forge/label/python_dev` to your channels with:
 
 ```
-conda config --add channels conda-forge/label/python_dev_debug
+conda config --add channels conda-forge/label/python_dev
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/python_dev_debug` channel has been enabled, `cpython, libpython, libpython-static, python, python-freethreading, python-gil, python-jit` can be installed with `conda`:
+Once the `conda-forge/label/python_dev` channel has been enabled, `cpython, libpython, libpython-static, python, python-freethreading, python-gil, python-jit` can be installed with `conda`:
 
 ```
 conda install cpython libpython libpython-static python python-freethreading python-gil python-jit
@@ -258,26 +258,26 @@ mamba install cpython libpython libpython-static python python-freethreading pyt
 It is possible to list all of the versions of `cpython` available on your platform with `conda`:
 
 ```
-conda search cpython --channel conda-forge/label/python_dev_debug
+conda search cpython --channel conda-forge/label/python_dev
 ```
 
 or with `mamba`:
 
 ```
-mamba search cpython --channel conda-forge/label/python_dev_debug
+mamba search cpython --channel conda-forge/label/python_dev
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search cpython --channel conda-forge/label/python_dev_debug
+mamba repoquery search cpython --channel conda-forge/label/python_dev
 
 # List packages depending on `cpython`:
-mamba repoquery whoneeds cpython --channel conda-forge/label/python_dev_debug
+mamba repoquery whoneeds cpython --channel conda-forge/label/python_dev
 
 # List dependencies of `cpython`:
-mamba repoquery depends cpython --channel conda-forge/label/python_dev_debug
+mamba repoquery depends cpython --channel conda-forge/label/python_dev
 ```
 
 

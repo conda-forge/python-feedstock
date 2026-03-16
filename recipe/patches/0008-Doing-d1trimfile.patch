@@ -1,4 +1,4 @@
-From 2c64caf81d33ab9dea54bf06d183b877ddc32d47 Mon Sep 17 00:00:00 2001
+From 9a38ec4f30d8ec426af73ff082b696dd31d3dcbb Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/26] Doing d1trimfile
@@ -179,7 +179,7 @@ index 3eb9c89bcb6..920656f2ee2 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_freeze_module.vcxproj b/PCbuild/_freeze_module.vcxproj
-index 605861ad3fd..4082f3f6d51 100644
+index cb806459596..a85ba7ca53f 100644
 --- a/PCbuild/_freeze_module.vcxproj
 +++ b/PCbuild/_freeze_module.vcxproj
 @@ -93,6 +93,10 @@
@@ -535,7 +535,7 @@ index c35ac83c1c7..c9d7f5d22b7 100644
      <ClCompile Include="..\Modules\_testimportmultiple.c" />
    </ItemGroup>
 diff --git a/PCbuild/_testinternalcapi.vcxproj b/PCbuild/_testinternalcapi.vcxproj
-index f7e050b7c74..58c3e10c0f0 100644
+index f3e423fa046..ac285717998 100644
 --- a/PCbuild/_testinternalcapi.vcxproj
 +++ b/PCbuild/_testinternalcapi.vcxproj
 @@ -92,6 +92,26 @@
@@ -618,13 +618,13 @@ index 75d4e162346..d50534affa1 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index dc9161a8b29..3bcef600a3e 100644
+index 8e0f5f63112..7a1d5942a6c 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -92,6 +92,10 @@
      <ClCompile>
        <AdditionalIncludeDirectories>$(PySourcePath)Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PYEXPAT_EXPORTS;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
 +      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -720,7 +720,7 @@ index 3f8772d30b4..d80968e351a 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index dcfb75ce162..5bf342227ad 100644
+index 61bee29c0af..d1efe476439 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@

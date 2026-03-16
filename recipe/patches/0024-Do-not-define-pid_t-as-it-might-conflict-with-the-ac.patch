@@ -1,4 +1,4 @@
-From 2a47d939b009483e82dd373c9416227e67478334 Mon Sep 17 00:00:00 2001
+From 3076bdfe11bc89567638c0ff669a8ad817dd759b Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
@@ -30,7 +30,7 @@ index 6313abf5485..bc8169e2f68 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index c14f925b4e7..9d2064d3252 100644
+index c0ab35cda19..af073445222 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -23,6 +23,10 @@
@@ -60,7 +60,7 @@ index 34bc7331da9..abae4b19bf0 100644
  module _testlimitedcapi
  [clinic start generated code]*/
 diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
-index d880fc52bb3..ec0e9c0b13e 100644
+index ad4c5dd1c9b..0053e527fe7 100644
 --- a/Modules/clinic/posixmodule.c.h
 +++ b/Modules/clinic/posixmodule.c.h
 @@ -10,6 +10,10 @@ preserve
@@ -75,7 +75,7 @@ index d880fc52bb3..ec0e9c0b13e 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index 221cfc5a934..6be30793a58 100644
+index aa3d682a19b..102ba435d86 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
 @@ -220,6 +220,7 @@
@@ -100,7 +100,7 @@ index a126fca6f5a..8332de4afb4 100644
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
 diff --git a/Python/remote_debug.h b/Python/remote_debug.h
-index d3932a3fd1e..6346deb9f49 100644
+index 7628fb04ba5..398c91c0470 100644
 --- a/Python/remote_debug.h
 +++ b/Python/remote_debug.h
 @@ -28,6 +28,9 @@ extern "C" {

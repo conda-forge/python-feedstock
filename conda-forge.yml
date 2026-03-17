@@ -8,8 +8,8 @@ bot:
 build_platform:
   linux_aarch64: linux_64
   linux_ppc64le: linux_64
-  osx_arm64: osx_64
-  win_arm64: win_64
+  osx_arm64: osx_arm64
+  win_arm64: win_arm64
 conda_build:
   pkg_format: '2'
 conda_forge_output_validation: true
@@ -19,4 +19,6 @@ github:
 provider:
   linux_aarch64: default
   linux_ppc64le: native
+  osx_arm64: default
+  win_arm64: default
 test: native_and_emulated

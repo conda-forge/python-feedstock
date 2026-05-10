@@ -1,4 +1,4 @@
-From a638bbff1f76630d0b85554018670b6745b6a64e Mon Sep 17 00:00:00 2001
+From 1ad68baafb6b6173f43a688ee2396be5bb80d716 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/26] Doing d1trimfile

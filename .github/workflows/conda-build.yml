@@ -23,61 +23,73 @@ jobs:
       matrix:
         include:
           - CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+            STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
@@ -154,7 +166,7 @@ jobs:
       env:
         # default value; make it explicit, as it needs to match with artefact
         # generation below. Not configurable for now, can be revisited later
-        CONDA_BLD_DIR: C:\bld
+        CONDA_BLD_PATH: C:\bld
         MINIFORGE_HOME: ${{ contains(runner.arch, 'ARM') && 'C' || 'D' }}:\Miniforge
         PYTHONUNBUFFERED: 1
         CONFIG: ${{ matrix.CONFIG }}

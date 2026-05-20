@@ -12,34 +12,42 @@ jobs:
         CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
         CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
         CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
         CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
         CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
         CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
         CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
       osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
         CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
+        store_build_artifacts: false
   timeoutInMinutes: 360
   variables: {}
 

@@ -1,0 +1,70 @@
+From 11a7d458b4d276f5d06353bc141166c1c6a90df1 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Fri, 22 May 2026 14:21:19 -0700
+Subject: [PATCH 27/27] More unixy layout for windows
+
+---
+ Lib/sysconfig/__init__.py  | 12 +++++++++++-
+ Modules/getpath.py         |  4 ++--
+ PCbuild/pythoncore.vcxproj |  2 +-
+ 3 files changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
+index 654a1ef225f..a7b6563004c 100644
+--- a/Lib/sysconfig/__init__.py
++++ b/Lib/sysconfig/__init__.py
+@@ -58,6 +58,16 @@
+         'scripts': '{base}/Scripts',
+         'data': '{base}',
+         },
++    'nt_conda': {
++        'stdlib': '{installed_base}/{platlibdir}/{implementation_lower}',
++        'platstdlib': '{base}/{platlibdir}/{implementation_lower}',
++        'purelib': '{base}/lib/{implementation_lower}}/site-packages',
++        'platlib': '{base}/{platlibdir}/{implementation_lower}/site-packages',
++        'include': '{installed_base}/include/{implementation_lower}',
++        'platinclude': '{installed_platbase}/include/{implementation_lower}',
++        'scripts': '{base}/Scripts',
++        'data': '{base}',
++        },
+ 
+     # Downstream distributors can overwrite the default install scheme.
+     # This is done to support downstream modifications where distributors change
+@@ -279,7 +289,7 @@ def _expand_vars(scheme, vars):
+ def _get_preferred_schemes():
+     if os.name == 'nt':
+         return {
+-            'prefix': 'nt',
++            'prefix': 'nt_conda',
+             'home': 'posix_home',
+             'user': 'nt_user',
+         }
+diff --git a/Modules/getpath.py b/Modules/getpath.py
+index 43a47ca77af..0197811f7eb 100644
+--- a/Modules/getpath.py
++++ b/Modules/getpath.py
+@@ -193,9 +193,9 @@
+     BUILDDIR_TXT = 'pybuilddir.txt'
+     BUILD_LANDMARK = f'{VPATH}\\Modules\\Setup.local'
+     DEFAULT_PROGRAM_NAME = f'python'
+-    STDLIB_SUBDIR = 'Lib'
++    STDLIB_SUBDIR = f'{platlibdir}\\python'
+     STDLIB_LANDMARKS = [f'{STDLIB_SUBDIR}\\os.py', f'{STDLIB_SUBDIR}\\os.pyc']
+-    PLATSTDLIB_LANDMARK = f'{platlibdir}'
++    PLATSTDLIB_LANDMARK = f'{platlibdir}\\python\\lib-dynload'
+     BUILDSTDLIB_LANDMARKS = ['Lib\\os.py']
+     VENV_LANDMARK = 'pyvenv.cfg'
+     ZIP_LANDMARK = f'python{VERSION_MAJOR}{VERSION_MINOR}{PYDEBUGEXT or ""}.zip'
+diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
+index 62b762f8bdc..e5d52458346 100644
+--- a/PCbuild/pythoncore.vcxproj
++++ b/PCbuild/pythoncore.vcxproj
+@@ -126,7 +126,7 @@
+         VERSION=NULL;
+         VPATH="$(PyVPath)";
+         PYDEBUGEXT="$(PyDebugExt)";
+-        PLATLIBDIR="DLLs";
++        PLATLIBDIR="lib";
+         %(PreprocessorDefinitions)
+       </PreprocessorDefinitions>
+     </ClCompile>

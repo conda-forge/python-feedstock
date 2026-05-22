@@ -80,6 +80,7 @@ source:
 {% if freethreading == "yes" %}
       - patches/0026-Set-Py_GIL_DISABLED-in-windows-to-match-unix.patch
 {% endif %}
+      - patches/0027-More-unixy-layout-for-windows.patch
 
 build:
   number: {{ build_number }}
@@ -252,11 +253,11 @@ outputs:
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.dylib        # [osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         {% if freethreading == "yes" %}
-        - if not exist %PREFIX%\\libs\\python3t.lib exit 1                # [win]
-        - if not exist %PREFIX%\\libs\\python{{ ver2nd }}t.lib exit 1     # [win]
+        - if not exist %PREFIX%\\lib\\python3t.lib exit 1                # [win]
+        - if not exist %PREFIX%\\lib\\python{{ ver2nd }}t.lib exit 1     # [win]
         {% else %}
-        - if not exist %PREFIX%\\libs\\python3.lib exit 1                 # [win]
-        - if not exist %PREFIX%\\libs\\python{{ ver2nd }}.lib exit 1      # [win]
+        - if not exist %PREFIX%\\lib\\python3.lib exit 1                 # [win]
+        - if not exist %PREFIX%\\lib\\python{{ ver2nd }}.lib exit 1      # [win]
         {% endif %}
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
@@ -265,7 +266,7 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\idle-script.py exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\idle.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
-        - if not exist %PREFIX%\\include\\pyconfig.h exit 1  # [win]
+        - if not exist %PREFIX%\\include\\python\\pyconfig.h exit 1  # [win]
         - pushd tests
         - pushd cmake
         - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" --debug-find --trace --debug-output --debug-trycompile .

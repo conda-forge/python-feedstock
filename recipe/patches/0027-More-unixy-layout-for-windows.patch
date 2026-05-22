@@ -20,7 +20,7 @@ index 654a1ef225f..a7b6563004c 100644
 +    'nt_conda': {
 +        'stdlib': '{installed_base}/{platlibdir}/{implementation_lower}',
 +        'platstdlib': '{base}/{platlibdir}/{implementation_lower}',
-+        'purelib': '{base}/lib/{implementation_lower}}/site-packages',
++        'purelib': '{base}/lib/{implementation_lower}/site-packages',
 +        'platlib': '{base}/{platlibdir}/{implementation_lower}/site-packages',
 +        'include': '{installed_base}/include/{implementation_lower}',
 +        'platinclude': '{installed_platbase}/include/{implementation_lower}',

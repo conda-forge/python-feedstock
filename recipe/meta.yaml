@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if win %}
-  {% set site_packages_path = "Lib/site-packages" %}
+  {% set site_packages_path = "lib/python/site-packages" %}
 {% elif freethreading == "yes" %}
   {% set site_packages_path = "lib/python" + ver2 + "t/site-packages" %}
 {% else %}

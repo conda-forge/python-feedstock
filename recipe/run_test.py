@@ -2,6 +2,9 @@ import os
 import platform
 import sys
 import subprocess
+import site
+print(site.getsitepackages())
+print(site.getusersitepackages())
 
 armv6l = bool(platform.machine() == 'armv6l')
 armv7l = bool(platform.machine() == 'armv7l')

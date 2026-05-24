@@ -1,16 +1,30 @@
-From 11a7d458b4d276f5d06353bc141166c1c6a90df1 Mon Sep 17 00:00:00 2001
+From af7dee26a2be6d38d8f3466fbeac16dca739614f Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 22 May 2026 14:21:19 -0700
 Subject: [PATCH 27/27] More unixy layout for windows
 
+See https://github.com/conda-forge/cfep/pull/65
 ---
+ Lib/site.py                |  1 +
  Lib/sysconfig/__init__.py  | 12 +++++++++++-
  Modules/getpath.py         |  4 ++--
  PCbuild/pythoncore.vcxproj |  2 +-
- 3 files changed, 14 insertions(+), 4 deletions(-)
+ 4 files changed, 15 insertions(+), 4 deletions(-)
 
+diff --git a/Lib/site.py b/Lib/site.py
+index 30015b3f26b..f0c62fb4e59 100644
+--- a/Lib/site.py
++++ b/Lib/site.py
+@@ -414,6 +414,7 @@ def getsitepackages(prefixes=None):
+                                     "site-packages")
+                 sitepackages.append(path)
+         else:
++            sitepackages.append(os.path.join(prefix, "lib", "python", "site-packages"))
+             sitepackages.append(prefix)
+             sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
+     return sitepackages
 diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
-index 654a1ef225f..a7b6563004c 100644
+index 654a1ef225f..9021d40e809 100644
 --- a/Lib/sysconfig/__init__.py
 +++ b/Lib/sysconfig/__init__.py
 @@ -58,6 +58,16 @@

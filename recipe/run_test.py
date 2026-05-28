@@ -3,8 +3,6 @@ import platform
 import sys
 import subprocess
 import site
-print(site.getsitepackages())
-print(site.getusersitepackages())
 
 armv6l = bool(platform.machine() == 'armv6l')
 armv7l = bool(platform.machine() == 'armv7l')
@@ -14,16 +12,18 @@ if sys.platform == 'darwin':
 else:
     osx105 = False
 
-print('sys.version:', sys.version)
-print('sys.platform:', sys.platform)
-print('tuple.__itemsize__:', tuple.__itemsize__)
+print(f"{sys.version=}")
+print(f"{sys.platform=}")
+print(f"{tuple.__itemsize__=}")
 if sys.platform == 'win32':
     assert 'MSC v.19' in sys.version
 if hasattr(sys, "abiflags"):
-    print('sys.abiflags', sys.abiflags)
-print('sys.maxunicode:', sys.maxunicode)
-print('platform.architecture:', platform.architecture())
-print('platform.python_version:', platform.python_version())
+    print(f"{sys.abiflags=}")
+print(f"{sys.maxunicode=}")
+print(f"{platform.architecture=}")
+print(f"{platform.python_version=}")
+print(f"{site.getsitepackages()=}")
+print(f"{site.getusersitepackages()=}")
 
 import _bisect
 import _codecs_cn

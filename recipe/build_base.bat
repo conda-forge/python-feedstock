@@ -130,7 +130,6 @@ for %%x in (idle pydoc) do (
 )
 
 :: Populate the libs directory
-if not exist %PREFIX%\lib mkdir %PREFIX%\lib
 dir %SRC_DIR%\PCbuild\%BUILD_PATH%\
 if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\lib\
 if errorlevel 1 exit 1
@@ -145,7 +144,7 @@ del %PREFIX%\lib\libpython*.a
 xcopy /s /y %SRC_DIR%\lib %PREFIX%\lib\python\
 if errorlevel 1 exit 1
 
-:: Copy venv[w]launcher scripts to venv\srcipts\nt
+:: Copy venv[w]launcher scripts to venv\scripts\nt
 :: See https://github.com/python/cpython/blob/b4a316087c32d83e375087fd35fc511bc430ee8b/lib/python/venv/__init__.py#L334-L376
 if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?

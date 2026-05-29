@@ -1,7 +1,7 @@
-From 3076bdfe11bc89567638c0ff669a8ad817dd759b Mon Sep 17 00:00:00 2001
+From efeee2e5065c4ad3a5a4957448baa84eb3ef3b45 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
-Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
+Subject: [PATCH 24/27] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
@@ -15,7 +15,7 @@ Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
  7 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
-index 6313abf5485..bc8169e2f68 100644
+index 008a7d37726..7829e9cc714 100644
 --- a/Modules/_testcapi/long.c
 +++ b/Modules/_testcapi/long.c
 @@ -6,6 +6,10 @@
@@ -30,7 +30,7 @@ index 6313abf5485..bc8169e2f68 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index c0ab35cda19..af073445222 100644
+index aa12db20908..15489be2e95 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -23,6 +23,10 @@
@@ -75,10 +75,10 @@ index ad4c5dd1c9b..0053e527fe7 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index aa3d682a19b..102ba435d86 100644
+index e5ce487723b..e90463fa21e 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
-@@ -220,6 +220,7 @@
+@@ -221,6 +221,7 @@
  #  if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
  #    define HAVE_SYMLINK
  #  endif /* MS_WINDOWS_DESKTOP | MS_WINDOWS_SYSTEM */

@@ -1,7 +1,7 @@
-From bd6431cd6b69c8111e1b3c72a89d5ace434c6265 Mon Sep 17 00:00:00 2001
+From a4e219363bfe395745df9c2cf5e01b6c0004021a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
-Subject: [PATCH 03/26] Fix find_library so that it looks in sys.prefix/lib
+Subject: [PATCH 03/27] Fix find_library so that it looks in sys.prefix/lib
  first
 
 ---
@@ -25,7 +25,7 @@ index 583c47daff3..ab9b01c87e2 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index 3b21658433b..ecd2c6cbd9c 100644
+index 3b21658433b..2c900c1e2cf 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -135,7 +135,8 @@ def dllist():

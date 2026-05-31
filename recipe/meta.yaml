@@ -143,8 +143,6 @@ outputs:
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
         # important env. vars.
       missing_dso_whitelist:   # [win]
-        - '**/MSVCR71.dll'  # [win]
-        - '**/MSVCR80.dll'  # [win]
         # I have no idea why this is not in C:\Windows\System32\downlevel
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:

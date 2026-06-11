@@ -1,4 +1,4 @@
-{% set version = "3.13.13" %}
+{% set version = "3.13.14" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
@@ -46,7 +46,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # sha256 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    sha256: 2ab91ff401783ccca64f75d10c882e957bdfd60e2bf5a72f8421793729b78a71
+    sha256: 639e43243c620a308f968213df9e00f2f8f62332f7adbaa7a7eeb9783057c690
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch

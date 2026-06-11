@@ -1,14 +1,14 @@
-From f2bcc66170d982e671dfd28ad88caf923b68c3f2 Mon Sep 17 00:00:00 2001
+From 678488a772e807546a4763ac17010f5bb7288029 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
-Subject: [PATCH 06/25] Win32: Do not download externals
+Subject: [PATCH 06/27] Win32: Do not download externals
 
 ---
  PCbuild/build.bat | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index d333ceabd2..11e3d16a4f 100644
+index d333ceabd2e..11e3d16a4fd 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
 @@ -97,7 +97,7 @@ if "%IncludeCTypes%"=="" set IncludeCTypes=true

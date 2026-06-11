@@ -25,7 +25,14 @@ Current build status
 ====================
 
 
-<table>
+<table><tr>
+    <td>GitHub Actions</td>
+    <td>
+      <a href="https://github.com/conda-forge/python-feedstock/actions/workflows/conda-build.yml">
+        <img src="https://github.com/conda-forge/python-feedstock/actions/workflows/conda-build.yml/badge.svg?event=push&branch=main">
+      </a>
+    </td>
+  </tr>
     
   <tr>
     <td>Azure</td>
@@ -39,48 +46,6 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64_build_typedebugchannel_targetsconda-forge_python_debug</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typedebugchannel_targetsconda-forge_python_debug" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_64_build_typereleasechannel_targetsconda-forge_main</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_build_typereleasechannel_targetsconda-forge_main" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debug</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debug" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64_build_typereleasechannel_targetsconda-forge_main</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_build_typereleasechannel_targetsconda-forge_main" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debug</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debug" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_ppc64le_build_typereleasechannel_targetsconda-forge_main</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_ppc64le_build_typereleasechannel_targetsconda-forge_main" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>osx_64_build_typedebugchannel_targetsconda-forge_python_debug</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
@@ -136,14 +101,14 @@ Current release info
 Installing python
 =================
 
-Installing `python` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `python` from the `conda-forge/label/python_debug` channel can be achieved by adding `conda-forge/label/python_debug` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/python_debug
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `cpython, libpython-static, python, python-gil` can be installed with `conda`:
+Once the `conda-forge/label/python_debug` channel has been enabled, `cpython, libpython-static, python, python-gil` can be installed with `conda`:
 
 ```
 conda install cpython libpython-static python python-gil
@@ -158,26 +123,26 @@ mamba install cpython libpython-static python python-gil
 It is possible to list all of the versions of `cpython` available on your platform with `conda`:
 
 ```
-conda search cpython --channel conda-forge
+conda search cpython --channel conda-forge/label/python_debug
 ```
 
 or with `mamba`:
 
 ```
-mamba search cpython --channel conda-forge
+mamba search cpython --channel conda-forge/label/python_debug
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search cpython --channel conda-forge
+mamba repoquery search cpython --channel conda-forge/label/python_debug
 
 # List packages depending on `cpython`:
-mamba repoquery whoneeds cpython --channel conda-forge
+mamba repoquery whoneeds cpython --channel conda-forge/label/python_debug
 
 # List dependencies of `cpython`:
-mamba repoquery depends cpython --channel conda-forge
+mamba repoquery depends cpython --channel conda-forge/label/python_debug
 ```
 
 

@@ -20,6 +20,7 @@ export PYTHONUNBUFFERED=1
 export RECIPE_ROOT="${RECIPE_ROOT:-/home/conda/recipe_root}"
 export CI_SUPPORT="${FEEDSTOCK_ROOT}/.ci_support"
 export CONFIG_FILE="${CI_SUPPORT}/${CONFIG}.yaml"
+export RATTLER_CACHE_DIR="${FEEDSTOCK_ROOT}/build_artifacts/pkg_cache"
 
 cat >~/.condarc <<CONDARC
 
@@ -35,7 +36,7 @@ mv /opt/conda/conda-meta/history /opt/conda/conda-meta/history.$(date +%Y-%m-%d-
 echo > /opt/conda/conda-meta/history
 micromamba install --root-prefix ~/.conda --prefix /opt/conda \
     --yes --override-channels --channel conda-forge --strict-channel-priority \
-    pip  python=3.12 conda-build conda-forge-ci-setup=4 "conda-build>=24.1"
+    pip  python=3.12 conda-build conda-forge-ci-setup=4 "conda-build>=26.3"
 export CONDA_LIBMAMBA_SOLVER_NO_CHANNELS_FROM_INSTALLED=1
 
 # set up the condarc

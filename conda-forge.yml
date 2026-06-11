@@ -12,3 +12,6 @@ provider:
   linux_aarch64: default
   linux_ppc64le: native
 test: native_and_emulated
+workflow_settings:
+  store_build_artifacts:
+    - value: true

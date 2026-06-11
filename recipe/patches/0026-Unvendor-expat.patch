@@ -1,7 +1,7 @@
-From 694404bc76fae025c40894c6d727ec6b70a95f84 Mon Sep 17 00:00:00 2001
+From 9aa71bc2a319a5f5bbb25766f9ee38f698b7c7c2 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 28 Mar 2025 22:41:20 +0100
-Subject: [PATCH 26/25] Unvendor expat
+Subject: [PATCH 26/27] Unvendor expat
 
 ---
  PCbuild/_elementtree.vcxproj         | 22 +----------
@@ -130,7 +130,7 @@ index bc14e31f32b..7cc8e9a3b9b 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 26ac82980ca..2a9c12ebd37 100644
+index 26ac82980ca..302ea38fbd9 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -90,23 +90,19 @@
@@ -199,6 +199,3 @@ index fd22fc8c477..41c73b434b9 100644
 -</Project>
 \ No newline at end of file
 +</Project>
--- 
-2.48.1
-

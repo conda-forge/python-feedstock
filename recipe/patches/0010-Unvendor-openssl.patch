@@ -1,7 +1,7 @@
-From 91e037ed322b7ce83ad7fd60fef6bbe0d76587c0 Mon Sep 17 00:00:00 2001
+From 7c32bbf7a8e35efcfc6fccac3be3b88ad9d6d0cb Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
-Subject: [PATCH 10/25] Unvendor openssl
+Subject: [PATCH 10/27] Unvendor openssl
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
@@ -15,7 +15,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  7 files changed, 9 insertions(+), 70 deletions(-)
 
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index 4907f49b66..b2c23d5e8c 100644
+index 4907f49b662..b2c23d5e8cc 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
 @@ -99,9 +99,6 @@
@@ -29,7 +29,7 @@ index 4907f49b66..b2c23d5e8c 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_ssl.vcxproj.filters b/PCbuild/_ssl.vcxproj.filters
-index 716a69a41a..8aef9e03fc 100644
+index 716a69a41af..8aef9e03fcc 100644
 --- a/PCbuild/_ssl.vcxproj.filters
 +++ b/PCbuild/_ssl.vcxproj.filters
 @@ -12,9 +12,6 @@
@@ -43,7 +43,7 @@ index 716a69a41a..8aef9e03fc 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc">
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
-index a7e16793c7..f7e9be4d11 100644
+index a7e16793c7f..f7e9be4d110 100644
 --- a/PCbuild/openssl.props
 +++ b/PCbuild/openssl.props
 @@ -2,10 +2,10 @@
@@ -72,7 +72,7 @@ index a7e16793c7..f7e9be4d11 100644
  </Project>
 \ No newline at end of file
 diff --git a/PCbuild/openssl.vcxproj b/PCbuild/openssl.vcxproj
-index 0da6f67495..17eee400eb 100644
+index 0da6f674958..17eee400ebb 100644
 --- a/PCbuild/openssl.vcxproj
 +++ b/PCbuild/openssl.vcxproj
 @@ -60,64 +60,8 @@
@@ -141,7 +141,7 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 057ed5ac22..b7f958193c 100644
+index 057ed5ac224..b7f958193cb 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -57,6 +57,7 @@
@@ -153,7 +153,7 @@ index 057ed5ac22..b7f958193c 100644
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
    </PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 0adce0958b..38bab08306 100644
+index 0adce0958b1..38bab083060 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -106,6 +106,9 @@
@@ -167,7 +167,7 @@ index 0adce0958b..38bab08306 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index e23635e5ea..525295c76f 100644
+index e23635e5ea9..525295c76ff 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
 @@ -98,6 +98,9 @@

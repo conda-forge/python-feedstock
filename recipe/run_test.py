@@ -103,3 +103,11 @@ assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION
 
 # See https://github.com/conda-forge/python-feedstock/issues/718 for context:
 assert sys.hash_info.algorithm.startswith("siphash")
+
+# xref https://github.com/conda-forge/openssl-feedstock/issues/237
+import ssl
+print("openssl:", ssl.OPENSSL_VERSION)
+pem = ssl.get_server_certificate(("pypi.org", 443))
+der = ssl.PEM_cert_to_DER_cert(pem)
+ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+ctx.load_verify_locations(cadata=der)

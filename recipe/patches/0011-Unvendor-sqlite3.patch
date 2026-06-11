@@ -1,7 +1,7 @@
-From 11130223b608ff02ed637041e46a8d1a05faf21d Mon Sep 17 00:00:00 2001
+From 464469d29ed8a1edf449254dc7b67cc525342f96 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
-Subject: [PATCH 11/25] Unvendor sqlite3
+Subject: [PATCH 11/27] Unvendor sqlite3
 
 ---
  PCbuild/_sqlite3.vcxproj |  9 ++++-----
@@ -11,7 +11,7 @@ Subject: [PATCH 11/25] Unvendor sqlite3
  4 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 5eb8559d29..fcdee1be60 100644
+index 5eb8559d292..fcdee1be600 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -93,8 +93,11 @@
@@ -39,7 +39,7 @@ index 5eb8559d29..fcdee1be60 100644
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 3507b97279..2b4ac3258c 100644
+index 3507b972797..2b4ac3258c0 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
 @@ -55,8 +55,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pyexpat", "pyexpat.vcxproj"
@@ -52,7 +52,7 @@ index 3507b97279..2b4ac3258c 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "python3dll", "python3dll.vcxproj", "{885D4898-D08D-4091-9C40-C700CFE3FC5A}"
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index b7f958193c..fe3fd7bad2 100644
+index b7f958193cb..fe3fd7bad2a 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -65,7 +65,7 @@
@@ -65,7 +65,7 @@ index b7f958193c..fe3fd7bad2 100644
      <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.5\</lzmaDir>
      <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.3.0\</libffiDir>
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index e39e2d9c22..63d1c27fbc 100644
+index e39e2d9c226..63d1c27fbc7 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
 @@ -88,12 +88,12 @@

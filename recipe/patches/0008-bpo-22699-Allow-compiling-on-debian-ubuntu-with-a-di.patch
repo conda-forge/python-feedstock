@@ -1,7 +1,7 @@
-From 49726f1962c2ad78932ac40621e35d1428f46d37 Mon Sep 17 00:00:00 2001
+From 9b4fb93be060983edfca1bbffc404e699f807dd4 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
-Subject: [PATCH 08/25] bpo-22699: Allow compiling on debian/ubuntu with a
+Subject: [PATCH 08/27] bpo-22699: Allow compiling on debian/ubuntu with a
  different compiler
 
 This PR fixes one issue mentioned in the bpo
@@ -12,7 +12,7 @@ patch than given
  1 file changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/setup.py b/setup.py
-index b2d68de7cd..ddaa6d743c 100644
+index b2d68de7cd1..ddaa6d743cd 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -666,9 +666,30 @@ def check_extension_import(self, ext):

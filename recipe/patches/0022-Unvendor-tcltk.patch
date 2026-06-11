@@ -1,14 +1,14 @@
-From b201ef5cfba1ffb2774baa5eeee5d25a55904d40 Mon Sep 17 00:00:00 2001
+From 593d2b046a3c412fd2c9f7dcb561f94e4cecd56c Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
-Subject: [PATCH 22/25] Unvendor tcltk
+Subject: [PATCH 22/27] Unvendor tcltk
 
 ---
  PCbuild/tcltk.props | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
-index 6ff152970c..a46efb89d2 100644
+index 6ff152970c7..a46efb89d26 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
 @@ -17,10 +17,10 @@

@@ -1,7 +1,7 @@
-From f73b4815e527627674cf8c052d5d37d9da5529c6 Mon Sep 17 00:00:00 2001
+From 8d74bd3c5fe8a400d0b37696b03f63c0ab722008 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
-Subject: [PATCH 18/25] Make dyld search work with SYSTEM_VERSION_COMPAT=1
+Subject: [PATCH 18/27] Make dyld search work with SYSTEM_VERSION_COMPAT=1
 
 In macOS Big Sur, if the executable was compiled with `MACOSX_DEPLOYMENT_TARGET=10.15`
 or below, then SYSTEM_VERSION_COMPAT=1 is the default which means that Big Sur
@@ -15,7 +15,7 @@ as that part is compiled with `MACOSX_DEPLOYMENT_TARGET=11.0`)
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index e009661d4a..708d866673 100644
+index e009661d4a2..708d866673c 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
 @@ -1448,7 +1448,7 @@ copy_com_pointer(PyObject *self, PyObject *args)

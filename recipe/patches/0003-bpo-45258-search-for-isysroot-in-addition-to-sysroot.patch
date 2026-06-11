@@ -1,7 +1,7 @@
-From 4060a693b20afa706069d7a5559b561ef5d5d853 Mon Sep 17 00:00:00 2001
+From 7fefe7f31a0abdaf54004aece9dc0849ca9765b2 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 21 Sep 2021 13:05:20 -0500
-Subject: [PATCH 03/26] bpo-45258: search for -isysroot in addition to
+Subject: [PATCH 03/27] bpo-45258: search for -isysroot in addition to
  --sysroot
 
 -isysroot is for macOS, while --sysroot is for gcc/linux

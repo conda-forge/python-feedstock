@@ -1,7 +1,7 @@
-From f38aa32e3f9bf268ebcf7a6f34446fc7b7e8b32a Mon Sep 17 00:00:00 2001
+From b57b04b19f7495ad1f9bbe562fd846f33382fa36 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
-Subject: [PATCH 21/26] Unvendor tcltk
+Subject: [PATCH 21/27] Unvendor tcltk
 
 ---
  PCbuild/tcltk.props | 12 +++++-------

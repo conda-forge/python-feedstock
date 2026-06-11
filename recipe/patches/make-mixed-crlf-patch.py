@@ -42,7 +42,7 @@ def main(argv):
                         line.startswith('+++ ') or \
                         line.startswith('@@ ') or \
                         line.startswith('index ') or \
-                        (i < len(lines) - 1 and lines[i+1].startswith("\ No newline at end of file")):
+                        (i < len(lines) - 1 and lines[i+1].startswith(r"\ No newline at end of file")):
                     fo.write((line + '\n').encode('utf-8'))
                 else:
                     fo.write((line + '\r\n').encode('utf-8'))

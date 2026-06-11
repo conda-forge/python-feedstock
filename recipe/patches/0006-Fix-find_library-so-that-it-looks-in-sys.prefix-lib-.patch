@@ -1,7 +1,8 @@
-From e66bc6c54834bad1224d78f24e07f0f7c98f3fb9 Mon Sep 17 00:00:00 2001
+From c03b4821890811e2f1a0be4ab621bcdf8e3ef4d7 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
-Subject: [PATCH] Fix find_library so that it looks in sys.prefix/lib first
+Subject: [PATCH 06/27] Fix find_library so that it looks in sys.prefix/lib
+ first
 
 ---
  Lib/ctypes/macholib/dyld.py |  4 ++++

@@ -1,7 +1,7 @@
-From e1a3cf6c461ba26537d4a643b82d0b336ecdea79 Mon Sep 17 00:00:00 2001
+From ac099b810a66b3243af276957aefe32fad3fae93 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 20:46:36 +0100
-Subject: [PATCH 13/26] Add /d1trimfile:%SRC_DIR% to make pdbs more relocatable
+Subject: [PATCH 13/27] Add /d1trimfile:%SRC_DIR% to make pdbs more relocatable
 
 ---
  Lib/distutils/_msvccompiler.py | 9 ++++++++-

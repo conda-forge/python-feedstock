@@ -1,4 +1,4 @@
-From ffbe5dd381d0e1c1da006572b6da4cb99f36c99e Mon Sep 17 00:00:00 2001
+From 68b6f1e2b050062c5541c5064dc12f4c38b68124 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
@@ -30,7 +30,7 @@ index 6313abf5485..bc8169e2f68 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index 567966ca558..d4526ed915a 100644
+index b5aba8d64ac..5a419ea0f8d 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -23,6 +23,10 @@
@@ -45,7 +45,7 @@ index 567966ca558..d4526ed915a 100644
  #  error "The public headers should not include <stdbool.h>, see gh-48924"
  #endif
 diff --git a/Modules/_testlimitedcapi/long.c b/Modules/_testlimitedcapi/long.c
-index 34bc7331da9..abae4b19bf0 100644
+index 99b9e96760d..932fef0497f 100644
 --- a/Modules/_testlimitedcapi/long.c
 +++ b/Modules/_testlimitedcapi/long.c
 @@ -8,6 +8,10 @@
@@ -60,7 +60,7 @@ index 34bc7331da9..abae4b19bf0 100644
  module _testlimitedcapi
  [clinic start generated code]*/
 diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
-index 1c7a860e1ec..64bdbdf23db 100644
+index 094580e7c23..02d74ec937d 100644
 --- a/Modules/clinic/posixmodule.c.h
 +++ b/Modules/clinic/posixmodule.c.h
 @@ -10,6 +10,10 @@ preserve
@@ -75,7 +75,7 @@ index 1c7a860e1ec..64bdbdf23db 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index 31b2d28200c..cc7e40c0283 100644
+index 69e28a1ff95..ca4d58dfd63 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
 @@ -219,6 +219,7 @@

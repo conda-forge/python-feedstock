@@ -1,4 +1,4 @@
-From 28791c270d11f9c7109732ddfff9ecc49473a9d2 Mon Sep 17 00:00:00 2001
+From 803aeaea8d4b1f6f62bf208a9c826664af1cc24c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 09/26] cross compile darwin
@@ -29,7 +29,7 @@ index b017b841311..f7821ae7f28 100644
      try:
          import plistlib
 diff --git a/configure b/configure
-index 30590a397f8..62fae1195fb 100755
+index 2088290f0ee..13fa7eb8101 100755
 --- a/configure
 +++ b/configure
 @@ -4112,6 +4112,9 @@ then
@@ -53,7 +53,7 @@ index 30590a397f8..62fae1195fb 100755
  		_host_ident=
  		;;
 diff --git a/configure.ac b/configure.ac
-index 87c0ead45a6..5b0c8eea724 100644
+index aed14946731..fcc0e58963e 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -324,6 +324,9 @@ then

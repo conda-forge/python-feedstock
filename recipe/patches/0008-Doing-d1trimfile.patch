@@ -1,4 +1,4 @@
-From 87116ba01329804b3fdca98410416c075bd6c27e Mon Sep 17 00:00:00 2001
+From fee1892d10c7e87625644e7ec104c9e7e7119828 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/25] Doing d1trimfile
@@ -436,7 +436,7 @@ index 4e721e8ce09..3fec7516ed5 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/_testcapi.vcxproj b/PCbuild/_testcapi.vcxproj
-index 44dbf234813..ec791cfe60c 100644
+index 02d755f8d5c..f28e1a4fc3b 100644
 --- a/PCbuild/_testcapi.vcxproj
 +++ b/PCbuild/_testcapi.vcxproj
 @@ -92,6 +92,26 @@

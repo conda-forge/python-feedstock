@@ -11,15 +11,19 @@ jobs:
       win_64_freethreadingno:
         CONFIG: win_64_freethreadingno
         UPLOAD_PACKAGES: 'True'
+        build_workspace_dir: D:\\bld\\
+        store_build_artifacts: true
+        tools_install_dir: D:\Miniforge
         SHORT_CONFIG: win_64_freethreadingno
       win_64_freethreadingyes:
         CONFIG: win_64_freethreadingyes
         UPLOAD_PACKAGES: 'True'
+        build_workspace_dir: D:\\bld\\
+        store_build_artifacts: true
+        tools_install_dir: D:\Miniforge
         SHORT_CONFIG: win_64_freethreadingyes
   timeoutInMinutes: 360
   variables:
-    CONDA_BLD_PATH: D:\\bld\\
-    MINIFORGE_HOME: D:\Miniforge
     UPLOAD_TEMP: D:\\tmp
 
   steps:
@@ -28,8 +32,8 @@ jobs:
         call ".scripts\run_win_build.bat"
       displayName: Run Windows build
       env:
-        MINIFORGE_HOME: $(MINIFORGE_HOME)
-        CONDA_BLD_PATH: $(CONDA_BLD_PATH)
+        MINIFORGE_HOME: $(tools_install_dir)
+        CONDA_BLD_PATH: $(build_workspace_dir)
         PYTHONUNBUFFERED: 1
         CONFIG: $(CONFIG)
         CI: azure
@@ -41,20 +45,21 @@ jobs:
         BINSTAR_TOKEN: $(BINSTAR_TOKEN)
         FEEDSTOCK_TOKEN: $(FEEDSTOCK_TOKEN)
         STAGING_BINSTAR_TOKEN: $(STAGING_BINSTAR_TOKEN)
+
     - script: |
-        set MINIFORGE_HOME=$(MINIFORGE_HOME)
+        set MINIFORGE_HOME=$(tools_install_dir)
+        set CONDA_BLD_PATH=$(build_workspace_dir)
         set CI=azure
         set CI_RUN_ID=$(build.BuildNumber).$(system.JobAttempt)
         set FEEDSTOCK_NAME=$(build.Repository.Name)
         set ARTIFACT_STAGING_DIR=$(Build.ArtifactStagingDirectory)
-        set CONDA_BLD_DIR=$(CONDA_BLD_PATH)
         set BLD_ARTIFACT_PREFIX=conda_artifacts
         if "%AGENT_JOBSTATUS%" == "Failed" (
             set ENV_ARTIFACT_PREFIX=conda_envs
         )
         call ".scripts\create_conda_build_artifacts.bat"
       displayName: Prepare conda build artifacts
-      condition: succeededOrFailed()
+      condition: and(succeededOrFailed(), eq(variables.store_build_artifacts, true))
 
     - task: PublishPipelineArtifact@1
       displayName: Store conda build artifacts

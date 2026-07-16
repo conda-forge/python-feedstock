@@ -85,40 +85,39 @@ for %%x in (python%THREAD%%_D%.pdb python%VERNODOTS%%THREAD%%_D%.pdb pythonw%THR
 
 @echo on
 
-copy %SRC_DIR%\LICENSE %PREFIX%\LICENSE_PYTHON.txt
+mkdir %PREFIX%\lib\python
+copy %SRC_DIR%\LICENSE %PREFIX%\lib\python\LICENSE_PYTHON.txt
 if errorlevel 1 exit 1
 
 :: Populate the DLLs directory
-mkdir %PREFIX%\DLLs
-xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\DLLs\
+mkdir %PREFIX%\lib\python\lib-dynload
+xcopy /s /y %SRC_DIR%\PCBuild\%BUILD_PATH%\*.pyd %PREFIX%\lib\python\lib-dynload
 if errorlevel 1 exit 1
 
-copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
+copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\lib\python\lib-dynload
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PC\icons\pyc.ico %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-
-:: Populate the Tools directory
-mkdir %PREFIX%\Tools
-xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
-if errorlevel 1 exit 1
-xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\scripts
+copy /Y %SRC_DIR%\PC\icons\pyc.ico %PREFIX%\lib\python\lib-dynload
 if errorlevel 1 exit 1
 
-del %PREFIX%\Tools\scripts\README
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\scripts\idle3
+mkdir %PREFIX%\lib\python\Tools
+xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\lib\python\Tools\scripts
 if errorlevel 1 exit 1
 
-move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
+del %PREFIX%\lib\python\Tools\scripts\README
+if errorlevel 1 exit 1
+del %PREFIX%\lib\python\Tools\scripts\idle3
+if errorlevel 1 exit 1
+
+move /y %PREFIX%\lib\python\Tools\scripts\pydoc3 %PREFIX%\lib\python\Tools\scripts\pydoc3.py
 if errorlevel 1 exit 1
 
 :: Populate the include directory
-xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\
+mkdir %PREFIX%\include\python
+xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\python\
 if errorlevel 1 exit 1
 
 :: Copy generated pyconfig.h
-copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\
+copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\python\
 if errorlevel 1 exit 1
 
 :: Populate the Scripts directory
@@ -131,50 +130,49 @@ for %%x in (idle pydoc) do (
 )
 
 :: Populate the libs directory
-if not exist %PREFIX%\libs mkdir %PREFIX%\libs
 dir %SRC_DIR%\PCbuild\%BUILD_PATH%\
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\lib\
 if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%THREAD%%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\python3%THREAD%%_D%.lib %PREFIX%\lib\
 if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%THREAD%%_D%.lib %PREFIX%\libs\
-if errorlevel 1 exit 1
-
-
-:: Populate the Lib directory
-del %PREFIX%\libs\libpython*.a
-xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
+if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\_tkinter%THREAD%%_D%.lib %PREFIX%\lib\
 if errorlevel 1 exit 1
 
-:: Copy venv[w]launcher scripts to venv\srcipts\nt
-:: See https://github.com/python/cpython/blob/b4a316087c32d83e375087fd35fc511bc430ee8b/Lib/venv/__init__.py#L334-L376
+
+:: Populate the lib directory
+del %PREFIX%\lib\libpython*.a
+xcopy /s /y %SRC_DIR%\lib %PREFIX%\lib\python\
+if errorlevel 1 exit 1
+
+:: Copy venv[w]launcher scripts to venv\scripts\nt
+:: See https://github.com/python/cpython/blob/b4a316087c32d83e375087fd35fc511bc430ee8b/lib/python/venv/__init__.py#L334-L376
 if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvlauncher%THREAD%%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\lib\python\venv\scripts\nt\python.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe %PREFIX%\lib\python\venv\scripts\nt\venvlauncher%THREAD%%_D%.exe
 ) else (
   echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvlauncher%THREAD%%_D%.exe does not exist"
 )
 
 if exist %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
-  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvwlauncher%THREAD%%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\lib\python\venv\scripts\nt\pythonw.exe
+  copy /Y %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\lib\python\venv\scripts\nt\venvwlauncher%THREAD%%_D%.exe
 ) else (
   echo "WARNING :: %SRC_DIR%\PCbuild\%BUILD_PATH%\venvwlauncher%THREAD%%_D%.exe does not exist"
 )
 
 :: Remove test data to save space.
 :: Though keep `support` as some things use that.
-mkdir %PREFIX%\Lib\test_keep
+mkdir %PREFIX%\lib\python\test_keep
 if errorlevel 1 exit 1
-move %PREFIX%\Lib\test\__init__.py %PREFIX%\Lib\test_keep\
+move %PREFIX%\lib\python\test\__init__.py %PREFIX%\lib\python\test_keep\
 if errorlevel 1 exit 1
-move %PREFIX%\Lib\test\support %PREFIX%\Lib\test_keep\
+move %PREFIX%\lib\python\test\support %PREFIX%\lib\python\test_keep\
 if errorlevel 1 exit 1
-rd /s /q %PREFIX%\Lib\test
+rd /s /q %PREFIX%\lib\python\test
 if errorlevel 1 exit 1
-move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
+move %PREFIX%\lib\python\test_keep %PREFIX%\lib\python\test
 if errorlevel 1 exit 1
 
 :: We need our Python to be found!
@@ -182,7 +180,7 @@ if "%_D%" neq "" copy %PREFIX%\python%_D%.exe %PREFIX%\python.exe
 if "%EXE_T%" neq "" copy %PREFIX%\python%EXE_T%.exe %PREFIX%\python.exe
 
 :: bytecode compile the standard library
-%PREFIX%\python.exe -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
+%PREFIX%\python.exe -Wi %PREFIX%\lib\python\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\lib\python
 if errorlevel 1 exit 1
 
 :: Ensure that scripts are generated

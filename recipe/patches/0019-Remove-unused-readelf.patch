@@ -1,7 +1,7 @@
-From dac34619b5be2dea6cff95887e8350716e1e4ca5 Mon Sep 17 00:00:00 2001
+From 163ac65b3ebb8350b14428ce2a867ab9157de04a Mon Sep 17 00:00:00 2001
 From: Charles Bousseau <cbousseau@anaconda.com>
 Date: Thu, 25 May 2023 17:56:53 -0400
-Subject: [PATCH 19/26] Remove unused readelf
+Subject: [PATCH 19/27] Remove unused readelf
 
 readelf has been dropped.
 .. date: 2022-11-02-10-56-40
@@ -15,7 +15,7 @@ Drop unused build dependency on ``readelf``.
  1 file changed, 1 deletion(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index 120a6add385..e39dfef95ae 100644
+index 354580aa482..1461a30cd79 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -38,7 +38,6 @@ CC=		@CC@

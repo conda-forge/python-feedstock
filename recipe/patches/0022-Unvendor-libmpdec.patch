@@ -1,7 +1,7 @@
-From b713152ab14c7df7ed3ea0e2b963c263e2a46eef Mon Sep 17 00:00:00 2001
+From 984b3d2f2c8f23324ea4d70ca5554e2320eabc2e Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 16 Aug 2024 21:34:43 -0500
-Subject: [PATCH 22/26] Unvendor libmpdec
+Subject: [PATCH 22/27] Unvendor libmpdec
 
 ---
  PCbuild/_decimal.vcxproj | 51 ++++++----------------------------------

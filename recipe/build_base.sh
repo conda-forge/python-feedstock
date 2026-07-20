@@ -256,7 +256,7 @@ _common_configure_args+=(--with-computed-gotos)
 _common_configure_args+=(--with-system-expat)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
-_common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
+_common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl${TCLTK_VER} -ltk${TCLTK_VER}")
 _common_configure_args+=(--with-platlibdir=lib)
 
 if [[ "${PY_INTERP_DEBUG}" == "yes" || "${target_platform}" != *"-64" || ${PY_FREETHREADING} == yes ]]; then

@@ -29,7 +29,7 @@ diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
 index 28e8c0db4d1..f975a79829a 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
-@@ -12,15 +12,11 @@
+@@ -12,15 +12,13 @@
      <TkMinorVersion>$([System.Version]::Parse($(TkVersion)).Minor)</TkMinorVersion>
      <TkPatchLevel>$([System.Version]::Parse($(TkVersion)).Build)</TkPatchLevel>
      <TkRevision>$([System.Version]::Parse($(TkVersion)).Revision)</TkRevision>
@@ -38,8 +38,8 @@ index 28e8c0db4d1..f975a79829a 100644
 -    <tclDir Condition="$(tclDir) == ''">$(ExternalsDir)tcl-$(TclVersion)\</tclDir>
 -    <tkDir Condition="$(tkDir) == ''">$(ExternalsDir)tk-$(TkVersion)\</tkDir>
 -    <tcltkDir Condition="$(tcltkDir) == ''">$(ExternalsDir)tcltk-$(TclVersion)\$(ArchName)\</tcltkDir>
--    <tcltkSuffix Condition="'$(TclMajorVersion)' == '8'">t</tcltkSuffix>
--    <tkPrefix Condition="'$(TclMajorVersion)' == '9'">tcl9</tkPrefix>
+     <tcltkSuffix Condition="'$(TclMajorVersion)' == '8'">t</tcltkSuffix>
+     <tkPrefix Condition="'$(TclMajorVersion)' == '9'">tcl9</tkPrefix>
 -    <TclshNativeFlag Condition="$(Platform) != 'Win32'">TCLSH_NATIVE="$(tcltkDir)\..\win32\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)$(tcltkSuffix).exe"</TclshNativeFlag>
 -    <tclExternalTommath Condition="$(TclMajorVersion) == '9'">TCL_WITH_EXTERNAL_TOMMATH;</tclExternalTommath>
 +    <tclDir>$(condaDir)</tclDir>

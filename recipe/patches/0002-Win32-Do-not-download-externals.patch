@@ -1,4 +1,4 @@
-From 6d2d2075042e9ac0307271fc700ae7d7bb1d21e6 Mon Sep 17 00:00:00 2001
+From f7a4cb3806d5f0934c8dd57084dc4201b2593df8 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
 Subject: [PATCH 02/27] Win32: Do not download externals
@@ -8,7 +8,7 @@ Subject: [PATCH 02/27] Win32: Do not download externals
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index 8fb2f096c93..e69b3aef564 100644
+index 9d2f032f5a9..faad274fc9d 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
 @@ -112,7 +112,7 @@ if "%~1"=="--no-ctypes" (set IncludeCTypes=false) & shift & goto CheckOpts

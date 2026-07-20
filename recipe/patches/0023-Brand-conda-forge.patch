@@ -1,4 +1,4 @@
-From 0cd204331a095425b848df1b71a8eba3dc55604b Mon Sep 17 00:00:00 2001
+From bdb99ff3e6a76fdfca612429330ce20b91087372 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 28 Aug 2024 11:12:22 -0500
 Subject: [PATCH 23/27] Brand conda-forge
@@ -9,7 +9,7 @@ Subject: [PATCH 23/27] Brand conda-forge
  2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 2401eff96df..69808d58586 100644
+index 37278847c0a..d419716825b 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -1146,6 +1146,7 @@ def _sys_version(sys_version=None):

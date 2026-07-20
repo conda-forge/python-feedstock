@@ -1,4 +1,4 @@
-From a4e219363bfe395745df9c2cf5e01b6c0004021a Mon Sep 17 00:00:00 2001
+From e226645fc9dc1028758afdae88dd0703dc803f17 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
 Subject: [PATCH 03/27] Fix find_library so that it looks in sys.prefix/lib
@@ -25,10 +25,10 @@ index 583c47daff3..ab9b01c87e2 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index 3b21658433b..2c900c1e2cf 100644
+index 35ac5b6bfd6..614482a10fb 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
-@@ -135,7 +135,8 @@ def dllist():
+@@ -136,7 +136,8 @@ def dllist():
  elif os.name == "posix" and sys.platform in {"darwin", "ios", "tvos", "watchos"}:
      from ctypes.macholib.dyld import dyld_find as _dyld_find
      def find_library(name):
@@ -38,7 +38,7 @@ index 3b21658433b..2c900c1e2cf 100644
                      '%s.dylib' % name,
                      '%s.framework/%s' % (name, name)]
          for name in possible:
-@@ -436,10 +437,30 @@ def _findLib_ld(name):
+@@ -437,10 +438,30 @@ def _findLib_ld(name):
                  pass  # result will be None
              return result
  

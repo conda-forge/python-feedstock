@@ -1,16 +1,16 @@
-From 24c242dbf9cf16f624d2049188fd87b7476ff424 Mon Sep 17 00:00:00 2001
+From c82644b76c5b87ad02ffeb3f2fb5c3fab2a0ec80 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
 Subject: [PATCH 06/27] Unvendor sqlite3
 
 ---
- PCbuild/_sqlite3.vcxproj | 11 +++++------
+ PCbuild/_sqlite3.vcxproj |  9 ++++-----
  PCbuild/pcbuild.sln      |  2 --
  PCbuild/sqlite3.vcxproj  | 12 ++++++------
- 3 files changed, 11 insertions(+), 14 deletions(-)
+ 3 files changed, 10 insertions(+), 13 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 9ae0a0fc3a0..f482734ba1d 100644
+index 9ae0a0fc3a0..9baaafed518 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -93,9 +93,12 @@
@@ -27,7 +27,7 @@ index 9ae0a0fc3a0..f482734ba1d 100644
    </ItemDefinitionGroup>
    <ItemGroup>
      <ClInclude Include="..\Modules\_sqlite\connection.h" />
-@@ -127,12 +130,8 @@
+@@ -127,10 +130,6 @@
        <Project>{cf7ac3d1-e2df-41d2-bea6-1e2556cdea26}</Project>
        <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
      </ProjectReference>
@@ -38,15 +38,11 @@ index 9ae0a0fc3a0..f482734ba1d 100644
    </ItemGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
-   </ImportGroup>
--</Project>
-\ No newline at end of file
-+</Project>
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 7296ea75301..9dd5e07ad8a 100644
+index 09a989d3864..74b961e877f 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
-@@ -72,8 +72,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_elementtree", "_elementtre
+@@ -73,8 +73,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_elementtree", "_elementtre
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_socket", "_socket.vcxproj", "{86937F53-C189-40EF-8CE8-8759D8E7D480}"
  EndProject

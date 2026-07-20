@@ -1,6 +1,9 @@
 setlocal EnableDelayedExpansion
 echo on
 
+:: Avoids fetching nuget.exe from the internet.
+set PYTHON=%CONDA_PYTHON_EXE%
+
 :: Compile python, extensions and external libraries
 if "%ARCH%"=="64" (
    set PLATFORM=x64
@@ -48,6 +51,16 @@ if "%PY_FREETHREADING%" == "yes" (
   set "FREETHREADING=--disable-gil"
   set "THREAD=t"
   set "EXE_T=%VER%t"
+  :: Free-threaded MSBuild output goes to PCbuild\amd64t\ (or win32t\), not amd64\.
+  :: Upstream python.props sets BuildPath=BuildPath64t when DisableGil=true; all
+  :: exes, .pyd, and .lib artifacts land there.  BUILD_PATH below is used to
+  :: stage those files into %PREFIX% — leaving it at amd64 makes xcopy *.pyd fail
+  :: with "File not found" even though the compile itself succeeded.
+  if "%ARCH%"=="64" (
+    set BUILD_PATH=amd64t
+  ) else (
+    set BUILD_PATH=win32t
+  )
 ) else (
   set "FREETHREADING=--experimental-jit-off"
   set "THREAD="
@@ -57,12 +70,16 @@ if "%PY_FREETHREADING%" == "yes" (
 :: AP doesn't support PGO atm?
 set PGO=
 
+:: TODO: remove once tk 9 is available on main
+:: Pin Tcl/Tk from the `tk` variant in conda_build_config.yaml (single source of
+:: truth, shared with build_base.sh). Upstream 3.15 tcltk.props defaults
+:: TclVersion to 9.0.3.0, but pkgs/main only ships tk 8.6; MSBuild derives the
+:: lib names (tcl86t.lib/tk86t.lib) from the major.minor of these props.
+set TCLTK_MSBUILD_PROPS="/p:TclVersion=%tk%" "/p:TkVersion=%tk%"
+
 cd PCbuild
 
-:: Twice because:
-:: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM%
-call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %PLATFORM% %TCLTK_MSBUILD_PROPS%
 if errorlevel 1 exit 1
 cd ..
 

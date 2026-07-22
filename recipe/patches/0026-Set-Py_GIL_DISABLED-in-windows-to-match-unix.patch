@@ -1,4 +1,4 @@
-From e332b0f997ce1bd79d68b920151507776207fb62 Mon Sep 17 00:00:00 2001
+From 11f11d345af9c01aa41399952a9ecd7f6ab13b8e Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 2 Dec 2025 09:46:56 -0800
 Subject: [PATCH 26/27] Set Py_GIL_DISABLED in windows to match unix
@@ -11,7 +11,7 @@ luxury of not having to do that.
  1 file changed, 2 insertions(+)
 
 diff --git a/PC/pyconfig.h b/PC/pyconfig.h
-index 8332de4afb4..45744078c1b 100644
+index 5149fbcf301..52892d685cc 100644
 --- a/PC/pyconfig.h
 +++ b/PC/pyconfig.h
 @@ -110,6 +110,8 @@ WIN32 is still required for the locale module.

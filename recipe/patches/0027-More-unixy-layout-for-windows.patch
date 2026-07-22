@@ -1,4 +1,4 @@
-From af7dee26a2be6d38d8f3466fbeac16dca739614f Mon Sep 17 00:00:00 2001
+From 853e54ebe2cd914b719dc274be11211d72883a32 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 22 May 2026 14:21:19 -0700
 Subject: [PATCH 27/27] More unixy layout for windows
@@ -12,10 +12,10 @@ See https://github.com/conda-forge/cfep/pull/65
  4 files changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/Lib/site.py b/Lib/site.py
-index 30015b3f26b..f0c62fb4e59 100644
+index d06549b8df8..4ec8fab1450 100644
 --- a/Lib/site.py
 +++ b/Lib/site.py
-@@ -414,6 +414,7 @@ def getsitepackages(prefixes=None):
+@@ -764,6 +764,7 @@ def getsitepackages(prefixes=None):
                                      "site-packages")
                  sitepackages.append(path)
          else:
@@ -54,12 +54,12 @@ index 654a1ef225f..9021d40e809 100644
              'user': 'nt_user',
          }
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index 43a47ca77af..0197811f7eb 100644
+index ea370c2f686..c7f85c5c5c1 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
-@@ -193,9 +193,9 @@
+@@ -190,9 +190,9 @@
+ elif os_name == 'nt':
      BUILDDIR_TXT = 'pybuilddir.txt'
-     BUILD_LANDMARK = f'{VPATH}\\Modules\\Setup.local'
      DEFAULT_PROGRAM_NAME = f'python'
 -    STDLIB_SUBDIR = 'Lib'
 +    STDLIB_SUBDIR = f'{platlibdir}\\python'
@@ -70,10 +70,10 @@ index 43a47ca77af..0197811f7eb 100644
      VENV_LANDMARK = 'pyvenv.cfg'
      ZIP_LANDMARK = f'python{VERSION_MAJOR}{VERSION_MINOR}{PYDEBUGEXT or ""}.zip'
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 62b762f8bdc..e5d52458346 100644
+index 7d5432d5428..aaf80b13a89 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
-@@ -126,7 +126,7 @@
+@@ -129,7 +129,7 @@
          VERSION=NULL;
          VPATH="$(PyVPath)";
          PYDEBUGEXT="$(PyDebugExt)";

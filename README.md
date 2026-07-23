@@ -94,6 +94,34 @@ Current build status
                 </a>
               </td>
             </tr><tr>
+              <td>osx_arm64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>osx_arm64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
               <td>win_64_freethreadingno</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
@@ -131,14 +159,14 @@ Current release info
 Installing python
 =================
 
-Installing `python` from the `conda-forge/label/python_dev_debug` channel can be achieved by adding `conda-forge/label/python_dev_debug` to your channels with:
+Installing `python` from the `conda-forge/label/python_dev` channel can be achieved by adding `conda-forge/label/python_dev` to your channels with:
 
 ```
-conda config --add channels conda-forge/label/python_dev_debug
+conda config --add channels conda-forge/label/python_dev
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/python_dev_debug` channel has been enabled, `cpython, libpython, libpython-static, python, python-freethreading, python-gil, python-jit` can be installed with `conda`:
+Once the `conda-forge/label/python_dev` channel has been enabled, `cpython, libpython, libpython-static, python, python-freethreading, python-gil, python-jit` can be installed with `conda`:
 
 ```
 conda install cpython libpython libpython-static python python-freethreading python-gil python-jit
@@ -153,26 +181,26 @@ mamba install cpython libpython libpython-static python python-freethreading pyt
 It is possible to list all of the versions of `cpython` available on your platform with `conda`:
 
 ```
-conda search cpython --channel conda-forge/label/python_dev_debug
+conda search cpython --channel conda-forge/label/python_dev
 ```
 
 or with `mamba`:
 
 ```
-mamba search cpython --channel conda-forge/label/python_dev_debug
+mamba search cpython --channel conda-forge/label/python_dev
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search cpython --channel conda-forge/label/python_dev_debug
+mamba repoquery search cpython --channel conda-forge/label/python_dev
 
 # List packages depending on `cpython`:
-mamba repoquery whoneeds cpython --channel conda-forge/label/python_dev_debug
+mamba repoquery whoneeds cpython --channel conda-forge/label/python_dev
 
 # List dependencies of `cpython`:
-mamba repoquery depends cpython --channel conda-forge/label/python_dev_debug
+mamba repoquery depends cpython --channel conda-forge/label/python_dev
 ```
 
 

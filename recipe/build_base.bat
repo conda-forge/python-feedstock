@@ -226,7 +226,7 @@ if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
   set "PYTHON=%PREFIX%\python.exe"
 )
 :: bytecode compile the standard library
-%PYTHON% -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
+%PYTHON% -Wi %PREFIX%\lib\python\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
 if errorlevel 1 exit 1
 
 :: Ensure that scripts are generated

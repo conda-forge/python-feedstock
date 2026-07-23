@@ -96,14 +96,14 @@ if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
   REM No PGO. No externals, i.e. remove building extension modules
   REM we don't need.
   set LIBRARY_PREFIX=%BUILD_PREFIX%\\Library
-  call build.bat %CONFIG% %FREETHREADING% -m -E -v -p %BUILD_PLATFORM%
+  call build.bat %CONFIG% %FREETHREADING% -m -E -v -p %BUILD_PLATFORM% %TCLTK_MSBUILD_PROPS%
   if errorlevel 1 exit 1
 )
 endlocal
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM%
-call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM% %TCLTK_MSBUILD_PROPS%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM% %TCLTK_MSBUILD_PROPS%
 if errorlevel 1 exit 1
 cd ..
 

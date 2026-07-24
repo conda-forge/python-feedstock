@@ -12,62 +12,73 @@ jobs:
         CONFIG: win_64_freethreadingno
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: D:\\bld\\
+        free_disk_space: skip
+        pagefile_size: 0
+        resize_partitions: false
         store_build_artifacts: true
         tools_install_dir: D:\Miniforge
-        SHORT_CONFIG: win_64_freethreadingno
+        CONFIG_SHORT: win_64_freethreadingno
       win_64_freethreadingyes:
         CONFIG: win_64_freethreadingyes
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: D:\\bld\\
+        free_disk_space: skip
+        pagefile_size: 0
+        resize_partitions: false
         store_build_artifacts: true
         tools_install_dir: D:\Miniforge
-        SHORT_CONFIG: win_64_freethreadingyes
+        CONFIG_SHORT: win_64_freethreadingyes
       win_arm64_freethreadingno:
         CONFIG: win_arm64_freethreadingno
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: C:\\bld\\
+        free_disk_space: skip
+        pagefile_size: 0
+        resize_partitions: false
         store_build_artifacts: true
         tools_install_dir: C:\Miniforge
-        SHORT_CONFIG: win_arm64_freethreadingno
+        CONFIG_SHORT: win_arm64_freethreadingno
       win_arm64_freethreadingyes:
         CONFIG: win_arm64_freethreadingyes
         UPLOAD_PACKAGES: 'True'
         build_workspace_dir: C:\\bld\\
+        free_disk_space: skip
+        pagefile_size: 0
+        resize_partitions: false
         store_build_artifacts: true
         tools_install_dir: C:\Miniforge
-        SHORT_CONFIG: win_arm64_freethreadingyes
+        CONFIG_SHORT: win_arm64_freethreadingyes
   timeoutInMinutes: 360
   variables:
     UPLOAD_TEMP: D:\\tmp
 
   steps:
-
     - script: |
         call ".scripts\run_win_build.bat"
       displayName: Run Windows build
       env:
-        MINIFORGE_HOME: $(tools_install_dir)
-        CONDA_BLD_PATH: $(build_workspace_dir)
-        PYTHONUNBUFFERED: 1
-        CONFIG: $(CONFIG)
         CI: azure
+        CONFIG: $(CONFIG)
+        CONDA_BLD_PATH: $(build_workspace_dir)
+        MINIFORGE_HOME: $(tools_install_dir)
+        PYTHONUNBUFFERED: 1
+        UPLOAD_PACKAGES: $(UPLOAD_PACKAGES)
+        UPLOAD_TEMP: $(UPLOAD_TEMP)
         flow_run_id: azure_$(Build.BuildNumber).$(System.JobAttempt)
         remote_url: $(Build.Repository.Uri)
         sha: $(Build.SourceVersion)
-        UPLOAD_PACKAGES: $(UPLOAD_PACKAGES)
-        UPLOAD_TEMP: $(UPLOAD_TEMP)
         BINSTAR_TOKEN: $(BINSTAR_TOKEN)
         FEEDSTOCK_TOKEN: $(FEEDSTOCK_TOKEN)
         STAGING_BINSTAR_TOKEN: $(STAGING_BINSTAR_TOKEN)
 
     - script: |
-        set MINIFORGE_HOME=$(tools_install_dir)
-        set CONDA_BLD_PATH=$(build_workspace_dir)
+        set ARTIFACT_STAGING_DIR=$(Build.ArtifactStagingDirectory
+        set BLD_ARTIFACT_PREFIX=conda_artifacts
         set CI=azure
         set CI_RUN_ID=$(build.BuildNumber).$(system.JobAttempt)
+        set CONDA_BLD_PATH=$(build_workspace_dir)
         set FEEDSTOCK_NAME=$(build.Repository.Name)
-        set ARTIFACT_STAGING_DIR=$(Build.ArtifactStagingDirectory)
-        set BLD_ARTIFACT_PREFIX=conda_artifacts
+        set MINIFORGE_HOME=$(tools_install_dir)
         if "%AGENT_JOBSTATUS%" == "Failed" (
             set ENV_ARTIFACT_PREFIX=conda_envs
         )

@@ -355,9 +355,8 @@ outputs:
 {% if py_interp_debug == "yes" %}
         - VERABI=${VERABI}d        # [not win]
 {% endif %}
-        - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
-        - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
-        - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        - test -f ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}       # [unix]
+        - test -f ${PREFIX}/lib/libpython3${SHLIB_EXT}               # [unix]
         {% if freethreading == "yes" %}
         - if not exist %PREFIX%\python3t.dll exit 1                  # [win]
         - if not exist %PREFIX%\python{{ ver2nd }}t.dll exit 1       # [win]

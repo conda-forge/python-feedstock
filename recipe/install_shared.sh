@@ -31,3 +31,15 @@ fi
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   ln -s ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT} ${PREFIX}/lib/libpython${VERABI_NO_DBG}${SHLIB_EXT}
 fi
+
+# create libpython3.dylib; linux builds only add this in release mode, do the same on osx
+if [[ "$target_platform" == osx-* && ${PY_INTERP_DEBUG} == no ]]; then
+  awk -F',' '$1 == "func" || $1 == "data" { print "_" $2 }' Doc/data/stable_abi.dat > stable_abi_exports.txt
+
+  $CC -dynamiclib \
+   -install_name @rpath/libpython3.dylib \
+   -compatibility_version 3.0 -current_version ${PY_VER}.0 \
+   -Wl,-reexport_library,${PREFIX}/lib/libpython${VERABI}.dylib \
+   -Wl,-exported_symbols_list,stable_abi_exports.txt \
+   -o ${PREFIX}/lib/libpython3.dylib
+fi

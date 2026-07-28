@@ -331,8 +331,9 @@ outputs:
         - VERABI=${VERABI}d        # [not win]
 {% endif %}
         - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
-        - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
         - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
+        - test -f ${PREFIX}/lib/libpython3.dylib                     # [osx and build_type == "release"]
         - pushd tests
         - pushd prefix-replacement  # [unix]
         - bash build-and-test.sh    # [unix]

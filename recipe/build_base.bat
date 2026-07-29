@@ -56,7 +56,10 @@ if "%PY_INTERP_DEBUG%"=="yes" (
   set _D=
 )
 
-set PGO=--pgo
+REM PGO is disabled for the 3.15 build. It was enabled for 3.14 job, but it doesn't
+REM work as intended and there are lots of warnings generated of the form
+REM warning PG0188: No .PGC files matching %SRC_DIR%\PCbuild\amd64\_tkinter!*.pgc' were found
+set PGO=
 if "%DEBUG_C%"=="yes" (
   set PGO=
 )

@@ -121,20 +121,6 @@ Current build status
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes" alt="variant">
                 </a>
               </td>
-            </tr><tr>
-              <td>win_64_freethreadingno</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=win&configuration=win%20win_64_freethreadingno" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>win_64_freethreadingyes</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=4155&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/python-feedstock?branchName=main&jobName=win&configuration=win%20win_64_freethreadingyes" alt="variant">
-                </a>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -165,31 +151,73 @@ conda config --add channels conda-forge/label/python_debug
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge/label/python_debug` channel has been enabled, `cpython, libpython-static, python, python-freethreading, python-gil, python-jit` can be installed with `conda`:
+How to use
+----------
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda install cpython libpython-static python python-freethreading python-gil python-jit
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba install cpython libpython-static python python-freethreading python-gil python-jit
 ```
 
-It is possible to list all of the versions of `cpython` available on your platform with `conda`:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+# for adding to your local project
+pixi add cpython libpython-static python python-freethreading python-gil python-jit
+# for installing globally
+pixi global install cpython libpython-static python python-freethreading python-gil python-jit
+```
+
+</details>
+
+Search package versions
+-----------------------
+
+It is possible to list all of the versions of `cpython` available on your platform:
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda search cpython --channel conda-forge/label/python_debug
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba search cpython --channel conda-forge/label/python_debug
 ```
 
-Alternatively, `mamba repoquery` may provide more information:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+pixi search cpython --channel conda-forge/label/python_debug
+```
+
+</details>
+
+<details>
+<summary>With mamba repoquery, which may provide more information</summary>
 
 ```
 # Search all versions available on your platform:
@@ -201,6 +229,8 @@ mamba repoquery whoneeds cpython --channel conda-forge/label/python_debug
 # List dependencies of `cpython`:
 mamba repoquery depends cpython --channel conda-forge/label/python_debug
 ```
+
+</details>
 
 
 About conda-forge

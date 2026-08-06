@@ -1,4 +1,4 @@
-From b1ceec3f7ca1dbfd89f5201b567819d4eacc9fe9 Mon Sep 17 00:00:00 2001
+From 11763c6ea13c9953c12a1de926be83ffe5220828 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Wed, 3 Sep 2025 13:32:24 +0200
 Subject: [PATCH 25/25] Search LLVM_ROOT for llvm binaries

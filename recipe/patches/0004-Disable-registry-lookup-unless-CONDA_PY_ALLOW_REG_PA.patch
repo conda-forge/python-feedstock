@@ -1,4 +1,4 @@
-From 71c92b8c1565919a1ac78de90374ff0fc3970222 Mon Sep 17 00:00:00 2001
+From 6bbbf39e5cbb3463c2a6fb3d2eb90672b9cc91bb Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
 Subject: [PATCH 04/25] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
@@ -23,7 +23,7 @@ index d0128b20fae..e7cfeba25ec 100644
          !progname_to_dict(dict, "real_executable") ||
          !library_to_dict(dict, "library") ||
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index 1f1bfcb4f64..344900c05e7 100644
+index 8a4bf6d735e..37cfee3d2e7 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
 @@ -52,6 +52,7 @@
@@ -34,7 +34,7 @@ index 1f1bfcb4f64..344900c05e7 100644
  
  # ** Values calculated at runtime **
  # config            -- [in/out] dict of the PyConfig structure
-@@ -681,7 +682,7 @@ def search_up(prefix, *landmarks, test=isfile):
+@@ -674,7 +675,7 @@ def search_up(prefix, *landmarks, test=isfile):
      else:
          pythonpath.append(joinpath(prefix, ZIP_LANDMARK))
  

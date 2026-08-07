@@ -25,7 +25,7 @@ cxx_compiler_version:
 expat:
 - '2'
 libffi:
-- '3.5'
+- '3.7'
 liblzma_devel:
 - '5'
 macos_machine:

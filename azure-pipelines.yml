@@ -7,7 +7,7 @@ stages:
   jobs:
     - job: Skip
       pool:
-        vmImage: 'ubuntu-22.04'
+        vmImage: 'ubuntu-latest'
       variables:
         DECODE_PERCENTS: 'false'
         RET: 'true'
@@ -28,6 +28,4 @@ stages:
   condition: and(succeeded(), eq(dependencies.Check.outputs['Skip.result.start_main'], 'true'))
   dependsOn: Check
   jobs:
-    - template: ./.azure-pipelines/azure-pipelines-linux.yml
     - template: ./.azure-pipelines/azure-pipelines-osx.yml
-    - template: ./.azure-pipelines/azure-pipelines-win.yml

@@ -33,7 +33,7 @@ jobs:
       osx_arm64_build_typedebugchannel_targetsconda-forge_python_debug:
         CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debug
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
+        VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
@@ -44,7 +44,7 @@ jobs:
       osx_arm64_build_typereleasechannel_targetsconda-forge_main:
         CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_main
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
+        VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0

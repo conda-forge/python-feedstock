@@ -10,6 +10,3 @@ provider:
   linux_aarch64: default
   osx_arm64: default
 test: native_and_emulated
-workflow_settings:
-  store_build_artifacts:
-  - value: true

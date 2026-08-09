@@ -39,6 +39,18 @@
   {% set site_packages_path = "lib/python" + ver2 + "/site-packages" %}
 {% endif %}
 
+# CMake needs to be told that the debug/freethreading ABI is fine; the option takes a 4-tuple,
+# Python_FIND_ABI=<pydebug>;<pymalloc>;<unicode>;<gil_disabled>; for details see
+# https://cmake.org/cmake/help/latest/module/FindPython.html#hints
+{% set cmake_test_args=" -DPython_FIND_ABI=\"" ~ ("ON" if build_type == "debug" else "OFF") ~ ";ANY;ANY;" ~ ("ON" if freethreading == "yes" else "OFF") ~ "\"" %}
+{% if unix %}
+  # for CMake invocations during testing, we need to avoid accidentally picking up python versions from
+  # the image, but we don't want to use `${CMAKE_ARGS}` from the compiler activation, because that contains
+  # `CMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER`; while that's useful for building (i.e. don't look in `host:`,
+  # because we want to use binaries from `build:`), we want the exact opposite when running tests.
+  {% set cmake_test_args=cmake_test_args ~ " -DCMAKE_POLICY_DEFAULT_CMP0094=NEW -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=ONLY -DCMAKE_FIND_ROOT_PATH=${PREFIX}" %}
+{% endif %}
+
 package:
   name: python-split
   version: {{ version }}{{ dev }}
@@ -263,7 +275,7 @@ outputs:
         - if not exist %PREFIX%\\include\\pyconfig.h exit 1  # [win]
         - pushd tests
         - pushd cmake
-        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" --debug-find --trace --debug-output --debug-trycompile .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" --debug-find --trace --debug-output --debug-trycompile .
         - popd
         - popd
         - python run_test.py
@@ -325,7 +337,7 @@ outputs:
         - bash build-and-test.sh    # [unix]
         - popd                      # [unix]
         - pushd cmake
-        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
         - popd
         - popd
 
@@ -380,7 +392,7 @@ outputs:
         - bash build-and-test.sh    # [unix]
         - popd                      # [unix]
         - pushd cmake
-        - cmake -GNinja -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
         - popd
         - popd
 

@@ -26,7 +26,7 @@ chmod +x "${micromamba_exe}"
 echo "Creating environment"
 "${micromamba_exe}" create --yes --root-prefix "${MAMBA_ROOT_PREFIX}" --prefix "${MINIFORGE_HOME}" \
   --channel conda-forge \
-  pip python=3.12 conda-build conda-forge-ci-setup=4 "conda-build>=24.1"
+  pip python=3.12 conda-build conda-forge-ci-setup=4 "conda-build>=26.3"
 echo "Moving pkgs cache from ${MAMBA_ROOT_PREFIX} to ${MINIFORGE_HOME}"
 mv "${MAMBA_ROOT_PREFIX}/pkgs" "${MINIFORGE_HOME}"
 echo "Cleaning up micromamba"
@@ -73,7 +73,7 @@ if [[ "${OSX_SDK_DIR:-}" == "" ]]; then
     /usr/bin/sudo chown "${USER}" "${OSX_SDK_DIR}"
   fi
 else
-  if tmpf=$(mktemp -p "$OSX_SDK_DIR" tmp.XXXXXXXX 2>/dev/null); then
+  if tmpf=$(mktemp "$OSX_SDK_DIR"/tmp.XXXXXXXX 2>/dev/null); then
       rm -f "$tmpf"
       echo "OSX_SDK_DIR is writeable without sudo, continuing"
   else
@@ -100,7 +100,7 @@ if [[ "${BUILD_WITH_CONDA_DEBUG:-0}" == 1 ]]; then
     if [[ "x${BUILD_OUTPUT_ID:-}" != "x" ]]; then
         EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --output-id ${BUILD_OUTPUT_ID}"
     fi
-    conda debug ./recipe -m ./.ci_support/${CONFIG}.yaml \
+    CONDA_SUBDIR="${BUILD_PLATFORM}" conda debug ./recipe -m ./.ci_support/${CONFIG}.yaml \
         ${EXTRA_CB_OPTIONS:-} \
         --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
 
@@ -112,7 +112,7 @@ else
         EXTRA_CB_OPTIONS="${EXTRA_CB_OPTIONS:-} --no-test"
     fi
 
-    conda-build ./recipe -m ./.ci_support/${CONFIG}.yaml \
+    CONDA_SUBDIR="${BUILD_PLATFORM}" conda-build ./recipe -m ./.ci_support/${CONFIG}.yaml \
         --suppress-variables ${EXTRA_CB_OPTIONS:-} \
         --clobber-file ./.ci_support/clobber_${CONFIG}.yaml \
         --extra-meta flow_run_id="$flow_run_id" remote_url="$remote_url" sha="$sha"

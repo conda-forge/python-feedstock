@@ -12,4 +12,4 @@ provider:
 test: native_and_emulated
 workflow_settings:
   store_build_artifacts:
-    - value: true
+  - value: true

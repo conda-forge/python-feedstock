@@ -53,8 +53,10 @@ cd PCbuild
 
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
-call build.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
+powershell -NoProfile -Command ^
+  "(Get-Content -Raw '.\build.bat') -replace '(?im)^[ \t]*@?[ \t]*echo[ \t]+off[ \t]*\r?$', '@echo on' | Set-Content -NoNewline -Encoding oem '.\_build_echo.bat'"
+call _build_echo.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
+call _build_echo.bat %PGO% %CONFIG% -m -e -v -p %PLATFORM%
 if errorlevel 1 exit 1
 cd ..
 

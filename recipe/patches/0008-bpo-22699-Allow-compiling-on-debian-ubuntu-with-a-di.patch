@@ -1,7 +1,7 @@
-From 9b4fb93be060983edfca1bbffc404e699f807dd4 Mon Sep 17 00:00:00 2001
+From 2936ce4d00b332f2539524c00571bff9cfac5f02 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Thu, 16 Sep 2021 15:46:09 -0500
-Subject: [PATCH 08/27] bpo-22699: Allow compiling on debian/ubuntu with a
+Subject: [PATCH 08/26] bpo-22699: Allow compiling on debian/ubuntu with a
  different compiler
 
 This PR fixes one issue mentioned in the bpo

@@ -1,4 +1,4 @@
-From b152af0f8b1afa2072aa101dbbd0f2361527074e Mon Sep 17 00:00:00 2001
+From 2616e76edb845f0dd372fbbffaa778f2bb46224f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/23] Doing d1trimfile
@@ -156,7 +156,7 @@ index 0916f1a2d37..17a4cbfcd7c 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index 8da5244bac0..20cc09d63ff 100644
+index e7b7a6d2064..964c95c9f7e 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -94,7 +94,11 @@
@@ -586,7 +586,7 @@ index 4dd42ab98a9..7c2dbc7e701 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 001f8afd89b..3be4ac06dd8 100644
+index 97eb7338dca..d159933293a 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -92,6 +92,10 @@

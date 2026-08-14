@@ -69,17 +69,57 @@ source:
 
 build:
   number: {{ build_number }}
+  script_env:
+    - PY_INTERP_DEBUG={{ py_interp_debug }}
 
 requirements:
   build:
-    - patch  # [not win]
-    - m2-patch  # [win]
-    - m2-gcc-libs  # [win]
+    - {{ stdlib('c') }}
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - libtool           # [unix]
+    - make              # [unix]
+    - pkg-config        # [unix]
+    - ld_impl_{{ target_platform }}         # [linux]
+    - binutils_impl_{{ target_platform }}   # [linux]
+    # configure script looks for llvm-ar for lto
+    - llvm-tools        # [osx]
+    - bzip2             # [build_platform != target_platform]
+    - expat             # [build_platform != target_platform]
+    - libffi            # [build_platform != target_platform]
+    - liblzma-devel     # [build_platform != target_platform]
+    - libnsl            # [build_platform != target_platform and linux]
+    - libuuid           # [build_platform != target_platform and linux]
+    - libxcrypt         # [build_platform != target_platform and linux]
+    - ncurses           # [build_platform != target_platform and unix]
+    - openssl           # [build_platform != target_platform]
+    - readline          # [build_platform != target_platform and unix]
+    - sqlite            # [build_platform != target_platform]
+    - tk                # [build_platform != target_platform]
+    - zlib              # [build_platform != target_platform]
+  host:
+    - ld_impl_{{ target_platform }} >=2.36  # [linux]
+    - bzip2
+    - expat
+    - libffi
+    - liblzma-devel
+    - libnsl            # [linux]
+    - libuuid           # [linux]
+    - libxcrypt         # [linux]
+    - ncurses           # [unix]
+    - openssl
+    - readline          # [unix]
+    - tk
+    - sqlite
+    # These two are just to get the headers needed for tk.h, but is unused
+    - xorg-libx11       # [unix]
+    - xorg-xorgproto    # [unix]
+    - zlib
 
 outputs:
   - name: python
-    script: build_base.sh  # [unix]
-    script: build_base.bat  # [win]
+    script: install_base.sh   # [unix]
+    script: install_base.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -132,30 +172,12 @@ outputs:
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:
       build:
-        - {{ compiler('c') }}
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - make  # [not win]
-        - libtool  # [unix]
-        - pkg-config  # [not win]
-        # configure script looks for llvm-ar for lto
-        - llvm-tools  # [osx]
-        - ld_impl_{{ target_platform }}  # [linux]
-        - binutils_impl_{{ target_platform }}  # [linux]
-        - bzip2          # [build_platform != target_platform]
-        - sqlite         # [build_platform != target_platform]
-        - liblzma-devel  # [build_platform != target_platform]
-        - zlib           # [build_platform != target_platform]
-        - openssl        # [build_platform != target_platform]
-        - readline       # [not win and build_platform != target_platform]
-        - tk             # [build_platform != target_platform]
-        - ncurses        # [unix and build_platform != target_platform]
-        - libffi         # [build_platform != target_platform]
-        - libnsl         # [linux and build_platform != target_platform]
-        - libuuid        # [linux and build_platform != target_platform]
-        - libxcrypt      # [linux and build_platform != target_platform]
-        - expat          # [build_platform != target_platform]
       host:
+        - {{ pin_subpackage('libpython', exact=True) }}
         - bzip2
         - sqlite
         - liblzma-devel
@@ -174,6 +196,7 @@ outputs:
         - libxcrypt  # [linux]
         - expat
       run:
+        - {{ pin_subpackage('libpython', exact=True) }}
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
 {% if dev != '' %}
@@ -227,10 +250,7 @@ outputs:
         - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         # check for unreplaced @ symbols in sysconfig files, excluding e.g. '"$@".lto'
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [unix]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a            # [unix]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [linux]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.dylib        # [osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
@@ -259,6 +279,7 @@ outputs:
         # crypt module will be removed in 3.13 => this failing is a reminder to remove the libxcrypt dependency
         - python -c "import crypt"  # [unix]
 
+  # this output is empty on windows
   - name: libpython
     script: build_shared.sh  # [unix]
     script: build_shared.bat  # [win]
@@ -272,13 +293,9 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
     requirements:
       build:
-        - {{ compiler('c') }}
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-      host:
-        - {{ pin_subpackage('python', exact=True) }}
-      run:
-        - {{ pin_subpackage('python', exact=True) }}
     test:
       files:
         - tests/cmake/*
@@ -288,6 +305,9 @@ outputs:
         - {{ compiler('c') }}
         # cmake expects a C++ compiler for some reason
         - {{ compiler('cxx') }}
+        # build-and-test.sh needs to find `Python.h`; can't do pin_subpackage
+        # due to the way conda-build (mis-)populates the package hashes
+        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
         - ripgrep
         - cmake
         - ninja

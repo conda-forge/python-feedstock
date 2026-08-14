@@ -92,17 +92,64 @@ source:
 
 build:
   number: {{ build_number }}
+  python_site_packages_path: {{ site_packages_path }}
+  script_env:
+    - PY_INTERP_DEBUG={{ py_interp_debug }}
+    - PY_FREETHREADING={{ freethreading }}
 
 requirements:
   build:
-    - patch  # [not win]
-    - m2-patch  # [win]
-    - m2-gcc-libs  # [win]
+    - {{ stdlib('c') }}
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - libtool           # [unix]
+    - make              # [unix]
+    - pkg-config        # [unix]
+    - ld_impl_{{ target_platform }}         # [linux]
+    - binutils_impl_{{ target_platform }}   # [linux]
+    - clang-18          # [unix]
+    - clang 18.*        # [win]
+    # configure script looks for llvm-ar for lto
+    - llvm-tools        # [osx]
+    - llvm-tools-18     # [unix]
+    - llvm-tools 18.*   # [win]
+    - bzip2             # [build_platform != target_platform]
+    - expat             # [build_platform != target_platform]
+    - libffi            # [build_platform != target_platform]
+    - liblzma-devel     # [build_platform != target_platform]
+    - libmpdec-devel    # [build_platform != target_platform]
+    - libsqlite         # [build_platform != target_platform]
+    - libuuid           # [build_platform != target_platform and linux]
+    - libxcrypt         # [build_platform != target_platform and linux]
+    - ncurses           # [build_platform != target_platform and unix]
+    - openssl           # [build_platform != target_platform]
+    - readline          # [build_platform != target_platform and unix]
+    - tk                # [build_platform != target_platform]
+    - zlib              # [build_platform != target_platform]
+    - zstd              # [build_platform != target_platform]
+  host:
+    - ld_impl_{{ target_platform }} >=2.36  # [linux]
+    - bzip2
+    - expat
+    - libffi
+    - liblzma-devel
+    - libmpdec-devel
+    - libsqlite
+    - libuuid           # [linux]
+    - ncurses           # [unix]
+    - openssl
+    - readline          # [unix]
+    - tk
+    # These two are just to get the headers needed for tk.h, but is unused
+    - xorg-libx11       # [unix]
+    - xorg-xorgproto    # [unix]
+    - zlib
+    - zstd
 
 outputs:
   - name: python
-    script: build_base.sh  # [unix]
-    script: build_base.bat  # [win]
+    script: install_base.sh   # [unix]
+    script: install_base.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -158,33 +205,12 @@ outputs:
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:
       build:
-        - {{ compiler('c') }}
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - make  # [not win]
-        - libtool  # [unix]
-        - pkg-config  # [not win]
-        # configure script looks for llvm-ar for lto
-        - llvm-tools  # [osx]
-        - ld_impl_{{ target_platform }}  # [linux]
-        - binutils_impl_{{ target_platform }}  # [linux]
-        - clang-18         # [not win]
-        - llvm-tools-18    # [not win]
-        - clang 18.*       # [win]
-        - llvm-tools 18.*  # [win]
-        - bzip2          # [build_platform != target_platform]
-        - libsqlite      # [build_platform != target_platform]
-        - liblzma-devel  # [build_platform != target_platform]
-        - zlib           # [build_platform != target_platform]
-        - openssl        # [build_platform != target_platform]
-        - readline       # [not win and build_platform != target_platform]
-        - tk             # [build_platform != target_platform]
-        - ncurses        # [unix and build_platform != target_platform]
-        - libffi         # [build_platform != target_platform]
-        - libuuid        # [linux and build_platform != target_platform]
-        - libxcrypt      # [linux and build_platform != target_platform]
-        - expat          # [build_platform != target_platform]
       host:
+        - {{ pin_subpackage('libpython', exact=True) }}
         - bzip2
         - libsqlite
         - liblzma-devel
@@ -202,6 +228,7 @@ outputs:
         - libmpdec-devel
         - expat
       run:
+        - {{ pin_subpackage('libpython', exact=True) }}
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
 {% if dev != '' %}
@@ -253,10 +280,7 @@ outputs:
         - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         # check for unreplaced @ symbols in sysconfig files, excluding e.g. '"$@".lto'
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [unix]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a            # [unix]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [linux]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.dylib        # [osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         {% if freethreading == "yes" %}
         - if not exist %PREFIX%\\libs\\python3t.lib exit 1                # [win]
@@ -289,6 +313,11 @@ outputs:
   - name: libpython
     script: build_shared.sh  # [unix]
     script: build_shared.bat  # [win]
+    files:                      # [win]
+      - python3.dll             # [win]
+      - python3t.dll            # [win]
+      - python{{ ver2nd }}.dll  # [win]
+      - python{{ ver2nd }}t.dll  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -300,13 +329,9 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
     requirements:
       build:
-        - {{ compiler('c') }}
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-      host:
-        - {{ pin_subpackage('python', exact=True) }}
-      run:
-        - {{ pin_subpackage('python', exact=True) }}
     test:
       files:
         - tests/cmake/*
@@ -316,6 +341,9 @@ outputs:
         - {{ compiler('c') }}
         # cmake expects a C++ compiler for some reason
         - {{ compiler('cxx') }}
+        # build-and-test.sh needs to find `Python.h`; can't do pin_subpackage
+        # due to the way conda-build (mis-)populates the package hashes
+        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
         - ripgrep
         - cmake
         - ninja
@@ -332,6 +360,13 @@ outputs:
         - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
         - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
         - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        {% if freethreading == "yes" %}
+        - if not exist %PREFIX%\python3t.dll exit 1                  # [win]
+        - if not exist %PREFIX%\python{{ ver2nd }}t.dll exit 1       # [win]
+        {% else %}
+        - if not exist %PREFIX%\python3.dll exit 1                   # [win]
+        - if not exist %PREFIX%\python{{ ver2nd }}.dll exit 1        # [win]
+        {% endif %}
         - pushd tests
         - pushd prefix-replacement  # [unix]
         - bash build-and-test.sh    # [unix]

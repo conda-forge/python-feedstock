@@ -71,6 +71,13 @@ if "%PY_FREETHREADING%" == "yes" (
   set "EXE_T="
 )
 
+:: TODO: remove once tk 9 is available on main
+:: Pin Tcl/Tk from the `tk` variant in conda_build_config.yaml (single source of
+:: truth, shared with build_base.sh). Upstream 3.15 tcltk.props defaults
+:: TclVersion to 9.0.3.0, but pkgs/main only ships tk 8.6; MSBuild derives the
+:: lib names (tcl86t.lib/tk86t.lib) from the major.minor of these props.
+set TCLTK_MSBUILD_PROPS="/p:TclVersion=%tk%" "/p:TkVersion=%tk%"
+
 cd PCbuild
 
 setlocal EnableDelayedExpansion
@@ -79,14 +86,14 @@ if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
   REM No PGO. No externals, i.e. remove building extension modules
   REM we don't need.
   set LIBRARY_PREFIX=%BUILD_PREFIX%\\Library
-  call build.bat %CONFIG% %FREETHREADING% -m -E -v -p %BUILD_PLATFORM%
+  call build.bat %CONFIG% %FREETHREADING% -m -E -v -p %BUILD_PLATFORM% %TCLTK_MSBUILD_PROPS%
   if errorlevel 1 exit 1
 )
 endlocal
 :: Twice because:
 :: error : importlib_zipimport.h updated. You will need to rebuild pythoncore to see the changes.
-call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM%
-call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM% %TCLTK_MSBUILD_PROPS%
+call build.bat %PGO% %CONFIG% %FREETHREADING% -m -e -v -p %HOST_PLATFORM% %TCLTK_MSBUILD_PROPS%
 if errorlevel 1 exit 1
 cd ..
 

@@ -1,18 +1,18 @@
-From 7f7156f13b05bc456b470c4c174d52c7f3b52ceb Mon Sep 17 00:00:00 2001
+From 54643d97b98b2ef7e58a79ecc96eab2c678d6770 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 20 Aug 2021 10:23:51 -0700
-Subject: [PATCH 14/26] Unvendor tcltk
+Subject: [PATCH] Unvendor tcltk
 
 ---
  PCbuild/_tkinter.vcxproj |  6 ------
- PCbuild/tcltk.props      | 13 +++++--------
- 2 files changed, 5 insertions(+), 14 deletions(-)
+ PCbuild/tcltk.props      | 15 +++++++--------
+ 2 files changed, 7 insertions(+), 14 deletions(-)
 
 diff --git a/PCbuild/_tkinter.vcxproj b/PCbuild/_tkinter.vcxproj
-index de9358312ac..3fe2c29c823 100644
+index 87f6005fffc..60a21115c55 100644
 --- a/PCbuild/_tkinter.vcxproj
 +++ b/PCbuild/_tkinter.vcxproj
-@@ -128,12 +128,6 @@
+@@ -124,12 +124,6 @@
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
    </ImportGroup>
@@ -26,10 +26,10 @@ index de9358312ac..3fe2c29c823 100644
      <WriteLinesToFile File="$(OutDir)TCL_LIBRARY.env" Lines="$(tcltkdir)\lib\tcl$(TclMajorVersion).$(TclMinorVersion)" Encoding="utf-8" Overwrite="true" />
    </Target>
 diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
-index 1ab8e96122a..f99f4e5d27e 100644
+index 1ab8e96122a..8fbdfbb9a6b 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
-@@ -12,14 +12,11 @@
+@@ -12,14 +12,13 @@
      <TkMinorVersion>$([System.Version]::Parse($(TkVersion)).Minor)</TkMinorVersion>
      <TkPatchLevel>$([System.Version]::Parse($(TkVersion)).Build)</TkPatchLevel>
      <TkRevision>$([System.Version]::Parse($(TkVersion)).Revision)</TkRevision>
@@ -41,6 +41,8 @@ index 1ab8e96122a..f99f4e5d27e 100644
 -    <tclWin32Exe Condition="$(Platform) == 'Win32'">$(tcltkDir)\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>
 -    <tclWin32Exe Condition="$(Platform) != 'Win32'">$(tcltkDir)\..\win32\bin\tclsh$(TclMajorVersion)$(TclMinorVersion)t.exe</tclWin32Exe>
 -    <tclExternalTommath Condition="$(TclMajorVersion) == '9'">TCL_WITH_EXTERNAL_TOMMATH;</tclExternalTommath>
++    <tcltkSuffix Condition="'$(TclMajorVersion)' == '8'">t</tcltkSuffix>
++    <tkPrefix Condition="'$(TclMajorVersion)' == '9'">tcl9</tkPrefix>
 +    <tclDir>$(condaDir)</tclDir>
 +    <tkDir>$(condaDir)</tkDir>
 +    <tixDir>$(condaDir)</tixDir>

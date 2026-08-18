@@ -288,8 +288,8 @@ outputs:
 
   # this output is empty on windows
   - name: libpython
-    script: build_shared.sh  # [unix]
-    script: build_shared.bat  # [win]
+    script: install_shared.sh   # [unix]
+    script: install_shared.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -338,8 +338,8 @@ outputs:
         - popd
 
   - name: libpython-static
-    script: build_static.sh  # [unix]
-    script: build_static.bat  # [win]
+    script: install_static.sh   # [unix]
+    script: install_static.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true

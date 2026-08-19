@@ -289,7 +289,6 @@ outputs:
   # this output is empty on windows
   - name: libpython
     script: install_shared.sh   # [unix]
-    script: install_shared.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -339,7 +338,6 @@ outputs:
 
   - name: libpython-static
     script: install_static.sh   # [unix]
-    script: install_static.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true

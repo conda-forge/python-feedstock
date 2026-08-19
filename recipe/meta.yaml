@@ -312,7 +312,6 @@ outputs:
 
   - name: libpython
     script: install_shared.sh   # [unix]
-    script: install_shared.bat  # [win]
     files:                      # [win]
       - python3.dll             # [win]
       - python3t.dll            # [win]
@@ -378,7 +377,6 @@ outputs:
 
   - name: libpython-static
     script: install_static.sh   # [unix]
-    script: install_static.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true

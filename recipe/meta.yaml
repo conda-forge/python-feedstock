@@ -317,6 +317,11 @@ outputs:
 
   - name: libpython
     script: install_shared.sh   # [unix]
+    files:                      # [win]
+      - python3.dll             # [win]
+      - python3t.dll            # [win]
+      - python{{ ver2nd }}.dll  # [win]
+      - python{{ ver2nd }}t.dll  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -359,6 +364,13 @@ outputs:
         - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
         - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
         - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        {% if freethreading == "yes" %}
+        - if not exist %PREFIX%\python3t.dll exit 1                  # [win]
+        - if not exist %PREFIX%\python{{ ver2nd }}t.dll exit 1       # [win]
+        {% else %}
+        - if not exist %PREFIX%\python3.dll exit 1                   # [win]
+        - if not exist %PREFIX%\python{{ ver2nd }}.dll exit 1        # [win]
+        {% endif %}
         - pushd tests
         - pushd prefix-replacement  # [unix]
         - bash build-and-test.sh    # [unix]

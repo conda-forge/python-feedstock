@@ -344,6 +344,9 @@ outputs:
         - {{ compiler('c') }}
         # cmake expects a C++ compiler for some reason
         - {{ compiler('cxx') }}
+        # build-and-test.sh needs to find `Python.h`; can't do pin_subpackage
+        # due to the way conda-build (mis-)populates the package hashes
+        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
         - ripgrep
         - cmake
         - ninja

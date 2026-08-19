@@ -1,4 +1,4 @@
-From 8eec70e4cde56e34cef8d23083a08b9b4833d20d Mon Sep 17 00:00:00 2001
+From 43ac24ca1c1083b50966846f07969a9c6454e22f Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 5 Dec 2017 22:47:59 +0000
 Subject: [PATCH 03/26] Fix find_library so that it looks in sys.prefix/lib
@@ -25,7 +25,7 @@ index 583c47daff3..ab9b01c87e2 100644
          yield os.path.join(executable_path, name[len('@executable_path/'):])
  
 diff --git a/Lib/ctypes/util.py b/Lib/ctypes/util.py
-index 3b21658433b..2c900c1e2cf 100644
+index cd67fd87efc..9acb6e8c25f 100644
 --- a/Lib/ctypes/util.py
 +++ b/Lib/ctypes/util.py
 @@ -135,7 +135,8 @@ def dllist():
@@ -38,7 +38,7 @@ index 3b21658433b..2c900c1e2cf 100644
                      '%s.dylib' % name,
                      '%s.framework/%s' % (name, name)]
          for name in possible:
-@@ -436,10 +437,30 @@ def _findLib_ld(name):
+@@ -435,10 +436,30 @@ def _findLib_ld(name):
                  pass  # result will be None
              return result
  
@@ -70,4 +70,4 @@ index 3b21658433b..2c900c1e2cf 100644
 +                        _get_soname(_findLib_gcc(name)) or _get_soname(_findLib_ld(name))
  
  
- # Listing loaded libraries on other systems will try to use
+ # On platforms which provide dl_iterate_phdr(), dllist() is implemented

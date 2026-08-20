@@ -39,3 +39,5 @@ zip_keys:
   - channel_targets
 zlib:
 - '1'
+zstd:
+- '1.5'

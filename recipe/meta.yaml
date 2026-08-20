@@ -51,6 +51,12 @@
   {% set cmake_test_args=cmake_test_args ~ " -DCMAKE_POLICY_DEFAULT_CMP0094=NEW -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=ONLY -DCMAKE_FIND_ROOT_PATH=${PREFIX}" %}
 {% endif %}
 
+# extremely noisy; only use if needing to debug how CMake finds our libraries
+{% set cmake_debug = "" %}
+{% if False %}
+  {% set cmake_debug = "--debug-find --trace --debug-output --debug-trycompile" %}
+{% endif %}
+
 package:
   name: python-split
   version: {{ version }}{{ dev }}
@@ -299,7 +305,7 @@ outputs:
         - if not exist %PREFIX%\\include\\pyconfig.h exit 1  # [win]
         - pushd tests
         - pushd cmake
-        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" --debug-find --trace --debug-output --debug-trycompile .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" {{ cmake_debug }} .
         - popd
         - popd
         - python run_test.py
@@ -371,7 +377,7 @@ outputs:
         - bash build-and-test.sh    # [unix]
         - popd                      # [unix]
         - pushd cmake
-        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
         - popd
         - popd
 
@@ -425,7 +431,7 @@ outputs:
         - bash build-and-test.sh    # [unix]
         - popd                      # [unix]
         - pushd cmake
-        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" --debug-find --trace --debug-output --debug-trycompile .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
         - popd
         - popd
 

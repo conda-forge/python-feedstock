@@ -394,10 +394,27 @@ SYSCONFIG=$(find ${_buildd_shared}/${BUILD_DIR} -name "_sysconfigdata*.py" -prin
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
     > ${PREFIX}/lib/python${VERABI_NO_DBG}/$(basename ${SYSCONFIG})
-BUILD_DETAILS=${_buildd_shared}/${BUILD_DIR}/build-details.json
-cp ${BUILD_DETAILS} ${PREFIX}/lib/python${VERABI_NO_DBG}/
+
+if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
+  # build-details.json is incorrect when cross-compiling:
+  # https://github.com/python/cpython/issues/136267
+  if [[ -n ${CROSSCOMPILING_EMULATOR} ]]; then
+    # let's use emulation to run the just-built python and generate the correct file
+    LD_LIBRARY_PATH=build-shared/ build-shared/python Tools/build/generate-build-details.py \
+      ${PREFIX}/lib/python${VERABI_NO_DBG}/build-details.json
+  else
+    echo "Generating build-details.json for cross without an emulator is not"
+    echo "supported right now."
+    exit 1
+  fi
+else
+  BUILD_DETAILS=${_buildd_shared}/${BUILD_DIR}/build-details.json
+  cp ${BUILD_DETAILS} ${PREFIX}/lib/python${VERABI_NO_DBG}/
+fi
+
 MAKEFILE=$(find ${PREFIX}/lib/python${VERABI_NO_DBG}/ -path "*config-*/Makefile" -print0)
 cp ${MAKEFILE} /tmp/Makefile-$$
+
 cat /tmp/Makefile-$$ | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
     > ${MAKEFILE}

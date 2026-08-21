@@ -1,7 +1,7 @@
-From 96be926cb9fe2aeea544ecfc3839a88347f78d74 Mon Sep 17 00:00:00 2001
+From 3b5d0cbe4b3aecd5197c6b65552fda0917101134 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 03:07:40 -0700
-Subject: [PATCH 21/27] Unvendor libffi
+Subject: [PATCH 21/26] Unvendor libffi
 
 ---
  PCbuild/libffi.props | 15 +++------------

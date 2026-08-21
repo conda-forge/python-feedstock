@@ -1,17 +1,17 @@
-From 9aa71bc2a319a5f5bbb25766f9ee38f698b7c7c2 Mon Sep 17 00:00:00 2001
+From 3cb9f861f64aca04fb652250fa0056a9ae7e40ed Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
-Date: Fri, 28 Mar 2025 22:41:20 +0100
-Subject: [PATCH 26/27] Unvendor expat
+Date: Wed, 29 Mar 2023 23:07:10 -0500
+Subject: [PATCH 26/26] Unvendor expat
 
 ---
- PCbuild/_elementtree.vcxproj         | 22 +----------
- PCbuild/_elementtree.vcxproj.filters | 58 +---------------------------
- PCbuild/pyexpat.vcxproj              | 12 ++----
- PCbuild/pyexpat.vcxproj.filters      | 19 +--------
- 4 files changed, 7 insertions(+), 104 deletions(-)
+ PCbuild/_elementtree.vcxproj         | 23 +----------
+ PCbuild/_elementtree.vcxproj.filters | 59 ----------------------------
+ PCbuild/pyexpat.vcxproj              | 14 ++-----
+ PCbuild/pyexpat.vcxproj.filters      | 23 -----------
+ 4 files changed, 5 insertions(+), 114 deletions(-)
 
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index 20cc09d63ff..87927871067 100644
+index ec55d5c981e..3a51495de73 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -93,7 +93,7 @@
@@ -20,10 +20,10 @@ index 20cc09d63ff..87927871067 100644
      <ClCompile>
 -      <AdditionalIncludeDirectories>..\Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 +      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_PYEXPAT_CAPI;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_PYEXPAT_CAPI;XML_POOR_ENTROPY;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-@@ -101,28 +101,8 @@
+@@ -101,29 +101,8 @@
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
      </ClCompile>
    </ItemDefinitionGroup>
@@ -33,10 +33,11 @@ index 20cc09d63ff..87927871067 100644
 -    <ClInclude Include="..\Modules\expat\expat.h" />
 -    <ClInclude Include="..\Modules\expat\expat_config.h" />
 -    <ClInclude Include="..\Modules\expat\expat_external.h" />
+-    <ClInclude Include="..\Modules\expat\fallthrough.h" />
 -    <ClInclude Include="..\Modules\expat\iasciitab.h" />
 -    <ClInclude Include="..\Modules\expat\internal.h" />
 -    <ClInclude Include="..\Modules\expat\latin1tab.h" />
--    <ClInclude Include="..\Modules\expat\macconfig.h" />
+-    <ClInclude Include="..\Modules\expat\memory_sanitizer.h" />
 -    <ClInclude Include="..\Modules\expat\nametab.h" />
 -    <ClInclude Include="..\Modules\expat\pyexpatns.h" />
 -    <ClInclude Include="..\Modules\expat\utf8tab.h" />
@@ -53,10 +54,10 @@ index 20cc09d63ff..87927871067 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_elementtree.vcxproj.filters b/PCbuild/_elementtree.vcxproj.filters
-index bc14e31f32b..7cc8e9a3b9b 100644
+index f6b55d8ff82..88a13faa683 100644
 --- a/PCbuild/_elementtree.vcxproj.filters
 +++ b/PCbuild/_elementtree.vcxproj.filters
-@@ -17,70 +17,14 @@
+@@ -17,69 +17,10 @@
        <UniqueIdentifier>{f99990ba-cd06-40cc-8f28-d2d424ec13be}</UniqueIdentifier>
      </Filter>
    </ItemGroup>
@@ -76,6 +77,9 @@ index bc14e31f32b..7cc8e9a3b9b 100644
 -    <ClInclude Include="..\Modules\expat\expat_external.h">
 -      <Filter>Header Files\expat</Filter>
 -    </ClInclude>
+-    <ClInclude Include="..\Modules\expat\fallthrough.h">
+-      <Filter>Header Files\expat</Filter>
+-    </ClInclude>
 -    <ClInclude Include="..\Modules\expat\iasciitab.h">
 -      <Filter>Header Files\expat</Filter>
 -    </ClInclude>
@@ -85,7 +89,7 @@ index bc14e31f32b..7cc8e9a3b9b 100644
 -    <ClInclude Include="..\Modules\expat\latin1tab.h">
 -      <Filter>Header Files\expat</Filter>
 -    </ClInclude>
--    <ClInclude Include="..\Modules\expat\macconfig.h">
+-    <ClInclude Include="..\Modules\expat\memory_sanitizer.h">
 -      <Filter>Header Files\expat</Filter>
 -    </ClInclude>
 -    <ClInclude Include="..\Modules\expat\nametab.h">
@@ -123,23 +127,17 @@ index bc14e31f32b..7cc8e9a3b9b 100644
    </ItemGroup>
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc">
-       <Filter>Resource Files</Filter>
-     </ResourceCompile>
-   </ItemGroup>
--</Project>
-\ No newline at end of file
-+</Project>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 26ac82980ca..302ea38fbd9 100644
+index a5c01c6bc6f..f56eff65e8b 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
-@@ -90,23 +90,19 @@
+@@ -90,25 +90,19 @@
    <PropertyGroup Label="UserMacros" />
    <ItemDefinitionGroup>
      <ClCompile>
 -      <AdditionalIncludeDirectories>$(PySourcePath)Modules\expat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 +      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PYEXPAT_EXPORTS;HAVE_EXPAT_H;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;PYEXPAT_EXPORTS;HAVE_EXPAT_H;XML_POOR_ENTROPY;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
@@ -150,6 +148,8 @@ index 26ac82980ca..302ea38fbd9 100644
 +    </Link>
    </ItemDefinitionGroup>
 -  <ItemGroup>
+-    <ClInclude Include="..\Modules\expat\fallthrough.h" />
+-    <ClInclude Include="..\Modules\expat\memory_sanitizer.h" />
 -    <ClInclude Include="..\Modules\expat\xmlrole.h" />
 -    <ClInclude Include="..\Modules\expat\xmltok.h" />
 -  </ItemGroup>
@@ -162,14 +162,20 @@ index 26ac82980ca..302ea38fbd9 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/pyexpat.vcxproj.filters b/PCbuild/pyexpat.vcxproj.filters
-index fd22fc8c477..41c73b434b9 100644
+index 230531033fc..b8280b4049c 100644
 --- a/PCbuild/pyexpat.vcxproj.filters
 +++ b/PCbuild/pyexpat.vcxproj.filters
-@@ -11,31 +11,14 @@
+@@ -11,33 +11,10 @@
        <UniqueIdentifier>{f1dbbdb5-41e5-4a88-bf8e-13da010c0ce4}</UniqueIdentifier>
      </Filter>
    </ItemGroup>
 -  <ItemGroup>
+-    <ClInclude Include="..\Modules\expat\fallthrough.h">
+-      <Filter>Header Files</Filter>
+-    </ClInclude>
+-    <ClInclude Include="..\Modules\expat\memory_sanitizer.h">
+-      <Filter>Header Files</Filter>
+-    </ClInclude>
 -    <ClInclude Include="..\Modules\expat\xmlrole.h">
 -      <Filter>Header Files</Filter>
 -    </ClInclude>
@@ -193,9 +199,3 @@ index fd22fc8c477..41c73b434b9 100644
    </ItemGroup>
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc">
-       <Filter>Resource Files</Filter>
-     </ResourceCompile>
-   </ItemGroup>
--</Project>
-\ No newline at end of file
-+</Project>

@@ -1,7 +1,7 @@
-From b99a8df226dcc6f83322971b2e65316b9235934c Mon Sep 17 00:00:00 2001
+From 6473bec059b0b98c2d96198ce87c2d453645c852 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 12:17:33 +0100
-Subject: [PATCH 03/27] Support cross-compiling byte-code
+Subject: [PATCH 03/26] Support cross-compiling byte-code
 
 https://bugs.python.org/issue22724
 ---

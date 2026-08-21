@@ -1,7 +1,7 @@
-From 479536de92fe29ef4cbf0c0f0a8aac1a02af36b8 Mon Sep 17 00:00:00 2001
+From 5abfc2e9f4c53c5e8794e847922e40ead4488046 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
-Subject: [PATCH 17/27] Fix TZPATH on windows
+Subject: [PATCH 17/26] Fix TZPATH on windows
 
 ---
  Lib/sysconfig.py | 1 +

@@ -1,7 +1,7 @@
-From 621a2396b9879263ed8a9a8f17857b240e9e405a Mon Sep 17 00:00:00 2001
+From 9db97dceb515b1860f73bb8868422b4274ac7b9c Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:18:50 -0700
-Subject: [PATCH 19/27] Fix LDSHARED when CC is overriden on Linux too
+Subject: [PATCH 19/26] Fix LDSHARED when CC is overriden on Linux too
 
 ---
  Lib/distutils/sysconfig.py | 5 ++---

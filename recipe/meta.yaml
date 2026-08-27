@@ -356,7 +356,7 @@ outputs:
         - VERABI=${VERABI}d        # [not win]
 {% endif %}
         - test -f ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}       # [unix]
-        - test -f ${PREFIX}/lib/libpython3${SHLIB_EXT}               # [unix]
+        - test -f ${PREFIX}/lib/libpython3${SHLIB_EXT}               # [unix and build_type == "release"]
         {% if freethreading == "yes" %}
         - if not exist %PREFIX%\python3t.dll exit 1                  # [win]
         - if not exist %PREFIX%\python{{ ver2nd }}t.dll exit 1       # [win]

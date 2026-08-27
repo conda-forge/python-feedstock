@@ -32,7 +32,8 @@ if [[ ${PY_INTERP_DEBUG} == yes ]]; then
   ln -s ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT} ${PREFIX}/lib/libpython${VERABI_NO_DBG}${SHLIB_EXT}
 fi
 
-if [[ "$target_platform" == osx-* ]]; then
+# create libpython3.dylib; linux builds only add this in release mode, do the same on osx
+if [[ "$target_platform" == osx-* && ${PY_INTERP_DEBUG} == no ]]; then
   awk -F',' '$1 == "func" || $1 == "data" { print "_" $2 }' Doc/data/stable_abi.dat > stable_abi_exports.txt
 
   $CC -dynamiclib \

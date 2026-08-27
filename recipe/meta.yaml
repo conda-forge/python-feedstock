@@ -238,6 +238,7 @@ outputs:
         - tests/distutils/*
         - tests/cmake/*
         - tests/cython/*
+        - tests/prefix-replacement/*
         - run_test.py
       commands:
         - echo on  # [win]
@@ -276,7 +277,11 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - pushd tests
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
         - pushd cmake
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
         - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" {{ cmake_debug }} .
         - popd
         - popd
@@ -309,20 +314,6 @@ outputs:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
     test:
-      files:
-        - tests/cmake/*
-        - tests/prefix-replacement/*
-      requires:
-        - {{ stdlib('c') }}
-        - {{ compiler('c') }}
-        # cmake expects a C++ compiler for some reason
-        - {{ compiler('cxx') }}
-        # build-and-test.sh needs to find `Python.h`; can't do pin_subpackage
-        # due to the way conda-build (mis-)populates the package hashes
-        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
-        - ripgrep
-        - cmake
-        - ninja
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]
         - VERABI=${VER}            # [not win]
@@ -334,14 +325,6 @@ outputs:
         - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
         - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
         - test -f ${PREFIX}/lib/libpython3.dylib                     # [osx and build_type == "release"]
-        - pushd tests
-        - pushd prefix-replacement  # [unix]
-        - bash build-and-test.sh    # [unix]
-        - popd                      # [unix]
-        - pushd cmake
-        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
-        - popd
-        - popd
 
   - name: libpython-static
     script: install_static.sh   # [unix]

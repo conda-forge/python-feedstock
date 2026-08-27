@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 1 %}
+{% set build_number = 2 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -322,11 +322,7 @@ outputs:
 
   - name: libpython
     script: install_shared.sh   # [unix]
-    files:                      # [win]
-      - python3.dll             # [win]
-      - python3t.dll            # [win]
-      - python{{ ver2nd }}.dll  # [win]
-      - python{{ ver2nd }}t.dll  # [win]
+    script: install_shared.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -352,7 +348,7 @@ outputs:
         - {{ compiler('cxx') }}
         # build-and-test.sh needs to find `Python.h`; can't do pin_subpackage
         # due to the way conda-build (mis-)populates the package hashes
-        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
+        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}    # [unix]
         - ripgrep
         - cmake
         - ninja

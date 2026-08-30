@@ -3,7 +3,7 @@
 set -ex
 
 case ${PKG_NAME} in
-  libpython)
+  python)
     # see bpo44182 for why -L${CONDA_PREFIX}/lib is added
     ${CC} a.c $(python3-config --cflags) \
         $(python3-config --embed --ldflags) \

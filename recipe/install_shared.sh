@@ -34,7 +34,15 @@ fi
 
 # create libpython3.dylib; linux builds only add this in release mode, do the same on osx
 if [[ "$target_platform" == osx-* && ${PY_INTERP_DEBUG} == no ]]; then
-  awk -F',' '$1 == "func" || $1 == "data" { print "_" $2 }' Doc/data/stable_abi.dat > stable_abi_exports.txt
+  # need to filter out windows-specific symbols & PyOS_CheckStack from
+  # https://github.com/python/cpython/blob/main/Doc/data/stable_abi.dat
+  awk -F',' '
+    ($1 == "func" || $1 == "data") &&
+    $4 != "on Windows" &&
+    $2 != "PyOS_CheckStack" {
+      print "_" $2
+    }
+  ' Doc/data/stable_abi.dat > stable_abi_exports.txt
 
   $CC -dynamiclib \
    -install_name @rpath/libpython3.dylib \

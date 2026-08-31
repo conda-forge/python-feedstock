@@ -101,64 +101,17 @@ source:
 
 build:
   number: {{ build_number }}
-  python_site_packages_path: {{ site_packages_path }}
-  script_env:
-    - PY_INTERP_DEBUG={{ py_interp_debug }}
-    - PY_FREETHREADING={{ freethreading }}
 
 requirements:
   build:
-    - {{ stdlib('c') }}
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - libtool           # [unix]
-    - make              # [unix]
-    - pkg-config        # [unix]
-    - ld_impl_{{ target_platform }}         # [linux]
-    - binutils_impl_{{ target_platform }}   # [linux]
-    - clang-19          # [unix]
-    - clang 19.*        # [win]
-    # configure script looks for llvm-ar for lto
-    - llvm-tools        # [osx]
-    - llvm-tools-19     # [unix]
-    - llvm-tools 19.*   # [win]
-    - bzip2             # [build_platform != target_platform]
-    - expat             # [build_platform != target_platform]
-    - libffi            # [build_platform != target_platform]
-    - liblzma-devel     # [build_platform != target_platform]
-    - libmpdec-devel    # [build_platform != target_platform]
-    - libsqlite         # [build_platform != target_platform]
-    - libuuid           # [build_platform != target_platform and linux]
-    - libxcrypt         # [build_platform != target_platform and linux]
-    - ncurses           # [build_platform != target_platform and unix]
-    - openssl           # [build_platform != target_platform]
-    - readline          # [build_platform != target_platform and unix]
-    - tk                # [build_platform != target_platform]
-    - zlib              # [build_platform != target_platform]
-    - zstd              # [build_platform != target_platform]
-  host:
-    - ld_impl_{{ target_platform }} >=2.36  # [linux]
-    - bzip2
-    - expat
-    - libffi
-    - liblzma-devel
-    - libmpdec-devel
-    - libsqlite
-    - libuuid           # [linux]
-    - ncurses           # [unix]
-    - openssl
-    - readline          # [unix]
-    - tk
-    # These two are just to get the headers needed for tk.h, but is unused
-    - xorg-libx11       # [unix]
-    - xorg-xorgproto    # [unix]
-    - zlib
-    - zstd
+    - patch  # [not win]
+    - m2-patch  # [win]
+    - m2-gcc-libs  # [win]
 
 outputs:
   - name: python
-    script: install_base.sh   # [unix]
-    script: install_base.bat  # [win]
+    script: build_base.sh  # [unix]
+    script: build_base.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -214,12 +167,35 @@ outputs:
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:
       build:
-        - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - make  # [not win]
+        - libtool  # [unix]
+        - pkg-config  # [not win]
+        # configure script looks for llvm-ar for lto
+        - llvm-tools  # [osx]
+        - ld_impl_{{ target_platform }}  # [linux]
+        - binutils_impl_{{ target_platform }}  # [linux]
+        - clang-19         # [not win]
+        - llvm-tools-19    # [not win]
+        - clang 19.*       # [win]
+        - llvm-tools 19.*  # [win]
+        - bzip2            # [build_platform != target_platform]
+        - libsqlite        # [build_platform != target_platform]
+        - liblzma-devel    # [build_platform != target_platform]
+        - zlib             # [build_platform != target_platform]
+        - zstd             # [build_platform != target_platform]
+        - openssl          # [build_platform != target_platform]
+        - readline         # [not win and build_platform != target_platform]
+        - tk               # [build_platform != target_platform]
+        - ncurses          # [unix and build_platform != target_platform]
+        - libffi           # [build_platform != target_platform]
+        - libuuid          # [linux and build_platform != target_platform]
+        - libxcrypt        # [linux and build_platform != target_platform]
+        - libmpdec-devel   # [build_platform != target_platform]
+        - expat            # [build_platform != target_platform]
       host:
-        - {{ pin_subpackage('libpython', exact=True) }}
         - bzip2
         - libsqlite
         - liblzma-devel
@@ -238,7 +214,6 @@ outputs:
         - libmpdec-devel
         - expat
       run:
-        - {{ pin_subpackage('libpython', exact=True) }}
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
 {% if dev != '' %}
@@ -338,9 +313,13 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
     requirements:
       build:
-        - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage('python', exact=True) }}
+      run:
+        - {{ pin_subpackage('python', exact=True) }}
     test:
       files:
         - tests/cmake/*

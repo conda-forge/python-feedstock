@@ -1,10 +1,10 @@
-{% set version = "3.14.7" %}
-{% set dev = "" %}
+{% set version = "3.15.0" %}
+{% set dev = "rc1" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 3 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if win %}
-  {% set site_packages_path = "Lib/site-packages" %}
+  {% set site_packages_path = "lib/python/site-packages" %}
 {% elif freethreading == "yes" %}
   {% set site_packages_path = "lib/python" + ver2 + "t/site-packages" %}
 {% else %}
@@ -64,7 +64,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # sha256 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    sha256: 3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81
+    sha256: f84dad680ab2147417d2739355c2678f0f9acffe4ae8ef77895de1454b384b07
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch
@@ -98,67 +98,21 @@ source:
 {% if freethreading == "yes" %}
       - patches/0026-Set-Py_GIL_DISABLED-in-windows-to-match-unix.patch
 {% endif %}
+      - patches/0027-More-unixy-layout-for-windows.patch
 
 build:
   number: {{ build_number }}
-  python_site_packages_path: {{ site_packages_path }}
-  script_env:
-    - PY_INTERP_DEBUG={{ py_interp_debug }}
-    - PY_FREETHREADING={{ freethreading }}
 
 requirements:
   build:
-    - {{ stdlib('c') }}
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - libtool           # [unix]
-    - make              # [unix]
-    - pkg-config        # [unix]
-    - ld_impl_{{ target_platform }}         # [linux]
-    - binutils_impl_{{ target_platform }}   # [linux]
-    - clang-19          # [unix]
-    - clang 19.*        # [win]
-    # configure script looks for llvm-ar for lto
-    - llvm-tools        # [osx]
-    - llvm-tools-19     # [unix]
-    - llvm-tools 19.*   # [win]
-    - bzip2             # [build_platform != target_platform]
-    - expat             # [build_platform != target_platform]
-    - libffi            # [build_platform != target_platform]
-    - liblzma-devel     # [build_platform != target_platform]
-    - libmpdec-devel    # [build_platform != target_platform]
-    - libsqlite         # [build_platform != target_platform]
-    - libuuid           # [build_platform != target_platform and linux]
-    - libxcrypt         # [build_platform != target_platform and linux]
-    - ncurses           # [build_platform != target_platform and unix]
-    - openssl           # [build_platform != target_platform]
-    - readline          # [build_platform != target_platform and unix]
-    - tk                # [build_platform != target_platform]
-    - zlib              # [build_platform != target_platform]
-    - zstd              # [build_platform != target_platform]
-  host:
-    - ld_impl_{{ target_platform }} >=2.36  # [linux]
-    - bzip2
-    - expat
-    - libffi
-    - liblzma-devel
-    - libmpdec-devel
-    - libsqlite
-    - libuuid           # [linux]
-    - ncurses           # [unix]
-    - openssl
-    - readline          # [unix]
-    - tk
-    # These two are just to get the headers needed for tk.h, but is unused
-    - xorg-libx11       # [unix]
-    - xorg-xorgproto    # [unix]
-    - zlib
-    - zstd
+    - patch  # [not win]
+    - m2-patch  # [win]
+    - m2-gcc-libs  # [win]
 
 outputs:
   - name: python
-    script: install_base.sh   # [unix]
-    script: install_base.bat  # [win]
+    script: build_base.sh  # [unix]
+    script: build_base.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -214,12 +168,35 @@ outputs:
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:
       build:
-        - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
         - make  # [not win]
+        - libtool  # [unix]
+        - pkg-config  # [not win]
+        # configure script looks for llvm-ar for lto
+        - llvm-tools  # [osx]
+        - ld_impl_{{ target_platform }}  # [linux]
+        - binutils_impl_{{ target_platform }}  # [linux]
+        - clang-21         # [not win]
+        - llvm-tools-21    # [not win]
+        - clang 21.*       # [win]
+        - llvm-tools 21.*  # [win]
+        - bzip2            # [build_platform != target_platform]
+        - libsqlite        # [build_platform != target_platform]
+        - liblzma-devel    # [build_platform != target_platform]
+        - zlib             # [build_platform != target_platform]
+        - zstd             # [build_platform != target_platform]
+        - openssl          # [build_platform != target_platform]
+        - readline         # [not win and build_platform != target_platform]
+        - tk               # [build_platform != target_platform]
+        - ncurses          # [unix and build_platform != target_platform]
+        - libffi           # [build_platform != target_platform]
+        - libuuid          # [linux and build_platform != target_platform]
+        - libxcrypt        # [linux and build_platform != target_platform]
+        - libmpdec-devel   # [build_platform != target_platform]
+        - expat            # [build_platform != target_platform]
       host:
-        - {{ pin_subpackage('libpython', exact=True) }}
         - bzip2
         - libsqlite
         - liblzma-devel
@@ -238,7 +215,6 @@ outputs:
         - libmpdec-devel
         - expat
       run:
-        - {{ pin_subpackage('libpython', exact=True) }}
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
 {% if dev != '' %}
@@ -265,7 +241,6 @@ outputs:
       files:
         - tests/cmake/*
         - tests/cython/*
-        - tests/prefix-replacement/*
         - run_test.py
       commands:
         - echo on  # [win]
@@ -293,14 +268,17 @@ outputs:
         - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         # check for unreplaced @ symbols in sysconfig files, excluding e.g. '"$@".lto'
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [unix]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a            # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.so           # [linux]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.dylib        # [osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         {% if freethreading == "yes" %}
-        - if not exist %PREFIX%\\libs\\python3t.lib exit 1                # [win]
-        - if not exist %PREFIX%\\libs\\python{{ ver2nd }}t.lib exit 1     # [win]
+        - if not exist %PREFIX%\\lib\\python3t.lib exit 1                # [win]
+        - if not exist %PREFIX%\\lib\\python{{ ver2nd }}t.lib exit 1     # [win]
         {% else %}
-        - if not exist %PREFIX%\\libs\\python3.lib exit 1                 # [win]
-        - if not exist %PREFIX%\\libs\\python{{ ver2nd }}.lib exit 1      # [win]
+        - if not exist %PREFIX%\\lib\\python3.lib exit 1                 # [win]
+        - if not exist %PREFIX%\\lib\\python{{ ver2nd }}.lib exit 1      # [win]
         {% endif %}
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
@@ -309,13 +287,9 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\idle-script.py exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\idle.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
-        - if not exist %PREFIX%\\include\\pyconfig.h exit 1  # [win]
+        - if not exist %PREFIX%\\include\\python\\pyconfig.h exit 1  # [win]
         - pushd tests
-        - pushd prefix-replacement  # [unix]
-        - bash build-and-test.sh    # [unix]
-        - popd                      # [unix]
         - pushd cmake
-        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
         - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" {{ cmake_debug }} .
         - popd
         - popd
@@ -329,7 +303,6 @@ outputs:
 
   - name: libpython
     script: install_shared.sh   # [unix]
-    script: install_shared.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -341,10 +314,25 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
     requirements:
       build:
+        - {{ compiler('c') }}
+        - {{ stdlib('c') }}
+        - {{ compiler('cxx') }}
+      host:
+        - {{ pin_subpackage('python', exact=True) }}
+      run:
+        - {{ pin_subpackage('python', exact=True) }}
+    test:
+      files:
+        - tests/cmake/*
+        - tests/prefix-replacement/*
+      requires:
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        # cmake expects a C++ compiler for some reason
         - {{ compiler('cxx') }}
-    test:
+        - ripgrep
+        - cmake
+        - ninja
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]
         - VERABI=${VER}            # [not win]
@@ -357,13 +345,14 @@ outputs:
 {% endif %}
         - test -f ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}       # [unix]
         - test -f ${PREFIX}/lib/libpython3${SHLIB_EXT}               # [unix and build_type == "release"]
-        {% if freethreading == "yes" %}
-        - if not exist %PREFIX%\python3t.dll exit 1                  # [win]
-        - if not exist %PREFIX%\python{{ ver2nd }}t.dll exit 1       # [win]
-        {% else %}
-        - if not exist %PREFIX%\python3.dll exit 1                   # [win]
-        - if not exist %PREFIX%\python{{ ver2nd }}.dll exit 1        # [win]
-        {% endif %}
+        - pushd tests
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
+        - pushd cmake
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
+        - popd
+        - popd
 
   - name: libpython-static
     script: install_static.sh   # [unix]
@@ -378,8 +367,8 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
     requirements:
       build:
-        - {{ compiler('c') }}
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
       host:
         - {{ pin_subpackage('python', exact=True) }}

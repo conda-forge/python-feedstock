@@ -1,7 +1,7 @@
-From 3170567ff2442f9460ae6da7f94883c9a7c5a445 Mon Sep 17 00:00:00 2001
+From 52267d279c5af48b68ce4d785b10139873b6cc2d Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
-Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
+Subject: [PATCH 24/27] Do not define pid_t as it might conflict with the
  actual definition
 
 ---
@@ -15,7 +15,7 @@ Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
  7 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
-index 6313abf5485..bc8169e2f68 100644
+index 008a7d37726..7829e9cc714 100644
 --- a/Modules/_testcapi/long.c
 +++ b/Modules/_testcapi/long.c
 @@ -6,6 +6,10 @@
@@ -30,10 +30,10 @@ index 6313abf5485..bc8169e2f68 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index 5784482d389..6c1a2dfd399 100644
+index 799390c2705..c8454f866bf 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
-@@ -30,6 +30,10 @@
+@@ -26,6 +26,10 @@
  #  include <sys/sysctl.h>         // sysctlbyname()
  #endif
  
@@ -41,9 +41,9 @@ index 5784482d389..6c1a2dfd399 100644
 +typedef int pid_t;
 +#endif
 +
- #include "_testcapi/util.h"
- 
- 
+ #ifdef bool
+ #  error "The public headers should not include <stdbool.h>, see gh-48924"
+ #endif
 diff --git a/Modules/_testlimitedcapi/long.c b/Modules/_testlimitedcapi/long.c
 index 99b9e96760d..932fef0497f 100644
 --- a/Modules/_testlimitedcapi/long.c
@@ -60,7 +60,7 @@ index 99b9e96760d..932fef0497f 100644
  module _testlimitedcapi
  [clinic start generated code]*/
 diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
-index 094580e7c23..02d74ec937d 100644
+index 45e509d0030..65b87843b20 100644
 --- a/Modules/clinic/posixmodule.c.h
 +++ b/Modules/clinic/posixmodule.c.h
 @@ -10,6 +10,10 @@ preserve
@@ -75,10 +75,10 @@ index 094580e7c23..02d74ec937d 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index 7bf8bc9e5d9..f995fc804a0 100644
+index 2a25be16e61..5fe43d52835 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
-@@ -219,6 +219,7 @@
+@@ -222,6 +222,7 @@
  #  if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
  #    define HAVE_SYMLINK
  #  endif /* MS_WINDOWS_DESKTOP | MS_WINDOWS_SYSTEM */
@@ -87,10 +87,10 @@ index 7bf8bc9e5d9..f995fc804a0 100644
  
  
 diff --git a/PC/pyconfig.h b/PC/pyconfig.h
-index 710a737ebcc..92d327b1e35 100644
+index 72a475777b7..5149fbcf301 100644
 --- a/PC/pyconfig.h
 +++ b/PC/pyconfig.h
-@@ -235,8 +235,6 @@ typedef _W64 int Py_ssize_t;
+@@ -240,8 +240,6 @@ typedef _W64 int Py_ssize_t;
  #endif
  #endif /* MS_WIN32 && !MS_WIN64 */
  
@@ -100,7 +100,7 @@ index 710a737ebcc..92d327b1e35 100644
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
 diff --git a/Python/remote_debug.h b/Python/remote_debug.h
-index ed0c4e2c85c..97f79087497 100644
+index 7b7380d25bf..0d89e46d054 100644
 --- a/Python/remote_debug.h
 +++ b/Python/remote_debug.h
 @@ -28,6 +28,9 @@ extern "C" {

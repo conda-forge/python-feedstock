@@ -22,7 +22,7 @@ jobs:
       max-parallel: 50
       matrix:
         include:
-          - CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+          - CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -34,7 +34,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+          - CONFIG: linux_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -46,7 +46,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+          - CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -58,7 +58,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+          - CONFIG: linux_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -70,7 +70,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+          - CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -82,7 +82,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-24.04-arm']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+          - CONFIG: linux_aarch64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -94,7 +94,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-24.04-arm']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+          - CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -106,7 +106,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-24.04-arm']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+          - CONFIG: linux_aarch64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -118,7 +118,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-24.04-arm']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+          - CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -130,7 +130,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+          - CONFIG: linux_ppc64le_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -142,7 +142,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+          - CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -154,7 +154,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+          - CONFIG: linux_ppc64le_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -166,7 +166,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_riscv64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
+          - CONFIG: linux_riscv64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -178,7 +178,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_riscv64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
+          - CONFIG: linux_riscv64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -190,7 +190,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_riscv64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
+          - CONFIG: linux_riscv64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -202,7 +202,7 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-latest']
             tools_install_dir: ~/miniforge3
-          - CONFIG: linux_riscv64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
+          - CONFIG: linux_riscv64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma10
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True

@@ -1,7 +1,7 @@
-From a738097607a2d95e2d31ce077d924146cf87a372 Mon Sep 17 00:00:00 2001
+From de8ce0d2b0a413ba8b5ebe5e20caac359f633033 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
-Subject: [PATCH 20/26] Don't checksharedmods if cross-compiling
+Subject: [PATCH 20/27] Don't checksharedmods if cross-compiling
 
 ---
  Makefile.pre.in |  2 +-
@@ -10,13 +10,13 @@ Subject: [PATCH 20/26] Don't checksharedmods if cross-compiling
  create mode 100755 if_runnable.sh
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index 91fcef7e427..8a80c51ac78 100644
+index b1711d1d385..3aae0d606c1 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
-@@ -1603,7 +1603,7 @@ sharedmods: $(SHAREDMODS) pybuilddir.txt
- # dependency on BUILDPYTHON ensures that the target is run last
- .PHONY: checksharedmods
- checksharedmods: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
+@@ -1632,7 +1632,7 @@ checksharedmods: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
+ 	else \
+ 		$(RUNSHARED) $(PYTHON_FOR_BUILD) $(srcdir)/Tools/build/check_extension_modules.py --generate-missing-stdlib-info; \
+ 	fi
 -	@$(RUNSHARED) $(PYTHON_FOR_BUILD) $(srcdir)/Tools/build/check_extension_modules.py
 +	@$(RUNSHARED) $(srcdir)/if_runnable.sh $(PYTHON_FOR_BUILD) $(srcdir)/Tools/build/check_extension_modules.py
  

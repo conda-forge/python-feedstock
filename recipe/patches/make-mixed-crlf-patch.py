@@ -8,6 +8,8 @@ import shutil
 # header lines are given LF line endings and the rest CRLF line endings.
 # Does not currently deal with the prelude (up to the -- in git patches).
 
+extensions = [".bat", ".vcxproj", ".props", ".sln"]
+
 def main(argv):
     filename = argv[1]
     lines = []
@@ -26,17 +28,21 @@ def main(argv):
 
     text = "\n".join(lines)
 
-    if ".bat" not in text and ".vcxproj" not in text and ".props" not in text:
+    if all(ext not in text for ext in extensions):
+        return
         return
 
     with open(filename, 'wb') as fo:
         for i, line in enumerate(lines):
             if not in_real_patch:
                 fo.write((line + '\n').encode('utf-8'))
-                if line.startswith('diff --git'):
+                if line.startswith('diff --git') and any(ext in line for ext in extensions):
                     in_real_patch = True
             else:
-                if line.startswith('diff ') or \
+                if line.startswith('diff --git') and not any(ext in line for ext in extensions):
+                    in_real_patch = False
+                    fo.write((line + '\r\n').encode('utf-8'))
+                elif line.startswith('diff ') or \
                         line.startswith('diff --git') or \
                         line.startswith('--- ') or \
                         line.startswith('+++ ') or \

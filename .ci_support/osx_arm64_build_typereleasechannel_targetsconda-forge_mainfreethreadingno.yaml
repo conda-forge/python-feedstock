@@ -3,7 +3,7 @@ MACOSX_DEPLOYMENT_TARGET:
 MACOSX_SDK_VERSION:
 - '11.0'
 build_type:
-- debug
+- release
 bzip2:
 - '1'
 c_compiler:
@@ -17,7 +17,7 @@ c_stdlib_version:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_dev_debug
+- conda-forge main
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
@@ -33,7 +33,7 @@ liblzma_devel:
 libsqlite:
 - '3'
 macos_machine:
-- x86_64-apple-darwin13.4.0
+- arm64-apple-darwin20.0.0
 ncurses:
 - '6'
 openssl:
@@ -47,7 +47,7 @@ python:
 readline:
 - '8'
 target_platform:
-- osx-64
+- osx-arm64
 tk:
 - '8.6'
 zip_keys:

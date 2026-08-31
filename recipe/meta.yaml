@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 1 %}
+{% set build_number = 2 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -183,37 +183,37 @@ outputs:
         - clang 21.*       # [win]
         - llvm-tools 21.*  # [win]
         - bzip2            # [build_platform != target_platform]
-        - libsqlite        # [build_platform != target_platform]
+        - expat            # [build_platform != target_platform]
+        - libffi           # [build_platform != target_platform]
         - liblzma-devel    # [build_platform != target_platform]
+        - libmpdec-devel   # [build_platform != target_platform]
+        - libsqlite        # [build_platform != target_platform]
+        - libuuid          # [build_platform != target_platform and linux]
+        - libxcrypt        # [build_platform != target_platform and linux]
+        - ncurses          # [build_platform != target_platform and unix]
+        - openssl          # [build_platform != target_platform]
+        - readline         # [build_platform != target_platform and unix]
+        - tk               # [build_platform != target_platform]
         - zlib             # [build_platform != target_platform]
         - zstd             # [build_platform != target_platform]
-        - openssl          # [build_platform != target_platform]
-        - readline         # [not win and build_platform != target_platform]
-        - tk               # [build_platform != target_platform]
-        - ncurses          # [unix and build_platform != target_platform]
-        - libffi           # [build_platform != target_platform]
-        - libuuid          # [linux and build_platform != target_platform]
-        - libxcrypt        # [linux and build_platform != target_platform]
-        - libmpdec-devel   # [build_platform != target_platform]
-        - expat            # [build_platform != target_platform]
       host:
         - bzip2
-        - libsqlite
+        - expat
+        - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
+        - libffi
         - liblzma-devel
-        - zlib
-        - zstd
+        - libmpdec-devel
+        - libuuid           # [linux]
+        - libsqlite
+        - ncurses           # [unix]
         - openssl
-        - readline  # [not win]
+        - readline          # [unix]
         - tk
         # These two are just to get the headers needed for tk.h, but is unused
         - xorg-libx11       # [unix]
         - xorg-xorgproto    # [unix]
-        - ncurses  # [unix]
-        - libffi
-        - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
-        - libuuid  # [linux]
-        - libmpdec-devel
-        - expat
+        - zlib
+        - zstd
       run:
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
@@ -245,8 +245,6 @@ outputs:
       commands:
         - echo on  # [win]
         - set  # [win]
-        # ensure we don't pick up python from the image by accident
-        - rmdir /s /q C:\hostedtoolcache\windows\Python  # [win]
         - python -V
         - python3 -V            # [not win]
         - pydoc -h
@@ -295,12 +293,12 @@ outputs:
         - popd
         - python run_test.py
         - test ! -f default.profraw   # [osx]
-        - python3.1 --version  # [unix]
         # Test for segfault on osx-64 with libffi=3.4, see https://bugs.python.org/issue44556
         - python -c "from ctypes import CFUNCTYPE; CFUNCTYPE(None)(id)"
         # Test for wide character supported via ncursesw
         - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
 
+  # this output is empty on windows
   - name: libpython
     script: install_shared.sh   # [unix]
     build:

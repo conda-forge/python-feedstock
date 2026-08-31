@@ -327,6 +327,7 @@ outputs:
         # Test for wide character supported via ncursesw
         - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
 
+  # this output is empty on windows
   - name: libpython
     script: install_shared.sh   # [unix]
     build:

@@ -51,7 +51,7 @@ if "%PY_FREETHREADING%" == "yes" (
 )
 
 :: Populate the root package directory
-for %%x in (python%EXE_T%%_D%.exe pythonw%EXE_T%%_D%.exe) do (
+for %%x in (python%VERNODOTS%%THREAD%%_D%.dll python3%THREAD%%_D%.dll python%EXE_T%%_D%.exe pythonw%EXE_T%%_D%.exe) do (
   if exist %SRC_DIR%\PCbuild\%HOST_DIR%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\%%x %PREFIX%
   ) else (

@@ -324,7 +324,11 @@ outputs:
 
   - name: libpython
     script: install_shared.sh   # [unix]
-    script: install_shared.bat  # [win]
+    files:                      # [win]
+      - python3.dll             # [win]
+      - python3t.dll            # [win]
+      - python{{ ver2nd }}.dll  # [win]
+      - python{{ ver2nd }}t.dll  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -350,7 +354,7 @@ outputs:
         - {{ compiler('cxx') }}
         # build-and-test.sh needs to find `Python.h`; can't do pin_subpackage
         # due to the way conda-build (mis-)populates the package hashes
-        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}    # [unix]
+        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
         - ripgrep
         - cmake
         - ninja

@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 3 %}
+{% set build_number = 4 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -329,7 +329,11 @@ outputs:
 
   - name: libpython
     script: install_shared.sh   # [unix]
-    script: install_shared.bat  # [win]
+    files:                      # [win]
+      - python3.dll             # [win]
+      - python3t.dll            # [win]
+      - python{{ ver2nd }}.dll  # [win]
+      - python{{ ver2nd }}t.dll  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true

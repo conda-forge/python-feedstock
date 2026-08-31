@@ -270,8 +270,6 @@ outputs:
       commands:
         - echo on  # [win]
         - set  # [win]
-        # ensure we don't pick up python from the image by accident
-        - rmdir /s /q C:\hostedtoolcache\windows\Python  # [win]
         - python -V
         - python3 -V            # [not win]
         - pydoc -h

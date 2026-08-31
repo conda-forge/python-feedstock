@@ -13,13 +13,13 @@ c_stdlib_version:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge main
+- conda-forge python_dev
 cxx_compiler:
 - gxx
 cxx_compiler_version:
 - '15'
 docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma10
+- quay.io/condaforge/linux-anvil-aarch64:alma10
 expat:
 - '2'
 freethreading:
@@ -41,11 +41,11 @@ pin_run_as_build:
     min_pin: x.x
     max_pin: x.x
 python:
-- '3.14'
+- '3.15'
 readline:
 - '8'
 target_platform:
-- linux-64
+- linux-aarch64
 tk:
 - '8.6'
 zip_keys:

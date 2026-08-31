@@ -1,10 +1,10 @@
-{% set version = "3.14.7" %}
-{% set dev = "" %}
+{% set version = "3.15.0" %}
+{% set dev = "rc1" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 3 %}
+{% set build_number = 0 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if win %}
-  {% set site_packages_path = "Lib/site-packages" %}
+  {% set site_packages_path = "lib/python/site-packages" %}
 {% elif freethreading == "yes" %}
   {% set site_packages_path = "lib/python" + ver2 + "t/site-packages" %}
 {% else %}
@@ -64,7 +64,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # sha256 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
-    sha256: 3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81
+    sha256: f84dad680ab2147417d2739355c2678f0f9acffe4ae8ef77895de1454b384b07
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch
@@ -98,6 +98,7 @@ source:
 {% if freethreading == "yes" %}
       - patches/0026-Set-Py_GIL_DISABLED-in-windows-to-match-unix.patch
 {% endif %}
+      - patches/0027-More-unixy-layout-for-windows.patch
 
 build:
   number: {{ build_number }}
@@ -177,10 +178,10 @@ outputs:
         - llvm-tools  # [osx]
         - ld_impl_{{ target_platform }}  # [linux]
         - binutils_impl_{{ target_platform }}  # [linux]
-        - clang-19         # [not win]
-        - llvm-tools-19    # [not win]
-        - clang 19.*       # [win]
-        - llvm-tools 19.*  # [win]
+        - clang-21         # [not win]
+        - llvm-tools-21    # [not win]
+        - clang 21.*       # [win]
+        - llvm-tools 21.*  # [win]
         - bzip2            # [build_platform != target_platform]
         - libsqlite        # [build_platform != target_platform]
         - liblzma-devel    # [build_platform != target_platform]
@@ -273,11 +274,11 @@ outputs:
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.dylib        # [osx]
         - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         {% if freethreading == "yes" %}
-        - if not exist %PREFIX%\\libs\\python3t.lib exit 1                # [win]
-        - if not exist %PREFIX%\\libs\\python{{ ver2nd }}t.lib exit 1     # [win]
+        - if not exist %PREFIX%\\lib\\python3t.lib exit 1                # [win]
+        - if not exist %PREFIX%\\lib\\python{{ ver2nd }}t.lib exit 1     # [win]
         {% else %}
-        - if not exist %PREFIX%\\libs\\python3.lib exit 1                 # [win]
-        - if not exist %PREFIX%\\libs\\python{{ ver2nd }}.lib exit 1      # [win]
+        - if not exist %PREFIX%\\lib\\python3.lib exit 1                 # [win]
+        - if not exist %PREFIX%\\lib\\python{{ ver2nd }}.lib exit 1      # [win]
         {% endif %}
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
@@ -286,7 +287,7 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\idle-script.py exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\idle.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
-        - if not exist %PREFIX%\\include\\pyconfig.h exit 1  # [win]
+        - if not exist %PREFIX%\\include\\python\\pyconfig.h exit 1  # [win]
         - pushd tests
         - pushd cmake
         - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" {{ cmake_debug }} .
@@ -329,9 +330,6 @@ outputs:
         - {{ compiler('c') }}
         # cmake expects a C++ compiler for some reason
         - {{ compiler('cxx') }}
-        # build-and-test.sh needs to find `Python.h`; can't do pin_subpackage
-        # due to the way conda-build (mis-)populates the package hashes
-        - python {{ version }} *_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
         - ripgrep
         - cmake
         - ninja
@@ -369,8 +367,8 @@ outputs:
       string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
     requirements:
       build:
-        - {{ compiler('c') }}
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
       host:
         - {{ pin_subpackage('python', exact=True) }}

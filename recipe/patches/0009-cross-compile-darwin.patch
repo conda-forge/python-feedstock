@@ -1,7 +1,7 @@
-From 91eb356ef711a6d9119a017f3572941e174360f9 Mon Sep 17 00:00:00 2001
+From 27a1c43342bdd71ab21655d58b98c21851028df2 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
-Subject: [PATCH 09/26] cross compile darwin
+Subject: [PATCH 09/27] cross compile darwin
 
 By Isuru Fernando.
 ---
@@ -11,10 +11,10 @@ By Isuru Fernando.
  3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index b017b841311..f7821ae7f28 100644
+index 36489d4fdd9..37278847c0a 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
-@@ -477,7 +477,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
+@@ -474,7 +474,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
  def _mac_ver_xml():
      fn = '/System/Library/CoreServices/SystemVersion.plist'
      if not os.path.exists(fn):
@@ -29,10 +29,10 @@ index b017b841311..f7821ae7f28 100644
      try:
          import plistlib
 diff --git a/configure b/configure
-index 2cb22a7806f..ad513bfe5fd 100755
+index 08a7c663ce0..b3a36e07e38 100755
 --- a/configure
 +++ b/configure
-@@ -4112,6 +4112,9 @@ then
+@@ -4155,6 +4155,9 @@ then
  	*-*-linux*)
  		ac_sys_system=Linux
  		;;
@@ -42,21 +42,21 @@ index 2cb22a7806f..ad513bfe5fd 100755
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -4591,6 +4594,9 @@ if test "$cross_compiling" = yes; then
- 			_host_ident=$host_cpu
+@@ -4638,6 +4641,9 @@ if test "$cross_compiling" = yes; then
  		esac
  		;;
-+	*-*-darwin*)
+ 	*-gnu)
 +		_host_ident=$host_cpu
-+		;;
- 	*-*-cygwin*)
- 		_host_ident=
++                ;;
++	*-*-darwin*)
+ 		_host_ident=$host_cpu
  		;;
+ 	*-*-cygwin*)
 diff --git a/configure.ac b/configure.ac
-index 967d34d47a3..68998aedfbc 100644
+index ead82d6da0b..603549bd039 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -324,6 +324,9 @@ then
+@@ -333,6 +333,9 @@ then
  	*-*-linux*)
  		ac_sys_system=Linux
  		;;
@@ -66,9 +66,9 @@ index 967d34d47a3..68998aedfbc 100644
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -771,6 +774,9 @@ if test "$cross_compiling" = yes; then
- 			_host_ident=$host_cpu
- 		esac
+@@ -786,6 +789,9 @@ if test "$cross_compiling" = yes; then
+ 	*-gnu)
+ 		_host_ident=$host_cpu
  		;;
 +	*-*-darwin*)
 +		_host_ident=$host_cpu

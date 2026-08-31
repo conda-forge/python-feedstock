@@ -256,8 +256,9 @@ _common_configure_args+=(--with-computed-gotos)
 _common_configure_args+=(--with-system-expat)
 _common_configure_args+=(--enable-loadable-sqlite-extensions)
 _common_configure_args+=(--with-tcltk-includes="-I${PREFIX}/include")
-_common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl8.6 -ltk8.6")
+_common_configure_args+=("--with-tcltk-libs=-L${PREFIX}/lib -ltcl${TCLTK_VER} -ltk${TCLTK_VER}")
 _common_configure_args+=(--with-platlibdir=lib)
+_common_configure_args+=(--with-system-libmpdec=yes)
 
 if [[ "${PY_INTERP_DEBUG}" == "yes" || "${target_platform}" != *"-64" || ${PY_FREETHREADING} == yes ]]; then
  _common_configure_args+=(--enable-experimental-jit=no)
@@ -373,7 +374,10 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   done
 fi
 
-SYSCONFIG=$(find ${_buildd_static}/$(cat ${_buildd_static}/pybuilddir.txt) -name "_sysconfigdata*.py" -print0)
+# Use sysconfigdata and build-details.json from the shared build, as we want packages to prefer
+# linking against the shared library. Issue #565.
+BUILD_DIR=$(< ${_buildd_shared}/pybuilddir.txt)
+SYSCONFIG=$(find ${_buildd_shared}/${BUILD_DIR} -name "_sysconfigdata*.py" -print0)
 cat ${SYSCONFIG} | ${SYS_PYTHON} "${RECIPE_DIR}"/replace-word-pairs.py \
   "${_FLAGS_REPLACE[@]}"  \
     > ${PREFIX}/lib/python${VERABI_NO_DBG}/$(basename ${SYSCONFIG})
@@ -391,7 +395,7 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION}" == "1" ]]; then
     exit 1
   fi
 else
-  BUILD_DETAILS=${_buildd_shared}/$(cat ${_buildd_shared}/pybuilddir.txt)/build-details.json
+  BUILD_DETAILS=${_buildd_shared}/${BUILD_DIR}/build-details.json
   cp ${BUILD_DETAILS} ${PREFIX}/lib/python${VERABI_NO_DBG}/
 fi
 

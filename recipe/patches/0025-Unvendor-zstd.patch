@@ -1,7 +1,7 @@
-From e1a36beb37bcc740dd29bcd671550677ad9fc520 Mon Sep 17 00:00:00 2001
+From edda9d185e32eef8592264398e83e95f117b15d1 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwelk@xhochy.com>
 Date: Tue, 22 Jul 2025 18:07:54 +0200
-Subject: [PATCH 25/26] Unvendor zstd
+Subject: [PATCH 25/27] Unvendor zstd
 
 ---
  PCbuild/_zstd.vcxproj         |  58 +------------
@@ -9,15 +9,19 @@ Subject: [PATCH 25/26] Unvendor zstd
  2 files changed, 6 insertions(+), 209 deletions(-)
 
 diff --git a/PCbuild/_zstd.vcxproj b/PCbuild/_zstd.vcxproj
-index 6f91b8d05cc..cc6f99cb002 100644
+index 683a44535ca..fa113b0cd87 100644
 --- a/PCbuild/_zstd.vcxproj
 +++ b/PCbuild/_zstd.vcxproj
-@@ -95,72 +95,22 @@
+@@ -95,76 +95,26 @@
    <ItemDefinitionGroup>
      <ClCompile>
        <PreprocessorDefinitions>WIN32;ZSTD_MULTITHREAD=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 -      <AdditionalIncludeDirectories>$(zstdDir)lib\;$(zstdDir)lib\common;$(zstdDir)lib\compress;$(zstdDir)lib\decompress;$(zstdDir)lib\dictBuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 +      <AdditionalIncludeDirectories>$(condaDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGUpdate|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
+       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
      </ClCompile>
 +    <Link>
 +      <AdditionalDependencies>$(condaDir)\lib\zstd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -195,9 +199,8 @@ index eec666e5eaf..5028bb5592d 100644
        <Filter>Header Files</Filter>
      </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\zstd.h">
-+    <ClInclude Include="$(condaDir)\include\zstd.h">
-       <Filter>Header Files\zstd</Filter>
-     </ClInclude>
+-      <Filter>Header Files\zstd</Filter>
+-    </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\zstd_errors.h">
 -      <Filter>Header Files\zstd</Filter>
 -    </ClInclude>
@@ -259,8 +262,9 @@ index eec666e5eaf..5028bb5592d 100644
 -      <Filter>Header Files\zstd</Filter>
 -    </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\compress\zstdmt_compress.h">
--      <Filter>Header Files\zstd</Filter>
--    </ClInclude>
++    <ClInclude Include="$(condaDir)\include\zstd.h">
+       <Filter>Header Files\zstd</Filter>
+     </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\decompress\zstd_ddict.h">
 +    <ClInclude Include="$(condaDir)\include\zstd_errors.h">
        <Filter>Header Files\zstd</Filter>

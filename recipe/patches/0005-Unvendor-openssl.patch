@@ -1,7 +1,7 @@
-From 91c3e5bdab6497eca2cfcb6838df9dc3d8317726 Mon Sep 17 00:00:00 2001
+From a6dcb685cb77f162310ef77576af382188d8413e Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
-Subject: [PATCH 05/26] Unvendor openssl
+Subject: [PATCH 05/27] Unvendor openssl
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
@@ -90,10 +90,10 @@ index 7ca750dda8f..17eee400ebb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index ce4a7781fbd..253aa66f477 100644
+index 8d931bba28a..744ce0c540a 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -68,6 +68,7 @@
+@@ -91,6 +91,7 @@
    <!-- Directories of external projects. tcltk is handled in tcltk.props -->
    <PropertyGroup>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$(EXTERNALS_DIR)</ExternalsDir>
@@ -101,13 +101,13 @@ index ce4a7781fbd..253aa66f477 100644
      <ExternalsDir Condition="$(ExternalsDir) == ''">$([System.IO.Path]::GetFullPath(`$(PySourcePath)externals`))</ExternalsDir>
      <ExternalsDir Condition="!HasTrailingSlash($(ExternalsDir))">$(ExternalsDir)\</ExternalsDir>
    </PropertyGroup>
-@@ -75,20 +76,8 @@
+@@ -98,20 +99,8 @@
    <Import Project="$(ExternalProps)" Condition="$(ExternalProps) != '' and Exists('$(ExternalProps)')" />
  
    <PropertyGroup>
--    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.50.4.0\</sqlite3Dir>
+-    <sqlite3Dir Condition="$(sqlite3Dir) == ''">$(ExternalsDir)sqlite-3.53.2.0\</sqlite3Dir>
 -    <bz2Dir Condition="$(bz2Dir) == ''">$(ExternalsDir)bzip2-1.0.8\</bz2Dir>
--    <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.2.5\</lzmaDir>
+-    <lzmaDir Condition="$(lzmaDir) == ''">$(ExternalsDir)xz-5.8.1.1\</lzmaDir>
 -    <libffiDir Condition="$(libffiDir) == ''">$(ExternalsDir)libffi-3.4.4\</libffiDir>
 -    <libffiOutDir Condition="$(libffiOutDir) == ''">$(libffiDir)$(ArchName)\</libffiOutDir>
 -    <libffiIncludeDir Condition="$(libffiIncludeDir) == ''">$(libffiOutDir)include</libffiIncludeDir>
@@ -123,7 +123,7 @@ index ce4a7781fbd..253aa66f477 100644
  
    <PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 70dabaa3c8b..ac5f96ebafc 100644
+index 417ede34c54..75f2bd9984a 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -110,6 +110,9 @@
@@ -137,7 +137,7 @@ index 70dabaa3c8b..ac5f96ebafc 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index c6a5b8ce90a..74bd19144f9 100644
+index 244cdf622ad..03ba2a20dd2 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
 @@ -105,6 +105,9 @@

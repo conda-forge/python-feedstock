@@ -1,6 +1,9 @@
 setlocal EnableDelayedExpansion
 echo on
 
+:: Avoids fetching nuget.exe from the internet.
+set PYTHON=%CONDA_PYTHON_EXE%
+
 :: Compile python, extensions and external libraries
 if "%target_platform%"=="win-64" (
    set HOST_PLATFORM=x64
@@ -53,7 +56,10 @@ if "%PY_INTERP_DEBUG%"=="yes" (
   set _D=
 )
 
-set PGO=--pgo
+REM PGO is disabled for the 3.15 build. It was enabled for 3.14 job, but it doesn't
+REM work as intended and there are lots of warnings generated of the form
+REM warning PG0188: No .PGC files matching %SRC_DIR%\PCbuild\amd64\_tkinter!*.pgc' were found
+set PGO=
 if "%DEBUG_C%"=="yes" (
   set PGO=
 )
@@ -65,6 +71,13 @@ if "%PY_FREETHREADING%" == "yes" (
   set "FREETHREADING=--disable-gil"
   set "THREAD=t"
   set "EXE_T=%VER%t"
+  :: Free-threaded MSBuild output goes to PCbuild\amd64t\ (or win32t\), not amd64\.
+  :: Upstream python.props sets BuildPath=BuildPath64t when DisableGil=true; all
+  :: exes, .pyd, and .lib artifacts land there.  HOST_DIR below is used to
+  :: stage those files into %PREFIX% — leaving it at amd64 makes xcopy *.pyd fail
+  :: with "File not found" even though the compile itself succeeded.
+  set HOST_DIR=%HOST_DIR%t
+  set BUILD_DIR=%BUILD_DIR%t
 ) else (
   set "FREETHREADING=--experimental-jit-off"
   set "THREAD="
@@ -83,10 +96,9 @@ cd PCbuild
 setlocal EnableDelayedExpansion
 if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
   REM build for the build platform. LIBRARY_PREFIX is used by the patches
-  REM No PGO. No externals, i.e. remove building extension modules
-  REM we don't need.
+  REM No PGO.
   set LIBRARY_PREFIX=%BUILD_PREFIX%\\Library
-  call build.bat %CONFIG% %FREETHREADING% -m -E -v -p %BUILD_PLATFORM% %TCLTK_MSBUILD_PROPS%
+  call build.bat %CONFIG% %FREETHREADING% -m -e -v -p %BUILD_PLATFORM% %TCLTK_MSBUILD_PROPS%
   if errorlevel 1 exit 1
 )
 endlocal
@@ -116,40 +128,39 @@ for %%x in (python%THREAD%%_D%.pdb python%VERNODOTS%%THREAD%%_D%.pdb pythonw%THR
 
 @echo on
 
-copy %SRC_DIR%\LICENSE %PREFIX%\LICENSE_PYTHON.txt
+mkdir %PREFIX%\lib\python
+copy %SRC_DIR%\LICENSE %PREFIX%\lib\python\LICENSE_PYTHON.txt
 if errorlevel 1 exit 1
 
 :: Populate the DLLs directory
-mkdir %PREFIX%\DLLs
-xcopy /s /y %SRC_DIR%\PCBuild\%HOST_DIR%\*.pyd %PREFIX%\DLLs\
+mkdir %PREFIX%\lib\python\lib-dynload
+xcopy /s /y %SRC_DIR%\PCBuild\%HOST_DIR%\*.pyd %PREFIX%\lib\python\lib-dynload
 if errorlevel 1 exit 1
 
-copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\DLLs\
+copy /Y %SRC_DIR%\PC\icons\py.ico %PREFIX%\lib\python\lib-dynload
 if errorlevel 1 exit 1
-copy /Y %SRC_DIR%\PC\icons\pyc.ico %PREFIX%\DLLs\
-if errorlevel 1 exit 1
-
-:: Populate the Tools directory
-mkdir %PREFIX%\Tools
-xcopy /s /y /i %SRC_DIR%\Tools\i18n %PREFIX%\Tools\i18n
-if errorlevel 1 exit 1
-xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\Tools\scripts
+copy /Y %SRC_DIR%\PC\icons\pyc.ico %PREFIX%\lib\python\lib-dynload
 if errorlevel 1 exit 1
 
-del %PREFIX%\Tools\scripts\README
-if errorlevel 1 exit 1
-del %PREFIX%\Tools\scripts\idle3
+mkdir %PREFIX%\lib\python\Tools
+xcopy /s /y /i %SRC_DIR%\Tools\scripts %PREFIX%\lib\python\Tools\scripts
 if errorlevel 1 exit 1
 
-move /y %PREFIX%\Tools\scripts\pydoc3 %PREFIX%\Tools\scripts\pydoc3.py
+del %PREFIX%\lib\python\Tools\scripts\README
+if errorlevel 1 exit 1
+del %PREFIX%\lib\python\Tools\scripts\idle3
+if errorlevel 1 exit 1
+
+move /y %PREFIX%\lib\python\Tools\scripts\pydoc3 %PREFIX%\lib\python\Tools\scripts\pydoc3.py
 if errorlevel 1 exit 1
 
 :: Populate the include directory
-xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\
+mkdir %PREFIX%\include\python
+xcopy /s /y %SRC_DIR%\Include %PREFIX%\include\python\
 if errorlevel 1 exit 1
 
 :: Copy generated pyconfig.h
-copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\
+copy /Y %SRC_DIR%\PC\pyconfig.h %PREFIX%\include\python\
 if errorlevel 1 exit 1
 
 :: Populate the Scripts directory
@@ -162,50 +173,49 @@ for %%x in (idle pydoc) do (
 )
 
 :: Populate the libs directory
-if not exist %PREFIX%\libs mkdir %PREFIX%\libs
 dir %SRC_DIR%\PCbuild\%HOST_DIR%\
-if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\lib\
 if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib %PREFIX%\libs\
+if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib %PREFIX%\lib\
 if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib %PREFIX%\libs\
-if errorlevel 1 exit 1
-
-
-:: Populate the Lib directory
-del %PREFIX%\libs\libpython*.a
-xcopy /s /y %SRC_DIR%\Lib %PREFIX%\Lib\
+if exist %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib %PREFIX%\lib\
 if errorlevel 1 exit 1
 
-:: Copy venv[w]launcher scripts to venv\srcipts\nt
-:: See https://github.com/python/cpython/blob/b4a316087c32d83e375087fd35fc511bc430ee8b/Lib/venv/__init__.py#L334-L376
+
+:: Populate the lib directory
+del %PREFIX%\lib\libpython*.a
+xcopy /s /y %SRC_DIR%\lib %PREFIX%\lib\python\
+if errorlevel 1 exit 1
+
+:: Copy venv[w]launcher scripts to venv\scripts\nt
+:: See https://github.com/python/cpython/blob/b4a316087c32d83e375087fd35fc511bc430ee8b/lib/python/venv/__init__.py#L334-L376
 if exist %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
-  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\python.exe
-  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvlauncher%THREAD%%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe %PREFIX%\lib\python\venv\scripts\nt\python.exe
+  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe %PREFIX%\lib\python\venv\scripts\nt\venvlauncher%THREAD%%_D%.exe
 ) else (
   echo "WARNING :: %SRC_DIR%\PCbuild\%HOST_DIR%\venvlauncher%THREAD%%_D%.exe does not exist"
 )
 
 if exist %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe (
   @rem We did copy pythonw.exe until 3.12 but starting with 3.13 we seem to need the latter. Should we omit the first?
-  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\pythonw.exe
-  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\Lib\venv\scripts\nt\venvwlauncher%THREAD%%_D%.exe
+  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\lib\python\venv\scripts\nt\pythonw.exe
+  copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe %PREFIX%\lib\python\venv\scripts\nt\venvwlauncher%THREAD%%_D%.exe
 ) else (
   echo "WARNING :: %SRC_DIR%\PCbuild\%HOST_DIR%\venvwlauncher%THREAD%%_D%.exe does not exist"
 )
 
 :: Remove test data to save space.
 :: Though keep `support` as some things use that.
-mkdir %PREFIX%\Lib\test_keep
+mkdir %PREFIX%\lib\python\test_keep
 if errorlevel 1 exit 1
-move %PREFIX%\Lib\test\__init__.py %PREFIX%\Lib\test_keep\
+move %PREFIX%\lib\python\test\__init__.py %PREFIX%\lib\python\test_keep\
 if errorlevel 1 exit 1
-move %PREFIX%\Lib\test\support %PREFIX%\Lib\test_keep\
+move %PREFIX%\lib\python\test\support %PREFIX%\lib\python\test_keep\
 if errorlevel 1 exit 1
-rd /s /q %PREFIX%\Lib\test
+rd /s /q %PREFIX%\lib\python\test
 if errorlevel 1 exit 1
-move %PREFIX%\Lib\test_keep %PREFIX%\Lib\test
+move %PREFIX%\lib\python\test_keep %PREFIX%\lib\python\test
 if errorlevel 1 exit 1
 
 :: We need our Python to be found!
@@ -218,7 +228,7 @@ if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
   set "PYTHON=%PREFIX%\python.exe"
 )
 :: bytecode compile the standard library
-%PYTHON% -Wi %PREFIX%\Lib\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\Lib
+%PYTHON% -Wi %PREFIX%\lib\python\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\lib\python
 if errorlevel 1 exit 1
 
 :: Ensure that scripts are generated

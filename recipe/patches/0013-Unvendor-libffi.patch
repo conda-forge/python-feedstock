@@ -1,14 +1,14 @@
-From b166bc9151cfa8743e9a54ebd29db8634096fc1c Mon Sep 17 00:00:00 2001
+From 1de3976ee79619c64747cb1791849a4468629906 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 03:07:40 -0700
-Subject: [PATCH 13/26] Unvendor libffi
+Subject: [PATCH 13/27] Unvendor libffi
 
 ---
- PCbuild/libffi.props | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ PCbuild/libffi.props | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
 diff --git a/PCbuild/libffi.props b/PCbuild/libffi.props
-index 22c9550e2c0..40ddb08d2b0 100644
+index 22c9550e2c0..97fb5966bfb 100644
 --- a/PCbuild/libffi.props
 +++ b/PCbuild/libffi.props
 @@ -2,20 +2,11 @@
@@ -34,6 +34,5 @@ index 22c9550e2c0..40ddb08d2b0 100644
 -  <Target Name="_CleanLIBFFIDLL" BeforeTargets="Clean">
 -    <Delete Files="@(_LIBFFIDLL->'$(OutDir)%(Filename)%(Extension)')" TreatErrorsAsWarnings="true" />
 -  </Target>
--</Project>
+ </Project>
 \ No newline at end of file
-+</Project>

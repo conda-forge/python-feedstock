@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 2 %}
+{% set build_number = 3 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -355,9 +355,8 @@ outputs:
 {% if py_interp_debug == "yes" %}
         - VERABI=${VERABI}d        # [not win]
 {% endif %}
-        - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
-        - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
-        - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        - test -f ${PREFIX}/lib/libpython${VERABI}${SHLIB_EXT}       # [unix]
+        - test -f ${PREFIX}/lib/libpython3${SHLIB_EXT}               # [unix and build_type == "release"]
         {% if freethreading == "yes" %}
         - if not exist %PREFIX%\python3t.dll exit 1                  # [win]
         - if not exist %PREFIX%\python{{ ver2nd }}t.dll exit 1       # [win]

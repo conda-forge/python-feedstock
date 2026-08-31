@@ -8,8 +8,8 @@ jobs:
     vmImage: $(VMIMAGE)
   strategy:
     matrix:
-      osx_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno:
-        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
+      osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
@@ -18,8 +18,8 @@ jobs:
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
-      osx_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes:
-        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
+      osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
+        CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
@@ -28,8 +28,8 @@ jobs:
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
-      osx_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno:
-        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
+      osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
@@ -38,8 +38,8 @@ jobs:
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
-      osx_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes:
-        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
+      osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
+        CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
@@ -48,8 +48,8 @@ jobs:
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
-      osx_arm64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno:
-        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingno
+      osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
+        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
@@ -58,8 +58,8 @@ jobs:
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
-      osx_arm64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes:
-        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_dev_debugfreethreadingyes
+      osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
+        CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
@@ -68,8 +68,8 @@ jobs:
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
-      osx_arm64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno:
-        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingno
+      osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
+        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
@@ -78,8 +78,8 @@ jobs:
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
-      osx_arm64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes:
-        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_python_devfreethreadingyes
+      osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
+        CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld

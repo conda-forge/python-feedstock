@@ -13,7 +13,7 @@ c_stdlib_version:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_dev
+- conda-forge main
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -23,7 +23,7 @@ docker_image:
 expat:
 - '2'
 freethreading:
-- 'no'
+- 'yes'
 libffi:
 - '3.7'
 liblzma_devel:

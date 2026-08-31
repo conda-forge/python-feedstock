@@ -1,5 +1,5 @@
 build_type:
-- release
+- debug
 bzip2:
 - '1'
 c_compiler:
@@ -13,7 +13,7 @@ c_stdlib_version:
 channel_sources:
 - conda-forge/label/python_rc,conda-forge
 channel_targets:
-- conda-forge python_dev
+- conda-forge python_debug
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -45,9 +45,7 @@ python:
 readline:
 - '8'
 target_platform:
-- linux-64
-tk:
-- '8.6'
+- linux-ppc64le
 zip_keys:
 - - build_type
   - channel_targets

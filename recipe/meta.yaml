@@ -39,6 +39,24 @@
   {% set site_packages_path = "lib/python" + ver2 + "/site-packages" %}
 {% endif %}
 
+# CMake needs to be told that the debug/freethreading ABI is fine; the option takes a 4-tuple,
+# Python_FIND_ABI=<pydebug>;<pymalloc>;<unicode>;<gil_disabled>; for details see
+# https://cmake.org/cmake/help/latest/module/FindPython.html#hints
+{% set cmake_test_args=" -DPython_FIND_ABI=\"" ~ ("ON" if build_type == "debug" else "OFF") ~ ";ANY;ANY;" ~ ("ON" if freethreading == "yes" else "OFF") ~ "\"" %}
+{% if unix %}
+  # for CMake invocations during testing, we need to avoid accidentally picking up python versions from
+  # the image, but we don't want to use `${CMAKE_ARGS}` from the compiler activation, because that contains
+  # `CMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER`; while that's useful for building (i.e. don't look in `host:`,
+  # because we want to use binaries from `build:`), we want the exact opposite when running tests.
+  {% set cmake_test_args=cmake_test_args ~ " -DCMAKE_POLICY_DEFAULT_CMP0094=NEW -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=ONLY -DCMAKE_FIND_ROOT_PATH=${PREFIX}" %}
+{% endif %}
+
+# extremely noisy; only use if needing to debug how CMake finds our libraries
+{% set cmake_debug = "" %}
+{% if False %}
+  {% set cmake_debug = "--debug-find --trace --debug-output --debug-trycompile" %}
+{% endif %}
+
 package:
   name: python-split
   version: {{ version }}{{ dev }}
@@ -80,17 +98,64 @@ source:
 
 build:
   number: {{ build_number }}
+  python_site_packages_path: {{ site_packages_path }}
+  script_env:
+    - PY_INTERP_DEBUG={{ py_interp_debug }}
+    - PY_FREETHREADING={{ freethreading }}
 
 requirements:
   build:
-    - patch  # [not win]
-    - m2-patch  # [win]
-    - m2-gcc-libs  # [win]
+    - {{ stdlib('c') }}
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - libtool           # [unix]
+    - make              # [unix]
+    - pkg-config        # [unix]
+    - ld_impl_{{ target_platform }}         # [linux]
+    - binutils_impl_{{ target_platform }}   # [linux]
+    - clang-18          # [unix]
+    - clang 18.*        # [win]
+    # configure script looks for llvm-ar for lto
+    - llvm-tools        # [osx]
+    - llvm-tools-18     # [unix]
+    - llvm-tools 18.*   # [win]
+    - bzip2             # [build_platform != target_platform]
+    - expat             # [build_platform != target_platform]
+    - libffi            # [build_platform != target_platform]
+    - liblzma-devel     # [build_platform != target_platform]
+    - libmpdec-devel    # [build_platform != target_platform]
+    - libsqlite         # [build_platform != target_platform]
+    - libuuid           # [build_platform != target_platform and linux]
+    - libxcrypt         # [build_platform != target_platform and linux]
+    - ncurses           # [build_platform != target_platform and unix]
+    - openssl           # [build_platform != target_platform]
+    - readline          # [build_platform != target_platform and unix]
+    - tk                # [build_platform != target_platform]
+    - zlib              # [build_platform != target_platform]
+    - zstd              # [build_platform != target_platform]
+  host:
+    - ld_impl_{{ target_platform }} >=2.36  # [linux]
+    - bzip2
+    - expat
+    - libffi
+    - liblzma-devel
+    - libmpdec-devel
+    - libsqlite
+    - libuuid           # [linux]
+    - ncurses           # [unix]
+    - openssl
+    - readline          # [unix]
+    - tk
+    # These two are just to get the headers needed for tk.h, but is unused
+    - xorg-libx11       # [unix]
+    - xorg-xorgproto    # [unix]
+    - zlib
+    - zstd
 
 outputs:
   - name: python
-    script: build_base.sh  # [unix]
-    script: build_base.bat  # [win]
+    script: install_base.sh   # [unix]
+    script: install_base.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -146,33 +211,12 @@ outputs:
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:
       build:
-        - {{ compiler('c') }}
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - make  # [not win]
-        - libtool  # [unix]
-        - pkg-config  # [not win]
-        # configure script looks for llvm-ar for lto
-        - llvm-tools  # [osx]
-        - ld_impl_{{ target_platform }}  # [linux]
-        - binutils_impl_{{ target_platform }}  # [linux]
-        - clang-18         # [not win]
-        - llvm-tools-18    # [not win]
-        - clang 18.*       # [win]
-        - llvm-tools 18.*  # [win]
-        - bzip2          # [build_platform != target_platform]
-        - libsqlite      # [build_platform != target_platform]
-        - liblzma-devel  # [build_platform != target_platform]
-        - zlib           # [build_platform != target_platform]
-        - openssl        # [build_platform != target_platform]
-        - readline       # [not win and build_platform != target_platform]
-        - tk             # [build_platform != target_platform]
-        - ncurses        # [unix and build_platform != target_platform]
-        - libffi         # [build_platform != target_platform]
-        - libuuid        # [linux and build_platform != target_platform]
-        - libxcrypt      # [linux and build_platform != target_platform]
-        - expat          # [build_platform != target_platform]
       host:
+        - {{ pin_subpackage('libpython', exact=True) }}
         - bzip2
         - libsqlite
         - liblzma-devel
@@ -190,6 +234,7 @@ outputs:
         - libmpdec-devel
         - expat
       run:
+        - {{ pin_subpackage('libpython', exact=True) }}
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
 {% if dev != '' %}
@@ -204,10 +249,13 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        # Pin to the openssl version used during the build to check whether
+        # we load the conda-forge version.
+        - openssl {{ openssl }}
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
-        - {{ stdlib('c') }}
         # For tkinter, but we expect from system
         - xorg-libx11   # [unix]
       files:
@@ -239,8 +287,8 @@ outputs:
         - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         # check for unreplaced @ symbols in sysconfig files, excluding e.g. '"$@".lto'
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a            # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         {% if freethreading == "yes" %}
         - if not exist %PREFIX%\\libs\\python3t.lib exit 1                # [win]
         - if not exist %PREFIX%\\libs\\python{{ ver2nd }}t.lib exit 1     # [win]
@@ -257,14 +305,12 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - if not exist %PREFIX%\\include\\pyconfig.h exit 1  # [win]
         - pushd tests
-        - pushd prefix-replacement    # [unix]
-        - bash build-and-test.sh      # [unix]
-        - popd    # [unix]
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
         - pushd cmake
-{% if freethreading == "no" %}
-        # TODO: use the new FindPython3 which supports freethreading
-        - cmake -GNinja -DPY_VER={{ version }} --debug-find --trace --debug-output --debug-trycompile .
-{% endif %}
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" {{ cmake_debug }} .
         - popd
         - popd
         - python run_test.py
@@ -275,9 +321,41 @@ outputs:
         # Test for wide character supported via ncursesw
         - TERM=xterm >/dev/null python -c "import curses; scr = curses.initscr(); curses.unget_wch('x'); assert 'x' ==  scr.get_wch()"  # [unix]
 
+  # this output is empty on windows
+  - name: libpython
+    script: install_shared.sh   # [unix]
+    build:
+      number: {{ build_number }}
+      activate_in_script: true
+      ignore_run_exports:
+        - python_abi
+      script_env:
+        - PY_INTERP_DEBUG={{ py_interp_debug }}
+        - PY_FREETHREADING={{ freethreading }}
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_{{ abi_tag }}
+    requirements:
+      build:
+        - {{ stdlib('c') }}
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+    test:
+      commands:
+        - VER=${PKG_VERSION%.*}    # [not win]
+        - VERABI=${VER}            # [not win]
+{% if freethreading == "yes" %}
+        - VERABI=${VERABI}t        # [not win]
+{% endif %}
+        - VERABI_NO_DBG=${VERABI}  # [not win]
+{% if py_interp_debug == "yes" %}
+        - VERABI=${VERABI}d        # [not win]
+{% endif %}
+        - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
+        - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
+        - test -f ${PREFIX}/lib/libpython3.dylib                     # [osx and build_type == "release"]
+
   - name: libpython-static
-    script: build_static.sh  # [unix]
-    script: build_static.bat  # [win]
+    script: install_static.sh   # [unix]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -298,10 +376,16 @@ outputs:
         - {{ pin_subpackage('python', exact=True) }}
     test:
       files:
+        - tests/cmake/*
         - tests/prefix-replacement/*
       requires:
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        # cmake expects a C++ compiler for some reason
+        - {{ compiler('cxx') }}
+        - ripgrep
+        - cmake
+        - ninja
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]
         - VERABI=${VER}            # [not win]
@@ -315,9 +399,14 @@ outputs:
         - test -f ${PREFIX}/lib/libpython${VERABI}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${VERABI_NO_DBG}.nolto.a  # [unix]
         - test -f ${PREFIX}/lib/python${VERABI_NO_DBG}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
-        - pushd tests/prefix-replacement    # [unix]
-        - bash build-and-test.sh      # [unix]
-        - popd    # [unix]
+        - pushd tests
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
+        - pushd cmake
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
+        - popd
+        - popd
 
   - name: cpython
     build:

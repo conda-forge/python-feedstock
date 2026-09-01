@@ -1,4 +1,4 @@
-From fce019e7c00ed65a1c1b14ae3ee9b7531e6c354c Mon Sep 17 00:00:00 2001
+From aab9fadd4195b340be1eed7152f2de1242939a6e Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
 Subject: [PATCH 10/27] Fix TZPATH on windows
@@ -8,7 +8,7 @@ Subject: [PATCH 10/27] Fix TZPATH on windows
  1 file changed, 2 insertions(+)
 
 diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
-index 47415adce04..654a1ef225f 100644
+index 4f8ebf15d36..1230a48208e 100644
 --- a/Lib/sysconfig/__init__.py
 +++ b/Lib/sysconfig/__init__.py
 @@ -175,6 +175,7 @@ def joinuser(*args):
@@ -19,7 +19,7 @@ index 47415adce04..654a1ef225f 100644
  _BASE_PREFIX = os.path.normpath(sys.base_prefix)
  _BASE_EXEC_PREFIX = os.path.normpath(sys.base_exec_prefix)
  # Mutex guarding initialization of _CONFIG_VARS.
-@@ -550,6 +551,7 @@ def _init_config_vars():
+@@ -553,6 +554,7 @@ def _init_config_vars():
      if os.name == 'nt':
          _init_non_posix(_CONFIG_VARS)
          _CONFIG_VARS['VPATH'] = sys._vpath

@@ -1,4 +1,4 @@
-From de8ce0d2b0a413ba8b5ebe5e20caac359f633033 Mon Sep 17 00:00:00 2001
+From dc47a794138f800714283dc19cbf896406afb7ca Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
 Subject: [PATCH 20/27] Don't checksharedmods if cross-compiling
@@ -10,10 +10,10 @@ Subject: [PATCH 20/27] Don't checksharedmods if cross-compiling
  create mode 100755 if_runnable.sh
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index b1711d1d385..3aae0d606c1 100644
+index 5174b36bc53..374c3e7a70d 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
-@@ -1632,7 +1632,7 @@ checksharedmods: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
+@@ -1633,7 +1633,7 @@ checksharedmods: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)
  	else \
  		$(RUNSHARED) $(PYTHON_FOR_BUILD) $(srcdir)/Tools/build/check_extension_modules.py --generate-missing-stdlib-info; \
  	fi

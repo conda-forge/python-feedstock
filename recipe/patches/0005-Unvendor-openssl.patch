@@ -1,4 +1,4 @@
-From a6dcb685cb77f162310ef77576af382188d8413e Mon Sep 17 00:00:00 2001
+From 8650098599959095301e15c2cecf74da06e709c3 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/27] Unvendor openssl
@@ -90,7 +90,7 @@ index 7ca750dda8f..17eee400ebb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 8d931bba28a..744ce0c540a 100644
+index 79f705a1ed3..744ce0c540a 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -91,6 +91,7 @@
@@ -112,8 +112,8 @@ index 8d931bba28a..744ce0c540a 100644
 -    <libffiOutDir Condition="$(libffiOutDir) == ''">$(libffiDir)$(ArchName)\</libffiOutDir>
 -    <libffiIncludeDir Condition="$(libffiIncludeDir) == ''">$(libffiOutDir)include</libffiIncludeDir>
      <mpdecimalDir Condition="$(mpdecimalDir) == ''">$(ExternalsDir)\mpdecimal-4.0.0\</mpdecimalDir>
--    <opensslDir Condition="$(opensslDir) == ''">$(ExternalsDir)openssl-3.5.7\</opensslDir>
--    <opensslOutDir Condition="$(opensslOutDir) == ''">$(ExternalsDir)openssl-bin-3.5.7\$(ArchName)\</opensslOutDir>
+-    <opensslDir Condition="$(opensslDir) == ''">$(ExternalsDir)openssl-3.5.8\</opensslDir>
+-    <opensslOutDir Condition="$(opensslOutDir) == ''">$(ExternalsDir)openssl-bin-3.5.8\$(ArchName)\</opensslOutDir>
 -    <opensslIncludeDir Condition="$(opensslIncludeDir) == ''">$(opensslOutDir)include</opensslIncludeDir>
      <nasmDir Condition="$(nasmDir) == ''">$(ExternalsDir)\nasm-2.11.06\</nasmDir>
 -    <zlibDir Condition="$(zlibDir) == ''">$(ExternalsDir)\zlib-1.3.1\</zlibDir>

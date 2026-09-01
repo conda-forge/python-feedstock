@@ -1,4 +1,4 @@
-From 853e54ebe2cd914b719dc274be11211d72883a32 Mon Sep 17 00:00:00 2001
+From a8d05c46483270c807cf22d5487f70b8997cbc31 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 22 May 2026 14:21:19 -0700
 Subject: [PATCH 27/27] More unixy layout for windows
@@ -12,10 +12,10 @@ See https://github.com/conda-forge/cfep/pull/65
  4 files changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/Lib/site.py b/Lib/site.py
-index d06549b8df8..4ec8fab1450 100644
+index 89e136d7b10..5bc762fdd03 100644
 --- a/Lib/site.py
 +++ b/Lib/site.py
-@@ -764,6 +764,7 @@ def getsitepackages(prefixes=None):
+@@ -770,6 +770,7 @@ def getsitepackages(prefixes=None):
                                      "site-packages")
                  sitepackages.append(path)
          else:
@@ -24,7 +24,7 @@ index d06549b8df8..4ec8fab1450 100644
              sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
      return sitepackages
 diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
-index 654a1ef225f..9021d40e809 100644
+index 1230a48208e..955a7896ca3 100644
 --- a/Lib/sysconfig/__init__.py
 +++ b/Lib/sysconfig/__init__.py
 @@ -58,6 +58,16 @@
@@ -54,7 +54,7 @@ index 654a1ef225f..9021d40e809 100644
              'user': 'nt_user',
          }
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index ea370c2f686..c7f85c5c5c1 100644
+index e237c58d6bc..4ccd9179e84 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
 @@ -190,9 +190,9 @@

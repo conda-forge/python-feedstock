@@ -1,4 +1,4 @@
-From edda9d185e32eef8592264398e83e95f117b15d1 Mon Sep 17 00:00:00 2001
+From ea36797c92b325459e176e6856a03b9ce1d2335c Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwelk@xhochy.com>
 Date: Tue, 22 Jul 2025 18:07:54 +0200
 Subject: [PATCH 25/27] Unvendor zstd
@@ -199,8 +199,9 @@ index eec666e5eaf..5028bb5592d 100644
        <Filter>Header Files</Filter>
      </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\zstd.h">
--      <Filter>Header Files\zstd</Filter>
--    </ClInclude>
++    <ClInclude Include="$(condaDir)\include\zstd.h">
+       <Filter>Header Files\zstd</Filter>
+     </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\zstd_errors.h">
 -      <Filter>Header Files\zstd</Filter>
 -    </ClInclude>
@@ -262,9 +263,8 @@ index eec666e5eaf..5028bb5592d 100644
 -      <Filter>Header Files\zstd</Filter>
 -    </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\compress\zstdmt_compress.h">
-+    <ClInclude Include="$(condaDir)\include\zstd.h">
-       <Filter>Header Files\zstd</Filter>
-     </ClInclude>
+-      <Filter>Header Files\zstd</Filter>
+-    </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\decompress\zstd_ddict.h">
 +    <ClInclude Include="$(condaDir)\include\zstd_errors.h">
        <Filter>Header Files\zstd</Filter>

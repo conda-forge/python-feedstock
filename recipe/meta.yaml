@@ -160,7 +160,9 @@ outputs:
           - python
         weak:
           - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
+{% if py_interp_debug == "yes" %}
           - python {{ ver2 }}.* *_debug_cpython
+{% endif %}
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs

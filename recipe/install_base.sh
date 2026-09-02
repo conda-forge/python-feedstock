@@ -13,9 +13,12 @@ VER=${PKG_VERSION%.*}
 _buildd_static=build-static
 _buildd_shared=build-shared
 
+# For debugging builds, set this to no to disable profile-guided optimization
 if [[ ${PY_INTERP_DEBUG} == yes ]]; then
+  _OPTIMIZED=no
   DBG=d
 else
+  _OPTIMIZED=yes
   DBG=
 fi
 
@@ -34,6 +37,24 @@ VERABI_NO_DBG=${VER}${THREAD}
 # do not yet exist.
 unset _PYTHON_SYSCONFIGDATA_NAME
 unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
+
+declare -a LTO_CFLAGS=()
+if [[ ${_OPTIMIZED} == yes ]]; then
+  if [[ ${CC} =~ .*gcc.* ]]; then
+    LTO_CFLAGS+=(-fuse-linker-plugin)
+    LTO_CFLAGS+=(-ffat-lto-objects)
+    # -flto must come after -flto-partition due to the replacement code
+    # TODO :: Replace the replacement code using conda-build's in-build regex replacement.
+    LTO_CFLAGS+=(-flto-partition=none)
+    LTO_CFLAGS+=(-flto)
+  else
+    # TODO :: Check if -flto=thin gives better results. It is about faster
+    #         compilation rather than faster execution so probably not:
+    # http://clang.llvm.org/docs/ThinLTO.html
+    # http://blog.llvm.org/2016/06/thinlto-scalable-and-incremental-lto.html
+    LTO_CFLAGS+=(-flto)
+  fi
+fi
 
 make -C ${_buildd_static} install
 

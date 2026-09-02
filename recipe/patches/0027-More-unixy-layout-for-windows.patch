@@ -1,7 +1,7 @@
-From a8d05c46483270c807cf22d5487f70b8997cbc31 Mon Sep 17 00:00:00 2001
+From 4afb736175deba9cf91b711b823012dcc8c945e7 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 22 May 2026 14:21:19 -0700
-Subject: [PATCH 27/27] More unixy layout for windows
+Subject: [PATCH 27/28] More unixy layout for windows
 
 See https://github.com/conda-forge/cfep/pull/65
 ---

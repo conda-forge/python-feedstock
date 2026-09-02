@@ -1,7 +1,7 @@
-From e23a12e19347d11d8bb04e3a752b0d47b30bf79f Mon Sep 17 00:00:00 2001
+From 5e2c4d517b9d1e2fa44cd968a4431e76328cb678 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
-Subject: [PATCH 24/27] Do not define pid_t as it might conflict with the
+Subject: [PATCH 24/28] Do not define pid_t as it might conflict with the
  actual definition
 
 ---

@@ -1,7 +1,7 @@
-From 27bed0708db7fc097428e303aeb9e219c9111304 Mon Sep 17 00:00:00 2001
+From 672365583e924051e1d8c872c07e931874f53b89 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 28 Aug 2024 11:12:22 -0500
-Subject: [PATCH 23/27] Brand conda-forge
+Subject: [PATCH 23/28] Brand conda-forge
 
 ---
  Lib/platform.py     | 1 +

@@ -99,6 +99,7 @@ source:
       - patches/0026-Set-Py_GIL_DISABLED-in-windows-to-match-unix.patch
 {% endif %}
       - patches/0027-More-unixy-layout-for-windows.patch
+      - patches/0028-Avoid-erroring-when-conda-site.pth-has-non-existent-.patch
 
 build:
   number: {{ build_number }}

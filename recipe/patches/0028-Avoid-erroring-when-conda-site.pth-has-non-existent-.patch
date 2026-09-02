@@ -1,0 +1,26 @@
+From 84630de65fe4921946048e098a610e75918f23d5 Mon Sep 17 00:00:00 2001
+From: Isuru Fernando <isuruf@gmail.com>
+Date: Tue, 1 Sep 2026 17:23:36 -0700
+Subject: [PATCH 28/28] Avoid erroring when conda-site.pth has non-existent
+ directories
+
+We add lib/python3.14/site-packages for the freethreading builds
+because of conda, mamba bugs and we don't want to create these
+directories in python conda package.
+---
+ Lib/site.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Lib/site.py b/Lib/site.py
+index 5bc762fdd03..e8a26868444 100644
+--- a/Lib/site.py
++++ b/Lib/site.py
+@@ -489,7 +489,7 @@ def _extend_syspath(self):
+             # do a final anti-duplication check.
+             if dir_ in sys.path:
+                 continue
+-            if filename is None or os.path.exists(dir_):
++            if filename is None or os.path.exists(dir_) or os.path.basename(filename) == "conda-site.pth":
+                 if filename is not None:
+                     _trace(f"Extending sys.path with {dir_} from {filename}")
+                 sys.path.append(dir_)

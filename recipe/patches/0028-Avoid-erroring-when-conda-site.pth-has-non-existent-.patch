@@ -20,7 +20,7 @@ index 5bc762fdd03..e8a26868444 100644
              if dir_ in sys.path:
                  continue
 -            if filename is None or os.path.exists(dir_):
-+            if filename is None or os.path.exists(dir_) or os.path.filename(filename) == "conda-site.pth":
++            if filename is None or os.path.exists(dir_) or os.path.basename(filename) == "conda-site.pth":
                  if filename is not None:
                      _trace(f"Extending sys.path with {dir_} from {filename}")
                  sys.path.append(dir_)

@@ -174,13 +174,15 @@ for %%x in (idle pydoc) do (
 
 :: Populate the libs directory
 dir %SRC_DIR%\PCbuild\%HOST_DIR%\
-if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\lib\
-if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib %PREFIX%\lib\
-if errorlevel 1 exit 1
-if exist %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib %PREFIX%\lib\
-if errorlevel 1 exit 1
-
+for %%x in (lib libs) do (
+  mkdir %PREFIX%\%%x
+  if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\%%x\
+  if errorlevel 1 exit 1
+  if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib %PREFIX%\%%x\
+  if errorlevel 1 exit 1
+  if exist %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib %PREFIX%\%%x\
+  if errorlevel 1 exit 1
+)
 
 :: Populate the lib directory
 del %PREFIX%\lib\libpython*.a

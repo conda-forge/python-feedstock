@@ -4,28 +4,13 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 1 %}
+{% set build_number = 2 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
 
 # Sanitize build system env. var tweak parameters
 # (passed to the build scripts via script_env).
-{% set from_source_control = os.environ.get('CONDA_BUILD_FROM_SOURCE_CONTROL', '') %}
-{% if from_source_control == '' or from_source_control == 'no' %}
-  {% set from_source_control = 'no' %}
-{% else %}
-  {% set from_source_control = 'yes' %}
-{% endif %}
-{% set linkage_nature = os.environ.get('PY_INTERP_LINKAGE_NATURE', '') %}
-{% if linkage_nature != '' %}
-  {% set linkage_nature = "_" ~ linkage_nature %}
-{% endif %}
-{% if linkage_nature == 'shared' %}
-  {% set linkage_nature_env = 'shared' %}
-{% else %}
-  {% set linkage_nature_env = 'static' %}
-{% endif %}
 {% set dbg_abi = "" %}
 {% if build_type == "debug" %}
   {% set py_interp_debug = "yes" %}
@@ -35,19 +20,32 @@
   {% set debug = "" %}
 {% endif %}
 
+# CMake needs to be told that the debug ABI is fine; the option takes a 4-tuple,
+# Python_FIND_ABI=<pydebug>;<pymalloc>;<unicode>;<gil_disabled>; for details see
+# https://cmake.org/cmake/help/latest/module/FindPython.html#hints
+{% set cmake_test_args=" -DPython_FIND_ABI=\"" ~ ("ON" if build_type == "debug" else "OFF") ~ ";ANY;ANY;ANY\"" %}
+{% if unix %}
+  # for CMake invocations during testing, we need to avoid accidentally picking up python versions from
+  # the image, but we don't want to use `${CMAKE_ARGS}` from the compiler activation, because that contains
+  # `CMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER`; while that's useful for building (i.e. don't look in `host:`,
+  # because we want to use binaries from `build:`), we want the exact opposite when running tests.
+  {% set cmake_test_args=cmake_test_args ~ " -DCMAKE_POLICY_DEFAULT_CMP0094=NEW -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=ONLY -DCMAKE_FIND_ROOT_PATH=${PREFIX}" %}
+{% endif %}
+
+# extremely noisy; only use if needing to debug how CMake finds our libraries
+{% set cmake_debug = "" %}
+{% if False %}
+  {% set cmake_debug = "--debug-find --trace --debug-output --debug-trycompile" %}
+{% endif %}
+
 package:
   name: python-split
   version: {{ version }}{{ dev }}
 
 source:
-{% if from_source_control == 'yes' %}
-  - git_url: https://github.com/python/CPython.git
-    git_tag: v{{ version }}{{ dev }}
-{% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # sha256 from: https://www.python.org/downloads/release/python-{{ ver3nd }}{{ dev }}/
     sha256: 5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a
-{% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-Do-not-download-externals.patch
@@ -77,21 +75,57 @@ source:
 
 build:
   number: {{ build_number }}
+  script_env:
+    - PY_INTERP_DEBUG={{ py_interp_debug }}
 
 requirements:
   build:
-{% if from_source_control == 'yes' %}
-    - git
-{% else %}
-    - patch  # [not win]
-    - m2-patch  # [win]
-    - m2-gcc-libs  # [win]
-{% endif %}
+    - {{ stdlib('c') }}
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - libtool           # [unix]
+    - make              # [unix]
+    - pkg-config        # [unix]
+    - ld_impl_{{ target_platform }}         # [linux]
+    - binutils_impl_{{ target_platform }}   # [linux]
+    # configure script looks for llvm-ar for lto
+    - llvm-tools        # [osx]
+    - bzip2             # [build_platform != target_platform]
+    - expat             # [build_platform != target_platform]
+    - libffi            # [build_platform != target_platform]
+    - liblzma-devel     # [build_platform != target_platform]
+    - libnsl            # [build_platform != target_platform and linux]
+    - libuuid           # [build_platform != target_platform and linux]
+    - libxcrypt         # [build_platform != target_platform and linux]
+    - ncurses           # [build_platform != target_platform and unix]
+    - openssl           # [build_platform != target_platform]
+    - readline          # [build_platform != target_platform and unix]
+    - sqlite            # [build_platform != target_platform]
+    - tk                # [build_platform != target_platform]
+    - zlib              # [build_platform != target_platform]
+  host:
+    - ld_impl_{{ target_platform }} >=2.36  # [linux]
+    - bzip2
+    - expat
+    - libffi
+    - liblzma-devel
+    - libnsl            # [linux]
+    - libuuid           # [linux]
+    - libxcrypt         # [linux]
+    - ncurses           # [unix]
+    - openssl
+    - readline          # [unix]
+    - tk
+    - sqlite
+    # These two are just to get the headers needed for tk.h, but is unused
+    - xorg-libx11       # [unix]
+    - xorg-xorgproto    # [unix]
+    - zlib
 
 outputs:
   - name: python
-    script: build_base.sh  # [unix]
-    script: build_base.bat  # [win]
+    script: install_base.sh   # [unix]
+    script: install_base.bat  # [win]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -120,20 +154,14 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
-{% if 'conda-forge' in channel_targets %}
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
       run_exports:
         noarch:
           - python
         weak:
           - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
-{% if py_interp_debug == "yes" %}
           - python {{ ver2 }}.* *_debug_cpython
-{% endif %}
-{% endif %}
       script_env:
-        - PY_INTERP_LINKAGE_NATURE={{ linkage_nature_env }}
         - PY_INTERP_DEBUG={{ py_interp_debug }}
         # Putting these here means they get emitted to build_env_setup.{sh,bat} meaning we can launch IDEs
         # after sourcing or calling that script without examine the contents of conda_build.{sh,bat} for
@@ -150,32 +178,12 @@ outputs:
         - '**/api-ms-win-core-path-l1-1-0.dll'  # [win]
     requirements:
       build:
-        - {{ compiler('c') }}
         - {{ stdlib('c') }}
+        - {{ compiler('c') }}
         - {{ compiler('cxx') }}
         - make  # [not win]
-        - libtool  # [unix]
-        - pkg-config  # [not win]
-        # configure script looks for llvm-ar for lto
-        - llvm-tools  # [osx]
-        - ld_impl_{{ target_platform }}  # [linux]
-{% if 'conda-forge' in channel_targets %}
-        - binutils_impl_{{ target_platform }}  # [linux]
-{% endif %}
-        - bzip2          # [build_platform != target_platform]
-        - sqlite         # [build_platform != target_platform]
-        - liblzma-devel  # [build_platform != target_platform]
-        - zlib           # [build_platform != target_platform]
-        - openssl        # [build_platform != target_platform]
-        - readline       # [not win and build_platform != target_platform]
-        - tk             # [build_platform != target_platform]
-        - ncurses        # [unix and build_platform != target_platform]
-        - libffi         # [build_platform != target_platform]
-        - libnsl         # [linux and build_platform != target_platform]
-        - libuuid        # [linux and build_platform != target_platform]
-        - libxcrypt      # [linux and build_platform != target_platform]
-        - expat          # [build_platform != target_platform]
       host:
+        - {{ pin_subpackage('libpython', exact=True) }}
         - bzip2
         - sqlite
         - liblzma-devel
@@ -194,15 +202,14 @@ outputs:
         - libxcrypt  # [linux]
         - expat
       run:
+        - {{ pin_subpackage('libpython', exact=True) }}
         - ld_impl_{{ target_platform }} >=2.36.1  # [linux]
         - tzdata
 {% if dev != '' %}
         - _python_rc
 {% endif %}
-{% if 'conda-forge' in channel_targets %}
       run_constrained:
         - python_abi {{ ver2 }}.* *_cp{{ ver2nd }}
-{% endif %}
     test:
       downstreams:
         - cython
@@ -211,6 +218,9 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        # Pin to the openssl version used during the build to check whether
+        # we load the conda-forge version.
+        - openssl {{ openssl }}
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
@@ -247,8 +257,8 @@ outputs:
         - _CONDA_PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_x86_64_conda_linux_gnu python -c "import sysconfig; print(sysconfig.get_config_var('CC'))"   # [linux64]
         # check for unreplaced @ symbols in sysconfig files, excluding e.g. '"$@".lto'
         - for f in ${CONDA_PREFIX}/lib/python*/_sysconfig*.py; do echo "Checking $f:"; if [[ `rg @[^@]*@ $f` ]]; then echo "FAILED ON $f"; cat $f; exit 1; fi; done  # [linux64 or osx]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]
-        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a  # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a            # [unix]
+        - test ! -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.nolto.a      # [unix]
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]
         - if exist %PREFIX%\\Scripts\\idle exit 1  # [win]
@@ -260,12 +270,12 @@ outputs:
         - if not exist %PREFIX%\\Scripts\\2to3.exe exit 1  # [win]
         - if not exist %PREFIX%\\Scripts\\pydoc.exe exit 1  # [win]
         - pushd tests
-        - pushd prefix-replacement    # [unix]
-        - bash build-and-test.sh      # [unix]
-        - popd    # [unix]
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
         - pushd cmake
-        - cmake -GNinja -DPY_VER={{ version }}
-              # --trace --debug-output --debug-trycompile .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Module" {{ cmake_debug }} .
         - popd
         - popd
         - python run_test.py
@@ -280,9 +290,9 @@ outputs:
         # crypt module will be removed in 3.13 => this failing is a reminder to remove the libxcrypt dependency
         - python -c "import crypt"  # [unix]
 
-  - name: libpython-static
-    script: build_static.sh  # [unix]
-    script: build_static.bat  # [win]
+  # this output is empty on windows
+  - name: libpython
+    script: install_shared.sh   # [unix]
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -290,26 +300,56 @@ outputs:
         - python_abi
       script_env:
         - PY_INTERP_DEBUG={{ py_interp_debug }}
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
+    requirements:
+      build:
+        - {{ stdlib('c') }}
+        - {{ compiler('c') }}
+        - {{ compiler('cxx') }}
+    test:
+      commands:
+        - VER=${PKG_VERSION%.*}    # [not win]
+        - VERABI=${VER}            # [not win]
+        - VERABI_NO_DBG=${VERABI}  # [not win]
+{% if py_interp_debug == "yes" %}
+        - VERABI=${VERABI}d        # [not win]
+{% endif %}
+        - test -f ${PREFIX}/lib/libpython${VERABI}.so                # [linux]
+        - test -f ${PREFIX}/lib/libpython${VERABI}.dylib             # [osx]
+        - test -f ${PREFIX}/lib/libpython3.so                        # [linux and build_type == "release"]
+        - test -f ${PREFIX}/lib/libpython3.dylib                     # [osx and build_type == "release"]
+
+  - name: libpython-static
+    script: install_static.sh   # [unix]
+    build:
+      number: {{ build_number }}
+      activate_in_script: true
+      ignore_run_exports:
+        - python_abi
+      script_env:
+        - PY_INTERP_DEBUG={{ py_interp_debug }}
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ debug }}_cpython
     requirements:
       build:
         - {{ compiler('c') }}
         - {{ stdlib('c') }}
         - {{ compiler('cxx') }}
-{% if from_source_control == 'yes' %}
-        - git
-{% endif %}
       host:
         - {{ pin_subpackage('python', exact=True) }}
       run:
         - {{ pin_subpackage('python', exact=True) }}
     test:
       files:
+        - tests/cmake/*
         - tests/prefix-replacement/*
       requires:
         - {{ stdlib('c') }}
         - {{ compiler('c') }}
+        # cmake expects a C++ compiler for some reason
+        - {{ compiler('cxx') }}
+        - ripgrep
+        - cmake
+        - ninja
       commands:
         - VER=${PKG_VERSION%.*}   # [not win]
 {% if py_interp_debug == "yes" %}
@@ -320,9 +360,14 @@ outputs:
         - test -f ${PREFIX}/lib/libpython${VERABI}.a  # [unix]
         - test -f ${PREFIX}/lib/libpython${VERABI}.nolto.a  # [unix]
         - test -f ${PREFIX}/lib/python${VER}/config-${VERABI}-darwin/libpython${VERABI}.a  # [osx]
-        - pushd tests/prefix-replacement    # [unix]
-        - bash build-and-test.sh      # [unix]
-        - popd    # [unix]
+        - pushd tests
+        - pushd prefix-replacement  # [unix]
+        - bash build-and-test.sh    # [unix]
+        - popd                      # [unix]
+        - pushd cmake
+        - cmake -GNinja {{ cmake_test_args }} -DPY_VER={{ version }} -DEXTRA_COMPONENTS="Development.Embed" {{ cmake_debug }} .
+        - popd
+        - popd
 
   - name: cpython
     build:
@@ -361,7 +406,6 @@ extra:
     - isuruf
     - jakirkham
     - mbargull
-    - mingwandroid
     - msarahan
     - pelson
     - ocefpaf

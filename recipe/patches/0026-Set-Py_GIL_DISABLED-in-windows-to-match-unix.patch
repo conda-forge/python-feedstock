@@ -1,7 +1,7 @@
-From 22389266909ab9f32571100e4b7c338aba13561d Mon Sep 17 00:00:00 2001
+From 0791111ac5c17432198ec0559e7bf3c177035981 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 2 Dec 2025 09:46:56 -0800
-Subject: [PATCH 26/27] Set Py_GIL_DISABLED in windows to match unix
+Subject: [PATCH 26/28] Set Py_GIL_DISABLED in windows to match unix
 
 This is not set upstream because the windows distribution supports
 free-threaded and default builds at the same time. We have the

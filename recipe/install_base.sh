@@ -30,7 +30,7 @@ unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
 
 declare -a LTO_CFLAGS=()
 if [[ ${_OPTIMIZED} == yes ]]; then
-  if [[ ${CC} =~ .*gcc.* ]]; then
+  if [[ ${c_compiler} =~ .*gcc.* ]]; then
     LTO_CFLAGS+=(-fuse-linker-plugin)
     LTO_CFLAGS+=(-ffat-lto-objects)
     # -flto must come after -flto-partition due to the replacement code
@@ -57,6 +57,10 @@ if [[ ${_OPTIMIZED} == yes ]]; then
   _FLAGS_REPLACE+=("-fprofile-correction")
   _FLAGS_REPLACE+=("")
   _FLAGS_REPLACE+=("-L.")
+  _FLAGS_REPLACE+=("")
+  _FLAGS_REPLACE+=(-flto-partition=none)
+  _FLAGS_REPLACE+=("")
+  _FLAGS_REPLACE+=(-flto)
   _FLAGS_REPLACE+=("")
   for _LTO_CFLAG in "${LTO_CFLAGS[@]}"; do
     _FLAGS_REPLACE+=(${_LTO_CFLAG})

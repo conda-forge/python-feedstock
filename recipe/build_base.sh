@@ -41,9 +41,6 @@ else
 fi
 
 # Since these take very long to build in our emulated ci, disable for now
-if [[ ${target_platform} == linux-aarch64 ]]; then
-  _OPTIMIZED=no
-fi
 if [[ ${target_platform} == linux-ppc64le ]]; then
   _OPTIMIZED=no
 fi

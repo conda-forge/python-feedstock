@@ -6,5 +6,7 @@ is_python_min:
   - no
 numpy:
   - 1.16
+tk:
+  - 8.6
 MACOSX_SDK_VERSION:            # [osx and x86_64]
   - 11.0                       # [osx and x86_64]

@@ -110,7 +110,8 @@ if errorlevel 1 exit 1
 cd ..
 
 :: Populate the root package directory
-for %%x in (python%VERNODOTS%%THREAD%%_D%.dll python3%THREAD%%_D%.dll python%EXE_T%%_D%.exe pythonw%EXE_T%%_D%.exe) do (
+:: GIL builds need python3t.dll too, for abi3t extensions (PEP 803)
+for %%x in (python%VERNODOTS%%THREAD%%_D%.dll python3%THREAD%%_D%.dll python3t%_D%.dll python%EXE_T%%_D%.exe pythonw%EXE_T%%_D%.exe) do (
   if exist %SRC_DIR%\PCbuild\%HOST_DIR%\%%x (
     copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\%%x %PREFIX%
   ) else (
@@ -179,6 +180,8 @@ for %%x in (lib libs) do (
   if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python%VERNODOTS%%THREAD%%_D%.lib %PREFIX%\%%x\
   if errorlevel 1 exit 1
   if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python3%THREAD%%_D%.lib %PREFIX%\%%x\
+  if errorlevel 1 exit 1
+  if exist %SRC_DIR%\PCbuild\%HOST_DIR%\python3t%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\python3t%_D%.lib %PREFIX%\%%x\
   if errorlevel 1 exit 1
   if exist %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib copy /Y %SRC_DIR%\PCbuild\%HOST_DIR%\_tkinter%THREAD%%_D%.lib %PREFIX%\%%x\
   if errorlevel 1 exit 1

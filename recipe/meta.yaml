@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 2 %}
+{% set build_number = 3 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -278,6 +278,8 @@ outputs:
         {% else %}
         - if not exist %PREFIX%\\lib\\python3.lib exit 1                 # [win]
         - if not exist %PREFIX%\\lib\\python{{ ver2nd }}.lib exit 1      # [win]
+        - if not exist %PREFIX%\\lib\\python3t.lib exit 1                # [win]
+        - python -c "import ctypes; ctypes.WinDLL('python3t').Py_IsInitialized"  # [win]
         {% endif %}
         # https://github.com/conda-forge/python-feedstock/issues/384
         - if exist %PREFIX%\\Scripts\\pydoc exit 1  # [win]

@@ -4,11 +4,11 @@ Date: Wed, 29 Mar 2023 23:07:10 -0500
 Subject: [PATCH 26/26] Unvendor expat
 
 ---
- PCbuild/_elementtree.vcxproj         | 23 +----------
- PCbuild/_elementtree.vcxproj.filters | 59 ----------------------------
- PCbuild/pyexpat.vcxproj              | 14 ++-----
- PCbuild/pyexpat.vcxproj.filters      | 23 -----------
- 4 files changed, 5 insertions(+), 114 deletions(-)
+ PCbuild/_elementtree.vcxproj         | 24 +----------
+ PCbuild/_elementtree.vcxproj.filters | 62 ----------------------------
+ PCbuild/pyexpat.vcxproj              | 15 ++-----
+ PCbuild/pyexpat.vcxproj.filters      | 26 -----------
+ 4 files changed, 5 insertions(+), 122 deletions(-)
 
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
 index ec55d5c981e..3a51495de73 100644
@@ -23,7 +23,7 @@ index ec55d5c981e..3a51495de73 100644
        <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_PYEXPAT_CAPI;XML_POOR_ENTROPY;XML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='PGInstrument|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
-@@ -101,29 +101,8 @@
+@@ -101,30 +101,8 @@
        <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">/d1trimfile:%SRC_DIR%</AdditionalOptions>
      </ClCompile>
    </ItemDefinitionGroup>
@@ -34,6 +34,7 @@ index ec55d5c981e..3a51495de73 100644
 -    <ClInclude Include="..\Modules\expat\expat_config.h" />
 -    <ClInclude Include="..\Modules\expat\expat_external.h" />
 -    <ClInclude Include="..\Modules\expat\fallthrough.h" />
+-    <ClInclude Include="..\Modules\expat\hash_table.h" />
 -    <ClInclude Include="..\Modules\expat\iasciitab.h" />
 -    <ClInclude Include="..\Modules\expat\internal.h" />
 -    <ClInclude Include="..\Modules\expat\latin1tab.h" />
@@ -57,7 +58,7 @@ diff --git a/PCbuild/_elementtree.vcxproj.filters b/PCbuild/_elementtree.vcxproj
 index f6b55d8ff82..88a13faa683 100644
 --- a/PCbuild/_elementtree.vcxproj.filters
 +++ b/PCbuild/_elementtree.vcxproj.filters
-@@ -17,69 +17,10 @@
+@@ -17,72 +17,10 @@
        <UniqueIdentifier>{f99990ba-cd06-40cc-8f28-d2d424ec13be}</UniqueIdentifier>
      </Filter>
    </ItemGroup>
@@ -78,6 +79,9 @@ index f6b55d8ff82..88a13faa683 100644
 -      <Filter>Header Files\expat</Filter>
 -    </ClInclude>
 -    <ClInclude Include="..\Modules\expat\fallthrough.h">
+-      <Filter>Header Files\expat</Filter>
+-    </ClInclude>
+-    <ClInclude Include="..\Modules\expat\hash_table.h">
 -      <Filter>Header Files\expat</Filter>
 -    </ClInclude>
 -    <ClInclude Include="..\Modules\expat\iasciitab.h">
@@ -131,7 +135,7 @@ diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
 index a5c01c6bc6f..f56eff65e8b 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
-@@ -90,25 +90,19 @@
+@@ -90,26 +90,19 @@
    <PropertyGroup Label="UserMacros" />
    <ItemDefinitionGroup>
      <ClCompile>
@@ -149,6 +153,7 @@ index a5c01c6bc6f..f56eff65e8b 100644
    </ItemDefinitionGroup>
 -  <ItemGroup>
 -    <ClInclude Include="..\Modules\expat\fallthrough.h" />
+-    <ClInclude Include="..\Modules\expat\hash_table.h" />
 -    <ClInclude Include="..\Modules\expat\memory_sanitizer.h" />
 -    <ClInclude Include="..\Modules\expat\xmlrole.h" />
 -    <ClInclude Include="..\Modules\expat\xmltok.h" />
@@ -165,12 +170,15 @@ diff --git a/PCbuild/pyexpat.vcxproj.filters b/PCbuild/pyexpat.vcxproj.filters
 index 230531033fc..b8280b4049c 100644
 --- a/PCbuild/pyexpat.vcxproj.filters
 +++ b/PCbuild/pyexpat.vcxproj.filters
-@@ -11,33 +11,10 @@
+@@ -11,36 +11,10 @@
        <UniqueIdentifier>{f1dbbdb5-41e5-4a88-bf8e-13da010c0ce4}</UniqueIdentifier>
      </Filter>
    </ItemGroup>
 -  <ItemGroup>
 -    <ClInclude Include="..\Modules\expat\fallthrough.h">
+-      <Filter>Header Files</Filter>
+-    </ClInclude>
+-    <ClInclude Include="..\Modules\expat\hash_table.h">
 -      <Filter>Header Files</Filter>
 -    </ClInclude>
 -    <ClInclude Include="..\Modules\expat\memory_sanitizer.h">

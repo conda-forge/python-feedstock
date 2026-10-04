@@ -1,4 +1,4 @@
-From 19604dc69f63146a47a07c30b11676c4973a39a1 Mon Sep 17 00:00:00 2001
+From 27c2df0308789b4e234d6b68664c7df8ffa1cb72 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
 Subject: [PATCH 08/26] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
@@ -11,7 +11,7 @@ Co-authored-by: Isuru Fernando<isuruf@gmail.com>
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/getpath.c b/Modules/getpath.c
-index 61d654065fd..b80297c580c 100644
+index 61d654065f..b80297c580 100644
 --- a/Modules/getpath.c
 +++ b/Modules/getpath.c
 @@ -907,6 +907,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
@@ -23,7 +23,7 @@ index 61d654065fd..b80297c580c 100644
          !progname_to_dict(dict, "real_executable") ||
          !library_to_dict(dict, "library") ||
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index a7dd7342d4d..054862c05ce 100644
+index a7dd7342d4..054862c05c 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
 @@ -51,6 +51,7 @@

@@ -9,8 +9,8 @@ version branch. If either is absent, consult the corresponding file on upstream
 `main`. The repository's patch instructions are authoritative.
 
 Regenerate patches through the documented CPython Git workflow: apply the
-existing series with `git am` on the old release tag, replay the patch commits
-onto the new tag and resolve conflicts, export with
+existing series with `git am -3` on the old release tag, rebase the patch commits
+onto the new tag as documented in the README and resolve conflicts, export with
 `git format-patch --no-signature`, and run `make-mixed-crlf-patch.py` on the
 generated patches. Preserve patch authorship, commit metadata, ordering, and
 required line endings. Hand-editing patch text and confirming that it applies

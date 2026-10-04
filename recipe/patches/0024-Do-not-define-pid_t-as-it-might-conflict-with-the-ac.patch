@@ -1,4 +1,4 @@
-From 5e2c4d517b9d1e2fa44cd968a4431e76328cb678 Mon Sep 17 00:00:00 2001
+From af8523b5164ba313ec188ea4221a534098da3ed9 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/28] Do not define pid_t as it might conflict with the
@@ -87,10 +87,10 @@ index 0b42b059541..a8aff655bd1 100644
  
  
 diff --git a/PC/pyconfig.h b/PC/pyconfig.h
-index 72a475777b7..5149fbcf301 100644
+index b5069328796..fe213640fb1 100644
 --- a/PC/pyconfig.h
 +++ b/PC/pyconfig.h
-@@ -240,8 +240,6 @@ typedef _W64 int Py_ssize_t;
+@@ -252,8 +252,6 @@ typedef _W64 int Py_ssize_t;
  #endif
  #endif /* MS_WIN32 && !MS_WIN64 */
  
@@ -100,7 +100,7 @@ index 72a475777b7..5149fbcf301 100644
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
 diff --git a/Python/remote_debug.h b/Python/remote_debug.h
-index 7b7380d25bf..0d89e46d054 100644
+index 16229df936f..adb2d7cd993 100644
 --- a/Python/remote_debug.h
 +++ b/Python/remote_debug.h
 @@ -28,6 +28,9 @@ extern "C" {

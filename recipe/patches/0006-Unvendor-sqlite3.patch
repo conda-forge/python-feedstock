@@ -1,4 +1,4 @@
-From 3bd33db3159bcb94e8ce9f7a48ac0df84556a926 Mon Sep 17 00:00:00 2001
+From 60582444706c3594dced8ffa4c995b1c026f0feb Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
 Subject: [PATCH 06/28] Unvendor sqlite3
@@ -52,7 +52,7 @@ index 09a989d3864..74b961e877f 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_testcapi", "_testcapi.vcxproj", "{6901D91C-6E48-4BB7-9FEC-700C8131DF1D}"
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index f12ec348b37..f9e5e449a49 100644
+index 0673e03a59f..97a4c46dea1 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
 @@ -88,12 +88,12 @@

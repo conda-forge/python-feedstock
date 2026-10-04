@@ -1,4 +1,4 @@
-From 4afb736175deba9cf91b711b823012dcc8c945e7 Mon Sep 17 00:00:00 2001
+From c51382c26fffcc9d5dc2d7815c045f86c1d26a41 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 22 May 2026 14:21:19 -0700
 Subject: [PATCH 27/28] More unixy layout for windows
@@ -70,7 +70,7 @@ index e237c58d6bc..4ccd9179e84 100644
      VENV_LANDMARK = 'pyvenv.cfg'
      ZIP_LANDMARK = f'python{VERSION_MAJOR}{VERSION_MINOR}{PYDEBUGEXT or ""}.zip'
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 7d5432d5428..aaf80b13a89 100644
+index 93a0e270a93..26e810c09a4 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -129,7 +129,7 @@

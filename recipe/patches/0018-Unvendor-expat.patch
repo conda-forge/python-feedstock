@@ -1,4 +1,4 @@
-From 42e47289df0079b64edfd188e96a996000b21467 Mon Sep 17 00:00:00 2001
+From 6cd7e17c0d4c9d2661a412980e2e51760f2eab17 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Mar 2023 23:07:10 -0500
 Subject: [PATCH 18/25] Unvendor expat
@@ -7,11 +7,11 @@ Subject: [PATCH 18/25] Unvendor expat
  PCbuild/_elementtree.vcxproj         | 27 ++----------
  PCbuild/_elementtree.vcxproj.filters | 62 ----------------------------
  PCbuild/pyexpat.vcxproj              | 15 ++-----
- PCbuild/pyexpat.vcxproj.filters      | 26 -----------
+ PCbuild/pyexpat.vcxproj.filters      | 26 ------------
  4 files changed, 8 insertions(+), 122 deletions(-)
 
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index fb1589557da..f47bcd8e4e6 100644
+index 8d5117e804..f47bcd8e4e 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -93,38 +93,19 @@
@@ -58,7 +58,7 @@ index fb1589557da..f47bcd8e4e6 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_elementtree.vcxproj.filters b/PCbuild/_elementtree.vcxproj.filters
-index f6b55d8ff82..88a13faa683 100644
+index 9e2e062af3..88a13faa68 100644
 --- a/PCbuild/_elementtree.vcxproj.filters
 +++ b/PCbuild/_elementtree.vcxproj.filters
 @@ -17,72 +17,10 @@
@@ -135,7 +135,7 @@ index f6b55d8ff82..88a13faa683 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc">
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 833ab5e9f7e..5fe782f11a8 100644
+index d517f9392b..5fe782f11a 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -90,26 +90,19 @@
@@ -170,7 +170,7 @@ index 833ab5e9f7e..5fe782f11a8 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/pyexpat.vcxproj.filters b/PCbuild/pyexpat.vcxproj.filters
-index 230531033fc..b8280b4049c 100644
+index e63cb9c630..b8280b4049 100644
 --- a/PCbuild/pyexpat.vcxproj.filters
 +++ b/PCbuild/pyexpat.vcxproj.filters
 @@ -11,36 +11,10 @@

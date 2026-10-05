@@ -145,10 +145,10 @@ Current release info
 Installing python
 =================
 
-Installing `python` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `python` from the `conda-forge/label/python_debug` channel can be achieved by adding `conda-forge/label/python_debug` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/python_debug
 conda config --set channel_priority strict
 ```
 
@@ -194,7 +194,7 @@ It is possible to list all of the versions of `cpython` available on your platfo
 <summary>With conda</summary>
 
 ```
-conda search cpython --channel conda-forge
+conda search cpython --channel conda-forge/label/python_debug
 ```
 
 </details>
@@ -203,7 +203,7 @@ conda search cpython --channel conda-forge
 <summary>With mamba</summary>
 
 ```
-mamba search cpython --channel conda-forge
+mamba search cpython --channel conda-forge/label/python_debug
 ```
 
 </details>
@@ -212,7 +212,7 @@ mamba search cpython --channel conda-forge
 <summary>With pixi</summary>
 
 ```
-pixi search cpython --channel conda-forge
+pixi search cpython --channel conda-forge/label/python_debug
 ```
 
 </details>
@@ -222,13 +222,13 @@ pixi search cpython --channel conda-forge
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search cpython --channel conda-forge
+mamba repoquery search cpython --channel conda-forge/label/python_debug
 
 # List packages depending on `cpython`:
-mamba repoquery whoneeds cpython --channel conda-forge
+mamba repoquery whoneeds cpython --channel conda-forge/label/python_debug
 
 # List dependencies of `cpython`:
-mamba repoquery depends cpython --channel conda-forge
+mamba repoquery depends cpython --channel conda-forge/label/python_debug
 ```
 
 </details>

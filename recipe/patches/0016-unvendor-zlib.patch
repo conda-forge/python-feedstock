@@ -1,4 +1,4 @@
-From e44bde2691911111f212ebe0ba71cfc0257e089c Mon Sep 17 00:00:00 2001
+From e7e8bf8385e414075ad1f315c96563e685c2b850 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Sep 2021 15:21:55 -0700
 Subject: [PATCH 16/26] unvendor zlib
@@ -9,7 +9,7 @@ Subject: [PATCH 16/26] unvendor zlib
  2 files changed, 4 insertions(+), 76 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 8e45967a83c..3674ca1b267 100644
+index b724db69bd..9472fda6e2 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -41,7 +41,7 @@ index 8e45967a83c..3674ca1b267 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -681,12 +681,6 @@
+@@ -684,12 +684,6 @@
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
    </ItemGroup>
@@ -55,7 +55,7 @@ index 8e45967a83c..3674ca1b267 100644
    <ImportGroup Label="ExtensionTargets">
      <Import Project="regen.targets" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 0e6d42cc959..144a0e3425a 100644
+index 0e6d42cc95..144a0e3425 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
 @@ -900,39 +900,6 @@

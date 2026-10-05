@@ -1,4 +1,4 @@
-From e1a36beb37bcc740dd29bcd671550677ad9fc520 Mon Sep 17 00:00:00 2001
+From 0298b1366e431876af761aabcf677092f919e2a4 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwelk@xhochy.com>
 Date: Tue, 22 Jul 2025 18:07:54 +0200
 Subject: [PATCH 25/26] Unvendor zstd
@@ -9,7 +9,7 @@ Subject: [PATCH 25/26] Unvendor zstd
  2 files changed, 6 insertions(+), 209 deletions(-)
 
 diff --git a/PCbuild/_zstd.vcxproj b/PCbuild/_zstd.vcxproj
-index 6f91b8d05cc..cc6f99cb002 100644
+index 6f91b8d05c..cc6f99cb00 100644
 --- a/PCbuild/_zstd.vcxproj
 +++ b/PCbuild/_zstd.vcxproj
 @@ -95,72 +95,22 @@
@@ -90,7 +90,7 @@ index 6f91b8d05cc..cc6f99cb002 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_zstd.vcxproj.filters b/PCbuild/_zstd.vcxproj.filters
-index eec666e5eaf..5028bb5592d 100644
+index eec666e5ea..5028bb5592 100644
 --- a/PCbuild/_zstd.vcxproj.filters
 +++ b/PCbuild/_zstd.vcxproj.filters
 @@ -30,96 +30,6 @@
@@ -195,9 +195,8 @@ index eec666e5eaf..5028bb5592d 100644
        <Filter>Header Files</Filter>
      </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\zstd.h">
-+    <ClInclude Include="$(condaDir)\include\zstd.h">
-       <Filter>Header Files\zstd</Filter>
-     </ClInclude>
+-      <Filter>Header Files\zstd</Filter>
+-    </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\zstd_errors.h">
 -      <Filter>Header Files\zstd</Filter>
 -    </ClInclude>
@@ -259,8 +258,9 @@ index eec666e5eaf..5028bb5592d 100644
 -      <Filter>Header Files\zstd</Filter>
 -    </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\compress\zstdmt_compress.h">
--      <Filter>Header Files\zstd</Filter>
--    </ClInclude>
++    <ClInclude Include="$(condaDir)\include\zstd.h">
+       <Filter>Header Files\zstd</Filter>
+     </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\decompress\zstd_ddict.h">
 +    <ClInclude Include="$(condaDir)\include\zstd_errors.h">
        <Filter>Header Files\zstd</Filter>

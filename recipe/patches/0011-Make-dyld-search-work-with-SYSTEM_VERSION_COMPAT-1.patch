@@ -1,4 +1,4 @@
-From b35fc75f5d8900881707f9aed502d11afda49193 Mon Sep 17 00:00:00 2001
+From 2b4b2eb01bb1dc545274401bb22fc1c81e432f55 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
 Subject: [PATCH 11/26] Make dyld search work with SYSTEM_VERSION_COMPAT=1
@@ -18,7 +18,7 @@ and this code using 10.16
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index 27b99211ce6..1c9a3a88da5 100644
+index 27b99211ce..1c9a3a88da 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
 @@ -1510,7 +1510,7 @@ copy_com_pointer(PyObject *self, PyObject *args)

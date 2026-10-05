@@ -1,4 +1,4 @@
-From 3cb9f861f64aca04fb652250fa0056a9ae7e40ed Mon Sep 17 00:00:00 2001
+From b70d81b46b6ff7bd3f1793198b5c113f77398e84 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 29 Mar 2023 23:07:10 -0500
 Subject: [PATCH 26/26] Unvendor expat
@@ -7,11 +7,11 @@ Subject: [PATCH 26/26] Unvendor expat
  PCbuild/_elementtree.vcxproj         | 24 +----------
  PCbuild/_elementtree.vcxproj.filters | 62 ----------------------------
  PCbuild/pyexpat.vcxproj              | 15 ++-----
- PCbuild/pyexpat.vcxproj.filters      | 26 -----------
+ PCbuild/pyexpat.vcxproj.filters      | 26 ------------
  4 files changed, 5 insertions(+), 122 deletions(-)
 
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index ec55d5c981e..3a51495de73 100644
+index 528c54c3ac..3a51495de7 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -93,7 +93,7 @@
@@ -55,7 +55,7 @@ index ec55d5c981e..3a51495de73 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_elementtree.vcxproj.filters b/PCbuild/_elementtree.vcxproj.filters
-index f6b55d8ff82..88a13faa683 100644
+index 9e2e062af3..88a13faa68 100644
 --- a/PCbuild/_elementtree.vcxproj.filters
 +++ b/PCbuild/_elementtree.vcxproj.filters
 @@ -17,72 +17,10 @@
@@ -132,7 +132,7 @@ index f6b55d8ff82..88a13faa683 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc">
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index a5c01c6bc6f..f56eff65e8b 100644
+index 0dcf38584a..f56eff65e8 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -90,26 +90,19 @@
@@ -167,7 +167,7 @@ index a5c01c6bc6f..f56eff65e8b 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/pyexpat.vcxproj.filters b/PCbuild/pyexpat.vcxproj.filters
-index 230531033fc..b8280b4049c 100644
+index e63cb9c630..b8280b4049 100644
 --- a/PCbuild/pyexpat.vcxproj.filters
 +++ b/PCbuild/pyexpat.vcxproj.filters
 @@ -11,36 +11,10 @@

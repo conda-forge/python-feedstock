@@ -1,4 +1,4 @@
-From 6fa5924da6eddfc530015bef11bc498913c630b1 Mon Sep 17 00:00:00 2001
+From 8f0a9f199ee952017e0a7dd58c35288cb17a745f Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Tue, 5 Oct 2021 12:42:06 -0700
 Subject: [PATCH 06/26] Unvendor sqlite3
@@ -10,7 +10,7 @@ Subject: [PATCH 06/26] Unvendor sqlite3
  3 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/PCbuild/_sqlite3.vcxproj b/PCbuild/_sqlite3.vcxproj
-index 9ae0a0fc3a0..f482734ba1d 100644
+index 9ae0a0fc3a..f482734ba1 100644
 --- a/PCbuild/_sqlite3.vcxproj
 +++ b/PCbuild/_sqlite3.vcxproj
 @@ -93,9 +93,12 @@
@@ -43,7 +43,7 @@ index 9ae0a0fc3a0..f482734ba1d 100644
 \ No newline at end of file
 +</Project>
 diff --git a/PCbuild/pcbuild.sln b/PCbuild/pcbuild.sln
-index 7296ea75301..9dd5e07ad8a 100644
+index 7296ea7530..9dd5e07ad8 100644
 --- a/PCbuild/pcbuild.sln
 +++ b/PCbuild/pcbuild.sln
 @@ -72,8 +72,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_elementtree", "_elementtre
@@ -56,7 +56,7 @@ index 7296ea75301..9dd5e07ad8a 100644
  EndProject
  Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_testcapi", "_testcapi.vcxproj", "{6901D91C-6E48-4BB7-9FEC-700C8131DF1D}"
 diff --git a/PCbuild/sqlite3.vcxproj b/PCbuild/sqlite3.vcxproj
-index f12ec348b37..f9e5e449a49 100644
+index f12ec348b3..f9e5e449a4 100644
 --- a/PCbuild/sqlite3.vcxproj
 +++ b/PCbuild/sqlite3.vcxproj
 @@ -88,12 +88,12 @@

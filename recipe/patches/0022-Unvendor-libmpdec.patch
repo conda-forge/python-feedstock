@@ -1,4 +1,4 @@
-From 05b2d4adfea83d8057e016fceef693f7c4e99209 Mon Sep 17 00:00:00 2001
+From 7b6ea9231eae0a6628fc8c1084916dfbd69259d9 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Fri, 16 Aug 2024 21:34:43 -0500
 Subject: [PATCH 22/26] Unvendor libmpdec
@@ -8,7 +8,7 @@ Subject: [PATCH 22/26] Unvendor libmpdec
  1 file changed, 6 insertions(+), 44 deletions(-)
 
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
-index e9d60b4db1a..0f49d7923f5 100644
+index e9d60b4db1..0f49d7923f 100644
 --- a/PCbuild/_decimal.vcxproj
 +++ b/PCbuild/_decimal.vcxproj
 @@ -93,65 +93,27 @@

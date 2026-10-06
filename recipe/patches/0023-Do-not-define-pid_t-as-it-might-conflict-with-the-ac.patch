@@ -1,4 +1,4 @@
-From aa6781489ba39e836d64966242ef04c7e1839215 Mon Sep 17 00:00:00 2001
+From f69fd23060f7c43ae4fb3667d793f752d1ddb5da Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 23/23] Do not define pid_t as it might conflict with the
@@ -13,7 +13,7 @@ Subject: [PATCH 23/23] Do not define pid_t as it might conflict with the
  5 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
-index 16eb437ffea..a88dd8026ab 100644
+index 16eb437ffe..a88dd8026a 100644
 --- a/Modules/_testcapi/long.c
 +++ b/Modules/_testcapi/long.c
 @@ -2,6 +2,9 @@
@@ -27,7 +27,7 @@ index 16eb437ffea..a88dd8026ab 100644
  static PyObject *
  raiseTestError(const char* test_name, const char* msg)
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index 36b8fcbcddf..35a0f83a047 100644
+index 36b8fcbcdd..35a0f83a04 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -37,6 +37,10 @@
@@ -42,7 +42,7 @@ index 36b8fcbcddf..35a0f83a047 100644
  #  error "The public headers should not include <stdbool.h>, see bpo-46748"
  #endif
 diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
-index 57121e1e890..b765e22f3be 100644
+index 57121e1e89..b765e22f3b 100644
 --- a/Modules/clinic/posixmodule.c.h
 +++ b/Modules/clinic/posixmodule.c.h
 @@ -8,6 +8,10 @@ preserve
@@ -57,7 +57,7 @@ index 57121e1e890..b765e22f3be 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index c21c6f06c72..d65611ad55b 100644
+index c21c6f06c7..d65611ad55 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
 @@ -39,6 +39,7 @@
@@ -69,7 +69,7 @@ index c21c6f06c72..d65611ad55b 100644
  
  #include "structmember.h"         // PyMemberDef
 diff --git a/PC/pyconfig.h b/PC/pyconfig.h
-index 7815bfcf8de..4ccb55182a1 100644
+index 7815bfcf8d..4ccb55182a 100644
 --- a/PC/pyconfig.h
 +++ b/PC/pyconfig.h
 @@ -222,8 +222,6 @@ typedef _W64 int Py_ssize_t;

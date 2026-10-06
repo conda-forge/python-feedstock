@@ -1,4 +1,4 @@
-From 5918e2a035d60cfaf986ee2c90173f8af73894bc Mon Sep 17 00:00:00 2001
+From 7c5c2560b1825c3837fd80f638886c514b55578a Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/23] Unvendor openssl
@@ -13,7 +13,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  5 files changed, 9 insertions(+), 54 deletions(-)
 
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
-index 5fd708b211e..044cefd95ea 100644
+index 5fd708b211..044cefd95e 100644
 --- a/PCbuild/openssl.props
 +++ b/PCbuild/openssl.props
 @@ -2,10 +2,10 @@
@@ -45,7 +45,7 @@ index 5fd708b211e..044cefd95ea 100644
 -  </Target>
  </Project>
 diff --git a/PCbuild/openssl.vcxproj b/PCbuild/openssl.vcxproj
-index 7ca750dda8f..17eee400ebb 100644
+index 7ca750dda8..17eee400eb 100644
 --- a/PCbuild/openssl.vcxproj
 +++ b/PCbuild/openssl.vcxproj
 @@ -60,40 +60,8 @@
@@ -90,7 +90,7 @@ index 7ca750dda8f..17eee400ebb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 3fba8e09acd..cf0913f3310 100644
+index 3fba8e09ac..cf0913f331 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -61,6 +61,7 @@
@@ -120,7 +120,7 @@ index 3fba8e09acd..cf0913f3310 100644
  
    <PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 846c87fd1ac..8021002c165 100644
+index 846c87fd1a..8021002c16 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -107,6 +107,9 @@
@@ -134,7 +134,7 @@ index 846c87fd1ac..8021002c165 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index f485352f642..38a25470895 100644
+index f485352f64..38a2547089 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
 @@ -99,6 +99,9 @@

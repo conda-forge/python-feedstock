@@ -1,4 +1,4 @@
-From b0b4c4ad5575274bfd4d82eeec968bcd214b6eb1 Mon Sep 17 00:00:00 2001
+From 4aebc49a794ae9742f93712c4732a866e6be59ca Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 16 Aug 2021 02:18:50 -0700
 Subject: [PATCH 18/26] Fix LDSHARED when CC is overriden on Linux too
@@ -8,7 +8,7 @@ Subject: [PATCH 18/26] Fix LDSHARED when CC is overriden on Linux too
  1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
-index 00133ded588..43eef57419b 100644
+index 00133ded58..43eef57419 100644
 --- a/Lib/distutils/sysconfig.py
 +++ b/Lib/distutils/sysconfig.py
 @@ -217,10 +217,9 @@ def customize_compiler(compiler):

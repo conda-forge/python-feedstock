@@ -1,4 +1,4 @@
-From c8f75042114a221d35f19441905c0d1d6dbe7874 Mon Sep 17 00:00:00 2001
+From 49f7947fb7eae9cc5da2504e720d8c5d6f9d57ef Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Tue, 5 Sep 2023 21:51:31 +0200
 Subject: [PATCH 21/25] Override configure LIBFFI
@@ -8,10 +8,10 @@ Subject: [PATCH 21/25] Override configure LIBFFI
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 8422d8d0c55..484a53ebaea 100755
+index 3d8af52364..ed4cbbca2a 100755
 --- a/configure
 +++ b/configure
-@@ -14588,7 +14588,7 @@ if test "x$ac_cv_lib_ffi_ffi_call" = xyes
+@@ -14593,7 +14593,7 @@ if test "x$ac_cv_lib_ffi_ffi_call" = xyes
  then :
  
                  have_libffi=yes

@@ -40,6 +40,8 @@ sqlite:
 - '3'
 target_platform:
 - linux-ppc64le
+tk:
+- '8.6'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version

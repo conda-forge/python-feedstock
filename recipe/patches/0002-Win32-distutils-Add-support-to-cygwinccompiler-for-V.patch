@@ -1,4 +1,4 @@
-From af5b00d49fc6265c34a632cf802679a5ab8b5ad0 Mon Sep 17 00:00:00 2001
+From 594f0ecdc08661c1ade5bd68d5c7e5cff85075f3 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Wed, 16 Aug 2017 11:59:00 +0100
 Subject: [PATCH 02/26] Win32: distutils: Add support to cygwinccompiler for
@@ -10,7 +10,7 @@ Really this is for mingw-w64 though
  1 file changed, 3 insertions(+)
 
 diff --git a/Lib/distutils/cygwinccompiler.py b/Lib/distutils/cygwinccompiler.py
-index 66c12dd3583..e6c790118bb 100644
+index 66c12dd358..e6c790118b 100644
 --- a/Lib/distutils/cygwinccompiler.py
 +++ b/Lib/distutils/cygwinccompiler.py
 @@ -80,6 +80,9 @@ def get_msvcr():

@@ -1,4 +1,4 @@
-From 11763c6ea13c9953c12a1de926be83ffe5220828 Mon Sep 17 00:00:00 2001
+From 63d1ee11fb7156e78c629f40ab98044d80d60e18 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Wed, 3 Sep 2025 13:32:24 +0200
 Subject: [PATCH 25/25] Search LLVM_ROOT for llvm binaries
@@ -8,7 +8,7 @@ Subject: [PATCH 25/25] Search LLVM_ROOT for llvm binaries
  1 file changed, 5 insertions(+)
 
 diff --git a/Tools/jit/_llvm.py b/Tools/jit/_llvm.py
-index b68da1b6be1..88070133ddb 100644
+index b68da1b6be..88070133dd 100644
 --- a/Tools/jit/_llvm.py
 +++ b/Tools/jit/_llvm.py
 @@ -68,6 +68,11 @@ async def _get_brew_llvm_prefix(*, echo: bool = False) -> str | None:

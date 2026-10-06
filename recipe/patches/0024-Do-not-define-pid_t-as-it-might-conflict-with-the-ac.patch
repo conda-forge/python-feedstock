@@ -1,4 +1,4 @@
-From ad9cf7a94bf4c7fb3f9816781de0587d23bfc3f5 Mon Sep 17 00:00:00 2001
+From bca007ed99217d5982c5c80817f89a4b0719d326 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
@@ -14,7 +14,7 @@ Subject: [PATCH 24/25] Do not define pid_t as it might conflict with the
  6 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_testcapi/long.c b/Modules/_testcapi/long.c
-index 769c3909ea3..242636c7cc4 100644
+index 769c3909ea..242636c7cc 100644
 --- a/Modules/_testcapi/long.c
 +++ b/Modules/_testcapi/long.c
 @@ -6,6 +6,10 @@
@@ -29,7 +29,7 @@ index 769c3909ea3..242636c7cc4 100644
  module _testcapi
  [clinic start generated code]*/
 diff --git a/Modules/_testcapimodule.c b/Modules/_testcapimodule.c
-index e13a3def14c..edd1adda486 100644
+index e13a3def14..edd1adda48 100644
 --- a/Modules/_testcapimodule.c
 +++ b/Modules/_testcapimodule.c
 @@ -30,6 +30,10 @@
@@ -44,7 +44,7 @@ index e13a3def14c..edd1adda486 100644
  
  
 diff --git a/Modules/_testlimitedcapi/long.c b/Modules/_testlimitedcapi/long.c
-index 35505ef33f4..e4a0beeb793 100644
+index 35505ef33f..e4a0beeb79 100644
 --- a/Modules/_testlimitedcapi/long.c
 +++ b/Modules/_testlimitedcapi/long.c
 @@ -8,6 +8,10 @@
@@ -59,7 +59,7 @@ index 35505ef33f4..e4a0beeb793 100644
  module _testlimitedcapi
  [clinic start generated code]*/
 diff --git a/Modules/clinic/posixmodule.c.h b/Modules/clinic/posixmodule.c.h
-index cd42e1be80b..1fa8d9187b1 100644
+index ac5f01931f..24d56b32e2 100644
 --- a/Modules/clinic/posixmodule.c.h
 +++ b/Modules/clinic/posixmodule.c.h
 @@ -10,6 +10,10 @@ preserve
@@ -74,7 +74,7 @@ index cd42e1be80b..1fa8d9187b1 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index c0dd6965fee..619ae3d299a 100644
+index d342642b93..3748727430 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
 @@ -43,6 +43,7 @@
@@ -86,7 +86,7 @@ index c0dd6965fee..619ae3d299a 100644
  
  #ifndef MS_WINDOWS
 diff --git a/PC/pyconfig.h.in b/PC/pyconfig.h.in
-index 424421f6ff1..2c1b5a5b834 100644
+index 424421f6ff..2c1b5a5b83 100644
 --- a/PC/pyconfig.h.in
 +++ b/PC/pyconfig.h.in
 @@ -230,8 +230,6 @@ typedef _W64 int Py_ssize_t;

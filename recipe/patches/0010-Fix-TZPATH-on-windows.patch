@@ -1,4 +1,4 @@
-From 57cb150a6af3b99bdde019fbece1f751e839d68b Mon Sep 17 00:00:00 2001
+From 917d6573ec342716d3a73c431ef7f3330d0c8048 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Wed, 7 Oct 2020 10:08:30 -0500
 Subject: [PATCH 10/26] Fix TZPATH on windows
@@ -8,7 +8,7 @@ Subject: [PATCH 10/26] Fix TZPATH on windows
  1 file changed, 2 insertions(+)
 
 diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
-index faf8273bd0b..9e6d9257cf7 100644
+index faf8273bd0..9e6d9257cf 100644
 --- a/Lib/sysconfig/__init__.py
 +++ b/Lib/sysconfig/__init__.py
 @@ -175,6 +175,7 @@ def joinuser(*args):

@@ -1,4 +1,4 @@
-From aaa85ea3a1edeb2e93ae12b60c7958084814df37 Mon Sep 17 00:00:00 2001
+From ee840291f4b658ab5614eef4960fb9cad036774a Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 7 Sep 2017 11:35:47 +0100
 Subject: [PATCH 02/26] Win32: Do not download externals
@@ -8,7 +8,7 @@ Subject: [PATCH 02/26] Win32: Do not download externals
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index 60235704886..717a35c9d7e 100644
+index 6023570488..717a35c9d7 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
 @@ -113,7 +113,7 @@ if "%IncludeSSL%"=="" set IncludeSSL=true

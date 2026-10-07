@@ -85,6 +85,7 @@ if sys.platform != 'win32':
     import fcntl
     import grp
     import readline
+    assert readline.backend == "editline", readline.backend
     import resource
     import syslog
     import termios

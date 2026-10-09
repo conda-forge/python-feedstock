@@ -28,11 +28,11 @@ done
 # Verify the exported series on a clean checkout of the new tag.
 patched_head=$(git rev-parse HEAD)
 git switch --detach "$new"
-git am ../refreshed-patches/*.patch
+git am *.patch
 git diff "$patched_head" HEAD --exit-code
 
 # Copy the verified patches back to the feedstock.
-cp ../refreshed-patches/*.patch ../python-feedstock/recipe/patches/
+cp *.patch ../python-feedstock/recipe/patches/
 ```
 
 The glob selects only patch files in numbered order. Apply all patches, including

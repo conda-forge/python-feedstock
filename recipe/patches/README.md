@@ -19,10 +19,10 @@ git am -3 ../python-feedstock/recipe/patches/*.patch
 git rebase --onto "$new" "$old"
 
 # Continue here once the rebase has completed successfully.
-mkdir ../refreshed-patches
-git format-patch --no-signature -o ../refreshed-patches "$new"
-for f in ../refreshed-patches/*.patch; do
-  python ../python-feedstock/recipe/patches/make-mixed-crlf-patch.py "$f"
+rm *.patch
+git format-patch --no-signature "$new"
+for f in *.patch; do
+python ../python-feedstock/recipe/patches/make-mixed-crlf-patch.py "$f"
 done
 
 # Verify the exported series on a clean checkout of the new tag.

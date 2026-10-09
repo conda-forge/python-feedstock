@@ -11,7 +11,7 @@ c_stdlib:
 c_stdlib_version:
 - '2.39'
 channel_sources:
-- conda-forge/label/python_rc,conda-forge
+- conda-forge
 channel_targets:
 - conda-forge python_debug
 cxx_compiler:

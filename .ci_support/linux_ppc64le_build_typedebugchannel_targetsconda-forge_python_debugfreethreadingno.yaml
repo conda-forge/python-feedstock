@@ -11,7 +11,7 @@ c_stdlib:
 c_stdlib_version:
 - '2.17'
 channel_sources:
-- conda-forge/label/python_rc,conda-forge
+- conda-forge
 channel_targets:
 - conda-forge python_debug
 cxx_compiler:
@@ -24,6 +24,8 @@ expat:
 - '2'
 freethreading:
 - 'no'
+libedit:
+- '3.1'
 libffi:
 - '3.7'
 liblzma_devel:
@@ -42,8 +44,6 @@ pin_run_as_build:
     max_pin: x.x
 python:
 - '3.15'
-readline:
-- '8'
 target_platform:
 - linux-ppc64le
 zip_keys:

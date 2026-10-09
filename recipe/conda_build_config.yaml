@@ -19,9 +19,8 @@ freethreading:
   - yes
   - no
 
-# Use Python RC components in build
 channel_sources:
-  - conda-forge/label/python_rc,conda-forge
+  - conda-forge
 
 # Configuration for debug and release builds
 build_type:

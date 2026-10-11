@@ -22,6 +22,7 @@ VERABI_NO_DBG=${VER}${THREAD}
 # Install the shared library (for people who embed Python only, e.g. GDB).
 # Linking module extensions to this on Linux is redundant (but harmless).
 # Linking module extensions to this on Darwin is harmful (multiply defined symbols).
+mkdir -p ${PREFIX}/lib
 shopt -s extglob
 cp -pf ${_buildd_shared}/libpython*${SHLIB_EXT}!(.lto) ${PREFIX}/lib/
 shopt -u extglob

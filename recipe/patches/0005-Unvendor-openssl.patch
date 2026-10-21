@@ -1,4 +1,4 @@
-From aacc0fc576a7c68a1a5141ae2d5eb132ba9edf4e Mon Sep 17 00:00:00 2001
+From 56373316cc37d229814a89b31b88db350c133214 Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 05/26] Unvendor openssl

@@ -1,4 +1,4 @@
-From fb67cd8211b67bad6360b97cbdc62e158d01d126 Mon Sep 17 00:00:00 2001
+From fc2fca19dae40843300e518266cc47ae1cf223ac Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sun, 12 Jan 2025 10:37:29 +0530
 Subject: [PATCH 24/26] Do not define pid_t as it might conflict with the
@@ -75,10 +75,10 @@ index 15d1650d00..3591760d33 100644
  "stat($module, /, path, *, dir_fd=None, follow_symlinks=True)\n"
  "--\n"
 diff --git a/Modules/posixmodule.c b/Modules/posixmodule.c
-index 916c65721e..dd458638af 100644
+index 3ea1073a2c..8195468499 100644
 --- a/Modules/posixmodule.c
 +++ b/Modules/posixmodule.c
-@@ -219,6 +219,7 @@
+@@ -221,6 +221,7 @@
  #  if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
  #    define HAVE_SYMLINK
  #  endif /* MS_WINDOWS_DESKTOP | MS_WINDOWS_SYSTEM */
@@ -100,7 +100,7 @@ index bb0c89651a..a78e1a021c 100644
  #if _MSC_VER >= 1200
  /* This file only exists in VC 6.0 or higher */
 diff --git a/Python/remote_debug.h b/Python/remote_debug.h
-index 6a1020ff89..1e4279d7d8 100644
+index 4120f3d0d9..c316e1b868 100644
 --- a/Python/remote_debug.h
 +++ b/Python/remote_debug.h
 @@ -28,6 +28,9 @@ extern "C" {

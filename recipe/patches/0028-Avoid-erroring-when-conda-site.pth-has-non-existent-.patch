@@ -1,4 +1,4 @@
-From 818a13d465af31871a1f1db4cba754ec6878d73d Mon Sep 17 00:00:00 2001
+From 4eb2410ece2eaa5a98bbe0b3d7b2128bf89617b5 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 1 Sep 2026 17:23:36 -0700
 Subject: [PATCH 28/28] Avoid erroring when conda-site.pth has non-existent

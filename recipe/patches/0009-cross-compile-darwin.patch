@@ -1,4 +1,4 @@
-From 28a708a72e0842f8449a88d54e469120dc1e3bdd Mon Sep 17 00:00:00 2001
+From e907c26cabb5b057db06fc0790af24bf9cc72530 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 2 Oct 2020 00:03:12 +0200
 Subject: [PATCH 09/28] cross compile darwin
@@ -29,10 +29,10 @@ index 36489d4fdd9..37278847c0a 100644
      try:
          import plistlib
 diff --git a/configure b/configure
-index a68a98c5a4d..a7d9fa69814 100755
+index 5a728e8ba68..d03f7d1c341 100755
 --- a/configure
 +++ b/configure
-@@ -4155,6 +4155,9 @@ then
+@@ -4157,6 +4157,9 @@ then
  	*-*-linux*)
  		ac_sys_system=Linux
  		;;
@@ -42,7 +42,7 @@ index a68a98c5a4d..a7d9fa69814 100755
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -4638,6 +4641,9 @@ if test "$cross_compiling" = yes; then
+@@ -4640,6 +4643,9 @@ if test "$cross_compiling" = yes; then
  		esac
  		;;
  	*-gnu)
@@ -53,10 +53,10 @@ index a68a98c5a4d..a7d9fa69814 100755
  		;;
  	*-*-cygwin*)
 diff --git a/configure.ac b/configure.ac
-index ed8b53dd3a4..cc9554e5b39 100644
+index 08cfd620afb..f57e87983d2 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -333,6 +333,9 @@ then
+@@ -339,6 +339,9 @@ then
  	*-*-linux*)
  		ac_sys_system=Linux
  		;;
@@ -66,7 +66,7 @@ index ed8b53dd3a4..cc9554e5b39 100644
  	*-*-cygwin*)
  		ac_sys_system=Cygwin
  		;;
-@@ -786,6 +789,9 @@ if test "$cross_compiling" = yes; then
+@@ -792,6 +795,9 @@ if test "$cross_compiling" = yes; then
  	*-gnu)
  		_host_ident=$host_cpu
  		;;

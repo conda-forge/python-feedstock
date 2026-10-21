@@ -1,4 +1,4 @@
-From 6001f676b1297438ed8bcd346ee83511f06ffef5 Mon Sep 17 00:00:00 2001
+From 0e48656148eaffbb5366125538c8f0a87416da70 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
 Subject: [PATCH 04/26] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS
@@ -11,10 +11,10 @@ Co-authored-by: Isuru Fernando<isuruf@gmail.com>
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/getpath.c b/Modules/getpath.c
-index 1e75993480..ff96c8e199 100644
+index ada8a27be4c..88252adf91d 100644
 --- a/Modules/getpath.c
 +++ b/Modules/getpath.c
-@@ -937,6 +937,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
+@@ -939,6 +939,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
          !env_to_dict(dict, "ENV_PATH", 0) ||
          !env_to_dict(dict, "ENV_PYTHONHOME", 0) ||
          !env_to_dict(dict, "ENV_PYTHONEXECUTABLE", 0) ||
@@ -23,7 +23,7 @@ index 1e75993480..ff96c8e199 100644
          !progname_to_dict(dict, "real_executable") ||
          !library_to_dict(dict, "library") ||
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index 0e4f1e87e7..df5d89d857 100644
+index ce9a40e7d48..fa2893b2716 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
 @@ -52,6 +52,7 @@
@@ -34,7 +34,7 @@ index 0e4f1e87e7..df5d89d857 100644
  
  # ** Values calculated at runtime **
  # config            -- [in/out] dict of the PyConfig structure
-@@ -697,7 +698,7 @@ def search_up(prefix, *landmarks, test=isfile):
+@@ -701,7 +702,7 @@ def search_up(prefix, *landmarks, test=isfile):
      else:
          pythonpath.append(joinpath(base_prefix, ZIP_LANDMARK))
  

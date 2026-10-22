@@ -1,4 +1,4 @@
-From cc538cfd8d7b2c172c66ea092f347f5553ef9f6e Mon Sep 17 00:00:00 2001
+From 8563e9b808b53973b24ecb460233730505fd5c74 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sat, 27 Oct 2018 18:48:30 +0100
 Subject: [PATCH 04/25] Disable registry lookup unless CONDA_PY_ALLOW_REG_PATHS

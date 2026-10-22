@@ -1,4 +1,4 @@
-From 2b298b0263696246817cd50c535a301c32bf8041 Mon Sep 17 00:00:00 2001
+From 7397ecbceada52e970a0407ad80ca1e5e2568964 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
 Subject: [PATCH 20/25] Don't checksharedmods if cross-compiling

@@ -13,7 +13,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  5 files changed, 9 insertions(+), 56 deletions(-)
 
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
-index 5fd708b211e..044cefd95ea 100644
+index f071060..afb9a08 100644
 --- a/PCbuild/openssl.props
 +++ b/PCbuild/openssl.props
 @@ -2,10 +2,10 @@
@@ -45,7 +45,7 @@ index 5fd708b211e..044cefd95ea 100644
 -  </Target>
  </Project>
 diff --git a/PCbuild/openssl.vcxproj b/PCbuild/openssl.vcxproj
-index 7ca750dda8f..17eee400ebb 100644
+index cf443ef..b7880fb 100644
 --- a/PCbuild/openssl.vcxproj
 +++ b/PCbuild/openssl.vcxproj
 @@ -60,40 +60,8 @@
@@ -90,7 +90,7 @@ index 7ca750dda8f..17eee400ebb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 4c49decd749..744ce0c540a 100644
+index 31e7095..027ae78 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
 @@ -91,6 +91,7 @@
@@ -123,7 +123,7 @@ index 4c49decd749..744ce0c540a 100644
  
    <PropertyGroup>
 diff --git a/PCbuild/python.vcxproj b/PCbuild/python.vcxproj
-index 417ede34c54..75f2bd9984a 100644
+index d3dd432..bb2b617 100644
 --- a/PCbuild/python.vcxproj
 +++ b/PCbuild/python.vcxproj
 @@ -110,6 +110,9 @@
@@ -137,7 +137,7 @@ index 417ede34c54..75f2bd9984a 100644
    <ItemGroup>
      <ProjectReference Include="pythoncore.vcxproj">
 diff --git a/PCbuild/pythonw.vcxproj b/PCbuild/pythonw.vcxproj
-index 244cdf622ad..03ba2a20dd2 100644
+index b718756..668756a 100644
 --- a/PCbuild/pythonw.vcxproj
 +++ b/PCbuild/pythonw.vcxproj
 @@ -105,6 +105,9 @@

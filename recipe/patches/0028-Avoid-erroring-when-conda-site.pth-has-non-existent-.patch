@@ -12,10 +12,10 @@ directories in python conda package.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Lib/site.py b/Lib/site.py
-index 5bc762fdd03..737ab0165fe 100644
+index 5bc762f..737ab01 100644
 --- a/Lib/site.py
 +++ b/Lib/site.py
-@@ -489,7 +489,7 @@ def _extend_syspath(self):
+@@ -489,7 +489,7 @@ class StartupState:
              # do a final anti-duplication check.
              if dir_ in sys.path:
                  continue

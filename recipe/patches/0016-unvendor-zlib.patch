@@ -9,7 +9,7 @@ Subject: [PATCH 16/28] unvendor zlib
  2 files changed, 4 insertions(+), 76 deletions(-)
 
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 9026236144d..93a0e270a93 100644
+index ece6ab5..a50eaac 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -82,7 +82,7 @@
@@ -44,7 +44,7 @@ index 9026236144d..93a0e270a93 100644
      </Link>
    </ItemDefinitionGroup>
    <ItemGroup>
-@@ -714,12 +714,6 @@
+@@ -715,12 +715,6 @@
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
    </ItemGroup>
@@ -58,10 +58,10 @@ index 9026236144d..93a0e270a93 100644
    <ImportGroup Label="ExtensionTargets">
      <Import Project="regen.targets" />
 diff --git a/PCbuild/pythoncore.vcxproj.filters b/PCbuild/pythoncore.vcxproj.filters
-index 649ee1859ff..6fb1a6b5d0f 100644
+index cdbb257..0851c9a 100644
 --- a/PCbuild/pythoncore.vcxproj.filters
 +++ b/PCbuild/pythoncore.vcxproj.filters
-@@ -939,39 +939,6 @@
+@@ -942,39 +942,6 @@
      <ClInclude Include="..\Include\internal\mimalloc\mimalloc\types.h">
        <Filter>Include\internal\mimalloc</Filter>
      </ClInclude>
@@ -101,7 +101,7 @@ index 649ee1859ff..6fb1a6b5d0f 100644
      <ClInclude Include="..\Include\internal\pycore_structseq.h">
        <Filter>Include\internal</Filter>
      </ClInclude>
-@@ -1643,39 +1610,6 @@
+@@ -1646,39 +1613,6 @@
      <ClCompile Include="..\Objects\odictobject.c">
        <Filter>Objects</Filter>
      </ClCompile>

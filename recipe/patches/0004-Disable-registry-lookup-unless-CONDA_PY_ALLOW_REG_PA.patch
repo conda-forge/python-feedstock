@@ -11,10 +11,10 @@ Co-authored-by: Isuru Fernando<isuruf@gmail.com>
  2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Modules/getpath.c b/Modules/getpath.c
-index ada8a27be4c..88252adf91d 100644
+index 22fd425..ea08a53 100644
 --- a/Modules/getpath.c
 +++ b/Modules/getpath.c
-@@ -939,6 +939,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
+@@ -943,6 +943,7 @@ _PyConfig_InitPathConfig(PyConfig *config, int compute_path_config)
          !env_to_dict(dict, "ENV_PATH", 0) ||
          !env_to_dict(dict, "ENV_PYTHONHOME", 0) ||
          !env_to_dict(dict, "ENV_PYTHONEXECUTABLE", 0) ||
@@ -23,7 +23,7 @@ index ada8a27be4c..88252adf91d 100644
          !progname_to_dict(dict, "real_executable") ||
          !library_to_dict(dict, "library") ||
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index f5f928f1795..a809396a3a4 100644
+index 2ffb1d9..a043970 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
 @@ -52,6 +52,7 @@
@@ -34,7 +34,7 @@ index f5f928f1795..a809396a3a4 100644
  
  # ** Values calculated at runtime **
  # config            -- [in/out] dict of the PyConfig structure
-@@ -703,7 +704,7 @@ def search_up(prefix, *landmarks, test=isfile):
+@@ -719,7 +720,7 @@ elif not pythonpath_was_set:
          stdlib_zip = joinpath(base_prefix, ZIP_LANDMARK)
      pythonpath.append(stdlib_zip)
  

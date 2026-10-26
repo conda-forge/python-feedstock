@@ -9,7 +9,7 @@ Subject: [PATCH 14/28] Unvendor tcltk
  2 files changed, 5 insertions(+), 13 deletions(-)
 
 diff --git a/PCbuild/_tkinter.vcxproj b/PCbuild/_tkinter.vcxproj
-index de9358312ac..3fe2c29c823 100644
+index a6695b7..84eb85e 100644
 --- a/PCbuild/_tkinter.vcxproj
 +++ b/PCbuild/_tkinter.vcxproj
 @@ -128,12 +128,6 @@
@@ -26,7 +26,7 @@ index de9358312ac..3fe2c29c823 100644
      <WriteLinesToFile File="$(OutDir)TCL_LIBRARY.env" Lines="$(tcltkdir)\lib\tcl$(TclMajorVersion).$(TclMinorVersion)" Encoding="utf-8" Overwrite="true" />
    </Target>
 diff --git a/PCbuild/tcltk.props b/PCbuild/tcltk.props
-index 1d6b4f57f09..22a3f0be581 100644
+index 91c11aa..e4445c1 100644
 --- a/PCbuild/tcltk.props
 +++ b/PCbuild/tcltk.props
 @@ -12,15 +12,13 @@

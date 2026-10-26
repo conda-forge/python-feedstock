@@ -9,7 +9,7 @@ Subject: [PATCH 23/28] Brand conda-forge
  2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 37278847c0a..d419716825b 100644
+index 3727884..d419716 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -1146,6 +1146,7 @@ def _sys_version(sys_version=None):
@@ -21,7 +21,7 @@ index 37278847c0a..d419716825b 100644
              r'(?:,\s*([\w ]*)'  # ", builddate"
              r'(?:,\s*([\w :]*))?)?\)\s*'  # ", buildtime)<space>"
 diff --git a/Python/getversion.c b/Python/getversion.c
-index 8d8bc6ea700..2fc5c13dbfb 100644
+index 8d8bc6e..2fc5c13 100644
 --- a/Python/getversion.c
 +++ b/Python/getversion.c
 @@ -15,9 +15,9 @@ void _Py_InitVersion(void)

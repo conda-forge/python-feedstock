@@ -10,7 +10,7 @@ This bloats our exe and our modules a lot.
  2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/configure b/configure
-index d03f7d1c341..d6da4cf6632 100755
+index 1c7a694..ac58bc5 100755
 --- a/configure
 +++ b/configure
 @@ -5852,9 +5852,9 @@ if test $ac_test_CFLAGS; then
@@ -35,7 +35,7 @@ index d03f7d1c341..d6da4cf6632 100755
  	    ;;
  	*)
 diff --git a/configure.ac b/configure.ac
-index f57e87983d2..7cbb5f3d524 100644
+index 022ff40..6a9f525 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -2390,7 +2390,7 @@ then

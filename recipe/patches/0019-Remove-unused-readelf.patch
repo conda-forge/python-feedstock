@@ -15,7 +15,7 @@ Drop unused build dependency on ``readelf``.
  1 file changed, 1 deletion(-)
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index f24b41db6f0..524f59dc81d 100644
+index 95fefcc..3709016 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
 @@ -38,7 +38,6 @@ CC=		@CC@

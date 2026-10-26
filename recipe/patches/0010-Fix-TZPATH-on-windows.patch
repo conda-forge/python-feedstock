@@ -8,10 +8,10 @@ Subject: [PATCH 10/28] Fix TZPATH on windows
  1 file changed, 2 insertions(+)
 
 diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
-index b93155131c6..fc99cd14af2 100644
+index b931551..fc99cd1 100644
 --- a/Lib/sysconfig/__init__.py
 +++ b/Lib/sysconfig/__init__.py
-@@ -175,6 +175,7 @@ def joinuser(*args):
+@@ -175,6 +175,7 @@ _SCHEME_KEYS = ('stdlib', 'platstdlib', 'purelib', 'platlib', 'include',
  _PY_VERSION = sys.version.split()[0]
  _PY_VERSION_SHORT = f'{sys.version_info[0]}.{sys.version_info[1]}'
  _PY_VERSION_SHORT_NO_DOT = f'{sys.version_info[0]}{sys.version_info[1]}'

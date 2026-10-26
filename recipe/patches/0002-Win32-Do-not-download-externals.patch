@@ -8,7 +8,7 @@ Subject: [PATCH 02/28] Win32: Do not download externals
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/PCbuild/build.bat b/PCbuild/build.bat
-index 9d2f032f5a9..faad274fc9d 100644
+index 4686c52..3ee574c 100644
 --- a/PCbuild/build.bat
 +++ b/PCbuild/build.bat
 @@ -112,7 +112,7 @@ if "%~1"=="--no-ctypes" (set IncludeCTypes=false) & shift & goto CheckOpts

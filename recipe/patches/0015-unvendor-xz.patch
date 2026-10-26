@@ -8,7 +8,7 @@ Subject: [PATCH 15/28] unvendor xz
  1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/PCbuild/_lzma.vcxproj b/PCbuild/_lzma.vcxproj
-index 321f41d8d27..6811fd1709e 100644
+index 8b8b148..7a98861 100644
 --- a/PCbuild/_lzma.vcxproj
 +++ b/PCbuild/_lzma.vcxproj
 @@ -93,15 +93,15 @@

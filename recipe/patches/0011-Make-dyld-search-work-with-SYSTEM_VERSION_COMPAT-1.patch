@@ -1,4 +1,4 @@
-From 1038bfb69eaf6e4504a953ea15f38fd25a3439df Mon Sep 17 00:00:00 2001
+From 837ac3573cf0e257782dcb3d069a3d4202684ad4 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Mon, 25 Jan 2021 03:28:08 -0600
 Subject: [PATCH 11/26] Make dyld search work with SYSTEM_VERSION_COMPAT=1
@@ -18,10 +18,10 @@ and this code using 10.16
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/Modules/_ctypes/callproc.c b/Modules/_ctypes/callproc.c
-index 27b99211ce6..1c9a3a88da5 100644
+index 3956f504740..51fe8e907f4 100644
 --- a/Modules/_ctypes/callproc.c
 +++ b/Modules/_ctypes/callproc.c
-@@ -1510,7 +1510,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
+@@ -1515,7 +1515,7 @@ copy_com_pointer(PyObject *self, PyObject *args)
  #ifdef HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH
  #  ifdef HAVE_BUILTIN_AVAILABLE
  #    define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
@@ -30,7 +30,7 @@ index 27b99211ce6..1c9a3a88da5 100644
  #  else
  #    define HAVE_DYLD_SHARED_CACHE_CONTAINS_PATH_RUNTIME \
           (_dyld_shared_cache_contains_path != NULL)
-@@ -1553,8 +1553,10 @@ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *ar
+@@ -1558,8 +1558,10 @@ static PyObject *py_dyld_shared_cache_contains_path(PyObject *self, PyObject *ar
           if (PyUnicode_FSConverter(name, &name2) == 0)
               return NULL;
           name_str = PyBytes_AS_STRING(name2);

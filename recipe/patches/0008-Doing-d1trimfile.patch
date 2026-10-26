@@ -1,4 +1,4 @@
-From e2cd422eca5af7cadf6ca922563dac3575403098 Mon Sep 17 00:00:00 2001
+From 29a470667bffa1f1bde1ec4af8131c3f41f6a8d4 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/26] Doing d1trimfile
@@ -368,7 +368,7 @@ index f482734ba1d..70943daa021 100644
      <Link>
        <AdditionalDependencies>$(condaDir)\lib\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index ce21f992ff8..34561515c12 100644
+index 16595c782b3..95f45376e61 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
 @@ -96,6 +96,18 @@
@@ -389,7 +389,7 @@ index ce21f992ff8..34561515c12 100644
 +    </ClCompile>
    </ItemDefinitionGroup>
    <ItemGroup>
-     <ClCompile Include="..\Modules\_ssl.c" />
+     <ClInclude Include="..\Modules\_ssl\distrusted_spki.h" />
 diff --git a/PCbuild/_testbuffer.vcxproj b/PCbuild/_testbuffer.vcxproj
 index 4e721e8ce09..3fec7516ed5 100644
 --- a/PCbuild/_testbuffer.vcxproj
@@ -720,7 +720,7 @@ index 3f8772d30b4..d80968e351a 100644
      <Link>
        <AdditionalDependencies>windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 5099e44020e..b724db69bdd 100644
+index 43a26c05a2a..f311d156616 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -99,7 +99,7 @@

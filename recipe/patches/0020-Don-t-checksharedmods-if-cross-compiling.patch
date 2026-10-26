@@ -1,4 +1,4 @@
-From 8cb94b484292b71b6f805b953b2f47c4ce3d886c Mon Sep 17 00:00:00 2001
+From 4324fe19dfb3a2cd371e5cac4ca1e1b388b1f634 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwe.korn@quantco.com>
 Date: Fri, 1 Sep 2023 23:32:14 +0200
 Subject: [PATCH 20/26] Don't checksharedmods if cross-compiling
@@ -10,10 +10,10 @@ Subject: [PATCH 20/26] Don't checksharedmods if cross-compiling
  create mode 100755 if_runnable.sh
 
 diff --git a/Makefile.pre.in b/Makefile.pre.in
-index e3a27b0eb17..00b0c187c1f 100644
+index 4b80e726c1c..83fab777904 100644
 --- a/Makefile.pre.in
 +++ b/Makefile.pre.in
-@@ -1608,7 +1608,7 @@ sharedmods: $(SHAREDMODS) pybuilddir.txt
+@@ -1609,7 +1609,7 @@ sharedmods: $(SHAREDMODS) pybuilddir.txt
  # dependency on BUILDPYTHON ensures that the target is run last
  .PHONY: checksharedmods
  checksharedmods: sharedmods $(PYTHON_FOR_BUILD_DEPS) $(BUILDPYTHON)

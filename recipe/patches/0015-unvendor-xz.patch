@@ -1,4 +1,4 @@
-From 2588a7bc27c028fb027d15479ffc29f1d2175e6e Mon Sep 17 00:00:00 2001
+From 45b909ae0dc246c7b731c90d647ae30bb2199086 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Sat, 25 Sep 2021 10:07:05 -0700
 Subject: [PATCH 15/23] unvendor xz
@@ -8,7 +8,7 @@ Subject: [PATCH 15/23] unvendor xz
  1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/PCbuild/_lzma.vcxproj b/PCbuild/_lzma.vcxproj
-index 0565132363..ee738e76c4 100644
+index 0565132..ee738e7 100644
 --- a/PCbuild/_lzma.vcxproj
 +++ b/PCbuild/_lzma.vcxproj
 @@ -93,15 +93,15 @@

@@ -11,7 +11,7 @@ Subject: [PATCH 18/28] Unvendor expat
  4 files changed, 8 insertions(+), 138 deletions(-)
 
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index c33e8e3c232..f47bcd8e4e6 100644
+index a991b2a..045b7c6 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -93,40 +93,19 @@
@@ -60,7 +60,7 @@ index c33e8e3c232..f47bcd8e4e6 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_elementtree.vcxproj.filters b/PCbuild/_elementtree.vcxproj.filters
-index 2ce694e1b53..88a13faa683 100644
+index 54ccfbf..391d266 100644
 --- a/PCbuild/_elementtree.vcxproj.filters
 +++ b/PCbuild/_elementtree.vcxproj.filters
 @@ -17,78 +17,10 @@
@@ -143,7 +143,7 @@ index 2ce694e1b53..88a13faa683 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc">
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 1858e9c60dd..8bc1bcec7e8 100644
+index 0fc97ec..3361802 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -90,28 +90,19 @@
@@ -180,7 +180,7 @@ index 1858e9c60dd..8bc1bcec7e8 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/pyexpat.vcxproj.filters b/PCbuild/pyexpat.vcxproj.filters
-index baa06e4491f..b8280b4049c 100644
+index 6685e91..c60ee93 100644
 --- a/PCbuild/pyexpat.vcxproj.filters
 +++ b/PCbuild/pyexpat.vcxproj.filters
 @@ -11,42 +11,10 @@

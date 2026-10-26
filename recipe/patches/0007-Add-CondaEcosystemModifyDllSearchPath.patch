@@ -33,7 +33,7 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  1 file changed, 95 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
-index 516d467141a..156524cc7ce 100644
+index 516d467..156524c 100644
 --- a/Python/pylifecycle.c
 +++ b/Python/pylifecycle.c
 @@ -88,6 +88,10 @@

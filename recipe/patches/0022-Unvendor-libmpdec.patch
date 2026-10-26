@@ -8,7 +8,7 @@ Subject: [PATCH 22/28] Unvendor libmpdec
  1 file changed, 7 insertions(+), 44 deletions(-)
 
 diff --git a/PCbuild/_decimal.vcxproj b/PCbuild/_decimal.vcxproj
-index 921d22e47b3..0f49d7923f5 100644
+index 44e1caf..bc4642b 100644
 --- a/PCbuild/_decimal.vcxproj
 +++ b/PCbuild/_decimal.vcxproj
 @@ -93,64 +93,27 @@

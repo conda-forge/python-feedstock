@@ -12,7 +12,7 @@ See https://github.com/conda-forge/cfep/pull/65
  4 files changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/Lib/site.py b/Lib/site.py
-index 89e136d7b10..5bc762fdd03 100644
+index 89e136d..5bc762f 100644
 --- a/Lib/site.py
 +++ b/Lib/site.py
 @@ -770,6 +770,7 @@ def getsitepackages(prefixes=None):
@@ -24,10 +24,10 @@ index 89e136d7b10..5bc762fdd03 100644
              sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
      return sitepackages
 diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
-index fc99cd14af2..c26660f439a 100644
+index fc99cd1..c26660f 100644
 --- a/Lib/sysconfig/__init__.py
 +++ b/Lib/sysconfig/__init__.py
-@@ -58,6 +58,16 @@
+@@ -58,6 +58,16 @@ _INSTALL_SCHEMES = {
          'scripts': '{base}/Scripts',
          'data': '{base}',
          },
@@ -54,10 +54,10 @@ index fc99cd14af2..c26660f439a 100644
              'user': 'nt_user',
          }
 diff --git a/Modules/getpath.py b/Modules/getpath.py
-index a809396a3a4..1edd24009fc 100644
+index a043970..2d5b7a7 100644
 --- a/Modules/getpath.py
 +++ b/Modules/getpath.py
-@@ -190,9 +190,9 @@
+@@ -190,9 +190,9 @@ if os_name == 'posix' or os_name == 'darwin':
  elif os_name == 'nt':
      BUILDDIR_TXT = 'pybuilddir.txt'
      DEFAULT_PROGRAM_NAME = f'python'
@@ -70,7 +70,7 @@ index a809396a3a4..1edd24009fc 100644
      VENV_LANDMARK = 'pyvenv.cfg'
      ZIP_LANDMARK = f'python{VERSION_MAJOR}{VERSION_MINOR}{PYDEBUGEXT or ""}.zip'
 diff --git a/PCbuild/pythoncore.vcxproj b/PCbuild/pythoncore.vcxproj
-index 93a0e270a93..26e810c09a4 100644
+index a50eaac..437b2f2 100644
 --- a/PCbuild/pythoncore.vcxproj
 +++ b/PCbuild/pythoncore.vcxproj
 @@ -129,7 +129,7 @@

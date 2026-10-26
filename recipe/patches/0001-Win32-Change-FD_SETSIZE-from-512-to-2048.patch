@@ -9,7 +9,7 @@ https://github.com/ContinuumIO/anaconda-issues/issues/1241
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Modules/selectmodule.c b/Modules/selectmodule.c
-index b9fb7762e3d..e6102e8c589 100644
+index b9fb776..e6102e8 100644
 --- a/Modules/selectmodule.c
 +++ b/Modules/selectmodule.c
 @@ -45,7 +45,7 @@

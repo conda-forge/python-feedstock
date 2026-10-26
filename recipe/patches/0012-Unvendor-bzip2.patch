@@ -9,7 +9,7 @@ Subject: [PATCH 12/28] Unvendor bzip2
  2 files changed, 6 insertions(+), 35 deletions(-)
 
 diff --git a/PCbuild/_bz2.vcxproj b/PCbuild/_bz2.vcxproj
-index 9e75e57cb6e..01d637caa40 100644
+index ca58506..e442d00 100644
 --- a/PCbuild/_bz2.vcxproj
 +++ b/PCbuild/_bz2.vcxproj
 @@ -94,7 +94,7 @@
@@ -47,7 +47,7 @@ index 9e75e57cb6e..01d637caa40 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_bz2.vcxproj.filters b/PCbuild/_bz2.vcxproj.filters
-index 7c0b5162537..c1f960608c3 100644
+index ce2e24e..38cbce7 100644
 --- a/PCbuild/_bz2.vcxproj.filters
 +++ b/PCbuild/_bz2.vcxproj.filters
 @@ -21,33 +21,9 @@

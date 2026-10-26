@@ -11,7 +11,7 @@ By Isuru Fernando.
  3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/Lib/platform.py b/Lib/platform.py
-index 36489d4fdd9..37278847c0a 100644
+index 36489d4..3727884 100644
 --- a/Lib/platform.py
 +++ b/Lib/platform.py
 @@ -474,7 +474,12 @@ def win32_ver(release='', version='', csd='', ptype=''):
@@ -29,7 +29,7 @@ index 36489d4fdd9..37278847c0a 100644
      try:
          import plistlib
 diff --git a/configure b/configure
-index 5a728e8ba68..d03f7d1c341 100755
+index 6f7ff1b..1c7a694 100755
 --- a/configure
 +++ b/configure
 @@ -4157,6 +4157,9 @@ then
@@ -53,7 +53,7 @@ index 5a728e8ba68..d03f7d1c341 100755
  		;;
  	*-*-cygwin*)
 diff --git a/configure.ac b/configure.ac
-index 08cfd620afb..f57e87983d2 100644
+index 9923805..022ff40 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -339,6 +339,9 @@ then

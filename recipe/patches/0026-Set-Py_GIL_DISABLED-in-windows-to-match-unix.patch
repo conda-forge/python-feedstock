@@ -11,7 +11,7 @@ luxury of not having to do that.
  1 file changed, 2 insertions(+)
 
 diff --git a/PC/pyconfig.h b/PC/pyconfig.h
-index fe213640fb1..86bf84fa2d6 100644
+index fe21364..86bf84f 100644
 --- a/PC/pyconfig.h
 +++ b/PC/pyconfig.h
 @@ -110,6 +110,8 @@ WIN32 is still required for the locale module.

@@ -9,7 +9,7 @@ Subject: [PATCH 25/28] Unvendor zstd
  2 files changed, 6 insertions(+), 209 deletions(-)
 
 diff --git a/PCbuild/_zstd.vcxproj b/PCbuild/_zstd.vcxproj
-index 683a44535ca..fa113b0cd87 100644
+index 5f5122b..f4ac5be 100644
 --- a/PCbuild/_zstd.vcxproj
 +++ b/PCbuild/_zstd.vcxproj
 @@ -95,76 +95,26 @@
@@ -94,7 +94,7 @@ index 683a44535ca..fa113b0cd87 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_zstd.vcxproj.filters b/PCbuild/_zstd.vcxproj.filters
-index eec666e5eaf..5028bb5592d 100644
+index 8d7bde3..8c4b868 100644
 --- a/PCbuild/_zstd.vcxproj.filters
 +++ b/PCbuild/_zstd.vcxproj.filters
 @@ -30,96 +30,6 @@
@@ -199,9 +199,8 @@ index eec666e5eaf..5028bb5592d 100644
        <Filter>Header Files</Filter>
      </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\zstd.h">
-+    <ClInclude Include="$(condaDir)\include\zstd.h">
-       <Filter>Header Files\zstd</Filter>
-     </ClInclude>
+-      <Filter>Header Files\zstd</Filter>
+-    </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\zstd_errors.h">
 -      <Filter>Header Files\zstd</Filter>
 -    </ClInclude>
@@ -263,8 +262,9 @@ index eec666e5eaf..5028bb5592d 100644
 -      <Filter>Header Files\zstd</Filter>
 -    </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\compress\zstdmt_compress.h">
--      <Filter>Header Files\zstd</Filter>
--    </ClInclude>
++    <ClInclude Include="$(condaDir)\include\zstd.h">
+       <Filter>Header Files\zstd</Filter>
+     </ClInclude>
 -    <ClInclude Include="$(zstdDir)lib\decompress\zstd_ddict.h">
 +    <ClInclude Include="$(condaDir)\include\zstd_errors.h">
        <Filter>Header Files\zstd</Filter>

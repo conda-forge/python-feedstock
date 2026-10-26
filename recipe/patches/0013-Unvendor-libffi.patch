@@ -8,7 +8,7 @@ Subject: [PATCH 13/28] Unvendor libffi
  1 file changed, 3 insertions(+), 12 deletions(-)
 
 diff --git a/PCbuild/libffi.props b/PCbuild/libffi.props
-index 22c9550e2c0..97fb5966bfb 100644
+index c14ff06..2c4082a 100644
 --- a/PCbuild/libffi.props
 +++ b/PCbuild/libffi.props
 @@ -2,20 +2,11 @@

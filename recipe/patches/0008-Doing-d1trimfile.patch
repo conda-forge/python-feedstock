@@ -1,4 +1,4 @@
-From 9c33dafaaccfb0d777f70f61ebec841485d4f917 Mon Sep 17 00:00:00 2001
+From e8a172d7188535d66988878331f9e08a247ad188 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 31 Dec 2019 21:47:47 +0100
 Subject: [PATCH 08/25] Doing d1trimfile
@@ -169,7 +169,7 @@ index ee7421484b..e9d60b4db1 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/_elementtree.vcxproj b/PCbuild/_elementtree.vcxproj
-index c102da85e9..8d5117e804 100644
+index cd8c1ff173..c33e8e3c23 100644
 --- a/PCbuild/_elementtree.vcxproj
 +++ b/PCbuild/_elementtree.vcxproj
 @@ -94,7 +94,11 @@
@@ -375,7 +375,7 @@ index f482734ba1..70943daa02 100644
      <Link>
        <AdditionalDependencies>$(condaDir)\lib\sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index ce21f992ff..34561515c1 100644
+index 16595c782b..95f45376e6 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
 @@ -96,6 +96,18 @@
@@ -396,7 +396,7 @@ index ce21f992ff..34561515c1 100644
 +    </ClCompile>
    </ItemDefinitionGroup>
    <ItemGroup>
-     <ClCompile Include="..\Modules\_ssl.c" />
+     <ClInclude Include="..\Modules\_ssl\distrusted_spki.h" />
 diff --git a/PCbuild/_testbuffer.vcxproj b/PCbuild/_testbuffer.vcxproj
 index 4e721e8ce0..3fec7516ed 100644
 --- a/PCbuild/_testbuffer.vcxproj
@@ -632,7 +632,7 @@ index 4dd42ab98a..7c2dbc7e70 100644
    </ItemDefinitionGroup>
    <ItemGroup>
 diff --git a/PCbuild/pyexpat.vcxproj b/PCbuild/pyexpat.vcxproj
-index 92ecac2f7a..d517f9392b 100644
+index 57d565fa28..d9b6beafb4 100644
 --- a/PCbuild/pyexpat.vcxproj
 +++ b/PCbuild/pyexpat.vcxproj
 @@ -92,6 +92,10 @@

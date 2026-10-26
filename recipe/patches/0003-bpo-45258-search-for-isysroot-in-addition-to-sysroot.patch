@@ -1,4 +1,4 @@
-From 675bc27ae2e812f1b92ef1ee6d998e09e1ed77c7 Mon Sep 17 00:00:00 2001
+From 2685a9233ab23d15fb64145255ce3925dedb8d94 Mon Sep 17 00:00:00 2001
 From: Isuru Fernando <isuruf@gmail.com>
 Date: Tue, 21 Sep 2021 13:05:20 -0500
 Subject: [PATCH 03/26] bpo-45258: search for -isysroot in addition to

@@ -1,10 +1,10 @@
-{% set version = "3.11.17" %}
+{% set version = "3.11.18" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 2 %}
+{% set build_number = 0 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -45,7 +45,7 @@ package:
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # sha256 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    sha256: bfb74ad39efae27cda510f134ab408e00f9992c56851cfc0b1cdb5646da11599
+    sha256: 9120e0a653868f6e3698d36cdd99e5a58903ec9469e448f21d98f7b16d8fa290
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
       - patches/0002-Win32-distutils-Add-support-to-cygwinccompiler-for-V.patch

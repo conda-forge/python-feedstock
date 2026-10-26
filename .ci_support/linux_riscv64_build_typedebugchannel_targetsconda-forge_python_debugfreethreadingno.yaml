@@ -1,3 +1,5 @@
+DOCKER_PLATFORM:
+- linux/amd64
 build_type:
 - debug
 bzip2:

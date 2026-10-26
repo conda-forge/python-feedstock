@@ -1,4 +1,4 @@
-From 869c677168bef5dff2ae8f3636543462a83720cd Mon Sep 17 00:00:00 2001
+From 5f949688603b447094d9cba240ce181f03d0eede Mon Sep 17 00:00:00 2001
 From: Nehal J Wani <nehaljw.kkd1@gmail.com>
 Date: Sat, 24 Nov 2018 20:38:02 -0600
 Subject: [PATCH 09/26] Unvendor openssl
@@ -15,11 +15,11 @@ Co-authored-by: Isuru Fernando <isuruf@gmail.com>
  7 files changed, 10 insertions(+), 75 deletions(-)
 
 diff --git a/PCbuild/_ssl.vcxproj b/PCbuild/_ssl.vcxproj
-index 4907f49b66..b2c23d5e8c 100644
+index 965cc1f3ac..90ac591897 100644
 --- a/PCbuild/_ssl.vcxproj
 +++ b/PCbuild/_ssl.vcxproj
-@@ -99,9 +99,6 @@
-   </ItemDefinitionGroup>
+@@ -102,9 +102,6 @@
+   </ItemGroup>
    <ItemGroup>
      <ClCompile Include="..\Modules\_ssl.c" />
 -    <ClCompile Include="$(opensslIncludeDir)\applink.c">
@@ -29,10 +29,10 @@ index 4907f49b66..b2c23d5e8c 100644
    <ItemGroup>
      <ResourceCompile Include="..\PC\python_nt.rc" />
 diff --git a/PCbuild/_ssl.vcxproj.filters b/PCbuild/_ssl.vcxproj.filters
-index 716a69a41a..8aef9e03fc 100644
+index 3df9d70532..4323bd1758 100644
 --- a/PCbuild/_ssl.vcxproj.filters
 +++ b/PCbuild/_ssl.vcxproj.filters
-@@ -12,9 +12,6 @@
+@@ -15,9 +15,6 @@
      <ClCompile Include="..\Modules\_ssl.c">
        <Filter>Source Files</Filter>
      </ClCompile>
@@ -41,7 +41,7 @@ index 716a69a41a..8aef9e03fc 100644
 -    </ClCompile>
    </ItemGroup>
    <ItemGroup>
-     <ResourceCompile Include="..\PC\python_nt.rc">
+     <ClInclude Include="..\Modules\_ssl\distrusted_spki.h">
 diff --git a/PCbuild/openssl.props b/PCbuild/openssl.props
 index a4186f01da..044cefd95e 100644
 --- a/PCbuild/openssl.props
@@ -146,10 +146,10 @@ index 0da6f67495..17eee400eb 100644
    <Target Name="CleanAll">
      <Delete Files="$(TargetPath);$(BuildPath)$(tclDLLName)" />
 diff --git a/PCbuild/python.props b/PCbuild/python.props
-index 49347c2b78..407203a86b 100644
+index 4915460ed4..9602a9abc5 100644
 --- a/PCbuild/python.props
 +++ b/PCbuild/python.props
-@@ -61,6 +61,7 @@
+@@ -62,6 +62,7 @@
    <!-- Directories of external projects. tcltk is handled in tcltk.props -->
    <PropertyGroup>
      <ExternalsDir Condition="$(ExternalsDir) == ''">$(EXTERNALS_DIR)</ExternalsDir>

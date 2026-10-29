@@ -105,8 +105,10 @@ requirements:
 
 outputs:
   - name: python
-    script: build_base.sh  # [unix]
-    script: build_base.bat  # [win]
+    # Single `script:` key: conda-build allows duplicate keys paired with
+    # complementary selectors, but plain YAML (and parsers such as
+    # conda-souschef/grayskull) treat them as duplicate mapping keys.
+    script: {{ 'build_base.bat' if win else 'build_base.sh' }}
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -135,8 +137,8 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      # conda-forge build strings carry the _cpython suffix; other channels do not.
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}{{ '_cpython' if 'conda-forge' in (channel_targets or '') else '' }}
 {% if 'conda-forge' in channel_targets %}
       run_exports:
         noarch:
@@ -281,15 +283,15 @@ outputs:
         - python -c "import crypt"  # [unix]
 
   - name: libpython-static
-    script: build_static.sh  # [unix]
-    script: build_static.bat  # [win]
+    # See the comment on the python output's script key above.
+    script: {{ 'build_static.bat' if win else 'build_static.sh' }}
     build:
       number: {{ build_number }}
       activate_in_script: true
       ignore_run_exports:
         - python_abi
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      # Same suffix logic as the python output above.
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}{{ '_cpython' if 'conda-forge' in (channel_targets or '') else '' }}
     requirements:
       build:
         - {{ stdlib('c') }}

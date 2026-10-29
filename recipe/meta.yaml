@@ -207,9 +207,12 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
+        # For tkinter, but we expect from system
+        - xorg-libx11   # [unix]
       files:
         - tests/distutils/*
         - tests/cmake/*
@@ -300,6 +303,7 @@ outputs:
       files:
         - tests/prefix-replacement/*
       requires:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
       commands:
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]

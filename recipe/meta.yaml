@@ -84,6 +84,11 @@ source:
       - patches/0025-Set-ssltag-to-3.patch
       - patches/0026-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
       - patches/0027-Unvendor-expat.patch
+      # No CVE-2015-20107 (mailcap shell injection) backport is needed: it was
+      # fixed upstream in 3.9.16 (AnacondaRecipes/python-feedstock still carries
+      # the historical patch as patches/0035-py39-mailcap-CVE-2015-20107.patch,
+      # disabled for the same reason). recipe/run_test.py asserts the fix is
+      # present in the built interpreter.
 
 build:
   number: {{ build_number }}

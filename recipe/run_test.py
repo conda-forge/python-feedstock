@@ -99,6 +99,26 @@ if not (armv6l or armv7l or ppc64le or osx105):
     TCLTK_VER = os.getenv("tk") or "8.6"
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
 
+# CVE-2015-20107 (mailcap shell injection): findmatch() must refuse filenames
+# containing shell metacharacters, and subst() must refuse unsafe MIME types and
+# parameters. The fix landed upstream in 3.9.16, so the 3.9.25 recipe needs no
+# backport patch - this asserts the shipped interpreter really has it.
+import mailcap
+import warnings
+
+CAPS = {'text/plain': [{'view': 'cat %s'}]}
+
+with warnings.catch_warnings(record=True) as caught:
+    warnings.simplefilter('always')
+    cmd, _ = mailcap.findmatch(CAPS, 'text/plain', filename='unsafe; touch pwned')
+assert cmd is None, 'mailcap accepted an unsafe filename: %r' % (cmd,)
+assert any(issubclass(w.category, mailcap.UnsafeMailcapInput) for w in caught), caught
+assert not os.path.exists('pwned')
+
+# Safe input must still resolve to exactly the same command as before.
+cmd, _ = mailcap.findmatch(CAPS, 'text/plain', filename='safe-name.txt')
+assert cmd == 'cat safe-name.txt', cmd
+
 import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
 # Same caveat as above for "openssl".

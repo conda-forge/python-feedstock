@@ -183,9 +183,7 @@ outputs:
         - zlib
         - openssl
         - readline  # [not win]
-        # CPython 3.9 only supports Tcl/Tk 8.6; tk 9.x no longer ships
-        # tcl.h/tk.h in the layout this recipe expects.
-        - tk 8.6.*
+        - tk
         # These two are just to get the headers needed for tk.h, but is unused
         - xorg-libx11
         - xorg-xorgproto

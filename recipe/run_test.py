@@ -93,12 +93,36 @@ if not (armv6l or armv7l or ppc64le or osx105):
     import _tkinter
     print('TK_VERSION: %s' % _tkinter.TK_VERSION)
     print('TCL_VERSION: %s' % _tkinter.TCL_VERSION)
-    TCLTK_VER = os.getenv("tk")
+    # conda-build >= 26.9 no longer exports variant keys (e.g. "tk") into the
+    # test environment when tests run inline during `conda build`; fall back to
+    # the version pinned in meta.yaml.
+    TCLTK_VER = os.getenv("tk") or "8.6"
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
+
+# CVE-2015-20107 (mailcap shell injection): findmatch() must refuse filenames
+# containing shell metacharacters, and subst() must refuse unsafe MIME types and
+# parameters. The fix landed upstream in 3.9.16, so the 3.9.25 recipe needs no
+# backport patch - this asserts the shipped interpreter really has it.
+import mailcap
+import warnings
+
+CAPS = {'text/plain': [{'view': 'cat %s'}]}
+
+with warnings.catch_warnings(record=True) as caught:
+    warnings.simplefilter('always')
+    cmd, _ = mailcap.findmatch(CAPS, 'text/plain', filename='unsafe; touch pwned')
+assert cmd is None, 'mailcap accepted an unsafe filename: %r' % (cmd,)
+assert any(issubclass(w.category, mailcap.UnsafeMailcapInput) for w in caught), caught
+assert not os.path.exists('pwned')
+
+# Safe input must still resolve to exactly the same command as before.
+cmd, _ = mailcap.findmatch(CAPS, 'text/plain', filename='safe-name.txt')
+assert cmd == 'cat safe-name.txt', cmd
 
 import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
-CONDA_OPENSSL_VERSION = os.getenv("openssl")
+# Same caveat as above for "openssl".
+CONDA_OPENSSL_VERSION = os.getenv("openssl") or "3"
 assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION
 
 # See https://github.com/conda-forge/python-feedstock/issues/718 for context:

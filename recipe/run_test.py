@@ -276,17 +276,118 @@ with open(_ssl.__file__, 'rb') as _ssl_so:
     assert _eMudhra_spki_sha256 in _ssl_so.read(), 'eMudhra SPKI denylist missing from _ssl'
 
 # CVE-2026-19445 / gh-156293: a sni_callback that switches SSLSocket.context
-# must not leave OpenSSL calling back into a freed SSLContext. Run the upstream
-# regression tests, which perform a real (MemoryBIO) TLS handshake; before the
-# fix the second one calls through a dangling pointer.
-import unittest
-from test import test_ssl
-_sni_suite = unittest.TestSuite(
-    test_ssl.SSLObjectTests(name)
-    for name in (
-        'test_sni_callback_context_released_and_callback_raises',
-        'test_sni_callback_context_released_before_second_client_hello',
-    )
-)
-_sni_result = unittest.TextTestRunner(verbosity=0).run(_sni_suite)
-assert _sni_result.wasSuccessful(), 'CVE-2026-19445 regression tests failed'
+# must not leave OpenSSL calling back into a freed SSLContext. Upstream ships a
+# regression test in Lib/test/test_ssl.py, which this package does not ship, so
+# exercise the same path here: a TLS handshake forced into a HelloRetryRequest
+# whose sni_callback switches the context and drops our reference to the
+# original one (the code that used to leave a dangling callback argument).
+import gc
+import shutil
+import weakref
+
+_SNI_CERT = """\
+-----BEGIN CERTIFICATE-----
+MIIDCTCCAfGgAwIBAgIUYrreK7w7MK3+AJ0F2C1D78n7ZRwwDQYJKoZIhvcNAQEL
+BQAwFDESMBAGA1UEAwwJbG9jYWxob3N0MB4XDTI2MTEwMjE1MjcxOFoXDTI2MTIw
+MjE1MjcxOFowFDESMBAGA1UEAwwJbG9jYWxob3N0MIIBIjANBgkqhkiG9w0BAQEF
+AAOCAQ8AMIIBCgKCAQEAzIwdwqd3qix9XVbVEyBeWiZOA+VZfuSchJG/7a4aOTDU
+7vxqEtYmqUb9CxKnArWuJcVkQteh2/qr8A3fV53PJbfCBijL0nYPOdfh4S/IMVqu
+YmwiY/IHUPiEmSC8HzWBgO957nSSoDs573/7X3iIWhMscSuksGV0Qsi560Rmwm4N
+rRmEGt9CzGyZ/Sqx/e64F/nIKOK4W5WGyjO6vG2zxFVNnmAvOWM7zR+0XeFWU6fA
+AiqBaS8Bm9vD3MfAvA3/aDRNy4w5pokbl5lN8LwbzAgYTYyVEEbf+qYhh8I1NN0x
+/g/iJ8rlWg3DDD/IbM/Ek/68zzvOFzmRaI1VOkAoxQIDAQABo1MwUTAdBgNVHQ4E
+FgQU9G5chk49HCfZqEOM8m1zBgn1QmMwHwYDVR0jBBgwFoAU9G5chk49HCfZqEOM
+8m1zBgn1QmMwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAQH8U
+uXCSEtEyiji5nAAlVimVpBqECHmr8HDZo+W7TFOEkr3g8VmSKr5pXcC6QOzqwcTX
+J925LCv6TPMKah4K76d57CKBC12cYuPF38t9GLAWG3vv+Rzr4zp/WPa7eum1CiFn
+Ue4+GNRyc1E+VQz81/4+G8Y7PKTnDRLi20VrLKfHqcJzXPk9ADfnuEsRPURmRGOC
+haP50iz/kDpDVMWkRW0FJPUi+4f6qkl/6e7c4QS3eIyYZV5TYkxbaaJqlX03+VQ8
+Tfesnn5eRp7dMNd5NvKGF2ZoFoYFG5JuIc72rY1IJ+ZJSc8iHBHer5blkOJh5uYY
+kjkslOjtLscRw7Km0Q==
+-----END CERTIFICATE-----
+"""
+
+_SNI_KEY = """\
+-----BEGIN PRIVATE KEY-----
+MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDMjB3Cp3eqLH1d
+VtUTIF5aJk4D5Vl+5JyEkb/trho5MNTu/GoS1iapRv0LEqcCta4lxWRC16Hb+qvw
+Dd9Xnc8lt8IGKMvSdg851+HhL8gxWq5ibCJj8gdQ+ISZILwfNYGA73nudJKgOznv
+f/tfeIhaEyxxK6SwZXRCyLnrRGbCbg2tGYQa30LMbJn9KrH97rgX+cgo4rhblYbK
+M7q8bbPEVU2eYC85YzvNH7Rd4VZTp8ACKoFpLwGb28Pcx8C8Df9oNE3LjDmmiRuX
+mU3wvBvMCBhNjJUQRt/6piGHwjU03TH+D+InyuVaDcMMP8hsz8ST/rzPO84XOZFo
+jVU6QCjFAgMBAAECggEAF8Vj0wKTz1DGy/Fip0ugc3EWqXC+rxbB0s0+ZRCR5xoT
+8OcgK6q8CPmhQCdthczX3XdcYME/A/nUf/wYu82w7GT31S/qCf4i5FnAnCMprISp
+lfITqBJRQ9lxzXrmqejVsUaDYNEm1hyz7a+tpqlzDSbDyC4mgEJ2GanKo3sKRyd+
+UwypYh+ZCnLVVSVylTVzIKVEHSrx5EEdLGjvtEEvwyX0KRRSoOMuF6rJEGgGnALx
+cpNAHgGEQp6kJF3viucMIubgc4W9qvRzZlPro6Zh0sHXkJ4LicAAuZflIz9h4H/B
+zrQYCoVyzs7fBPeqN6OO/E7rOKtuHALIqcy3mMDycQKBgQDswGcUkhyf9W0BFr5f
+FEc5DYpsCwzneQJhRO8l35AOQJfVYiT2EZfqVbRMFmJQnhmc8dNYl0VDpUeJXiBz
+EUJZV9A2oejhb4VJ4aaIjnGb5OokGr0k2FvR1vXe4Jl+gFxaNgeTyMNrlAK2vWLl
+ObC2caOakiAz7Oou+w7yoGnMsQKBgQDdLW9SjyfaqPQo3MimNzSMK+zEZIUef2bB
+Z8lDK4FsD1MtVD1RKhYW7WUDYqkLrJQ2ufeGn5dD5Ti374vez4oHFndJvoR5QfXM
+oDt+EIljo3dz5srUB10gweXUptsZPmBp2oF4bL5Orq9Z226OozwCED39qDeEKwCz
+VpUedhbSVQKBgG/mgNI4PU9dsSfSmChYbVGKFOL8Vh0SFQ3khyRfhrc10I4K1W14
+41TfLVjJO67fCzwjEMHOve47MJS86Jl6juGrn74yyN/E1jsVbKEespP8nq5x9PR1
+TvDfqVau0d34za3V277+JV+zlZTJ7vRpUBzrmWh1qMLiN8383BPRvjABAoGASKkW
+e07gTutWWt49ZK2aK7p6bAKB4QUFouAPtGtkdzWJo8ia5EEpRJr0pmoREu69OkVZ
+1fYz4XA6c+LUVnxj4fQ1eBqItrU+pNy27rFMEVmwcnkNhR5uL8bDVFsEe4SMc/n+
+sqs20e59WM3HwkBKBHuFggFzS449Cq2VC47L7IkCgYA3rA+FmG7W08qzH03mpYAI
+BDjfNavyUUDlr/t5Xo2zDttgi6EVGlj5EehQH5U9vnwP9t3dqeByCTEcCMxwz27y
+O5SCPpI6xFZuXuLWddl0aEmbKz7+xhPJ5geVI4/NgjA/lsnRAaf09GdLPsbMf6F6
+81EFfEWbpswlRj91uiR3TQ==
+-----END PRIVATE KEY-----
+"""
+
+_sni_dir = tempfile.mkdtemp()
+_sni_cert = os.path.join(_sni_dir, 'cert.pem')
+_sni_key = os.path.join(_sni_dir, 'key.pem')
+with open(_sni_cert, 'w') as _f:
+    _f.write(_SNI_CERT)
+with open(_sni_key, 'w') as _f:
+    _f.write(_SNI_KEY)
+
+_server_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+_server_ctx.load_cert_chain(_sni_cert, _sni_key)
+_server_ctx.set_ecdh_curve('secp384r1')  # force a HelloRetryRequest
+_leaf_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+_leaf_ctx.load_cert_chain(_sni_cert, _sni_key)
+_sni_calls = []
+
+
+def _sni_cb(sslobj, server_name, ctx):
+    _sni_calls.append(server_name)
+    sslobj.context = _leaf_ctx
+
+
+_server_ctx.sni_callback = _sni_cb
+_s_in, _s_out = ssl.MemoryBIO(), ssl.MemoryBIO()
+_server = _server_ctx.wrap_bio(_s_in, _s_out, server_side=True)
+_dispatch_ref = weakref.ref(_server_ctx)
+del _server_ctx  # only the SSL object keeps it alive now
+
+_client_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+_client_ctx.check_hostname = False
+_client_ctx.verify_mode = ssl.CERT_NONE
+_c_in, _c_out = ssl.MemoryBIO(), ssl.MemoryBIO()
+_client = _client_ctx.wrap_bio(_c_in, _c_out, server_hostname='localhost')
+
+for _ in range(20):
+    _done = 0
+    for _obj, _out, _peer_in in ((_client, _c_out, _s_in), (_server, _s_out, _c_in)):
+        try:
+            _obj.do_handshake()
+            _done += 1
+        except ssl.SSLWantReadError:
+            pass
+        if _out.pending:
+            _peer_in.write(_out.read())
+    if _done == 2:
+        break
+_client.do_handshake()
+_server.do_handshake()
+gc.collect()
+assert _sni_calls and _sni_calls[0] == 'localhost', _sni_calls
+assert _server.context is _leaf_ctx
+assert _dispatch_ref() is None, 'dispatch SSLContext was not collected'
+assert _client.cipher() is not None
+shutil.rmtree(_sni_dir, ignore_errors=True)

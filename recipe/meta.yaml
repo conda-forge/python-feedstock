@@ -89,6 +89,25 @@ source:
       # the historical patch as patches/0035-py39-mailcap-CVE-2015-20107.patch,
       # disabled for the same reason). recipe/run_test.py asserts the fix is
       # present in the built interpreter.
+      # Security backports from the RHEL 9 / CentOS Stream 9 python3.9 package,
+      # which keeps patching 3.9 after upstream EOL with 3.9.25. Taken from
+      # python3.9-3.9.25-10.el9, c9s branch commit a812ae94ec4c:
+      #   https://gitlab.com/redhat/centos-stream/rpms/python3.9
+      # Only upstream fixes are carried; RHEL-only patches (tarfile policy
+      # config, FIPS, pyc invalidation, rpath, wheel paths, ...) are not.
+      - patches/0028-cve-2025-12084-minidom-id-cache.patch
+      - patches/0029-cve-2026-0865-wsgiref-headers-control-chars.patch
+      - patches/0030-cve-2025-15366-imaplib-control-chars.patch
+      - patches/0031-cve-2025-15367-poplib-control-chars.patch
+      - patches/0032-cve-2026-1299-email-bytesgenerator-headers.patch
+      - patches/0033-cve-2026-4519-webbrowser-dash-prefixed-url.patch
+      - patches/0034-cve-2026-4786-webbrowser-action-substitution.patch
+      - patches/0035-cve-2026-6100-bz2-lzma-uaf.patch
+      # gh-151504: loading a DER (SSL_FILETYPE_ASN1) CA file fails with
+      # OpenSSL >= 3.5.7 without this fix; conda-forge ships OpenSSL 3.6.x.
+      - patches/0036-openssl-3.5.7-asn1-eof.patch
+      - patches/0037-cve-2026-15308-htmlparser-quadratic.patch
+      - patches/0038-cve-2026-11940-tarfile-hardlink-escape.patch
 
 build:
   number: {{ build_number }}

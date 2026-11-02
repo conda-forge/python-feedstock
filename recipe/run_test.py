@@ -260,3 +260,17 @@ with tempfile.TemporaryDirectory() as _td:
             pass
         else:
             raise AssertionError('tarfile extracted a hardlink through an escaping symlink')
+
+# CVE-2026-115557 / gh-160040: _ssl must carry the distrusted eMudhra SPKI
+# denylist. Exercising the check needs a chain signed by one of the compromised
+# keys (upstream ships it as a git binary test archive), so assert that the
+# table is compiled into the extension instead.
+import _ssl
+_eMudhra_spki_sha256 = bytes([
+    0x43, 0xbf, 0xfa, 0x19, 0xd6, 0xef, 0x65, 0x14,
+    0x51, 0xf6, 0x84, 0x1e, 0x01, 0x99, 0x31, 0xe9,
+    0x6f, 0x6f, 0x2e, 0xae, 0xff, 0x28, 0xab, 0x4b,
+    0x6f, 0x1c, 0xe4, 0x57, 0x6d, 0xe2, 0x71, 0x7b,
+])
+with open(_ssl.__file__, 'rb') as _ssl_so:
+    assert _eMudhra_spki_sha256 in _ssl_so.read(), 'eMudhra SPKI denylist missing from _ssl'

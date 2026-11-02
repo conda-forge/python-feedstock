@@ -108,6 +108,12 @@ source:
       - patches/0036-openssl-3.5.7-asn1-eof.patch
       - patches/0037-cve-2026-15308-htmlparser-quadratic.patch
       - patches/0038-cve-2026-11940-tarfile-hardlink-escape.patch
+      # CVE-2026-115557 / gh-160040: distrust the compromised eMudhra
+      # intermediate CA keys. Backported from CPython 3.11.18 (commit
+      # 7dd8b4736a); 3.9 is EOL, so there is no upstream 3.9 backport. Adapted
+      # for 3.9's verify-callback handling; upstream test data omitted (git
+      # binary patch).
+      - patches/0039-cve-2026-115557-distrust-emudhra-spki.patch
 
 build:
   number: {{ build_number }}

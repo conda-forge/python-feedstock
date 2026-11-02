@@ -114,6 +114,11 @@ source:
       # for 3.9's verify-callback handling; upstream test data omitted (git
       # binary patch).
       - patches/0039-cve-2026-115557-distrust-emudhra-spki.patch
+      # CVE-2026-19445 / gh-156293: use-after-free when sni_callback switches
+      # SSLContexts. Backported from CPython 3.10.22 (commit ec44b5a3); 3.9 is
+      # EOL. Upstream doc/test/NEWS hunks are kept; the C change is adapted to
+      # 3.9's static type and pre-Py_NewRef API.
+      - patches/0040-cve-2026-19445-sni-callback-uaf.patch
 
 build:
   number: {{ build_number }}

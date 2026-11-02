@@ -274,3 +274,19 @@ _eMudhra_spki_sha256 = bytes([
 ])
 with open(_ssl.__file__, 'rb') as _ssl_so:
     assert _eMudhra_spki_sha256 in _ssl_so.read(), 'eMudhra SPKI denylist missing from _ssl'
+
+# CVE-2026-19445 / gh-156293: a sni_callback that switches SSLSocket.context
+# must not leave OpenSSL calling back into a freed SSLContext. Run the upstream
+# regression tests, which perform a real (MemoryBIO) TLS handshake; before the
+# fix the second one calls through a dangling pointer.
+import unittest
+from test import test_ssl
+_sni_suite = unittest.TestSuite(
+    test_ssl.SSLObjectTests(name)
+    for name in (
+        'test_sni_callback_context_released_and_callback_raises',
+        'test_sni_callback_context_released_before_second_client_hello',
+    )
+)
+_sni_result = unittest.TextTestRunner(verbosity=0).run(_sni_suite)
+assert _sni_result.wasSuccessful(), 'CVE-2026-19445 regression tests failed'

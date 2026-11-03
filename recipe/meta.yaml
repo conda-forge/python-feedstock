@@ -106,6 +106,8 @@ source:
       # gh-151504: loading a DER (SSL_FILETYPE_ASN1) CA file fails with
       # OpenSSL >= 3.5.7 without this fix; conda-forge ships OpenSSL 3.6.x.
       - patches/0036-openssl-3.5.7-asn1-eof.patch
+      # Same change as the CPython 3.10.21 backport (gh-153030, commit
+      # 1e7956f1a7); the RHEL 9 patch below is byte-identical to it.
       - patches/0037-cve-2026-15308-htmlparser-quadratic.patch
       - patches/0038-cve-2026-11940-tarfile-hardlink-escape.patch
       # CVE-2026-115557 / gh-160040: distrust the compromised eMudhra

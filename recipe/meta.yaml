@@ -1,10 +1,14 @@
-{% set version = "3.9.23" %}
+{% set version = "3.9.25" %}
 {% set dev = "" %}
 {% set dev_ = "" %}
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 11 %}
+# 11 mirrors the RPM Release of the security-patched package
+# (python3.9-3.9.25-11.el9: RHEL's release 10 plus these backports). Conda has
+# no version "release" field; the build number is its equivalent and keeps the
+# package distinguishable from the unpatched h9ac4e63_0_cpython build.
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -47,7 +51,7 @@ source:
 {% else %}
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz
     # md5 from: https://www.python.org/downloads/release/python-{{ ver3nd }}/
-    md5: a4e4a53cbde60b743d7c2f9aa38c3b8f
+    md5: d56b945105f1ea8dc67df8ec78fd13e6
 {% endif %}
     patches:
       - patches/0001-Win32-Change-FD_SETSIZE-from-512-to-2048.patch
@@ -84,6 +88,43 @@ source:
       - patches/0025-Set-ssltag-to-3.patch
       - patches/0026-Do-not-pass-g-to-GCC-when-not-Py_DEBUG.patch
       - patches/0027-Unvendor-expat.patch
+      # No CVE-2015-20107 (mailcap shell injection) backport is needed: it was
+      # fixed upstream in 3.9.16 (AnacondaRecipes/python-feedstock still carries
+      # the historical patch as patches/0035-py39-mailcap-CVE-2015-20107.patch,
+      # disabled for the same reason). recipe/run_test.py asserts the fix is
+      # present in the built interpreter.
+      # Security backports from the RHEL 9 / CentOS Stream 9 python3.9 package,
+      # which keeps patching 3.9 after upstream EOL with 3.9.25. Taken from
+      # python3.9-3.9.25-10.el9, c9s branch commit a812ae94ec4c:
+      #   https://gitlab.com/redhat/centos-stream/rpms/python3.9
+      # Only upstream fixes are carried; RHEL-only patches (tarfile policy
+      # config, FIPS, pyc invalidation, rpath, wheel paths, ...) are not.
+      - patches/0028-cve-2025-12084-minidom-id-cache.patch
+      - patches/0029-cve-2026-0865-wsgiref-headers-control-chars.patch
+      - patches/0030-cve-2025-15366-imaplib-control-chars.patch
+      - patches/0031-cve-2025-15367-poplib-control-chars.patch
+      - patches/0032-cve-2026-1299-email-bytesgenerator-headers.patch
+      - patches/0033-cve-2026-4519-webbrowser-dash-prefixed-url.patch
+      - patches/0034-cve-2026-4786-webbrowser-action-substitution.patch
+      - patches/0035-cve-2026-6100-bz2-lzma-uaf.patch
+      # gh-151504: loading a DER (SSL_FILETYPE_ASN1) CA file fails with
+      # OpenSSL >= 3.5.7 without this fix; conda-forge ships OpenSSL 3.6.x.
+      - patches/0036-openssl-3.5.7-asn1-eof.patch
+      # Same change as the CPython 3.10.21 backport (gh-153030, commit
+      # 1e7956f1a7); the RHEL 9 patch below is byte-identical to it.
+      - patches/0037-cve-2026-15308-htmlparser-quadratic.patch
+      - patches/0038-cve-2026-11940-tarfile-hardlink-escape.patch
+      # CVE-2026-115557 / gh-160040: distrust the compromised eMudhra
+      # intermediate CA keys. Backported from CPython 3.11.18 (commit
+      # 7dd8b4736a); 3.9 is EOL, so there is no upstream 3.9 backport. Adapted
+      # for 3.9's verify-callback handling; upstream test data omitted (git
+      # binary patch).
+      - patches/0039-cve-2026-115557-distrust-emudhra-spki.patch
+      # CVE-2026-19445 / gh-156293: use-after-free when sni_callback switches
+      # SSLContexts. Backported from CPython 3.10.22 (commit ec44b5a3); 3.9 is
+      # EOL. Upstream doc/test/NEWS hunks are kept; the C change is adapted to
+      # 3.9's static type and pre-Py_NewRef API.
+      - patches/0040-cve-2026-19445-sni-callback-uaf.patch
 
 build:
   number: {{ build_number }}
@@ -100,8 +141,10 @@ requirements:
 
 outputs:
   - name: python
-    script: build_base.sh  # [unix]
-    script: build_base.bat  # [win]
+    # Single `script:` key: conda-build allows duplicate keys paired with
+    # complementary selectors, but plain YAML (and parsers such as
+    # conda-souschef/grayskull) treat them as duplicate mapping keys.
+    script: {{ 'build_base.bat' if win else 'build_base.sh' }}
     build:
       number: {{ build_number }}
       activate_in_script: true
@@ -130,8 +173,8 @@ outputs:
       skip: true  # [win and int(float(vc)) < 14]
       skip_compile_pyc:
         - '*.py'            # [build_platform != target_platform]
-      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      # conda-forge build strings carry the _cpython suffix; other channels do not.
+      string: {{ dev_ }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}{{ '_cpython' if 'conda-forge' in (channel_targets or '') else '' }}
 {% if 'conda-forge' in channel_targets %}
       run_exports:
         noarch:
@@ -205,9 +248,12 @@ outputs:
         - ripgrep
         - cmake
         - ninja
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
         # Tried to use enable_language(C) to avoid needing this. It does not work.
         - {{ compiler('cxx') }}
+        # For tkinter, but we expect from system
+        - xorg-libx11   # [unix]
       files:
         - tests/distutils/*
         - tests/cmake/*
@@ -273,15 +319,15 @@ outputs:
         - python -c "import crypt"  # [unix]
 
   - name: libpython-static
-    script: build_static.sh  # [unix]
-    script: build_static.bat  # [win]
+    # See the comment on the python output's script key above.
+    script: {{ 'build_static.bat' if win else 'build_static.sh' }}
     build:
       number: {{ build_number }}
       activate_in_script: true
       ignore_run_exports:
         - python_abi
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}_cpython  # ["conda-forge" in (channel_targets or "")]
-      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}  # ["conda-forge" not in (channel_targets or "")]
+      # Same suffix logic as the python output above.
+      string: h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}{{ linkage_nature }}{{ debug }}{{ '_cpython' if 'conda-forge' in (channel_targets or '') else '' }}
     requirements:
       build:
         - {{ stdlib('c') }}
@@ -298,6 +344,7 @@ outputs:
       files:
         - tests/prefix-replacement/*
       requires:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
       commands:
         - test -f ${PREFIX}/lib/libpython${PKG_VERSION%.*}.a  # [unix]

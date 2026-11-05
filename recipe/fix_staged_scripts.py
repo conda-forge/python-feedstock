@@ -10,6 +10,7 @@ def fix_staged_scripts(scripts_dir):
     Fixes scripts which have been installed unix-style to have a .bat
     helper
     """
+    target_arch = os.environ["target_platform"].split("-")[-1]
     if not isdir(scripts_dir):
         return
     for fn in os.listdir(scripts_dir):
@@ -31,7 +32,16 @@ def fix_staged_scripts(scripts_dir):
             # now create the .exe file
             # This is hardcoded that conda and conda-build are in the same environment
             base_env = dirname(dirname(os.environ['CONDA_EXE']))
-            exe = join(base_env, 'lib', 'site-packages', 'conda_build', 'cli-64.exe')
+            # conda-build >= 26.9 sources launchers from conda-launchers
+            candidates = [
+                join(base_env, 'share', 'conda-launchers', f'cli-{target_arch}.exe'),
+                join(base_env, 'lib', 'site-packages', 'conda_build', f'cli-{target_arch}.exe'),
+            ]
+            exe = next((path for path in candidates if isfile(path)), None)
+            if exe is None:
+                raise FileNotFoundError(
+                    'cli-64.exe launcher not found in any of: %s' % ', '.join(candidates)
+                )
             shutil.copyfile(exe, join(scripts_dir, fn + '.exe'))
 
         # remove the original script

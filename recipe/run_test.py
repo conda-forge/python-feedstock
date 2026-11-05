@@ -93,13 +93,301 @@ if not (armv6l or armv7l or ppc64le or osx105):
     import _tkinter
     print('TK_VERSION: %s' % _tkinter.TK_VERSION)
     print('TCL_VERSION: %s' % _tkinter.TCL_VERSION)
-    TCLTK_VER = os.getenv("tk")
+    # conda-build >= 26.9 no longer exports variant keys (e.g. "tk") into the
+    # test environment when tests run inline during `conda build`; fall back to
+    # the version pinned in meta.yaml.
+    TCLTK_VER = os.getenv("tk") or "8.6"
     assert _tkinter.TK_VERSION == _tkinter.TCL_VERSION == TCLTK_VER
+
+# CVE-2015-20107 (mailcap shell injection): findmatch() must refuse filenames
+# containing shell metacharacters, and subst() must refuse unsafe MIME types and
+# parameters. The fix landed upstream in 3.9.16, so the 3.9.25 recipe needs no
+# backport patch - this asserts the shipped interpreter really has it.
+import mailcap
+import warnings
+
+CAPS = {'text/plain': [{'view': 'cat %s'}]}
+
+with warnings.catch_warnings(record=True) as caught:
+    warnings.simplefilter('always')
+    cmd, _ = mailcap.findmatch(CAPS, 'text/plain', filename='unsafe; touch pwned')
+assert cmd is None, 'mailcap accepted an unsafe filename: %r' % (cmd,)
+assert any(issubclass(w.category, mailcap.UnsafeMailcapInput) for w in caught), caught
+assert not os.path.exists('pwned')
+
+# Safe input must still resolve to exactly the same command as before.
+cmd, _ = mailcap.findmatch(CAPS, 'text/plain', filename='safe-name.txt')
+assert cmd == 'cat safe-name.txt', cmd
 
 import ssl
 print('OPENSSL_VERSION:', ssl.OPENSSL_VERSION)
-CONDA_OPENSSL_VERSION = os.getenv("openssl")
+# Same caveat as above for "openssl".
+CONDA_OPENSSL_VERSION = os.getenv("openssl") or "3"
 assert CONDA_OPENSSL_VERSION in ssl.OPENSSL_VERSION
 
 # See https://github.com/conda-forge/python-feedstock/issues/718 for context:
 assert sys.hash_info.algorithm.startswith("siphash")
+
+# ---------------------------------------------------------------------------
+# Security backports from the RHEL 9 python3.9 package (see the patch list in
+# meta.yaml). Each check fails on an unpatched 3.9.25 interpreter, so it keeps
+# the backport from silently disappearing.
+# ---------------------------------------------------------------------------
+
+# CVE-2025-12084 (minidom): the quadratic _in_document() walk is gone; nodes
+# track ownerDocument instead.
+import xml.dom.minidom as minidom
+assert not hasattr(minidom, '_in_document'), 'minidom still has the quadratic _in_document() walk'
+_e = minidom.Element('test')
+_a = minidom.Attr('id')
+_a.value = 'test-id'
+_e.setAttributeNode(_a)
+assert _e.getAttribute('id') == 'test-id'
+
+# CVE-2026-0865 (wsgiref.headers): C0 control characters are rejected.
+from wsgiref.headers import Headers
+for _bad in ('a\x00b', 'a\rb', 'a\x7fb'):
+    try:
+        Headers([('X-Test', _bad)])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('wsgiref accepted control character: %r' % _bad)
+
+# CVE-2025-15367 (poplib): control characters are rejected in commands.
+import poplib
+_p = poplib.POP3.__new__(poplib.POP3)
+_p.encoding = 'utf-8'
+_p._debugging = 0
+_p._putline = lambda line: None
+try:
+    _p._putcmd('NOOP\r\nRETR 1')
+except ValueError:
+    pass
+else:
+    raise AssertionError('poplib accepted a control character in a command')
+
+# CVE-2025-15366 (imaplib): control characters are rejected in commands.
+import imaplib
+_i = imaplib.IMAP4.__new__(imaplib.IMAP4)
+_i._encoding = 'ascii'
+_i.state = 'NONAUTH'
+_i.untagged_responses = {}
+_i.is_readonly = False
+_i.literal = None
+_i.debug = 0
+_i._new_tag = lambda: b'A1'
+_i.send = lambda data: None
+_i._get_response = lambda: (b'OK', [b'NOOP completed'])
+try:
+    _i._command('NOOP', 'x\r\n')
+except ValueError:
+    pass
+else:
+    raise AssertionError('imaplib accepted a control character in a command')
+
+# CVE-2026-1299 (email): BytesGenerator rejects headers that fold to a newline.
+import io
+import email.errors
+import email.policy
+from email.generator import BytesGenerator
+from email.message import Message
+
+
+class _BadPolicy(email.policy.EmailPolicy):
+    def fold_binary(self, name, value):
+        return b'Subject: x\r\nInjected: y\r\n\r\n'
+
+
+_msg = Message(policy=_BadPolicy())
+_msg['Subject'] = 'x'
+try:
+    BytesGenerator(io.BytesIO(), policy=_BadPolicy()).flatten(_msg)
+except email.errors.HeaderWriteError:
+    pass
+else:
+    raise AssertionError('BytesGenerator accepted an injected header')
+
+# CVE-2026-4519 (webbrowser): dash-prefixed URLs are rejected.
+import webbrowser
+try:
+    webbrowser.GenericBrowser('definitely-not-a-browser').open('--help')
+except ValueError:
+    pass
+else:
+    raise AssertionError('webbrowser accepted a dash-prefixed URL')
+
+# CVE-2026-15308 (html.parser): incremental feeds still parse correctly.
+from html.parser import HTMLParser
+
+
+class _HTML(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.seen = []
+
+    def handle_starttag(self, tag, attrs):
+        self.seen.append(tag)
+
+
+_h = _HTML()
+for _chunk in ('<div', ' class="x"', '>text</div'):
+    _h.feed(_chunk)
+_h.feed('>')
+_h.close()
+assert _h.seen == ['div'], _h.seen
+
+# CVE-2026-11940 (tarfile): a hardlink may not be extracted through a symlink
+# that the data filter accepted as a copy fallback.
+import tarfile
+import tempfile
+_buf = io.BytesIO()
+with tarfile.open(fileobj=_buf, mode='w') as _tf:
+    _s = tarfile.TarInfo('a/b/s')
+    _s.type = tarfile.SYMTYPE
+    _s.linkname = '../escape'
+    _tf.addfile(_s)
+    _l = tarfile.TarInfo('s')
+    _l.type = tarfile.LNKTYPE
+    _l.linkname = 'a/b/s'
+    _tf.addfile(_l)
+_buf.seek(0)
+with tempfile.TemporaryDirectory() as _td:
+    with tarfile.open(fileobj=_buf) as _tf:
+        try:
+            _tf.extractall(path=_td, filter='data')
+        except tarfile.FilterError:
+            pass
+        else:
+            raise AssertionError('tarfile extracted a hardlink through an escaping symlink')
+
+# CVE-2026-115557 / gh-160040: _ssl must carry the distrusted eMudhra SPKI
+# denylist. Exercising the check needs a chain signed by one of the compromised
+# keys (upstream ships it as a git binary test archive), so assert that the
+# table is compiled into the extension instead.
+import _ssl
+_eMudhra_spki_sha256 = bytes([
+    0x43, 0xbf, 0xfa, 0x19, 0xd6, 0xef, 0x65, 0x14,
+    0x51, 0xf6, 0x84, 0x1e, 0x01, 0x99, 0x31, 0xe9,
+    0x6f, 0x6f, 0x2e, 0xae, 0xff, 0x28, 0xab, 0x4b,
+    0x6f, 0x1c, 0xe4, 0x57, 0x6d, 0xe2, 0x71, 0x7b,
+])
+with open(_ssl.__file__, 'rb') as _ssl_so:
+    assert _eMudhra_spki_sha256 in _ssl_so.read(), 'eMudhra SPKI denylist missing from _ssl'
+
+# CVE-2026-19445 / gh-156293: a sni_callback that switches SSLSocket.context
+# must not leave OpenSSL calling back into a freed SSLContext. Upstream ships a
+# regression test in Lib/test/test_ssl.py, which this package does not ship, so
+# exercise the same path here: a TLS handshake forced into a HelloRetryRequest
+# whose sni_callback switches the context and drops our reference to the
+# original one (the code that used to leave a dangling callback argument).
+import gc
+import shutil
+import weakref
+
+_SNI_CERT = """\
+-----BEGIN CERTIFICATE-----
+MIIDCTCCAfGgAwIBAgIUYrreK7w7MK3+AJ0F2C1D78n7ZRwwDQYJKoZIhvcNAQEL
+BQAwFDESMBAGA1UEAwwJbG9jYWxob3N0MB4XDTI2MTEwMjE1MjcxOFoXDTI2MTIw
+MjE1MjcxOFowFDESMBAGA1UEAwwJbG9jYWxob3N0MIIBIjANBgkqhkiG9w0BAQEF
+AAOCAQ8AMIIBCgKCAQEAzIwdwqd3qix9XVbVEyBeWiZOA+VZfuSchJG/7a4aOTDU
+7vxqEtYmqUb9CxKnArWuJcVkQteh2/qr8A3fV53PJbfCBijL0nYPOdfh4S/IMVqu
+YmwiY/IHUPiEmSC8HzWBgO957nSSoDs573/7X3iIWhMscSuksGV0Qsi560Rmwm4N
+rRmEGt9CzGyZ/Sqx/e64F/nIKOK4W5WGyjO6vG2zxFVNnmAvOWM7zR+0XeFWU6fA
+AiqBaS8Bm9vD3MfAvA3/aDRNy4w5pokbl5lN8LwbzAgYTYyVEEbf+qYhh8I1NN0x
+/g/iJ8rlWg3DDD/IbM/Ek/68zzvOFzmRaI1VOkAoxQIDAQABo1MwUTAdBgNVHQ4E
+FgQU9G5chk49HCfZqEOM8m1zBgn1QmMwHwYDVR0jBBgwFoAU9G5chk49HCfZqEOM
+8m1zBgn1QmMwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAQH8U
+uXCSEtEyiji5nAAlVimVpBqECHmr8HDZo+W7TFOEkr3g8VmSKr5pXcC6QOzqwcTX
+J925LCv6TPMKah4K76d57CKBC12cYuPF38t9GLAWG3vv+Rzr4zp/WPa7eum1CiFn
+Ue4+GNRyc1E+VQz81/4+G8Y7PKTnDRLi20VrLKfHqcJzXPk9ADfnuEsRPURmRGOC
+haP50iz/kDpDVMWkRW0FJPUi+4f6qkl/6e7c4QS3eIyYZV5TYkxbaaJqlX03+VQ8
+Tfesnn5eRp7dMNd5NvKGF2ZoFoYFG5JuIc72rY1IJ+ZJSc8iHBHer5blkOJh5uYY
+kjkslOjtLscRw7Km0Q==
+-----END CERTIFICATE-----
+"""
+
+_SNI_KEY = """\
+-----BEGIN PRIVATE KEY-----
+MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDMjB3Cp3eqLH1d
+VtUTIF5aJk4D5Vl+5JyEkb/trho5MNTu/GoS1iapRv0LEqcCta4lxWRC16Hb+qvw
+Dd9Xnc8lt8IGKMvSdg851+HhL8gxWq5ibCJj8gdQ+ISZILwfNYGA73nudJKgOznv
+f/tfeIhaEyxxK6SwZXRCyLnrRGbCbg2tGYQa30LMbJn9KrH97rgX+cgo4rhblYbK
+M7q8bbPEVU2eYC85YzvNH7Rd4VZTp8ACKoFpLwGb28Pcx8C8Df9oNE3LjDmmiRuX
+mU3wvBvMCBhNjJUQRt/6piGHwjU03TH+D+InyuVaDcMMP8hsz8ST/rzPO84XOZFo
+jVU6QCjFAgMBAAECggEAF8Vj0wKTz1DGy/Fip0ugc3EWqXC+rxbB0s0+ZRCR5xoT
+8OcgK6q8CPmhQCdthczX3XdcYME/A/nUf/wYu82w7GT31S/qCf4i5FnAnCMprISp
+lfITqBJRQ9lxzXrmqejVsUaDYNEm1hyz7a+tpqlzDSbDyC4mgEJ2GanKo3sKRyd+
+UwypYh+ZCnLVVSVylTVzIKVEHSrx5EEdLGjvtEEvwyX0KRRSoOMuF6rJEGgGnALx
+cpNAHgGEQp6kJF3viucMIubgc4W9qvRzZlPro6Zh0sHXkJ4LicAAuZflIz9h4H/B
+zrQYCoVyzs7fBPeqN6OO/E7rOKtuHALIqcy3mMDycQKBgQDswGcUkhyf9W0BFr5f
+FEc5DYpsCwzneQJhRO8l35AOQJfVYiT2EZfqVbRMFmJQnhmc8dNYl0VDpUeJXiBz
+EUJZV9A2oejhb4VJ4aaIjnGb5OokGr0k2FvR1vXe4Jl+gFxaNgeTyMNrlAK2vWLl
+ObC2caOakiAz7Oou+w7yoGnMsQKBgQDdLW9SjyfaqPQo3MimNzSMK+zEZIUef2bB
+Z8lDK4FsD1MtVD1RKhYW7WUDYqkLrJQ2ufeGn5dD5Ti374vez4oHFndJvoR5QfXM
+oDt+EIljo3dz5srUB10gweXUptsZPmBp2oF4bL5Orq9Z226OozwCED39qDeEKwCz
+VpUedhbSVQKBgG/mgNI4PU9dsSfSmChYbVGKFOL8Vh0SFQ3khyRfhrc10I4K1W14
+41TfLVjJO67fCzwjEMHOve47MJS86Jl6juGrn74yyN/E1jsVbKEespP8nq5x9PR1
+TvDfqVau0d34za3V277+JV+zlZTJ7vRpUBzrmWh1qMLiN8383BPRvjABAoGASKkW
+e07gTutWWt49ZK2aK7p6bAKB4QUFouAPtGtkdzWJo8ia5EEpRJr0pmoREu69OkVZ
+1fYz4XA6c+LUVnxj4fQ1eBqItrU+pNy27rFMEVmwcnkNhR5uL8bDVFsEe4SMc/n+
+sqs20e59WM3HwkBKBHuFggFzS449Cq2VC47L7IkCgYA3rA+FmG7W08qzH03mpYAI
+BDjfNavyUUDlr/t5Xo2zDttgi6EVGlj5EehQH5U9vnwP9t3dqeByCTEcCMxwz27y
+O5SCPpI6xFZuXuLWddl0aEmbKz7+xhPJ5geVI4/NgjA/lsnRAaf09GdLPsbMf6F6
+81EFfEWbpswlRj91uiR3TQ==
+-----END PRIVATE KEY-----
+"""
+
+_sni_dir = tempfile.mkdtemp()
+_sni_cert = os.path.join(_sni_dir, 'cert.pem')
+_sni_key = os.path.join(_sni_dir, 'key.pem')
+with open(_sni_cert, 'w') as _f:
+    _f.write(_SNI_CERT)
+with open(_sni_key, 'w') as _f:
+    _f.write(_SNI_KEY)
+
+_server_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+_server_ctx.load_cert_chain(_sni_cert, _sni_key)
+_server_ctx.set_ecdh_curve('secp384r1')  # force a HelloRetryRequest
+_leaf_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+_leaf_ctx.load_cert_chain(_sni_cert, _sni_key)
+_sni_calls = []
+
+
+def _sni_cb(sslobj, server_name, ctx):
+    _sni_calls.append(server_name)
+    sslobj.context = _leaf_ctx
+
+
+_server_ctx.sni_callback = _sni_cb
+_s_in, _s_out = ssl.MemoryBIO(), ssl.MemoryBIO()
+_server = _server_ctx.wrap_bio(_s_in, _s_out, server_side=True)
+_dispatch_ref = weakref.ref(_server_ctx)
+del _server_ctx  # only the SSL object keeps it alive now
+
+_client_ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+_client_ctx.check_hostname = False
+_client_ctx.verify_mode = ssl.CERT_NONE
+_c_in, _c_out = ssl.MemoryBIO(), ssl.MemoryBIO()
+_client = _client_ctx.wrap_bio(_c_in, _c_out, server_hostname='localhost')
+
+for _ in range(20):
+    _done = 0
+    for _obj, _out, _peer_in in ((_client, _c_out, _s_in), (_server, _s_out, _c_in)):
+        try:
+            _obj.do_handshake()
+            _done += 1
+        except ssl.SSLWantReadError:
+            pass
+        if _out.pending:
+            _peer_in.write(_out.read())
+    if _done == 2:
+        break
+_client.do_handshake()
+_server.do_handshake()
+gc.collect()
+assert _sni_calls and _sni_calls[0] == 'localhost', _sni_calls
+assert _server.context is _leaf_ctx
+assert _dispatch_ref() is None, 'dispatch SSLContext was not collected'
+assert _client.cipher() is not None
+shutil.rmtree(_sni_dir, ignore_errors=True)

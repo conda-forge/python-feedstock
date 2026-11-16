@@ -28,6 +28,20 @@ class MailCommandTests(unittest.TestCase):
         imaplib.IMAP4._command(client, 'LOGIN', 'user', '"pass\tword"')
         client.send.assert_called_once_with(b'T0 LOGIN user "pass\tword"\r\n')
 
+    def test_rejected_imap_literal(self):
+        client = Mock(state='AUTH', untagged_responses={},
+                      is_readonly=False, _encoding='ascii', debug=0)
+        client._new_tag.return_value = b'T0'
+        for char in '\0\r\n':
+            with self.subTest(char=char):
+                client.literal = b'message'
+                with self.assertRaises(ValueError):
+                    imaplib.IMAP4._command(client, 'APPEND', f'a{char}b')
+                self.assertIsNone(client.literal)
+        client.send.assert_not_called()
+        imaplib.IMAP4._command(client, 'NOOP')
+        client.send.assert_called_once_with(b'T0 NOOP\r\n')
+
 
 if __name__ == '__main__':
     unittest.main()

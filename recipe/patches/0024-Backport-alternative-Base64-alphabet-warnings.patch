@@ -1,0 +1,160 @@
+From 33e38611c6fc5ff1f7115a2b1b2a35224b980797 Mon Sep 17 00:00:00 2001
+From: Saakshaat Singh <97133528+saakshaat-singh@users.noreply.github.com>
+Date: Mon, 16 Nov 2026 14:03:09 -0500
+Subject: [PATCH 24/24] base64
+
+---
+ Doc/library/base64.rst                        |  9 ++++-
+ Lib/base64.py                                 | 40 ++++++++++++++++---
+ Lib/test/test_base64.py                       | 24 ++++++++++-
+ ...-16-19-00-00.gh-issue-125346.base64312.rst |  3 ++
+ 4 files changed, 68 insertions(+), 8 deletions(-)
+ create mode 100644 Misc/NEWS.d/next/Library/2026-11-16-19-00-00.gh-issue-125346.base64312.rst
+
+diff --git a/Doc/library/base64.rst b/Doc/library/base64.rst
+index 9171e41..6441030 100644
+--- a/Doc/library/base64.rst
++++ b/Doc/library/base64.rst
+@@ -82,7 +82,11 @@ The modern interface provides:
+ 
+    For more information about the strict base64 check, see :func:`binascii.a2b_base64`
+ 
+-   May assert or raise a :exc:`ValueError` if the length of *altchars* is not 2.
++   Raises :exc:`ValueError` if the length of *altchars* is not 2.
++
++   Accepting ``+`` and ``/`` when they are not in *altchars* emits
++   :exc:`DeprecationWarning` if *validate* is true, or :exc:`FutureWarning`
++   otherwise, while preserving the decoded result.
+ 
+ .. function:: standard_b64encode(s)
+ 
+@@ -113,6 +117,9 @@ The modern interface provides:
+    ``/`` in the standard Base64 alphabet, and return the decoded
+    :class:`bytes`.
+ 
++   Accepting ``+`` and ``/`` emits :exc:`FutureWarning` while preserving
++   the decoded result.
++
+ 
+ .. function:: b32encode(s)
+ 
+diff --git a/Lib/base64.py b/Lib/base64.py
+index 846767a..d217051 100755
+--- a/Lib/base64.py
++++ b/Lib/base64.py
+@@ -72,20 +72,39 @@ def b64decode(s, altchars=None, validate=False):
+     The result is returned as a bytes object.  A binascii.Error is raised if
+     s is incorrectly padded.
+ 
+-    If validate is False (the default), characters that are neither in the
++    If validate is false (the default), characters that are neither in the
+     normal base-64 alphabet nor the alternative alphabet are discarded prior
+-    to the padding check.  If validate is True, these non-alphabet characters
++    to the padding check.  If validate is true, these non-alphabet characters
+     in the input result in a binascii.Error.
+     For more information about the strict base64 check, see:
+ 
+     https://docs.python.org/3.11/library/binascii.html#binascii.a2b_base64
+     """
+     s = _bytes_from_decode_data(s)
++    badchar = None
+     if altchars is not None:
+         altchars = _bytes_from_decode_data(altchars)
+-        assert len(altchars) == 2, repr(altchars)
++        if len(altchars) != 2:
++            raise ValueError(f'invalid altchars: {altchars!r}')
++        for b in b'+/':
++            if b not in altchars and b in s:
++                badchar = b
++                break
+         s = s.translate(bytes.maketrans(altchars, b'+/'))
+-    return binascii.a2b_base64(s, strict_mode=validate)
++    result = binascii.a2b_base64(s, strict_mode=validate)
++    if badchar is not None:
++        import warnings
++        if validate:
++            warnings.warn(f'invalid character {chr(badchar)!a} in Base64 data '
++                          f'with altchars={altchars!r} and validate=True '
++                          f'will be an error in future Python versions',
++                          DeprecationWarning, stacklevel=2)
++        else:
++            warnings.warn(f'invalid character {chr(badchar)!a} in Base64 data '
++                          f'with altchars={altchars!r} and validate=False '
++                          f'will be discarded in future Python versions',
++                          FutureWarning, stacklevel=2)
++    return result
+ 
+ 
+ def standard_b64encode(s):
+@@ -130,8 +149,19 @@ def urlsafe_b64decode(s):
+     The alphabet uses '-' instead of '+' and '_' instead of '/'.
+     """
+     s = _bytes_from_decode_data(s)
++    badchar = None
++    for b in b'+/':
++        if b in s:
++            badchar = b
++            break
+     s = s.translate(_urlsafe_decode_translation)
+-    return b64decode(s)
++    result = binascii.a2b_base64(s, strict_mode=False)
++    if badchar is not None:
++        import warnings
++        warnings.warn(f'invalid character {chr(badchar)!a} in URL-safe Base64 data '
++                      f'will be discarded in future Python versions',
++                      FutureWarning, stacklevel=2)
++    return result
+ 
+ 
+ 
+diff --git a/Lib/test/test_base64.py b/Lib/test/test_base64.py
+index f6171d3..0bd4e04 100644
+--- a/Lib/test/test_base64.py
++++ b/Lib/test/test_base64.py
+@@ -232,6 +232,24 @@ def test_b64decode(self):
+                                b'\xd3V\xbeo\xf7\x1d')
+         self.check_decode_type_errors(base64.urlsafe_b64decode)
+ 
++    def test_b64decode_altchars_warnings(self):
++        for data in (b'++++', b'////', '++++', '////'):
++            for validate in (False, True):
++                with self.subTest(data=data, validate=validate):
++                    expected = base64.b64decode(data, validate=validate)
++                    warning = DeprecationWarning if validate else FutureWarning
++                    with self.assertWarns(warning):
++                        result = base64.b64decode(data, b'-_', validate=validate)
++                    self.assertEqual(result, expected)
++            with self.assertWarns(FutureWarning):
++                self.assertEqual(base64.urlsafe_b64decode(data), expected)
++
++    def test_b64decode_altchars_invalid_length(self):
++        for altchars in (b'+', b'+/-', '+', '+/-'):
++            with self.subTest(altchars=altchars):
++                with self.assertRaises(ValueError):
++                    base64.b64decode(b'', altchars=altchars)
++
+     def test_b64decode_padding_error(self):
+         self.assertRaises(binascii.Error, base64.b64decode, b'abc')
+         self.assertRaises(binascii.Error, base64.b64decode, 'abc')
+@@ -265,8 +283,10 @@ def test_b64decode_invalid_chars(self):
+ 
+         # Normal alphabet characters not discarded when alternative given
+         res = b'\xFB\xEF\xBE\xFF\xFF\xFF'
+-        self.assertEqual(base64.b64decode(b'++[[//]]', b'[]'), res)
+-        self.assertEqual(base64.urlsafe_b64decode(b'++--//__'), res)
++        with self.assertWarns(FutureWarning):
++            self.assertEqual(base64.b64decode(b'++[[//]]', b'[]'), res)
++        with self.assertWarns(FutureWarning):
++            self.assertEqual(base64.urlsafe_b64decode(b'++--//__'), res)
+ 
+     def test_b32encode(self):
+         eq = self.assertEqual
+diff --git a/Misc/NEWS.d/next/Library/2026-11-16-19-00-00.gh-issue-125346.base64312.rst b/Misc/NEWS.d/next/Library/2026-11-16-19-00-00.gh-issue-125346.base64312.rst
+new file mode 100644
+index 0000000..a1527c5
+--- /dev/null
++++ b/Misc/NEWS.d/next/Library/2026-11-16-19-00-00.gh-issue-125346.base64312.rst
+@@ -0,0 +1,3 @@
++Backport warnings for accepting ``+`` and ``/`` with an alternative
++alphabet in :func:`base64.b64decode` and :func:`base64.urlsafe_b64decode`
++(CVE-2025-12781), preserving the decoded result.

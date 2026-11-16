@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -72,6 +72,7 @@ source:
       - patches/0021-Override-configure-LIBFFI.patch
       - patches/0022-Allow-linking-ncursesw-panelw-on-macOS-if-available.patch
       - patches/0023-Do-not-define-pid_t-as-it-might-conflict-with-the-ac.patch
+      - patches/0024-Backport-alternative-Base64-alphabet-warnings.patch
 
 build:
   number: {{ build_number }}
@@ -234,6 +235,7 @@ outputs:
         - tests/cython/*
         - tests/prefix-replacement/*
         - run_test.py
+        - tests/test_base64_warnings.py
       commands:
         - echo on  # [win]
         - set  # [win]
@@ -281,6 +283,7 @@ outputs:
         - popd
         - popd
         - python run_test.py
+        - python tests/test_base64_warnings.py
         - test ! -f default.profraw   # [osx]
         # Test workaround for https://github.com/conda/conda/issues/10969
         - test -d "$PREFIX/lib/python3.1/site-packages"  # [unix]

@@ -236,6 +236,11 @@ if "%CONDA_BUILD_CROSS_COMPILATION%" == "1" (
 %PYTHON% -Wi %PREFIX%\lib\python\compileall.py -f -q -x "bad_coding|badsyntax|py2_" %PREFIX%\lib\python
 if errorlevel 1 exit 1
 
+:: Install a PEP 739 build-details.json next to the stdlib, like on unix
+%PYTHON% %RECIPE_DIR%\generate_build_details_win.py %SRC_DIR% %PREFIX%\lib\python\build-details.json
+if errorlevel 1 exit 1
+type %PREFIX%\lib\python\build-details.json
+
 :: Ensure that scripts are generated
 :: https://github.com/conda-forge/python-feedstock/issues/384
 %PYTHON% %RECIPE_DIR%\fix_staged_scripts.py

@@ -9,14 +9,12 @@ Subject: [PATCH 07/28] Add CondaEcosystemModifyDllSearchPath()
     os.add_dll_directory(join(sys.prefix, 'bin'))
     os.add_dll_directory(join(sys.prefix, 'Scripts'))
     os.add_dll_directory(join(sys.prefix, 'Library', 'bin'))
-    os.add_dll_directory(join(sys.prefix, 'Library', 'usr', 'bin'))
-    os.add_dll_directory(join(sys.prefix, 'Library', 'mingw-w64', 'bin'))
 
   Search order
     - The directory that contains the DLL (if looking for a dependency)
     - Application (python.exe) directory
     - Directories added with os.add_dll_directory
-    - The 5 conda directories
+    - The 3 conda directories
     - C:\Windows\System32
 
   Note that the default behaviour changed in conda python 3.10 to
@@ -29,8 +27,8 @@ Subject: [PATCH 07/28] Add CondaEcosystemModifyDllSearchPath()
 
 Co-authored-by: Isuru Fernando <isuruf@gmail.com>
 ---
- Python/pylifecycle.c | 95 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
+ Python/pylifecycle.c | 93 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 93 insertions(+)
 
 diff --git a/Python/pylifecycle.c b/Python/pylifecycle.c
 index 516d467..156524c 100644
@@ -47,7 +45,7 @@ index 516d467..156524c 100644
  #endif
  
  #define PUTS(fd, str) (void)_Py_write_noraise(fd, str, (int)strlen(str))
-@@ -122,6 +126,93 @@ GENERATE_DEBUG_SECTION(PyRuntime, _PyRuntimeState _PyRuntime)
+@@ -122,6 +126,91 @@ GENERATE_DEBUG_SECTION(PyRuntime, _PyRuntimeState _PyRuntime)
  = _PyRuntimeState_INIT(_PyRuntime, _Py_Debug_Cookie);
  _Py_COMP_DIAG_POP
  
@@ -69,12 +67,10 @@ index 516d467..156524c 100644
 +    wchar_t *p_name;
 +} CONDA_PATH;
 +
-+#define NUM_CONDA_PATHS 5
++#define NUM_CONDA_PATHS 3
 +
 +static CONDA_PATH condaPaths[NUM_CONDA_PATHS] =
 +{
-+    {L"Library\\mingw-w64\\bin", NULL},
-+    {L"Library\\usr\\bin", NULL},
 +    {L"Library\\bin", NULL},
 +    {L"Scripts", NULL},
 +    {L"bin", NULL}
@@ -141,7 +137,7 @@ index 516d467..156524c 100644
  
  static int runtime_initialized = 0;
  
-@@ -139,6 +230,10 @@ _PyRuntime_Initialize(void)
+@@ -139,6 +228,10 @@ _PyRuntime_Initialize(void)
      }
      runtime_initialized = 1;
  

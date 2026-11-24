@@ -174,7 +174,7 @@ outputs:
         - {{ compiler('cxx') }}
         - make  # [not win]
         - libtool  # [unix]
-        - pkg-config  # [not win]
+        - pkgconf  # [not win]
         # configure script looks for llvm-ar for lto
         - llvm-tools  # [osx]
         - ld_impl_{{ target_platform }}  # [linux]

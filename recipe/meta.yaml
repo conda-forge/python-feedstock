@@ -132,7 +132,6 @@ requirements:
     - readline          # [build_platform != target_platform and unix]
     - tk                # [build_platform != target_platform]
     - zlib              # [build_platform != target_platform]
-    - zstd              # [build_platform != target_platform]
   host:
     - ld_impl_{{ target_platform }} >=2.36  # [linux]
     - bzip2
@@ -150,7 +149,6 @@ requirements:
     - xorg-libx11       # [unix]
     - xorg-xorgproto    # [unix]
     - zlib
-    - zstd
 
 outputs:
   - name: python

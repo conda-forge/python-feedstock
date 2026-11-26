@@ -5,89 +5,89 @@
 jobs:
 - job: osx
   pool:
-    vmImage: $(VMIMAGE)
+    vmImage: $(vm_image)
   strategy:
     matrix:
       osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
         CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
+        vm_image: macOS-15
       osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
         CONFIG: osx_64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
+        vm_image: macOS-15
       osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
         CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
+        vm_image: macOS-15
       osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
         CONFIG: osx_64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
+        vm_image: macOS-15
       osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno:
         CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingno
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
+        vm_image: macOS-15-arm64
       osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes:
         CONFIG: osx_arm64_build_typedebugchannel_targetsconda-forge_python_debugfreethreadingyes
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
+        vm_image: macOS-15-arm64
       osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno:
         CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingno
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
+        vm_image: macOS-15-arm64
       osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes:
         CONFIG: osx_arm64_build_typereleasechannel_targetsconda-forge_mainfreethreadingyes
         UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15-arm64
         build_workspace_dir: ~/miniforge3/conda-bld
         free_disk_space: skip
         pagefile_size: 0
         resize_partitions: false
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
+        vm_image: macOS-15-arm64
   timeoutInMinutes: 360
   variables: {}
 

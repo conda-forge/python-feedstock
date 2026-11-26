@@ -247,7 +247,7 @@ outputs:
         - setuptools
       requires:
         - ripgrep
-        - cmake
+        - cmake >=3.10
         - ninja
         # Pin to the openssl version used during the build to check whether
         # we load the conda-forge version.
@@ -386,7 +386,7 @@ outputs:
         # cmake expects a C++ compiler for some reason
         - {{ compiler('cxx') }}
         - ripgrep
-        - cmake
+        - cmake >=3.10
         - ninja
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]

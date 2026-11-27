@@ -113,7 +113,7 @@ requirements:
     - {{ compiler('cxx') }}
     - libtool           # [unix]
     - make              # [unix]
-    - pkg-config        # [unix]
+    - pkgconf           # [unix]
     - ld_impl_{{ target_platform }}         # [linux]
     - binutils_impl_{{ target_platform }}   # [linux]
     - clang-19          # [unix]

@@ -60,6 +60,8 @@
 package:
   name: python-split
   version: {{ version }}{{ dev }}
+  # debug PGO
+  skip: true  # [not win]
 
 source:
   - url: https://www.python.org/ftp/python/{{ version }}/Python-{{ version }}{{ dev }}.tar.xz

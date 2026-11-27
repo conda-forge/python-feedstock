@@ -4,7 +4,7 @@
 {% set ver2 = '.'.join(version.split('.')[0:2]) %}
 {% set ver2nd = ''.join(version.split('.')[0:2]) %}
 {% set ver3nd = ''.join(version.split('.')[0:3]) %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 
 # this makes the linter happy
 {% set channel_targets = channel_targets or 'conda-forge main' %}
@@ -113,7 +113,7 @@ requirements:
     - {{ compiler('cxx') }}
     - libtool           # [unix]
     - make              # [unix]
-    - pkg-config        # [unix]
+    - pkgconf           # [unix]
     - ld_impl_{{ target_platform }}         # [linux]
     - binutils_impl_{{ target_platform }}   # [linux]
     - clang-19          # [unix]
@@ -251,7 +251,7 @@ outputs:
         - setuptools
       requires:
         - ripgrep
-        - cmake
+        - cmake >=3.10
         - ninja
         # Pin to the openssl version used during the build to check whether
         # we load the conda-forge version.
@@ -387,7 +387,7 @@ outputs:
         # cmake expects a C++ compiler for some reason
         - {{ compiler('cxx') }}
         - ripgrep
-        - cmake
+        - cmake >=3.10
         - ninja
       commands:
         - VER=${PKG_VERSION%.*}    # [not win]

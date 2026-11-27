@@ -1,8 +1,8 @@
 # See https://docs.python.org/3.14/whatsnew/3.14.html#a-new-type-of-interpreter
 c_compiler_version:    # [osx]
-  - 20.1             # [osx]
+  - 21                 # [osx]
 cxx_compiler_version:  # [osx]
-  - 20.1             # [osx]
+  - 21                 # [osx]
 
 # Override Python `zip_keys`
 python:
@@ -19,9 +19,8 @@ freethreading:
   - yes
   - no
 
-# Use Python RC components in build
 channel_sources:
-  - conda-forge/label/python_rc,conda-forge
+  - conda-forge
 
 # Configuration for debug and release builds
 build_type:
